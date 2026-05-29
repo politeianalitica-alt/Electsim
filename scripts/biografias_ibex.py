@@ -290,6 +290,112 @@ BIOS: dict[str, dict] = {
             ("Presencia en España y descarbonización", "ArcelorMittal es un actor industrial clave en España, con grandes plantas en Asturias, donde afronta el reto de la descarbonización del acero (hornos eléctricos, hidrógeno) con apoyo de fondos públicos europeos.", "2021-01-01"),
         ],
     },
+    "pere-vinolas": {
+        "perfil": "Pere Viñolas Serra es consejero delegado de Inmobiliaria Colonial, una de las mayores socimis de España, especializada en oficinas prime en Madrid, Barcelona y París. Economista con experiencia en banca de inversión y mercados de capitales, ha sido el gestor del giro de Colonial hacia un modelo patrimonialista de activos de máxima calidad, junto al presidente Juan José Brugera.",
+        "trayectoria": [
+            ("Mercados y banca de inversión", "Economista de formación, desarrolló su carrera en los mercados financieros y la banca de inversión, llegando a dirigir la bolsa de Barcelona y a ocupar puestos de responsabilidad en el sector.", "1995-01-01"),
+            ("Consejero delegado de Colonial", "Asumió la dirección ejecutiva de Inmobiliaria Colonial en su etapa de saneamiento, pilotando la gestión diaria de la compañía y su reorientación hacia el patrimonio en renta de oficinas de alta calidad.", "2008-01-01"),
+            ("Crecimiento y oficinas prime", "Lideró operaciones como la integración de Axiare y la consolidación de la cartera de oficinas prime en Madrid, Barcelona y París (a través de SFL), situando a Colonial entre las grandes inmobiliarias cotizadas europeas.", "2017-01-01"),
+        ],
+    },
+    "aditya-mittal": {
+        "perfil": "Aditya Mittal es consejero delegado de ArcelorMittal, la mayor siderúrgica del mundo fuera de China, con presencia industrial relevante en España. Hijo del fundador y presidente Lakshmi Mittal, fue durante años el director financiero del grupo y artífice de su estrategia corporativa antes de asumir la dirección ejecutiva.",
+        "trayectoria": [
+            ("Director financiero del grupo", "Formado en finanzas, se incorporó al grupo siderúrgico familiar, donde como director financiero diseñó la estrategia de fusiones y adquisiciones, incluida la operación que creó ArcelorMittal.", "2006-01-01"),
+            ("Arquitecto de la consolidación", "Fue clave en la integración de Arcelor y Mittal Steel y en la gestión financiera del gigante del acero a través de los duros ciclos del sector, marcados por la sobrecapacidad mundial y la competencia china.", "2008-01-01"),
+            ("Consejero delegado", "Asumió la consejería delegada de ArcelorMittal en 2021, encabezando la gestión del grupo y su apuesta por la descarbonización del acero, con planes de hornos eléctricos e hidrógeno también en sus plantas españolas.", "2021-02-01"),
+        ],
+    },
+    "rafael-mateo": {
+        "perfil": "Rafael Mateo Alcalá es consejero delegado de Acciona Energía, la filial de renovables del grupo Acciona y una de las grandes compañías de energía limpia cotizadas en España. Ingeniero con amplia trayectoria en el sector eléctrico, dirige la gestión de una cartera global de parques eólicos, plantas solares e instalaciones hidráulicas.",
+        "trayectoria": [
+            ("Ingeniero del sector eléctrico", "Ingeniero con una larga carrera en la energía, ocupó responsabilidades de dirección en compañías eléctricas antes de incorporarse al grupo Acciona.", "1995-01-01"),
+            ("Dirección de Acciona Energía", "Asumió la dirección del negocio energético de Acciona, una de las mayores carteras de renovables del mundo desarrollada desde España, con activos en numerosos países.", "2015-01-01"),
+            ("La salida a bolsa", "Pilotó la gestión de Acciona Energía tras su salida a bolsa en 2021, en un contexto de fuerte volatilidad de los precios de la electricidad y de aceleración de la inversión en renovables.", "2021-07-01"),
+        ],
+    },
+    "jose-sevilla": {
+        "perfil": "José Sevilla Álvarez es presidente no ejecutivo de Unicaja Banco, entidad surgida de la unión de la malagueña Unicaja y la asturiana Liberbank. Banquero con larga trayectoria, fue consejero delegado de Bankia durante su saneamiento y vuelta a beneficios, y aporta esa experiencia al frente del consejo de un banco marcado por las tensiones de gobierno corporativo.",
+        "trayectoria": [
+            ("De BBVA a Bankia", "Desarrolló su carrera en la banca, vinculado al equipo de José Ignacio Goirigolzarri, con quien trabajó en el BBVA y después en el rescate de Bankia.", "2001-01-01"),
+            ("Consejero delegado de Bankia", "Como consejero delegado de Bankia, gestionó el día a día de la entidad nacionalizada durante su saneamiento, su vuelta a beneficios y su salida a bolsa, hasta la fusión con CaixaBank en 2021.", "2014-01-01"),
+            ("Presidente de Unicaja", "Asumió la presidencia de Unicaja Banco con el encargo de estabilizar el gobierno corporativo de un banco resultante de la fusión Unicaja-Liberbank, con tensiones entre sus distintas sensibilidades accionariales.", "2024-01-01"),
+        ],
+    },
+    "manuel-pizarro": {
+        "perfil": "Manuel Pizarro Moreno (Teruel, 1951) es vicepresidente del consejo del Banco Santander. Abogado del Estado y agente de cambio y bolsa, fue una figura central del capitalismo español como presidente de Endesa —donde protagonizó la resistencia a las OPAs sobre la eléctrica— y tuvo también una etapa en la política como diputado del PP.",
+        "trayectoria": [
+            ("Abogado del Estado y bolsa", "Abogado del Estado y agente de cambio y bolsa, presidió la Bolsa de Madrid y desarrolló una intensa carrera en el mundo financiero y empresarial.", "1990-01-01"),
+            ("Presidente de Endesa", "Como presidente de Endesa, lideró la defensa de la eléctrica frente a las ofertas de Gas Natural y de la alemana E.ON, en una de las batallas empresariales más sonadas de los años 2000.", "2002-01-01"),
+            ("Política y Santander", "Dio el salto a la política como número dos del PP por Madrid en las elecciones de 2008 y, posteriormente, regresó al mundo empresarial, incorporándose al consejo del Banco Santander, del que es vicepresidente.", "2008-03-09"),
+        ],
+    },
+    "ignacio-madridejos": {
+        "perfil": "Ignacio Madridejos Fernández es consejero delegado de Ferrovial, una de las mayores constructoras y operadoras de infraestructuras del mundo. Ingeniero con amplia experiencia internacional en grandes multinacionales industriales, dirige la gestión del grupo presidido por Rafael del Pino, centrado en concesiones de autopistas y aeropuertos.",
+        "trayectoria": [
+            ("Carrera internacional", "Ingeniero de Caminos con MBA, desarrolló una larga carrera internacional en multinacionales del cemento y los materiales de construcción, como Cemex, ocupando altos cargos directivos en distintos países.", "1995-01-01"),
+            ("Consejero delegado de Ferrovial", "Se incorporó a Ferrovial como consejero delegado en 2019, asumiendo la gestión del grupo de infraestructuras y su estrategia de concesiones de autopistas y aeropuertos.", "2019-10-01"),
+            ("Traslado a Países Bajos y EE. UU.", "Le correspondió ejecutar el traslado del domicilio social a los Países Bajos y la cotización en Estados Unidos, una operación clave para el grupo que generó un fuerte choque político con el Gobierno español.", "2023-04-13"),
+        ],
+    },
+    "arturo-gonzalo-aizpiri": {
+        "perfil": "Arturo Gonzalo Aizpiri es consejero delegado de Enagás, el gestor técnico del sistema gasista español y operador de la red de transporte de gas. Ingeniero con experiencia en la energía y la sostenibilidad, dirige la gestión de la compañía y su apuesta estratégica por el hidrógeno verde y los gases renovables.",
+        "trayectoria": [
+            ("Ingeniero y directivo energético", "Ingeniero con formación en gestión, desarrolló su carrera en el sector energético, entre otros en Repsol, con responsabilidades en áreas industriales, de personas y de sostenibilidad.", "1995-01-01"),
+            ("Consejero delegado de Enagás", "Asumió la dirección ejecutiva de Enagás, el operador del sistema gasista de ingresos regulados, encargado de garantizar la seguridad de suministro de gas en España.", "2022-02-01"),
+            ("Apuesta por el hidrógeno", "Pilota la transformación de Enagás hacia el transporte de hidrógeno verde, con proyectos de infraestructura clave para los futuros corredores de hidrógeno europeos y la descarbonización del sistema energético.", "2022-06-01"),
+        ],
+    },
+    "thomas-glanzmann": {
+        "perfil": "Thomas Glanzmann es presidente ejecutivo de Grifols, la multinacional catalana de hemoderivados y una de las mayores compañías del mundo en plasma sanguíneo. Directivo de perfil internacional y larga vinculación al consejo de la compañía, asumió funciones ejecutivas para pilotar a Grifols en un periodo de fuerte tensión financiera y reputacional.",
+        "trayectoria": [
+            ("Trayectoria internacional", "Con una larga carrera directiva en el sector salud y biotecnológico a nivel internacional, se incorporó al consejo de administración de Grifols, del que llegó a ser una figura de referencia.", "2017-01-01"),
+            ("Presidente ejecutivo", "Asumió la presidencia ejecutiva de Grifols en 2023, en una etapa de relevo respecto a la gestión familiar tradicional, con el reto de reducir el elevado endeudamiento del grupo.", "2023-02-01"),
+            ("La crisis Gotham y la opa de Brookfield", "Pilotó la respuesta de Grifols al ataque del fondo bajista Gotham City Research, que en 2024 cuestionó su contabilidad y hundió la cotización, así como las posteriores negociaciones de una posible opa del fondo Brookfield junto a la familia fundadora, finalmente frustrada.", "2024-01-09"),
+        ],
+    },
+    "angel-escribano": {
+        "perfil": "Ángel Escribano Ruiz es presidente de Indra, la principal tecnológica de defensa española y un activo estratégico participado por el Estado a través de la SEPI. Empresario del sector de defensa —cofundador del grupo EM&E (Escribano Mechanical & Engineering)—, asumió la presidencia de Indra en 2025 en plena ola de aumento del gasto militar europeo.",
+        "trayectoria": [
+            ("Empresario de defensa", "Junto a su hermano Javier, fundó y desarrolló Escribano Mechanical & Engineering (EM&E), una empresa española de sistemas de defensa y seguridad que entró en el accionariado de Indra.", "1990-01-01"),
+            ("Entrada en Indra", "La irrupción de los hermanos Escribano en el capital de Indra los convirtió en accionistas de referencia de la tecnológica, junto a la SEPI y otros inversores.", "2023-01-01"),
+            ("Presidente de Indra", "En 2025 fue nombrado presidente de Indra, en sustitución de Marc Murtra, con el reto de impulsar la compañía en plena expansión del gasto en defensa europeo y posibles operaciones de consolidación del sector.", "2025-01-01"),
+        ],
+    },
+    "luis-maroto": {
+        "perfil": "Luis Maroto Camino es consejero delegado de Amadeus IT Group, la multinacional tecnológica española líder mundial en sistemas de reservas y soluciones para el turismo y las aerolíneas. Economista, dirige una de las grandes tecnológicas europeas, cuyo negocio está estrechamente ligado a la evolución del tráfico aéreo y los viajes globales.",
+        "trayectoria": [
+            ("De la gestión a Amadeus", "Economista y MBA, desarrolló su carrera en empresas de gran consumo antes de incorporarse a Amadeus, donde ocupó responsabilidades financieras y comerciales.", "2000-01-01"),
+            ("Consejero delegado", "Asumió la dirección ejecutiva de Amadeus en 2011, consolidando su liderazgo mundial en distribución de viajes (GDS) y soluciones tecnológicas para aerolíneas y aeropuertos.", "2011-01-01"),
+            ("La pandemia y la recuperación", "Gestionó el durísimo impacto de la pandemia, que paralizó los viajes y el negocio de Amadeus, y su posterior recuperación, reforzando la apuesta por la tecnología y la diversificación del grupo.", "2020-01-01"),
+        ],
+    },
+    "marco-patuano": {
+        "perfil": "Marco Patuano es consejero delegado de Cellnex Telecom, el mayor operador independiente de torres e infraestructuras de telecomunicaciones de Europa. Directivo italiano con larga experiencia en el sector —dirigió Telecom Italia—, pilota el giro de Cellnex desde la fase de crecimiento acelerado hacia la consolidación y la reducción de la deuda.",
+        "trayectoria": [
+            ("Telecom Italia", "Desarrolló su carrera en el sector de las telecomunicaciones, llegando a consejero delegado de Telecom Italia, uno de los grandes operadores europeos.", "2000-01-01"),
+            ("Llegada a Cellnex", "Se incorporó a Cellnex como consejero y después asumió la consejería delegada en 2023, tras la etapa de fuerte expansión por adquisiciones que convirtió a la compañía en líder europeo de torres.", "2023-06-01"),
+            ("Consolidación y desapalancamiento", "Su mandato se centra en consolidar el enorme crecimiento previo, reducir el elevado endeudamiento, recuperar el grado de inversión y optimizar la cartera de activos en los distintos países europeos.", "2024-01-01"),
+        ],
+    },
+    "rodrigo-rato": {
+        "perfil": "Rodrigo de Rato y Figaredo (Madrid, 1949) es un economista y político que fue una de las figuras más poderosas de la economía española y mundial: vicepresidente económico del Gobierno y ministro de Economía con Aznar, director gerente del FMI y presidente de Bankia. Su trayectoria quedó marcada por la crisis de Bankia y por posteriores condenas judiciales.",
+        "trayectoria": [
+            ("Ministro de Economía y 'milagro español'", "Economista, fue vicepresidente segundo y ministro de Economía en los gobiernos de José María Aznar (1996-2004), una etapa de fuerte crecimiento y entrada de España en el euro que sus partidarios bautizaron como 'milagro económico español'.", "1996-05-06"),
+            ("Director gerente del FMI", "Entre 2004 y 2007 fue director gerente del Fondo Monetario Internacional, uno de los cargos más influyentes de la economía mundial, que abandonó antes de finalizar su mandato.", "2004-06-07"),
+            ("Bankia y su nacionalización", "Presidió Caja Madrid y después Bankia, cuya salida a bolsa en 2011 y posterior nacionalización en 2012 precipitaron el rescate financiero de España, en uno de los episodios más traumáticos de la crisis.", "2010-01-01"),
+            ("Condenas judiciales", "Fue condenado de forma firme en el caso de las 'tarjetas black' de Caja Madrid/Bankia, por el que cumplió prisión, y absuelto en el juicio penal por la salida a bolsa de Bankia. En 2024 fue condenado en primera instancia por delitos fiscales y otros, sentencia que ha recurrido, por lo que en lo no firme rige la presunción de inocencia.", "2017-02-23"),
+        ],
+    },
+    "jaime-botin": {
+        "perfil": "Jaime Botín-Sanz de Sautuola y García de los Ríos (1936) es un banquero y empresario español, hermano del fallecido Emilio Botín y miembro de la saga financiera cántabra. Es el accionista de control de Bankinter a través de la sociedad Cartival, y ha sido una figura discreta pero influyente de la banca española, con un notable patrimonio y una importante colección de arte.",
+        "trayectoria": [
+            ("La saga Botín y la banca", "Miembro de la familia Botín, desarrolló su carrera en la banca, vinculado al Banco Santander y, sobre todo, a Bankinter, entidad de la que se convirtió en accionista de referencia.", "1990-01-01"),
+            ("Control de Bankinter", "A través de la sociedad Cartival, controla la participación de referencia en Bankinter, uno de los bancos más rentables de España, manteniendo la influencia familiar sobre la entidad.", "2000-01-01"),
+            ("El caso del Picasso", "Fue condenado de forma firme por un delito de contrabando de bienes culturales por intentar sacar de España, sin autorización, un cuadro de Picasso ('Cabeza de mujer'), que fue finalmente confiscado, en un caso de gran repercusión mediática.", "2020-01-01"),
+            ("Coleccionista y perfil discreto", "Gran coleccionista de arte y figura de perfil muy reservado, ha mantenido su influencia sobre Bankinter al margen de la primera línea pública, como uno de los miembros más discretos pero poderosos de la saga financiera de los Botín.", ""),
+        ],
+    },
 }
 
 

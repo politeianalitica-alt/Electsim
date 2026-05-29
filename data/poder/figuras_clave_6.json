@@ -693,7 +693,7 @@
       "no-electo"
     ],
     "confidence": 0.76,
-    "completeness": 0.6,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -702,7 +702,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Uno de los socios históricos de Glencore, multinacional suiza líder en el comercio de materias primas y la minería. Su participación lo sitúa en lo más alto de las listas de grandes fortunas españolas, pese a su bajísimo perfil público."
+            "contenido": "Daniel Maté Badenes es un empresario español, uno de los cofundadores y grandes accionistas de Glencore, el gigante mundial del comercio de materias primas y la minería. De perfil extraordinariamente discreto y casi desconocido para el gran público, su participación en la multinacional suiza —de las mayores en manos individuales— lo ha convertido en una de las primeras fortunas de España según los rankings internacionales."
           }
         ]
       },
@@ -714,6 +714,36 @@
             "tipo": "contacto",
             "titulo": "Mercado global de materias primas",
             "contenido": "**Gran accionista de Glencore** (nota +8/10) — Su fortuna depende del comercio mundial de metales, energía y agroalimentación a través del gigante suizo."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "El comercio de materias primas",
+            "contenido": "Desarrolló su carrera en el negocio del trading de materias primas, llegando a ser uno de los socios de referencia de Glencore, la mayor comercializadora de commodities del mundo.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Socio de Glencore",
+            "contenido": "Como uno de los grandes accionistas individuales de Glencore desde su salida a bolsa en 2011, acumuló una fortuna multimillonaria ligada a la evolución de los precios de las materias primas y la minería.",
+            "fecha": "2011-05-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fortuna discreta",
+            "contenido": "Pese a figurar entre los españoles más ricos según los rankings internacionales, mantiene un perfil público casi inexistente, alejado de la vida empresarial y mediática española.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Filantropía",
+            "contenido": "Ha canalizado parte de su patrimonio hacia iniciativas filantrópicas, manteniendo en todo caso una notable reserva sobre su actividad y su vida personal.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -734,7 +764,7 @@
       "no-electo"
     ],
     "confidence": 0.76,
-    "completeness": 0.6,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -743,7 +773,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Conocidos como «los Albertos», construyeron y deshicieron alianzas en banca, construcción y energía durante décadas. Hoy mantienen posiciones de control en compañías como Ence a través de su sociedad Alcor."
+            "contenido": "Alberto Alcocer Torra es un financiero y empresario español que, junto a su primo Alberto Cortina, formó el célebre tándem inversor conocido como «los Albertos», una de las parejas más influyentes y mediáticas del capitalismo español de las últimas décadas. Han controlado o participado en empresas de construcción, banca, energía e inmobiliario, gestionando a través de sociedades familiares un notable patrimonio que los sitúa entre las grandes fortunas del país."
           }
         ]
       },
@@ -760,6 +790,36 @@
             "tipo": "contacto",
             "titulo": "Establishment financiero madrileño",
             "contenido": "**Veteranos del capitalismo de los 80-90** (nota +5/10) — Su trayectoria los conecta con la historia de la banca y la construcción españolas."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "El tándem 'los Albertos'",
+            "contenido": "Junto a su primo Alberto Cortina, casados con dos hermanas de la familia Koplowitz, dirigió grandes grupos empresariales y financieros, convirtiéndose en protagonistas de la vida económica y social española.",
+            "fecha": "1980-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Construcción y energía",
+            "contenido": "A lo largo de los años, su grupo tuvo presencia en la construcción, la banca y la energía, en una intensa actividad inversora que los situó en el centro del poder económico.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Participaciones e inversiones",
+            "contenido": "Mantienen participaciones e intereses en distintas compañías cotizadas y activos, gestionando su patrimonio a través de sociedades de inversión familiares.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Perfil social y patrimonial",
+            "contenido": "Más allá de los negocios, 'los Albertos' han sido figuras habituales de la crónica social y empresarial española, con un patrimonio que los sitúa entre las grandes fortunas del país.",
+            "fecha": "2010-01-01"
           }
         ]
       }

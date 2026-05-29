@@ -15,7 +15,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -24,7 +24,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniera y alta funcionaria con larga trayectoria en la propia SEPI. Preside el holding industrial del Estado, que reúne participaciones de control e influencia en empresas estratégicas y media docena de cotizadas."
+            "contenido": "Belén Gualda González es presidenta de la SEPI (Sociedad Estatal de Participaciones Industriales), el holding empresarial público del Estado español, que gestiona las participaciones en empresas como Indra, Telefónica, Navantia, Correos, Enusa o Hunosa. Funcionaria y gestora pública de larga trayectoria, dirige un instrumento clave de la política industrial y accionarial del Estado, con peso creciente en sectores estratégicos como la defensa y las telecomunicaciones."
           }
         ]
       },
@@ -66,6 +66,36 @@
             "tipo": "contacto",
             "titulo": "enagas",
             "contenido": "**Participación pública de referencia** (nota +7/10) — Como gestor técnico del sistema gasista, Enagás es otra pieza del perímetro estratégico tutelado por la SEPI."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Gestión pública",
+            "contenido": "Funcionaria con formación técnica y económica, desarrolló su carrera en la gestión de empresas y organismos del sector público estatal.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Dirección en la SEPI",
+            "contenido": "Ocupó responsabilidades de dirección dentro de la SEPI y de sus empresas participadas, conociendo desde dentro el funcionamiento del holding público industrial.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de la SEPI",
+            "contenido": "Asumió la presidencia de la SEPI, desde la que el Estado ha reforzado su presencia accionarial en empresas estratégicas como Telefónica e Indra y ha gestionado rescates de compañías afectadas por la pandemia.",
+            "fecha": "2022-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Política industrial del Estado",
+            "contenido": "Dirige un instrumento central de la política industrial y de soberanía económica del Gobierno, en un contexto de mayor intervención pública en sectores estratégicos como la defensa, las telecomunicaciones o la energía, y de gestión de las participaciones del Estado en empresas cotizadas y no cotizadas.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -173,7 +203,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.74,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -182,7 +212,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Técnica de Hacienda de larga trayectoria en la AIReF, de la que fue directora antes de presidirla. Voz de referencia en la evaluación independiente de la política fiscal española."
+            "contenido": "Cristina Herrero Sánchez es presidenta de la AIReF (Autoridad Independiente de Responsabilidad Fiscal), el organismo que vigila el cumplimiento de las reglas fiscales y la sostenibilidad de las cuentas públicas en España. Economista y técnica del Estado especializada en finanzas públicas, dirige una institución clave para la credibilidad de la política presupuestaria española ante el Gobierno, el Parlamento y las instituciones europeas."
           }
         ]
       },
@@ -222,6 +252,36 @@
             "contenido": "**Comparecencias y control** (nota +3/10) — Sus informes y comparecencias parlamentarias condicionan el debate sobre déficit, deuda y pensiones."
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Técnica de la Hacienda pública",
+            "contenido": "Economista y funcionaria especializada en finanzas públicas, desarrolló su carrera en el análisis presupuestario y la sostenibilidad de las cuentas del Estado.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "En la AIReF",
+            "contenido": "Se incorporó a la AIReF desde su creación, ocupando responsabilidades técnicas de dirección en el análisis económico y fiscal del organismo.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de la AIReF",
+            "contenido": "Fue nombrada presidenta de la AIReF en 2020, al frente de la autoridad fiscal independiente que evalúa los Presupuestos, las previsiones macroeconómicas y la deuda, con dictámenes que condicionan el debate presupuestario.",
+            "fecha": "2020-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vigilancia fiscal",
+            "contenido": "Bajo su dirección, la AIReF ha ganado peso como árbitro técnico de la política fiscal, en pleno regreso de las reglas fiscales europeas y debate sobre el déficit, la deuda y el gasto público, en diálogo permanente con el Ministerio de Hacienda, las comunidades autónomas y la Comisión Europea.",
+            "fecha": "2023-01-01"
+          }
+        ]
       }
     ]
   },
@@ -241,7 +301,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -250,7 +310,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Economista con larga carrera en el Banco Santander, donde dirigió estudios y relaciones institucionales. Preside la AEB, patronal que agrupa a los grandes bancos que operan en España."
+            "contenido": "Alejandra Kindelán Oteyza es presidenta de la AEB (Asociación Española de Banca), la patronal de los bancos privados que operan en España y la primera mujer al frente de la organización. Economista con una larga trayectoria en el Banco Santander, donde dirigió estudios y asuntos públicos, es la voz del gran sector bancario en el debate sobre la fiscalidad, la regulación, la remuneración del ahorro y el papel de la banca en la economía."
           }
         ]
       },
@@ -292,6 +352,36 @@
             "tipo": "contacto",
             "titulo": "antonio-garamendi",
             "contenido": "**Coordinación con la CEOE** (nota +5/10) — La patronal bancaria alinea su discurso fiscal y regulatorio con el de la gran patronal empresarial."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Economista en el Santander",
+            "contenido": "Economista de formación internacional, desarrolló buena parte de su carrera en el Banco Santander, donde dirigió áreas de estudios, estrategia y asuntos públicos.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de la AEB",
+            "contenido": "Fue nombrada presidenta de la Asociación Española de Banca en 2022, primera mujer al frente de la patronal bancaria, en representación de las grandes entidades del sector.",
+            "fecha": "2022-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Defensa del sector bancario",
+            "contenido": "Ejerce de portavoz de la banca en debates sensibles como el impuesto extraordinario a las entidades, la inclusión financiera, la remuneración del ahorro o la regulación europea del sector.",
+            "fecha": "2022-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Regulación y reputación",
+            "contenido": "Defiende el papel de la banca en la financiación de la economía y de la transición, en un contexto de elevados beneficios del sector, presión fiscal y debate sobre el acceso a los servicios financieros.",
+            "fecha": "2023-01-01"
           }
         ]
       }

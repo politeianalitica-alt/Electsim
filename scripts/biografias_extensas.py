@@ -656,6 +656,105 @@ BIOS: dict[str, dict] = {
             ("Órgano consultivo supremo", "Al frente del Consejo de Estado dirige el organismo que emite dictámenes preceptivos sobre normas, reclamaciones y grandes decisiones del Estado, una función técnica y de garantía jurídica alejada del primer plano político.", "2023-06-01"),
         ],
     },
+    "juan-carlos-escotet": {
+        "perfil": "Juan Carlos Escotet Rodríguez es presidente de Abanca, el banco gallego surgido de la antigua Novacaixagalicia, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, reflotó la entidad gallega tras la crisis de las cajas y la convirtió en un banco rentable y en plena expansión por España y Portugal, figurando entre las mayores fortunas de su país de origen y como uno de los grandes nombres de la banca española.",
+        "trayectoria": [
+            ("Banesco en Venezuela", "Construyó en Venezuela el grupo Banesco, uno de los mayores bancos privados del país, lo que le dio la dimensión financiera necesaria para expandirse internacionalmente.", "1990-01-01"),
+            ("Compra de NCG / Abanca", "Adquirió en 2014 NCG Banco, la entidad gallega nacionalizada heredera de las cajas (Novacaixagalicia), rebautizándola como Abanca y devolviéndola a la rentabilidad.", "2014-06-01"),
+            ("Expansión de Abanca", "Bajo su presidencia, Abanca ha crecido mediante adquisiciones de otras entidades en España y Portugal, consolidándose como banco de referencia en Galicia y como actor relevante del sistema financiero español.", "2018-01-01"),
+            ("Banca y fortuna", "Compagina la presidencia de Abanca con su papel al frente del grupo Banesco, figurando entre las mayores fortunas de origen venezolano y como uno de los banqueros más influyentes del noroeste español.", "2020-01-01"),
+        ],
+    },
+    "unai-sordo": {
+        "perfil": "Unai Sordo Calvo (Barakaldo, Bizkaia, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España junto a UGT, desde 2017. Sindicalista de origen vasco y curtido en el metal, es uno de los principales interlocutores sociales del país en la negociación de salarios, pensiones, jornada y reformas laborales con el Gobierno y la patronal, y una de las voces de referencia de la izquierda sindical española.",
+        "trayectoria": [
+            ("Del metal a la cúpula sindical", "Curtido en la federación industrial y en CCOO del País Vasco, fue escalando en la organización hasta liderar el sindicato en Euskadi.", "2000-01-01"),
+            ("Secretario general de CCOO", "Fue elegido secretario general de CCOO en 2017, sucediendo a Ignacio Fernández Toxo, al frente del mayor sindicato español por representación.", "2017-06-30"),
+            ("Diálogo social", "Ha sido protagonista del diálogo social en la etapa del Gobierno de coalición, con acuerdos como la reforma laboral de 2021, las sucesivas subidas del salario mínimo y la reforma de las pensiones.", "2021-01-01"),
+            ("Sindicalismo de concertación", "Defiende un modelo de sindicalismo de concertación y acuerdo, combinando la movilización con la negociación, en un contexto en el que la inflación, la vivienda y el reparto de la riqueza marcan el debate.", "2023-01-01"),
+        ],
+    },
+    "pepe-alvarez": {
+        "perfil": "José María «Pepe» Álvarez Suárez (Crémenes, León, 1956) es secretario general de la Unión General de Trabajadores (UGT), uno de los dos grandes sindicatos de España, desde 2016. Sindicalista veterano, curtido durante décadas en Cataluña, es junto al líder de CCOO uno de los principales representantes de los trabajadores en el diálogo social y un protagonista habitual de la negociación de salarios, pensiones y derechos laborales con el Gobierno y los empresarios.",
+        "trayectoria": [
+            ("Sindicalismo en Cataluña", "Desarrolló su carrera sindical en Cataluña, llegando a dirigir la UGT catalana, con un perfil forjado en la negociación colectiva y la representación de los trabajadores.", "1990-01-01"),
+            ("Secretario general de UGT", "Fue elegido secretario general de UGT en 2016, sucediendo a Cándido Méndez, con el reto de revitalizar el sindicato tras los años de crisis y de causas judiciales heredadas.", "2016-03-11"),
+            ("Diálogo social y acuerdos", "Ha participado en los grandes acuerdos del diálogo social del Gobierno de coalición —reforma laboral, salario mínimo, pensiones—, alternando la firma de pactos con la presión y la movilización.", "2021-01-01"),
+            ("Voz de los trabajadores", "Reivindica el reparto de los beneficios empresariales, la reducción de la jornada laboral y la mejora de los salarios como ejes de su acción sindical en un contexto de inflación y debate sobre la vivienda.", "2023-01-01"),
+        ],
+    },
+    "oscar-pierre": {
+        "perfil": "Oscar Pierre Prats (Barcelona, 1992) es cofundador y consejero delegado de Glovo, la plataforma de reparto a domicilio nacida en Barcelona y convertida en una de las grandes 'apps' de delivery del sur de Europa, África y América Latina. Uno de los emprendedores tecnológicos españoles de mayor proyección, ha protagonizado además el intenso debate sobre el modelo laboral de los repartidores ('riders') y la economía de plataformas.",
+        "trayectoria": [
+            ("Fundación de Glovo", "Ingeniero aeronáutico de formación, cofundó Glovo en 2015 como una aplicación de recados y reparto inmediato, que creció rápidamente hasta convertirse en un referente del comercio rápido (quick commerce).", "2015-01-01"),
+            ("Crecimiento y compra por Delivery Hero", "Lideró la expansión internacional de Glovo y su financiación con grandes rondas de inversión, hasta que el gigante alemán Delivery Hero tomó el control de la compañía, que mantuvo su sede y marca en Barcelona.", "2022-01-01"),
+            ("La batalla de los 'riders'", "Glovo ha estado en el centro del debate sobre la 'ley rider' y la laboralidad de los repartidores, con sanciones e inspecciones de Trabajo y resoluciones judiciales que cuestionaron su modelo de autónomos.", "2021-08-12"),
+            ("Emprendimiento tecnológico", "Es uno de los rostros del ecosistema emprendedor y tecnológico español, símbolo tanto del éxito de las startups nacionales como de las tensiones regulatorias y laborales de la economía de plataformas.", "2023-01-01"),
+        ],
+    },
+    "belen-gualda": {
+        "perfil": "Belén Gualda González es presidenta de la SEPI (Sociedad Estatal de Participaciones Industriales), el holding empresarial público del Estado español, que gestiona las participaciones en empresas como Indra, Telefónica, Navantia, Correos, Enusa o Hunosa. Funcionaria y gestora pública de larga trayectoria, dirige un instrumento clave de la política industrial y accionarial del Estado, con peso creciente en sectores estratégicos como la defensa y las telecomunicaciones.",
+        "trayectoria": [
+            ("Gestión pública", "Funcionaria con formación técnica y económica, desarrolló su carrera en la gestión de empresas y organismos del sector público estatal.", "2000-01-01"),
+            ("Dirección en la SEPI", "Ocupó responsabilidades de dirección dentro de la SEPI y de sus empresas participadas, conociendo desde dentro el funcionamiento del holding público industrial.", "2018-01-01"),
+            ("Presidenta de la SEPI", "Asumió la presidencia de la SEPI, desde la que el Estado ha reforzado su presencia accionarial en empresas estratégicas como Telefónica e Indra y ha gestionado rescates de compañías afectadas por la pandemia.", "2022-01-01"),
+            ("Política industrial del Estado", "Dirige un instrumento central de la política industrial y de soberanía económica del Gobierno, en un contexto de mayor intervención pública en sectores estratégicos como la defensa, las telecomunicaciones o la energía, y de gestión de las participaciones del Estado en empresas cotizadas y no cotizadas.", "2023-01-01"),
+        ],
+    },
+    "juan-abello": {
+        "perfil": "Juan Abelló Gallo (Madrid, 1941) es un empresario e inversor español, una de las grandes fortunas del país y presidente de la sociedad de capital riesgo Torreal. Farmacéutico de formación y heredero de un grupo farmacéutico que vendió, reorientó su patrimonio hacia la inversión en grandes empresas y es además uno de los más importantes coleccionistas privados de arte de España, con una densa red de relaciones en la élite económica.",
+        "trayectoria": [
+            ("Del laboratorio farmacéutico a la inversión", "Procedente de una familia con intereses en el sector farmacéutico, vendió esos negocios y reorientó su patrimonio hacia la inversión empresarial y financiera.", "1990-01-01"),
+            ("Torreal y las participaciones", "A través de Torreal, ha tomado participaciones en numerosas empresas de distintos sectores, actuando como inversor de referencia y socio capitalista en grandes operaciones del capitalismo español.", "2000-01-01"),
+            ("Inversor y coleccionista", "Compagina su actividad inversora con una de las más importantes colecciones privadas de arte de España, y figura de forma recurrente entre las mayores fortunas del país.", "2010-01-01"),
+            ("Gran fortuna discreta", "Mantiene un perfil discreto pese a su enorme peso económico, con presencia histórica en consejos de administración de grandes empresas y una densa red de relaciones en la élite empresarial y financiera.", "2020-01-01"),
+        ],
+    },
+    "tomas-olivo": {
+        "perfil": "Tomás Olivo López es un empresario inmobiliario español, presidente y principal accionista de General de Galerías Comerciales (GGC), una socimi dueña de numerosos centros comerciales en España. Hecho a sí mismo y de perfil personal muy reservado, ha construido a partir del comercio y la promoción uno de los mayores patrimonios inmobiliarios del país, lo que lo ha situado de forma recurrente entre las mayores fortunas españolas.",
+        "trayectoria": [
+            ("Del comercio al ladrillo", "Empresario de origen humilde, desarrolló su actividad en el comercio y la promoción inmobiliaria, especialmente en el sur y el levante español, donde levantó y explotó en régimen de alquiler grandes superficies y galerías comerciales.", "1990-01-01"),
+            ("General de Galerías Comerciales", "Construyó y consolidó General de Galerías Comerciales, una cartera de grandes centros y galerías comerciales que le aporta unos ingresos por rentas muy elevados.", "2000-01-01"),
+            ("Salida a bolsa como socimi", "Sacó GGC al mercado bursátil como socimi, lo que dio visibilidad a un patrimonio que lo sitúa entre los hombres más ricos de España, con un perfil personal muy reservado.", "2018-01-01"),
+            ("Gran patrimonio inmobiliario", "Su fortuna, basada en activos inmobiliarios en renta, lo ha situado de forma recurrente en los primeros puestos de los rankings de grandes patrimonios nacionales.", "2020-01-01"),
+        ],
+    },
+    "daniel-mate": {
+        "perfil": "Daniel Maté Badenes es un empresario español, uno de los cofundadores y grandes accionistas de Glencore, el gigante mundial del comercio de materias primas y la minería. De perfil extraordinariamente discreto y casi desconocido para el gran público, su participación en la multinacional suiza —de las mayores en manos individuales— lo ha convertido en una de las primeras fortunas de España según los rankings internacionales.",
+        "trayectoria": [
+            ("El comercio de materias primas", "Desarrolló su carrera en el negocio del trading de materias primas, llegando a ser uno de los socios de referencia de Glencore, la mayor comercializadora de commodities del mundo.", "1990-01-01"),
+            ("Socio de Glencore", "Como uno de los grandes accionistas individuales de Glencore desde su salida a bolsa en 2011, acumuló una fortuna multimillonaria ligada a la evolución de los precios de las materias primas y la minería.", "2011-05-19"),
+            ("Fortuna discreta", "Pese a figurar entre los españoles más ricos según los rankings internacionales, mantiene un perfil público casi inexistente, alejado de la vida empresarial y mediática española.", "2015-01-01"),
+            ("Filantropía", "Ha canalizado parte de su patrimonio hacia iniciativas filantrópicas, manteniendo en todo caso una notable reserva sobre su actividad y su vida personal.", "2020-01-01"),
+        ],
+    },
+    "alberto-alcocer": {
+        "perfil": "Alberto Alcocer Torra es un financiero y empresario español que, junto a su primo Alberto Cortina, formó el célebre tándem inversor conocido como «los Albertos», una de las parejas más influyentes y mediáticas del capitalismo español de las últimas décadas. Han controlado o participado en empresas de construcción, banca, energía e inmobiliario, gestionando a través de sociedades familiares un notable patrimonio que los sitúa entre las grandes fortunas del país.",
+        "trayectoria": [
+            ("El tándem 'los Albertos'", "Junto a su primo Alberto Cortina, casados con dos hermanas de la familia Koplowitz, dirigió grandes grupos empresariales y financieros, convirtiéndose en protagonistas de la vida económica y social española.", "1980-01-01"),
+            ("Construcción y energía", "A lo largo de los años, su grupo tuvo presencia en la construcción, la banca y la energía, en una intensa actividad inversora que los situó en el centro del poder económico.", "1990-01-01"),
+            ("Participaciones e inversiones", "Mantienen participaciones e intereses en distintas compañías cotizadas y activos, gestionando su patrimonio a través de sociedades de inversión familiares.", "2000-01-01"),
+            ("Perfil social y patrimonial", "Más allá de los negocios, 'los Albertos' han sido figuras habituales de la crónica social y empresarial española, con un patrimonio que los sitúa entre las grandes fortunas del país.", "2010-01-01"),
+        ],
+    },
+    "cristina-herrero": {
+        "perfil": "Cristina Herrero Sánchez es presidenta de la AIReF (Autoridad Independiente de Responsabilidad Fiscal), el organismo que vigila el cumplimiento de las reglas fiscales y la sostenibilidad de las cuentas públicas en España. Economista y técnica del Estado especializada en finanzas públicas, dirige una institución clave para la credibilidad de la política presupuestaria española ante el Gobierno, el Parlamento y las instituciones europeas.",
+        "trayectoria": [
+            ("Técnica de la Hacienda pública", "Economista y funcionaria especializada en finanzas públicas, desarrolló su carrera en el análisis presupuestario y la sostenibilidad de las cuentas del Estado.", "2000-01-01"),
+            ("En la AIReF", "Se incorporó a la AIReF desde su creación, ocupando responsabilidades técnicas de dirección en el análisis económico y fiscal del organismo.", "2014-01-01"),
+            ("Presidenta de la AIReF", "Fue nombrada presidenta de la AIReF en 2020, al frente de la autoridad fiscal independiente que evalúa los Presupuestos, las previsiones macroeconómicas y la deuda, con dictámenes que condicionan el debate presupuestario.", "2020-09-01"),
+            ("Vigilancia fiscal", "Bajo su dirección, la AIReF ha ganado peso como árbitro técnico de la política fiscal, en pleno regreso de las reglas fiscales europeas y debate sobre el déficit, la deuda y el gasto público, en diálogo permanente con el Ministerio de Hacienda, las comunidades autónomas y la Comisión Europea.", "2023-01-01"),
+        ],
+    },
+    "alejandra-kindelan": {
+        "perfil": "Alejandra Kindelán Oteyza es presidenta de la AEB (Asociación Española de Banca), la patronal de los bancos privados que operan en España y la primera mujer al frente de la organización. Economista con una larga trayectoria en el Banco Santander, donde dirigió estudios y asuntos públicos, es la voz del gran sector bancario en el debate sobre la fiscalidad, la regulación, la remuneración del ahorro y el papel de la banca en la economía.",
+        "trayectoria": [
+            ("Economista en el Santander", "Economista de formación internacional, desarrolló buena parte de su carrera en el Banco Santander, donde dirigió áreas de estudios, estrategia y asuntos públicos.", "2000-01-01"),
+            ("Presidenta de la AEB", "Fue nombrada presidenta de la Asociación Española de Banca en 2022, primera mujer al frente de la patronal bancaria, en representación de las grandes entidades del sector.", "2022-01-01"),
+            ("Defensa del sector bancario", "Ejerce de portavoz de la banca en debates sensibles como el impuesto extraordinario a las entidades, la inclusión financiera, la remuneración del ahorro o la regulación europea del sector.", "2022-06-01"),
+            ("Regulación y reputación", "Defiende el papel de la banca en la financiación de la economía y de la transición, en un contexto de elevados beneficios del sector, presión fiscal y debate sobre el acceso a los servicios financieros.", "2023-01-01"),
+        ],
+    },
 }
 
 

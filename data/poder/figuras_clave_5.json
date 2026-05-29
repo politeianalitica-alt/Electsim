@@ -907,7 +907,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -916,7 +916,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniero aeronáutico catalán, cofundó Glovo y la convirtió en una de las mayores plataformas de reparto del sur de Europa, hoy controlada por Delivery Hero. Referente del emprendimiento tecnológico español."
+            "contenido": "Oscar Pierre Prats (Barcelona, 1992) es cofundador y consejero delegado de Glovo, la plataforma de reparto a domicilio nacida en Barcelona y convertida en una de las grandes 'apps' de delivery del sur de Europa, África y América Latina. Uno de los emprendedores tecnológicos españoles de mayor proyección, ha protagonizado además el intenso debate sobre el modelo laboral de los repartidores ('riders') y la economía de plataformas."
           }
         ]
       },
@@ -965,6 +965,36 @@
               "litigios",
               "presuncion-inocencia"
             ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fundación de Glovo",
+            "contenido": "Ingeniero aeronáutico de formación, cofundó Glovo en 2015 como una aplicación de recados y reparto inmediato, que creció rápidamente hasta convertirse en un referente del comercio rápido (quick commerce).",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Crecimiento y compra por Delivery Hero",
+            "contenido": "Lideró la expansión internacional de Glovo y su financiación con grandes rondas de inversión, hasta que el gigante alemán Delivery Hero tomó el control de la compañía, que mantuvo su sede y marca en Barcelona.",
+            "fecha": "2022-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La batalla de los 'riders'",
+            "contenido": "Glovo ha estado en el centro del debate sobre la 'ley rider' y la laboralidad de los repartidores, con sanciones e inspecciones de Trabajo y resoluciones judiciales que cuestionaron su modelo de autónomos.",
+            "fecha": "2021-08-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Emprendimiento tecnológico",
+            "contenido": "Es uno de los rostros del ecosistema emprendedor y tecnológico español, símbolo tanto del éxito de las startups nacionales como de las tensiones regulatorias y laborales de la economía de plataformas.",
+            "fecha": "2023-01-01"
           }
         ]
       }

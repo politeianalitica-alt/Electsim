@@ -232,8 +232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0002",
@@ -458,8 +458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0003",
@@ -673,8 +673,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0004",
@@ -898,8 +898,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0005",
@@ -1083,8 +1083,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0006",
@@ -1239,8 +1239,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0007",
@@ -1432,8 +1432,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0008",
@@ -1589,8 +1589,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0009",
@@ -1749,8 +1749,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0010",
@@ -1959,8 +1959,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0011",
@@ -2171,8 +2171,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0012",
@@ -2298,8 +2298,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0013",
@@ -2522,8 +2522,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0014",
@@ -2692,8 +2692,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0015",
@@ -2881,8 +2881,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0016",
@@ -3035,8 +3035,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0017",
@@ -3067,7 +3067,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0017-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Carlos Escotet (Caracas, 1959) es presidente de Abanca, el gran banco gallego, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, es una de las figuras de mayor poder económico del noroeste peninsular.",
+            "contenido": "Juan Carlos Escotet Rodríguez es presidente de Abanca, el banco gallego surgido de la antigua Novacaixagalicia, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, reflotó la entidad gallega tras la crisis de las cajas y la convirtió en un banco rentable y en plena expansión por España y Portugal, figurando entre las mayores fortunas de su país de origen y como uno de los grandes nombres de la banca española.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3162,8 +3162,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0017-ap-03",
             "tipo": "evento",
             "titulo": "Banesco en Venezuela",
-            "contenido": "Construyó en Venezuela uno de los mayores grupos bancarios privados del país (Banesco), antes de expandirse internacionalmente ante la crisis venezolana.",
-            "fecha": "1992-01-01",
+            "contenido": "Construyó en Venezuela el grupo Banesco, uno de los mayores bancos privados del país, lo que le dio la dimensión financiera necesaria para expandirse internacionalmente.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3173,19 +3173,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0017-ap-03-it-01",
             "apartado_id": "pod-0017-ap-03",
             "tipo": "evento",
-            "titulo": "Compra de Novagalicia y nacimiento de Abanca",
-            "contenido": "En 2013 adquirió la antigua Novagalicia Banco (rescatada con dinero público) y la refundó como Abanca, que ha crecido con sucesivas compras hasta convertirse en un banco de relevancia nacional.",
-            "fecha": "2014-06-25",
+            "titulo": "Compra de NCG / Abanca",
+            "contenido": "Adquirió en 2014 NCG Banco, la entidad gallega nacionalizada heredera de las cajas (Novacaixagalicia), rebautizándola como Abanca y devolviéndola a la rentabilidad.",
+            "fecha": "2014-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0017-ap-03-it-02",
+            "apartado_id": "pod-0017-ap-03",
+            "tipo": "evento",
+            "titulo": "Expansión de Abanca",
+            "contenido": "Bajo su presidencia, Abanca ha crecido mediante adquisiciones de otras entidades en España y Portugal, consolidándose como banco de referencia en Galicia y como actor relevante del sistema financiero español.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0017-ap-03-it-03",
+            "apartado_id": "pod-0017-ap-03",
+            "tipo": "evento",
+            "titulo": "Banca y fortuna",
+            "contenido": "Compagina la presidencia de Abanca con su papel al frente del grupo Banesco, figurando entre las mayores fortunas de origen venezolano y como uno de los banqueros más influyentes del noroeste español.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0018",
@@ -3215,7 +3239,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0018-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Unai Sordo (Barakaldo, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España, desde 2017. Es uno de los dos vértices sindicales del diálogo social y un actor central en la negociación de salarios, pensiones y reforma laboral.",
+            "contenido": "Unai Sordo Calvo (Barakaldo, Bizkaia, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España junto a UGT, desde 2017. Sindicalista de origen vasco y curtido en el metal, es uno de los principales interlocutores sociales del país en la negociación de salarios, pensiones, jornada y reformas laborales con el Gobierno y la patronal, y una de las voces de referencia de la izquierda sindical española.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3336,9 +3360,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0018-ap-04-it-00",
             "apartado_id": "pod-0018-ap-04",
             "tipo": "evento",
-            "titulo": "Del metal vasco a la cúpula",
-            "contenido": "Trabajador del sector industrial vasco, ascendió en la estructura de CCOO de Euskadi hasta dirigir el sindicato en el País Vasco.",
-            "fecha": "2009-01-01",
+            "titulo": "Del metal a la cúpula sindical",
+            "contenido": "Curtido en la federación industrial y en CCOO del País Vasco, fue escalando en la organización hasta liderar el sindicato en Euskadi.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3349,18 +3373,42 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0018-ap-04",
             "tipo": "evento",
             "titulo": "Secretario general de CCOO",
-            "contenido": "En 2017 fue elegido secretario general confederal. Ha pilotado la firma de la reforma laboral de 2021, las subidas del SMI y el acuerdo de pensiones, en coordinación con UGT.",
+            "contenido": "Fue elegido secretario general de CCOO en 2017, sucediendo a Ignacio Fernández Toxo, al frente del mayor sindicato español por representación.",
             "fecha": "2017-06-30",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0018-ap-04-it-02",
+            "apartado_id": "pod-0018-ap-04",
+            "tipo": "evento",
+            "titulo": "Diálogo social",
+            "contenido": "Ha sido protagonista del diálogo social en la etapa del Gobierno de coalición, con acuerdos como la reforma laboral de 2021, las sucesivas subidas del salario mínimo y la reforma de las pensiones.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0018-ap-04-it-03",
+            "apartado_id": "pod-0018-ap-04",
+            "tipo": "evento",
+            "titulo": "Sindicalismo de concertación",
+            "contenido": "Defiende un modelo de sindicalismo de concertación y acuerdo, combinando la movilización con la negociación, en un contexto en el que la inflación, la vivienda y el reparto de la riqueza marcan el debate.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0019",
@@ -3390,7 +3438,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0019-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pepe Álvarez (Degaña, Asturias, 1956) es secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto a CCOO, lidera el bloque sindical en el diálogo social y la negociación colectiva de ámbito estatal.",
+            "contenido": "José María «Pepe» Álvarez Suárez (Crémenes, León, 1956) es secretario general de la Unión General de Trabajadores (UGT), uno de los dos grandes sindicatos de España, desde 2016. Sindicalista veterano, curtido durante décadas en Cataluña, es junto al líder de CCOO uno de los principales representantes de los trabajadores en el diálogo social y un protagonista habitual de la negociación de salarios, pensiones y derechos laborales con el Gobierno y los empresarios.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3509,8 +3557,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0019-ap-04-it-00",
             "apartado_id": "pod-0019-ap-04",
             "tipo": "evento",
-            "titulo": "De UGT Catalunya a Madrid",
-            "contenido": "Dirigió UGT de Cataluña durante casi dos décadas, donde se forjó como negociador, antes de dar el salto a la secretaría general confederal.",
+            "titulo": "Sindicalismo en Cataluña",
+            "contenido": "Desarrolló su carrera sindical en Cataluña, llegando a dirigir la UGT catalana, con un perfil forjado en la negociación colectiva y la representación de los trabajadores.",
             "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3522,18 +3570,42 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0019-ap-04",
             "tipo": "evento",
             "titulo": "Secretario general de UGT",
-            "contenido": "Desde 2016 dirige la UGT. Ha firmado los grandes acuerdos del diálogo social de la etapa (reforma laboral, SMI, pensiones) y defiende la reducción de jornada y el blindaje del poder adquisitivo.",
+            "contenido": "Fue elegido secretario general de UGT en 2016, sucediendo a Cándido Méndez, con el reto de revitalizar el sindicato tras los años de crisis y de causas judiciales heredadas.",
             "fecha": "2016-03-11",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0019-ap-04-it-02",
+            "apartado_id": "pod-0019-ap-04",
+            "tipo": "evento",
+            "titulo": "Diálogo social y acuerdos",
+            "contenido": "Ha participado en los grandes acuerdos del diálogo social del Gobierno de coalición —reforma laboral, salario mínimo, pensiones—, alternando la firma de pactos con la presión y la movilización.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0019-ap-04-it-03",
+            "apartado_id": "pod-0019-ap-04",
+            "tipo": "evento",
+            "titulo": "Voz de los trabajadores",
+            "contenido": "Reivindica el reparto de los beneficios empresariales, la reducción de la jornada laboral y la mejora de los salarios como ejes de su acción sindical en un contexto de inflación y debate sobre la vivienda.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0020",
@@ -3692,8 +3764,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0021",
@@ -3862,8 +3934,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0022",
@@ -4124,8 +4196,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0023",
@@ -4259,8 +4331,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0024",
@@ -4474,8 +4546,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0025",
@@ -4634,8 +4706,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0026",
@@ -4787,8 +4859,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0027",
@@ -5060,8 +5132,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0028",
@@ -5272,8 +5344,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0029",
@@ -5511,8 +5583,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0030",
@@ -5723,8 +5795,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0031",
@@ -5904,8 +5976,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0032",
@@ -6041,8 +6113,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0033",
@@ -6206,8 +6278,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0034",
@@ -6326,8 +6398,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0035",
@@ -6453,8 +6525,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0036",
@@ -6602,8 +6674,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0037",
@@ -6788,8 +6860,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0038",
@@ -6972,8 +7044,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0039",
@@ -7121,8 +7193,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0040",
@@ -7254,8 +7326,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0041",
@@ -7401,8 +7473,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0042",
@@ -7534,8 +7606,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0043",
@@ -7674,8 +7746,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0044",
@@ -7881,8 +7953,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0045",
@@ -8041,8 +8113,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0046",
@@ -8202,8 +8274,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0047",
@@ -8335,8 +8407,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0048",
@@ -8435,8 +8507,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0049",
@@ -8568,8 +8640,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0050",
@@ -8655,8 +8727,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0051",
@@ -8742,8 +8814,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0052",
@@ -8910,8 +8982,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0053",
@@ -9054,8 +9126,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0054",
@@ -9087,7 +9159,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0054-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Inversor de larga trayectoria, presidente de Torreal. Ha participado en operaciones en sectores tan diversos como la sanidad, la alimentación, la energía y los servicios.",
+            "contenido": "Juan Abelló Gallo (Madrid, 1941) es un empresario e inversor español, una de las grandes fortunas del país y presidente de la sociedad de capital riesgo Torreal. Farmacéutico de formación y heredero de un grupo farmacéutico que vendió, reorientó su patrimonio hacia la inversión en grandes empresas y es además uno de los más importantes coleccionistas privados de arte de España, con una densa red de relaciones en la élite económica.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9151,20 +9223,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0054-ap-02-it-00",
             "apartado_id": "pod-0054-ap-02",
-            "tipo": "dato",
-            "titulo": "Del laboratorio a Torreal",
-            "contenido": "Hizo su primera gran fortuna en el sector farmacéutico y la multiplicó con la sociedad de inversión Torreal, presente en sanidad, energía, alimentación y servicios. Reconocido coleccionista de arte.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Del laboratorio farmacéutico a la inversión",
+            "contenido": "Procedente de una familia con intereses en el sector farmacéutico, vendió esos negocios y reorientó su patrimonio hacia la inversión empresarial y financiera.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0054-ap-02-it-01",
+            "apartado_id": "pod-0054-ap-02",
+            "tipo": "evento",
+            "titulo": "Torreal y las participaciones",
+            "contenido": "A través de Torreal, ha tomado participaciones en numerosas empresas de distintos sectores, actuando como inversor de referencia y socio capitalista en grandes operaciones del capitalismo español.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0054-ap-02-it-02",
+            "apartado_id": "pod-0054-ap-02",
+            "tipo": "evento",
+            "titulo": "Inversor y coleccionista",
+            "contenido": "Compagina su actividad inversora con una de las más importantes colecciones privadas de arte de España, y figura de forma recurrente entre las mayores fortunas del país.",
+            "fecha": "2010-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0054-ap-02-it-03",
+            "apartado_id": "pod-0054-ap-02",
+            "tipo": "evento",
+            "titulo": "Gran fortuna discreta",
+            "contenido": "Mantiene un perfil discreto pese a su enorme peso económico, con presencia histórica en consejos de administración de grandes empresas y una densa red de relaciones en la élite empresarial y financiera.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0055",
@@ -9308,8 +9416,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0056",
@@ -9340,7 +9448,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0056-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario inmobiliario afincado en el sureste español. Su grupo desarrolla y explota grandes centros comerciales. Figura recurrente en lo más alto de las listas de grandes fortunas españolas.",
+            "contenido": "Tomás Olivo López es un empresario inmobiliario español, presidente y principal accionista de General de Galerías Comerciales (GGC), una socimi dueña de numerosos centros comerciales en España. Hecho a sí mismo y de perfil personal muy reservado, ha construido a partir del comercio y la promoción uno de los mayores patrimonios inmobiliarios del país, lo que lo ha situado de forma recurrente entre las mayores fortunas españolas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9392,20 +9500,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0056-ap-02-it-00",
             "apartado_id": "pod-0056-ap-02",
-            "tipo": "dato",
-            "titulo": "De Murcia al podio de las fortunas",
-            "contenido": "Construyó desde el sureste un imperio de grandes centros comerciales (La Salinas, Nueva Condomina). El valor de su cartera inmobiliaria lo sitúa de forma recurrente entre las mayores fortunas de España, con un perfil de máxima discreción pública.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Del comercio al ladrillo",
+            "contenido": "Empresario de origen humilde, desarrolló su actividad en el comercio y la promoción inmobiliaria, especialmente en el sur y el levante español, donde levantó y explotó en régimen de alquiler grandes superficies y galerías comerciales.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0056-ap-02-it-01",
+            "apartado_id": "pod-0056-ap-02",
+            "tipo": "evento",
+            "titulo": "General de Galerías Comerciales",
+            "contenido": "Construyó y consolidó General de Galerías Comerciales, una cartera de grandes centros y galerías comerciales que le aporta unos ingresos por rentas muy elevados.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0056-ap-02-it-02",
+            "apartado_id": "pod-0056-ap-02",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa como socimi",
+            "contenido": "Sacó GGC al mercado bursátil como socimi, lo que dio visibilidad a un patrimonio que lo sitúa entre los hombres más ricos de España, con un perfil personal muy reservado.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0056-ap-02-it-03",
+            "apartado_id": "pod-0056-ap-02",
+            "tipo": "evento",
+            "titulo": "Gran patrimonio inmobiliario",
+            "contenido": "Su fortuna, basada en activos inmobiliarios en renta, lo ha situado de forma recurrente en los primeros puestos de los rankings de grandes patrimonios nacionales.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0057",
@@ -9437,7 +9581,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0057-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniera y alta funcionaria con larga trayectoria en la propia SEPI. Preside el holding industrial del Estado, que reúne participaciones de control e influencia en empresas estratégicas y media docena de cotizadas.",
+            "contenido": "Belén Gualda González es presidenta de la SEPI (Sociedad Estatal de Participaciones Industriales), el holding empresarial público del Estado español, que gestiona las participaciones en empresas como Indra, Telefónica, Navantia, Correos, Enusa o Hunosa. Funcionaria y gestora pública de larga trayectoria, dirige un instrumento clave de la política industrial y accionarial del Estado, con peso creciente en sectores estratégicos como la defensa y las telecomunicaciones.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9526,10 +9670,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 3
           }
         ]
+      },
+      {
+        "id": "pod-0057-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0057-ap-03-it-00",
+            "apartado_id": "pod-0057-ap-03",
+            "tipo": "evento",
+            "titulo": "Gestión pública",
+            "contenido": "Funcionaria con formación técnica y económica, desarrolló su carrera en la gestión de empresas y organismos del sector público estatal.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0057-ap-03-it-01",
+            "apartado_id": "pod-0057-ap-03",
+            "tipo": "evento",
+            "titulo": "Dirección en la SEPI",
+            "contenido": "Ocupó responsabilidades de dirección dentro de la SEPI y de sus empresas participadas, conociendo desde dentro el funcionamiento del holding público industrial.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0057-ap-03-it-02",
+            "apartado_id": "pod-0057-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidenta de la SEPI",
+            "contenido": "Asumió la presidencia de la SEPI, desde la que el Estado ha reforzado su presencia accionarial en empresas estratégicas como Telefónica e Indra y ha gestionado rescates de compañías afectadas por la pandemia.",
+            "fecha": "2022-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0057-ap-03-it-03",
+            "apartado_id": "pod-0057-ap-03",
+            "tipo": "evento",
+            "titulo": "Política industrial del Estado",
+            "contenido": "Dirige un instrumento central de la política industrial y de soberanía económica del Gobierno, en un contexto de mayor intervención pública en sectores estratégicos como la defensa, las telecomunicaciones o la energía, y de gestión de las participaciones del Estado en empresas cotizadas y no cotizadas.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0058",
@@ -9674,8 +9875,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0059",
@@ -9707,7 +9908,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0059-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Técnica de Hacienda de larga trayectoria en la AIReF, de la que fue directora antes de presidirla. Voz de referencia en la evaluación independiente de la política fiscal española.",
+            "contenido": "Cristina Herrero Sánchez es presidenta de la AIReF (Autoridad Independiente de Responsabilidad Fiscal), el organismo que vigila el cumplimiento de las reglas fiscales y la sostenibilidad de las cuentas públicas en España. Economista y técnica del Estado especializada en finanzas públicas, dirige una institución clave para la credibilidad de la política presupuestaria española ante el Gobierno, el Parlamento y las instituciones europeas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9785,10 +9986,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 2
           }
         ]
+      },
+      {
+        "id": "pod-0059-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0059-ap-03-it-00",
+            "apartado_id": "pod-0059-ap-03",
+            "tipo": "evento",
+            "titulo": "Técnica de la Hacienda pública",
+            "contenido": "Economista y funcionaria especializada en finanzas públicas, desarrolló su carrera en el análisis presupuestario y la sostenibilidad de las cuentas del Estado.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0059-ap-03-it-01",
+            "apartado_id": "pod-0059-ap-03",
+            "tipo": "evento",
+            "titulo": "En la AIReF",
+            "contenido": "Se incorporó a la AIReF desde su creación, ocupando responsabilidades técnicas de dirección en el análisis económico y fiscal del organismo.",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0059-ap-03-it-02",
+            "apartado_id": "pod-0059-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidenta de la AIReF",
+            "contenido": "Fue nombrada presidenta de la AIReF en 2020, al frente de la autoridad fiscal independiente que evalúa los Presupuestos, las previsiones macroeconómicas y la deuda, con dictámenes que condicionan el debate presupuestario.",
+            "fecha": "2020-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0059-ap-03-it-03",
+            "apartado_id": "pod-0059-ap-03",
+            "tipo": "evento",
+            "titulo": "Vigilancia fiscal",
+            "contenido": "Bajo su dirección, la AIReF ha ganado peso como árbitro técnico de la política fiscal, en pleno regreso de las reglas fiscales europeas y debate sobre el déficit, la deuda y el gasto público, en diálogo permanente con el Ministerio de Hacienda, las comunidades autónomas y la Comisión Europea.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0060",
@@ -9820,7 +10078,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0060-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Economista con larga carrera en el Banco Santander, donde dirigió estudios y relaciones institucionales. Preside la AEB, patronal que agrupa a los grandes bancos que operan en España.",
+            "contenido": "Alejandra Kindelán Oteyza es presidenta de la AEB (Asociación Española de Banca), la patronal de los bancos privados que operan en España y la primera mujer al frente de la organización. Economista con una larga trayectoria en el Banco Santander, donde dirigió estudios y asuntos públicos, es la voz del gran sector bancario en el debate sobre la fiscalidad, la regulación, la remuneración del ahorro y el papel de la banca en la economía.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9909,10 +10167,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 3
           }
         ]
+      },
+      {
+        "id": "pod-0060-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0060-ap-03-it-00",
+            "apartado_id": "pod-0060-ap-03",
+            "tipo": "evento",
+            "titulo": "Economista en el Santander",
+            "contenido": "Economista de formación internacional, desarrolló buena parte de su carrera en el Banco Santander, donde dirigió áreas de estudios, estrategia y asuntos públicos.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0060-ap-03-it-01",
+            "apartado_id": "pod-0060-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidenta de la AEB",
+            "contenido": "Fue nombrada presidenta de la Asociación Española de Banca en 2022, primera mujer al frente de la patronal bancaria, en representación de las grandes entidades del sector.",
+            "fecha": "2022-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0060-ap-03-it-02",
+            "apartado_id": "pod-0060-ap-03",
+            "tipo": "evento",
+            "titulo": "Defensa del sector bancario",
+            "contenido": "Ejerce de portavoz de la banca en debates sensibles como el impuesto extraordinario a las entidades, la inclusión financiera, la remuneración del ahorro o la regulación europea del sector.",
+            "fecha": "2022-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0060-ap-03-it-03",
+            "apartado_id": "pod-0060-ap-03",
+            "tipo": "evento",
+            "titulo": "Regulación y reputación",
+            "contenido": "Defiende el papel de la banca en la financiación de la economía y de la transición, en un contexto de elevados beneficios del sector, presión fiscal y debate sobre el acceso a los servicios financieros.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0061",
@@ -10119,8 +10434,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0062",
@@ -10304,8 +10619,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0063",
@@ -10489,8 +10804,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0064",
@@ -10674,8 +10989,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0065",
@@ -10774,8 +11089,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0066",
@@ -10874,8 +11189,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0067",
@@ -10971,8 +11286,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0068",
@@ -11059,8 +11374,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0069",
@@ -11218,8 +11533,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0070",
@@ -11332,8 +11647,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0071",
@@ -11489,8 +11804,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0072",
@@ -11646,8 +11961,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0073",
@@ -11815,8 +12130,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0074",
@@ -11973,8 +12288,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0075",
@@ -12144,8 +12459,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0076",
@@ -12300,8 +12615,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0077",
@@ -12469,8 +12784,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0078",
@@ -12591,8 +12906,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0079",
@@ -12624,7 +12939,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0079-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniero aeronáutico catalán, cofundó Glovo y la convirtió en una de las mayores plataformas de reparto del sur de Europa, hoy controlada por Delivery Hero. Referente del emprendimiento tecnológico español.",
+            "contenido": "Oscar Pierre Prats (Barcelona, 1992) es cofundador y consejero delegado de Glovo, la plataforma de reparto a domicilio nacida en Barcelona y convertida en una de las grandes 'apps' de delivery del sur de Europa, África y América Latina. Uno de los emprendedores tecnológicos españoles de mayor proyección, ha protagonizado además el intenso debate sobre el modelo laboral de los repartidores ('riders') y la economía de plataformas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12715,10 +13030,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0079-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0079-ap-04-it-00",
+            "apartado_id": "pod-0079-ap-04",
+            "tipo": "evento",
+            "titulo": "Fundación de Glovo",
+            "contenido": "Ingeniero aeronáutico de formación, cofundó Glovo en 2015 como una aplicación de recados y reparto inmediato, que creció rápidamente hasta convertirse en un referente del comercio rápido (quick commerce).",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0079-ap-04-it-01",
+            "apartado_id": "pod-0079-ap-04",
+            "tipo": "evento",
+            "titulo": "Crecimiento y compra por Delivery Hero",
+            "contenido": "Lideró la expansión internacional de Glovo y su financiación con grandes rondas de inversión, hasta que el gigante alemán Delivery Hero tomó el control de la compañía, que mantuvo su sede y marca en Barcelona.",
+            "fecha": "2022-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0079-ap-04-it-02",
+            "apartado_id": "pod-0079-ap-04",
+            "tipo": "evento",
+            "titulo": "La batalla de los 'riders'",
+            "contenido": "Glovo ha estado en el centro del debate sobre la 'ley rider' y la laboralidad de los repartidores, con sanciones e inspecciones de Trabajo y resoluciones judiciales que cuestionaron su modelo de autónomos.",
+            "fecha": "2021-08-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0079-ap-04-it-03",
+            "apartado_id": "pod-0079-ap-04",
+            "tipo": "evento",
+            "titulo": "Emprendimiento tecnológico",
+            "contenido": "Es uno de los rostros del ecosistema emprendedor y tecnológico español, símbolo tanto del éxito de las startups nacionales como de las tensiones regulatorias y laborales de la economía de plataformas.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0080",
@@ -12903,8 +13275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0081",
@@ -13060,8 +13432,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0082",
@@ -13217,8 +13589,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0083",
@@ -13350,8 +13722,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0084",
@@ -13521,8 +13893,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0085",
@@ -13597,8 +13969,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0086",
@@ -13729,8 +14101,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0087",
@@ -13873,8 +14245,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0088",
@@ -13906,7 +14278,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0088-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Uno de los socios históricos de Glencore, multinacional suiza líder en el comercio de materias primas y la minería. Su participación lo sitúa en lo más alto de las listas de grandes fortunas españolas, pese a su bajísimo perfil público.",
+            "contenido": "Daniel Maté Badenes es un empresario español, uno de los cofundadores y grandes accionistas de Glencore, el gigante mundial del comercio de materias primas y la minería. De perfil extraordinariamente discreto y casi desconocido para el gran público, su participación en la multinacional suiza —de las mayores en manos individuales— lo ha convertido en una de las primeras fortunas de España según los rankings internacionales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13935,10 +14307,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0088-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0088-ap-02-it-00",
+            "apartado_id": "pod-0088-ap-02",
+            "tipo": "evento",
+            "titulo": "El comercio de materias primas",
+            "contenido": "Desarrolló su carrera en el negocio del trading de materias primas, llegando a ser uno de los socios de referencia de Glencore, la mayor comercializadora de commodities del mundo.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0088-ap-02-it-01",
+            "apartado_id": "pod-0088-ap-02",
+            "tipo": "evento",
+            "titulo": "Socio de Glencore",
+            "contenido": "Como uno de los grandes accionistas individuales de Glencore desde su salida a bolsa en 2011, acumuló una fortuna multimillonaria ligada a la evolución de los precios de las materias primas y la minería.",
+            "fecha": "2011-05-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0088-ap-02-it-02",
+            "apartado_id": "pod-0088-ap-02",
+            "tipo": "evento",
+            "titulo": "Fortuna discreta",
+            "contenido": "Pese a figurar entre los españoles más ricos según los rankings internacionales, mantiene un perfil público casi inexistente, alejado de la vida empresarial y mediática española.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0088-ap-02-it-03",
+            "apartado_id": "pod-0088-ap-02",
+            "tipo": "evento",
+            "titulo": "Filantropía",
+            "contenido": "Ha canalizado parte de su patrimonio hacia iniciativas filantrópicas, manteniendo en todo caso una notable reserva sobre su actividad y su vida personal.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0089",
@@ -13969,7 +14398,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0089-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Conocidos como «los Albertos», construyeron y deshicieron alianzas en banca, construcción y energía durante décadas. Hoy mantienen posiciones de control en compañías como Ence a través de su sociedad Alcor.",
+            "contenido": "Alberto Alcocer Torra es un financiero y empresario español que, junto a su primo Alberto Cortina, formó el célebre tándem inversor conocido como «los Albertos», una de las parejas más influyentes y mediáticas del capitalismo español de las últimas décadas. Han controlado o participado en empresas de construcción, banca, energía e inmobiliario, gestionando a través de sociedades familiares un notable patrimonio que los sitúa entre las grandes fortunas del país.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14010,10 +14439,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 1
           }
         ]
+      },
+      {
+        "id": "pod-0089-ap-02",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0089-ap-02-it-00",
+            "apartado_id": "pod-0089-ap-02",
+            "tipo": "evento",
+            "titulo": "El tándem 'los Albertos'",
+            "contenido": "Junto a su primo Alberto Cortina, casados con dos hermanas de la familia Koplowitz, dirigió grandes grupos empresariales y financieros, convirtiéndose en protagonistas de la vida económica y social española.",
+            "fecha": "1980-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0089-ap-02-it-01",
+            "apartado_id": "pod-0089-ap-02",
+            "tipo": "evento",
+            "titulo": "Construcción y energía",
+            "contenido": "A lo largo de los años, su grupo tuvo presencia en la construcción, la banca y la energía, en una intensa actividad inversora que los situó en el centro del poder económico.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0089-ap-02-it-02",
+            "apartado_id": "pod-0089-ap-02",
+            "tipo": "evento",
+            "titulo": "Participaciones e inversiones",
+            "contenido": "Mantienen participaciones e intereses en distintas compañías cotizadas y activos, gestionando su patrimonio a través de sociedades de inversión familiares.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0089-ap-02-it-03",
+            "apartado_id": "pod-0089-ap-02",
+            "tipo": "evento",
+            "titulo": "Perfil social y patrimonial",
+            "contenido": "Más allá de los negocios, 'los Albertos' han sido figuras habituales de la crónica social y empresarial española, con un patrimonio que los sitúa entre las grandes fortunas del país.",
+            "fecha": "2010-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   },
   {
     "id": "pod-0090",
@@ -14125,8 +14611,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:47:14.918544Z",
-    "updated_at": "2026-05-29T10:47:14.918544Z"
+    "created_at": "2026-05-29T10:59:52.164699Z",
+    "updated_at": "2026-05-29T10:59:52.164699Z"
   }
 ]
 

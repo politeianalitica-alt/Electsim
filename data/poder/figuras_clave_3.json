@@ -507,7 +507,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -516,7 +516,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Inversor de larga trayectoria, presidente de Torreal. Ha participado en operaciones en sectores tan diversos como la sanidad, la alimentación, la energía y los servicios."
+            "contenido": "Juan Abelló Gallo (Madrid, 1941) es un empresario e inversor español, una de las grandes fortunas del país y presidente de la sociedad de capital riesgo Torreal. Farmacéutico de formación y heredero de un grupo farmacéutico que vendió, reorientó su patrimonio hacia la inversión en grandes empresas y es además uno de los más importantes coleccionistas privados de arte de España, con una densa red de relaciones en la élite económica."
           }
         ]
       },
@@ -546,9 +546,28 @@
         "orden": 2,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Del laboratorio a Torreal",
-            "contenido": "Hizo su primera gran fortuna en el sector farmacéutico y la multiplicó con la sociedad de inversión Torreal, presente en sanidad, energía, alimentación y servicios. Reconocido coleccionista de arte."
+            "tipo": "evento",
+            "titulo": "Del laboratorio farmacéutico a la inversión",
+            "contenido": "Procedente de una familia con intereses en el sector farmacéutico, vendió esos negocios y reorientó su patrimonio hacia la inversión empresarial y financiera.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Torreal y las participaciones",
+            "contenido": "A través de Torreal, ha tomado participaciones en numerosas empresas de distintos sectores, actuando como inversor de referencia y socio capitalista en grandes operaciones del capitalismo español.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inversor y coleccionista",
+            "contenido": "Compagina su actividad inversora con una de las más importantes colecciones privadas de arte de España, y figura de forma recurrente entre las mayores fortunas del país.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gran fortuna discreta",
+            "contenido": "Mantiene un perfil discreto pese a su enorme peso económico, con presencia histórica en consejos de administración de grandes empresas y una densa red de relaciones en la élite empresarial y financiera.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -651,7 +670,7 @@
       "no-electo"
     ],
     "confidence": 0.78,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -660,7 +679,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario inmobiliario afincado en el sureste español. Su grupo desarrolla y explota grandes centros comerciales. Figura recurrente en lo más alto de las listas de grandes fortunas españolas."
+            "contenido": "Tomás Olivo López es un empresario inmobiliario español, presidente y principal accionista de General de Galerías Comerciales (GGC), una socimi dueña de numerosos centros comerciales en España. Hecho a sí mismo y de perfil personal muy reservado, ha construido a partir del comercio y la promoción uno de los mayores patrimonios inmobiliarios del país, lo que lo ha situado de forma recurrente entre las mayores fortunas españolas."
           }
         ]
       },
@@ -685,9 +704,28 @@
         "orden": 2,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "De Murcia al podio de las fortunas",
-            "contenido": "Construyó desde el sureste un imperio de grandes centros comerciales (La Salinas, Nueva Condomina). El valor de su cartera inmobiliaria lo sitúa de forma recurrente entre las mayores fortunas de España, con un perfil de máxima discreción pública."
+            "tipo": "evento",
+            "titulo": "Del comercio al ladrillo",
+            "contenido": "Empresario de origen humilde, desarrolló su actividad en el comercio y la promoción inmobiliaria, especialmente en el sur y el levante español, donde levantó y explotó en régimen de alquiler grandes superficies y galerías comerciales.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "General de Galerías Comerciales",
+            "contenido": "Construyó y consolidó General de Galerías Comerciales, una cartera de grandes centros y galerías comerciales que le aporta unos ingresos por rentas muy elevados.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa como socimi",
+            "contenido": "Sacó GGC al mercado bursátil como socimi, lo que dio visibilidad a un patrimonio que lo sitúa entre los hombres más ricos de España, con un perfil personal muy reservado.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gran patrimonio inmobiliario",
+            "contenido": "Su fortuna, basada en activos inmobiliarios en renta, lo ha situado de forma recurrente en los primeros puestos de los rankings de grandes patrimonios nacionales.",
+            "fecha": "2020-01-01"
           }
         ]
       }

@@ -1853,7 +1853,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Carlos Escotet (Caracas, 1959) es presidente de Abanca, el gran banco gallego, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, es una de las figuras de mayor poder económico del noroeste peninsular."
+            "contenido": "Juan Carlos Escotet Rodríguez es presidente de Abanca, el banco gallego surgido de la antigua Novacaixagalicia, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, reflotó la entidad gallega tras la crisis de las cajas y la convirtió en un banco rentable y en plena expansión por España y Portugal, figurando entre las mayores fortunas de su país de origen y como uno de los grandes nombres de la banca española."
           }
         ]
       },
@@ -1906,14 +1906,26 @@
           {
             "tipo": "evento",
             "titulo": "Banesco en Venezuela",
-            "contenido": "Construyó en Venezuela uno de los mayores grupos bancarios privados del país (Banesco), antes de expandirse internacionalmente ante la crisis venezolana.",
-            "fecha": "1992-01-01"
+            "contenido": "Construyó en Venezuela el grupo Banesco, uno de los mayores bancos privados del país, lo que le dio la dimensión financiera necesaria para expandirse internacionalmente.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Compra de Novagalicia y nacimiento de Abanca",
-            "contenido": "En 2013 adquirió la antigua Novagalicia Banco (rescatada con dinero público) y la refundó como Abanca, que ha crecido con sucesivas compras hasta convertirse en un banco de relevancia nacional.",
-            "fecha": "2014-06-25"
+            "titulo": "Compra de NCG / Abanca",
+            "contenido": "Adquirió en 2014 NCG Banco, la entidad gallega nacionalizada heredera de las cajas (Novacaixagalicia), rebautizándola como Abanca y devolviéndola a la rentabilidad.",
+            "fecha": "2014-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Expansión de Abanca",
+            "contenido": "Bajo su presidencia, Abanca ha crecido mediante adquisiciones de otras entidades en España y Portugal, consolidándose como banco de referencia en Galicia y como actor relevante del sistema financiero español.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Banca y fortuna",
+            "contenido": "Compagina la presidencia de Abanca con su papel al frente del grupo Banesco, figurando entre las mayores fortunas de origen venezolano y como uno de los banqueros más influyentes del noroeste español.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -1942,7 +1954,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Unai Sordo (Barakaldo, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España, desde 2017. Es uno de los dos vértices sindicales del diálogo social y un actor central en la negociación de salarios, pensiones y reforma laboral."
+            "contenido": "Unai Sordo Calvo (Barakaldo, Bizkaia, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España junto a UGT, desde 2017. Sindicalista de origen vasco y curtido en el metal, es uno de los principales interlocutores sociales del país en la negociación de salarios, pensiones, jornada y reformas laborales con el Gobierno y la patronal, y una de las voces de referencia de la izquierda sindical española."
           }
         ]
       },
@@ -2013,15 +2025,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Del metal vasco a la cúpula",
-            "contenido": "Trabajador del sector industrial vasco, ascendió en la estructura de CCOO de Euskadi hasta dirigir el sindicato en el País Vasco.",
-            "fecha": "2009-01-01"
+            "titulo": "Del metal a la cúpula sindical",
+            "contenido": "Curtido en la federación industrial y en CCOO del País Vasco, fue escalando en la organización hasta liderar el sindicato en Euskadi.",
+            "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Secretario general de CCOO",
-            "contenido": "En 2017 fue elegido secretario general confederal. Ha pilotado la firma de la reforma laboral de 2021, las subidas del SMI y el acuerdo de pensiones, en coordinación con UGT.",
+            "contenido": "Fue elegido secretario general de CCOO en 2017, sucediendo a Ignacio Fernández Toxo, al frente del mayor sindicato español por representación.",
             "fecha": "2017-06-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diálogo social",
+            "contenido": "Ha sido protagonista del diálogo social en la etapa del Gobierno de coalición, con acuerdos como la reforma laboral de 2021, las sucesivas subidas del salario mínimo y la reforma de las pensiones.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sindicalismo de concertación",
+            "contenido": "Defiende un modelo de sindicalismo de concertación y acuerdo, combinando la movilización con la negociación, en un contexto en el que la inflación, la vivienda y el reparto de la riqueza marcan el debate.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -2050,7 +2074,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pepe Álvarez (Degaña, Asturias, 1956) es secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto a CCOO, lidera el bloque sindical en el diálogo social y la negociación colectiva de ámbito estatal."
+            "contenido": "José María «Pepe» Álvarez Suárez (Crémenes, León, 1956) es secretario general de la Unión General de Trabajadores (UGT), uno de los dos grandes sindicatos de España, desde 2016. Sindicalista veterano, curtido durante décadas en Cataluña, es junto al líder de CCOO uno de los principales representantes de los trabajadores en el diálogo social y un protagonista habitual de la negociación de salarios, pensiones y derechos laborales con el Gobierno y los empresarios."
           }
         ]
       },
@@ -2118,15 +2142,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De UGT Catalunya a Madrid",
-            "contenido": "Dirigió UGT de Cataluña durante casi dos décadas, donde se forjó como negociador, antes de dar el salto a la secretaría general confederal.",
+            "titulo": "Sindicalismo en Cataluña",
+            "contenido": "Desarrolló su carrera sindical en Cataluña, llegando a dirigir la UGT catalana, con un perfil forjado en la negociación colectiva y la representación de los trabajadores.",
             "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Secretario general de UGT",
-            "contenido": "Desde 2016 dirige la UGT. Ha firmado los grandes acuerdos del diálogo social de la etapa (reforma laboral, SMI, pensiones) y defiende la reducción de jornada y el blindaje del poder adquisitivo.",
+            "contenido": "Fue elegido secretario general de UGT en 2016, sucediendo a Cándido Méndez, con el reto de revitalizar el sindicato tras los años de crisis y de causas judiciales heredadas.",
             "fecha": "2016-03-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diálogo social y acuerdos",
+            "contenido": "Ha participado en los grandes acuerdos del diálogo social del Gobierno de coalición —reforma laboral, salario mínimo, pensiones—, alternando la firma de pactos con la presión y la movilización.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz de los trabajadores",
+            "contenido": "Reivindica el reparto de los beneficios empresariales, la reducción de la jornada laboral y la mejora de los salarios como ejes de su acción sindical en un contexto de inflación y debate sobre la vivienda.",
+            "fecha": "2023-01-01"
           }
         ]
       }

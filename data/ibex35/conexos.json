@@ -2490,7 +2490,7 @@
       "condenado"
     ],
     "confidence": 0.88,
-    "completeness": 0.65,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2499,7 +2499,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santander, 1936. Hermano del Emilio Botín II (padre de Ana Botín)."
+            "contenido": "Jaime Botín-Sanz de Sautuola y García de los Ríos (1936) es un banquero y empresario español, hermano del fallecido Emilio Botín y miembro de la saga financiera cántabra. Es el accionista de control de Bankinter a través de la sociedad Cartival, y ha sido una figura discreta pero influyente de la banca española, con un notable patrimonio y una importante colección de arte."
           }
         ]
       },
@@ -2553,6 +2553,35 @@
             "tipo": "documento",
             "titulo": "Sentencia AN 2020",
             "fuente_url": "https://www.audienciananacional.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La saga Botín y la banca",
+            "contenido": "Miembro de la familia Botín, desarrolló su carrera en la banca, vinculado al Banco Santander y, sobre todo, a Bankinter, entidad de la que se convirtió en accionista de referencia.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Control de Bankinter",
+            "contenido": "A través de la sociedad Cartival, controla la participación de referencia en Bankinter, uno de los bancos más rentables de España, manteniendo la influencia familiar sobre la entidad.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El caso del Picasso",
+            "contenido": "Fue condenado de forma firme por un delito de contrabando de bienes culturales por intentar sacar de España, sin autorización, un cuadro de Picasso ('Cabeza de mujer'), que fue finalmente confiscado, en un caso de gran repercusión mediática.",
+            "fecha": "2020-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Coleccionista y perfil discreto",
+            "contenido": "Gran coleccionista de arte y figura de perfil muy reservado, ha mantenido su influencia sobre Bankinter al margen de la primera línea pública, como uno de los miembros más discretos pero poderosos de la saga financiera de los Botín."
           }
         ]
       }
