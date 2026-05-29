@@ -183,6 +183,8 @@ function sanitizeParties(raw: unknown): string {
 export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
+  // null = comprobando sesión; evita renderizar el dashboard antes de confirmar auth.
+  const [authed, setAuthed] = useState<boolean | null>(null)
 
   // React Query (caché compartida + dedupe). El provider está en app/layout.tsx.
   const homeQ = useApiQuery<DashboardHome>(
@@ -215,10 +217,18 @@ export default function DashboardPage() {
   const top5Alerts = richAlerts.slice(0, 5)
 
   useEffect(() => {
-    if (!isAuthenticated()) router.push('/login')
+    const ok = isAuthenticated()
+    if (!ok) router.push('/login')
+    setAuthed(ok)
   }, [router])
 
   const isReady = !!data && Array.isArray(data.parties) && data.parties.length > 0
+
+  // Sesión en localStorage (solo legible en cliente). Hasta confirmarla no
+  // renderizamos el dashboard: evita el "flash" antes de redirigir al login.
+  if (authed !== true) {
+    return <div style={{ background: 'var(--bg)', minHeight: '100vh' }} aria-busy="true" />
+  }
 
   return (
  <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
