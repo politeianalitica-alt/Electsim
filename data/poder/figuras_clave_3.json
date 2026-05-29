@@ -425,7 +425,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -434,7 +434,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario vinculado a Freixenet y a la promoción del comercio exterior. Presidió la Cámara de Comercio de España y el Foro de Marcas Renombradas."
+            "contenido": "José Luis Bonet Ferrer (Barcelona, 1941) es presidente de honor de Freixenet, el mayor grupo mundial de cava, y fue presidente de la Cámara de Comercio de España. Doctor en Derecho y en Ciencias Económicas, ha sido una de las grandes figuras del empresariado catalán y español y un firme defensor de la unidad de mercado y de la 'marca España'."
           }
         ]
       },
@@ -464,9 +464,28 @@
         "orden": 2,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Freixenet y la marca España",
-            "contenido": "Patriarca de Freixenet (hoy en la órbita de la alemana Henkell) y promotor del Foro de Marcas Renombradas, ha sido uno de los grandes embajadores de la internacionalización de la empresa española."
+            "tipo": "evento",
+            "titulo": "Freixenet, líder mundial del cava",
+            "contenido": "Ligado a la familia fundadora, dirigió durante décadas Freixenet, la histórica casa de cava catalana, internacionalizándola hasta convertirla en líder mundial del espumoso, antes de su integración con la alemana Henkell.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de la Cámara de España",
+            "contenido": "Presidió la Cámara de Comercio de España, ejerciendo de representante institucional del conjunto del empresariado y de defensor del comercio exterior y de la internacionalización de la empresa española.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz del empresariado constitucionalista",
+            "contenido": "Referente del empresariado catalán constitucionalista, ha defendido públicamente la unidad de mercado y la permanencia de las empresas en Cataluña, especialmente durante el proceso independentista.",
+            "fecha": "2017-10-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mecenazgo y legado",
+            "contenido": "Más allá de la empresa, ha impulsado iniciativas culturales y educativas y el discurso de la 'marca España', consolidándose como uno de los grandes patriarcas del empresariado español del último medio siglo.",
+            "fecha": "2018-01-01"
           }
         ]
       }
@@ -551,7 +570,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -560,7 +579,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Vicepresidenta y copropietaria de Mercadona. Su fundación impulsa la restauración de patrimonio y el coleccionismo de arte contemporáneo en Valencia."
+            "contenido": "Hortensia Herrero Chacón (Valencia, 1950) es vicepresidenta de Mercadona, la mayor cadena de supermercados de España, y una de las mujeres más ricas del país. Copropietaria de la compañía junto a su marido, Juan Roig, ha destacado además como gran mecenas de las artes a través de su fundación y del centro de arte que lleva su nombre en Valencia."
           }
         ]
       },
@@ -591,9 +610,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Centro de Arte Hortensia Herrero",
-            "contenido": "Abrió en Valencia uno de los grandes centros privados de arte contemporáneo de España, rehabilitando un palacio histórico. Su fundación es hoy referente del mecenazgo cultural.",
+            "titulo": "Cofundadora de la Mercadona moderna",
+            "contenido": "Acompañó a su marido, Juan Roig, en la transformación de Mercadona desde una modesta cadena de tiendas valenciana hasta el líder indiscutible de la distribución alimentaria en España, de la que es vicepresidenta y accionista de referencia.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mecenas de las artes",
+            "contenido": "Creó la Fundación Hortensia Herrero, volcada en la restauración del patrimonio y el apoyo a la cultura, e impulsó el Centro de Arte Hortensia Herrero (CAHH) en Valencia, una de las grandes colecciones privadas de arte contemporáneo abiertas al público.",
             "fecha": "2023-11-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Una de las grandes fortunas",
+            "contenido": "Su participación en Mercadona la sitúa entre las mayores fortunas femeninas de España, con un perfil discreto centrado en la empresa y en una intensa actividad filantrópica y cultural.",
+            "fecha": "2023-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Perfil discreto e influyente",
+            "contenido": "Pese a rehuir la exposición pública, su papel en Mercadona y su ambicioso proyecto cultural en Valencia la han convertido en una de las mujeres más influyentes de la economía y el mecenazgo españoles.",
+            "fecha": "2024-01-01"
           }
         ]
       }

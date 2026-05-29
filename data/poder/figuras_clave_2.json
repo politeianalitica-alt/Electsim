@@ -1767,7 +1767,7 @@
       "publico"
     ],
     "confidence": 0.75,
-    "completeness": 0.6,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1776,7 +1776,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Gestor con trayectoria en RTVE y en Telemadrid. Presidente de RTVE tras la renovación del consaejo de administración en 2024."
+            "contenido": "José Pablo López Sánchez es presidente de RTVE, la Corporación de Radio y Televisión Española, el principal grupo audiovisual público del país (La 1, La 2, RNE y los servicios digitales). Profesional de la televisión con experiencia en cadenas autonómicas y en la producción de contenidos, accedió a la presidencia de la radiotelevisión estatal en 2024, tras años de provisionalidad, mandatos interinos y bloqueo político en la renovación de su consejo de administración."
           }
         ]
       },
@@ -1828,6 +1828,45 @@
               "servicio-publico",
               "independencia"
             ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Servicio público y politización",
+            "contenido": "Defiende un modelo de televisión pública independiente y de servicio, pero su gestión se desenvuelve en un entorno de permanente tensión política sobre el control del ente, la pluralidad informativa y la financiación de la corporación.",
+            "tags": [
+              "medios",
+              "rtve"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Gestión audiovisual pública",
+            "contenido": "Desarrolló su carrera en la televisión, con responsabilidades de dirección en cadenas autonómicas —entre ellas Telemadrid— y en la producción y dirección de contenidos para distintos operadores.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director de contenidos de RTVE",
+            "contenido": "Se incorporó a RTVE como responsable de contenidos generales, impulsando la programación, la ficción y la estrategia editorial de la corporación pública.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de RTVE",
+            "contenido": "Fue elegido presidente de RTVE en 2024 por mayoría parlamentaria, asumiendo el reto de reformar la financiación, la audiencia y la gobernanza de la radiotelevisión pública en un contexto de fuerte politización del ente.",
+            "fecha": "2024-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reforma y audiencias",
+            "contenido": "Su mandato afronta la recuperación de audiencias de La 1, el refuerzo de los informativos, la transición digital de la corporación y un modelo de financiación sin publicidad convencional que depende de aportaciones del Estado y de los operadores privados.",
+            "fecha": "2024-06-01"
           }
         ]
       }

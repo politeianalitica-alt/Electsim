@@ -170,6 +170,126 @@ BIOS: dict[str, dict] = {
             ("Salida y nuevos consejos", "Dejó la presidencia de Inditex en 2022, dando paso a Marta Ortega, y orientó su actividad hacia los consejos de grandes multinacionales —entre ellas la suiza Nestlé— y la inversión, manteniéndose como referente de la alta gestión española.", "2022-04-01"),
         ],
     },
+    "marta-ortega-perez": {
+        "perfil": "Marta Ortega Pérez (A Coruña, 1984) es presidenta no ejecutiva de Inditex, el mayor grupo textil del mundo y matriz de Zara. Hija menor del fundador Amancio Ortega, se formó dentro de la propia compañía y asumió la presidencia en 2022, encarnando la continuidad familiar al frente del imperio creado por su padre.",
+        "trayectoria": [
+            ("Formación dentro de Inditex", "Tras estudiar en el extranjero, se incorporó a Inditex empezando por la tienda y pasando por distintas áreas de negocio, con especial implicación en la imagen y la estrategia de marca de Zara, durante años lejos del foco mediático.", "2007-01-01"),
+            ("Presidenta de Inditex", "En 2022 sucedió a Pablo Isla como presidenta no ejecutiva de Inditex, en una transición que devolvía la presidencia a la familia fundadora, con Óscar García Maceiras como consejero delegado encargado de la gestión diaria.", "2022-04-01"),
+            ("Continuidad y giro premium", "Su etapa se ha caracterizado por la continuidad del modelo de moda rápida y por la apuesta por la calidad, la sostenibilidad, lo digital y un posicionamiento más premium de Zara, con resultados récord en ventas y beneficios del grupo.", "2023-01-01"),
+        ],
+    },
+    "oscar-garcia-maceiras": {
+        "perfil": "Óscar García Maceiras es consejero delegado de Inditex, el mayor grupo textil del mundo, dueño de Zara. Abogado del Estado y procedente de la alta dirección bancaria, asumió la gestión ejecutiva del gigante gallego en 2022, en el relevo que llevó a Marta Ortega a la presidencia no ejecutiva.",
+        "trayectoria": [
+            ("Abogado del Estado y directivo bancario", "Abogado del Estado, desarrolló su carrera entre la Administración y el sector financiero, llegando a secretario general y del consejo del Banco Santander.", "2005-01-01"),
+            ("Llegada a Inditex", "Se incorporó a Inditex como secretario general y del consejo en 2021 y, pocos meses después, fue nombrado consejero delegado, asumiendo la gestión ejecutiva del grupo.", "2021-11-01"),
+            ("Consejero delegado", "Como consejero delegado desde 2022, comparte el liderazgo con la presidenta Marta Ortega y ha pilotado una etapa de resultados récord, fuerte crecimiento online, integración de tienda física y digital y mejora de márgenes.", "2022-04-01"),
+        ],
+    },
+    "carlos-torres-vila": {
+        "perfil": "Carlos Torres Vila (Salamanca, 1966) es presidente ejecutivo de BBVA, el segundo banco español y uno de los mayores de la eurozona. Ingeniero y MBA con experiencia internacional, ha liderado la digitalización del banco y, sobre todo, la ofensiva por hacerse con el Banco Sabadell, una de las mayores operaciones bancarias europeas de los últimos años.",
+        "trayectoria": [
+            ("De la consultoría a la banca", "Ingeniero por el MIT y con experiencia en consultoría (McKinsey) y en la energía (Endesa), se incorporó al BBVA, donde dirigió la estrategia digital del grupo, un área que marcó su perfil de gestor.", "2008-01-01"),
+            ("Presidente de BBVA", "Sucedió a Francisco González en la presidencia de BBVA en 2018-2019, asumiendo el liderazgo de un banco con fuerte presencia en México, Turquía y América del Sur y una apuesta decidida por la transformación tecnológica.", "2019-01-01"),
+            ("La OPA sobre el Sabadell", "Desde 2024 lideró la OPA sobre el Banco Sabadell, una operación que aspiraba a crear un gigante bancario español y que marcó el pulso del sector, con la oposición inicial del Gobierno y un largo y complejo proceso regulatorio y político.", "2024-05-09"),
+        ],
+    },
+    "jose-ignacio-goirigolzarri": {
+        "perfil": "José Ignacio Goirigolzarri Tellaeche (Bilbao, 1954) es presidente no ejecutivo de CaixaBank, el mayor banco del mercado doméstico español. Economista, fue consejero delegado del BBVA y, sobre todo, el hombre llamado a rescatar Bankia tras su nacionalización, entidad que saneó y condujo hasta su fusión con CaixaBank.",
+        "trayectoria": [
+            ("Carrera en BBVA", "Economista de formación, desarrolló una larga carrera en el BBVA, donde llegó a consejero delegado, dirigiendo el negocio en España y América antes de salir del banco.", "2001-01-01"),
+            ("El rescate de Bankia", "En 2012 asumió la presidencia de Bankia tras su nacionalización en plena crisis financiera, gestionando el saneamiento de la entidad rescatada con dinero público, su vuelta a beneficios y su salida a bolsa.", "2012-05-09"),
+            ("Presidente de CaixaBank", "Pilotó la fusión de Bankia con CaixaBank en 2021, asumiendo la presidencia del grupo resultante, líder doméstico por activos, donde ejerce de presidente no ejecutivo junto al consejero delegado Gonzalo Gortázar.", "2021-03-26"),
+        ],
+    },
+    "hector-grisi": {
+        "perfil": "Héctor Grisi Checa es consejero delegado del Banco Santander, el mayor banco de España y uno de los grandes de la eurozona. Banquero mexicano de dilatada trayectoria, dirigió con éxito la filial del grupo en México antes de asumir la gestión global del banco bajo la presidencia de Ana Botín.",
+        "trayectoria": [
+            ("Banca de inversión y Santander México", "Con formación financiera y experiencia en la banca de inversión internacional (Credit Suisse), se incorporó al Santander para dirigir su filial en México, uno de los mercados más rentables del grupo.", "2015-01-01"),
+            ("Consejero delegado del grupo", "En 2023 fue nombrado consejero delegado del Banco Santander, asumiendo la gestión global de un grupo presente en Europa, América y, de forma creciente, en banca digital y de consumo.", "2023-01-01"),
+            ("Transformación y eficiencia", "Ha impulsado la simplificación del banco en torno a divisiones globales (banca minorista, de empresas, de inversión y de consumo) y la mejora de la eficiencia y la rentabilidad, ejes de la estrategia marcada por la presidenta Ana Botín.", "2023-01-01"),
+        ],
+    },
+    "cesar-gonzalez-bueno": {
+        "perfil": "César González-Bueno Mayer es consejero delegado de Banco Sabadell, donde ha dirigido la gestión del banco durante la OPA del BBVA. Banquero con amplia experiencia en banca minorista y digital —dirigió ING en España y el neobanco EVO—, pilotó el plan en solitario del Sabadell, la venta de su filial británica TSB y una elevada remuneración al accionista.",
+        "trayectoria": [
+            ("Banca minorista y digital", "Desarrolló su carrera en la banca comercial y digital, destacando al frente de ING en España, pionera de la banca sin oficinas, y después en otras entidades y en el neobanco EVO Banco.", "2000-01-01"),
+            ("Consejero delegado del Sabadell", "Asumió la consejería delegada del Banco Sabadell en 2021, con el encargo de mejorar la rentabilidad y la eficiencia tras unos años difíciles, lo que logró con un fuerte recorte de costes y la recuperación de la cotización.", "2021-03-19"),
+            ("La defensa frente al BBVA", "Junto al presidente Josep Oliu, lideró desde 2024 la respuesta del banco a la OPA del BBVA, defendiendo el proyecto en solitario del Sabadell, la venta de TSB y el reparto de dividendos como alternativa de valor para el accionista.", "2024-05-09"),
+        ],
+    },
+    "josu-jon-imaz": {
+        "perfil": "Josu Jon Imaz San Miguel (Zumárraga, Gipuzkoa, 1963) es consejero delegado de Repsol, la mayor compañía energética española. Doctor en Química y expresidente del PNV, dio el salto de la primera línea política vasca a la gestión empresarial y dirige la transformación de Repsol hacia un modelo multienergético, defendiendo con firmeza la neutralidad tecnológica.",
+        "trayectoria": [
+            ("De la química a la política", "Doctor en Ciencias Químicas, compaginó la investigación con la política en el PNV, llegando a portavoz del Gobierno vasco y a presidente del partido entre 2004 y 2007, en una etapa especialmente convulsa del País Vasco.", "2004-01-01"),
+            ("Salto a la empresa energética", "Tras dejar la primera línea política, se incorporó al sector empresarial energético, primero en Petronor (filial de Repsol en el País Vasco) y después en la matriz del grupo.", "2008-01-01"),
+            ("Consejero delegado de Repsol", "Es consejero delegado de Repsol desde 2014. Ha pilotado la estrategia multienergética del grupo —química, renovables, combustibles renovables— y se ha convertido en una de las voces más beligerantes del sector contra una transición energética que considera ideológica y no basada en la neutralidad tecnológica.", "2014-04-30"),
+        ],
+    },
+    "luis-gallego": {
+        "perfil": "Luis Gallego Martín (Madrid, 1968) es consejero delegado de IAG (International Airlines Group), el holding que reúne a Iberia, British Airways, Vueling, Aer Lingus y Level, uno de los mayores grupos aéreos del mundo. Ingeniero aeronáutico, dirigió antes Iberia, a la que reflotó, antes de asumir el mando de todo el grupo.",
+        "trayectoria": [
+            ("Ingeniero aeronáutico y gestor", "Ingeniero aeronáutico, desarrolló su carrera en la aviación, pasando por compañías como Clickair y Vueling antes de dar el salto a la dirección de Iberia.", "2009-01-01"),
+            ("El reflote de Iberia", "Como consejero delegado de Iberia desde 2013, pilotó un duro plan de reestructuración que devolvió a la aerolínea española a la rentabilidad tras años de pérdidas, dentro del grupo IAG.", "2013-03-01"),
+            ("Consejero delegado de IAG", "Asumió la dirección de IAG en 2020, justo cuando la pandemia hundió el tráfico aéreo mundial, y ha gestionado la recuperación del grupo, su vuelta a beneficios récord y operaciones como la frustrada integración de Air Europa.", "2020-09-08"),
+        ],
+    },
+    "maria-dolores-dancausa": {
+        "perfil": "María Dolores Dancausa Treviño es una de las banqueras más reputadas de España, vicepresidenta y consejera de Bankinter tras haber sido su consejera delegada durante más de una década. Abogada del Estado, dirigió el banco mediano más rentable del país y pilotó proyectos como la salida a bolsa de Línea Directa o la integración del neobanco EVO.",
+        "trayectoria": [
+            ("Abogada del Estado y Línea Directa", "Abogada del Estado, desarrolló su carrera en la gestión empresarial dirigiendo Línea Directa Aseguradora, la compañía de seguros del grupo Bankinter, con notable éxito comercial.", "1998-01-01"),
+            ("Consejera delegada de Bankinter", "Asumió la consejería delegada de Bankinter en 2010, en plena crisis, y lo convirtió en el banco mediano más rentable y solvente de España, con un modelo centrado en rentas altas, empresas y calidad de servicio.", "2010-10-01"),
+            ("Crear valor y dar el relevo", "Pilotó operaciones como la salida a bolsa de Línea Directa y la integración del neobanco EVO, y dejó la consejería delegada en 2024 pasando a la vicepresidencia, tras una de las etapas más exitosas de la banca española reciente.", "2021-04-29"),
+        ],
+    },
+    "ismael-clemente": {
+        "perfil": "Ismael Clemente Orrego es presidente y consejero delegado de Merlin Properties, la mayor socimi (sociedad cotizada de inversión inmobiliaria) de España y una de las grandes del sector en Europa, con una cartera de oficinas, centros logísticos, centros comerciales y centros de datos. Es además una de las voces más reconocidas y opinantes del sector inmobiliario español.",
+        "trayectoria": [
+            ("De la banca inmobiliaria a Magic Real Estate", "Formado en Derecho y gestión, desarrolló su carrera en la banca de inversión inmobiliaria internacional —entre otras, en Deutsche Bank/RREEF— antes de fundar la gestora Magic Real Estate, embrión de su proyecto propio.", "2012-01-01"),
+            ("Creación y salida a bolsa de Merlin", "Lideró en 2014 la creación y salida a bolsa de Merlin Properties, aprovechando el nuevo régimen de las socimis para construir, mediante grandes adquisiciones (incluida la cartera de Testa y activos de la banca), uno de los mayores patrimonios inmobiliarios cotizados de España.", "2014-06-30"),
+            ("Apuesta por los centros de datos", "Ha reorientado parte de la estrategia hacia los centros de datos como nuevo motor de crecimiento, junto a las oficinas prime y la logística, y se ha consolidado como referente y comentarista influyente sobre el ciclo inmobiliario y la economía española.", "2022-01-01"),
+        ],
+    },
+    "juan-jose-brugera": {
+        "perfil": "Juan José Brugera Clavero es presidente de Inmobiliaria Colonial, una de las mayores socimis de España, especializada en edificios de oficinas de máxima calidad (prime) en Madrid, Barcelona y París a través de su filial francesa SFL. Bajo su presidencia, Colonial se saneó tras la crisis y se consolidó como referente patrimonialista del sector.",
+        "trayectoria": [
+            ("Directivo y gestor", "Con formación económica y empresarial, desarrolló su carrera en la gestión de empresas y entidades financieras, vinculándose al sector inmobiliario y al perímetro del grupo La Caixa.", "1990-01-01"),
+            ("Reestructuración de Colonial", "Tomó las riendas de Inmobiliaria Colonial tras su grave crisis financiera, liderando su saneamiento, recapitalización y reenfoque hacia un modelo patrimonialista de oficinas prime de bajo riesgo.", "2008-01-01"),
+            ("Colonial, socimi de oficinas prime", "Convirtió Colonial en una socimi centrada en activos de máxima calidad en Madrid, Barcelona y París (vía SFL), con la entrada de grandes inversores internacionales y la integración de Axiare, situándola entre las primeras inmobiliarias cotizadas del país.", "2017-01-01"),
+        ],
+    },
+    "antonio-llarden": {
+        "perfil": "Antonio Llardén Carratalá es presidente de Enagás, el gestor técnico del sistema gasista español y operador de la red de transporte de gas natural, una infraestructura regulada y estratégica. Ingeniero, ha pilotado durante años la compañía, su diversificación internacional y su giro hacia los gases renovables y el hidrógeno.",
+        "trayectoria": [
+            ("Ingeniero y gestor energético", "Ingeniero industrial, desarrolló una larga carrera en el sector energético y en la Administración, con responsabilidades en empresas y organismos del ámbito de la energía.", "1990-01-01"),
+            ("Presidente de Enagás", "Preside Enagás desde 2007, dirigiendo el operador del sistema gasista, una compañía de ingresos mayoritariamente regulados y un papel central en la seguridad de suministro de gas de España.", "2007-10-01"),
+            ("Internacionalización e hidrógeno", "Bajo su mando, Enagás invirtió en infraestructuras gasistas internacionales y reorientó su estrategia hacia el hidrógeno verde y los gases renovables, posicionándose como pieza clave de los futuros corredores de hidrógeno europeos.", "2020-01-01"),
+        ],
+    },
+    "manuel-manrique": {
+        "perfil": "Manuel Manrique Cecilia es presidente y consejero delegado de Sacyr, uno de los grandes grupos españoles de construcción y concesiones de infraestructuras, con fuerte presencia internacional. Ingeniero, ha reorientado la compañía hacia el negocio concesional, de ingresos más estables, tras los años de elevado endeudamiento.",
+        "trayectoria": [
+            ("Ingeniero y directivo de Sacyr", "Ingeniero de formación, desarrolló su carrera en Sacyr, asumiendo responsabilidades en distintas divisiones del grupo de construcción y servicios.", "2004-01-01"),
+            ("Presidente y consejero delegado", "Accedió a la presidencia ejecutiva de Sacyr en 2013, en un momento delicado por la deuda y por la participación del grupo en Repsol, de la que fue desinvirtiendo progresivamente.", "2013-10-01"),
+            ("El giro concesional", "Ha reorientado Sacyr hacia las concesiones de infraestructuras (autopistas, hospitales, agua) en España, América Latina y otros mercados, un negocio de ingresos regulados y recurrentes que ha mejorado la estabilidad financiera del grupo.", "2018-01-01"),
+        ],
+    },
+    "marc-puig": {
+        "perfil": "Marc Puig Guasch (Barcelona, 1962) es presidente y consejero delegado de Puig, el grupo familiar catalán de perfumería, moda y belleza dueño de marcas como Carolina Herrera, Paco Rabanne, Jean Paul Gaultier o Charlotte Tilbury. Tercera generación de la familia fundadora, lideró en 2024 la mayor salida a bolsa española en años.",
+        "trayectoria": [
+            ("Formación e ingreso en la empresa familiar", "Ingeniero y MBA por Harvard, con experiencia en consultoría internacional, se incorporó a la empresa familiar fundada por su abuelo, asumiendo responsabilidades crecientes en la internacionalización del grupo.", "1990-01-01"),
+            ("Presidente y consejero delegado", "Asumió la dirección ejecutiva de Puig, profesionalizando la gestión, reordenando el accionariado familiar y convirtiendo a la compañía en un gigante global de la belleza premium y los perfumes de diseñador.", "2007-01-01"),
+            ("La salida a bolsa de Puig", "En 2024 lideró la salida a bolsa de Puig, la mayor OPV española en mucho tiempo, manteniendo el control familiar mediante una estructura de doble clase de acciones y situando al grupo entre las grandes cotizadas del IBEX 35.", "2024-05-03"),
+        ],
+    },
+    "lakshmi-mittal": {
+        "perfil": "Lakshmi Niwas Mittal (Sadulpur, India, 1950) es presidente de ArcelorMittal, la mayor siderúrgica del mundo fuera de China y un actor industrial de primer orden en España (con grandes plantas en Asturias). Magnate del acero de origen indio y una de las grandes fortunas mundiales, construyó el gigante mediante una agresiva estrategia de adquisiciones globales.",
+        "trayectoria": [
+            ("De la India al acero global", "Procedente de una familia siderúrgica india, se independizó y empezó a comprar acerías en dificultades por todo el mundo, construyendo Mittal Steel a base de reflotar plantas y consolidar el fragmentado sector mundial del acero.", "1990-01-01"),
+            ("La fusión que creó ArcelorMittal", "En 2006 protagonizó la OPA hostil y posterior fusión con la europea Arcelor, creando ArcelorMittal, líder mundial del acero, en una de las mayores operaciones industriales de la década.", "2006-06-25"),
+            ("Presencia en España y descarbonización", "ArcelorMittal es un actor industrial clave en España, con grandes plantas en Asturias, donde afronta el reto de la descarbonización del acero (hornos eléctricos, hidrógeno) con apoyo de fondos públicos europeos.", "2021-01-01"),
+        ],
+    },
 }
 
 

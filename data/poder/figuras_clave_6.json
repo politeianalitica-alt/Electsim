@@ -123,7 +123,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -132,7 +132,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Directivo con trayectoria en la banca de inversión, preside Mutua Madrileña, mutua de seguros sin accionistas que reinvierte sus excedentes y se ha convertido en un gran inversor institucional."
+            "contenido": "Ignacio Garralda Ruiz de Velasco es presidente y consejero delegado del Grupo Mutua Madrileña, una de las mayores aseguradoras de España y un relevante inversor institucional, con participaciones en empresas como BME o el negocio asegurador de El Corte Inglés. Procedente de la banca de negocios, dirige una mutua sin accionistas que reparte sus beneficios entre los mutualistas y es una voz influyente del sector financiero."
           }
         ]
       },
@@ -166,6 +166,36 @@
             "contenido": "**Socio en bancaseguros y coinversión** (nota +5/10) — Mutua participa en alianzas de seguros y coinversión con la gran banca."
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Banca de negocios y mercados",
+            "contenido": "Desarrolló su carrera en la banca de inversión y los mercados de valores, vinculado durante años a entidades financieras y al mercado bursátil español.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de Mutua Madrileña",
+            "contenido": "Asumió la presidencia de Mutua Madrileña, aseguradora de carácter mutual (sin accionistas, propiedad de sus asegurados), líder en el seguro del automóvil y en plena diversificación.",
+            "fecha": "2008-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inversor institucional y diversificación",
+            "contenido": "Bajo su mando, Mutua diversificó hacia salud, vida y gestión de activos, y tomó participaciones estratégicas —como la mitad del negocio de seguros de El Corte Inglés o gestoras de fondos—, ganando peso como inversor institucional español.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz del seguro y la empresa",
+            "contenido": "Es una voz influyente del sector asegurador y financiero y participa en patronales y foros empresariales, defendiendo el ahorro privado y el papel del seguro ante retos como la longevidad o los riesgos climáticos.",
+            "fecha": "2020-01-01"
+          }
+        ]
       }
     ]
   },
@@ -185,7 +215,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -194,7 +224,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario con intereses cruzados en cerveza (Damm), distribución de combustibles y energía (Disa) y construcción (Sacyr), donde es accionista de referencia y consejero. Saga familiar de largo recorrido."
+            "contenido": "Demetrio Carceller Arce es presidente del Grupo Damm, la cervecera catalana dueña de Estrella Damm, y figura central del grupo energético Disa (distribución de combustibles), entre otros negocios familiares. Heredero de una de las grandes sagas empresariales españolas, controla un conglomerado que abarca cerveza, energía, alimentación y participaciones industriales, y mantiene un perfil público discreto pese a su enorme peso económico."
           }
         ]
       },
@@ -226,6 +256,36 @@
             "tipo": "contacto",
             "titulo": "Sector energético",
             "contenido": "**Distribución de combustibles (Disa)** (nota +6/10) — Disa es operador dominante en Canarias y actor relevante del mercado de carburantes."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La saga Carceller",
+            "contenido": "Heredero de una influyente familia empresarial, se incorporó a la gestión de los negocios familiares, articulados en torno a la cervecera Damm y al grupo de distribución de combustibles Disa.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de Damm",
+            "contenido": "Preside el Grupo Damm, al que ha expandido más allá de la cerveza Estrella Damm hacia el agua, la alimentación, la logística y la distribución, consolidándolo como uno de los grandes grupos de gran consumo de España.",
+            "fecha": "2004-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Energía e inversiones",
+            "contenido": "A través de Disa y otras sociedades, la familia mantiene un peso relevante en el sector energético (estaciones de servicio, combustibles) y participaciones en cotizadas, lo que sitúa a Carceller entre los empresarios más poderosos del país.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Discreción y poder",
+            "contenido": "Pese a su bajo perfil mediático, su presencia en consejos de administración de empresas cotizadas y una de las mayores fortunas familiares de España lo convierten en un actor de primer orden, repartido entre cerveza, energía e inversiones.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -323,7 +383,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.64,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -332,7 +392,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Periodista al frente de El Mundo, cabecera de referencia del centro-derecha y una de las grandes marcas del periodismo de investigación español, propiedad de Unidad Editorial (RCS MediaGroup)."
+            "contenido": "Joaquín Manso es director de El Mundo, uno de los grandes diarios de referencia de España, de línea editorial liberal-conservadora. Periodista de la casa, asumió la dirección del periódico en 2020, dando continuidad a la tradición de periodismo de investigación e influencia política del diario fundado y dirigido durante décadas por Pedro J. Ramírez. Llegó al cargo desde la propia redacción, donde se había foguéado en la información política y de tribunales."
           }
         ]
       },
@@ -347,6 +407,15 @@
             "tags": [
               "investigacion",
               "agenda"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Diario de centro-derecha",
+            "contenido": "El Mundo, bajo su dirección, ejerce una vigilancia crítica del Gobierno de coalición, con especial atención a los casos de corrupción, la regeneración institucional y la política territorial, desde una óptica liberal-conservadora.",
+            "tags": [
+              "medios",
+              "prensa"
             ]
           }
         ]
@@ -364,6 +433,36 @@
             "tipo": "contacto",
             "titulo": "francisco-marhuenda",
             "contenido": "**Par en la prensa de centro-derecha** (nota +3/10) — El Mundo y La Razón comparten espacio editorial, compitiendo por el lector conservador."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Periodista de El Mundo",
+            "contenido": "Desarrolló su carrera en El Mundo, pasando por distintas secciones y responsabilidades, con un perfil ligado a la información política y de tribunales.",
+            "fecha": "2005-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director del diario",
+            "contenido": "Fue nombrado director de El Mundo en 2020, al frente de una redacción con fuerte peso en la información política, judicial y económica y una línea editorial crítica con los gobiernos de izquierda.",
+            "fecha": "2020-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Línea editorial e influencia",
+            "contenido": "Bajo su dirección, El Mundo mantiene su perfil de diario de investigación e influencia, con exclusivas de impacto político y una posición editorial de centro-derecha en el debate público español.",
+            "fecha": "2022-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Investigación y tribunales",
+            "contenido": "Ha apostado por reforzar el periodismo de investigación y la cobertura de los grandes casos judiciales y políticos, un terreno en el que El Mundo ha marcado históricamente la agenda informativa del país.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -431,7 +530,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.62,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -440,7 +539,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Jurista y política socialista, exministra de Trabajo, Migraciones y Seguridad Social. Preside el Consejo de Estado, máximo órgano consultivo que dictamina sobre la legalidad de normas y grandes decisiones del Gobierno."
+            "contenido": "Magdalena Valerio Cordero (Granada, 1959) es presidenta del Consejo de Estado, el supremo órgano consultivo del Gobierno, y la primera mujer en ocupar el cargo. Jurista y veterana dirigente socialista, fue ministra de Trabajo, Migraciones y Seguridad Social al inicio de la etapa de Pedro Sánchez y diputada durante varias legislaturas."
           }
         ]
       },
@@ -457,6 +556,36 @@
             "tipo": "contacto",
             "titulo": "PSOE",
             "contenido": "**Origen político socialista** (nota +5/10) — Exministra del PSOE; su nombramiento alimentó el debate sobre la politización de los órganos del Estado."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Jurista y política socialista",
+            "contenido": "Licenciada en Derecho y funcionaria, desarrolló una larga carrera en el PSOE de Castilla-La Mancha, con responsabilidades en el Gobierno regional y como diputada en el Congreso.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ministra de Trabajo",
+            "contenido": "Fue ministra de Trabajo, Migraciones y Seguridad Social entre 2018 y 2020, en el primer Gobierno de Pedro Sánchez, gestionando la subida del salario mínimo y el inicio de la reversión de la reforma laboral.",
+            "fecha": "2018-06-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta del Consejo de Estado",
+            "contenido": "En 2023 fue nombrada presidenta del Consejo de Estado, convirtiéndose en la primera mujer al frente del máximo órgano consultivo del Estado, encargado de dictaminar sobre la legalidad de normas y grandes decisiones públicas.",
+            "fecha": "2023-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Órgano consultivo supremo",
+            "contenido": "Al frente del Consejo de Estado dirige el organismo que emite dictámenes preceptivos sobre normas, reclamaciones y grandes decisiones del Estado, una función técnica y de garantía jurídica alejada del primer plano político.",
+            "fecha": "2023-06-01"
           }
         ]
       }
@@ -477,7 +606,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.64,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -486,7 +615,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresaria de origen argentino, viuda del fundador de Prosegur, preside y controla el grupo de seguridad privada, presente en buena parte de Europa y América Latina."
+            "contenido": "Helena Revoredo Delvecchio (Buenos Aires, 1947) es presidenta de Prosegur, la mayor empresa española de seguridad privada y una multinacional del sector con fuerte presencia en Europa y América Latina. Tomó las riendas del grupo tras el fallecimiento de su marido y fundador, Herberto Gut, y lo consolidó como líder del sector en el mundo de habla hispana, convirtiéndose en una de las grandes empresarias del país."
           }
         ]
       },
@@ -513,6 +642,36 @@
             "tipo": "contacto",
             "titulo": "Gran banca española",
             "contenido": "**Proveedora de logística de efectivo** (nota +5/10) — Prosegur gestiona el transporte y la custodia de valores de buena parte del sistema bancario."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Al frente de Prosegur",
+            "contenido": "Asumió la presidencia de Prosegur en 1997, tras la muerte de su esposo y fundador de la compañía, Herberto Gut, haciéndose cargo de un grupo de seguridad en plena expansión.",
+            "fecha": "1997-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Expansión internacional",
+            "contenido": "Bajo su presidencia, Prosegur creció con fuerza en América Latina y Europa, diversificando en vigilancia, transporte de fondos (Prosegur Cash) y alarmas, hasta convertirse en una multinacional cotizada.",
+            "fecha": "2004-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Una de las grandes fortunas",
+            "contenido": "Es una de las mujeres más ricas de España a través de su participación de control en Prosegur, figura habitual de los rankings de grandes patrimonios y con actividad también filantrópica.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gobierno corporativo y sucesión",
+            "contenido": "Ha combinado la presidencia con la articulación del relevo generacional en la familia y con un papel activo en foros empresariales, manteniendo el control familiar sobre Prosegur y sus filiales cotizadas.",
+            "fecha": "2018-01-01"
           }
         ]
       }

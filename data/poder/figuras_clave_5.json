@@ -739,7 +739,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.72,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -748,7 +748,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario hecho a sí mismo, construyó desde Murcia uno de los mayores grupos cárnicos de Europa (ElPozo) y diversificó hacia inmobiliario, energía y participaciones financieras."
+            "contenido": "Tomás Fuertes Fernández (Alhama de Murcia, 1933) es el fundador y presidente del Grupo Fuertes, el conglomerado agroalimentario murciano dueño de ElPozo Alimentación, uno de los mayores grupos cárnicos y de alimentación de España. Empresario hecho a sí mismo, construyó desde una pequeña carnicería familiar un imperio industrial que da empleo a miles de personas y es una de las grandes fortunas del país."
           }
         ]
       },
@@ -785,6 +785,36 @@
             "tipo": "contacto",
             "titulo": "instituto-empresa-familiar",
             "contenido": "**Gran empresa familiar** (nota +5/10) — El Grupo Fuertes es arquetipo de la multinacional familiar que defiende el Instituto de la Empresa Familiar ante el fisco."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De la carnicería familiar a ElPozo",
+            "contenido": "Procedente de una familia de tratantes de ganado y carniceros, transformó el negocio familiar en una industria cárnica moderna, fundando en los años cincuenta lo que se convertiría en ElPozo Alimentación.",
+            "fecha": "1954-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diversificación del Grupo Fuertes",
+            "contenido": "Amplió el grupo más allá de la carne, con presencia en alimentación, distribución, inmobiliario, energía y otros sectores, manteniendo el carácter familiar y la sede en la Región de Murcia.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Uno de los grandes de la alimentación",
+            "contenido": "El Grupo Fuertes se consolidó como uno de los mayores grupos agroalimentarios españoles, con ElPozo como marca de gran consumo de referencia, pese a las polémicas periódicas sobre la ganadería intensiva.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Legado familiar",
+            "contenido": "Con más de nueve décadas de vida, mantiene la presidencia del grupo y ha articulado su sucesión en el seno de la familia, preservando el control murciano de uno de los mayores grupos privados de alimentación del país.",
+            "fecha": "2015-01-01"
           }
         ]
       }

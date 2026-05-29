@@ -286,7 +286,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ignacio Escolar (Burgos, 1975) es fundador y director de elDiario.es, uno de los digitales más influyentes de la izquierda española, pionero del modelo de financiación por socios. Periodista de investigación, su medio ha destapado casos de gran impacto político."
+            "contenido": "Ignacio Escolar García (Burgos, 1975) es fundador y director de elDiario.es, uno de los principales medios digitales españoles, de línea editorial progresista y modelo sostenido en buena parte por sus socios. Periodista pionero de internet, fue director fundador del diario Público antes de crear su propio proyecto, y es además un rostro habitual de las tertulias de televisión y radio y autor de varios libros."
           }
         ]
       },
@@ -296,15 +296,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Público y el blescolar.net",
-            "contenido": "Fue primer director del diario Público (2007) y uno de los blogueros políticos pioneros en España, con gran influencia en la conversación digital de la izquierda.",
+            "titulo": "Pionero del periodismo digital",
+            "contenido": "Hijo del periodista Arsenio Escolar, se dio a conocer como uno de los primeros blogueros políticos de referencia en España, combinando la escritura en internet con la radio y la televisión.",
+            "fecha": "2005-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director fundador de Público",
+            "contenido": "Fue el director fundador del diario Público en 2007, un periódico de izquierdas que rompió moldes en el mercado de la prensa escrita antes de su crisis y reconversión.",
             "fecha": "2007-09-26"
           },
           {
             "tipo": "evento",
-            "titulo": "Fundación de elDiario.es",
-            "contenido": "En 2012 fundó elDiario.es sobre un modelo mixto de publicidad y socios pagadores que lo blindó frente a presiones. Lo ha convertido en referente del periodismo de investigación progresista.",
+            "titulo": "elDiario.es",
+            "contenido": "En 2012 fundó elDiario.es, medio nativo digital sostenido en gran parte por sus socios, que se ha consolidado como referente del periodismo progresista y de investigación, con una posición crítica hacia la derecha y los poderes económicos.",
             "fecha": "2012-09-18"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Influencia y polémica",
+            "contenido": "Su medio y su figura se han convertido en referencia del espacio progresista y en blanco de la derecha mediática; sus investigaciones y editoriales son citados con frecuencia en el debate público y en sede parlamentaria.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -318,6 +330,15 @@
             "contenido": "Progresista, crítico con la derecha y los poderes económicos. Periodismo de investigación sobre corrupción y derechos.",
             "tags": [
               "progresista"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Medio progresista de socios",
+            "contenido": "Defiende un periodismo de izquierdas, independiente de los grandes grupos, financiado por sus lectores-socios. Crítico con la derecha y el poder económico, mantiene también investigaciones que han afectado a gobiernos de distinto signo.",
+            "tags": [
+              "medios",
+              "digital"
             ]
           }
         ]
@@ -395,7 +416,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Eduardo Inda (Pamplona, 1966) es fundador y director de OKDiario, uno de los digitales más combativos contra el Gobierno de coalición. Tertuliano omnipresente en televisión, encarna el periodismo de trinchera del bloque de la derecha."
+            "contenido": "Eduardo Inda Arriaga (Pamplona, 1966) es fundador y director de OKDiario, un medio digital de línea derechista y combativa, muy crítico con la izquierda y los nacionalismos. Periodista con pasado en El Mundo y Marca, es además un habitual de las tertulias televisivas, donde mantiene un estilo polémico y de confrontación que ha convertido a su medio en un actor influyente de la derecha mediática española."
           }
         ]
       },
@@ -405,15 +426,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "El Mundo y Marca",
-            "contenido": "Hizo carrera en El Mundo, donde fue subdirector, y dirigió el diario deportivo Marca, antes de emprender su propio proyecto digital.",
-            "fecha": "2000-01-01"
+            "titulo": "Carrera en prensa",
+            "contenido": "Desarrolló su carrera en el periodismo, ocupando puestos de responsabilidad como subdirector de El Mundo y director del diario deportivo Marca.",
+            "fecha": "1995-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Fundación de OKDiario",
-            "contenido": "En 2015 fundó OKDiario, con una línea editorial muy agresiva con el Gobierno y su entorno y una intensa actividad en tertulias. Su periodismo de investigación ha sido objeto de polémicas y desmentidos.",
-            "fecha": "2015-09-15"
+            "contenido": "En 2015 fundó OKDiario, medio nativo digital que ha basado su crecimiento en exclusivas de fuerte impacto político, especialmente contra la izquierda y el independentismo, algunas de ellas objeto de polémica y de litigios.",
+            "fecha": "2015-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tertuliano y polémicas",
+            "contenido": "Su presencia constante en las tertulias televisivas y su estilo agresivo lo han convertido en una figura mediática controvertida, admirada por su público y muy cuestionada por sus detractores.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Choque permanente con la izquierda",
+            "contenido": "OKDiario y su director mantienen una confrontación constante con el Gobierno de coalición, con la izquierda alternativa y con el independentismo, en una estrategia de exclusivas de denuncia tan exitosa en audiencia como contestada en los tribunales.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -478,6 +511,21 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Medio digital de derecha combativa",
+            "contenido": "OKDiario mantiene una línea abiertamente derechista y de oposición frontal al Gobierno de coalición y al independentismo, con un periodismo de impacto y denuncia que sus críticos acusan en ocasiones de falta de rigor.",
+            "tags": [
+              "medios",
+              "digital"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -496,7 +544,7 @@
       "conservador"
     ],
     "confidence": 0.82,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -505,7 +553,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1961. Doctor en Derecho e Historia. Profesor universitario. Línea conservadora pero con interlocución transversal."
+            "contenido": "Francisco Marhuenda García (Barcelona, 1961) es director del diario La Razón, de línea conservadora, y uno de los tertulianos más presentes y vehementes de la televisión española. Profesor universitario y doctor en Historia y en Derecho, fue alto cargo en gobiernos del PP antes de volcarse en el periodismo y la opinión, y es hoy uno de los rostros más reconocibles del debate televisivo en España."
           }
         ]
       },
@@ -515,18 +563,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Gabinete de Rajoy",
-            "contenido": "Jefe de gabinete de Mariano Rajoy en el Ministerio de Administraciones Públicas (1996-1999).",
-            "fecha": "1996-05-01",
-            "tags": [
-              "pp"
-            ]
+            "titulo": "Académico y cargo político",
+            "contenido": "Doctor en Historia y en Derecho y profesor universitario, ocupó cargos en la Administración con el PP, entre ellos jefe de gabinete de ministros en la etapa de José María Aznar.",
+            "fecha": "1996-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Director de La Razón",
-            "contenido": "Dirige La Razón desde 2008.",
+            "contenido": "Dirige el diario La Razón, periódico de línea conservadora, desde mediados de los años 2000, con una posición editorial de derechas y un fuerte componente de opinión.",
             "fecha": "2008-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tertuliano omnipresente",
+            "contenido": "Es uno de los contertulios más habituales y reconocibles de la televisión, con un estilo apasionado y a menudo polémico que lo ha convertido en personaje popular más allá de la prensa escrita.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Profesor y autor",
+            "contenido": "Compagina la dirección del diario y la presencia televisiva con la docencia universitaria y la publicación de libros de historia y ensayo político, un perfil que mezcla el academicismo con el periodismo de opinión.",
+            "fecha": "2010-01-01"
           }
         ]
       },
@@ -564,6 +621,21 @@
             "tipo": "documento",
             "titulo": "La Razón",
             "fuente_url": "https://www.larazon.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Opinión conservadora",
+            "contenido": "Desde La Razón y las tertulias defiende posiciones de derecha y constitucionalistas, con crítica al Gobierno de coalición y a los nacionalismos, aunque con un perfil pragmático en su trato con los distintos poderes.",
+            "tags": [
+              "medios",
+              "opinion"
+            ]
           }
         ]
       }
@@ -678,7 +750,7 @@
       "onda-cero"
     ],
     "confidence": 0.8,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -687,7 +759,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1969. Periodista de radio. Considerado riguroso y de difícil clasificación ideológica."
+            "contenido": "Carlos Alsina Ramírez (Madrid, 1969) es uno de los periodistas de radio más influyentes de España, director y presentador del programa matinal 'Más de uno' de Onda Cero. Su entrevista diaria y su 'Monólogo' de apertura se han convertido en una referencia de la conversación política, con un estilo incisivo que le ha valido los principales premios del periodismo radiofónico, como el Premio Ondas, y la fama de entrevistador temido por los políticos."
           }
         ]
       },
@@ -697,9 +769,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Más de uno",
-            "contenido": "Dirige el matinal de Onda Cero desde 2015.",
+            "titulo": "Carrera en la radio",
+            "contenido": "Desarrolló prácticamente toda su carrera en la radio, formándose en Onda Cero y en la COPE, donde fue creciendo como redactor, presentador y director de informativos y programas.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "'Más de uno' en Onda Cero",
+            "contenido": "Asumió la dirección y presentación del magacín matinal de Onda Cero, 'Más de uno', consolidándolo como uno de los espacios de referencia de la mañana radiofónica y a sí mismo como entrevistador exigente con los políticos de todos los partidos.",
             "fecha": "2015-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Referente de la mañana radiofónica",
+            "contenido": "Su programa compite en la franja matinal con los grandes magacines de la SER y la COPE, y su entrevista y su monólogo marcan a menudo la agenda política del día, citados y replicados por el resto de medios.",
+            "fecha": "2020-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Premios y reconocimiento",
+            "contenido": "Su trabajo le ha valido los principales galardones del periodismo radiofónico español, situándolo entre las voces más respetadas e influyentes del medio y como uno de los comunicadores con mayor credibilidad transversal."
           }
         ]
       },
@@ -737,6 +826,21 @@
             "tipo": "documento",
             "titulo": "Onda Cero",
             "fuente_url": "https://www.ondacero.es/programas/mas-de-uno/"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Periodismo de equilibrio exigente",
+            "contenido": "Cultiva un perfil de periodista riguroso y exigente con el poder, sin un alineamiento partidista evidente, lo que le da credibilidad transversal aunque sus entrevistas resulten incómodas tanto para el Gobierno como para la oposición.",
+            "tags": [
+              "medios",
+              "radio"
+            ]
           }
         ]
       }
@@ -2043,7 +2147,7 @@
       "baleares"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2052,7 +2156,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Inca (Mallorca), 1971. Farmacéutica de formación. Tercera autoridad del Estado como presidenta del Congreso."
+            "contenido": "Francesca «Francina» Armengol Socías (Inca, Mallorca, 1971) es presidenta del Congreso de los Diputados desde 2023, la tercera autoridad del Estado. Farmacéutica de formación y dirigente del PSIB-PSOE, fue presidenta del Govern de las Islas Baleares durante ocho años antes de presidir la Cámara baja en una legislatura especialmente tensa y fragmentada."
           }
         ]
       },
@@ -2062,15 +2166,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Presidenta de Baleares",
-            "contenido": "Presidenta del Govern balear entre 2015 y 2023 (pacto progresista).",
-            "fecha": "2015-07-02"
+            "titulo": "De la farmacia a la política balear",
+            "contenido": "Farmacéutica de profesión, inició su carrera política en el socialismo balear, presidiendo el Consell de Mallorca antes de liderar el PSIB-PSOE.",
+            "fecha": "2007-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta del Govern balear",
+            "contenido": "Fue presidenta del Govern de las Islas Baleares entre 2015 y 2023, gobernando en coalición con la izquierda y los nacionalistas, con políticas sociales y de defensa del catalán y del territorio.",
+            "fecha": "2015-07-01"
           },
           {
             "tipo": "evento",
             "titulo": "Presidenta del Congreso",
-            "contenido": "Elegida presidenta del Congreso en agosto 2023, parte del acuerdo de investidura de Sánchez.",
+            "contenido": "Tras las elecciones de 2023 fue elegida presidenta del Congreso de los Diputados con el apoyo de los socios de investidura de Pedro Sánchez, dirigiendo una Cámara muy fragmentada y polarizada y aplicando medidas como el uso de las lenguas cooficiales.",
             "fecha": "2023-08-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tercera autoridad del Estado",
+            "contenido": "Como presidenta del Congreso ocupa la tercera magistratura del Estado, por detrás del Rey y del presidente del Gobierno, con un papel clave en la ordenación de los debates, la tramitación de las leyes y la representación institucional de la Cámara.",
+            "fecha": "2023-09-01"
           }
         ]
       },
