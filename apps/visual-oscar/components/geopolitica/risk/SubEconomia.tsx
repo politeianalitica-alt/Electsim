@@ -26,9 +26,37 @@ interface EconResp {
   series: Record<string, Series[]>
   sipri_milex: { pct_gdp: number; usd_bn: number; change_pct_2022: number | null; world_rank: number | null } | null
   alerts: string[]
-  debt_profile: { available: boolean; pending: boolean; note: string }
-  commodities: { available: boolean; pending: boolean; note: string }
+  /** G22 fix · enriquecido con seed Q1 2026 */
+  debt_profile: {
+    available: boolean
+    pending: boolean
+    note: string
+    bond_10y_yield_pct?: number | null
+    cds_5y_bps?: number | null
+    fx_per_usd?: number | null
+    fx_currency?: string | null
+    reserves_usd_bn?: number | null
+    reserves_months_imports?: number | null
+    risk_level?: 'investment_grade' | 'speculative' | 'distressed' | 'default_risk' | 'unknown'
+  }
+  commodities: {
+    available: boolean
+    pending: boolean
+    note: string
+    top_exports_hs?: Array<{ hs2: string; name_es: string; share_pct: number }>
+    export_hhi?: number | null
+    dual_use_share_pct?: number | null
+    concentration_risk?: 'alta' | 'media' | 'baja'
+  }
 }
+
+const RISK_LEVELS = {
+  investment_grade: { label: 'Investment grade', color: '#16a34a', bg: '#dcfce7' },
+  speculative: { label: 'Especulativo', color: '#f59e0b', bg: '#fef3c7' },
+  distressed: { label: 'Distressed', color: '#dc2626', bg: '#fef2f2' },
+  default_risk: { label: 'Riesgo de impago', color: '#7f1d1d', bg: '#fee2e2' },
+  unknown: { label: 'Sin clasificar', color: '#94a3b8', bg: '#f1f5f9' },
+} as const
 
 export function SubEconomia({ iso3 }: { iso3: string }) {
   const [data, setData] = useState<EconResp | null>(null)
@@ -91,13 +119,108 @@ export function SubEconomia({ iso3 }: { iso3: string }) {
         </>
       )}
 
-      <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', padding: '10px 12px', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
-        <strong>Próximamente</strong>
-        <ul style={{ margin: '4px 0 0', paddingLeft: 16 }}>
-          <li>{data.debt_profile.note}</li>
-          <li>{data.commodities.note}</li>
-        </ul>
-      </div>
+      {/* G22 batch 4 · perfil riesgo soberano (CDS + bono + reservas) */}
+      {data.debt_profile.available ? (
+        <>
+          <h4 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Perfil riesgo soberano · OECD + ECB + IMF Q1 2026
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 8, marginBottom: 14 }}>
+            {data.debt_profile.bond_10y_yield_pct !== null && data.debt_profile.bond_10y_yield_pct !== undefined && (
+              <DataChip
+                label="Bono 10Y %"
+                value={`${data.debt_profile.bond_10y_yield_pct.toFixed(2)}%`}
+                accent={data.debt_profile.bond_10y_yield_pct > 10 ? '#7f1d1d' : data.debt_profile.bond_10y_yield_pct > 5 ? '#f59e0b' : '#16a34a'}
+              />
+            )}
+            {data.debt_profile.cds_5y_bps !== null && data.debt_profile.cds_5y_bps !== undefined && (
+              <DataChip
+                label="CDS 5Y (bps)"
+                value={String(data.debt_profile.cds_5y_bps)}
+                accent={data.debt_profile.cds_5y_bps > 300 ? '#7f1d1d' : data.debt_profile.cds_5y_bps > 100 ? '#f59e0b' : '#16a34a'}
+              />
+            )}
+            {data.debt_profile.fx_per_usd !== null && data.debt_profile.fx_per_usd !== undefined && (
+              <DataChip
+                label={`FX/USD (${data.debt_profile.fx_currency})`}
+                value={data.debt_profile.fx_per_usd >= 100 ? data.debt_profile.fx_per_usd.toFixed(0) : data.debt_profile.fx_per_usd.toFixed(2)}
+                accent="#0891b2"
+              />
+            )}
+            {data.debt_profile.reserves_usd_bn !== null && data.debt_profile.reserves_usd_bn !== undefined && (
+              <DataChip
+                label="Reservas (USD bn)"
+                value={data.debt_profile.reserves_usd_bn.toFixed(0)}
+                accent="#7c3aed"
+              />
+            )}
+          </div>
+          {data.debt_profile.risk_level && (
+            <div style={{
+              marginBottom: 14, padding: '8px 12px', borderRadius: 6,
+              background: RISK_LEVELS[data.debt_profile.risk_level].bg,
+              borderLeft: `3px solid ${RISK_LEVELS[data.debt_profile.risk_level].color}`,
+              fontSize: 11, color: RISK_LEVELS[data.debt_profile.risk_level].color, fontWeight: 600,
+            }}>
+              Clasificación riesgo: <strong>{RISK_LEVELS[data.debt_profile.risk_level].label}</strong>
+            </div>
+          )}
+        </>
+      ) : (
+        <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', padding: '10px 12px', borderRadius: 6, fontSize: 11, color: '#92400e', marginBottom: 14 }}>
+          <strong>Perfil deuda · Próximamente</strong>
+          <p style={{ margin: '4px 0 0' }}>{data.debt_profile.note}</p>
+        </div>
+      )}
+
+      {/* G22 batch 4 · commodities · top productos export con HHI */}
+      {data.commodities.available ? (
+        <>
+          <h4 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            Commodities · concentración export UN Comtrade 2023
+          </h4>
+          {(data.commodities.top_exports_hs ?? []).length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginBottom: 10 }}>
+              {(data.commodities.top_exports_hs ?? []).map((h) => (
+                <div key={h.hs2} style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '6px 10px', background: '#f8fafc', borderRadius: 4, fontSize: 11,
+                }}>
+                  <span>
+                    <span style={{ color: '#94a3b8', fontFamily: 'ui-monospace, monospace', marginRight: 6 }}>HS{h.hs2}</span>
+                    {h.name_es}
+                  </span>
+                  <span style={{ fontFamily: 'ui-monospace, monospace', fontWeight: 700, color: '#0f172a' }}>
+                    {h.share_pct.toFixed(1)}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 6 }}>
+            {data.commodities.export_hhi !== null && data.commodities.export_hhi !== undefined && (
+              <DataChip
+                label="HHI concentración"
+                value={`${data.commodities.export_hhi.toFixed(0)} (${data.commodities.concentration_risk ?? ''})`}
+                accent={data.commodities.concentration_risk === 'alta' ? '#7f1d1d' : data.commodities.concentration_risk === 'media' ? '#f59e0b' : '#16a34a'}
+              />
+            )}
+            {data.commodities.dual_use_share_pct !== null && data.commodities.dual_use_share_pct !== undefined && (
+              <DataChip
+                label="Doble uso (HS93)"
+                value={`${data.commodities.dual_use_share_pct.toFixed(1)}%`}
+                accent={data.commodities.dual_use_share_pct > 5 ? '#7f1d1d' : '#0891b2'}
+              />
+            )}
+          </div>
+          <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '8px 0 0' }}>{data.commodities.note}</p>
+        </>
+      ) : (
+        <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', padding: '10px 12px', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+          <strong>Commodities · Próximamente</strong>
+          <p style={{ margin: '4px 0 0' }}>{data.commodities.note}</p>
+        </div>
+      )}
     </div>
   )
 }

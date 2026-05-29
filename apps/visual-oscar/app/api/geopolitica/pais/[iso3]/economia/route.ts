@@ -12,6 +12,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
 import { fetchCountryMacro, latestWBValue } from '@/lib/worldbank/client'
 import { getSipriEntry } from '@/lib/geopolitica/sipri-data'
+import { getCountryMacro } from '@/lib/geopolitica/country-macro-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -28,6 +29,8 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   // Wb macro · 1 fetch que devuelve 6 series anuales 2015-2025
   const macro = await fetchCountryMacro(iso3)
   const sipri = getSipriEntry(iso3)
+  // G22 batch 4 · enriquecimiento con seed Q1 2026 para top 50
+  const macroSeed = getCountryMacro(iso3)
 
   // KPIs · último valor disponible de cada serie
   const kpis = {
@@ -60,15 +63,35 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
       world_rank: sipri.world_rank ?? null,
     } : null,
     alerts,
-    debt_profile: {
+    debt_profile: macroSeed ? {
+      available: true,
+      pending: false,
+      bond_10y_yield_pct: macroSeed.bond_10y_yield_pct,
+      cds_5y_bps: macroSeed.cds_5y_bps,
+      fx_per_usd: macroSeed.fx_per_usd,
+      fx_currency: macroSeed.fx_currency,
+      reserves_usd_bn: macroSeed.reserves_usd_bn,
+      reserves_months_imports: macroSeed.reserves_months_imports,
+      // Clasificación de riesgo crediticio derivada
+      risk_level: classifyDebtRisk(macroSeed.cds_5y_bps, macroSeed.bond_10y_yield_pct, macroSeed.reserves_months_imports),
+      note: 'Indicadores de riesgo soberano · OECD Bond Yields + ECB Reference + IMF SDDS Q1 2026',
+    } : {
       available: false,
       pending: true,
-      note: 'JEDH perfil vencimientos pendiente · ver datos en jedh.org filtrando por país',
+      note: 'Perfil deuda disponible solo para top 50 economías · este país pendiente seed.',
     },
-    commodities: {
+    commodities: macroSeed ? {
+      available: true,
+      pending: false,
+      top_exports_hs: macroSeed.top_exports_hs,
+      export_hhi: macroSeed.export_hhi,
+      dual_use_share_pct: macroSeed.dual_use_share_pct,
+      concentration_risk: macroSeed.export_hhi !== null && macroSeed.export_hhi > 2500 ? 'alta' : macroSeed.export_hhi !== null && macroSeed.export_hhi > 1500 ? 'media' : 'baja',
+      note: 'Top productos HS2 · UN Comtrade 2023 · HHI Herfindahl-Hirschman · share doble uso HS 93',
+    } : {
       available: false,
       pending: true,
-      note: 'Mapping país→commodity principal + precios Alpha Vantage pendiente C4',
+      note: 'Mapping país→commodity principal disponible solo para top 50 economías.',
     },
     fetched_at: startedAt,
     _meta: {
@@ -79,4 +102,27 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=259200' },
   })
+}
+
+/**
+ * G22 batch 4 · clasificación de riesgo crediticio soberano.
+ * Niveles según matriz CDS + bono 10y + reservas:
+ *   - investment_grade: CDS < 100bps + bono < 5% + reservas > 3m
+ *   - speculative: CDS 100-300bps · bono 5-10% · reservas 1.5-3m
+ *   - distressed: CDS > 300bps · bono > 10% · reservas < 1.5m
+ *   - default_risk: CDS > 800bps (Ucrania, Argentina, Pakistán típicos)
+ */
+function classifyDebtRisk(
+  cds: number | null,
+  bond: number | null,
+  reservesMonths: number | null,
+): 'investment_grade' | 'speculative' | 'distressed' | 'default_risk' | 'unknown' {
+  if (cds === null && bond === null && reservesMonths === null) return 'unknown'
+  if (cds !== null && cds > 800) return 'default_risk'
+  if (cds !== null && cds > 300) return 'distressed'
+  if (bond !== null && bond > 12) return 'distressed'
+  if (reservesMonths !== null && reservesMonths < 1.5) return 'distressed'
+  if (cds !== null && cds > 100) return 'speculative'
+  if (bond !== null && bond > 6) return 'speculative'
+  return 'investment_grade'
 }

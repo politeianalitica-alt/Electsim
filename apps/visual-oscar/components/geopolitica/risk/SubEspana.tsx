@@ -23,9 +23,38 @@ interface EspResp {
   iso3: string
   country_name: string
   companies: { total: number; critical: number; data: Company[]; catalog_size: number }
-  trade: { available: boolean; pending: boolean; note: string }
-  aod_iati: { available: boolean; pending: boolean; note: string }
-  fdi_datainvex: { available: boolean; pending: boolean; note: string }
+  /** G22 fix · bilateral trade ES↔país desde DataComex */
+  trade: {
+    available: boolean
+    pending: boolean
+    note: string
+    exports_2024_eur_bn?: number | null
+    imports_2024_eur_bn?: number | null
+    balance_eur_bn?: number
+    source?: string
+  }
+  /** G22 fix · presencia institucional + score cooperación */
+  aod_iati: {
+    available: boolean
+    pending: boolean
+    note: string
+    embassy?: boolean
+    consulate_count?: number
+    icex_office?: boolean
+    cervantes_centers?: number
+    military_mission?: boolean
+    cooperation_score?: number
+    source?: string
+  }
+  /** G22 fix · stock IED DataInvex */
+  fdi_datainvex: {
+    available: boolean
+    pending: boolean
+    note: string
+    fdi_stock_eur_bn?: number | null
+    relevance?: 'top_destination' | 'significativa' | 'limitada'
+    source?: string
+  }
 }
 
 const SECTOR_COLOR: Record<string, string> = {
@@ -133,14 +162,117 @@ export function SubEspana({ iso3 }: { iso3: string }) {
 }
 
 function PendingBlocks({ data }: { data: EspResp }) {
+  // G22 batch 4 · render real cuando hay seed disponible, fallback "Próximamente" si no
   return (
-    <div style={{ marginTop: 14, background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', padding: '10px 12px', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
-      <strong>Próximamente</strong>
-      <ul style={{ margin: '4px 0 0', paddingLeft: 16 }}>
-        <li>{data.trade.note}</li>
-        <li>{data.aod_iati.note}</li>
-        <li>{data.fdi_datainvex.note}</li>
-      </ul>
+    <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {/* Comercio bilateral */}
+      {data.trade.available ? (
+        <div style={{
+          padding: '10px 12px', background: '#fff', borderRadius: 6,
+          borderLeft: '3px solid #0891b2', border: '1px solid #f1f5f9',
+        }}>
+          <h5 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            🌐 Comercio bilateral 2024 · DataComex
+          </h5>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
+            {data.trade.exports_2024_eur_bn !== null && data.trade.exports_2024_eur_bn !== undefined && (
+              <Kpi label="Exports ES→X" value={`€${data.trade.exports_2024_eur_bn.toFixed(1)} bn`} accent="#16a34a" />
+            )}
+            {data.trade.imports_2024_eur_bn !== null && data.trade.imports_2024_eur_bn !== undefined && (
+              <Kpi label="Imports ES←X" value={`€${data.trade.imports_2024_eur_bn.toFixed(1)} bn`} accent="#dc2626" />
+            )}
+            {data.trade.balance_eur_bn !== undefined && (
+              <Kpi
+                label="Balance ES"
+                value={`${data.trade.balance_eur_bn > 0 ? '+' : ''}€${data.trade.balance_eur_bn.toFixed(1)} bn`}
+                accent={data.trade.balance_eur_bn > 0 ? '#16a34a' : '#dc2626'}
+                sub={data.trade.balance_eur_bn > 0 ? 'superávit' : 'déficit'}
+              />
+            )}
+          </div>
+          {data.trade.source && <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>{data.trade.source}</p>}
+        </div>
+      ) : (
+        <div style={{ padding: '8px 12px', background: '#fef3c7', borderRadius: 4, fontSize: 10, color: '#92400e' }}>
+          <strong>Comercio:</strong> {data.trade.note}
+        </div>
+      )}
+
+      {/* Presencia institucional ES */}
+      {data.aod_iati.available ? (
+        <div style={{
+          padding: '10px 12px', background: '#fff', borderRadius: 6,
+          borderLeft: '3px solid #7c3aed', border: '1px solid #f1f5f9',
+        }}>
+          <h5 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            🏛 Presencia institucional España
+          </h5>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {data.aod_iati.embassy && (
+              <span style={{ padding: '3px 8px', background: '#ede9fe', color: '#5b21b6', borderRadius: 4, fontSize: 10, fontWeight: 600 }}>✓ Embajada</span>
+            )}
+            {data.aod_iati.consulate_count !== undefined && data.aod_iati.consulate_count > 0 && (
+              <span style={{ padding: '3px 8px', background: '#ede9fe', color: '#5b21b6', borderRadius: 4, fontSize: 10, fontWeight: 600 }}>
+                {data.aod_iati.consulate_count} consulado{data.aod_iati.consulate_count > 1 ? 's' : ''}
+              </span>
+            )}
+            {data.aod_iati.icex_office && (
+              <span style={{ padding: '3px 8px', background: '#dbeafe', color: '#1e40af', borderRadius: 4, fontSize: 10, fontWeight: 600 }}>ICEX</span>
+            )}
+            {data.aod_iati.cervantes_centers !== undefined && data.aod_iati.cervantes_centers > 0 && (
+              <span style={{ padding: '3px 8px', background: '#fef3c7', color: '#92400e', borderRadius: 4, fontSize: 10, fontWeight: 600 }}>
+                {data.aod_iati.cervantes_centers} Cervantes
+              </span>
+            )}
+            {data.aod_iati.military_mission && (
+              <span style={{ padding: '3px 8px', background: '#fef2f2', color: '#7f1d1d', borderRadius: 4, fontSize: 10, fontWeight: 600 }}>Misión militar</span>
+            )}
+          </div>
+          {data.aod_iati.cooperation_score !== undefined && (
+            <div style={{ marginTop: 6, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 10, color: '#64748b' }}>Score cooperación:</span>
+              <span style={{ fontFamily: 'ui-monospace, monospace', fontWeight: 700, fontSize: 12, color: data.aod_iati.cooperation_score > 60 ? '#16a34a' : data.aod_iati.cooperation_score > 30 ? '#f59e0b' : '#94a3b8' }}>
+                {data.aod_iati.cooperation_score}/100
+              </span>
+            </div>
+          )}
+          {data.aod_iati.source && <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>{data.aod_iati.source}</p>}
+        </div>
+      ) : (
+        <div style={{ padding: '8px 12px', background: '#fef3c7', borderRadius: 4, fontSize: 10, color: '#92400e' }}>
+          <strong>Cooperación:</strong> {data.aod_iati.note}
+        </div>
+      )}
+
+      {/* IED España */}
+      {data.fdi_datainvex.available ? (
+        <div style={{
+          padding: '10px 12px', background: '#fff', borderRadius: 6,
+          borderLeft: '3px solid #f59e0b', border: '1px solid #f1f5f9',
+        }}>
+          <h5 style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            💼 Inversión Exterior Directa (IED) España
+          </h5>
+          <div style={{ display: 'flex', gap: 12, alignItems: 'baseline' }}>
+            <span style={{ fontSize: 22, fontWeight: 700, fontFamily: 'ui-monospace, monospace', color: '#0f172a' }}>
+              €{data.fdi_datainvex.fdi_stock_eur_bn?.toFixed(1)} bn
+            </span>
+            <span style={{
+              padding: '3px 8px', borderRadius: 4, fontSize: 10, fontWeight: 700,
+              background: data.fdi_datainvex.relevance === 'top_destination' ? '#dcfce7' : data.fdi_datainvex.relevance === 'significativa' ? '#fef3c7' : '#f1f5f9',
+              color: data.fdi_datainvex.relevance === 'top_destination' ? '#15803d' : data.fdi_datainvex.relevance === 'significativa' ? '#92400e' : '#475569',
+              textTransform: 'uppercase', letterSpacing: 0.3,
+            }}>
+              {data.fdi_datainvex.relevance === 'top_destination' ? 'Top destino' : data.fdi_datainvex.relevance === 'significativa' ? 'Significativa' : 'Limitada'}
+            </span>
+          </div>
+          {data.fdi_datainvex.source && <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>{data.fdi_datainvex.source}</p>}
+        </div>
+      ) : (
+        <div style={{ padding: '8px 12px', background: '#fef3c7', borderRadius: 4, fontSize: 10, color: '#92400e' }}>
+          <strong>IED:</strong> {data.fdi_datainvex.note}
+        </div>
+      )}
     </div>
   )
 }
