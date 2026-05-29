@@ -127,6 +127,7 @@ SOURCES = {
             REPO / "data" / "poder" / "figuras_clave_5.json",
             REPO / "data" / "poder" / "figuras_clave_6.json",
             REPO / "data" / "poder" / "figuras_clave_7.json",
+            REPO / "data" / "poder" / "figuras_clave_8.json",
         ],
         "out": VISUAL / "poder-fixture.ts",
         "fixture_name": "PODER_FIXTURE",
