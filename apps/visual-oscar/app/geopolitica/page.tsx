@@ -76,6 +76,7 @@ import { ComercioPanel } from '@/components/geopolitica/espana/ComercioPanel'
 import { InversionPanel } from '@/components/geopolitica/espana/InversionPanel'
 import { ActivosRiesgoPanel } from '@/components/geopolitica/espana/ActivosRiesgoPanel'
 import { PulseEspanaStrip } from '@/components/geopolitica/PulseEspanaStrip'
+import { IntelFusionPanel } from '@/components/geopolitica/IntelFusionPanel'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false })
 
@@ -543,6 +544,13 @@ export default function GeopoliticaPage() {
             con visualización ejecutiva siempre-visible de exposición
             agregada España (países críticos × valor × ciudadanos × UCDP). */}
         <PulseEspanaStrip />
+
+        {/* G24 · Intel Fusion panel · GCRI + CFR + Janes + Oxford Analytica
+            + IISS + CSIS + Atlantic Council. Cross-cuts las 6 tabs surfaciando
+            top 15 riesgo conflicto + critical conflicts + briefings recientes. */}
+        <div style={{ marginBottom: 14 }}>
+          <IntelFusionPanel />
+        </div>
 
         {/* Sprint G16 · Item 1 · ACLED card removed (siempre devolvía
             "invalid_grant" / "no disponible"). El usuario pidió arrancar

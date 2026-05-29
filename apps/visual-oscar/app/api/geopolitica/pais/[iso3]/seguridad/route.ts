@@ -16,6 +16,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
 import { buildGdeltDocUrl, fetchGdeltJson, normalizeGdeltDate } from '@/lib/gdelt/build-query'
 import { getSecurityIndicators } from '@/lib/geopolitica/security-indicators-seed'
+import { getCountrySecuritySummary as getUcdpSummary } from '@/lib/ucdp/client'
+import { getCountryAcledSummary } from '@/lib/acled/client'
+import { getGcriEntry } from '@/lib/geopolitica/gcri-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -150,6 +153,13 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   // Reemplaza ACLED ausente con triangulación de 7 fuentes públicas curadas.
   const securitySeed = getSecurityIndicators(iso3)
 
+  // G24 · UCDP REST API + ACLED API (env keys) + GCRI seed integrados
+  const [ucdpData, acledData, gcriData] = await Promise.all([
+    getUcdpSummary(coord.name_en).catch(() => null),
+    getCountryAcledSummary(coord.name_es).catch(() => null),
+    Promise.resolve(getGcriEntry(iso3)),
+  ])
+
   return NextResponse.json({
     ok: true,
     iso3,
@@ -166,6 +176,10 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
     recent_events: recentEvents,
     // G23 · indicadores estructurales seguridad (sin ACLED)
     structural: securitySeed,
+    // G24 · UCDP + ACLED + GCRI integrados
+    ucdp: ucdpData ?? { ok: false, source: 'UCDP unreachable' },
+    acled: acledData ?? { ok: false, source: 'ACLED requires API key in env' },
+    gcri: gcriData,
     fetched_at: startedAt,
     _meta: {
       sources: [
