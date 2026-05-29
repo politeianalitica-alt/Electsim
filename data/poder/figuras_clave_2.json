@@ -1033,7 +1033,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pedro J. Ramírez (Logroño, 1952) es director de El Español y una leyenda del periodismo de investigación español. Fundador de El Mundo, ha protagonizado las grandes batallas mediáticas de la democracia, con un estilo combativo y una relación tensa con el poder de turno."
+            "contenido": "Pedro José Ramírez Codina (Logroño, 1952), conocido como 'Pedro J.', es uno de los periodistas más influyentes y polémicos de España, fundador y director de El Español. Antes fue director fundador de El Mundo, que dirigió durante 25 años convirtiéndolo en referencia del periodismo de investigación y en azote de la corrupción, hasta su salida del diario en 2014. Símbolo del periodismo combativo y de las exclusivas de impacto, su figura ha marcado la prensa española de las últimas cuatro décadas."
           }
         ]
       },
@@ -1043,20 +1043,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Diario 16 y los GAL",
-            "contenido": "Dirigió Diario 16 con apenas 28 años; desde allí destapó la trama de los GAL, la guerra sucia contra ETA, que marcó el final de la era socialista.",
+            "titulo": "Director de Diario 16",
+            "contenido": "Joven y precoz, dirigió Diario 16, donde impulsó investigaciones de gran repercusión durante los gobiernos socialistas, lo que acabó costándole el puesto.",
             "fecha": "1980-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Fundación y dirección de El Mundo",
-            "contenido": "En 1989 fundó El Mundo, que convirtió en el segundo diario de España y en una máquina de investigación (Roldán, Filesa, Gürtel, Bárcenas). Dirigió el periódico durante 25 años.",
+            "titulo": "Fundador y director de El Mundo",
+            "contenido": "En 1989 fundó El Mundo, que dirigió durante 25 años, convirtiéndolo en uno de los grandes diarios del país y en azote de la corrupción, con investigaciones como el caso GAL o los papeles de Bárcenas.",
             "fecha": "1989-10-23"
           },
           {
             "tipo": "evento",
-            "titulo": "El Español",
-            "contenido": "Tras su salida de El Mundo en 2014, fundó en 2015 el digital El Español mediante crowdfunding, consolidándolo como uno de los nativos digitales líderes y de referencia del centro-derecha.",
+            "titulo": "Salida de El Mundo",
+            "contenido": "En 2014 abandonó la dirección de El Mundo en medio de tensiones con el grupo editor, cerrando una etapa de un cuarto de siglo al frente del diario.",
+            "fecha": "2014-01-31"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundación de El Español",
+            "contenido": "En 2015 fundó El Español, un diario nativo digital impulsado mediante crowdfunding, desde el que continúa ejerciendo un periodismo de investigación e influencia y una marcada presencia pública.",
             "fecha": "2015-10-07"
           }
         ]
@@ -1125,7 +1131,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Carlos Herrera (Almería, 1957) es el comunicador estrella de la COPE y líder de audiencia de la radio de la mañana. Su programa es parada obligada de la actualidad política y un altavoz del centro-derecha, con una influencia notable en el debate público."
+            "contenido": "Carlos Herrera Crusset (Barcelona, 1957) es uno de los comunicadores de radio más populares e influyentes de España, director y presentador de 'Herrera en COPE', el magacín matinal de la cadena. Periodista de larguísima trayectoria que ha pasado por RNE, la Cadena SER, Onda Cero y TVE, lidera con frecuencia las audiencias de la mañana y es una de las grandes voces del medio, con un perfil próximo a la centroderecha y una notable influencia en la conversación política española."
           }
         ]
       },
@@ -1197,15 +1203,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De RNE a Onda Cero",
-            "contenido": "Locutor de larga trayectoria, pasó por Radio Nacional y Onda Cero, donde consolidó las mañanas con uno de los magacines de mayor audiencia de la radio española.",
-            "fecha": "1990-01-01"
+            "titulo": "Larga carrera en radio y TV",
+            "contenido": "Desarrolló una extensa carrera en los grandes grupos de comunicación, presentando programas en RNE, la Cadena SER, Onda Cero y Televisión Española.",
+            "fecha": "1985-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Líder de la mañana radiofónica",
+            "contenido": "Consolidó su prestigio como presentador de magacines matinales de gran audiencia, alternando entre Onda Cero y la COPE, donde se convirtió en una de las figuras estrella.",
+            "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "'Herrera en COPE'",
-            "contenido": "En 2015 fichó por la COPE, la cadena de la Conferencia Episcopal, donde dirige y presenta el programa matinal líder, con entrevistas a primeras figuras políticas y una línea crítica con el Gobierno de Sánchez.",
+            "contenido": "Dirige y presenta 'Herrera en COPE', uno de los programas más escuchados de la radio española, desde el que ejerce una notable influencia en la conversación política, con un tono crítico hacia los gobiernos de izquierda.",
             "fecha": "2015-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Premios y popularidad",
+            "contenido": "Ha recibido numerosos premios Ondas y Antenas de Oro, y su popularidad trasciende la radio, con presencia en televisión y una marcada personalidad pública.",
+            "fecha": "2018-01-01"
           }
         ]
       }
@@ -1235,7 +1253,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "José Félix Tezanos (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el principal instituto demoscópico público de España. Catedrático de Sociología y teórico histórico del PSOE, sus encuestas y su metodología son objeto de polémica recurrente."
+            "contenido": "José Félix Tezanos Tortajada (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el instituto demoscópico público, desde 2018. Catedrático de Sociología y veterano militante e ideólogo del PSOE, su gestión del CIS ha sido objeto de una intensa polémica por la metodología y la orientación de sus encuestas, criticadas por la oposición y parte del sector demoscópico."
           }
         ]
       },
@@ -1311,15 +1329,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Sociólogo y dirigente socialista",
-            "contenido": "Catedrático de Sociología en la UNED y figura intelectual del PSOE durante décadas, dirigió la revista 'Temas para el Debate' y teorizó sobre la socialdemocracia.",
-            "fecha": "1980-01-01"
+            "titulo": "Sociólogo y teórico del PSOE",
+            "contenido": "Catedrático de Sociología, fue durante décadas uno de los principales ideólogos del PSOE, director de la revista 'Temas para el Debate' y miembro de los órganos de pensamiento del partido.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Presidencia del CIS",
-            "contenido": "Nombrado presidente del CIS en 2018, defendió un modelo de estimación ('cocina') que ajusta los datos brutos. Sus sondeos, a menudo más favorables al PSOE que otros, han alimentado el debate sobre la independencia del organismo.",
+            "titulo": "Presidente del CIS",
+            "contenido": "Fue nombrado presidente del CIS en 2018, al frente del organismo público encargado de medir la opinión y las intenciones de voto de los españoles.",
             "fecha": "2018-06-29"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La polémica demoscópica",
+            "contenido": "Su etapa ha estado marcada por la controversia: cambios metodológicos como el llamado 'cocinado' de los datos y unas estimaciones a menudo favorables al PSOE le han valido fuertes críticas de la oposición.",
+            "fecha": "2019-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Defensa de su gestión",
+            "contenido": "Tezanos defiende la solvencia técnica del CIS y atribuye las críticas a la incomodidad política con unos resultados que, sostiene, han acertado en tendencias clave, en un debate recurrente sobre la independencia del instituto.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -1349,7 +1379,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ángel Gabilondo (San Sebastián, 1949) es Defensor del Pueblo, la alta institución que supervisa a las administraciones y defiende los derechos de los ciudadanos. Catedrático de Filosofía y exministro de Educación, llegó al cargo tras una larga carrera académica y política."
+            "contenido": "Ángel Gabilondo Pujol (San Sebastián, 1949) es el Defensor del Pueblo, la alta institución que vela por los derechos de los ciudadanos frente a las administraciones. Catedrático de Filosofía y exrector de la Universidad Autónoma de Madrid, fue ministro de Educación y candidato del PSOE, con un perfil de diálogo y talante moderado reconocido en todo el arco político."
           }
         ]
       },
@@ -1401,14 +1431,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Universidad y Ministerio",
-            "contenido": "Catedrático de Filosofía y rector de la Universidad Autónoma de Madrid, fue ministro de Educación en el último Gobierno de Zapatero (2009-2011).",
+            "titulo": "Filósofo y rector",
+            "contenido": "Catedrático de Metafísica, desarrolló una larga carrera académica que culminó en el rectorado de la Universidad Autónoma de Madrid y en la presidencia de la conferencia de rectores (CRUE).",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ministro de Educación",
+            "contenido": "Fue ministro de Educación entre 2009 y 2011, en la etapa de Rodríguez Zapatero, donde buscó —sin éxito— un gran pacto de Estado por la educación, seña de su talante dialogante.",
             "fecha": "2009-04-07"
           },
           {
             "tipo": "evento",
-            "titulo": "Política y Defensor del Pueblo",
-            "contenido": "Fue candidato del PSOE a la Comunidad de Madrid en varias elecciones. En 2021 fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que tramitó el polémico informe sobre los abusos en la Iglesia.",
+            "titulo": "Candidato del PSOE en Madrid",
+            "contenido": "Fue el candidato socialista a la Comunidad de Madrid en las elecciones de 2015, 2019 y 2021, ejerciendo de jefe de la oposición en la Asamblea madrileña.",
+            "fecha": "2015-05-24"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Defensor del Pueblo",
+            "contenido": "En 2021 fue elegido Defensor del Pueblo por las Cortes, al frente de la institución que supervisa a las administraciones y tramita las quejas de los ciudadanos, con informes sobre derechos, inmigración o servicios públicos.",
             "fecha": "2021-11-18"
           }
         ]
@@ -1439,7 +1481,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Luis Cebrián (Madrid, 1944) es una figura histórica del periodismo y el poder mediático español. Primer director de El País y después consejero delegado y presidente de PRISA, construyó y dirigió durante décadas el mayor grupo de comunicación de la izquierda."
+            "contenido": "Juan Luis Cebrián Echarri (Madrid, 1944) es un periodista y escritor español, figura histórica de la prensa de la democracia. Fue el primer director de El País, el diario que ayudó a fundar en 1976, y después presidente ejecutivo del grupo Prisa durante décadas. Miembro de la Real Academia Española, encarna el poder mediático del periodismo de la Transición."
           }
         ]
       },
@@ -1481,15 +1523,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Fundador y director de El País",
-            "contenido": "Fue el primer director de El País (1976), el diario que se convirtió en referencia de la Transición y del progresismo. Académico de la RAE, marcó la línea editorial del periódico durante años.",
+            "titulo": "Primer director de El País",
+            "contenido": "Periodista formado en la prensa del tardofranquismo, fue el director fundador de El País en 1976, el diario que se convirtió en referencia de la Transición y en el de mayor influencia de la democracia.",
             "fecha": "1976-05-04"
           },
           {
             "tipo": "evento",
-            "titulo": "La era PRISA",
-            "contenido": "Como consejero delegado y luego presidente de PRISA, lideró la expansión del grupo (Cadena SER, Canal+, Santillana) y su salida a bolsa, antes de las guerras accionariales que acabaron desplazándolo.",
+            "titulo": "Al frente de Prisa",
+            "contenido": "Dejó la dirección del periódico para dirigir el grupo Prisa como consejero delegado y después presidente, convirtiéndolo en el mayor grupo de comunicación en español (El País, SER, Santillana).",
             "fecha": "1988-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Poder e influencia mediática",
+            "contenido": "Durante décadas fue uno de los hombres más influyentes de España, en el cruce entre los medios, la política y los negocios, no exento de polémicas por el endeudamiento y las luchas de poder en Prisa.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Académico y escritor",
+            "contenido": "Miembro de la Real Academia Española y autor de novelas y ensayos, ha mantenido un papel de comentarista y figura intelectual, símbolo del periodismo de una época.",
+            "fecha": "2018-01-01"
           }
         ]
       }
@@ -1518,7 +1572,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Alicia Koplowitz (Madrid, 1952), marquesa de Bellavista, es una de las grandes fortunas e inversoras de España. Tras su etapa en la constructora FCC, gestiona su patrimonio a través del family office Omega Capital y es una de las mayores coleccionistas y mecenas de arte del país."
+            "contenido": "Alicia Koplowitz Romero de Juseu (Madrid, 1952), marquesa de Bellavista, es una empresaria, inversora y filántropa española, una de las mayores fortunas del país. Tras vender a su hermana Esther su participación en el grupo de construcción familiar (germen de FCC), gestiona su patrimonio a través de la sociedad de inversión Omega Capital, con la que invierte en empresas cotizadas, fondos e inmobiliario. Es además una reconocida coleccionista de arte y mecenas, con una de las pinacotecas privadas más valiosas de España."
           }
         ]
       },
@@ -1569,15 +1623,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "La era FCC",
-            "contenido": "Junto a su hermana Esther, heredó y dirigió el grupo Construcciones y Contratas (FCC), uno de los gigantes de la obra pública española, del que se desligó tras repartir el patrimonio familiar.",
+            "titulo": "La herencia Koplowitz y FCC",
+            "contenido": "Junto a su hermana Esther, heredó y controló el grupo de construcción y servicios que daría lugar a FCC, una de las mayores constructoras de España.",
             "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Omega Capital y el arte",
-            "contenido": "Desde Omega Capital invierte en cotizadas, inmobiliario y capital riesgo con un perfil discreto. Su colección de arte y su fundación la sitúan entre los grandes mecenas culturales.",
-            "fecha": "2000-01-01"
+            "titulo": "Salida de FCC",
+            "contenido": "A finales de los años noventa vendió su participación en el grupo a su hermana, materializando una enorme fortuna que decidió gestionar de forma independiente.",
+            "fecha": "1998-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Omega Capital",
+            "contenido": "Creó Omega Capital, su sociedad de inversión, con la que ha tomado participaciones en empresas cotizadas, fondos e inmobiliario, consolidándose como una de las grandes inversoras españolas.",
+            "fecha": "1999-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mecenas y coleccionista",
+            "contenido": "Es una reconocida coleccionista de arte y mecenas a través de su fundación, con una de las colecciones privadas más valiosas de España y una intensa actividad filantrópica.",
+            "fecha": "2010-01-01"
           }
         ]
       }
@@ -1607,7 +1673,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Manuel Lao Hernández (Granada, 1944) es uno de los grandes empresarios y fortunas de España, fundador del gigante del juego Cirsa. Tras vender la compañía, gestiona su patrimonio diversificado a través del family office Nortia, con un perfil de extrema discreción."
+            "contenido": "Manuel Lao Hernández (Granada, 1944) es un empresario español, fundador del grupo de juego y ocio Cirsa y una de las mayores fortunas del país. Construyó desde cero, a partir de las máquinas recreativas, un gigante de los casinos, los bingos y las apuestas con presencia en España y América Latina, que en 2018 vendió al fondo estadounidense Blackstone por una cifra multimillonaria. Reorientó después su patrimonio hacia la inversión a través de su sociedad Nortia, manteniendo un perfil personal extremadamente discreto pese a figurar de forma recurrente entre los hombres más ricos del país."
           }
         ]
       },
@@ -1649,15 +1715,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De las máquinas a Cirsa",
-            "contenido": "Construyó desde Cataluña, partiendo del negocio de máquinas recreativas, uno de los mayores grupos de juego y ocio de Europa (Cirsa), con presencia en casinos, salones y apuestas en España y Latinoamérica.",
-            "fecha": "1978-01-01"
+            "titulo": "Fundación de Cirsa",
+            "contenido": "Empezó en el negocio de las máquinas recreativas y construyó Cirsa, que convirtió en uno de los mayores grupos de juego de España (casinos, bingos, salas y apuestas).",
+            "fecha": "1980-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Venta a Blackstone y Nortia",
-            "contenido": "En 2018 vendió Cirsa al fondo Blackstone, cristalizando una de las mayores fortunas del país, que hoy reinvierte a través de su holding Nortia en cotizadas, inmobiliario y energía.",
-            "fecha": "2018-05-01"
+            "titulo": "Expansión internacional",
+            "contenido": "Expandió Cirsa por Europa y América Latina, diversificando en casinos, salones de juego y apuestas, hasta convertirla en una multinacional del ocio y el juego.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Venta a Blackstone",
+            "contenido": "En 2018 vendió Cirsa al fondo estadounidense Blackstone por una cifra multimillonaria, materializando una de las mayores fortunas familiares de España.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inversor a través de Nortia",
+            "contenido": "Reorientó su patrimonio hacia la inversión mediante su holding Nortia, con participaciones en empresas cotizadas, inmobiliario y otros activos, manteniendo un perfil reservado.",
+            "fecha": "2020-01-01"
           }
         ]
       }

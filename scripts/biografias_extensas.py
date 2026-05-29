@@ -755,6 +755,195 @@ BIOS: dict[str, dict] = {
             ("Regulación y reputación", "Defiende el papel de la banca en la financiación de la economía y de la transición, en un contexto de elevados beneficios del sector, presión fiscal y debate sobre el acceso a los servicios financieros.", "2023-01-01"),
         ],
     },
+    "letizia-ortiz": {
+        "perfil": "Letizia Ortiz Rocasolano (Oviedo, 1972) es la Reina de España, esposa del rey Felipe VI. Antes de su matrimonio fue una periodista de prestigio, presentadora de los informativos de TVE y CNN+, lo que la convirtió en la primera reina consorte de la democracia procedente de una familia no aristocrática y con una carrera profesional propia. Como reina, ejerce una intensa agenda institucional centrada en la educación, la salud, la cultura y las causas sociales.",
+        "trayectoria": [
+            ("Periodista de televisión", "Licenciada en Periodismo y con experiencia en agencias y diarios, se consolidó como presentadora de informativos en CNN+ y, sobre todo, en Televisión Española, donde condujo el Telediario en el horario de máxima audiencia.", "2000-01-01"),
+            ("Boda con el Príncipe de Asturias", "En 2004 contrajo matrimonio con el entonces príncipe Felipe, en una boda de enorme repercusión, convirtiéndose en princesa de Asturias. La pareja tiene dos hijas: Leonor, heredera de la Corona, y Sofía.", "2004-05-22"),
+            ("Reina de España", "Tras la proclamación de Felipe VI en 2014, asumió el papel de reina consorte, con una agenda propia centrada en la educación, la formación profesional, la investigación, la salud (nutrición, cáncer, enfermedades raras) y la cultura.", "2014-06-19"),
+            ("Imagen de una monarquía renovada", "Su perfil profesional y su estilo han contribuido a la imagen de una monarquía más cercana y moderna, aunque sometida al escrutinio mediático propio de la institución y a las tensiones de la Corona en la España contemporánea.", "2018-01-01"),
+        ],
+    },
+    "vicente-valles": {
+        "perfil": "Vicente Vallés Lázaro (Madrid, 1963) es uno de los periodistas más influyentes de la televisión española, director y presentador de la segunda edición de Antena 3 Noticias. Reconocido por sus análisis de política nacional e internacional y por sus entrevistas, ha recibido los principales premios del periodismo y es autor de varios libros de éxito sobre geopolítica y la injerencia rusa en las democracias.",
+        "trayectoria": [
+            ("Carrera en informativos", "Desarrolló su carrera en los informativos de televisión, pasando por cadenas como Telecinco, CNN+ y Cuatro, donde dirigió y presentó espacios de noticias.", "1990-01-01"),
+            ("Antena 3 Noticias", "Se incorporó a Antena 3, donde dirige y presenta la edición de la noche de los informativos, líderes de audiencia en su franja, consolidándose como una de las caras de referencia de la información en España.", "2015-01-01"),
+            ("Reconocimiento y premios", "Su trabajo le ha valido los grandes galardones del periodismo audiovisual, como el Premio Ondas y la Antena de Oro, por su rigor y su capacidad de análisis.", "2018-01-01"),
+            ("Escritor de geopolítica", "Es autor de ensayos de gran éxito sobre la política internacional, la desinformación y la estrategia rusa, que lo han situado también como analista de referencia más allá de la pantalla.", "2020-01-01"),
+        ],
+    },
+    "angel-gabilondo": {
+        "perfil": "Ángel Gabilondo Pujol (San Sebastián, 1949) es el Defensor del Pueblo, la alta institución que vela por los derechos de los ciudadanos frente a las administraciones. Catedrático de Filosofía y exrector de la Universidad Autónoma de Madrid, fue ministro de Educación y candidato del PSOE, con un perfil de diálogo y talante moderado reconocido en todo el arco político.",
+        "trayectoria": [
+            ("Filósofo y rector", "Catedrático de Metafísica, desarrolló una larga carrera académica que culminó en el rectorado de la Universidad Autónoma de Madrid y en la presidencia de la conferencia de rectores (CRUE).", "1990-01-01"),
+            ("Ministro de Educación", "Fue ministro de Educación entre 2009 y 2011, en la etapa de Rodríguez Zapatero, donde buscó —sin éxito— un gran pacto de Estado por la educación, seña de su talante dialogante.", "2009-04-07"),
+            ("Candidato del PSOE en Madrid", "Fue el candidato socialista a la Comunidad de Madrid en las elecciones de 2015, 2019 y 2021, ejerciendo de jefe de la oposición en la Asamblea madrileña.", "2015-05-24"),
+            ("Defensor del Pueblo", "En 2021 fue elegido Defensor del Pueblo por las Cortes, al frente de la institución que supervisa a las administraciones y tramita las quejas de los ciudadanos, con informes sobre derechos, inmigración o servicios públicos.", "2021-11-18"),
+        ],
+    },
+    "jose-felix-tezanos": {
+        "perfil": "José Félix Tezanos Tortajada (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el instituto demoscópico público, desde 2018. Catedrático de Sociología y veterano militante e ideólogo del PSOE, su gestión del CIS ha sido objeto de una intensa polémica por la metodología y la orientación de sus encuestas, criticadas por la oposición y parte del sector demoscópico.",
+        "trayectoria": [
+            ("Sociólogo y teórico del PSOE", "Catedrático de Sociología, fue durante décadas uno de los principales ideólogos del PSOE, director de la revista 'Temas para el Debate' y miembro de los órganos de pensamiento del partido.", "1990-01-01"),
+            ("Presidente del CIS", "Fue nombrado presidente del CIS en 2018, al frente del organismo público encargado de medir la opinión y las intenciones de voto de los españoles.", "2018-06-29"),
+            ("La polémica demoscópica", "Su etapa ha estado marcada por la controversia: cambios metodológicos como el llamado 'cocinado' de los datos y unas estimaciones a menudo favorables al PSOE le han valido fuertes críticas de la oposición.", "2019-01-01"),
+            ("Defensa de su gestión", "Tezanos defiende la solvencia técnica del CIS y atribuye las críticas a la incomodidad política con unos resultados que, sostiene, han acertado en tendencias clave, en un debate recurrente sobre la independencia del instituto.", "2023-01-01"),
+        ],
+    },
+    "carlos-san-basilio": {
+        "perfil": "Carlos San Basilio Pardo es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el organismo que supervisa los mercados de valores españoles y a sus participantes. Economista y alto funcionario del Estado con una larga trayectoria en la política económica y financiera —pasó, entre otros cargos, por la Secretaría de Estado de Economía—, dirige al regulador bursátil en un periodo marcado por grandes operaciones corporativas como la OPA del BBVA sobre el Banco Sabadell.",
+        "trayectoria": [
+            ("Alto funcionario económico", "Técnico comercial y economista del Estado, desarrolló su carrera en el Ministerio de Economía y en organismos financieros, con responsabilidades en política económica y mercados.", "2000-01-01"),
+            ("Secretaría de Estado de Economía", "Ocupó altos cargos en la Administración económica, incluida la Secretaría de Estado de Economía, participando en la respuesta a la crisis financiera y a la pandemia.", "2018-01-01"),
+            ("Presidente de la CNMV", "Fue nombrado presidente de la CNMV en 2024, al frente del supervisor de los mercados de valores, encargado de velar por la transparencia, la protección del inversor y el correcto funcionamiento de la bolsa.", "2024-01-01"),
+            ("Supervisión de grandes operaciones", "Le corresponde arbitrar episodios sensibles como las opas, las salidas a bolsa y la información de las cotizadas, en un momento de intensa actividad corporativa en el IBEX 35.", "2024-06-01"),
+        ],
+    },
+    "manuel-lao": {
+        "perfil": "Manuel Lao Hernández (Granada, 1944) es un empresario español, fundador del grupo de juego y ocio Cirsa y una de las mayores fortunas del país. Construyó desde cero, a partir de las máquinas recreativas, un gigante de los casinos, los bingos y las apuestas con presencia en España y América Latina, que en 2018 vendió al fondo estadounidense Blackstone por una cifra multimillonaria. Reorientó después su patrimonio hacia la inversión a través de su sociedad Nortia, manteniendo un perfil personal extremadamente discreto pese a figurar de forma recurrente entre los hombres más ricos del país.",
+        "trayectoria": [
+            ("Fundación de Cirsa", "Empezó en el negocio de las máquinas recreativas y construyó Cirsa, que convirtió en uno de los mayores grupos de juego de España (casinos, bingos, salas y apuestas).", "1980-01-01"),
+            ("Expansión internacional", "Expandió Cirsa por Europa y América Latina, diversificando en casinos, salones de juego y apuestas, hasta convertirla en una multinacional del ocio y el juego.", "2000-01-01"),
+            ("Venta a Blackstone", "En 2018 vendió Cirsa al fondo estadounidense Blackstone por una cifra multimillonaria, materializando una de las mayores fortunas familiares de España.", "2018-01-01"),
+            ("Inversor a través de Nortia", "Reorientó su patrimonio hacia la inversión mediante su holding Nortia, con participaciones en empresas cotizadas, inmobiliario y otros activos, manteniendo un perfil reservado.", "2020-01-01"),
+        ],
+    },
+    "isabel-perello": {
+        "perfil": "Isabel Perelló Doménech es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en presidir el poder judicial español en sus dos siglos de historia. Magistrada de larga trayectoria en la Sala de lo Contencioso-Administrativo del Tribunal Supremo, fue elegida en 2024 como candidata de consenso entre los bloques conservador y progresista para desbloquear la renovación del órgano de gobierno de los jueces, que había permanecido paralizada durante más de cinco años.",
+        "trayectoria": [
+            ("Carrera judicial", "Ingresó en la carrera judicial y desarrolló una larga trayectoria como magistrada, llegando al Tribunal Supremo, donde ejerció en la Sala de lo Contencioso-Administrativo.", "1990-01-01"),
+            ("Magistrada del Supremo", "Como magistrada del alto tribunal, participó en relevantes resoluciones del orden contencioso-administrativo, ganándose una reputación de independencia y rigor técnico.", "2009-01-01"),
+            ("Presidenta del TS y del CGPJ", "En 2024 fue elegida presidenta del Tribunal Supremo y del CGPJ, como candidata de consenso entre los vocales propuestos por PSOE y PP, tras años de bloqueo en la renovación del órgano.", "2024-09-01"),
+            ("Primera mujer al frente del poder judicial", "Su elección supuso un hito histórico al ser la primera mujer en presidir el poder judicial español, con el reto de recuperar la normalidad institucional y los nombramientos pendientes en la cúpula judicial.", "2024-09-02"),
+        ],
+    },
+    "carlos-herrera": {
+        "perfil": "Carlos Herrera Crusset (Barcelona, 1957) es uno de los comunicadores de radio más populares e influyentes de España, director y presentador de 'Herrera en COPE', el magacín matinal de la cadena. Periodista de larguísima trayectoria que ha pasado por RNE, la Cadena SER, Onda Cero y TVE, lidera con frecuencia las audiencias de la mañana y es una de las grandes voces del medio, con un perfil próximo a la centroderecha y una notable influencia en la conversación política española.",
+        "trayectoria": [
+            ("Larga carrera en radio y TV", "Desarrolló una extensa carrera en los grandes grupos de comunicación, presentando programas en RNE, la Cadena SER, Onda Cero y Televisión Española.", "1985-01-01"),
+            ("Líder de la mañana radiofónica", "Consolidó su prestigio como presentador de magacines matinales de gran audiencia, alternando entre Onda Cero y la COPE, donde se convirtió en una de las figuras estrella.", "2000-01-01"),
+            ("'Herrera en COPE'", "Dirige y presenta 'Herrera en COPE', uno de los programas más escuchados de la radio española, desde el que ejerce una notable influencia en la conversación política, con un tono crítico hacia los gobiernos de izquierda.", "2015-09-01"),
+            ("Premios y popularidad", "Ha recibido numerosos premios Ondas y Antenas de Oro, y su popularidad trasciende la radio, con presencia en televisión y una marcada personalidad pública.", "2018-01-01"),
+        ],
+    },
+    "juan-luis-cebrian": {
+        "perfil": "Juan Luis Cebrián Echarri (Madrid, 1944) es un periodista y escritor español, figura histórica de la prensa de la democracia. Fue el primer director de El País, el diario que ayudó a fundar en 1976, y después presidente ejecutivo del grupo Prisa durante décadas. Miembro de la Real Academia Española, encarna el poder mediático del periodismo de la Transición.",
+        "trayectoria": [
+            ("Primer director de El País", "Periodista formado en la prensa del tardofranquismo, fue el director fundador de El País en 1976, el diario que se convirtió en referencia de la Transición y en el de mayor influencia de la democracia.", "1976-05-04"),
+            ("Al frente de Prisa", "Dejó la dirección del periódico para dirigir el grupo Prisa como consejero delegado y después presidente, convirtiéndolo en el mayor grupo de comunicación en español (El País, SER, Santillana).", "1988-01-01"),
+            ("Poder e influencia mediática", "Durante décadas fue uno de los hombres más influyentes de España, en el cruce entre los medios, la política y los negocios, no exento de polémicas por el endeudamiento y las luchas de poder en Prisa.", "2000-01-01"),
+            ("Académico y escritor", "Miembro de la Real Academia Española y autor de novelas y ensayos, ha mantenido un papel de comentarista y figura intelectual, símbolo del periodismo de una época.", "2018-01-01"),
+        ],
+    },
+    "alicia-koplowitz": {
+        "perfil": "Alicia Koplowitz Romero de Juseu (Madrid, 1952), marquesa de Bellavista, es una empresaria, inversora y filántropa española, una de las mayores fortunas del país. Tras vender a su hermana Esther su participación en el grupo de construcción familiar (germen de FCC), gestiona su patrimonio a través de la sociedad de inversión Omega Capital, con la que invierte en empresas cotizadas, fondos e inmobiliario. Es además una reconocida coleccionista de arte y mecenas, con una de las pinacotecas privadas más valiosas de España.",
+        "trayectoria": [
+            ("La herencia Koplowitz y FCC", "Junto a su hermana Esther, heredó y controló el grupo de construcción y servicios que daría lugar a FCC, una de las mayores constructoras de España.", "1990-01-01"),
+            ("Salida de FCC", "A finales de los años noventa vendió su participación en el grupo a su hermana, materializando una enorme fortuna que decidió gestionar de forma independiente.", "1998-01-01"),
+            ("Omega Capital", "Creó Omega Capital, su sociedad de inversión, con la que ha tomado participaciones en empresas cotizadas, fondos e inmobiliario, consolidándose como una de las grandes inversoras españolas.", "1999-01-01"),
+            ("Mecenas y coleccionista", "Es una reconocida coleccionista de arte y mecenas a través de su fundación, con una de las colecciones privadas más valiosas de España y una intensa actividad filantrópica.", "2010-01-01"),
+        ],
+    },
+    "sandra-ortega-mera": {
+        "perfil": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y la principal accionista individual de Inditex después de su padre, Amancio Ortega. Heredó la participación de su madre, Rosalía Mera, cofundadora del grupo Zara, y gestiona su patrimonio e inversiones a través de la sociedad Rosp Corunna, con un perfil personal muy discreto y una intensa actividad filantrópica orientada a la discapacidad y la inclusión social.",
+        "trayectoria": [
+            ("Hija de los fundadores de Zara", "Hija de Amancio Ortega y de Rosalía Mera, cofundadores de Zara/Inditex, se formó en el ámbito de la terapia ocupacional y la atención a la discapacidad, lejos del foco empresarial.", "1990-01-01"),
+            ("La herencia de Rosalía Mera", "Tras el fallecimiento de su madre en 2013, heredó su participación en Inditex y su patrimonio, convirtiéndose en la mujer más rica de España y una de las mayores accionistas del grupo textil.", "2013-08-15"),
+            ("Rosp Corunna", "Gestiona su patrimonio e inversiones a través de la sociedad Rosp Corunna, diversificando en cotizadas, inmobiliario y otros activos, además de su paquete en Inditex.", "2014-01-01"),
+            ("Filantropía social", "Continúa la labor social iniciada por su madre a través de la fundación familiar, con proyectos centrados en la discapacidad y la inclusión, manteniendo un perfil público muy reservado.", "2015-01-01"),
+        ],
+    },
+    "begona-gomez": {
+        "perfil": "Begoña Gómez Fernández (Bilbao, 1975) es la esposa del presidente del Gobierno, Pedro Sánchez. Profesional del ámbito de la consultoría, el marketing y la captación de fondos (fundraising) para entidades, dirigió una cátedra extraordinaria en la Universidad Complutense de Madrid centrada en la transformación social. Desde 2024 es objeto de una investigación judicial abierta en Madrid relacionada con su actividad profesional; la causa sigue su curso y rige plenamente la presunción de inocencia, sin que por el momento existan hechos probados en su contra.",
+        "trayectoria": [
+            ("Trayectoria profesional", "Con formación en marketing y dirección, desarrolló su carrera en la consultoría, la captación de fondos para entidades y la responsabilidad social corporativa en distintas organizaciones.", "2000-01-01"),
+            ("Cátedra en la Universidad Complutense", "Dirigió una cátedra extraordinaria de transformación social competitiva en la Universidad Complutense de Madrid, vinculada a la captación de patrocinios empresariales.", "2020-01-01"),
+            ("Esposa del presidente del Gobierno", "Como cónyuge de Pedro Sánchez, ha mantenido un perfil discreto, aunque su actividad profesional y sus relaciones institucionales han sido objeto de creciente atención pública y política.", "2018-06-01"),
+            ("Investigación judicial", "Desde 2024 es investigada en una causa instruida en Madrid por presuntos delitos relacionados con su actividad profesional y la cátedra; la investigación sigue su curso y rige plenamente la presunción de inocencia.", "2024-04-23"),
+        ],
+    },
+    "miguel-angel-rodriguez": {
+        "perfil": "Miguel Ángel Rodríguez (Madrid, 1956), conocido como 'MAR', es jefe de gabinete y principal asesor de comunicación de Isabel Díaz Ayuso, presidenta de la Comunidad de Madrid. Veterano del oficio, fue secretario de Estado de Comunicación y portavoz con José María Aznar, y es considerado uno de los estrategas de comunicación política más influyentes y combativos de la derecha española.",
+        "trayectoria": [
+            ("Portavoz con Aznar", "Periodista de formación, fue secretario de Estado de Comunicación y portavoz del Gobierno en la primera etapa de José María Aznar, ganándose fama de duro estratega de la comunicación.", "1996-05-06"),
+            ("Consultoría y comunicación", "Tras dejar la política institucional, desarrolló su actividad en la consultoría de comunicación y los medios, manteniéndose como una voz influyente en la derecha mediática.", "2000-01-01"),
+            ("Jefe de gabinete de Ayuso", "Se incorporó al equipo de Isabel Díaz Ayuso como jefe de gabinete, convirtiéndose en uno de los principales arquitectos de su estrategia política y comunicativa.", "2019-01-01"),
+            ("Polémicas de comunicación", "Su papel ha estado en el foco por episodios de fuerte confrontación política y mediática, en particular en torno al caso de la pareja de Ayuso y la difusión de informaciones, asuntos sobre los que rige la presunción de inocencia.", "2024-03-01"),
+        ],
+    },
+    "cani-fernandez": {
+        "perfil": "Cani Fernández Vicién es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el organismo que vela por la libre competencia y supervisa sectores regulados como la energía, las telecomunicaciones, el transporte o el sector audiovisual. Abogada de prestigio internacional especializada en derecho de la competencia y de la Unión Europea, con una larga trayectoria ante los tribunales españoles y comunitarios, dirige al gran regulador económico español, cuyas decisiones sobre cárteles, concentraciones empresariales y mercados regulados condicionan a las mayores compañías del país.",
+        "trayectoria": [
+            ("Abogada de la competencia", "Abogada especializada en derecho europeo y de la competencia, desarrolló una destacada carrera en la abogacía de los negocios, con experiencia ante los tribunales españoles y comunitarios.", "1995-01-01"),
+            ("Presidenta de la CNMC", "Fue nombrada presidenta de la CNMC en 2020, al frente del organismo que sanciona los cárteles, autoriza concentraciones y supervisa los sectores regulados.", "2020-09-01"),
+            ("Defensa de la competencia", "Bajo su mandato, la CNMC ha actuado contra prácticas anticompetitivas en numerosos sectores y ha analizado grandes operaciones, como concentraciones bancarias y energéticas.", "2021-01-01"),
+            ("Regulación de sectores estratégicos", "Le corresponde arbitrar en mercados clave —energía, telecomunicaciones, transporte— en un contexto de transición energética, concentración empresarial y tensión sobre los precios.", "2023-01-01"),
+        ],
+    },
+    "luis-arguello": {
+        "perfil": "Luis Javier Argüello García (Meneses de Campos, Palencia, 1953) es presidente de la Conferencia Episcopal Española y arzobispo de Valladolid. Doctor en Teología y con formación jurídica, ejerció como abogado antes de ordenarse sacerdote, ya entrado en la madurez. Sucedió al cardenal Juan José Omella al frente del episcopado español en 2024, convirtiéndose en la principal voz institucional de la Iglesia católica en España y en su interlocutor de referencia ante el Gobierno, en asuntos que van desde la respuesta a los abusos y la inmigración hasta la enseñanza de la religión, la financiación de la Iglesia o los debates sobre el aborto y la eutanasia.",
+        "trayectoria": [
+            ("Del derecho al sacerdocio", "Ejerció como abogado antes de ingresar en el seminario y ordenarse sacerdote, combinando después el ministerio pastoral con su formación jurídica y teológica.", "1980-01-01"),
+            ("Obispo y secretario de la CEE", "Fue nombrado obispo auxiliar de Valladolid y secretario general y portavoz de la Conferencia Episcopal Española, ejerciendo de voz pública del episcopado.", "2018-03-01"),
+            ("Arzobispo de Valladolid", "Fue nombrado arzobispo de Valladolid, consolidando su peso en la jerarquía de la Iglesia española.", "2022-05-01"),
+            ("Presidente de la Conferencia Episcopal", "En 2024 fue elegido presidente de la Conferencia Episcopal Española, sucediendo al cardenal Omella, al frente de la institución en asuntos como los abusos, la inmigración, la educación o la relación con el Gobierno.", "2024-03-01"),
+        ],
+    },
+    "pepa-bueno": {
+        "perfil": "Josefa «Pepa» Bueno Echeverría (Albuquerque, Badajoz, 1964) es directora de El País, el diario de mayor difusión de España y buque insignia del grupo Prisa, y la primera mujer al frente de su redacción. Periodista de larga y reconocida trayectoria en radio y televisión, dirigió y presentó los informativos de TVE y el magacín matinal de la Cadena SER, 'Hoy por Hoy', antes de asumir la dirección del periódico, de línea editorial socioliberal y proyección internacional en español.",
+        "trayectoria": [
+            ("Radio y televisión", "Desarrolló su carrera en TVE, donde presentó los telediarios y programas de máxima audiencia, antes de dar el salto a la radio.", "1990-01-01"),
+            ("'Hoy por Hoy' en la SER", "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, el de mayor audiencia de la radio española, consolidándose como una de las grandes voces del periodismo.", "2015-01-01"),
+            ("Directora de El País", "En 2021 fue nombrada directora de El País, con el reto de liderar la transición digital y el modelo de suscripciones del diario.", "2021-11-01"),
+            ("Línea editorial de referencia", "Dirige un diario de referencia internacional en español, de orientación socioliberal, con peso en la agenda política y en los debates sobre la independencia editorial frente a los vaivenes accionariales de Prisa.", "2022-01-01"),
+        ],
+    },
+    "candido-conde-pumpido": {
+        "perfil": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional, el máximo intérprete de la Constitución y árbitro último de los grandes conflictos jurídico-políticos del país. Magistrado de larga trayectoria y exfiscal general del Estado en la etapa de Rodríguez Zapatero, su elección y su gestión al frente del tribunal han sido objeto de fuerte polémica política, con acusaciones de la derecha de un sesgo progresista y de alinear al órgano con los intereses del Gobierno, algo que él rechaza apelando a la autonomía del tribunal.",
+        "trayectoria": [
+            ("Carrera judicial y fiscal", "Magistrado de dilatada trayectoria, ocupó plaza en el Tribunal Supremo y desarrolló una intensa carrera en la judicatura y el ministerio fiscal.", "1990-01-01"),
+            ("Fiscal General del Estado", "Fue fiscal general del Estado entre 2004 y 2011, durante los gobiernos de José Luis Rodríguez Zapatero, una etapa marcada por causas sensibles y por su perfil reformista.", "2004-04-01"),
+            ("Magistrado del Constitucional", "Fue nombrado magistrado del Tribunal Constitucional, donde se alineó con el bloque considerado progresista en debates jurídicos de gran calado político.", "2017-03-01"),
+            ("Presidente del TC", "En 2023 fue elegido presidente del Tribunal Constitucional, al frente de un órgano cuya composición y resoluciones —sobre leyes clave del Gobierno— han alimentado un duro choque entre bloques políticos.", "2023-01-09"),
+        ],
+    },
+    "pedro-jose-ramirez": {
+        "perfil": "Pedro José Ramírez Codina (Logroño, 1952), conocido como 'Pedro J.', es uno de los periodistas más influyentes y polémicos de España, fundador y director de El Español. Antes fue director fundador de El Mundo, que dirigió durante 25 años convirtiéndolo en referencia del periodismo de investigación y en azote de la corrupción, hasta su salida del diario en 2014. Símbolo del periodismo combativo y de las exclusivas de impacto, su figura ha marcado la prensa española de las últimas cuatro décadas.",
+        "trayectoria": [
+            ("Director de Diario 16", "Joven y precoz, dirigió Diario 16, donde impulsó investigaciones de gran repercusión durante los gobiernos socialistas, lo que acabó costándole el puesto.", "1980-01-01"),
+            ("Fundador y director de El Mundo", "En 1989 fundó El Mundo, que dirigió durante 25 años, convirtiéndolo en uno de los grandes diarios del país y en azote de la corrupción, con investigaciones como el caso GAL o los papeles de Bárcenas.", "1989-10-23"),
+            ("Salida de El Mundo", "En 2014 abandonó la dirección de El Mundo en medio de tensiones con el grupo editor, cerrando una etapa de un cuarto de siglo al frente del diario.", "2014-01-31"),
+            ("Fundación de El Español", "En 2015 fundó El Español, un diario nativo digital impulsado mediante crowdfunding, desde el que continúa ejerciendo un periodismo de investigación e influencia y una marcada presencia pública.", "2015-10-07"),
+        ],
+    },
+    "ana-rosa-quintana": {
+        "perfil": "Ana Rosa Quintana Hortal (Madrid, 1956) es una de las presentadoras más influyentes y populares de la televisión española, rostro estrella de Mediaset (Telecinco). Su magacín matinal, 'El programa de Ana Rosa', ha liderado durante años las mañanas de la televisión, convirtiéndola en una figura con notable peso en la conversación política y social, además de empresaria de producción audiovisual.",
+        "trayectoria": [
+            ("De la prensa a la televisión", "Periodista de formación, comenzó en la prensa escrita y en la radio antes de dar el salto a la televisión, donde se consolidó como presentadora de programas de gran audiencia.", "1990-01-01"),
+            ("'El programa de Ana Rosa'", "Desde 2005 dirige y presenta 'El programa de Ana Rosa' en Telecinco, magacín matinal de información y actualidad que ha liderado de forma sostenida las audiencias de la mañana.", "2005-01-10"),
+            ("Empresaria audiovisual", "Es socia de la productora Unicorn Content, con la que produce sus propios programas y otros espacios para Mediaset, combinando el papel de presentadora con el de empresaria.", "2018-01-01"),
+            ("Influencia mediática", "Su tono y sus comentarios marcan con frecuencia la agenda política y social, lo que la convierte en una de las comunicadoras con mayor influencia y también en objeto de polémica.", "2020-01-01"),
+        ],
+    },
+    "antonio-garcia-ferreras": {
+        "perfil": "Antonio García Ferreras (Madrid, 1966) es director y presentador de 'Al Rojo Vivo' (La Sexta), uno de los programas de debate político más influyentes de la televisión española, y figura clave del grupo Atresmedia. Periodista de origen deportivo y exdirector de informativos, es uno de los comunicadores con más peso en la conversación política, con un perfil próximo a la izquierda según sus críticos.",
+        "trayectoria": [
+            ("Del deporte a la información", "Desarrolló su carrera en el periodismo, pasando por la radio (Cadena SER) y la dirección de comunicación, antes de dirigir los informativos de la recién nacida La Sexta.", "2000-01-01"),
+            ("Director de informativos de La Sexta", "Fue director de los servicios informativos de La Sexta, dándoles un perfil propio y fundando el sello de programas de debate político que caracterizaría a la cadena.", "2006-03-27"),
+            ("'Al Rojo Vivo'", "Dirige y presenta 'Al Rojo Vivo', programa diario de debate y análisis político de gran audiencia e influencia, que marca buena parte de la agenda televisiva de la actualidad.", "2011-01-01"),
+            ("Influencia y polémica", "Su programa y su figura son centrales en la conversación política; muy seguido y a la vez muy criticado por la derecha, que le atribuye un sesgo progresista, ha protagonizado diversas polémicas mediáticas.", "2020-01-01"),
+        ],
+    },
+    "alvaro-garcia-ortiz": {
+        "perfil": "Álvaro García Ortiz (Oviedo, 1967) es el Fiscal General del Estado, máximo responsable del Ministerio Fiscal, cargo que ocupa desde 2022 a propuesta del Gobierno. Fiscal de carrera especializado en medio ambiente y delitos económicos, su mandato ha estado marcado por una intensa controversia política sobre la independencia de la Fiscalía y por una causa abierta en su contra en el Tribunal Supremo por una presunta revelación de secretos, proceso en el que rige plenamente la presunción de inocencia.",
+        "trayectoria": [
+            ("Fiscal de carrera", "Fiscal de profesión, se especializó en medio ambiente, urbanismo y criminalidad económica, y desarrolló responsabilidades en la Fiscalía y en la Secretaría Técnica.", "1995-01-01"),
+            ("Ascenso en la Fiscalía", "Ocupó puestos de relevancia en la estructura de la Fiscalía General, incluida la jefatura de la Secretaría Técnica, ganando peso en la cúpula del ministerio fiscal.", "2020-01-01"),
+            ("Fiscal General del Estado", "Fue nombrado Fiscal General del Estado en 2022, al frente del Ministerio Fiscal, en un contexto de fuerte tensión política sobre la independencia de la institución.", "2022-09-01"),
+            ("Causa en el Tribunal Supremo", "El Tribunal Supremo abrió una causa contra él por una presunta revelación de secretos en relación con un asunto fiscal de gran repercusión política; el proceso sigue su curso y rige plenamente la presunción de inocencia.", "2024-10-01"),
+        ],
+    },
 }
 
 

@@ -396,6 +396,15 @@ BIOS: dict[str, dict] = {
             ("Coleccionista y perfil discreto", "Gran coleccionista de arte y figura de perfil muy reservado, ha mantenido su influencia sobre Bankinter al margen de la primera línea pública, como uno de los miembros más discretos pero poderosos de la saga financiera de los Botín.", ""),
         ],
     },
+    "joan-laporta": {
+        "perfil": "Joan Laporta Estruch (Barcelona, 1962) es presidente del FC Barcelona, uno de los clubes de fútbol más poderosos e influyentes del mundo, cargo que ocupa por segunda vez. Abogado de profesión y figura del catalanismo político, ha protagonizado dos etapas de gran impacto al frente del club, marcadas tanto por los éxitos deportivos como por la delicada situación económica e institucional de la entidad.",
+        "trayectoria": [
+            ("Abogado y barcelonismo", "Abogado de formación, lideró el movimiento de oposición 'Elefant Blau' contra la directiva de Josep Lluís Núñez, ganando notoriedad como crítico de la gestión del club.", "1997-01-01"),
+            ("Primera presidencia y era dorada", "Presidió el FC Barcelona entre 2003 y 2010, una etapa de enorme éxito deportivo con la eclosión de Messi y el equipo de Guardiola, que dio al club algunos de sus mayores títulos.", "2003-06-15"),
+            ("Política catalana", "Tras dejar el club, se implicó en la política independentista catalana, impulsando formaciones soberanistas y ocupando un escaño en el Parlament de Cataluña.", "2010-01-01"),
+            ("Regreso y crisis económica", "Volvió a la presidencia del Barça en 2021, en plena crisis financiera y con la dolorosa salida de Messi, gestionando las polémicas 'palancas' económicas, la reforma del estadio (Espai Barça) y el caso Negreira sobre pagos a un exdirigente arbitral, asunto judicializado en el que rige la presunción de inocencia.", "2021-03-07"),
+        ],
+    },
 }
 
 

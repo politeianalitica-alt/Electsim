@@ -126,7 +126,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Carlos San Basilio (Madrid, 1968) es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Alto funcionario del Estado, vigila a todas las cotizadas del IBEX, autoriza las grandes operaciones y persigue el abuso de mercado."
+            "contenido": "Carlos San Basilio Pardo es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el organismo que supervisa los mercados de valores españoles y a sus participantes. Economista y alto funcionario del Estado con una larga trayectoria en la política económica y financiera —pasó, entre otros cargos, por la Secretaría de Estado de Economía—, dirige al regulador bursátil en un periodo marcado por grandes operaciones corporativas como la OPA del BBVA sobre el Banco Sabadell."
           }
         ]
       },
@@ -173,15 +173,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Alta función pública del Tesoro",
-            "contenido": "Técnico comercial y economista del Estado, desarrolló su carrera en la Secretaría General del Tesoro y la política financiera del Ministerio de Economía, donde fue secretario general.",
+            "titulo": "Alto funcionario económico",
+            "contenido": "Técnico comercial y economista del Estado, desarrolló su carrera en el Ministerio de Economía y en organismos financieros, con responsabilidades en política económica y mercados.",
             "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Presidencia de la CNMV",
-            "contenido": "Accedió a la presidencia del supervisor bursátil, desde donde arbitra OPAs, fusiones bancarias y salidas a bolsa, con la OPA del BBVA sobre el Sabadell como gran asunto de su mandato.",
-            "fecha": "2024-12-01"
+            "titulo": "Secretaría de Estado de Economía",
+            "contenido": "Ocupó altos cargos en la Administración económica, incluida la Secretaría de Estado de Economía, participando en la respuesta a la crisis financiera y a la pandemia.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de la CNMV",
+            "contenido": "Fue nombrado presidente de la CNMV en 2024, al frente del supervisor de los mercados de valores, encargado de velar por la transparencia, la protección del inversor y el correcto funcionamiento de la bolsa.",
+            "fecha": "2024-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Supervisión de grandes operaciones",
+            "contenido": "Le corresponde arbitrar episodios sensibles como las opas, las salidas a bolsa y la información de las cotizadas, en un momento de intensa actividad corporativa en el IBEX 35.",
+            "fecha": "2024-06-01"
           }
         ]
       }

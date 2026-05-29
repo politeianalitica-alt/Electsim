@@ -1375,7 +1375,7 @@
       "independentista"
     ],
     "confidence": 0.88,
-    "completeness": 0.65,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1384,7 +1384,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1962. Licenciado en Derecho (UB)."
+            "contenido": "Joan Laporta Estruch (Barcelona, 1962) es presidente del FC Barcelona, uno de los clubes de fútbol más poderosos e influyentes del mundo, cargo que ocupa por segunda vez. Abogado de profesión y figura del catalanismo político, ha protagonizado dos etapas de gran impacto al frente del club, marcadas tanto por los éxitos deportivos como por la delicada situación económica e institucional de la entidad."
           }
         ]
       },
@@ -1394,20 +1394,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Primera presidencia",
-            "contenido": "Presidente FC Barcelona 2003-2010 (era Ronaldinho-Messi-Guardiola).",
+            "titulo": "Abogado y barcelonismo",
+            "contenido": "Abogado de formación, lideró el movimiento de oposición 'Elefant Blau' contra la directiva de Josep Lluís Núñez, ganando notoriedad como crítico de la gestión del club.",
+            "fecha": "1997-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primera presidencia y era dorada",
+            "contenido": "Presidió el FC Barcelona entre 2003 y 2010, una etapa de enorme éxito deportivo con la eclosión de Messi y el equipo de Guardiola, que dio al club algunos de sus mayores títulos.",
             "fecha": "2003-06-15"
           },
           {
             "tipo": "evento",
-            "titulo": "Solidaritat Catalana",
-            "contenido": "Diputado del Parlament por Solidaritat (independentista) 2010-2012.",
-            "fecha": "2010-11-28"
+            "titulo": "Política catalana",
+            "contenido": "Tras dejar el club, se implicó en la política independentista catalana, impulsando formaciones soberanistas y ocupando un escaño en el Parlament de Cataluña.",
+            "fecha": "2010-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Segunda presidencia",
-            "contenido": "Vuelve a presidir Barça en marzo 2021.",
+            "titulo": "Regreso y crisis económica",
+            "contenido": "Volvió a la presidencia del Barça en 2021, en plena crisis financiera y con la dolorosa salida de Messi, gestionando las polémicas 'palancas' económicas, la reforma del estadio (Espai Barça) y el caso Negreira sobre pagos a un exdirigente arbitral, asunto judicializado en el que rige la presunción de inocencia.",
             "fecha": "2021-03-07"
           }
         ]

@@ -60,7 +60,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0001-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pepa Bueno (Badajoz, 1964) es directora de El País, el diario de referencia de la izquierda española y buque insignia del grupo PRISA. Periodista de larga trayectoria en televisión y radio, dirige la redacción más influyente del país en un momento de pugna por la propiedad del grupo.",
+            "contenido": "Josefa «Pepa» Bueno Echeverría (Albuquerque, Badajoz, 1964) es directora de El País, el diario de mayor difusión de España y buque insignia del grupo Prisa, y la primera mujer al frente de su redacción. Periodista de larga y reconocida trayectoria en radio y televisión, dirigió y presentó los informativos de TVE y el magacín matinal de la Cadena SER, 'Hoy por Hoy', antes de asumir la dirección del periódico, de línea editorial socioliberal y proyección internacional en español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -80,9 +80,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0001-ap-01-it-00",
             "apartado_id": "pod-0001-ap-01",
             "tipo": "evento",
-            "titulo": "Televisión: el Telediario",
-            "contenido": "Se hizo conocida presentando los informativos de TVE, incluido el Telediario, durante años, con un estilo riguroso e institucional.",
-            "fecha": "2004-09-01",
+            "titulo": "Radio y televisión",
+            "contenido": "Desarrolló su carrera en TVE, donde presentó los telediarios y programas de máxima audiencia, antes de dar el salto a la radio.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -92,9 +92,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0001-ap-01-it-01",
             "apartado_id": "pod-0001-ap-01",
             "tipo": "evento",
-            "titulo": "Radio: Hoy por Hoy",
-            "contenido": "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, referencia informativa de la radio, antes de dar el salto a la prensa escrita.",
-            "fecha": "2012-09-03",
+            "titulo": "'Hoy por Hoy' en la SER",
+            "contenido": "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, el de mayor audiencia de la radio española, consolidándose como una de las grandes voces del periodismo.",
+            "fecha": "2015-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -104,13 +104,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0001-ap-01-it-02",
             "apartado_id": "pod-0001-ap-01",
             "tipo": "evento",
-            "titulo": "Dirección de El País",
-            "contenido": "En 2023 asumió la dirección de El País, primera mujer al frente del diario, en plena reordenación accionarial del grupo PRISA (Amber Capital, bancos, socios con intereses políticos).",
-            "fecha": "2023-04-19",
+            "titulo": "Directora de El País",
+            "contenido": "En 2021 fue nombrada directora de El País, con el reto de liderar la transición digital y el modelo de suscripciones del diario.",
+            "fecha": "2021-11-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0001-ap-01-it-03",
+            "apartado_id": "pod-0001-ap-01",
+            "tipo": "evento",
+            "titulo": "Línea editorial de referencia",
+            "contenido": "Dirige un diario de referencia internacional en español, de orientación socioliberal, con peso en la agenda política y en los debates sobre la independencia editorial frente a los vaivenes accionariales de Prisa.",
+            "fecha": "2022-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -232,8 +244,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0002",
@@ -264,7 +276,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0002-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Antonio García Ferreras (Lupiana, Guadalajara, 1966) es director y presentador de 'Al Rojo Vivo' (laSexta) y uno de los periodistas más influyentes y polémicos de la televisión española. Desde su programa fija buena parte de la agenda política diaria del espacio progresista.",
+            "contenido": "Antonio García Ferreras (Madrid, 1966) es director y presentador de 'Al Rojo Vivo' (La Sexta), uno de los programas de debate político más influyentes de la televisión española, y figura clave del grupo Atresmedia. Periodista de origen deportivo y exdirector de informativos, es uno de los comunicadores con más peso en la conversación política, con un perfil próximo a la izquierda según sus críticos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -284,9 +296,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0002-ap-01-it-00",
             "apartado_id": "pod-0002-ap-01",
             "tipo": "evento",
-            "titulo": "Del deporte a la dirección de informativos",
-            "contenido": "Empezó en radio y prensa deportiva y dirigió los informativos de la Cadena SER y de Telemadrid. Su salto a la dirección de la recién nacida laSexta (2006) lo situó en el centro del nuevo audiovisual privado.",
-            "fecha": "2006-03-27",
+            "titulo": "Del deporte a la información",
+            "contenido": "Desarrolló su carrera en el periodismo, pasando por la radio (Cadena SER) y la dirección de comunicación, antes de dirigir los informativos de la recién nacida La Sexta.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -296,9 +308,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0002-ap-01-it-01",
             "apartado_id": "pod-0002-ap-01",
             "tipo": "evento",
-            "titulo": "'Al Rojo Vivo' y la maquinaria de tertulia",
-            "contenido": "Desde 2011 dirige y presenta 'Al Rojo Vivo', el magacín de actualidad de laSexta que ha popularizado el formato de tertulia política intensiva. Su capacidad para marcar agenda y elegir contertulios lo convierte en un actor de poder, no solo en un periodista.",
-            "fecha": "2011-01-10",
+            "titulo": "Director de informativos de La Sexta",
+            "contenido": "Fue director de los servicios informativos de La Sexta, dándoles un perfil propio y fundando el sello de programas de debate político que caracterizaría a la cadena.",
+            "fecha": "2006-03-27",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -308,13 +320,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0002-ap-01-it-02",
             "apartado_id": "pod-0002-ap-01",
             "tipo": "evento",
-            "titulo": "Vínculo con Atresmedia y el espacio progresista",
-            "contenido": "Como rostro estrella del grupo Atresmedia (Planeta), su línea editorial, crítica con la derecha, pesa en la imagen del grupo y en la conversación pública de la izquierda.",
-            "fecha": null,
+            "titulo": "'Al Rojo Vivo'",
+            "contenido": "Dirige y presenta 'Al Rojo Vivo', programa diario de debate y análisis político de gran audiencia e influencia, que marca buena parte de la agenda televisiva de la actualidad.",
+            "fecha": "2011-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0002-ap-01-it-03",
+            "apartado_id": "pod-0002-ap-01",
+            "tipo": "evento",
+            "titulo": "Influencia y polémica",
+            "contenido": "Su programa y su figura son centrales en la conversación política; muy seguido y a la vez muy criticado por la derecha, que le atribuye un sesgo progresista, ha protagonizado diversas polémicas mediáticas.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -458,8 +482,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0003",
@@ -673,8 +697,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0004",
@@ -898,8 +922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0005",
@@ -1083,8 +1107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0006",
@@ -1115,7 +1139,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0006-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ana Rosa Quintana (Madrid, 1956) es la presentadora más influyente de Mediaset España y una de las grandes figuras de la televisión. Su magacín matinal lidera la franja desde hace dos décadas y condiciona la agenda mediática del centro-derecha.",
+            "contenido": "Ana Rosa Quintana Hortal (Madrid, 1956) es una de las presentadoras más influyentes y populares de la televisión española, rostro estrella de Mediaset (Telecinco). Su magacín matinal, 'El programa de Ana Rosa', ha liderado durante años las mañanas de la televisión, convirtiéndola en una figura con notable peso en la conversación política y social, además de empresaria de producción audiovisual.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1135,9 +1159,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0006-ap-01-it-00",
             "apartado_id": "pod-0006-ap-01",
             "tipo": "evento",
-            "titulo": "De la prensa del corazón a la mañana",
-            "contenido": "Formada en periodismo, saltó a la fama en programas de corazón y sucesos. En 2005 estrenó 'El Programa de Ana Rosa' en Telecinco, que se convirtió en el magacín matinal de referencia.",
-            "fecha": "2005-01-10",
+            "titulo": "De la prensa a la televisión",
+            "contenido": "Periodista de formación, comenzó en la prensa escrita y en la radio antes de dar el salto a la televisión, donde se consolidó como presentadora de programas de gran audiencia.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1147,9 +1171,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0006-ap-01-it-01",
             "apartado_id": "pod-0006-ap-01",
             "tipo": "evento",
-            "titulo": "Productora propia y poder de mercado",
-            "contenido": "A través de su productora (Unicorn Content) controla la producción de sus propios formatos y de otros de la cadena, lo que le da un poder inusual sobre la parrilla de Mediaset.",
-            "fecha": null,
+            "titulo": "'El programa de Ana Rosa'",
+            "contenido": "Desde 2005 dirige y presenta 'El programa de Ana Rosa' en Telecinco, magacín matinal de información y actualidad que ha liderado de forma sostenida las audiencias de la mañana.",
+            "fecha": "2005-01-10",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1159,13 +1183,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0006-ap-01-it-02",
             "apartado_id": "pod-0006-ap-01",
             "tipo": "evento",
-            "titulo": "Vespertina y peso editorial",
-            "contenido": "Tras una etapa en las tardes, su criterio y su tono marcan la línea de buena parte del entretenimiento informativo de Mediaset, con un encuadre crítico hacia el Gobierno.",
-            "fecha": "2023-09-01",
+            "titulo": "Empresaria audiovisual",
+            "contenido": "Es socia de la productora Unicorn Content, con la que produce sus propios programas y otros espacios para Mediaset, combinando el papel de presentadora con el de empresaria.",
+            "fecha": "2018-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0006-ap-01-it-03",
+            "apartado_id": "pod-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Influencia mediática",
+            "contenido": "Su tono y sus comentarios marcan con frecuencia la agenda política y social, lo que la convierte en una de las comunicadoras con mayor influencia y también en objeto de polémica.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -1239,8 +1275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0007",
@@ -1432,8 +1468,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0008",
@@ -1464,7 +1500,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0008-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Vicente Vallés (Madrid, 1963) es director y presentador de 'Antena 3 Noticias 2', el informativo de máxima audiencia de la televisión española. Con un estilo analítico y entrevistas incisivas, es uno de los periodistas con mayor credibilidad del panorama.",
+            "contenido": "Vicente Vallés Lázaro (Madrid, 1963) es uno de los periodistas más influyentes de la televisión española, director y presentador de la segunda edición de Antena 3 Noticias. Reconocido por sus análisis de política nacional e internacional y por sus entrevistas, ha recibido los principales premios del periodismo y es autor de varios libros de éxito sobre geopolítica y la injerencia rusa en las democracias.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1566,9 +1602,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0008-ap-04-it-00",
             "apartado_id": "pod-0008-ap-04",
             "tipo": "evento",
-            "titulo": "De CNN+ a Telecinco",
-            "contenido": "Trabajó en CNN+ y dirigió informativos en Telecinco y Cuatro antes de recalar en Atresmedia, donde se consolidó como referente de la información política.",
-            "fecha": "2000-01-01",
+            "titulo": "Carrera en informativos",
+            "contenido": "Desarrolló su carrera en los informativos de televisión, pasando por cadenas como Telecinco, CNN+ y Cuatro, donde dirigió y presentó espacios de noticias.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1578,19 +1614,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0008-ap-04-it-01",
             "apartado_id": "pod-0008-ap-04",
             "tipo": "evento",
-            "titulo": "Antena 3 Noticias y los editoriales",
-            "contenido": "Desde 2017 dirige y presenta el informativo de la noche de Antena 3, líder de audiencia, célebre por sus editoriales de cierre. Es además autor de varios ensayos de éxito sobre geopolítica y desinformación.",
-            "fecha": "2017-09-04",
+            "titulo": "Antena 3 Noticias",
+            "contenido": "Se incorporó a Antena 3, donde dirige y presenta la edición de la noche de los informativos, líderes de audiencia en su franja, consolidándose como una de las caras de referencia de la información en España.",
+            "fecha": "2015-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0008-ap-04-it-02",
+            "apartado_id": "pod-0008-ap-04",
+            "tipo": "evento",
+            "titulo": "Reconocimiento y premios",
+            "contenido": "Su trabajo le ha valido los grandes galardones del periodismo audiovisual, como el Premio Ondas y la Antena de Oro, por su rigor y su capacidad de análisis.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0008-ap-04-it-03",
+            "apartado_id": "pod-0008-ap-04",
+            "tipo": "evento",
+            "titulo": "Escritor de geopolítica",
+            "contenido": "Es autor de ensayos de gran éxito sobre la política internacional, la desinformación y la estrategia rusa, que lo han situado también como analista de referencia más allá de la pantalla.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0009",
@@ -1621,7 +1681,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0009-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Isabel Perelló (Valencia, 1958) es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en ocupar la cúspide del poder judicial español. Magistrada de prestigio, accedió al cargo en 2024 tras el desbloqueo de la renovación del CGPJ.",
+            "contenido": "Isabel Perelló Doménech es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en presidir el poder judicial español en sus dos siglos de historia. Magistrada de larga trayectoria en la Sala de lo Contencioso-Administrativo del Tribunal Supremo, fue elegida en 2024 como candidata de consenso entre los bloques conservador y progresista para desbloquear la renovación del órgano de gobierno de los jueces, que había permanecido paralizada durante más de cinco años.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1641,9 +1701,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0009-ap-01-it-00",
             "apartado_id": "pod-0009-ap-01",
             "tipo": "evento",
-            "titulo": "Carrera en la magistratura",
-            "contenido": "Magistrada de larga trayectoria, llegó a la Sala de lo Contencioso-Administrativo del Tribunal Supremo, donde se ganó la reputación de jurista rigurosa e independiente.",
-            "fecha": "2000-01-01",
+            "titulo": "Carrera judicial",
+            "contenido": "Ingresó en la carrera judicial y desarrolló una larga trayectoria como magistrada, llegando al Tribunal Supremo, donde ejerció en la Sala de lo Contencioso-Administrativo.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1653,13 +1713,37 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0009-ap-01-it-01",
             "apartado_id": "pod-0009-ap-01",
             "tipo": "evento",
-            "titulo": "Presidenta del TS y del CGPJ",
-            "contenido": "En 2024, tras cinco años de bloqueo político en la renovación del CGPJ, fue elegida por consenso presidenta del Tribunal Supremo y del Consejo, con el reto de despolitizar el órgano de gobierno de los jueces.",
-            "fecha": "2024-09-05",
+            "titulo": "Magistrada del Supremo",
+            "contenido": "Como magistrada del alto tribunal, participó en relevantes resoluciones del orden contencioso-administrativo, ganándose una reputación de independencia y rigor técnico.",
+            "fecha": "2009-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0009-ap-01-it-02",
+            "apartado_id": "pod-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta del TS y del CGPJ",
+            "contenido": "En 2024 fue elegida presidenta del Tribunal Supremo y del CGPJ, como candidata de consenso entre los vocales propuestos por PSOE y PP, tras años de bloqueo en la renovación del órgano.",
+            "fecha": "2024-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0009-ap-01-it-03",
+            "apartado_id": "pod-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Primera mujer al frente del poder judicial",
+            "contenido": "Su elección supuso un hito histórico al ser la primera mujer en presidir el poder judicial español, con el reto de recuperar la normalidad institucional y los nombramientos pendientes en la cúpula judicial.",
+            "fecha": "2024-09-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -1749,8 +1833,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0010",
@@ -1780,7 +1864,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0010-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional desde 2023. Magistrado de larga carrera y exfiscal general del Estado, es una de las figuras más influyentes —y discutidas— del poder judicial español.",
+            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional, el máximo intérprete de la Constitución y árbitro último de los grandes conflictos jurídico-políticos del país. Magistrado de larga trayectoria y exfiscal general del Estado en la etapa de Rodríguez Zapatero, su elección y su gestión al frente del tribunal han sido objeto de fuerte polémica política, con acusaciones de la derecha de un sesgo progresista y de alinear al órgano con los intereses del Gobierno, algo que él rechaza apelando a la autonomía del tribunal.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1801,8 +1885,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0010-ap-01",
             "tipo": "evento",
             "titulo": "Carrera judicial y fiscal",
-            "contenido": "Magistrado de profesión, desarrolló una extensa carrera en la judicatura y la Fiscalía, con paso por el Tribunal Supremo. Se le identifica con el sector progresista de la judicatura.",
-            "fecha": "1975-01-01",
+            "contenido": "Magistrado de dilatada trayectoria, ocupó plaza en el Tribunal Supremo y desarrolló una intensa carrera en la judicatura y el ministerio fiscal.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1812,9 +1896,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0010-ap-01-it-01",
             "apartado_id": "pod-0010-ap-01",
             "tipo": "evento",
-            "titulo": "Fiscal General con Zapatero",
-            "contenido": "Fue fiscal general del Estado durante los gobiernos de Rodríguez Zapatero (2004-2011), una etapa marcada por causas de gran calado político y por las tensiones habituales entre Fiscalía, Gobierno y oposición.",
-            "fecha": "2004-04-24",
+            "titulo": "Fiscal General del Estado",
+            "contenido": "Fue fiscal general del Estado entre 2004 y 2011, durante los gobiernos de José Luis Rodríguez Zapatero, una etapa marcada por causas sensibles y por su perfil reformista.",
+            "fecha": "2004-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -1824,13 +1908,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0010-ap-01-it-02",
             "apartado_id": "pod-0010-ap-01",
             "tipo": "evento",
-            "titulo": "Magistrado y presidente del TC",
-            "contenido": "Llegó al Tribunal Constitucional en 2017 y, tras la renovación que dio mayoría al bloque progresista, fue elegido presidente del tribunal en enero de 2023. Desde la presidencia ha pilotado sentencias de gran trascendencia política.",
-            "fecha": "2023-01-10",
+            "titulo": "Magistrado del Constitucional",
+            "contenido": "Fue nombrado magistrado del Tribunal Constitucional, donde se alineó con el bloque considerado progresista en debates jurídicos de gran calado político.",
+            "fecha": "2017-03-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0010-ap-01-it-03",
+            "apartado_id": "pod-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente del TC",
+            "contenido": "En 2023 fue elegido presidente del Tribunal Constitucional, al frente de un órgano cuya composición y resoluciones —sobre leyes clave del Gobierno— han alimentado un duro choque entre bloques políticos.",
+            "fecha": "2023-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -1959,8 +2055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0011",
@@ -1990,7 +2086,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0011-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Álvaro García Ortiz (Valdediós, Asturias, 1967) es fiscal general del Estado desde 2022. Fiscal de carrera especializado en medio ambiente, su mandato ha estado marcado por una tensión inédita con parte de la carrera fiscal, el poder judicial y la oposición.",
+            "contenido": "Álvaro García Ortiz (Oviedo, 1967) es el Fiscal General del Estado, máximo responsable del Ministerio Fiscal, cargo que ocupa desde 2022 a propuesta del Gobierno. Fiscal de carrera especializado en medio ambiente y delitos económicos, su mandato ha estado marcado por una intensa controversia política sobre la independencia de la Fiscalía y por una causa abierta en su contra en el Tribunal Supremo por una presunta revelación de secretos, proceso en el que rige plenamente la presunción de inocencia.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2010,9 +2106,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0011-ap-01-it-00",
             "apartado_id": "pod-0011-ap-01",
             "tipo": "evento",
-            "titulo": "Fiscal especialista en medio ambiente",
-            "contenido": "Fiscal de carrera, se especializó en delitos contra el medio ambiente y la ordenación del territorio, llegando a ser fiscal de Sala de Medio Ambiente, antes de ascender en la cúpula del ministerio público.",
-            "fecha": "2000-01-01",
+            "titulo": "Fiscal de carrera",
+            "contenido": "Fiscal de profesión, se especializó en medio ambiente, urbanismo y criminalidad económica, y desarrolló responsabilidades en la Fiscalía y en la Secretaría Técnica.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -2022,9 +2118,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0011-ap-01-it-01",
             "apartado_id": "pod-0011-ap-01",
             "tipo": "evento",
-            "titulo": "Fiscal General del Estado",
-            "contenido": "Fue nombrado fiscal general en 2022 a propuesta del Gobierno y renovado en 2024. Su designación, como la de sus predecesores, reavivó el debate sobre la autonomía de la Fiscalía respecto del Ejecutivo que la propone.",
-            "fecha": "2022-07-27",
+            "titulo": "Ascenso en la Fiscalía",
+            "contenido": "Ocupó puestos de relevancia en la estructura de la Fiscalía General, incluida la jefatura de la Secretaría Técnica, ganando peso en la cúpula del ministerio fiscal.",
+            "fecha": "2020-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -2034,13 +2130,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0011-ap-01-it-02",
             "apartado_id": "pod-0011-ap-01",
             "tipo": "evento",
-            "titulo": "Una causa sin precedentes",
-            "contenido": "García Ortiz está siendo investigado por el Tribunal Supremo por una presunta revelación de secretos en relación con la difusión de información sobre un caso fiscal. Es la primera vez que un fiscal general en activo se ve en esa situación. La causa sigue su curso y rige la presunción de inocencia mientras no haya sentencia firme.",
-            "fecha": "2024-10-30",
+            "titulo": "Fiscal General del Estado",
+            "contenido": "Fue nombrado Fiscal General del Estado en 2022, al frente del Ministerio Fiscal, en un contexto de fuerte tensión política sobre la independencia de la institución.",
+            "fecha": "2022-09-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0011-ap-01-it-03",
+            "apartado_id": "pod-0011-ap-01",
+            "tipo": "evento",
+            "titulo": "Causa en el Tribunal Supremo",
+            "contenido": "El Tribunal Supremo abrió una causa contra él por una presunta revelación de secretos en relación con un asunto fiscal de gran repercusión política; el proceso sigue su curso y rige plenamente la presunción de inocencia.",
+            "fecha": "2024-10-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -2171,8 +2279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0012",
@@ -2298,8 +2406,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0013",
@@ -2522,8 +2630,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0014",
@@ -2553,7 +2661,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0014-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Cani Fernández (1968) es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el superregulador que vigila la competencia y los sectores de energía, telecomunicaciones y transporte. Abogada especialista en competencia, su criterio condiciona fusiones y precios en toda la economía.",
+            "contenido": "Cani Fernández Vicién es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el organismo que vela por la libre competencia y supervisa sectores regulados como la energía, las telecomunicaciones, el transporte o el sector audiovisual. Abogada de prestigio internacional especializada en derecho de la competencia y de la Unión Europea, con una larga trayectoria ante los tribunales españoles y comunitarios, dirige al gran regulador económico español, cuyas decisiones sobre cárteles, concentraciones empresariales y mercados regulados condicionan a las mayores compañías del país.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2669,9 +2777,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0014-ap-04-it-00",
             "apartado_id": "pod-0014-ap-04",
             "tipo": "evento",
-            "titulo": "Especialista en competencia",
-            "contenido": "Abogada del Estado y socia de competencia en Cuatrecasas, fue letrada en el Tribunal de Justicia de la Unión Europea, donde se forjó como una de las grandes expertas en derecho de la competencia.",
-            "fecha": "2000-01-01",
+            "titulo": "Abogada de la competencia",
+            "contenido": "Abogada especializada en derecho europeo y de la competencia, desarrolló una destacada carrera en la abogacía de los negocios, con experiencia ante los tribunales españoles y comunitarios.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -2681,19 +2789,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0014-ap-04-it-01",
             "apartado_id": "pod-0014-ap-04",
             "tipo": "evento",
-            "titulo": "Presidencia de la CNMC",
-            "contenido": "Desde 2020 preside la CNMC, organismo que autoriza concentraciones, sanciona cárteles y regula la energía y las telecos. Sus decisiones afectan directamente a las grandes cotizadas y a la factura de los consumidores.",
-            "fecha": "2020-09-15",
+            "titulo": "Presidenta de la CNMC",
+            "contenido": "Fue nombrada presidenta de la CNMC en 2020, al frente del organismo que sanciona los cárteles, autoriza concentraciones y supervisa los sectores regulados.",
+            "fecha": "2020-09-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0014-ap-04-it-02",
+            "apartado_id": "pod-0014-ap-04",
+            "tipo": "evento",
+            "titulo": "Defensa de la competencia",
+            "contenido": "Bajo su mandato, la CNMC ha actuado contra prácticas anticompetitivas en numerosos sectores y ha analizado grandes operaciones, como concentraciones bancarias y energéticas.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0014-ap-04-it-03",
+            "apartado_id": "pod-0014-ap-04",
+            "tipo": "evento",
+            "titulo": "Regulación de sectores estratégicos",
+            "contenido": "Le corresponde arbitrar en mercados clave —energía, telecomunicaciones, transporte— en un contexto de transición energética, concentración empresarial y tensión sobre los precios.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0015",
@@ -2881,8 +3013,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0016",
@@ -2914,7 +3046,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0016-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y una de las grandes fortunas del país. Hija del fundador de Inditex, Amancio Ortega, y de Rosalía Mera, heredó la participación de su madre y gestiona su patrimonio e iniciativas filantrópicas con un perfil discreto.",
+            "contenido": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y la principal accionista individual de Inditex después de su padre, Amancio Ortega. Heredó la participación de su madre, Rosalía Mera, cofundadora del grupo Zara, y gestiona su patrimonio e inversiones a través de la sociedad Rosp Corunna, con un perfil personal muy discreto y una intensa actividad filantrópica orientada a la discapacidad y la inclusión social.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3012,9 +3144,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0016-ap-03-it-00",
             "apartado_id": "pod-0016-ap-03",
             "tipo": "evento",
-            "titulo": "Heredera de Rosalía Mera",
-            "contenido": "Tras el fallecimiento de su madre, cofundadora de Inditex, en 2013, heredó su participación accionarial, convirtiéndose en una de las mayores accionistas del grupo textil.",
-            "fecha": "2013-08-15",
+            "titulo": "Hija de los fundadores de Zara",
+            "contenido": "Hija de Amancio Ortega y de Rosalía Mera, cofundadores de Zara/Inditex, se formó en el ámbito de la terapia ocupacional y la atención a la discapacidad, lejos del foco empresarial.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3024,19 +3156,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0016-ap-03-it-01",
             "apartado_id": "pod-0016-ap-03",
             "tipo": "evento",
-            "titulo": "Rosp Corunna y filantropía",
-            "contenido": "Gestiona su fortuna a través de la sociedad Rosp Corunna y dedica una parte relevante a la filantropía, especialmente a la discapacidad (Fundación Pa de Mel) y la salud, siguiendo la estela de su madre.",
-            "fecha": null,
+            "titulo": "La herencia de Rosalía Mera",
+            "contenido": "Tras el fallecimiento de su madre en 2013, heredó su participación en Inditex y su patrimonio, convirtiéndose en la mujer más rica de España y una de las mayores accionistas del grupo textil.",
+            "fecha": "2013-08-15",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0016-ap-03-it-02",
+            "apartado_id": "pod-0016-ap-03",
+            "tipo": "evento",
+            "titulo": "Rosp Corunna",
+            "contenido": "Gestiona su patrimonio e inversiones a través de la sociedad Rosp Corunna, diversificando en cotizadas, inmobiliario y otros activos, además de su paquete en Inditex.",
+            "fecha": "2014-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0016-ap-03-it-03",
+            "apartado_id": "pod-0016-ap-03",
+            "tipo": "evento",
+            "titulo": "Filantropía social",
+            "contenido": "Continúa la labor social iniciada por su madre a través de la fundación familiar, con proyectos centrados en la discapacidad y la inclusión, manteniendo un perfil público muy reservado.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0017",
@@ -3208,8 +3364,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0018",
@@ -3407,8 +3563,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0019",
@@ -3604,8 +3760,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0020",
@@ -3764,8 +3920,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0021",
@@ -3795,7 +3951,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0021-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Luis Argüello (Meneses de Campos, Palencia, 1953) es arzobispo de Valladolid y presidente de la Conferencia Episcopal Española desde 2024, la máxima autoridad de la Iglesia católica en España. Canonista de formación, representa a los obispos ante el Estado y la sociedad.",
+            "contenido": "Luis Javier Argüello García (Meneses de Campos, Palencia, 1953) es presidente de la Conferencia Episcopal Española y arzobispo de Valladolid. Doctor en Teología y con formación jurídica, ejerció como abogado antes de ordenarse sacerdote, ya entrado en la madurez. Sucedió al cardenal Juan José Omella al frente del episcopado español en 2024, convirtiéndose en la principal voz institucional de la Iglesia católica en España y en su interlocutor de referencia ante el Gobierno, en asuntos que van desde la respuesta a los abusos y la inmigración hasta la enseñanza de la religión, la financiación de la Iglesia o los debates sobre el aborto y la eutanasia.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3899,9 +4055,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0021-ap-04-it-00",
             "apartado_id": "pod-0021-ap-04",
             "tipo": "evento",
-            "titulo": "Sacerdote y obispo",
-            "contenido": "Ordenado sacerdote y luego obispo auxiliar de Valladolid, combinó la labor pastoral con la formación en Derecho Canónico, especializándose en las relaciones Iglesia-Estado.",
-            "fecha": "2016-01-01",
+            "titulo": "Del derecho al sacerdocio",
+            "contenido": "Ejerció como abogado antes de ingresar en el seminario y ordenarse sacerdote, combinando después el ministerio pastoral con su formación jurídica y teológica.",
+            "fecha": "1980-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -3911,8 +4067,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0021-ap-04-it-01",
             "apartado_id": "pod-0021-ap-04",
             "tipo": "evento",
-            "titulo": "Secretario y portavoz de la CEE",
-            "contenido": "Fue secretario general y portavoz de la Conferencia Episcopal, voz visible de los obispos en debates como la eutanasia, el aborto o la educación.",
+            "titulo": "Obispo y secretario de la CEE",
+            "contenido": "Fue nombrado obispo auxiliar de Valladolid y secretario general y portavoz de la Conferencia Episcopal Española, ejerciendo de voz pública del episcopado.",
             "fecha": "2018-03-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -3923,19 +4079,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0021-ap-04-it-02",
             "apartado_id": "pod-0021-ap-04",
             "tipo": "evento",
-            "titulo": "Presidente de la Conferencia Episcopal",
-            "contenido": "En 2024 fue elegido presidente de la CEE, asumiendo la interlocución con el Gobierno en asuntos sensibles como los abusos, las inmatriculaciones y la financiación.",
-            "fecha": "2024-03-06",
+            "titulo": "Arzobispo de Valladolid",
+            "contenido": "Fue nombrado arzobispo de Valladolid, consolidando su peso en la jerarquía de la Iglesia española.",
+            "fecha": "2022-05-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0021-ap-04-it-03",
+            "apartado_id": "pod-0021-ap-04",
+            "tipo": "evento",
+            "titulo": "Presidente de la Conferencia Episcopal",
+            "contenido": "En 2024 fue elegido presidente de la Conferencia Episcopal Española, sucediendo al cardenal Omella, al frente de la institución en asuntos como los abusos, la inmigración, la educación o la relación con el Gobierno.",
+            "fecha": "2024-03-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0022",
@@ -4196,8 +4364,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0023",
@@ -4227,7 +4395,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0023-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Oviedo, 1972. Periodista de profesión, primera reina consorte de origen no aristocrático y con carrera profesional propia.",
+            "contenido": "Letizia Ortiz Rocasolano (Oviedo, 1972) es la Reina de España, esposa del rey Felipe VI. Antes de su matrimonio fue una periodista de prestigio, presentadora de los informativos de TVE y CNN+, lo que la convirtió en la primera reina consorte de la democracia procedente de una familia no aristocrática y con una carrera profesional propia. Como reina, ejerce una intensa agenda institucional centrada en la educación, la salud, la cultura y las causas sociales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4319,20 +4487,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0023-ap-03-it-00",
             "apartado_id": "pod-0023-ap-03",
-            "tipo": "dato",
-            "titulo": "De periodista a Reina",
-            "contenido": "Antes de casarse con Felipe en 2004 fue periodista en agencias, CNN+ y presentadora del Telediario de TVE. Es la primera reina consorte de origen plebeyo y con carrera profesional propia, lo que marca su perfil público.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Periodista de televisión",
+            "contenido": "Licenciada en Periodismo y con experiencia en agencias y diarios, se consolidó como presentadora de informativos en CNN+ y, sobre todo, en Televisión Española, donde condujo el Telediario en el horario de máxima audiencia.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0023-ap-03-it-01",
+            "apartado_id": "pod-0023-ap-03",
+            "tipo": "evento",
+            "titulo": "Boda con el Príncipe de Asturias",
+            "contenido": "En 2004 contrajo matrimonio con el entonces príncipe Felipe, en una boda de enorme repercusión, convirtiéndose en princesa de Asturias. La pareja tiene dos hijas: Leonor, heredera de la Corona, y Sofía.",
+            "fecha": "2004-05-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0023-ap-03-it-02",
+            "apartado_id": "pod-0023-ap-03",
+            "tipo": "evento",
+            "titulo": "Reina de España",
+            "contenido": "Tras la proclamación de Felipe VI en 2014, asumió el papel de reina consorte, con una agenda propia centrada en la educación, la formación profesional, la investigación, la salud (nutrición, cáncer, enfermedades raras) y la cultura.",
+            "fecha": "2014-06-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0023-ap-03-it-03",
+            "apartado_id": "pod-0023-ap-03",
+            "tipo": "evento",
+            "titulo": "Imagen de una monarquía renovada",
+            "contenido": "Su perfil profesional y su estilo han contribuido a la imagen de una monarquía más cercana y moderna, aunque sometida al escrutinio mediático propio de la institución y a las tensiones de la Corona en la España contemporánea.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0024",
@@ -4546,8 +4750,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0025",
@@ -4577,7 +4781,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0025-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Begoña Gómez (Bilbao, 1975) es directora de cátedra en la Universidad Complutense y esposa del presidente del Gobierno, Pedro Sánchez. Su actividad profesional ha pasado a un primer plano público al verse investigada en un procedimiento judicial.",
+            "contenido": "Begoña Gómez Fernández (Bilbao, 1975) es la esposa del presidente del Gobierno, Pedro Sánchez. Profesional del ámbito de la consultoría, el marketing y la captación de fondos (fundraising) para entidades, dirigió una cátedra extraordinaria en la Universidad Complutense de Madrid centrada en la transformación social. Desde 2024 es objeto de una investigación judicial abierta en Madrid relacionada con su actividad profesional; la causa sigue su curso y rige plenamente la presunción de inocencia, sin que por el momento existan hechos probados en su contra.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4684,8 +4888,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0025-ap-04",
             "tipo": "evento",
             "titulo": "Trayectoria profesional",
-            "contenido": "Consultora y directiva en el ámbito de la captación de fondos y la responsabilidad social, dirigió un máster y una cátedra extraordinaria sobre transformación social competitiva en la Universidad Complutense.",
-            "fecha": "2020-01-01",
+            "contenido": "Con formación en marketing y dirección, desarrolló su carrera en la consultoría, la captación de fondos para entidades y la responsabilidad social corporativa en distintas organizaciones.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -4695,19 +4899,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0025-ap-04-it-01",
             "apartado_id": "pod-0025-ap-04",
             "tipo": "evento",
-            "titulo": "Procedimiento judicial abierto",
-            "contenido": "Desde 2024 está siendo investigada por un juzgado de Madrid en una causa sobre presuntos tráfico de influencias y otros delitos en torno a su actividad. La causa sigue su curso y rige plenamente la presunción de inocencia mientras no haya sentencia firme.",
-            "fecha": "2024-04-23",
+            "titulo": "Cátedra en la Universidad Complutense",
+            "contenido": "Dirigió una cátedra extraordinaria de transformación social competitiva en la Universidad Complutense de Madrid, vinculada a la captación de patrocinios empresariales.",
+            "fecha": "2020-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0025-ap-04-it-02",
+            "apartado_id": "pod-0025-ap-04",
+            "tipo": "evento",
+            "titulo": "Esposa del presidente del Gobierno",
+            "contenido": "Como cónyuge de Pedro Sánchez, ha mantenido un perfil discreto, aunque su actividad profesional y sus relaciones institucionales han sido objeto de creciente atención pública y política.",
+            "fecha": "2018-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0025-ap-04-it-03",
+            "apartado_id": "pod-0025-ap-04",
+            "tipo": "evento",
+            "titulo": "Investigación judicial",
+            "contenido": "Desde 2024 es investigada en una causa instruida en Madrid por presuntos delitos relacionados con su actividad profesional y la cátedra; la investigación sigue su curso y rige plenamente la presunción de inocencia.",
+            "fecha": "2024-04-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0026",
@@ -4738,7 +4966,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0026-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), 'MAR', es jefe de gabinete de la presidenta de la Comunidad de Madrid, Isabel Díaz Ayuso, y uno de los estrategas de comunicación más influyentes y polémicos de la derecha española. Exsecretario de Estado con Aznar, es el cerebro comunicativo del 'efecto Ayuso'.",
+            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), conocido como 'MAR', es jefe de gabinete y principal asesor de comunicación de Isabel Díaz Ayuso, presidenta de la Comunidad de Madrid. Veterano del oficio, fue secretario de Estado de Comunicación y portavoz con José María Aznar, y es considerado uno de los estrategas de comunicación política más influyentes y combativos de la derecha española.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4836,9 +5064,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0026-ap-03-it-00",
             "apartado_id": "pod-0026-ap-03",
             "tipo": "evento",
-            "titulo": "Secretario de Estado con Aznar",
-            "contenido": "Periodista de profesión, fue secretario de Estado de Comunicación en el primer Gobierno de Aznar, donde se forjó como uno de los grandes spin doctors de la derecha.",
-            "fecha": "1996-05-05",
+            "titulo": "Portavoz con Aznar",
+            "contenido": "Periodista de formación, fue secretario de Estado de Comunicación y portavoz del Gobierno en la primera etapa de José María Aznar, ganándose fama de duro estratega de la comunicación.",
+            "fecha": "1996-05-06",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -4848,19 +5076,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0026-ap-03-it-01",
             "apartado_id": "pod-0026-ap-03",
             "tipo": "evento",
-            "titulo": "El cerebro de Ayuso",
-            "contenido": "Como jefe de gabinete de Díaz Ayuso, diseña su estrategia de confrontación con el Gobierno central y su comunicación, en el centro de polémicas como la del correo sobre el novio de la presidenta.",
-            "fecha": "2019-08-01",
+            "titulo": "Consultoría y comunicación",
+            "contenido": "Tras dejar la política institucional, desarrolló su actividad en la consultoría de comunicación y los medios, manteniéndose como una voz influyente en la derecha mediática.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0026-ap-03-it-02",
+            "apartado_id": "pod-0026-ap-03",
+            "tipo": "evento",
+            "titulo": "Jefe de gabinete de Ayuso",
+            "contenido": "Se incorporó al equipo de Isabel Díaz Ayuso como jefe de gabinete, convirtiéndose en uno de los principales arquitectos de su estrategia política y comunicativa.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0026-ap-03-it-03",
+            "apartado_id": "pod-0026-ap-03",
+            "tipo": "evento",
+            "titulo": "Polémicas de comunicación",
+            "contenido": "Su papel ha estado en el foco por episodios de fuerte confrontación política y mediática, en particular en torno al caso de la pareja de Ayuso y la difusión de informaciones, asuntos sobre los que rige la presunción de inocencia.",
+            "fecha": "2024-03-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0027",
@@ -5132,8 +5384,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0028",
@@ -5344,8 +5596,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0029",
@@ -5583,8 +5835,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0030",
@@ -5795,8 +6047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0031",
@@ -5976,8 +6228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0032",
@@ -6113,8 +6365,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0033",
@@ -6278,8 +6530,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0034",
@@ -6398,8 +6650,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0035",
@@ -6525,8 +6777,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0036",
@@ -6557,7 +6809,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0036-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pedro J. Ramírez (Logroño, 1952) es director de El Español y una leyenda del periodismo de investigación español. Fundador de El Mundo, ha protagonizado las grandes batallas mediáticas de la democracia, con un estilo combativo y una relación tensa con el poder de turno.",
+            "contenido": "Pedro José Ramírez Codina (Logroño, 1952), conocido como 'Pedro J.', es uno de los periodistas más influyentes y polémicos de España, fundador y director de El Español. Antes fue director fundador de El Mundo, que dirigió durante 25 años convirtiéndolo en referencia del periodismo de investigación y en azote de la corrupción, hasta su salida del diario en 2014. Símbolo del periodismo combativo y de las exclusivas de impacto, su figura ha marcado la prensa española de las últimas cuatro décadas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6577,8 +6829,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0036-ap-01-it-00",
             "apartado_id": "pod-0036-ap-01",
             "tipo": "evento",
-            "titulo": "Diario 16 y los GAL",
-            "contenido": "Dirigió Diario 16 con apenas 28 años; desde allí destapó la trama de los GAL, la guerra sucia contra ETA, que marcó el final de la era socialista.",
+            "titulo": "Director de Diario 16",
+            "contenido": "Joven y precoz, dirigió Diario 16, donde impulsó investigaciones de gran repercusión durante los gobiernos socialistas, lo que acabó costándole el puesto.",
             "fecha": "1980-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6589,8 +6841,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0036-ap-01-it-01",
             "apartado_id": "pod-0036-ap-01",
             "tipo": "evento",
-            "titulo": "Fundación y dirección de El Mundo",
-            "contenido": "En 1989 fundó El Mundo, que convirtió en el segundo diario de España y en una máquina de investigación (Roldán, Filesa, Gürtel, Bárcenas). Dirigió el periódico durante 25 años.",
+            "titulo": "Fundador y director de El Mundo",
+            "contenido": "En 1989 fundó El Mundo, que dirigió durante 25 años, convirtiéndolo en uno de los grandes diarios del país y en azote de la corrupción, con investigaciones como el caso GAL o los papeles de Bárcenas.",
             "fecha": "1989-10-23",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6601,13 +6853,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0036-ap-01-it-02",
             "apartado_id": "pod-0036-ap-01",
             "tipo": "evento",
-            "titulo": "El Español",
-            "contenido": "Tras su salida de El Mundo en 2014, fundó en 2015 el digital El Español mediante crowdfunding, consolidándolo como uno de los nativos digitales líderes y de referencia del centro-derecha.",
-            "fecha": "2015-10-07",
+            "titulo": "Salida de El Mundo",
+            "contenido": "En 2014 abandonó la dirección de El Mundo en medio de tensiones con el grupo editor, cerrando una etapa de un cuarto de siglo al frente del diario.",
+            "fecha": "2014-01-31",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "pod-0036-ap-01-it-03",
+            "apartado_id": "pod-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación de El Español",
+            "contenido": "En 2015 fundó El Español, un diario nativo digital impulsado mediante crowdfunding, desde el que continúa ejerciendo un periodismo de investigación e influencia y una marcada presencia pública.",
+            "fecha": "2015-10-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -6674,8 +6938,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0037",
@@ -6707,7 +6971,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0037-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Carlos Herrera (Almería, 1957) es el comunicador estrella de la COPE y líder de audiencia de la radio de la mañana. Su programa es parada obligada de la actualidad política y un altavoz del centro-derecha, con una influencia notable en el debate público.",
+            "contenido": "Carlos Herrera Crusset (Barcelona, 1957) es uno de los comunicadores de radio más populares e influyentes de España, director y presentador de 'Herrera en COPE', el magacín matinal de la cadena. Periodista de larguísima trayectoria que ha pasado por RNE, la Cadena SER, Onda Cero y TVE, lidera con frecuencia las audiencias de la mañana y es una de las grandes voces del medio, con un perfil próximo a la centroderecha y una notable influencia en la conversación política española.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6837,9 +7101,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0037-ap-04-it-00",
             "apartado_id": "pod-0037-ap-04",
             "tipo": "evento",
-            "titulo": "De RNE a Onda Cero",
-            "contenido": "Locutor de larga trayectoria, pasó por Radio Nacional y Onda Cero, donde consolidó las mañanas con uno de los magacines de mayor audiencia de la radio española.",
-            "fecha": "1990-01-01",
+            "titulo": "Larga carrera en radio y TV",
+            "contenido": "Desarrolló una extensa carrera en los grandes grupos de comunicación, presentando programas en RNE, la Cadena SER, Onda Cero y Televisión Española.",
+            "fecha": "1985-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -6849,19 +7113,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0037-ap-04-it-01",
             "apartado_id": "pod-0037-ap-04",
             "tipo": "evento",
-            "titulo": "'Herrera en COPE'",
-            "contenido": "En 2015 fichó por la COPE, la cadena de la Conferencia Episcopal, donde dirige y presenta el programa matinal líder, con entrevistas a primeras figuras políticas y una línea crítica con el Gobierno de Sánchez.",
-            "fecha": "2015-09-01",
+            "titulo": "Líder de la mañana radiofónica",
+            "contenido": "Consolidó su prestigio como presentador de magacines matinales de gran audiencia, alternando entre Onda Cero y la COPE, donde se convirtió en una de las figuras estrella.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0037-ap-04-it-02",
+            "apartado_id": "pod-0037-ap-04",
+            "tipo": "evento",
+            "titulo": "'Herrera en COPE'",
+            "contenido": "Dirige y presenta 'Herrera en COPE', uno de los programas más escuchados de la radio española, desde el que ejerce una notable influencia en la conversación política, con un tono crítico hacia los gobiernos de izquierda.",
+            "fecha": "2015-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0037-ap-04-it-03",
+            "apartado_id": "pod-0037-ap-04",
+            "tipo": "evento",
+            "titulo": "Premios y popularidad",
+            "contenido": "Ha recibido numerosos premios Ondas y Antenas de Oro, y su popularidad trasciende la radio, con presencia en televisión y una marcada personalidad pública.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0038",
@@ -6892,7 +7180,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0038-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "José Félix Tezanos (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el principal instituto demoscópico público de España. Catedrático de Sociología y teórico histórico del PSOE, sus encuestas y su metodología son objeto de polémica recurrente.",
+            "contenido": "José Félix Tezanos Tortajada (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el instituto demoscópico público, desde 2018. Catedrático de Sociología y veterano militante e ideólogo del PSOE, su gestión del CIS ha sido objeto de una intensa polémica por la metodología y la orientación de sus encuestas, criticadas por la oposición y parte del sector demoscópico.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7021,9 +7309,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0038-ap-05-it-00",
             "apartado_id": "pod-0038-ap-05",
             "tipo": "evento",
-            "titulo": "Sociólogo y dirigente socialista",
-            "contenido": "Catedrático de Sociología en la UNED y figura intelectual del PSOE durante décadas, dirigió la revista 'Temas para el Debate' y teorizó sobre la socialdemocracia.",
-            "fecha": "1980-01-01",
+            "titulo": "Sociólogo y teórico del PSOE",
+            "contenido": "Catedrático de Sociología, fue durante décadas uno de los principales ideólogos del PSOE, director de la revista 'Temas para el Debate' y miembro de los órganos de pensamiento del partido.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -7033,19 +7321,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0038-ap-05-it-01",
             "apartado_id": "pod-0038-ap-05",
             "tipo": "evento",
-            "titulo": "Presidencia del CIS",
-            "contenido": "Nombrado presidente del CIS en 2018, defendió un modelo de estimación ('cocina') que ajusta los datos brutos. Sus sondeos, a menudo más favorables al PSOE que otros, han alimentado el debate sobre la independencia del organismo.",
+            "titulo": "Presidente del CIS",
+            "contenido": "Fue nombrado presidente del CIS en 2018, al frente del organismo público encargado de medir la opinión y las intenciones de voto de los españoles.",
             "fecha": "2018-06-29",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0038-ap-05-it-02",
+            "apartado_id": "pod-0038-ap-05",
+            "tipo": "evento",
+            "titulo": "La polémica demoscópica",
+            "contenido": "Su etapa ha estado marcada por la controversia: cambios metodológicos como el llamado 'cocinado' de los datos y unas estimaciones a menudo favorables al PSOE le han valido fuertes críticas de la oposición.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0038-ap-05-it-03",
+            "apartado_id": "pod-0038-ap-05",
+            "tipo": "evento",
+            "titulo": "Defensa de su gestión",
+            "contenido": "Tezanos defiende la solvencia técnica del CIS y atribuye las críticas a la incomodidad política con unos resultados que, sostiene, han acertado en tendencias clave, en un debate recurrente sobre la independencia del instituto.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0039",
@@ -7076,7 +7388,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0039-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ángel Gabilondo (San Sebastián, 1949) es Defensor del Pueblo, la alta institución que supervisa a las administraciones y defiende los derechos de los ciudadanos. Catedrático de Filosofía y exministro de Educación, llegó al cargo tras una larga carrera académica y política.",
+            "contenido": "Ángel Gabilondo Pujol (San Sebastián, 1949) es el Defensor del Pueblo, la alta institución que vela por los derechos de los ciudadanos frente a las administraciones. Catedrático de Filosofía y exrector de la Universidad Autónoma de Madrid, fue ministro de Educación y candidato del PSOE, con un perfil de diálogo y talante moderado reconocido en todo el arco político.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7170,9 +7482,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0039-ap-03-it-00",
             "apartado_id": "pod-0039-ap-03",
             "tipo": "evento",
-            "titulo": "Universidad y Ministerio",
-            "contenido": "Catedrático de Filosofía y rector de la Universidad Autónoma de Madrid, fue ministro de Educación en el último Gobierno de Zapatero (2009-2011).",
-            "fecha": "2009-04-07",
+            "titulo": "Filósofo y rector",
+            "contenido": "Catedrático de Metafísica, desarrolló una larga carrera académica que culminó en el rectorado de la Universidad Autónoma de Madrid y en la presidencia de la conferencia de rectores (CRUE).",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -7182,19 +7494,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0039-ap-03-it-01",
             "apartado_id": "pod-0039-ap-03",
             "tipo": "evento",
-            "titulo": "Política y Defensor del Pueblo",
-            "contenido": "Fue candidato del PSOE a la Comunidad de Madrid en varias elecciones. En 2021 fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que tramitó el polémico informe sobre los abusos en la Iglesia.",
-            "fecha": "2021-11-18",
+            "titulo": "Ministro de Educación",
+            "contenido": "Fue ministro de Educación entre 2009 y 2011, en la etapa de Rodríguez Zapatero, donde buscó —sin éxito— un gran pacto de Estado por la educación, seña de su talante dialogante.",
+            "fecha": "2009-04-07",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0039-ap-03-it-02",
+            "apartado_id": "pod-0039-ap-03",
+            "tipo": "evento",
+            "titulo": "Candidato del PSOE en Madrid",
+            "contenido": "Fue el candidato socialista a la Comunidad de Madrid en las elecciones de 2015, 2019 y 2021, ejerciendo de jefe de la oposición en la Asamblea madrileña.",
+            "fecha": "2015-05-24",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0039-ap-03-it-03",
+            "apartado_id": "pod-0039-ap-03",
+            "tipo": "evento",
+            "titulo": "Defensor del Pueblo",
+            "contenido": "En 2021 fue elegido Defensor del Pueblo por las Cortes, al frente de la institución que supervisa a las administraciones y tramita las quejas de los ciudadanos, con informes sobre derechos, inmigración o servicios públicos.",
+            "fecha": "2021-11-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0040",
@@ -7225,7 +7561,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0040-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Luis Cebrián (Madrid, 1944) es una figura histórica del periodismo y el poder mediático español. Primer director de El País y después consejero delegado y presidente de PRISA, construyó y dirigió durante décadas el mayor grupo de comunicación de la izquierda.",
+            "contenido": "Juan Luis Cebrián Echarri (Madrid, 1944) es un periodista y escritor español, figura histórica de la prensa de la democracia. Fue el primer director de El País, el diario que ayudó a fundar en 1976, y después presidente ejecutivo del grupo Prisa durante décadas. Miembro de la Real Academia Española, encarna el poder mediático del periodismo de la Transición.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7303,8 +7639,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0040-ap-03-it-00",
             "apartado_id": "pod-0040-ap-03",
             "tipo": "evento",
-            "titulo": "Fundador y director de El País",
-            "contenido": "Fue el primer director de El País (1976), el diario que se convirtió en referencia de la Transición y del progresismo. Académico de la RAE, marcó la línea editorial del periódico durante años.",
+            "titulo": "Primer director de El País",
+            "contenido": "Periodista formado en la prensa del tardofranquismo, fue el director fundador de El País en 1976, el diario que se convirtió en referencia de la Transición y en el de mayor influencia de la democracia.",
             "fecha": "1976-05-04",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7315,19 +7651,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0040-ap-03-it-01",
             "apartado_id": "pod-0040-ap-03",
             "tipo": "evento",
-            "titulo": "La era PRISA",
-            "contenido": "Como consejero delegado y luego presidente de PRISA, lideró la expansión del grupo (Cadena SER, Canal+, Santillana) y su salida a bolsa, antes de las guerras accionariales que acabaron desplazándolo.",
+            "titulo": "Al frente de Prisa",
+            "contenido": "Dejó la dirección del periódico para dirigir el grupo Prisa como consejero delegado y después presidente, convirtiéndolo en el mayor grupo de comunicación en español (El País, SER, Santillana).",
             "fecha": "1988-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0040-ap-03-it-02",
+            "apartado_id": "pod-0040-ap-03",
+            "tipo": "evento",
+            "titulo": "Poder e influencia mediática",
+            "contenido": "Durante décadas fue uno de los hombres más influyentes de España, en el cruce entre los medios, la política y los negocios, no exento de polémicas por el endeudamiento y las luchas de poder en Prisa.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0040-ap-03-it-03",
+            "apartado_id": "pod-0040-ap-03",
+            "tipo": "evento",
+            "titulo": "Académico y escritor",
+            "contenido": "Miembro de la Real Academia Española y autor de novelas y ensayos, ha mantenido un papel de comentarista y figura intelectual, símbolo del periodismo de una época.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0041",
@@ -7357,7 +7717,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0041-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Alicia Koplowitz (Madrid, 1952), marquesa de Bellavista, es una de las grandes fortunas e inversoras de España. Tras su etapa en la constructora FCC, gestiona su patrimonio a través del family office Omega Capital y es una de las mayores coleccionistas y mecenas de arte del país.",
+            "contenido": "Alicia Koplowitz Romero de Juseu (Madrid, 1952), marquesa de Bellavista, es una empresaria, inversora y filántropa española, una de las mayores fortunas del país. Tras vender a su hermana Esther su participación en el grupo de construcción familiar (germen de FCC), gestiona su patrimonio a través de la sociedad de inversión Omega Capital, con la que invierte en empresas cotizadas, fondos e inmobiliario. Es además una reconocida coleccionista de arte y mecenas, con una de las pinacotecas privadas más valiosas de España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7450,8 +7810,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0041-ap-03-it-00",
             "apartado_id": "pod-0041-ap-03",
             "tipo": "evento",
-            "titulo": "La era FCC",
-            "contenido": "Junto a su hermana Esther, heredó y dirigió el grupo Construcciones y Contratas (FCC), uno de los gigantes de la obra pública española, del que se desligó tras repartir el patrimonio familiar.",
+            "titulo": "La herencia Koplowitz y FCC",
+            "contenido": "Junto a su hermana Esther, heredó y controló el grupo de construcción y servicios que daría lugar a FCC, una de las mayores constructoras de España.",
             "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7462,19 +7822,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0041-ap-03-it-01",
             "apartado_id": "pod-0041-ap-03",
             "tipo": "evento",
-            "titulo": "Omega Capital y el arte",
-            "contenido": "Desde Omega Capital invierte en cotizadas, inmobiliario y capital riesgo con un perfil discreto. Su colección de arte y su fundación la sitúan entre los grandes mecenas culturales.",
-            "fecha": "2000-01-01",
+            "titulo": "Salida de FCC",
+            "contenido": "A finales de los años noventa vendió su participación en el grupo a su hermana, materializando una enorme fortuna que decidió gestionar de forma independiente.",
+            "fecha": "1998-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0041-ap-03-it-02",
+            "apartado_id": "pod-0041-ap-03",
+            "tipo": "evento",
+            "titulo": "Omega Capital",
+            "contenido": "Creó Omega Capital, su sociedad de inversión, con la que ha tomado participaciones en empresas cotizadas, fondos e inmobiliario, consolidándose como una de las grandes inversoras españolas.",
+            "fecha": "1999-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0041-ap-03-it-03",
+            "apartado_id": "pod-0041-ap-03",
+            "tipo": "evento",
+            "titulo": "Mecenas y coleccionista",
+            "contenido": "Es una reconocida coleccionista de arte y mecenas a través de su fundación, con una de las colecciones privadas más valiosas de España y una intensa actividad filantrópica.",
+            "fecha": "2010-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0042",
@@ -7505,7 +7889,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0042-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Manuel Lao Hernández (Granada, 1944) es uno de los grandes empresarios y fortunas de España, fundador del gigante del juego Cirsa. Tras vender la compañía, gestiona su patrimonio diversificado a través del family office Nortia, con un perfil de extrema discreción.",
+            "contenido": "Manuel Lao Hernández (Granada, 1944) es un empresario español, fundador del grupo de juego y ocio Cirsa y una de las mayores fortunas del país. Construyó desde cero, a partir de las máquinas recreativas, un gigante de los casinos, los bingos y las apuestas con presencia en España y América Latina, que en 2018 vendió al fondo estadounidense Blackstone por una cifra multimillonaria. Reorientó después su patrimonio hacia la inversión a través de su sociedad Nortia, manteniendo un perfil personal extremadamente discreto pese a figurar de forma recurrente entre los hombres más ricos del país.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7583,9 +7967,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0042-ap-03-it-00",
             "apartado_id": "pod-0042-ap-03",
             "tipo": "evento",
-            "titulo": "De las máquinas a Cirsa",
-            "contenido": "Construyó desde Cataluña, partiendo del negocio de máquinas recreativas, uno de los mayores grupos de juego y ocio de Europa (Cirsa), con presencia en casinos, salones y apuestas en España y Latinoamérica.",
-            "fecha": "1978-01-01",
+            "titulo": "Fundación de Cirsa",
+            "contenido": "Empezó en el negocio de las máquinas recreativas y construyó Cirsa, que convirtió en uno de los mayores grupos de juego de España (casinos, bingos, salas y apuestas).",
+            "fecha": "1980-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -7595,19 +7979,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0042-ap-03-it-01",
             "apartado_id": "pod-0042-ap-03",
             "tipo": "evento",
-            "titulo": "Venta a Blackstone y Nortia",
-            "contenido": "En 2018 vendió Cirsa al fondo Blackstone, cristalizando una de las mayores fortunas del país, que hoy reinvierte a través de su holding Nortia en cotizadas, inmobiliario y energía.",
-            "fecha": "2018-05-01",
+            "titulo": "Expansión internacional",
+            "contenido": "Expandió Cirsa por Europa y América Latina, diversificando en casinos, salones de juego y apuestas, hasta convertirla en una multinacional del ocio y el juego.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0042-ap-03-it-02",
+            "apartado_id": "pod-0042-ap-03",
+            "tipo": "evento",
+            "titulo": "Venta a Blackstone",
+            "contenido": "En 2018 vendió Cirsa al fondo estadounidense Blackstone por una cifra multimillonaria, materializando una de las mayores fortunas familiares de España.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0042-ap-03-it-03",
+            "apartado_id": "pod-0042-ap-03",
+            "tipo": "evento",
+            "titulo": "Inversor a través de Nortia",
+            "contenido": "Reorientó su patrimonio hacia la inversión mediante su holding Nortia, con participaciones en empresas cotizadas, inmobiliario y otros activos, manteniendo un perfil reservado.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0043",
@@ -7746,8 +8154,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0044",
@@ -7953,8 +8361,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0045",
@@ -8113,8 +8521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0046",
@@ -8274,8 +8682,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0047",
@@ -8407,8 +8815,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0048",
@@ -8507,8 +8915,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0049",
@@ -8640,8 +9048,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0050",
@@ -8727,8 +9135,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0051",
@@ -8814,8 +9222,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0052",
@@ -8982,8 +9390,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0053",
@@ -9126,8 +9534,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0054",
@@ -9271,8 +9679,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0055",
@@ -9416,8 +9824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0056",
@@ -9548,8 +9956,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0057",
@@ -9729,8 +10137,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0058",
@@ -9762,7 +10170,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0058-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Carlos San Basilio (Madrid, 1968) es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Alto funcionario del Estado, vigila a todas las cotizadas del IBEX, autoriza las grandes operaciones y persigue el abuso de mercado.",
+            "contenido": "Carlos San Basilio Pardo es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el organismo que supervisa los mercados de valores españoles y a sus participantes. Economista y alto funcionario del Estado con una larga trayectoria en la política económica y financiera —pasó, entre otros cargos, por la Secretaría de Estado de Economía—, dirige al regulador bursátil en un periodo marcado por grandes operaciones corporativas como la OPA del BBVA sobre el Banco Sabadell.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9852,8 +10260,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0058-ap-03-it-00",
             "apartado_id": "pod-0058-ap-03",
             "tipo": "evento",
-            "titulo": "Alta función pública del Tesoro",
-            "contenido": "Técnico comercial y economista del Estado, desarrolló su carrera en la Secretaría General del Tesoro y la política financiera del Ministerio de Economía, donde fue secretario general.",
+            "titulo": "Alto funcionario económico",
+            "contenido": "Técnico comercial y economista del Estado, desarrolló su carrera en el Ministerio de Economía y en organismos financieros, con responsabilidades en política económica y mercados.",
             "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9864,19 +10272,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0058-ap-03-it-01",
             "apartado_id": "pod-0058-ap-03",
             "tipo": "evento",
-            "titulo": "Presidencia de la CNMV",
-            "contenido": "Accedió a la presidencia del supervisor bursátil, desde donde arbitra OPAs, fusiones bancarias y salidas a bolsa, con la OPA del BBVA sobre el Sabadell como gran asunto de su mandato.",
-            "fecha": "2024-12-01",
+            "titulo": "Secretaría de Estado de Economía",
+            "contenido": "Ocupó altos cargos en la Administración económica, incluida la Secretaría de Estado de Economía, participando en la respuesta a la crisis financiera y a la pandemia.",
+            "fecha": "2018-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0058-ap-03-it-02",
+            "apartado_id": "pod-0058-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidente de la CNMV",
+            "contenido": "Fue nombrado presidente de la CNMV en 2024, al frente del supervisor de los mercados de valores, encargado de velar por la transparencia, la protección del inversor y el correcto funcionamiento de la bolsa.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0058-ap-03-it-03",
+            "apartado_id": "pod-0058-ap-03",
+            "tipo": "evento",
+            "titulo": "Supervisión de grandes operaciones",
+            "contenido": "Le corresponde arbitrar episodios sensibles como las opas, las salidas a bolsa y la información de las cotizadas, en un momento de intensa actividad corporativa en el IBEX 35.",
+            "fecha": "2024-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0059",
@@ -10045,8 +10477,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0060",
@@ -10226,8 +10658,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0061",
@@ -10434,8 +10866,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0062",
@@ -10619,8 +11051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0063",
@@ -10804,8 +11236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0064",
@@ -10989,8 +11421,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0065",
@@ -11089,8 +11521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0066",
@@ -11189,8 +11621,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0067",
@@ -11286,8 +11718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0068",
@@ -11374,8 +11806,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0069",
@@ -11533,8 +11965,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0070",
@@ -11647,8 +12079,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0071",
@@ -11804,8 +12236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0072",
@@ -11961,8 +12393,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0073",
@@ -12130,8 +12562,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0074",
@@ -12288,8 +12720,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0075",
@@ -12459,8 +12891,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0076",
@@ -12615,8 +13047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0077",
@@ -12784,8 +13216,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0078",
@@ -12906,8 +13338,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0079",
@@ -13089,8 +13521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0080",
@@ -13275,8 +13707,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0081",
@@ -13432,8 +13864,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0082",
@@ -13589,8 +14021,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0083",
@@ -13722,8 +14154,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0084",
@@ -13893,8 +14325,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0085",
@@ -13969,8 +14401,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0086",
@@ -14101,8 +14533,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0087",
@@ -14245,8 +14677,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0088",
@@ -14366,8 +14798,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0089",
@@ -14498,8 +14930,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   },
   {
     "id": "pod-0090",
@@ -14611,8 +15043,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T10:59:52.164699Z",
-    "updated_at": "2026-05-29T10:59:52.164699Z"
+    "created_at": "2026-05-29T11:12:48.348296Z",
+    "updated_at": "2026-05-29T11:12:48.348296Z"
   }
 ]
 
