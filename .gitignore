@@ -16,8 +16,8 @@ __pycache__/
 dist/
 build/
 
-# Streamlit secrets
-.streamlit/secrets.toml
+# Streamlit secrets (incluye backups .bak/.neon.bak para no filtrar credenciales)
+.streamlit/secrets.toml*
 
 # Datos grandes y bases de datos locales
 *.db
@@ -52,6 +52,10 @@ htmlcov/
 .claude1/
 .git1/
 
+# Agentes (Claude Code / Claire) — config y worktrees locales, no versionar
+.claude/
+.claire/
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -76,8 +80,11 @@ path/
 # Frontend SPA (local build artifacts)
 node_modules/
 .vercel/
+.next/
 apps/web/.next/
 apps/web/node_modules/
+apps/visual-oscar/.next/
+apps/visual-oscar/node_modules/
 dashboard/spa/node_modules/
 dashboard/spa/dist/
 dashboard/spa/.vite/
