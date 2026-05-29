@@ -443,14 +443,14 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "World Governance Indicators · control corrupción. España ~0.65 (escala -2.5 a 2.5). Top 30 mundial pero deterioro 2008-2020.",
-    endpoint: "/api/_todo_worldbank_wgi?indicator=CC",
+    endpoint: "/api/worldbank/indicator/CC.PER.RNK?country=ES&per_page=30",
     parser: "eurostat-simple",
-    threshold: { amber: 0.7, red: 0.3, goodAbove: true },
+    threshold: { amber: 75, red: 60, goodAbove: true },
     accent: "#dc2626",
     methodologyNote:
-      "World Bank WGI 6 dimensiones. Control corrupción agrega múltiples fuentes. España cayó del 1.4 (2003) a 0.6 (2022).",
+      "World Bank WGI 6 dimensiones · `/api/worldbank` proxy. CC.PER.RNK = Control of Corruption (Percentile Rank 0-100). España ~75 percentil; ha caído del ~90 (2003) por casos de corrupción de alta visibilidad. Para los otros 5 indicadores usar GE.PER.RNK (Gov Effectiveness), RL.PER.RNK (Rule of Law), VA.PER.RNK (Voice & Accountability), PV.PER.RNK (Political Stability), RQ.PER.RNK (Regulatory Quality).",
     releaseSchedule: "Anual · WB",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["ie-cpi-transparency", "ie-wjp-rule-of-law"],
   },
   {

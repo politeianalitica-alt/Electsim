@@ -355,13 +355,13 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% población ≥65 años en España vs DE/FR/IT/Japón. España ~20%, Japón ~30%, Italia ~24%. Convergencia inevitable salvo migración.",
-    endpoint: "/api/_todo_worldbank?indicator=SP.POP.65UP.TO.ZS",
+    endpoint: "/api/worldbank/indicator/SP.POP.65UP.TO.ZS?country=ES&per_page=50",
     parser: "eurostat-simple",
     accent: "#f59e0b",
     methodologyNote:
-      "World Bank Open Data. Series largas comparables. España alcanzará nivel actual de Japón (~30%) hacia 2050 según proyecciones UN WPP.",
+      "World Bank Open Data v2 API (proxy /api/worldbank). Series largas comparables. España alcanzará nivel actual de Japón (~30%) hacia 2050 según proyecciones UN WPP. Para comparativa multi-país usar `/api/worldbank/indicator/SP.POP.65UP.TO.ZS/multi?countries=ES;DE;FR;IT;JPN`.",
     releaseSchedule: "Anual · WB julio año T",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["dt-poblacion-mayores", "dt-proyeccion-dependencia-2050"],
   },
   {
