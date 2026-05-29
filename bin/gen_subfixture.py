@@ -63,6 +63,103 @@ SOURCES = {
             "// Re-generar: python3 bin/gen_subfixture.py --source diputaciones\n"
         ),
     },
+    "congreso": {
+        "files": [
+            REPO / "data" / "congreso" / "diputados.json",
+        ],
+        "out": VISUAL / "congreso-fixture.ts",
+        "fixture_name": "CONGRESO_FIXTURE",
+        "resumen_name": "CONGRESO_RESUMEN",
+        "id_prefix": "cong",
+        "header": (
+            "// AUTO-GENERADO desde data/congreso/diputados.json · ver bin/gen_congreso.py\n"
+            "// Los ~350 diputados EN ACTIVO del Congreso (XV Legislatura) con datos\n"
+            "// OFICIALES y abiertos del Congreso: biografía de la ficha oficial,\n"
+            "// circunscripción, grupo, fechas y declaración de intereses económicos\n"
+            "// (actividades, fundaciones, donaciones) con su fecha de registro.\n"
+            "// La declaración de bienes y rentas se referencia con fecha + enlace oficial\n"
+            "// (los importes los publica el Congreso en el BOCG · no se inventan cifras).\n"
+            "// Re-generar: python3 bin/gen_congreso.py && python3 bin/gen_subfixture.py --source congreso\n"
+        ),
+    },
+    "medios": {
+        "files": [
+            REPO / "data" / "medios" / "medios.json",
+        ],
+        "out": VISUAL / "medios-fixture.ts",
+        "fixture_name": "MEDIOS_FIXTURE",
+        "resumen_name": "MEDIOS_RESUMEN",
+        "id_prefix": "med",
+        "header": (
+            "// AUTO-GENERADO desde data/medios/medios.json · ver bin/gen_medios.py\n"
+            "// Mapa del poder mediático: periodistas, directores, presentadores y\n"
+            "// tertulianos, con su RELACIÓN CON LOS PODERES DEL ESTADO (Gobierno,\n"
+            "// oposición, judicatura) ± y la razón según cómo encuadran las noticias.\n"
+            "// Las relaciones apuntan a nodos resolubles (Sánchez/Feijóo/Fiscalía) y\n"
+            "// se convierten en aristas del grafo. Caracterización por línea editorial\n"
+            "// pública del medio + rol observable (no juicios privados).\n"
+            "// Re-generar: python3 bin/gen_medios.py && python3 bin/gen_subfixture.py --source medios\n"
+        ),
+    },
+    "senado": {
+        "files": [
+            REPO / "data" / "senado" / "senadores.json",
+        ],
+        "out": VISUAL / "senado-fixture.ts",
+        "fixture_name": "SENADO_FIXTURE",
+        "resumen_name": "SENADO_RESUMEN",
+        "id_prefix": "sen",
+        "header": (
+            "// AUTO-GENERADO desde data/senado/senadores.json · ver bin/gen_senado.py\n"
+            "// Los ~292 senadores de la XV Legislatura con datos OFICIALES del Senado\n"
+            "// (opendata): grupo parlamentario, circunscripción y tipo (electo/designado).\n"
+            "// El Senado NO abre biografía ni intereses como dato; se enlaza la ficha\n"
+            "// oficial (biografía) y la declaración de bienes/actividades (sin inventar).\n"
+            "// Re-generar: python3 bin/gen_senado.py && python3 bin/gen_subfixture.py --source senado\n"
+        ),
+    },
+    "poder": {
+        "files": [
+            REPO / "data" / "poder" / "figuras_clave.json",
+            REPO / "data" / "poder" / "figuras_clave_2.json",
+            REPO / "data" / "poder" / "figuras_clave_3.json",
+            REPO / "data" / "poder" / "figuras_clave_4.json",
+            REPO / "data" / "poder" / "figuras_clave_5.json",
+            REPO / "data" / "poder" / "figuras_clave_6.json",
+        ],
+        "out": VISUAL / "poder-fixture.ts",
+        "fixture_name": "PODER_FIXTURE",
+        "resumen_name": "PODER_RESUMEN",
+        "id_prefix": "pod",
+        "header": (
+            "// AUTO-GENERADO desde data/poder/*.json · ver bin/gen_subfixture.py\n"
+            "// Mapa de poder NO-electo (2 lotes):\n"
+            "//   · figuras_clave.json   · medios, poder judicial (TS/CGPJ, TC, Fiscalía),\n"
+            "//     reguladores (BdE, CNMC), empresarios no-IBEX (Roig, Ortega Mera,\n"
+            "//     Escotet), sindicatos (CCOO, UGT), Casa Real e Iglesia.\n"
+            "//   · figuras_clave_2.json · expresidentes (Aznar, Zapatero, F. González,\n"
+            "//     Rajoy), think tanks (FAES, R.I. Elcano), Pablo Iglesias, Borrell,\n"
+            "//     Calviño/BEI, prensa (Pedro J., Herrera, Cebrián), Tezanos/CIS,\n"
+            "//     Gabilondo, empresarios (Koplowitz, Lao, Mango), RTVE, Von der Leyen.\n"
+            "//   · figuras_clave_3.json · tejido económico-institucional: holding March\n"
+            "//     (Alba), grandes despachos (Garrigues, Cuatrecasas, Uría), El Corte\n"
+            "//     Inglés (Marta Álvarez), Cámara España (Bonet), Torreal (Abelló),\n"
+            "//     Hortensia Herrero (Mercadona/arte) y Tomás Olivo (inmobiliario).\n"
+            "//   · figuras_clave_5.json · grandes fondos accionistas del IBEX (BlackRock,\n"
+            "//     fondo de Noruega), prensa (El Confidencial/Cardero, Prensa Ibérica/Moll,\n"
+            "//     Mediaset/Borja Prado), CEPYME (Cuerva), RAE (Muñoz Machado), cardenal\n"
+            "//     Omella, ElPozo (T. Fuertes), Carlos Slim y Glovo (Oscar Pierre).\n"
+            "//   · figuras_clave_4.json · reguladores y holding público sobre el IBEX\n"
+            "//     (SEPI/Gualda, CNMV/San Basilio, AIReF/Herrero, AEB/Kindelán) y dueños\n"
+            "//     de medios (Planeta+Atresmedia/Creuheras, Amber+PRISA/Oughourlian,\n"
+            "//     Losantos), LaLiga/Tebas, Fundación Alternativas, Funcas, Manuel Jove.\n"
+            "//   · figuras_clave_6.json · BCE (Lagarde), Mutua (Garralda), Damm/Disa\n"
+            "//     (Carceller), Mediapro (Roures), El Mundo (Manso), Vocento/ABC, Consejo\n"
+            "//     de Estado (Valerio), Prosegur (Revoredo), Glencore (Daniel Maté), los\n"
+            "//     Albertos e Instituto de la Empresa Familiar.\n"
+            "// Re-generar: python3 bin/gen_subfixture.py --source poder\n"
+        ),
+    },
 }
 
 

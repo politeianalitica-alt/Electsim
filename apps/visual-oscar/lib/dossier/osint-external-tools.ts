@@ -136,11 +136,11 @@ export const OSINT_TOOLS: OSINTTool[] = [
   },
   {
     id: 'congreso-iniciativas',
-    name: 'Congreso · Iniciativas + votaciones',
+    name: 'Congreso · actividad parlamentaria',
     category: 'public_records',
-    buildUrl: (s) => `https://www.congreso.es/es/cem/iniciativas-vot?p_p_id=iniciativas&_iniciativas_busqueda=true&_iniciativas_tipo=todas&_iniciativas_text=${enc(s.full_name)}`,
-    what_it_answers: 'Iniciativas firmadas, votos en pleno, intervenciones',
-    caveat: 'Sólo diputados activos. Histórico parcial.',
+    buildUrl: (s) => `https://www.google.com/search?q=site%3Acongreso.es+%22${enc(s.full_name)}%22`,
+    what_it_answers: 'Fichas, iniciativas, intervenciones y votaciones publicadas en congreso.es',
+    caveat: 'Búsqueda restringida a congreso.es vía Google. Sólo diputados activos tienen ficha completa.',
     free: true,
     language: 'es',
   },
@@ -186,9 +186,7 @@ export const OSINT_TOOLS: OSINTTool[] = [
     id: 'sec-edgar',
     name: 'SEC EDGAR (USA)',
     category: 'sanctions',
-    buildUrl: (s) => s.organization
-      ? `https://efts.sec.gov/LATEST/search-index?q=${enc(s.organization)}&dateRange=custom`
-      : `https://efts.sec.gov/LATEST/search-index?q=${enc(s.full_name)}`,
+    buildUrl: (s) => `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&company=${enc(s.organization || s.full_name)}&type=&dateb=&owner=include&count=40`,
     what_it_answers: 'Filings ante la SEC USA (empresas cotizadas, 10-K, 10-Q, 13F, insider trading)',
     caveat: 'Solo empresas con presencia USA. Útil para tracking de holdings, directivos cross-Atlantic.',
     free: true,
@@ -214,9 +212,9 @@ export const OSINT_TOOLS: OSINTTool[] = [
     category: 'archive',
     buildUrl: (s) => s.domain
       ? `https://archive.ph/${s.domain}`
-      : null,
-    what_it_answers: 'Snapshots alternativos (mejor con paywalls que Wayback)',
-    caveat: 'Requiere dominio · no funciona por nombre.',
+      : `https://www.google.com/search?q=site%3Aarchive.ph+%22${enc(s.full_name)}%22`,
+    what_it_answers: 'Snapshots alternativos (mejor con paywalls que Wayback): páginas archivadas que mencionan al sujeto',
+    caveat: 'Por nombre busca menciones en archive.ph vía Google. Con dominio va directo al histórico del dominio.',
     free: true,
     language: 'multi',
   },
@@ -245,27 +243,23 @@ export const OSINT_TOOLS: OSINTTool[] = [
 
   // ─────────── IDENTITY (link, no procesamiento Politeia) ───────────
   {
-    id: 'sherlock-search',
-    name: 'Sherlock · username search',
+    id: 'perfiles-redes',
+    name: 'Perfiles en redes sociales',
     category: 'identity',
-    buildUrl: (s) => s.username
-      ? `https://sherlock-project.github.io/?username=${enc(s.username)}`
-      : null,
-    what_it_answers: 'Cuentas con el mismo username en 400+ sitios',
-    caveat: 'Username debe ser conocido. Falsos positivos altos para nombres comunes. Politeia NO ejecuta · solo enlaza.',
+    buildUrl: (s) => `https://www.google.com/search?q=%22${enc(s.full_name)}%22+(site%3Ax.com+OR+site%3Atwitter.com+OR+site%3Ainstagram.com+OR+site%3Afacebook.com+OR+site%3Alinkedin.com)`,
+    what_it_answers: 'Localiza cuentas públicas del sujeto en X/Twitter, Instagram, Facebook y LinkedIn',
+    caveat: 'Verifica que el perfil es realmente la persona (homónimos). Sólo info que el sujeto ha hecho pública.',
     free: true,
     language: 'multi',
   },
   {
-    id: 'hunter-io',
-    name: 'Hunter.io · email by domain',
+    id: 'x-twitter-search',
+    name: 'X / Twitter · búsqueda',
     category: 'identity',
-    buildUrl: (s) => s.domain
-      ? `https://hunter.io/search/${enc(s.domain)}`
-      : null,
-    what_it_answers: 'Emails públicos asociados a un dominio empresarial',
-    caveat: 'Sólo dominios corporativos. NO usar contra emails personales. Requiere registro Hunter.',
-    free: false,
+    buildUrl: (s) => `https://x.com/search?q=${enc(s.full_name)}&f=user`,
+    what_it_answers: 'Cuentas y menciones en X/Twitter por nombre',
+    caveat: 'X puede exigir login para ver resultados. Falsos positivos por homónimos; contrasta con el cargo.',
+    free: true,
     language: 'multi',
   },
 
@@ -289,6 +283,31 @@ export const OSINT_TOOLS: OSINTTool[] = [
     caveat: 'Solo info que el sujeto haya hecho pública. Verifica que el match es la persona correcta.',
     free: true,
     language: 'multi',
+  },
+  {
+    id: 'google-exacto',
+    name: 'Google · nombre exacto',
+    category: 'search_operators',
+    buildUrl: (s) => {
+      const ctx = s.cargo ? ` ${s.cargo}` : (s.partido ? ` ${s.partido}` : '')
+      return `https://www.google.com/search?q=%22${enc(s.full_name)}%22${enc(ctx)}`
+    },
+    what_it_answers: 'Búsqueda general por nombre exacto entre comillas (+ cargo/partido para desambiguar)',
+    caveat: 'Punto de partida. Resultados ordenados por algoritmo de Google, no exhaustivos.',
+    free: true,
+    language: 'multi',
+  },
+
+  // ─────────── REFERENCIA ───────────
+  {
+    id: 'wikipedia-es',
+    name: 'Wikipedia (ES)',
+    category: 'media',
+    buildUrl: (s) => `https://es.wikipedia.org/w/index.php?search=${enc(s.full_name)}&fulltext=1`,
+    what_it_answers: 'Ficha biográfica de referencia y cronología pública contrastada por editores',
+    caveat: 'Fuente terciaria · contrasta siempre con la fuente primaria citada. Sesgo posible en figuras polémicas.',
+    free: true,
+    language: 'es',
   },
 ]
 
@@ -322,6 +341,9 @@ export function isEligiblePEP(subject: {
   organizacion?: string | null
   afiliacion?: string | null
 }): boolean {
+  // Cualquier figura con cargo/rol público es PEP-elegible (interés legítimo
+  // periodístico Art. 6(1)(f)). Todo el dataset son figuras públicas catalogadas.
+  if (subject.cargo) return true
   // Tiene cargo + partido (político ES)
   if (subject.cargo && subject.partido) return true
   // O cargo + afiliación política

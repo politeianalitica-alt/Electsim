@@ -7,8 +7,13 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
+import { DOSIERES_RESUMEN } from '@/data/dosieres-fixture'
+import { CONGRESO_RESUMEN } from '@/data/congreso-fixture'
+import { SENADO_RESUMEN } from '@/data/senado-fixture'
+import { MEDIOS_RESUMEN } from '@/data/medios-fixture'
 import { IBEX35_RESUMEN } from '@/data/ibex35-fixture'
 import { DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
+import { PODER_RESUMEN } from '@/data/poder-fixture'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -45,7 +50,8 @@ const PARTIDO_COLOR: Record<string, string> = {
 // ── Clasificación por tipo de perfil ─────────────────────────────────────────
 type TipoPerfil =
   | 'politico' | 'empresario' | 'asesor' | 'mediatico'
-  | 'lobbista' | 'casa-real' | 'sindicalista' | 'caso' | 'otro'
+  | 'lobbista' | 'judicial' | 'institucional' | 'casa-real'
+  | 'sindicalista' | 'caso' | 'otro'
 
 const TIPO_LABEL: Record<TipoPerfil, string> = {
   'politico': 'Políticos',
@@ -53,6 +59,8 @@ const TIPO_LABEL: Record<TipoPerfil, string> = {
   'asesor': 'Asesores',
   'mediatico': 'Mediáticos',
   'lobbista': 'Lobby / Patronales',
+  'judicial': 'Poder judicial',
+  'institucional': 'Reguladores / Estado',
   'casa-real': 'Casa Real',
   'sindicalista': 'Sindicatos',
   'caso': 'Casos judiciales',
@@ -65,6 +73,8 @@ const TIPO_COLOR: Record<TipoPerfil, string> = {
   'asesor': '#7A2980',
   'mediatico': '#0EA5E9',
   'lobbista': '#0F766E',
+  'judicial': '#4338CA',
+  'institucional': '#0D9488',
   'casa-real': '#9F1239',
   'sindicalista': '#16A34A',
   'caso': '#991B1B',
@@ -74,18 +84,41 @@ const TIPO_COLOR: Record<TipoPerfil, string> = {
 // Inferir el tipo de perfil de un dossier basándose en sus tags + partido.
 function inferirTipo(d: { tags?: string[]; partido?: string | null }): TipoPerfil {
   const tags = (d.tags || []).map(t => t.toLowerCase())
-  if (tags.some(t => t.startsWith('judicial') || t === 'macrocausa' || t.startsWith('caso-'))) return 'caso'
+  // Casos judiciales (issue): macrocausa o slug caso-* — antes que personas
+  if (tags.includes('macrocausa') || tags.some(t => t.startsWith('caso-'))) return 'caso'
+  // Personas del poder judicial (jueces, fiscales, magistrados)
+  if (
+    tags.includes('poder-judicial') || tags.includes('fiscalia') ||
+    tags.includes('tribunal-constitucional') || tags.includes('juez-instruccion') ||
+    tags.includes('ts') || tags.includes('cgpj') || tags.includes('judicial')
+  ) return 'judicial'
   if (tags.includes('casa-real') || tags.includes('monarquia')) return 'casa-real'
   if (tags.includes('sindical') || tags.includes('sindicato')) return 'sindicalista'
+  // Expresidentes del Gobierno → siempre políticos, aunque dirijan un think tank (Aznar/FAES)
+  if (tags.includes('expresidente')) return 'politico'
   if (tags.includes('patronal') || tags.includes('lobby') || tags.includes('think-tank')) return 'lobbista'
-  if (tags.includes('medio') || tags.includes('periodista') || tags.includes('tertuliano')) return 'mediatico'
-  if (tags.includes('asesor') || tags.includes('consultor')) return 'asesor'
+  if (
+    tags.includes('medio') || tags.includes('medios') ||
+    tags.includes('periodista') || tags.includes('tertuliano')
+  ) return 'mediatico'
+  if (tags.includes('asesor') || tags.includes('consultor') || tags.includes('comunicacion')) return 'asesor'
+  // Reguladores / instituciones del Estado / Iglesia
+  if (
+    tags.includes('regulador') || tags.includes('banco-de-espana') || tags.includes('cnmc') ||
+    tags.includes('cnmv') || tags.includes('airef') || tags.includes('sepi') ||
+    tags.includes('institucional') || tags.includes('estado') || tags.includes('bei') ||
+    tags.includes('comision-europea') ||
+    tags.includes('iglesia') || tags.includes('religion') ||
+    tags.includes('congreso') || tags.includes('senado') || tags.includes('institucion')
+  ) return 'institucional'
   if (
     tags.includes('empresa') || tags.includes('ibex35') ||
-    tags.includes('directivo') || tags.includes('ceo') ||
+    tags.includes('directivo') || tags.includes('ceo') || tags.includes('empresario') ||
+    tags.includes('empresaria') || tags.includes('despacho') || tags.includes('abogados') ||
     tags.includes('fundador') || tags.includes('accionista-control') ||
-    tags.includes('holding-familiar') || tags.includes('fondo') ||
-    tags.includes('fondo-soberano') || tags.some(t => t.startsWith('familia'))
+    tags.includes('holding-familiar') || tags.includes('holding') || tags.includes('fondo') ||
+    tags.includes('inversion') || tags.includes('banca') || tags.includes('dinastia') ||
+    tags.includes('fondo-soberano') || tags.includes('inversora') || tags.some(t => t.startsWith('familia'))
   ) return 'empresario'
   if (d.partido) return 'politico'
   if (tags.includes('politico') || tags.some(t =>
@@ -136,9 +169,11 @@ function inferirSubcategoria(
     // Si es la empresa misma (no un directivo), usar su nombre o sector
     const tags = (d.tags || []).map(t => t.toLowerCase())
     if (tags.includes('ibex35') && tags.includes('empresa')) return 'IBEX 35'
-    if (tags.some(t => t.startsWith('familia'))) return 'Familias'
-    if (tags.includes('fundacion')) return 'Fundaciones'
+    if (tags.some(t => t.startsWith('familia')) || tags.includes('dinastia')) return 'Familias'
+    if (tags.includes('despacho') || tags.includes('abogados')) return 'Despachos'
+    if (tags.includes('fundacion') || tags.includes('fundaciones')) return 'Fundaciones'
     if (tags.includes('fondo') || tags.includes('fondo-soberano') || tags.includes('private-equity')) return 'Fondos'
+    if (tags.includes('banca') || tags.includes('inversion') || tags.includes('capital-riesgo') || tags.includes('holding') || tags.includes('inversora')) return 'Inversores'
     return 'Otros'
   }
   return ''
@@ -161,27 +196,35 @@ export default function DosieresPage() {
     { refreshInterval: 60_000 },
   )
 
-  // Fuente backend (políticos del fixture original) + seeds locales
   const apiDosieres: DossierResumen[] = Array.isArray(data) ? data : []
-  // IBEX35_RESUMEN y DIPUTACIONES_RESUMEN tienen mismo shape que DossierResumen
-  const dosieres = useMemo(() => [
-    ...apiDosieres,
-    ...IBEX35_RESUMEN,
-    ...DIPUTACIONES_RESUMEN,
-  ], [apiDosieres])
+  // UNIFICACIÓN · todas las personas en un único sitio, autosuficiente sin backend:
+  // políticos (fixture) + IBEX 35 + Diputaciones + Poder no-electo, deduplicado por
+  // slug. Si el backend responde, sus datos (apiDosieres) prevalecen sobre el fixture.
+  const dosieres = useMemo(() => {
+    const bySlug = new Map<string, DossierResumen>()
+    for (const d of DOSIERES_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of apiDosieres) bySlug.set(d.slug, d) // backend (si vive) sobre fixture genérico
+    // Fuentes curadas prevalecen sobre la ficha genérica (mismo slug):
+    for (const d of CONGRESO_RESUMEN) bySlug.set(d.slug, d) // diputados con datos oficiales
+    for (const d of SENADO_RESUMEN) bySlug.set(d.slug, d)   // senadores con datos oficiales
+    for (const d of MEDIOS_RESUMEN) bySlug.set(d.slug, d)   // periodistas / poder mediático
+    for (const d of IBEX35_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of DIPUTACIONES_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of PODER_RESUMEN) bySlug.set(d.slug, d)
+    return Array.from(bySlug.values())
+  }, [apiDosieres])
 
-  // Enriquecer cada dossier con tipo + subcat inferidos (memoizado)
-  // _href: ruta de detalle según origen del dossier (id-prefix indica fuente)
+  // Enriquecer cada dossier con tipo + subcat inferidos (memoizado).
+  // Todos los slugs van a /dosieres/[slug] · esa página tiene fallback
+  // a IBEX35_FIXTURE y DIPUTACIONES_FIXTURE para los seeds locales,
+  // así toda persona/empresa comparte la misma estética rica.
   const enriched = useMemo(() => dosieres.map(d => {
     const tipo = inferirTipo(d)
-    const href = d.id?.startsWith('ibx-') ? `/ibex35/${d.slug}`
-      : d.id?.startsWith('dip-') ? `/diputaciones/${d.slug}`
-      : `/dosieres/${d.slug}`
     return {
       ...d,
       _tipo: tipo,
       _subcat: inferirSubcategoria(d, tipo),
-      _href: href,
+      _href: `/dosieres/${d.slug}`,
     }
   }), [dosieres])
 
@@ -320,6 +363,30 @@ export default function DosieresPage() {
             }}
           />
           <button
+            onClick={() => router.push('/dosieres/stats')}
+            style={{
+              background: '#fff', border: '1px solid #ECECEF', color: '#1d1d1f',
+              padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+              cursor: 'pointer', fontFamily: 'inherit',
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+            }}
+            title="Panorama del dataset · composición por partido, top conectados, etc."
+          >
+            Stats
+          </button>
+          <button
+            onClick={() => router.push('/dosieres/importar')}
+            style={{
+              background: '#fff', border: '1px solid #ECECEF', color: '#1d1d1f',
+              padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+              cursor: 'pointer', fontFamily: 'inherit',
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+            }}
+            title="Pegar un CSV para crear varios dossieres a la vez"
+          >
+            Importar CSV
+          </button>
+          <button
             onClick={() => router.push('/dosieres/nuevo')}
             style={{
               background: '#0071e3', border: 'none', color: '#fff',
@@ -446,8 +513,8 @@ export default function DosieresPage() {
         )}
 
  <p style={{ marginTop: 30, textAlign: 'center', fontSize: 11, color: '#86868b' }}>
-          Backend: <code>/api/dosieres</code> · {updatedAt ? `actualizado ${new Date(updatedAt).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}` : 'cargando...'}
-          {' · '}<span style={{ color: '#525258' }}>{IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones (seed local)</span>
+          {dosieres.length} personas en un único sitio
+          {' · '}<span style={{ color: '#525258' }}>{CONGRESO_RESUMEN.length} diputados + {SENADO_RESUMEN.length} senadores + {MEDIOS_RESUMEN.length} periodistas + {IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder no-electo + {DOSIERES_RESUMEN.length} políticos (fixture)</span>
  </p>
  </main>
  </div>

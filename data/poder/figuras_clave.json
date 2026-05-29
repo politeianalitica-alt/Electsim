@@ -1,0 +1,2777 @@
+[
+  {
+    "slug": "pepa-bueno",
+    "tipo": "medio",
+    "nombre": "Josefa \"Pepa\" Bueno Echeverría",
+    "alias": "Pepa Bueno",
+    "cargo": "Directora de El País",
+    "bio_corta": "Periodista extremeña. Directora de El País desde 2021, el primer diario por difusión y referente del centro-izquierda mediático español. Larga trayectoria en la Cadena SER (Hoy por Hoy) y TVE (Los Desayunos).",
+    "fuente_principal": "https://elpais.com",
+    "tags": [
+      "medio",
+      "periodista",
+      "prensa",
+      "grupo-prisa"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Pepa Bueno (Badajoz, 1964) es directora de El País, el diario de referencia de la izquierda española y buque insignia del grupo PRISA. Periodista de larga trayectoria en televisión y radio, dirige la redacción más influyente del país en un momento de pugna por la propiedad del grupo."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Televisión: el Telediario",
+            "contenido": "Se hizo conocida presentando los informativos de TVE, incluido el Telediario, durante años, con un estilo riguroso e institucional.",
+            "fecha": "2004-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Radio: Hoy por Hoy",
+            "contenido": "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, referencia informativa de la radio, antes de dar el salto a la prensa escrita.",
+            "fecha": "2012-09-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Dirección de El País",
+            "contenido": "En 2023 asumió la dirección de El País, primera mujer al frente del diario, en plena reordenación accionarial del grupo PRISA (Amber Capital, bancos, socios con intereses políticos).",
+            "fecha": "2023-04-19"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Línea editorial",
+            "contenido": "El País bajo su dirección mantiene una línea socioliberal de centro-izquierda, crítica con los extremos y defensora del consenso constitucional. Editoriales favorables a la UE y a la gobernanza institucional.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Grupo PRISA / Joseph Oughourlian",
+            "contenido": "**Presidente de PRISA, editora de El País** (nota +6/10) — Accionista de control vía Amber Capital; condiciona la estrategia del grupo.",
+            "tags": [
+              "prisa",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +3/10) — Relación de fuente institucional; El País ha sido crítico y favorable según el tema.",
+            "tags": [
+              "sanchez",
+              "nota-+3",
+              "neutral"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Ignacio Escolar",
+            "contenido": "**Director de eldiario.es** (nota +4/10) — Competidor en el espacio progresista, relación cordial-competitiva.",
+            "tags": [
+              "escolar",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Eduardo Inda",
+            "contenido": "**Director de OKDiario** (nota -6/10) — Polo mediático opuesto, enfrentamiento editorial recurrente.",
+            "tags": [
+              "inda",
+              "nota--6",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "El País",
+            "fuente_url": "https://elpais.com"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-garcia-ferreras",
+    "tipo": "medio",
+    "nombre": "Antonio García Ferreras",
+    "alias": "Ferreras",
+    "cargo": "Director y presentador de Al Rojo Vivo (La Sexta)",
+    "bio_corta": "Periodista. Director y presentador de Al Rojo Vivo en La Sexta, el programa de tertulia política más influyente de la sobremesa. Director de la productora La Sexta y figura clave del audiovisual de Atresmedia.",
+    "fuente_principal": "https://www.lasexta.com",
+    "tags": [
+      "medio",
+      "periodista",
+      "television",
+      "atresmedia"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Antonio García Ferreras (Lupiana, Guadalajara, 1966) es director y presentador de 'Al Rojo Vivo' (laSexta) y uno de los periodistas más influyentes y polémicos de la televisión española. Desde su programa fija buena parte de la agenda política diaria del espacio progresista."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Del deporte a la dirección de informativos",
+            "contenido": "Empezó en radio y prensa deportiva y dirigió los informativos de la Cadena SER y de Telemadrid. Su salto a la dirección de la recién nacida laSexta (2006) lo situó en el centro del nuevo audiovisual privado.",
+            "fecha": "2006-03-27"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "'Al Rojo Vivo' y la maquinaria de tertulia",
+            "contenido": "Desde 2011 dirige y presenta 'Al Rojo Vivo', el magacín de actualidad de laSexta que ha popularizado el formato de tertulia política intensiva. Su capacidad para marcar agenda y elegir contertulios lo convierte en un actor de poder, no solo en un periodista.",
+            "fecha": "2011-01-10"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vínculo con Atresmedia y el espacio progresista",
+            "contenido": "Como rostro estrella del grupo Atresmedia (Planeta), su línea editorial, crítica con la derecha, pesa en la imagen del grupo y en la conversación pública de la izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil editorial",
+            "contenido": "Considerado afín al espacio progresista. Su programa marca agenda en el debate político de la izquierda y el centro.",
+            "tags": [
+              "progresista"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Atresmedia / Planeta",
+            "contenido": "**Grupo editor (familia Lara)** (nota +6/10) — Atresmedia es propiedad de Grupo Planeta; condiciona el marco corporativo.",
+            "tags": [
+              "atresmedia",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "José Manuel Villarejo",
+            "contenido": "**Comisario jubilado** (nota -7/10) — Aparece en audios del caso Villarejo conversando sobre maniobras mediáticas; episodio controvertido.",
+            "tags": [
+              "villarejo",
+              "nota--7",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +4/10) — Interlocución frecuente; plató de referencia para el PSOE.",
+            "tags": [
+              "sanchez",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Audios Villarejo",
+            "contenido": "En 2022 se publicaron audios atribuidos a Ferreras y Villarejo (2015) sobre una información falsa relativa a cuentas de Podemos. Ferreras lo enmarcó como conversación periodística rutinaria.",
+            "fecha": "2022-07-01",
+            "tags": [
+              "villarejo"
+            ]
+          },
+          {
+            "tipo": "controversia",
+            "titulo": "Los audios con Villarejo",
+            "contenido": "La difusión de audios de conversaciones con el excomisario Villarejo (caso de un bulo sobre una presunta cuenta de Podemos) abrió un debate sobre los límites del periodismo y sus fuentes. Ferreras lo enmarcó como una práctica de contraste; rige la presunción de inocencia sobre cualquier extremo no acreditado judicialmente.",
+            "tags": [
+              "fuentes",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "La Sexta",
+            "fuente_url": "https://www.lasexta.com/programas/al-rojo-vivo/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ignacio-escolar",
+    "tipo": "medio",
+    "nombre": "Ignacio Escolar García",
+    "alias": "Escolar",
+    "cargo": "Fundador y director de elDiario.es",
+    "bio_corta": "Periodista. Fundador y director de elDiario.es (2012), referente del periodismo digital progresista en España. Anteriormente director fundador de Público y bloguero pionero (escolar.net).",
+    "fuente_principal": "https://www.eldiario.es",
+    "tags": [
+      "medio",
+      "periodista",
+      "digital",
+      "progresista"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ignacio Escolar (Burgos, 1975) es fundador y director de elDiario.es, uno de los digitales más influyentes de la izquierda española, pionero del modelo de financiación por socios. Periodista de investigación, su medio ha destapado casos de gran impacto político."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Público y el blescolar.net",
+            "contenido": "Fue primer director del diario Público (2007) y uno de los blogueros políticos pioneros en España, con gran influencia en la conversación digital de la izquierda.",
+            "fecha": "2007-09-26"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundación de elDiario.es",
+            "contenido": "En 2012 fundó elDiario.es sobre un modelo mixto de publicidad y socios pagadores que lo blindó frente a presiones. Lo ha convertido en referente del periodismo de investigación progresista.",
+            "fecha": "2012-09-18"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Línea editorial",
+            "contenido": "Progresista, crítico con la derecha y los poderes económicos. Periodismo de investigación sobre corrupción y derechos.",
+            "tags": [
+              "progresista"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Eduardo Inda",
+            "contenido": "**Director de OKDiario** (nota -8/10) — Antagonista mediático directo; enfrentamientos públicos constantes.",
+            "tags": [
+              "inda",
+              "nota--8",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pepa Bueno",
+            "contenido": "**Directora de El País** (nota +4/10) — Espacio progresista compartido, relación cordial-competitiva.",
+            "tags": [
+              "pepa-bueno",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Yolanda Díaz",
+            "contenido": "**Líder de Sumar** (nota +5/10) — Cobertura favorable al espacio a la izquierda del PSOE.",
+            "tags": [
+              "yolanda-diaz",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "elDiario.es",
+            "fuente_url": "https://www.eldiario.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "eduardo-inda",
+    "tipo": "medio",
+    "nombre": "Eduardo Inda Arriaga",
+    "alias": "Inda",
+    "cargo": "Director de OKDiario",
+    "bio_corta": "Periodista. Fundador y director de OKDiario (2015), digital de línea conservadora y anti-sanchista. Tertuliano habitual en programas de televisión. Ex subdirector de El Mundo.",
+    "fuente_principal": "https://okdiario.com",
+    "tags": [
+      "medio",
+      "periodista",
+      "digital",
+      "conservador"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Eduardo Inda (Pamplona, 1966) es fundador y director de OKDiario, uno de los digitales más combativos contra el Gobierno de coalición. Tertuliano omnipresente en televisión, encarna el periodismo de trinchera del bloque de la derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "El Mundo y Marca",
+            "contenido": "Hizo carrera en El Mundo, donde fue subdirector, y dirigió el diario deportivo Marca, antes de emprender su propio proyecto digital.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundación de OKDiario",
+            "contenido": "En 2015 fundó OKDiario, con una línea editorial muy agresiva con el Gobierno y su entorno y una intensa actividad en tertulias. Su periodismo de investigación ha sido objeto de polémicas y desmentidos.",
+            "fecha": "2015-09-15"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Ignacio Escolar",
+            "contenido": "**Director de elDiario.es** (nota -8/10) — Antagonista mediático directo.",
+            "tags": [
+              "escolar",
+              "nota--8",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -8/10) — Diana editorial principal de OKDiario.",
+            "tags": [
+              "sanchez",
+              "nota--8",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de Madrid** (nota +6/10) — Cobertura favorable habitual.",
+            "tags": [
+              "ayuso",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "OKDiario",
+            "fuente_url": "https://okdiario.com"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "controversia",
+            "titulo": "Informaciones cuestionadas",
+            "contenido": "Varias de sus exclusivas han sido posteriormente cuestionadas o desmentidas, y ha protagonizado litigios por algunas de ellas. Rige la presunción de inocencia salvo resolución judicial firme.",
+            "tags": [
+              "litigios",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "francisco-marhuenda",
+    "tipo": "medio",
+    "nombre": "Francisco Marhuenda García",
+    "alias": "Marhuenda",
+    "cargo": "Director de La Razón",
+    "bio_corta": "Periodista, abogado y politólogo. Director del diario La Razón desde 2008. Tertuliano omnipresente en televisión. Vinculado históricamente al PP (fue jefe de gabinete de Mariano Rajoy en el Ministerio).",
+    "fuente_principal": "https://www.larazon.es",
+    "tags": [
+      "medio",
+      "periodista",
+      "prensa",
+      "conservador"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1961. Doctor en Derecho e Historia. Profesor universitario. Línea conservadora pero con interlocución transversal."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Gabinete de Rajoy",
+            "contenido": "Jefe de gabinete de Mariano Rajoy en el Ministerio de Administraciones Públicas (1996-1999).",
+            "fecha": "1996-05-01",
+            "tags": [
+              "pp"
+            ]
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director de La Razón",
+            "contenido": "Dirige La Razón desde 2008.",
+            "fecha": "2008-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Partido Popular",
+            "contenido": "**Vínculo histórico** (nota +6/10) — Pasado como cargo de confianza de Rajoy; línea editorial afín al PP.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Grupo Planeta",
+            "contenido": "**Editor de La Razón** (nota +5/10) — La Razón pertenece a Planeta (familia Lara).",
+            "tags": [
+              "planeta",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "La Razón",
+            "fuente_url": "https://www.larazon.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ana-rosa-quintana",
+    "tipo": "medio",
+    "nombre": "Ana Rosa Quintana Hortal",
+    "alias": "Ana Rosa",
+    "cargo": "Presentadora de Telecinco (Mediaset)",
+    "bio_corta": "Periodista y presentadora. Rostro estrella de Mediaset, presentó El Programa de Ana Rosa (matinal de referencia) y posteriormente TardeAR. Una de las comunicadoras más influyentes y mejor pagadas de la televisión española.",
+    "fuente_principal": "https://www.telecinco.es",
+    "tags": [
+      "medio",
+      "periodista",
+      "television",
+      "mediaset"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ana Rosa Quintana (Madrid, 1956) es la presentadora más influyente de Mediaset España y una de las grandes figuras de la televisión. Su magacín matinal lidera la franja desde hace dos décadas y condiciona la agenda mediática del centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De la prensa del corazón a la mañana",
+            "contenido": "Formada en periodismo, saltó a la fama en programas de corazón y sucesos. En 2005 estrenó 'El Programa de Ana Rosa' en Telecinco, que se convirtió en el magacín matinal de referencia.",
+            "fecha": "2005-01-10"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Productora propia y poder de mercado",
+            "contenido": "A través de su productora (Unicorn Content) controla la producción de sus propios formatos y de otros de la cadena, lo que le da un poder inusual sobre la parrilla de Mediaset."
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vespertina y peso editorial",
+            "contenido": "Tras una etapa en las tardes, su criterio y su tono marcan la línea de buena parte del entretenimiento informativo de Mediaset, con un encuadre crítico hacia el Gobierno.",
+            "fecha": "2023-09-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil editorial",
+            "contenido": "Considerada de tendencia conservadora-liberal. Crítica habitual con el Gobierno de Sánchez en sus comentarios.",
+            "tags": [
+              "conservador"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Mediaset España",
+            "contenido": "**Grupo audiovisual** (nota +6/10) — Cadena que emite sus programas (MFE/Berlusconi).",
+            "tags": [
+              "mediaset",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Telecinco",
+            "fuente_url": "https://www.telecinco.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carlos-alsina",
+    "tipo": "medio",
+    "nombre": "Carlos Alsina Ramírez",
+    "alias": "Alsina",
+    "cargo": "Director y presentador de Más de uno (Onda Cero)",
+    "bio_corta": "Periodista radiofónico. Dirige y presenta Más de uno en Onda Cero, una de las mañanas de radio más escuchadas. Sus entrevistas matinales (Las entrevistas de Alsina) marcan agenda política.",
+    "fuente_principal": "https://www.ondacero.es",
+    "tags": [
+      "medio",
+      "periodista",
+      "radio",
+      "onda-cero"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Madrid, 1969. Periodista de radio. Considerado riguroso y de difícil clasificación ideológica."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Más de uno",
+            "contenido": "Dirige el matinal de Onda Cero desde 2015.",
+            "fecha": "2015-09-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Atresmedia Radio",
+            "contenido": "**Grupo (Onda Cero / Planeta)** (nota +5/10) — Cadena que emite su programa.",
+            "tags": [
+              "atresmedia",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Su grupo (Onda Cero / Atresmedia)** (nota +5/10) — Alsina lidera las mañanas de Onda Cero, radio del grupo Planeta/Atresmedia que preside Creuheras."
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "carlos-herrera",
+            "contenido": "**Competidor matinal en radio** (nota -2/10) — Alsina (Onda Cero) y Herrera (COPE) compiten por el liderazgo de la radio hablada de la mañana."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Onda Cero",
+            "fuente_url": "https://www.ondacero.es/programas/mas-de-uno/"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "vicente-valles",
+    "tipo": "medio",
+    "nombre": "Vicente Vallés Lázaro",
+    "alias": "Vicente Vallés",
+    "cargo": "Presentador de Antena 3 Noticias",
+    "bio_corta": "Periodista. Presentador y director de Antena 3 Noticias 2 (edición de la noche), el informativo de mayor audiencia. Premio Planeta de no ficción por sus ensayos sobre geopolítica.",
+    "fuente_principal": "https://www.antena3.com",
+    "tags": [
+      "medio",
+      "periodista",
+      "television",
+      "atresmedia"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Vicente Vallés (Madrid, 1963) es director y presentador de 'Antena 3 Noticias 2', el informativo de máxima audiencia de la televisión española. Con un estilo analítico y entrevistas incisivas, es uno de los periodistas con mayor credibilidad del panorama."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Atresmedia",
+            "contenido": "**Grupo audiovisual** (nota +6/10) — Antena 3 pertenece a Atresmedia (Planeta).",
+            "tags": [
+              "atresmedia",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "jose-creuheras",
+            "contenido": "**Su grupo editor (Atresmedia/Planeta)** (nota +6/10) — Vallés es activo estrella de Atresmedia, presidida por Creuheras; su credibilidad refuerza la marca del grupo."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Antena 3 Noticias",
+            "fuente_url": "https://www.antena3.com/noticias/"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Rigor y liderazgo de audiencia",
+            "contenido": "Conduce el informativo de referencia de Antena 3, líder de audiencia. Su estilo analítico y sus entrevistas marcan agenda; es uno de los rostros con más credibilidad del panorama televisivo.",
+            "tags": [
+              "informativos",
+              "audiencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De CNN+ a Telecinco",
+            "contenido": "Trabajó en CNN+ y dirigió informativos en Telecinco y Cuatro antes de recalar en Atresmedia, donde se consolidó como referente de la información política.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Antena 3 Noticias y los editoriales",
+            "contenido": "Desde 2017 dirige y presenta el informativo de la noche de Antena 3, líder de audiencia, célebre por sus editoriales de cierre. Es además autor de varios ensayos de éxito sobre geopolítica y desinformación.",
+            "fecha": "2017-09-04"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "isabel-perello",
+    "tipo": "actor",
+    "nombre": "Isabel Perelló Doménech",
+    "alias": "Isabel Perelló",
+    "cargo": "Presidenta del Tribunal Supremo y del CGPJ",
+    "bio_corta": "Magistrada. Primera mujer en presidir el Tribunal Supremo y el Consejo General del Poder Judicial, desde septiembre de 2024, tras el desbloqueo del CGPJ pactado entre PSOE y PP.",
+    "fuente_principal": "https://www.poderjudicial.es",
+    "tags": [
+      "judicial",
+      "poder-judicial",
+      "ts",
+      "cgpj"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Isabel Perelló (Valencia, 1958) es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en ocupar la cúspide del poder judicial español. Magistrada de prestigio, accedió al cargo en 2024 tras el desbloqueo de la renovación del CGPJ."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Carrera en la magistratura",
+            "contenido": "Magistrada de larga trayectoria, llegó a la Sala de lo Contencioso-Administrativo del Tribunal Supremo, donde se ganó la reputación de jurista rigurosa e independiente.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta del TS y del CGPJ",
+            "contenido": "En 2024, tras cinco años de bloqueo político en la renovación del CGPJ, fue elegida por consenso presidenta del Tribunal Supremo y del Consejo, con el reto de despolitizar el órgano de gobierno de los jueces.",
+            "fecha": "2024-09-05"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Independencia judicial",
+            "contenido": "Defensa de la independencia y despolitización del CGPJ. Llamamiento a reformar el sistema de elección de vocales.",
+            "tags": [
+              "independencia-judicial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Cándido Conde-Pumpido",
+            "contenido": "**Presidente del Tribunal Constitucional** (nota +3/10) — Cúpula judicial; relación institucional entre TS y TC.",
+            "tags": [
+              "conde-pumpido",
+              "nota-+3",
+              "neutral"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Félix Bolaños",
+            "contenido": "**Ministro de Justicia** (nota 0/10) — Interlocución institucional Gobierno-poder judicial, con tensiones sobre la reforma.",
+            "tags": [
+              "bolanos",
+              "nota-0",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Poder Judicial",
+            "fuente_url": "https://www.poderjudicial.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "candido-conde-pumpido",
+    "tipo": "actor",
+    "nombre": "Cándido Conde-Pumpido Tourón",
+    "alias": "Conde-Pumpido",
+    "cargo": "Presidente del Tribunal Constitucional",
+    "bio_corta": "Magistrado. Presidente del Tribunal Constitucional desde 2023. Ex Fiscal General del Estado (2004-2011, con Zapatero). Asociado al sector progresista de la judicatura.",
+    "fuente_principal": "https://www.tribunalconstitucional.es",
+    "tags": [
+      "judicial",
+      "tribunal-constitucional",
+      "progresista"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional desde 2023. Magistrado de larga carrera y exfiscal general del Estado, es una de las figuras más influyentes —y discutidas— del poder judicial español."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Carrera judicial y fiscal",
+            "contenido": "Magistrado de profesión, desarrolló una extensa carrera en la judicatura y la Fiscalía, con paso por el Tribunal Supremo. Se le identifica con el sector progresista de la judicatura.",
+            "fecha": "1975-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fiscal General con Zapatero",
+            "contenido": "Fue fiscal general del Estado durante los gobiernos de Rodríguez Zapatero (2004-2011), una etapa marcada por causas de gran calado político y por las tensiones habituales entre Fiscalía, Gobierno y oposición.",
+            "fecha": "2004-04-24"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Magistrado y presidente del TC",
+            "contenido": "Llegó al Tribunal Constitucional en 2017 y, tras la renovación que dio mayoría al bloque progresista, fue elegido presidente del tribunal en enero de 2023. Desde la presidencia ha pilotado sentencias de gran trascendencia política.",
+            "fecha": "2023-01-10"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Doctrina",
+            "contenido": "Avaló sentencias clave en la legislatura: ley del aborto, eutanasia y aspectos de la ley de amnistía. Criticado por la derecha por el giro progresista del TC.",
+            "tags": [
+              "doctrina"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Garantismo y defensa de la independencia",
+            "contenido": "Reivindica la independencia del Constitucional y un enfoque garantista. Defiende la legitimidad del tribunal para revisar leyes y resolver conflictos entre poderes, en un contexto de fuerte tensión institucional.",
+            "tags": [
+              "constitucional",
+              "independencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PSOE",
+            "contenido": "**Sector progresista** (nota +4/10) — Llegó al TC con apoyo del bloque progresista; criticado por el PP por afinidad.",
+            "tags": [
+              "psoe",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Partido Popular",
+            "contenido": "**Oposición** (nota -5/10) — El PP cuestiona la imparcialidad del TC bajo su presidencia.",
+            "tags": [
+              "pp",
+              "nota--5",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Tribunal Constitucional",
+            "fuente_url": "https://www.tribunalconstitucional.es"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "controversia",
+            "titulo": "Acusaciones de parcialidad",
+            "contenido": "El PP y la derecha mediática le acusan de parcialidad y de favorecer al Gobierno en asuntos como los avales a leyes polémicas o la tramitación de la amnistía. Él y el sector progresista lo niegan y reivindican la independencia del tribunal. El debate forma parte de la batalla más amplia por el control de los órganos del Estado.",
+            "tags": [
+              "polarizacion",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alvaro-garcia-ortiz",
+    "tipo": "actor",
+    "nombre": "Álvaro García Ortiz",
+    "alias": "García Ortiz",
+    "cargo": "Fiscal General del Estado",
+    "bio_corta": "Fiscal. Fiscal General del Estado desde 2022. Su mandato ha estado marcado por una investigación judicial inédita: el Tribunal Supremo lo procesó por presunta revelación de secretos en el caso de la pareja de Isabel Díaz Ayuso.",
+    "fuente_principal": "https://www.fiscal.es",
+    "tags": [
+      "judicial",
+      "fiscalia",
+      "investigado"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Álvaro García Ortiz (Valdediós, Asturias, 1967) es fiscal general del Estado desde 2022. Fiscal de carrera especializado en medio ambiente, su mandato ha estado marcado por una tensión inédita con parte de la carrera fiscal, el poder judicial y la oposición."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Fiscal especialista en medio ambiente",
+            "contenido": "Fiscal de carrera, se especializó en delitos contra el medio ambiente y la ordenación del territorio, llegando a ser fiscal de Sala de Medio Ambiente, antes de ascender en la cúpula del ministerio público.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fiscal General del Estado",
+            "contenido": "Fue nombrado fiscal general en 2022 a propuesta del Gobierno y renovado en 2024. Su designación, como la de sus predecesores, reavivó el debate sobre la autonomía de la Fiscalía respecto del Ejecutivo que la propone.",
+            "fecha": "2022-07-27"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Una causa sin precedentes",
+            "contenido": "García Ortiz está siendo investigado por el Tribunal Supremo por una presunta revelación de secretos en relación con la difusión de información sobre un caso fiscal. Es la primera vez que un fiscal general en activo se ve en esa situación. La causa sigue su curso y rige la presunción de inocencia mientras no haya sentencia firme.",
+            "fecha": "2024-10-30"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno de Sánchez",
+            "contenido": "**Quien lo propuso** (nota +4/10) — Su nombramiento fue del Gobierno; la oposición cuestiona su independencia.",
+            "tags": [
+              "sanchez",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de Madrid** (nota -8/10) — Conflicto directo: la causa contra García Ortiz nace de la filtración sobre la pareja de Ayuso.",
+            "tags": [
+              "ayuso",
+              "nota--8",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Miguel Ángel Rodríguez",
+            "contenido": "**Jefe de gabinete de Ayuso** (nota -8/10) — Pieza central del enfrentamiento sobre la filtración.",
+            "tags": [
+              "mar",
+              "nota--8",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Procesamiento por revelación de secretos",
+            "contenido": "El Tribunal Supremo abrió causa y procesó al FGE por la presunta filtración de un correo del abogado de la pareja de Ayuso. Caso inédito: un Fiscal General procesado en ejercicio. Rige la presunción de inocencia.",
+            "fecha": "2024-10-01",
+            "tags": [
+              "judicial",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Fiscalía",
+            "fuente_url": "https://www.fiscal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Defensa de la legalidad y autonomía",
+            "contenido": "Reivindica la actuación de la Fiscalía conforme a la legalidad y su autonomía funcional. La oposición y parte de la carrera le reprochan sintonía con el Gobierno; él lo niega. El episodio ha tensionado como pocos la relación entre Fiscalía, jueces y poder político.",
+            "tags": [
+              "fiscalia",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-carlos-peinado",
+    "tipo": "actor",
+    "nombre": "Juan Carlos Peinado",
+    "alias": "Juez Peinado",
+    "cargo": "Magistrado-juez del Juzgado de Instrucción nº 41 de Madrid",
+    "bio_corta": "Juez de instrucción de Madrid. Instructor de la causa contra Begoña Gómez, esposa de Pedro Sánchez, por presuntos delitos relacionados con su actividad profesional. Caso de altísima tensión política.",
+    "fuente_principal": "https://www.poderjudicial.es",
+    "tags": [
+      "judicial",
+      "juez-instruccion",
+      "madrid"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Magistrado titular del Juzgado de Instrucción nº 41 de Madrid. Saltó al primer plano por la causa contra Begoña Gómez."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Begoña Gómez",
+            "contenido": "**Esposa de Pedro Sánchez** (nota -7/10) — Investigada en la causa que instruye; rige la presunción de inocencia.",
+            "tags": [
+              "nota--7",
+              "conflicto",
+              "presuncion-inocencia"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -6/10) — Citado como testigo en la causa; el Gobierno critica la instrucción.",
+            "tags": [
+              "sanchez",
+              "nota--6",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Instrucción contra Begoña Gómez",
+            "contenido": "La instrucción ha sido objeto de recursos y críticas sobre su alcance. El Gobierno y el PSOE han cuestionado la actuación judicial; la oposición la respalda. Rige la presunción de inocencia para todos los investigados.",
+            "fecha": "2024-04-01",
+            "tags": [
+              "judicial",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Poder Judicial",
+            "fuente_url": "https://www.poderjudicial.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-luis-escriva",
+    "tipo": "actor",
+    "nombre": "José Luis Escrivá Belmonte",
+    "alias": "Escrivá",
+    "cargo": "Gobernador del Banco de España",
+    "bio_corta": "Economista. Gobernador del Banco de España desde 2024. Anteriormente ministro de Inclusión, Seguridad Social y Migraciones (2020-2023) y de Transformación Digital (2023-2024), y presidente fundador de la AIReF.",
+    "fuente_principal": "https://www.bde.es",
+    "tags": [
+      "regulador",
+      "banco-de-espana",
+      "economia",
+      "ex-ministro"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "José Luis Escrivá Belmonte (Albacete, 1960) es gobernador del Banco de España desde 2024. Economista y técnico comercial del Estado, ha transitado por la banca privada, los organismos internacionales y el Gobierno, donde fue ministro, hasta llegar a la cúpula del supervisor bancario y al Consejo de Gobierno del BCE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Economista de prestigio",
+            "contenido": "Técnico comercial y economista del Estado, trabajó en el Banco de España, en el BCE y dirigió el servicio de estudios del BBVA, ganándose una sólida reputación técnica en análisis macroeconómico y fiscal.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primer presidente de la AIReF",
+            "contenido": "En 2014 fue nombrado primer presidente de la Autoridad Independiente de Responsabilidad Fiscal (AIReF), el organismo que fiscaliza las cuentas públicas. Desde ahí construyó un perfil de tecnócrata riguroso y a veces incómodo para los gobiernos.",
+            "fecha": "2014-02-25"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ministro de Sánchez",
+            "contenido": "En 2020 entró en el Gobierno de coalición como ministro de Inclusión, Seguridad Social y Migraciones. Pilotó la reforma de las pensiones —pactada con Bruselas y los agentes sociales— y el Ingreso Mínimo Vital. En 2023 pasó a la cartera de Transformación Digital.",
+            "fecha": "2020-01-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gobernador del Banco de España",
+            "contenido": "En septiembre de 2024 fue nombrado gobernador del Banco de España, no sin polémica por su pasado político reciente. Desde el cargo supervisa la solvencia de la banca, asesora sobre estabilidad financiera y vivienda, y vota en el Consejo de Gobierno del BCE la política monetaria del euro.",
+            "fecha": "2024-09-09"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +5/10) — Fue su ministro; el Gobierno impulsó su nombramiento como Gobernador.",
+            "tags": [
+              "sanchez",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "María Jesús Montero",
+            "contenido": "**Ministra de Hacienda** (nota +4/10) — Coordinación en política fiscal y de pensiones.",
+            "tags": [
+              "montero",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "BCE / Christine Lagarde",
+            "contenido": "**Banco Central Europeo** (nota +3/10) — El Gobernador del BdE forma parte del Consejo de Gobierno del BCE.",
+            "tags": [
+              "bce",
+              "nota-+3",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Nombramiento polémico",
+            "contenido": "Su salto directo de ministro a Gobernador del Banco de España fue criticado por la oposición y parte del sector financiero por el posible riesgo a la independencia del supervisor.",
+            "fecha": "2024-09-01",
+            "tags": [
+              "independencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Banco de España",
+            "fuente_url": "https://www.bde.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Tecnócrata de la sostenibilidad fiscal",
+            "contenido": "Defiende la sostenibilidad de las pensiones y de las cuentas públicas con un enfoque técnico y de big data. Su nombramiento como gobernador reavivó el debate sobre la independencia del supervisor frente al poder político.",
+            "tags": [
+              "pensiones",
+              "supervision"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cani-fernandez",
+    "tipo": "actor",
+    "nombre": "Cani Fernández Vicién",
+    "alias": "Cani Fernández",
+    "cargo": "Presidenta de la CNMC",
+    "bio_corta": "Abogada especialista en competencia. Presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC) desde 2020. Árbitro clave en concentraciones empresariales como la OPA BBVA-Sabadell.",
+    "fuente_principal": "https://www.cnmc.es",
+    "tags": [
+      "regulador",
+      "cnmc",
+      "competencia"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Cani Fernández (1968) es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el superregulador que vigila la competencia y los sectores de energía, telecomunicaciones y transporte. Abogada especialista en competencia, su criterio condiciona fusiones y precios en toda la economía."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "OPA BBVA-Sabadell",
+            "contenido": "La CNMC tiene un papel decisivo en la autorización (con o sin condiciones) de la OPA de BBVA sobre Sabadell, una de las operaciones más relevantes del sistema financiero.",
+            "tags": [
+              "bbva-sabadell"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "BBVA / Sabadell",
+            "contenido": "**OPA bajo su supervisión** (nota 0/10) — La CNMC arbitra la operación; relación de regulador imparcial.",
+            "tags": [
+              "nota-0",
+              "neutral"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno (Min. Economía)",
+            "contenido": "**Carlos Cuerpo** (nota 0/10) — El Gobierno puede intervenir en fase 3 de una concentración tras la CNMC.",
+            "tags": [
+              "cuerpo",
+              "nota-0",
+              "neutral"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Empresas del IBEX 35",
+            "contenido": "**Vigila concentraciones y cárteles** (nota +6/10) — La CNMC autoriza fusiones, sanciona prácticas anticompetitivas y regula energía, telecos y transporte; su criterio condiciona operaciones del IBEX."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CNMC",
+            "fuente_url": "https://www.cnmc.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 4,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Especialista en competencia",
+            "contenido": "Abogada del Estado y socia de competencia en Cuatrecasas, fue letrada en el Tribunal de Justicia de la Unión Europea, donde se forjó como una de las grandes expertas en derecho de la competencia.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidencia de la CNMC",
+            "contenido": "Desde 2020 preside la CNMC, organismo que autoriza concentraciones, sanciona cárteles y regula la energía y las telecos. Sus decisiones afectan directamente a las grandes cotizadas y a la factura de los consumidores.",
+            "fecha": "2020-09-15"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-roig",
+    "tipo": "actor",
+    "nombre": "Juan Roig Alfonso",
+    "alias": "Juan Roig",
+    "cargo": "Presidente de Mercadona",
+    "bio_corta": "Empresario valenciano. Presidente de Mercadona, la mayor cadena de supermercados de España (cuota ~26%). Una de las mayores fortunas del país. Propietario del Valencia Basket y promotor del ecosistema emprendedor Marina de Empresas / Lanzadera.",
+    "fuente_principal": "https://www.mercadona.es",
+    "tags": [
+      "empresa",
+      "empresario",
+      "distribucion",
+      "no-ibex",
+      "valencia"
+    ],
+    "confidence": 0.88,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De la tienda familiar a Mercadona",
+            "contenido": "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.",
+            "fecha": "1981-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El modelo Mercadona",
+            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector."
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Marina de Empresas y mecenazgo",
+            "contenido": "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Modelo empresarial",
+            "contenido": "Defensa pública del esfuerzo, la productividad y la reinversión. Crítico ocasional con la presión fiscal y reivindicador del 'modelo Mercadona' de calidad-precio.",
+            "tags": [
+              "modelo-empresarial"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Hortensia Herrero",
+            "contenido": "**Esposa y vicepresidenta de Mercadona** (nota +9/10) — Copropietaria; mecenas de arte en Valencia.",
+            "tags": [
+              "herrero",
+              "nota-+9",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Carlos Mazón",
+            "contenido": "**President de la Generalitat Valenciana (PP)** (nota +4/10) — Interlocución institucional como mayor empleador valenciano.",
+            "tags": [
+              "mazon",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Proveedores 'interproveedores'",
+            "contenido": "**Red de proveedores estratégicos** (nota +6/10) — Modelo de interproveedores integrados clave en su cadena.",
+            "tags": [
+              "proveedores",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Mercadona",
+            "fuente_url": "https://www.mercadona.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "sandra-ortega-mera",
+    "tipo": "actor",
+    "nombre": "Sandra Ortega Mera",
+    "alias": "Sandra Ortega",
+    "cargo": "Accionista de Inditex · presidenta de Rosp Corunna",
+    "bio_corta": "Empresaria e inversora. Hija de Amancio Ortega y Rosalía Mera (cofundadora de Inditex). Mayor fortuna femenina de España, heredera del ~5% de Inditex y de la cartera de su madre vía Rosp Corunna.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Sandra_Ortega_Mera",
+    "tags": [
+      "empresa",
+      "inversora",
+      "inditex",
+      "no-ibex",
+      "galicia"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y una de las grandes fortunas del país. Hija del fundador de Inditex, Amancio Ortega, y de Rosalía Mera, heredó la participación de su madre y gestiona su patrimonio e iniciativas filantrópicas con un perfil discreto."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Amancio Ortega",
+            "contenido": "**Padre, fundador de Inditex** (nota +8/10) — Vínculo familiar; ambos accionistas de Inditex.",
+            "tags": [
+              "amancio-ortega",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Marta Ortega",
+            "contenido": "**Hermanastra, presidenta de Inditex** (nota +5/10) — Relación familiar; ambas en la órbita Inditex.",
+            "tags": [
+              "marta-ortega-perez",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Fundación Paideia",
+            "contenido": "**Brazo filantrópico (heredado de Rosalía Mera)** (nota +7/10) — Foco en discapacidad e inclusión.",
+            "tags": [
+              "paideia",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Rosp Corunna",
+            "fuente_url": "https://es.wikipedia.org/wiki/Sandra_Ortega_Mera"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Heredera de Rosalía Mera",
+            "contenido": "Tras el fallecimiento de su madre, cofundadora de Inditex, en 2013, heredó su participación accionarial, convirtiéndose en una de las mayores accionistas del grupo textil.",
+            "fecha": "2013-08-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Rosp Corunna y filantropía",
+            "contenido": "Gestiona su fortuna a través de la sociedad Rosp Corunna y dedica una parte relevante a la filantropía, especialmente a la discapacidad (Fundación Pa de Mel) y la salud, siguiendo la estela de su madre."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-carlos-escotet",
+    "tipo": "actor",
+    "nombre": "Juan Carlos Escotet Rodríguez",
+    "alias": "Escotet",
+    "cargo": "Presidente de Abanca",
+    "bio_corta": "Banquero hispano-venezolano. Presidente de Abanca, banco resultante de la antigua Novagalicia (cajas gallegas). Controla el grupo vía Banesco. Presidente del Deportivo de la Coruña.",
+    "fuente_principal": "https://www.abanca.com",
+    "tags": [
+      "empresa",
+      "banca",
+      "no-ibex",
+      "galicia"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Juan Carlos Escotet (Caracas, 1959) es presidente de Abanca, el gran banco gallego, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, es una de las figuras de mayor poder económico del noroeste peninsular."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Xunta de Galicia",
+            "contenido": "**Gobierno gallego (PP)** (nota +4/10) — Abanca como banco de referencia en Galicia.",
+            "tags": [
+              "xunta",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Deportivo de la Coruña",
+            "contenido": "**Club que preside / patrocina** (nota +7/10) — Vínculo de proyección social en A Coruña.",
+            "tags": [
+              "deportivo",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Tejido financiero gallego",
+            "contenido": "**Banca de referencia en Galicia** (nota +6/10) — Abanca es pieza central del poder económico gallego, con creciente peso nacional vía adquisiciones."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Abanca",
+            "fuente_url": "https://www.abanca.com"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Banesco en Venezuela",
+            "contenido": "Construyó en Venezuela uno de los mayores grupos bancarios privados del país (Banesco), antes de expandirse internacionalmente ante la crisis venezolana.",
+            "fecha": "1992-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Compra de Novagalicia y nacimiento de Abanca",
+            "contenido": "En 2013 adquirió la antigua Novagalicia Banco (rescatada con dinero público) y la refundó como Abanca, que ha crecido con sucesivas compras hasta convertirse en un banco de relevancia nacional.",
+            "fecha": "2014-06-25"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "unai-sordo",
+    "tipo": "actor",
+    "nombre": "Unai Sordo Calvo",
+    "alias": "Unai Sordo",
+    "cargo": "Secretario general de CCOO",
+    "bio_corta": "Sindicalista vasco. Secretario general de Comisiones Obreras (CCOO) desde 2017, el mayor sindicato de España. Interlocutor central del diálogo social con Gobierno y patronal.",
+    "fuente_principal": "https://www.ccoo.es",
+    "tags": [
+      "sindicato",
+      "ccoo",
+      "dialogo-social"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Unai Sordo (Barakaldo, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España, desde 2017. Es uno de los dos vértices sindicales del diálogo social y un actor central en la negociación de salarios, pensiones y reforma laboral."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Agenda sindical",
+            "contenido": "Defensa de la subida del SMI, reducción de jornada, derogación de aspectos de la reforma laboral de 2012 y mejora de pensiones.",
+            "tags": [
+              "agenda-sindical"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Yolanda Díaz",
+            "contenido": "**Ministra de Trabajo / líder Sumar** (nota +7/10) — Aliada clave en la reforma laboral y la subida del SMI.",
+            "tags": [
+              "yolanda-diaz",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pepe Álvarez",
+            "contenido": "**Secretario general de UGT** (nota +7/10) — Acción sindical conjunta CCOO-UGT.",
+            "tags": [
+              "pepe-alvarez",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Antonio Garamendi",
+            "contenido": "**Presidente de CEOE** (nota -2/10) — Contraparte en el diálogo social; tensión negociadora pero acuerdos puntuales.",
+            "tags": [
+              "garamendi",
+              "nota--2",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "CCOO",
+            "fuente_url": "https://www.ccoo.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Del metal vasco a la cúpula",
+            "contenido": "Trabajador del sector industrial vasco, ascendió en la estructura de CCOO de Euskadi hasta dirigir el sindicato en el País Vasco.",
+            "fecha": "2009-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Secretario general de CCOO",
+            "contenido": "En 2017 fue elegido secretario general confederal. Ha pilotado la firma de la reforma laboral de 2021, las subidas del SMI y el acuerdo de pensiones, en coordinación con UGT.",
+            "fecha": "2017-06-30"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pepe-alvarez",
+    "tipo": "actor",
+    "nombre": "José María \"Pepe\" Álvarez Suárez",
+    "alias": "Pepe Álvarez",
+    "cargo": "Secretario general de UGT",
+    "bio_corta": "Sindicalista. Secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto con CCOO, columna del diálogo social y de la concertación con el Gobierno de coalición.",
+    "fuente_principal": "https://www.ugt.es",
+    "tags": [
+      "sindicato",
+      "ugt",
+      "dialogo-social"
+    ],
+    "confidence": 0.82,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Pepe Álvarez (Degaña, Asturias, 1956) es secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto a CCOO, lidera el bloque sindical en el diálogo social y la negociación colectiva de ámbito estatal."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Unai Sordo",
+            "contenido": "**Secretario general de CCOO** (nota +7/10) — Tándem sindical UGT-CCOO.",
+            "tags": [
+              "unai-sordo",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Yolanda Díaz",
+            "contenido": "**Ministra de Trabajo** (nota +6/10) — Aliada en la agenda laboral.",
+            "tags": [
+              "yolanda-diaz",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "unai-sordo",
+            "contenido": "**Aliado sindical (CCOO)** (nota +6/10) — UGT y CCOO actúan en bloque frente a la patronal en el diálogo social, aunque compiten por la afiliación y la representatividad."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "UGT",
+            "fuente_url": "https://www.ugt.es"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Agenda sindical",
+            "contenido": "Defiende la subida del SMI, la reducción de jornada y el blindaje de las pensiones. Firma los grandes acuerdos del diálogo social, aunque tensa la cuerda con la patronal cuando lo cree necesario.",
+            "tags": [
+              "smi",
+              "jornada",
+              "pensiones"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "De UGT Catalunya a Madrid",
+            "contenido": "Dirigió UGT de Cataluña durante casi dos décadas, donde se forjó como negociador, antes de dar el salto a la secretaría general confederal.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Secretario general de UGT",
+            "contenido": "Desde 2016 dirige la UGT. Ha firmado los grandes acuerdos del diálogo social de la etapa (reforma laboral, SMI, pensiones) y defiende la reducción de jornada y el blindaje del poder adquisitivo.",
+            "fecha": "2016-03-11"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "francina-armengol",
+    "tipo": "politico",
+    "nombre": "Francesca \"Francina\" Armengol Socías",
+    "alias": "Francina Armengol",
+    "cargo": "Presidenta del Congreso de los Diputados",
+    "bio_corta": "Política del PSOE (PSIB). Presidenta del Congreso de los Diputados desde 2023. Anteriormente presidenta del Gobierno de las Islas Baleares (2015-2023). Tercera autoridad del Estado.",
+    "fuente_principal": "https://www.congreso.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "congreso",
+      "baleares"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.7,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Inca (Mallorca), 1971. Farmacéutica de formación. Tercera autoridad del Estado como presidenta del Congreso."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de Baleares",
+            "contenido": "Presidenta del Govern balear entre 2015 y 2023 (pacto progresista).",
+            "fecha": "2015-07-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta del Congreso",
+            "contenido": "Elegida presidenta del Congreso en agosto 2023, parte del acuerdo de investidura de Sánchez.",
+            "fecha": "2023-08-17"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +7/10) — Aliada leal; su elección selló apoyos de investidura.",
+            "tags": [
+              "sanchez",
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Junts / ERC",
+            "contenido": "**Socios de investidura** (nota +3/10) — Gestiona la Mesa del Congreso con equilibrios de la mayoría plurinacional.",
+            "tags": [
+              "nota-+3",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Congreso",
+            "fuente_url": "https://www.congreso.es"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "luis-arguello",
+    "tipo": "actor",
+    "nombre": "Luis Javier Argüello García",
+    "alias": "Luis Argüello",
+    "cargo": "Presidente de la Conferencia Episcopal Española y arzobispo de Valladolid",
+    "bio_corta": "Eclesiástico. Arzobispo de Valladolid y presidente de la Conferencia Episcopal Española (CEE) desde 2024. Voz de la Iglesia católica española ante el Estado y la sociedad.",
+    "fuente_principal": "https://www.conferenciaepiscopal.es",
+    "tags": [
+      "iglesia",
+      "religion",
+      "conferencia-episcopal"
+    ],
+    "confidence": 0.78,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Luis Argüello (Meneses de Campos, Palencia, 1953) es arzobispo de Valladolid y presidente de la Conferencia Episcopal Española desde 2024, la máxima autoridad de la Iglesia católica en España. Canonista de formación, representa a los obispos ante el Estado y la sociedad."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Posición pública",
+            "contenido": "Voz de la Iglesia en debates sobre familia, educación, inmigración y memoria histórica. Interlocución con el Estado sobre financiación y enseñanza religiosa.",
+            "tags": [
+              "iglesia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Vaticano",
+            "contenido": "**Santa Sede** (nota +6/10) — Jerarquía eclesiástica; nombrado en sintonía con Roma.",
+            "tags": [
+              "vaticano",
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Gobierno de España",
+            "contenido": "**Estado** (nota -2/10) — Interlocución institucional con tensiones por laicidad, educación y memoria histórica.",
+            "tags": [
+              "nota--2",
+              "neutral"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Conferencia Episcopal",
+            "fuente_url": "https://www.conferenciaepiscopal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sacerdote y obispo",
+            "contenido": "Ordenado sacerdote y luego obispo auxiliar de Valladolid, combinó la labor pastoral con la formación en Derecho Canónico, especializándose en las relaciones Iglesia-Estado.",
+            "fecha": "2016-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Secretario y portavoz de la CEE",
+            "contenido": "Fue secretario general y portavoz de la Conferencia Episcopal, voz visible de los obispos en debates como la eutanasia, el aborto o la educación.",
+            "fecha": "2018-03-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de la Conferencia Episcopal",
+            "contenido": "En 2024 fue elegido presidente de la CEE, asumiendo la interlocución con el Gobierno en asuntos sensibles como los abusos, las inmatriculaciones y la financiación.",
+            "fecha": "2024-03-06"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "felipe-vi",
+    "tipo": "actor",
+    "nombre": "Felipe VI de Borbón y Grecia",
+    "alias": "Felipe VI",
+    "cargo": "Rey de España · Jefe del Estado",
+    "bio_corta": "Jefe del Estado desde junio de 2014, tras la abdicación de su padre Juan Carlos I. Símbolo de la unidad y permanencia del Estado, con un papel arbitral y moderador del funcionamiento de las instituciones.",
+    "fuente_principal": "https://www.casareal.es",
+    "tags": [
+      "casa-real",
+      "monarquia",
+      "jefe-estado"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Felipe VI (Felipe Juan Pablo Alfonso de Todos los Santos de Borbón y Grecia), nacido en Madrid el 30 de enero de 1968, es el Rey de España y Jefe del Estado desde el 19 de junio de 2014. Encarna la Corona como institución arbitral y moderadora dentro de la monarquía parlamentaria que diseña la Constitución de 1978."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Formación e infancia como heredero",
+            "contenido": "Hijo de Juan Carlos I y Sofía de Grecia, fue educado desde niño para reinar. Estudió en el Colegio Santa María de los Rosales, cursó un año de bachillerato en Canadá (Lakefield College) y completó la triple formación militar en las academias de tierra (Zaragoza), mar (Marín) y aire (San Javier). Se licenció en Derecho por la Universidad Autónoma de Madrid y obtuvo un máster en Relaciones Internacionales en la Universidad de Georgetown (EE. UU.).",
+            "fecha": "1968-01-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Príncipe de Asturias",
+            "contenido": "Durante casi cuatro décadas ejerció como Príncipe de Asturias, asumiendo una intensa agenda de representación institucional, presidencia de fundaciones y misiones diplomáticas, especialmente en Iberoamérica. En 2004 contrajo matrimonio con la periodista Letizia Ortiz, con quien tiene dos hijas: la Princesa Leonor (2005), heredera de la Corona, y la Infanta Sofía (2007).",
+            "fecha": "2004-05-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Proclamación y 'monarquía renovada'",
+            "contenido": "Tras la abdicación de su padre, fue proclamado rey ante las Cortes el 19 de junio de 2014, en un momento de fuerte desprestigio de la institución por los escándalos de los últimos años del reinado anterior. Desde el primer día planteó una Corona más austera y transparente: redujo el presupuesto y su asignación, publicó las cuentas de la Casa del Rey, aprobó un código de conducta y limitó los regalos y los viajes.",
+            "fecha": "2014-06-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El discurso del 3 de octubre y la crisis catalana",
+            "contenido": "El momento más delicado de su reinado llegó con el desafío independentista. El 3 de octubre de 2017, dos días después del referéndum ilegal del 1-O, pronunció un durísimo mensaje televisado en defensa del orden constitucional. La intervención le granjeó el respaldo del constitucionalismo y la animadversión del independentismo y de parte de la izquierda, que le reprocharon no apelar al diálogo.",
+            "fecha": "2017-10-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ruptura con su padre",
+            "contenido": "En 2020, ante la acumulación de informaciones sobre los negocios de Juan Carlos I, Felipe VI renunció a la herencia que pudiera corresponderle de su padre y le retiró la asignación pública. El rey emérito se trasladó a Abu Dabi. La maniobra buscó blindar a la Corona reinante frente a los escándalos del anterior titular, en una operación de distanciamiento sin precedentes en la historia reciente.",
+            "fecha": "2020-03-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Papel arbitral",
+            "contenido": "Como Jefe del Estado ejerce funciones tasadas: sanciona las leyes, convoca elecciones, propone candidato a la investidura tras consultar a los partidos y ejerce la representación exterior del Estado. En un Parlamento cada vez más fragmentado, sus rondas de consultas y la propuesta de candidato han ganado peso político y visibilidad."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Rol constitucional",
+            "contenido": "Arbitra y modera el funcionamiento de las instituciones (art. 56 CE). Neutralidad política; firma y promulga leyes, propone candidato a la investidura, manda simbólicamente las FF.AA.",
+            "tags": [
+              "constitucional"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Neutralidad y Constitución",
+            "contenido": "Su línea es la defensa estricta de la Constitución y la neutralidad partidista. Evita el comentario político y concentra su mensaje en la unidad, la convivencia y la proyección internacional de España. Su legitimidad depende de mantenerse por encima de la refriega partidista en un país profundamente polarizado.",
+            "tags": [
+              "constitucion",
+              "neutralidad"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +3/10) — Relación institucional con el jefe del Ejecutivo (despachos, refrendo).",
+            "tags": [
+              "sanchez",
+              "nota-+3",
+              "neutral"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Carlos I",
+            "contenido": "**Rey emérito, su padre** (nota -2/10) — Relación marcada por la distancia institucional tras los escándalos del emérito y su salida a Abu Dabi.",
+            "tags": [
+              "juan-carlos",
+              "nota--2",
+              "tension"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Leonor de Borbón",
+            "contenido": "**Princesa de Asturias, su hija y heredera** (nota +9/10) — Formación militar y preparación para la sucesión.",
+            "tags": [
+              "leonor",
+              "nota-+9",
+              "alianza-fuerte"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Casa Real",
+            "fuente_url": "https://www.casareal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "controversia",
+            "titulo": "La sombra de Juan Carlos I",
+            "contenido": "El principal riesgo reputacional de su reinado son los escándalos de su padre, que arrastran a la institución pese a la separación formal. La izquierda y el independentismo cuestionan abiertamente la monarquía; Felipe VI responde con ejemplaridad y transparencia. La República figura en la agenda de socios del Gobierno, lo que mantiene el debate abierto.",
+            "tags": [
+              "monarquia",
+              "republica"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "letizia-ortiz",
+    "tipo": "actor",
+    "nombre": "Letizia Ortiz Rocasolano",
+    "alias": "Reina Letizia",
+    "cargo": "Reina de España",
+    "bio_corta": "Periodista. Reina consorte de España desde 2014. Anteriormente presentadora de informativos en TVE y CNN+. Centra su agenda en salud, educación, cultura, nutrición y enfermedades raras.",
+    "fuente_principal": "https://www.casareal.es",
+    "tags": [
+      "casa-real",
+      "monarquia",
+      "ex-periodista"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.68,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacida en Oviedo, 1972. Periodista de profesión, primera reina consorte de origen no aristocrático y con carrera profesional propia."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Felipe VI",
+            "contenido": "**Rey de España, su esposo** (nota +9/10) — Matrimonio desde 2004.",
+            "tags": [
+              "felipe-vi",
+              "nota-+9",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Agenda social",
+            "contenido": "**Fundaciones (FAD, FEDER, cáncer, nutrición)** (nota +6/10) — Patronazgos y presidencias de honor.",
+            "tags": [
+              "nota-+6",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "felipe-vi",
+            "contenido": "**Su esposo, el Rey** (nota +9/10) — Forma con Felipe VI el núcleo de la Casa Real; comparten la agenda institucional y la estrategia de modernización de la Corona."
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Casa Real",
+            "fuente_url": "https://www.casareal.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De periodista a Reina",
+            "contenido": "Antes de casarse con Felipe en 2004 fue periodista en agencias, CNN+ y presentadora del Telediario de TVE. Es la primera reina consorte de origen plebeyo y con carrera profesional propia, lo que marca su perfil público."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-carlos-i",
+    "tipo": "actor",
+    "nombre": "Juan Carlos I de Borbón",
+    "alias": "Rey emérito",
+    "cargo": "Rey emérito de España",
+    "bio_corta": "Rey de España entre 1975 y 2014, figura clave de la Transición democrática. Abdicó en 2014 en favor de su hijo Felipe VI. Reside en Abu Dabi desde 2020 tras investigaciones sobre su patrimonio en el extranjero, archivadas sin imputación formal.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Juan_Carlos_I",
+    "tags": [
+      "casa-real",
+      "monarquia",
+      "emerito"
+    ],
+    "confidence": 0.85,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Juan Carlos I de Borbón (Roma, 5 de enero de 1938) fue Rey de España entre 1975 y 2014. Figura central de la Transición a la democracia, su reinado pasó del máximo prestigio —por su papel en el 23-F— al desprestigio de sus últimos años por escándalos económicos y personales que acabaron en su abdicación y posterior traslado al extranjero."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Exilio, designación y formación",
+            "contenido": "Nieto de Alfonso XIII, nació en el exilio en Roma. Llegó a España en 1948 por un acuerdo entre su padre, Don Juan, y Franco, que se reservó su educación. Se formó en las tres academias militares y en la Universidad de Madrid. En 1969 Franco lo designó sucesor a título de Rey, saltándose la línea dinástica de su padre, lo que generó tensiones en la propia familia.",
+            "fecha": "1969-07-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Rey y motor de la Transición",
+            "contenido": "Proclamado rey el 22 de noviembre de 1975, dos días después de la muerte de Franco, sorprendió al desmontar el aparato franquista desde dentro: nombró presidente a Adolfo Suárez, impulsó la Ley para la Reforma Política y respaldó la legalización de los partidos y la Constitución de 1978. Se convirtió en pieza clave del paso pacífico de la dictadura a la democracia.",
+            "fecha": "1975-11-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El 23-F: la cumbre de su prestigio",
+            "contenido": "La noche del 23 de febrero de 1981, durante el intento de golpe de Estado, su mensaje televisado en defensa del orden constitucional fue decisivo para abortar la asonada. Aquel episodio consolidó su imagen de garante de la democracia y le dio un capital político y popular que mantuvo durante décadas, dentro y fuera de España.",
+            "fecha": "1981-02-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reinado y diplomacia económica",
+            "contenido": "Durante los años de expansión ejerció una intensa diplomacia al servicio de la internacionalización de la empresa española, especialmente en el mundo árabe y en Latinoamérica. Gozó de enorme popularidad y prestigio internacional, simbolizado en episodios como su célebre '¿Por qué no te callas?' a Hugo Chávez en 2007.",
+            "fecha": "2007-11-10"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Declive: Botsuana y los escándalos",
+            "contenido": "Su imagen se quebró en abril de 2012 con una cacería de elefantes en Botsuana, conocida mientras España sufría la crisis. A partir de ahí se sucedieron las informaciones sobre comisiones, fundaciones opacas (Zagatka), tarjetas opacas y su relación con Corinna Larsen, además del caso Nóos que afectó a su yerno. El desprestigio precipitó su abdicación el 18 de junio de 2014.",
+            "fecha": "2012-04-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Abdicación, exilio y causas",
+            "contenido": "Tras abdicar en su hijo, los escándalos no cesaron. En agosto de 2020 se trasladó a Abu Dabi en medio de investigaciones en España y Suiza. Regularizó varias cantidades ante Hacienda. La Fiscalía archivó las causas por prescripción, la inviolabilidad como jefe del Estado y las regularizaciones, sin que llegara a haber juicio. Rige, por tanto, la presunción de inocencia respecto de los hechos no enjuiciados, aunque el daño reputacional fue profundo.",
+            "fecha": "2020-08-03"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Felipe VI",
+            "contenido": "**Rey de España, su hijo** (nota -2/10) — La Casa Real tomó distancia institucional tras los escándalos.",
+            "tags": [
+              "felipe-vi",
+              "nota--2",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Investigaciones patrimoniales",
+            "contenido": "Investigado en Suiza y España por fortuna en el extranjero y donaciones. Las causas en España fueron archivadas (inviolabilidad como jefe de Estado y regularizaciones fiscales). Sin imputación formal firme.",
+            "fecha": "2020-01-01",
+            "tags": [
+              "patrimonio"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Juan_Carlos_I"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "De símbolo de consenso a figura divisiva",
+            "contenido": "Pasó de ser un símbolo de unidad y consenso democrático a una figura que divide a la opinión pública. Para sus defensores, su papel en la Transición y el 23-F es indiscutible; para sus críticos, los escándalos finales empañan ese legado y alimentan el debate sobre la monarquía.",
+            "tags": [
+              "transicion",
+              "legado"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "begona-gomez",
+    "tipo": "actor",
+    "nombre": "Begoña Gómez Fernández",
+    "alias": "Begoña Gómez",
+    "cargo": "Directora de cátedra (esposa de Pedro Sánchez)",
+    "bio_corta": "Profesional del ámbito de la dirección de fundaciones y la universidad. Esposa del presidente del Gobierno Pedro Sánchez. Investigada desde 2024 en una causa por presuntos delitos vinculados a su actividad profesional; rige la presunción de inocencia.",
+    "fuente_principal": "https://es.wikipedia.org/wiki/Bego%C3%B1a_G%C3%B3mez",
+    "tags": [
+      "actor",
+      "investigada",
+      "entorno-gobierno"
+    ],
+    "confidence": 0.72,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Begoña Gómez (Bilbao, 1975) es directora de cátedra en la Universidad Complutense y esposa del presidente del Gobierno, Pedro Sánchez. Su actividad profesional ha pasado a un primer plano público al verse investigada en un procedimiento judicial."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno, su esposo** (nota +9/10) — Matrimonio; su situación judicial impacta directamente en el Ejecutivo.",
+            "tags": [
+              "sanchez",
+              "nota-+9",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Juez Peinado",
+            "contenido": "**Instructor de su causa** (nota -7/10) — Investiga sus actividades; rige la presunción de inocencia.",
+            "tags": [
+              "peinado",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Causa judicial",
+            "contenido": "Investigada en una causa abierta en 2024 por presuntos tráfico de influencias y corrupción en torno a su actividad profesional. El Gobierno y el PSOE denuncian 'lawfare'; la oposición exige responsabilidades. Presunción de inocencia.",
+            "fecha": "2024-04-01",
+            "tags": [
+              "judicial",
+              "presuncion-inocencia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Bego%C3%B1a_G%C3%B3mez"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Trayectoria profesional",
+            "contenido": "Consultora y directiva en el ámbito de la captación de fondos y la responsabilidad social, dirigió un máster y una cátedra extraordinaria sobre transformación social competitiva en la Universidad Complutense.",
+            "fecha": "2020-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Procedimiento judicial abierto",
+            "contenido": "Desde 2024 está siendo investigada por un juzgado de Madrid en una causa sobre presuntos tráfico de influencias y otros delitos en torno a su actividad. La causa sigue su curso y rige plenamente la presunción de inocencia mientras no haya sentencia firme.",
+            "fecha": "2024-04-23"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "miguel-angel-rodriguez",
+    "tipo": "actor",
+    "nombre": "Miguel Ángel Rodríguez",
+    "alias": "MAR",
+    "cargo": "Jefe de gabinete de Isabel Díaz Ayuso",
+    "bio_corta": "Asesor de comunicación. Jefe de gabinete y estratega de comunicación de Isabel Díaz Ayuso en la Comunidad de Madrid. Ex secretario de Estado de Comunicación con Aznar. Figura central en la guerra mediática contra el Gobierno.",
+    "fuente_principal": "https://www.comunidad.madrid",
+    "tags": [
+      "asesor",
+      "comunicacion",
+      "pp",
+      "madrid"
+    ],
+    "confidence": 0.8,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), 'MAR', es jefe de gabinete de la presidenta de la Comunidad de Madrid, Isabel Díaz Ayuso, y uno de los estrategas de comunicación más influyentes y polémicos de la derecha española. Exsecretario de Estado con Aznar, es el cerebro comunicativo del 'efecto Ayuso'."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de Madrid** (nota +9/10) — Su jefa; estratega de su comunicación y ataque político.",
+            "tags": [
+              "ayuso",
+              "nota-+9",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Álvaro García Ortiz",
+            "contenido": "**Fiscal General** (nota -8/10) — Conflicto directo: pieza clave en el caso de la filtración sobre la pareja de Ayuso.",
+            "tags": [
+              "garcia-ortiz",
+              "nota--8",
+              "conflicto"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -8/10) — Diana principal de su estrategia comunicativa.",
+            "tags": [
+              "sanchez",
+              "nota--8",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Comunidad de Madrid",
+            "fuente_url": "https://www.comunidad.madrid"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Secretario de Estado con Aznar",
+            "contenido": "Periodista de profesión, fue secretario de Estado de Comunicación en el primer Gobierno de Aznar, donde se forjó como uno de los grandes spin doctors de la derecha.",
+            "fecha": "1996-05-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El cerebro de Ayuso",
+            "contenido": "Como jefe de gabinete de Díaz Ayuso, diseña su estrategia de confrontación con el Gobierno central y su comunicación, en el centro de polémicas como la del correo sobre el novio de la presidenta.",
+            "fecha": "2019-08-01"
+          }
+        ]
+      }
+    ]
+  }
+]

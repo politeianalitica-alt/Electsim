@@ -46,7 +46,6 @@ const CATEGORY_ORDER = ['investigative', 'public_records', 'corporate', 'sanctio
 export function DossierOSINTPanel({ subject }: Props) {
   const [pending, setPending] = useState<PendingClick | null>(null)
   const [justification, setJustification] = useState('')
-  const [submitting, setSubmitting] = useState(false)
   const [feedback, setFeedback] = useState<string | null>(null)
 
   // No renderizar si el sujeto no es PEP elegible (guardarraíl principal)
@@ -67,47 +66,55 @@ export function DossierOSINTPanel({ subject }: Props) {
     setFeedback(null)
   }
 
-  const confirmAndOpen = async () => {
+  // Registra el audit SIN bloquear la apertura: localStorage (duradero en
+  // cliente) + POST best-effort al backend/route (que ya tolera FS de solo
+  // lectura). La justificación ≥50 chars sigue siendo obligatoria.
+  const recordAudit = (p: PendingClick, j: string) => {
+    const rec = {
+      subject_id: subject.dossier_slug,
+      subject_name: subject.full_name,
+      subject_role: subject.cargo || undefined,
+      subject_party: subject.partido || undefined,
+      tool_id: p.tool.id,
+      tool_name: p.tool.name,
+      tool_url: p.url,
+      justification: j,
+      ts: new Date().toISOString(),
+    }
+    try {
+      const key = 'osint-audit-log'
+      const prev = JSON.parse(localStorage.getItem(key) || '[]')
+      prev.push(rec)
+      localStorage.setItem(key, JSON.stringify(prev.slice(-500)))
+    } catch { /* localStorage no disponible · no crítico */ }
+    try {
+      fetch('/api/dossier/osint-audit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rec),
+        keepalive: true,
+      }).catch(() => { /* best-effort */ })
+    } catch { /* no crítico */ }
+  }
+
+  const confirmAndOpen = () => {
     if (!pending) return
     const j = justification.trim()
     if (j.length < 50) {
       setFeedback(`Justificación insuficiente · ${j.length}/50 caracteres mínimo`)
       return
     }
-    setSubmitting(true)
-    try {
-      const payload = {
-        subject_id: subject.dossier_slug,
-        subject_name: subject.full_name,
-        subject_role: subject.cargo || undefined,
-        subject_party: subject.partido || undefined,
-        tool_id: pending.tool.id,
-        tool_name: pending.tool.name,
-        tool_url: pending.url,
-        justification: j,
-      }
-      const r = await fetch('/api/dossier/osint-audit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      const data = await r.json()
-      if (!r.ok) {
-        setFeedback(`Audit log falló (${r.status}) · ${data?.error || JSON.stringify(data?.errors || data)}`)
-        setSubmitting(false)
-        return
-      }
-      // Open external tool in new tab AFTER audit confirmed
-      window.open(pending.url, '_blank', 'noopener,noreferrer')
-      setPending(null)
-      setJustification('')
-      setFeedback('Audit registrado · herramienta abierta en nueva pestaña')
-      setTimeout(() => setFeedback(null), 4000)
-    } catch (err) {
-      setFeedback(`Error: ${err instanceof Error ? err.message : 'unknown'}`)
-    } finally {
-      setSubmitting(false)
-    }
+    // 1) Abrir DENTRO del gesto de click · evita el bloqueador de pop-ups
+    //    (abrir tras un await rompe el "user gesture" y el navegador lo bloquea)
+    const win = window.open(pending.url, '_blank', 'noopener,noreferrer')
+    // 2) Registrar audit (no bloquea la apertura)
+    recordAudit(pending, j)
+    setPending(null)
+    setJustification('')
+    setFeedback(win
+      ? 'Audit registrado · herramienta abierta en nueva pestaña'
+      : 'Audit registrado · si no se abrió, permite ventanas emergentes (pop-ups) para este sitio')
+    setTimeout(() => setFeedback(null), 5000)
   }
 
   return (
@@ -204,7 +211,7 @@ export function DossierOSINTPanel({ subject }: Props) {
         <div
           role="dialog"
           aria-modal="true"
-          onClick={(e) => { if (e.target === e.currentTarget && !submitting) setPending(null) }}
+          onClick={(e) => { if (e.target === e.currentTarget) setPending(null) }}
           style={{
             position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -254,7 +261,6 @@ export function DossierOSINTPanel({ subject }: Props) {
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 14 }}>
               <button
                 onClick={() => setPending(null)}
-                disabled={submitting}
                 style={{
                   padding: '6px 14px', fontSize: 11, fontFamily: 'inherit',
                   background: 'transparent', color: '#6b7280',
@@ -263,15 +269,15 @@ export function DossierOSINTPanel({ subject }: Props) {
               >Cancelar</button>
               <button
                 onClick={confirmAndOpen}
-                disabled={submitting || justification.trim().length < 50}
+                disabled={justification.trim().length < 50}
                 style={{
                   padding: '6px 14px', fontSize: 11, fontFamily: 'inherit', fontWeight: 600,
                   background: justification.trim().length >= 50 ? '#7C3AED' : '#c4b5fd',
                   color: '#fff', border: 'none', borderRadius: 4,
-                  cursor: justification.trim().length >= 50 && !submitting ? 'pointer' : 'not-allowed',
+                  cursor: justification.trim().length >= 50 ? 'pointer' : 'not-allowed',
                 }}
               >
-                {submitting ? 'Registrando…' : 'Registrar audit + abrir'}
+                Registrar audit + abrir
               </button>
             </div>
           </div>

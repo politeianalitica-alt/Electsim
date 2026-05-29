@@ -36,6 +36,8 @@ interface Actor {
 interface Props {
   actors?: Actor[]
   maxActors?: number
+  /** Llamado al clicar un nodo · el contenedor muestra la ficha en la barra lateral. */
+  onSelect?: (id: string) => void
 }
 
 // ───────── Categorías y colores ─────────
@@ -157,7 +159,7 @@ function antiCollide(positions: Record<string, [number, number]>, radii: Record<
   return result
 }
 
-export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props) {
+export default function RelacionesGrafo({ actors = [], maxActors = 100, onSelect }: Props) {
   const [focus, setFocus] = useState<string | null>(null)
   const [hovered, setHovered] = useState<string | null>(null)
   const [hoveredLink, setHoveredLink] = useState<number | null>(null)
@@ -718,7 +720,7 @@ export default function RelacionesGrafo({ actors = [], maxActors = 100 }: Props)
                     animationDelay: `${idx * 12}ms`,
                   }}
                   opacity={dim ? 0.18 : 1}
-                  onClick={() => { if (dragMode.current !== 'node') setFocus(focus === a.id ? null : a.id) }}
+                  onClick={() => { if (dragMode.current !== 'node') { setFocus(focus === a.id ? null : a.id); onSelect?.(a.id) } }}
                   onMouseEnter={() => setHovered(a.id)}
                   onMouseLeave={() => setHovered(null)}
                 >

@@ -1,0 +1,5483 @@
+[
+  {
+    "slug": "antonio-maestre",
+    "nombre": "Antonio Maestre",
+    "cargo": "Columnista y tertuliano · laSexta · elDiario.es",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Columnista y tertuliano de laSexta · elDiario.es. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista y tertuliano de laSexta · elDiario.es. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de combate de izquierdas; foco en denunciar a la derecha y la ultraderecha y en el discurso de memoria democrática.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +5/10) — Defiende al Ejecutivo de coalición frente a la derecha, aunque le exige por la izquierda.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -8/10) — Encuadra a PP y Vox como una amenaza democrática; tono frontal.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cristina-fallaras",
+    "nombre": "Cristina Fallarás",
+    "cargo": "Escritora y tertuliana · Tertulias · redes",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Escritora y tertuliana de Tertulias · redes. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Escritora y tertuliana de Tertulias · redes. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Feminismo y memoria; framing de denuncia social y antifascista.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +5/10) — Afín al bloque progresista; crítica a la derecha mediática.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -7/10) — Confrontación directa con PP/Vox y la prensa conservadora.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jesus-marana",
+    "nombre": "Jesús Maraña",
+    "cargo": "Director editorial · InfoLibre",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Director editorial de InfoLibre. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director editorial de InfoLibre. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de investigación; framing anticorrupción con foco también en el poder económico.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Línea progresista pero con investigaciones que también incomodan al Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -4/10) — Crítico con la gestión y los casos de corrupción de la derecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ana-pardo-de-vera",
+    "nombre": "Ana Pardo de Vera",
+    "cargo": "Periodista y tertuliana · Público · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Periodista y tertuliana de Público · tertulias. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliana de Público · tertulias. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Framing de izquierdas, muy beligerante con la derecha mediática y judicial.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +5/10) — Defensora del bloque de investidura progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -8/10) — Encuadra a la derecha y a parte de la judicatura como bloque reaccionario.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "angels-barcelo",
+    "nombre": "Àngels Barceló",
+    "cargo": "Directora y presentadora · Cadena SER · Hora 25",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Directora y presentadora de Cadena SER · Hora 25. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Directora y presentadora de Cadena SER · Hora 25. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tono institucional de centro-izquierda; entrevistas incisivas a ambos lados.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Sintonía editorial con la SER, percibida como afín al Gobierno, pero con entrevistas exigentes.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -2/10) — Crítica pero abierta al diálogo con la oposición.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "inaki-gabilondo",
+    "nombre": "Iñaki Gabilondo",
+    "cargo": "Periodista de referencia · SER (histórico)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Periodista de referencia de SER (histórico). Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de referencia de SER (histórico). Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis reposado e institucionalista; defensa del consenso constitucional.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Cercanía de fondo al progresismo, pero crítico con los excesos de cualquier poder.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -2/10) — Crítico con la deriva dura de la derecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jordi-evole",
+    "nombre": "Jordi Évole",
+    "cargo": "Presentador y entrevistador · laSexta · Salvados",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Presentador y entrevistador de laSexta · Salvados. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador y entrevistador de laSexta · Salvados. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista incisiva y reportaje social; incómodo para todos, más duro con la derecha y los poderes económicos.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Crítico con el Gobierno pero su foco social conecta con el espacio progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -3/10) — Cuestiona con dureza a la derecha y la ultraderecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ana-pastor-periodista",
+    "nombre": "Ana Pastor",
+    "cargo": "Presentadora y verificadora · laSexta · Newtral",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentadora y verificadora de laSexta · Newtral. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora y verificadora de laSexta · Newtral. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de datos y fact-checking; incisiva con todos los partidos.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Verificación equidistante; tensa con el Gobierno cuando hay bulos o opacidad.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -1/10) — Igualmente exigente con la oposición; foco en desmentir desinformación.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "silvia-intxaurrondo",
+    "nombre": "Silvia Intxaurrondo",
+    "cargo": "Presentadora · TVE · La Hora de La 1",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Presentadora de TVE · La Hora de La 1. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de TVE · La Hora de La 1. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista de contraste de datos; viral por corregir cifras a líderes de la oposición.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +4/10) — Percibida como afín a la TVE de la etapa actual; trato más amable al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -5/10) — Encuadres y verificaciones que han tensado con el PP y Vox.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "xabier-fortes",
+    "nombre": "Xabier Fortes",
+    "cargo": "Presentador · TVE · La Noche en 24h",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Presentador de TVE · La Noche en 24h. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de TVE · La Noche en 24h. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Debate político con tono crítico hacia la derecha; defensa del servicio público.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +4/10) — Línea editorial afín a la TVE actual.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -5/10) — Choques recurrentes con tertulianos y dirigentes de la derecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "javier-ruiz-periodista",
+    "nombre": "Javier Ruiz",
+    "cargo": "Periodista económico y tertuliano · Cadena SER · Cuatro",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Periodista económico y tertuliano de Cadena SER · Cuatro. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista económico y tertuliano de Cadena SER · Cuatro. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis económico de izquierdas; foco en desigualdad y grandes empresas.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Sintonía con las políticas sociales del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -4/10) — Crítico con la agenda fiscal de la derecha y del poder económico.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "inaki-lopez",
+    "nombre": "Iñaki López",
+    "cargo": "Presentador · laSexta · Más Vale Tarde",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Presentador de laSexta · Más Vale Tarde. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de laSexta · Más Vale Tarde. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín político de tarde con tono crítico con la derecha.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Encuadre afín al espacio progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -4/10) — Tertulia y enfoque adversos a PP/Vox.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cristina-pardo",
+    "nombre": "Cristina Pardo",
+    "cargo": "Presentadora · laSexta · Más Vale Tarde",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentadora de laSexta · Más Vale Tarde. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de laSexta · Más Vale Tarde. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tono irónico y desmitificador; pincha a todos los partidos.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Ironía transversal sin alineamiento marcado.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ernesto-ekaizer",
+    "nombre": "Ernesto Ekaizer",
+    "cargo": "Periodista de investigación · Investigación · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Periodista de investigación de Investigación · tertulias. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de investigación de Investigación · tertulias. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Investigación financiera y judicial; foco en cloacas del Estado y corrupción de la derecha.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Crítico con poderes económicos; su foco recae más en la derecha y el 'deep state'.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Álvaro García Ortiz",
+            "contenido": "**Poder judicial / Fiscalía** (nota -3/10) — Denuncia el 'lawfare' y la actuación de sectores de la judicatura.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carlos-franganillo",
+    "nombre": "Carlos Franganillo",
+    "cargo": "Presentador de informativos · Telecinco · Informativos (ex-TVE)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentador de informativos de Telecinco · Informativos (ex-TVE). Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de informativos de Telecinco · Informativos (ex-TVE). Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo clásico, tono institucional y neutro.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura institucional sin alineamiento editorial marcado.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "sonsoles-onega",
+    "nombre": "Sonsoles Ónega",
+    "cargo": "Presentadora · Antena 3 · Y ahora Sonsoles",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentadora de Antena 3 · Y ahora Sonsoles. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de Antena 3 · Y ahora Sonsoles. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín de tarde de actualidad y sucesos; política tratada de forma generalista.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Sin línea política marcada; formato magacín.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "susanna-griso",
+    "nombre": "Susanna Griso",
+    "cargo": "Presentadora · Antena 3 · Espejo Público",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Presentadora de Antena 3 · Espejo Público. Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de Antena 3 · Espejo Público. Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín matinal con tertulia plural escorada al centro-derecha; entrevistas exigentes al Gobierno.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -2/10) — Entrevistas y tertulias frecuentemente críticas con el Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +1/10) — Trato más cómodo con dirigentes del centro-derecha.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "matias-prats",
+    "nombre": "Matías Prats",
+    "cargo": "Presentador de informativos · Antena 3 · Informativos",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentador de informativos de Antena 3 · Informativos. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de informativos de Antena 3 · Informativos. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo clásico; neutralidad y humor sobrio.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura institucional neutra.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "helena-resano",
+    "nombre": "Helena Resano",
+    "cargo": "Presentadora de informativos · laSexta · Informativos",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentadora de informativos de laSexta · Informativos. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de informativos de laSexta · Informativos. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo riguroso; tono neutro pese a la marca laSexta.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura informativa sin alineamiento explícito.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jordi-juan",
+    "nombre": "Jordi Juan",
+    "cargo": "Director · La Vanguardia",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Director de La Vanguardia. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de La Vanguardia. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Línea catalanista moderada y centrista; defensa del diálogo Cataluña-Estado.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Apoyo editorial a la vía del diálogo y a la agenda de distensión territorial.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "albert-saez",
+    "nombre": "Albert Sáez",
+    "cargo": "Director · El Periódico de Catalunya",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Director de El Periódico de Catalunya. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de El Periódico de Catalunya. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Centro-izquierda catalán; framing favorable a la desjudicialización del 'procés'.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Apoyo a la política de indultos y distensión del Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-antonio-zarzalejos",
+    "nombre": "José Antonio Zarzalejos",
+    "cargo": "Columnista · El Confidencial (ex-ABC)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Columnista de El Confidencial (ex-ABC). Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de El Confidencial (ex-ABC). Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis conservador-liberal crítico tanto con el sanchismo como con la deriva de la derecha.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Crítico con la gestión y los pactos del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -1/10) — También crítico con la estrategia del PP y con Vox.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ignacio-camacho",
+    "nombre": "Ignacio Camacho",
+    "cargo": "Columnista de referencia · ABC",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Columnista de referencia de ABC. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de referencia de ABC. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Prosa conservadora; encuadre del sanchismo como degradación institucional.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Columnas sistemáticamente críticas con el Gobierno y sus socios.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +3/10) — Más comprensivo con el centro-derecha, al que también exige firmeza.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "arcadi-espada",
+    "nombre": "Arcadi Espada",
+    "cargo": "Columnista · El Mundo",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "bio_corta": "Columnista de El Mundo. Línea: Derecha liberal.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de El Mundo. Línea: Derecha liberal."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Antinacionalista radical; encuadre muy duro del sanchismo y del independentismo.",
+            "tags": [
+              "derecha-liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Crítica frontal a los pactos con el independentismo y a la amnistía.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carlos-cuesta-periodista",
+    "nombre": "Carlos Cuesta",
+    "cargo": "Periodista y tertuliano · OKDiario · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "bio_corta": "Periodista y tertuliano de OKDiario · tertulias. Línea: Derecha dura.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de OKDiario · tertulias. Línea: Derecha dura."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Framing anti-Gobierno muy agresivo; amplificación de causas judiciales contra el entorno del Ejecutivo.",
+            "tags": [
+              "derecha-dura"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -9/10) — Encuadre hostil sistemático; difusión de informaciones contra el Gobierno y su entorno.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +5/10) — Sintonía con el discurso del PP y Vox.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "isabel-san-sebastian",
+    "nombre": "Isabel San Sebastián",
+    "cargo": "Escritora y tertuliana · ABC · tertulias TVE",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Escritora y tertuliana de ABC · tertulias TVE. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Escritora y tertuliana de ABC · tertulias TVE. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliana conservadora; encuadre del Gobierno como amenaza a la unidad de España.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -8/10) — Confrontación frontal con el Ejecutivo y sus socios nacionalistas.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-naranjo",
+    "nombre": "Antonio Naranjo",
+    "cargo": "Periodista y tertuliano · esRadio · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertulia de derecha combativa; framing anti-sanchista.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -8/10) — Discurso hostil al Gobierno en radio y televisión.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carmen-morodo",
+    "nombre": "Carmen Morodo",
+    "cargo": "Directora adjunta / análisis político · La Razón",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Directora adjunta / análisis político de La Razón. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Directora adjunta / análisis político de La Razón. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis político conservador alineado con la línea de La Razón.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Encuadre crítico con la estrategia del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +3/10) — Cercanía editorial al PP.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "julian-quiros",
+    "nombre": "Julián Quirós",
+    "cargo": "Director · ABC",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Director de ABC. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de ABC. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Línea conservadora y monárquica; defensa de la unidad de España y crítica al sanchismo.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Editoriales críticos con el Gobierno y los pactos de investidura.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +4/10) — Afinidad editorial con el centro-derecha.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "casimiro-garcia-abadillo",
+    "nombre": "Casimiro García-Abadillo",
+    "cargo": "Director · El Independiente (ex-El Mundo)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Director de El Independiente (ex-El Mundo). Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de El Independiente (ex-El Mundo). Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de centro-derecha con foco en investigación política.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -5/10) — Crítico con la gestión del Ejecutivo; coberturas incómodas para Moncloa.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jesus-cacho",
+    "nombre": "Jesús Cacho",
+    "cargo": "Fundador y columnista · Vozpópuli",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-economica"
+    ],
+    "bio_corta": "Fundador y columnista de Vozpópuli. Línea: Derecha económica.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Fundador y columnista de Vozpópuli. Línea: Derecha económica."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo económico anti-establishment; encuadre del Gobierno como amenaza a la economía de mercado.",
+            "tags": [
+              "derecha-economica"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Crítica frontal a la política económica e institucional del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alvaro-nieto",
+    "nombre": "Álvaro Nieto",
+    "cargo": "Director · The Objective",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "bio_corta": "Director de The Objective. Línea: Derecha liberal.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de The Objective. Línea: Derecha liberal."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Línea liberal-conservadora; framing crítico con el Gobierno y exclusivas que le incomodan.",
+            "tags": [
+              "derecha-liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Investigaciones y editoriales adversos al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ketty-garat",
+    "nombre": "Ketty Garat",
+    "cargo": "Periodista y tertuliana · The Objective · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista y tertuliana de The Objective · tertulias. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliana de The Objective · tertulias. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliana de derecha; encuadre anti-sanchista.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Discurso crítico con el Gobierno en platós.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "luis-herrero",
+    "nombre": "Luis Herrero",
+    "cargo": "Periodista y tertuliano · esRadio · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "bio_corta": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha liberal.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha liberal."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Liberal-conservador; análisis crítico con el Ejecutivo.",
+            "tags": [
+              "derecha-liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Línea editorial de esRadio, hostil al Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "dieter-brandau",
+    "nombre": "Dieter Brandau",
+    "cargo": "Presentador · esRadio",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Presentador de esRadio. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de esRadio. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio de derecha liberal; framing anti-Gobierno.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Tono editorial hostil al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "graciano-palomo",
+    "nombre": "Graciano Palomo",
+    "cargo": "Periodista y tertuliano · Tertulias · El Distrito",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista y tertuliano de Tertulias · El Distrito. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de Tertulias · El Distrito. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano conservador; encuadre anti-sanchista.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Discurso crítico con el Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "salvador-sostres",
+    "nombre": "Salvador Sostres",
+    "cargo": "Columnista · ABC",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Columnista de ABC. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de ABC. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Columnismo provocador y monárquico; muy crítico con el independentismo y el Gobierno.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -5/10) — Encuadre adverso a los pactos del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rosa-belmonte",
+    "nombre": "Rosa Belmonte",
+    "cargo": "Columnista · ABC",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Columnista de ABC. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de ABC. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Columna irónica conservadora; crítica desde el humor al Gobierno y la cultura progre.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -4/10) — Crítica satírica recurrente al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bieito-rubido",
+    "nombre": "Bieito Rubido",
+    "cargo": "Director · El Debate (ex-ABC)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-conservadora"
+    ],
+    "bio_corta": "Director de El Debate (ex-ABC). Línea: Derecha conservadora.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de El Debate (ex-ABC). Línea: Derecha conservadora."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Línea conservadora y católica; defensa de la unidad de España.",
+            "tags": [
+              "derecha-conservadora"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Editoriales muy críticos con el Gobierno de coalición.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +3/10) — Afinidad con el espacio de la derecha.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alfonso-rojo",
+    "nombre": "Alfonso Rojo",
+    "cargo": "Director · Periodista Digital",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "bio_corta": "Director de Periodista Digital. Línea: Derecha dura.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de Periodista Digital. Línea: Derecha dura."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de derecha muy beligerante; titulares de ataque al Gobierno.",
+            "tags": [
+              "derecha-dura"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -8/10) — Encuadre hostil sistemático al Ejecutivo y sus socios.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "javier-negre",
+    "nombre": "Javier Negre",
+    "cargo": "Director · EDATV",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "bio_corta": "Director de EDATV. Línea: Derecha dura.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de EDATV. Línea: Derecha dura."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Medio digital ultraderechista; framing de confrontación con el Gobierno y la izquierda.",
+            "tags": [
+              "derecha-dura"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -9/10) — Línea de oposición frontal y activismo contra el Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ramon-perez-maura",
+    "nombre": "Ramón Pérez-Maura",
+    "cargo": "Columnista · ABC · El Debate",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-conservadora"
+    ],
+    "bio_corta": "Columnista de ABC · El Debate. Línea: Derecha conservadora.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de ABC · El Debate. Línea: Derecha conservadora."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Conservadurismo atlantista y monárquico; crítica al sanchismo.",
+            "tags": [
+              "derecha-conservadora"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Encuadre adverso al Gobierno y sus pactos.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ruben-amon",
+    "nombre": "Rubén Amón",
+    "cargo": "Columnista y tertuliano · El Confidencial · SER",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "liberal"
+    ],
+    "bio_corta": "Columnista y tertuliano de El Confidencial · SER. Línea: Liberal.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista y tertuliano de El Confidencial · SER. Línea: Liberal."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Liberal heterodoxo; crítico con todos los bloques, antinacionalista.",
+            "tags": [
+              "liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -2/10) — Crítico con los pactos del Ejecutivo, sin alineamiento de partido.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-cano",
+    "nombre": "Antonio Caño",
+    "cargo": "Periodista y columnista · Ex-director de El País",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Periodista y columnista de Ex-director de El País. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y columnista de Ex-director de El País. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Liberal centrista; crítico con el giro de PRISA y con el sanchismo.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Crítico con la deriva del Gobierno y de su antiguo periódico.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fernando-garea",
+    "nombre": "Fernando Garea",
+    "cargo": "Periodista político · Agencias · El Confidencial (ex-EFE)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Periodista político de Agencias · El Confidencial (ex-EFE). Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista político de Agencias · El Confidencial (ex-EFE). Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Información política de centro; rigurosa con todos los bloques.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura equilibrada; tensiones puntuales por la gestión informativa.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "mamen-mendizabal",
+    "nombre": "Mamen Mendizábal",
+    "cargo": "Periodista y presentadora · laSexta (histórico)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Periodista y presentadora de laSexta (histórico). Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y presentadora de laSexta (histórico). Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista social de centro-izquierda; foco en derechos y desigualdad.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Sensibilidad afín a las políticas sociales del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "lucia-mendez",
+    "nombre": "Lucía Méndez",
+    "cargo": "Columnista política · El Mundo",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Columnista política de El Mundo. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista política de El Mundo. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis político de fondo; crítica con todos los partidos, sin alineamiento de bloque.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -1/10) — Crítica con la comunicación y los pactos del Ejecutivo, pero no militante.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "esther-palomera",
+    "nombre": "Esther Palomera",
+    "cargo": "Columnista y tertuliana · elDiario.es · laSexta",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Columnista y tertuliana de elDiario.es · laSexta. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista y tertuliana de elDiario.es · laSexta. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis de centro-izquierda; foco en regeneración y crítica a la derecha.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Defensa del bloque progresista, con exigencia.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -4/10) — Crítica con la estrategia del PP y Vox.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "montserrat-dominguez",
+    "nombre": "Montserrat Domínguez",
+    "cargo": "Periodista · Cadena SER (ex-HuffPost)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Periodista de Cadena SER (ex-HuffPost). Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de Cadena SER (ex-HuffPost). Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo de centro-izquierda; agenda social y de derechos.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Sintonía con la agenda progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "aimar-bretos",
+    "nombre": "Aimar Bretos",
+    "cargo": "Presentador · Cadena SER · Hora 25",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Presentador de Cadena SER · Hora 25. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Cadena SER · Hora 25. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo nocturno de la SER; entrevistas incisivas a ambos lados.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Línea editorial de la SER, percibida afín, con entrevistas exigentes.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -2/10) — Crítico pero abierto a la oposición.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carles-francino",
+    "nombre": "Carles Francino",
+    "cargo": "Presentador · Cadena SER · La Ventana",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Presentador de Cadena SER · La Ventana. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Cadena SER · La Ventana. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín de tarde reposado; sensibilidad progresista.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Tono afín al espacio de centro-izquierda.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gonzalo-miro",
+    "nombre": "Gonzalo Miró",
+    "cargo": "Tertuliano · Tertulias TV",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Tertuliano de Tertulias TV. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Tertuliano de Tertulias TV. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano de izquierdas; defensa del Gobierno frente a la derecha.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Defensor del Ejecutivo en los platós.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -5/10) — Confrontación con tertulianos de derecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "bob-pop",
+    "nombre": "Bob Pop (Roberto Enríquez)",
+    "cargo": "Escritor y comentarista · laSexta · cultura",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Escritor y comentarista de laSexta · cultura. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Escritor y comentarista de laSexta · cultura. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Mirada cultural de izquierdas, crítica con la derecha y la ultraderecha.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Afín al espacio progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -5/10) — Sátira y crítica a la derecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fernando-berlin",
+    "nombre": "Fernando Berlín",
+    "cargo": "Director · Radiocable",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Director de Radiocable. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de Radiocable. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio digital de izquierdas; framing antiderecha.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +4/10) — Apoyo claro al bloque progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -6/10) — Crítica frontal a PP y Vox.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "javier-gallego",
+    "nombre": "Javier Gallego",
+    "cargo": "Director y presentador · Carne Cruda",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Director y presentador de Carne Cruda. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director y presentador de Carne Cruda. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo independiente de izquierdas; foco en derechos sociales y crítica al poder económico.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Próximo al espacio progresista, exigente por la izquierda.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota -6/10) — Crítica a la derecha y la ultraderecha.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "nativel-preciado",
+    "nombre": "Nativel Preciado",
+    "cargo": "Escritora y periodista · Tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Escritora y periodista de Tertulias. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Escritora y periodista de Tertulias. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Veterana de izquierdas; defensa de la memoria democrática.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Afín al espacio progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "monica-carrillo",
+    "nombre": "Mónica Carrillo",
+    "cargo": "Presentadora · Antena 3 · Informativos",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentadora de Antena 3 · Informativos. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de Antena 3 · Informativos. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo clásico; tono neutro.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura institucional neutra.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "sandra-golpe",
+    "nombre": "Sandra Golpe",
+    "cargo": "Presentadora · Antena 3 · Antena 3 Noticias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentadora de Antena 3 · Antena 3 Noticias. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de Antena 3 · Antena 3 Noticias. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo de máxima audiencia; tono neutral.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura institucional sin alineamiento marcado.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-ribagorda",
+    "nombre": "José Ribagorda",
+    "cargo": "Presentador · Telecinco · Informativos",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Presentador de Telecinco · Informativos. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Telecinco · Informativos. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Informativo de fin de semana; tono sobrio.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura neutra.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "manu-marlasca",
+    "nombre": "Manu Marlasca",
+    "cargo": "Periodista de investigación · laSexta · sucesos",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Periodista de investigación de laSexta · sucesos. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de investigación de laSexta · sucesos. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Especialista en sucesos y tribunales; enfoque factual.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Cobertura judicial y de sucesos sin sesgo político marcado.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ana-terradillos",
+    "nombre": "Ana Terradillos",
+    "cargo": "Presentadora y tertuliana · Telecinco · COPE",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Presentadora y tertuliana de Telecinco · COPE. Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora y tertuliana de Telecinco · COPE. Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista y tertulia escorada al centro-derecha; exigente con el Gobierno.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Coberturas y entrevistas críticas con el Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pilar-garcia-muniz",
+    "nombre": "Pilar García Muñiz",
+    "cargo": "Presentadora · COPE (ex-TVE)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Presentadora de COPE (ex-TVE). Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de COPE (ex-TVE). Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Mañanas de COPE; tono conservador moderado.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Línea editorial de COPE, crítica con el Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-pablo-colmenarejo",
+    "nombre": "Juan Pablo Colmenarejo",
+    "cargo": "Presentador · Onda Madrid · COPE",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Presentador de Onda Madrid · COPE. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Onda Madrid · COPE. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio conservadora; framing crítico con el Gobierno.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Tono editorial adverso al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "emilia-landaluce",
+    "nombre": "Emilia Landaluce",
+    "cargo": "Columnista · El Mundo",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Columnista de El Mundo. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de El Mundo. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Columnismo conservador; crítica al sanchismo.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Columnas adversas al Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "isabel-duran-periodista",
+    "nombre": "Isabel Durán",
+    "cargo": "Periodista y tertuliana · TVE · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista y tertuliana de TVE · tertulias. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliana de TVE · tertulias. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliana conservadora; encuadre anti-sanchista.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Discurso hostil al Ejecutivo en platós.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-jimenez-trece",
+    "nombre": "Antonio Jiménez",
+    "cargo": "Director y presentador · TRECE · El Cascabel",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Director y presentador de TRECE · El Cascabel. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director y presentador de TRECE · El Cascabel. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertulia de la cadena de la Iglesia; framing conservador anti-Gobierno.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Línea editorial de TRECE, crítica con el Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Oposición (PP)** (nota +4/10) — Sintonía con el centro-derecha.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alfonso-merlos",
+    "nombre": "Alfonso Merlos",
+    "cargo": "Periodista y tertuliano · esRadio · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de esRadio · tertulias. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano de derecha combativa; framing anti-Gobierno.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Discurso hostil al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "cake-minuesa",
+    "nombre": "Cake Minuesa",
+    "cargo": "Comunicador · Digital · redes",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "bio_corta": "Comunicador de Digital · redes. Línea: Derecha dura.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Comunicador de Digital · redes. Línea: Derecha dura."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Activista-comunicador de derecha radical; vídeos de confrontación con el Gobierno y la izquierda.",
+            "tags": [
+              "derecha-dura"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -9/10) — Activismo de oposición frontal al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "javier-garcia-isac",
+    "nombre": "Javier García Isac",
+    "cargo": "Director · Radio Ya · Decisión Radio",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-dura"
+    ],
+    "bio_corta": "Director de Radio Ya · Decisión Radio. Línea: Derecha dura.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director de Radio Ya · Decisión Radio. Línea: Derecha dura."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio de derecha radical; framing de confrontación total con el Gobierno.",
+            "tags": [
+              "derecha-dura"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -9/10) — Línea de oposición frontal y constante al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ana-samboal",
+    "nombre": "Ana Samboal",
+    "cargo": "Presentadora · El Toro TV",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Presentadora de El Toro TV. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentadora de El Toro TV. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Entrevista y análisis de derecha; crítica al sanchismo.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Encuadre adverso al Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "federico-quevedo",
+    "nombre": "Federico Quevedo",
+    "cargo": "Periodista y tertuliano · El Debate · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista y tertuliano de El Debate · tertulias. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliano de El Debate · tertulias. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Tertuliano conservador; framing anti-Gobierno.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Discurso crítico con el Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pablo-planas",
+    "nombre": "Pablo Planas",
+    "cargo": "Periodista · Libertad Digital",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Periodista de Libertad Digital. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de Libertad Digital. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo liberal-conservador anti-sanchista.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Línea editorial de Libertad Digital, hostil al Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "daniel-lacalle",
+    "nombre": "Daniel Lacalle",
+    "cargo": "Economista y comentarista · Economía · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "bio_corta": "Economista y comentarista de Economía · tertulias. Línea: Derecha liberal.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista y comentarista de Economía · tertulias. Línea: Derecha liberal."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista liberal; crítica frontal a la política económica y fiscal del Gobierno.",
+            "tags": [
+              "derecha-liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -7/10) — Encuadre muy crítico con el intervencionismo, los impuestos y el gasto del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-ramon-rallo",
+    "nombre": "Juan Ramón Rallo",
+    "cargo": "Economista y divulgador · Economía · YouTube",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha-liberal"
+    ],
+    "bio_corta": "Economista y divulgador de Economía · YouTube. Línea: Derecha liberal.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista y divulgador de Economía · YouTube. Línea: Derecha liberal."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista libertario; crítica a la intervención del Estado y al gasto público.",
+            "tags": [
+              "derecha-liberal"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -6/10) — Crítica sistemática a la política económica del Gobierno desde el liberalismo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gonzalo-bernardos",
+    "nombre": "Gonzalo Bernardos",
+    "cargo": "Economista y tertuliano · Economía · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Economista y tertuliano de Economía · tertulias. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista y tertuliano de Economía · tertulias. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista mediático; defensa de buena parte de la política económica del Gobierno.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +4/10) — Valoración favorable de la gestión económica del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-carlos-diez",
+    "nombre": "José Carlos Díez",
+    "cargo": "Economista · Economía · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Economista de Economía · tertulias. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Economista de Economía · tertulias. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Economista de sensibilidad socialdemócrata.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +3/10) — Sintonía con la orientación económica del Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jordi-baste",
+    "nombre": "Jordi Basté",
+    "cargo": "Director y presentador · RAC1 · El Món a RAC1",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "catalanista"
+    ],
+    "bio_corta": "Director y presentador de RAC1 · El Món a RAC1. Línea: catalanista.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Director y presentador de RAC1 · El Món a RAC1. Línea: catalanista."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Radio catalana líder; catalanismo moderado, crítico con la judicialización del 'procés'.",
+            "tags": [
+              "catalanista"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Favorable a la vía del diálogo y la desjudicialización.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Álvaro García Ortiz",
+            "contenido": "**Poder judicial / Fiscalía** (nota -3/10) — Crítico con la actuación judicial sobre el independentismo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "josep-cuni",
+    "nombre": "Josep Cuní",
+    "cargo": "Periodista · SER Catalunya (histórico)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "catalanista"
+    ],
+    "bio_corta": "Periodista de SER Catalunya (histórico). Línea: catalanista.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de SER Catalunya (histórico). Línea: catalanista."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Catalanismo de centro; defensa del diálogo Cataluña-Estado.",
+            "tags": [
+              "catalanista"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Favorable a la distensión territorial.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "monica-terribas",
+    "nombre": "Mònica Terribas",
+    "cargo": "Periodista · TV3 · SER (histórico)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "soberanista"
+    ],
+    "bio_corta": "Periodista de TV3 · SER (histórico). Línea: soberanista.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de TV3 · SER (histórico). Línea: soberanista."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Periodismo soberanista catalán; crítica con el Estado en el conflicto territorial.",
+            "tags": [
+              "soberanista"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -1/10) — Crítica con el Estado en lo territorial, pese a valorar la distensión.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Álvaro García Ortiz",
+            "contenido": "**Poder judicial / Fiscalía** (nota -4/10) — Denuncia de la judicialización del independentismo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "vicent-sanchis",
+    "nombre": "Vicent Sanchis",
+    "cargo": "Periodista · TV3 (ex-director)",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "soberanista"
+    ],
+    "bio_corta": "Periodista de TV3 (ex-director). Línea: soberanista.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de TV3 (ex-director). Línea: soberanista."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Director histórico de TV3; línea soberanista.",
+            "tags": [
+              "soberanista"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -2/10) — Crítico con el Estado en el marco del 'procés'.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "gloria-lomana",
+    "nombre": "Gloria Lomana",
+    "cargo": "Periodista · Ex-Antena 3 · análisis",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Periodista de Ex-Antena 3 · análisis. Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de Ex-Antena 3 · análisis. Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis de centro-derecha; foco en liderazgo y comunicación política.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -2/10) — Mirada crítica con la comunicación del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "javier-chicote",
+    "nombre": "Javier Chicote",
+    "cargo": "Periodista de investigación · ABC · investigación",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Periodista de investigación de ABC · investigación. Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista de investigación de ABC · investigación. Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Investigación sobre corrupción y poder; coberturas incómodas para el Gobierno.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -3/10) — Investigaciones que han tensado con Moncloa.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "miguel-angel-mellado",
+    "nombre": "Miguel Ángel Mellado",
+    "cargo": "Adjunto a la dirección · El Mundo",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-derecha"
+    ],
+    "bio_corta": "Adjunto a la dirección de El Mundo. Línea: Centro-derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Adjunto a la dirección de El Mundo. Línea: Centro-derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis de centro-derecha alineado con la línea de El Mundo.",
+            "tags": [
+              "centro-derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -4/10) — Crítico con la gestión del Ejecutivo.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "victor-de-la-serna",
+    "nombre": "Víctor de la Serna",
+    "cargo": "Columnista · El Mundo",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "derecha"
+    ],
+    "bio_corta": "Columnista de El Mundo. Línea: Derecha.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista de El Mundo. Línea: Derecha."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Columnista conservador veterano; crítico con el sanchismo.",
+            "tags": [
+              "derecha"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -5/10) — Columnas adversas al Gobierno.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "maximo-pradera",
+    "nombre": "Máximo Pradera",
+    "cargo": "Comunicador · Cultura · tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "izquierda"
+    ],
+    "bio_corta": "Comunicador de Cultura · tertulias. Línea: Izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Comunicador de Cultura · tertulias. Línea: Izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Mirada cultural de izquierdas, irónica con la derecha.",
+            "tags": [
+              "izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Afín al espacio progresista.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "rosa-villacastin",
+    "nombre": "Rosa Villacastín",
+    "cargo": "Periodista y tertuliana · Tertulias",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Periodista y tertuliana de Tertulias. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista y tertuliana de Tertulias. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Veterana de prensa del corazón y tertulia política de sensibilidad progresista.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Tono afín al espacio de centro-izquierda.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "antonio-casado",
+    "nombre": "Antonio Casado",
+    "cargo": "Columnista político · El Confidencial",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Columnista político de El Confidencial. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Columnista político de El Confidencial. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Análisis político de centro; crónica parlamentaria equilibrada.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota -1/10) — Crítico moderado con la gestión, sin alineamiento de bloque.",
+            "tags": [
+              "poderes-estado",
+              "negativa"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "fernando-jauregui",
+    "nombre": "Fernando Jáuregui",
+    "cargo": "Periodista veterano · Tertulias · Diariocrítico",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro"
+    ],
+    "bio_corta": "Periodista veterano de Tertulias · Diariocrítico. Línea: Centro.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista veterano de Tertulias · Diariocrítico. Línea: Centro."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Veterano de la Transición; análisis de centro institucionalista.",
+            "tags": [
+              "centro"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +0/10) — Mirada institucional, crítica con los extremos de ambos bloques.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "alfredo-menendez",
+    "nombre": "Alfredo Menéndez",
+    "cargo": "Presentador · Cadena SER · Hoy por Hoy fin de semana",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Presentador de Cadena SER · Hoy por Hoy fin de semana. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Presentador de Cadena SER · Hoy por Hoy fin de semana. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Magacín de fin de semana de la SER; sensibilidad progresista.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +2/10) — Tono afín al espacio de centro-izquierda.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "pilar-velasco",
+    "nombre": "Pilar Velasco",
+    "cargo": "Periodista política · Cadena SER",
+    "tags": [
+      "medios",
+      "periodista",
+      "mediatico",
+      "poder-mediatico",
+      "centro-izquierda"
+    ],
+    "bio_corta": "Periodista política de Cadena SER. Línea: Centro-izquierda.",
+    "fuente_principal": null,
+    "confidence": 0.8,
+    "completeness": 0.62,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Periodista política de Cadena SER. Línea: Centro-izquierda."
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Encuadre informativo (cómo presenta las noticias)",
+            "contenido": "Información política de la SER; crónica de Moncloa y partidos.",
+            "tags": [
+              "centro-izquierda"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Gobierno** (nota +1/10) — Cobertura desde la SER, percibida como afín, con tono informativo.",
+            "tags": [
+              "poderes-estado",
+              "positiva"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

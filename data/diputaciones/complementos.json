@@ -7,24 +7,108 @@
     "cargo": "Presidente de la Junta de Andalucía",
     "bio_corta": "Político del PP. Presidente de la Junta de Andalucía desde enero 2019 (primer presidente no PSOE en 36 años). Reelegido en 2022 con mayoría absoluta. Anteriormente Secretario de Estado de Servicios Sociales (Rajoy) y delegado del Gobierno en Madrid.",
     "fuente_principal": "https://www.juntadeandalucia.es",
-    "tags": ["politico","pp","presidente-junta","andalucia"],
+    "tags": [
+      "politico",
+      "pp",
+      "presidente-junta",
+      "andalucia"
+    ],
     "confidence": 0.92,
     "completeness": 0.72,
     "apartados": [
-      {"tipo":"identidad","orden":0,"items":[
-        {"tipo":"dato","titulo":"Perfil","contenido":"Nacido en Barcelona, 1970, criado en Málaga. Licenciado en Protocolo. Trayectoria PP-Andalucía completa."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Diputado Congreso","contenido":"Diputado del Congreso por Málaga (PP) 2000-2014.","fecha":"2000-03-12"},
-        {"tipo":"evento","titulo":"Secretario Estado Rajoy","contenido":"Secretario de Estado de Servicios Sociales con Rajoy 2014-2015.","fecha":"2014-12-23"},
-        {"tipo":"evento","titulo":"Presidente PP-A","contenido":"Presidente del PP-A desde 2014, encadenó liderazgo regional.","fecha":"2014-03-01"},
-        {"tipo":"evento","titulo":"Presidente Junta 2019","contenido":"Presidente Junta de Andalucía enero 2019 tras pacto con Cs y apoyo Vox.","fecha":"2019-01-18"},
-        {"tipo":"evento","titulo":"Mayoría absoluta 2022","contenido":"Reelegido con mayoría absoluta sin necesidad de pactos en junio 2022.","fecha":"2022-06-19"}]},
-      {"tipo":"posiciones","orden":2,"items":[
-        {"tipo":"dato","titulo":"Centrismo Andaluz","contenido":"Posición 'moreno-ismo': PP centrista, distancia con Vox, foco gestor. Referente interno del PP."}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"PP nacional / Feijóo","contenido":"Pulso interno por liderazgo PP. Referente alternativo dentro del partido."},
-        {"tipo":"contacto","titulo":"Vox - distancia","contenido":"Sin pactos con Vox en 2022 tras mayoría absoluta."}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Junta Andalucía","fuente_url":"https://www.juntadeandalucia.es"}]}
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Nacido en Barcelona, 1970, criado en Málaga. Licenciado en Protocolo. Trayectoria PP-Andalucía completa."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Diputado Congreso",
+            "contenido": "Diputado del Congreso por Málaga (PP) 2000-2014.",
+            "fecha": "2000-03-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Secretario Estado Rajoy",
+            "contenido": "Secretario de Estado de Servicios Sociales con Rajoy 2014-2015.",
+            "fecha": "2014-12-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente PP-A",
+            "contenido": "Presidente del PP-A desde 2014, encadenó liderazgo regional.",
+            "fecha": "2014-03-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente Junta 2019",
+            "contenido": "Presidente Junta de Andalucía enero 2019 tras pacto con Cs y apoyo Vox.",
+            "fecha": "2019-01-18"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mayoría absoluta 2022",
+            "contenido": "Reelegido con mayoría absoluta sin necesidad de pactos en junio 2022.",
+            "fecha": "2022-06-19"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centrismo Andaluz",
+            "contenido": "Posición 'moreno-ismo': PP centrista, distancia con Vox, foco gestor. Referente interno del PP."
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "PP nacional / Feijóo",
+            "contenido": "**Pulso interno por liderazgo PP** (nota +7/10) — Referente alternativo dentro del partido.",
+            "tags": [
+              "nota-+7",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Vox - distancia",
+            "contenido": "**Sin pactos con Vox en 2022 tras mayoría absoluta** (nota +4/10)",
+            "tags": [
+              "nota-+4",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Junta Andalucía",
+            "fuente_url": "https://www.juntadeandalucia.es"
+          }
+        ]
+      }
     ]
   },
   {
@@ -35,22 +119,102 @@
     "cargo": "Ex presidente de la Deputación de Ourense",
     "bio_corta": "Político del PP. Presidente de la Deputación de Ourense 2012-2023. Saga familiar (su padre José Luis Baltar también presidió). Salida 2023 tras tensiones internas con el PP gallego (Rueda).",
     "fuente_principal": "https://es.wikipedia.org/wiki/Manuel_Baltar",
-    "tags": ["politico","pp","ex-presidente-diputacion","ourense"],
+    "tags": [
+      "politico",
+      "pp",
+      "ex-presidente-diputacion",
+      "ourense"
+    ],
     "confidence": 0.85,
     "completeness": 0.65,
     "apartados": [
-      {"tipo":"identidad","orden":0,"items":[
-        {"tipo":"dato","titulo":"Perfil","contenido":"Político ourensano del PP. Saga familiar: hijo de José Luis Baltar Pumar, ex presidente Deputación 1990-2012."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Sucesión paterna","contenido":"Sucede a su padre José Luis Baltar Pumar en 2012.","fecha":"2012-07-23"},
-        {"tipo":"evento","titulo":"Era Baltar (12 años)","contenido":"Reelegido 2015 y 2019. Marcado por polémicas mediáticas y conflicto interno PPdeG.","fecha":"2019-07-04"},
-        {"tipo":"evento","titulo":"Salida 2023","contenido":"Apartado del PPdeG tras tensiones con Alfonso Rueda. Luis Menor le sustituye.","fecha":"2023-07-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Saga Baltar","contenido":"Su padre presidió la Deputación 22 años (1990-2012).","tags":["saga","baltar"]},
-        {"tipo":"contacto","titulo":"PPdeG (Rueda)","contenido":"Conflicto interno con la dirección PP-Galicia.","tags":["rueda","conflicto"]}]},
-      {"tipo":"controversias","orden":5,"items":[
-        {"tipo":"evento","titulo":"Polémicas mediáticas","contenido":"Período Baltar marcado por declaraciones polémicas y exposición mediática elevada.","tags":["mediatico"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Wikipedia","fuente_url":"https://es.wikipedia.org/wiki/Manuel_Baltar"}]}
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Político ourensano del PP. Saga familiar: hijo de José Luis Baltar Pumar, ex presidente Deputación 1990-2012."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sucesión paterna",
+            "contenido": "Sucede a su padre José Luis Baltar Pumar en 2012.",
+            "fecha": "2012-07-23"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Era Baltar (12 años)",
+            "contenido": "Reelegido 2015 y 2019. Marcado por polémicas mediáticas y conflicto interno PPdeG.",
+            "fecha": "2019-07-04"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida 2023",
+            "contenido": "Apartado del PPdeG tras tensiones con Alfonso Rueda. Luis Menor le sustituye.",
+            "fecha": "2023-07-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Saga Baltar",
+            "contenido": "**Su padre presidió la Deputación 22 años (1990-2012)** (nota +5/10)",
+            "tags": [
+              "saga",
+              "baltar",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "PPdeG (Rueda)",
+            "contenido": "**Conflicto interno con la dirección PP-Galicia** (nota -8/10)",
+            "tags": [
+              "rueda",
+              "conflicto",
+              "nota--8"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "controversias",
+        "orden": 5,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Polémicas mediáticas",
+            "contenido": "Período Baltar marcado por declaraciones polémicas y exposición mediática elevada.",
+            "tags": [
+              "mediatico"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Wikipedia",
+            "fuente_url": "https://es.wikipedia.org/wiki/Manuel_Baltar"
+          }
+        ]
+      }
     ]
   },
   {
@@ -61,20 +225,91 @@
     "cargo": "Partido político · izquierda independentista catalana",
     "bio_corta": "Partido catalán de izquierda independentista. Fundado en 1931. Presidente: Oriol Junqueras. Apoyo parlamentario a Pedro Sánchez en el Congreso. Presidente Diputació de Lleida y Tarragona; pacto en Diba.",
     "fuente_principal": "https://www.esquerra.cat",
-    "tags": ["partido","cataluna","izquierda","independentismo"],
+    "tags": [
+      "partido",
+      "cataluna",
+      "izquierda",
+      "independentismo"
+    ],
     "confidence": 0.92,
     "completeness": 0.65,
     "apartados": [
-      {"tipo":"identidad","orden":0,"items":[
-        {"tipo":"dato","titulo":"Datos básicos","contenido":"Esquerra Republicana de Catalunya (ERC), fundado en 1931 por Macià y Companys."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Procés 2017","contenido":"Junqueras y Romeva encarcelados tras DUI 2017. Indultos 2021.","fecha":"2017-10-27"},
-        {"tipo":"evento","titulo":"Apoyo parlamentario Sánchez","contenido":"Apoyo a investidura Sánchez 2019, 2020, 2023.","fecha":"2019-01-08"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Oriol Junqueras","contenido":"Presidente del partido.","tags":["junqueras"]},
-        {"tipo":"contacto","titulo":"Pere Aragonès","contenido":"Ex president de la Generalitat (2021-2024).","tags":["aragones"]},
-        {"tipo":"contacto","titulo":"Pedro Sánchez / PSOE","contenido":"Socio parlamentario crítico.","tags":["sanchez"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"ERC","fuente_url":"https://www.esquerra.cat"}]}
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Esquerra Republicana de Catalunya (ERC), fundado en 1931 por Macià y Companys."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Procés 2017",
+            "contenido": "Junqueras y Romeva encarcelados tras DUI 2017. Indultos 2021.",
+            "fecha": "2017-10-27"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Apoyo parlamentario Sánchez",
+            "contenido": "Apoyo a investidura Sánchez 2019, 2020, 2023.",
+            "fecha": "2019-01-08"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Oriol Junqueras",
+            "contenido": "**Presidente del partido** (nota +8/10)",
+            "tags": [
+              "junqueras",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pere Aragonès",
+            "contenido": "**Ex president de la Generalitat (2021-2024)** (nota +8/10)",
+            "tags": [
+              "aragones",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez / PSOE",
+            "contenido": "**Socio parlamentario crítico** (nota +5/10)",
+            "tags": [
+              "sanchez",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "ERC",
+            "fuente_url": "https://www.esquerra.cat"
+          }
+        ]
+      }
     ]
   },
   {
@@ -85,20 +320,91 @@
     "cargo": "Partido político · derecha independentista catalana",
     "bio_corta": "Partido catalán de centro-derecha independentista. Heredero de Convergència (CDC/CiU). Líder: Carles Puigdemont (en Waterloo, Bélgica). Presidente de la Diputació de Girona.",
     "fuente_principal": "https://www.junts.cat",
-    "tags": ["partido","cataluna","independentismo","centro-derecha"],
+    "tags": [
+      "partido",
+      "cataluna",
+      "independentismo",
+      "centro-derecha"
+    ],
     "confidence": 0.92,
     "completeness": 0.65,
     "apartados": [
-      {"tipo":"identidad","orden":0,"items":[
-        {"tipo":"dato","titulo":"Datos básicos","contenido":"Junts per Catalunya, refundado 2020 separándose del PDeCAT. Continuidad histórica con CDC/CiU."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Procés - Puigdemont","contenido":"Carles Puigdemont president 2016-2017. Tras DUI 2017 huye a Bruselas.","fecha":"2017-10-30"},
-        {"tipo":"evento","titulo":"Amnistía 2024","contenido":"Apoya investidura Sánchez 2023 a cambio de amnistía (aprobada 2024).","fecha":"2024-05-30"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Carles Puigdemont","contenido":"Líder histórico. Domicilio en Waterloo.","tags":["puigdemont"]},
-        {"tipo":"contacto","titulo":"Pedro Sánchez - amnistía","contenido":"Socio negociador clave 2023-2024.","tags":["sanchez","amnistia"]},
-        {"tipo":"contacto","titulo":"Generalitat (oposición)","contenido":"Oposición a Illa (PSC) tras 2024.","tags":["illa"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"Junts","fuente_url":"https://www.junts.cat"}]}
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "Junts per Catalunya, refundado 2020 separándose del PDeCAT. Continuidad histórica con CDC/CiU."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Procés - Puigdemont",
+            "contenido": "Carles Puigdemont president 2016-2017. Tras DUI 2017 huye a Bruselas.",
+            "fecha": "2017-10-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Amnistía 2024",
+            "contenido": "Apoya investidura Sánchez 2023 a cambio de amnistía (aprobada 2024).",
+            "fecha": "2024-05-30"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Carles Puigdemont",
+            "contenido": "**Líder histórico** — Domicilio en Waterloo.",
+            "tags": [
+              "puigdemont",
+              "sin-valorar"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez - amnistía",
+            "contenido": "**Socio negociador clave 2023-2024** (nota +5/10)",
+            "tags": [
+              "sanchez",
+              "amnistia",
+              "nota-+5",
+              "alianza-debil"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Generalitat (oposición)",
+            "contenido": "**Oposición a Illa (PSC) tras 2024** (nota -7/10)",
+            "tags": [
+              "illa",
+              "nota--7",
+              "conflicto"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Junts",
+            "fuente_url": "https://www.junts.cat"
+          }
+        ]
+      }
     ]
   },
   {
@@ -109,19 +415,84 @@
     "cargo": "Partido político · federación gallega del PSOE",
     "bio_corta": "Federación gallega del PSOE. Histórica oposición al PPdeG en la Xunta. Secretario general: José Ramón Gómez Besteiro. Preside la Deputación da Coruña y la Deputación de Lugo.",
     "fuente_principal": "https://www.psdeg-psoe.com",
-    "tags": ["partido","galicia","psoe-familia"],
+    "tags": [
+      "partido",
+      "galicia",
+      "psoe-familia"
+    ],
     "confidence": 0.88,
     "completeness": 0.6,
     "apartados": [
-      {"tipo":"identidad","orden":0,"items":[
-        {"tipo":"dato","titulo":"Datos básicos","contenido":"PSdeG-PSOE, federación gallega del PSOE."}]},
-      {"tipo":"trayectoria","orden":1,"items":[
-        {"tipo":"evento","titulo":"Sucesión líderes","contenido":"Pachi Vázquez, Caballero, Gonzalo Caballero, Valentín González Formoso, Besteiro.","fecha":"2009-01-01"}]},
-      {"tipo":"redes","orden":3,"items":[
-        {"tipo":"contacto","titulo":"Valentín González Formoso","contenido":"Presidente Deputación A Coruña.","tags":["formoso"]},
-        {"tipo":"contacto","titulo":"José Tomé Roca","contenido":"Presidente Deputación Lugo.","tags":["tome"]},
-        {"tipo":"contacto","titulo":"BNG - alianzas","contenido":"Pactos puntuales locales con BNG.","tags":["bng"]}]},
-      {"tipo":"evidencia","orden":6,"items":[{"tipo":"documento","titulo":"PSdeG","fuente_url":"https://www.psdeg-psoe.com"}]}
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Datos básicos",
+            "contenido": "PSdeG-PSOE, federación gallega del PSOE."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sucesión líderes",
+            "contenido": "Pachi Vázquez, Caballero, Gonzalo Caballero, Valentín González Formoso, Besteiro.",
+            "fecha": "2009-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Valentín González Formoso",
+            "contenido": "**Presidente Deputación A Coruña** (nota +8/10)",
+            "tags": [
+              "formoso",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "José Tomé Roca",
+            "contenido": "**Presidente Deputación Lugo** (nota +8/10)",
+            "tags": [
+              "tome",
+              "nota-+8",
+              "alianza-fuerte"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "BNG - alianzas",
+            "contenido": "**Pactos puntuales locales con BNG** (nota +4/10)",
+            "tags": [
+              "bng",
+              "nota-+4",
+              "alianza-debil"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "PSdeG",
+            "fuente_url": "https://www.psdeg-psoe.com"
+          }
+        ]
+      }
     ]
   }
 ]

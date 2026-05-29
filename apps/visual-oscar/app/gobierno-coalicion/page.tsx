@@ -32,11 +32,11 @@ const PRESIDENTE: Ministro = {
 }
 
 const VICEPRESIDENCIAS: Ministro[] = [
-  { nombre:'María Jesús Montero', cartera:'Hacienda', partido:'PSOE', vicepresidencia:1, desde:'12/2023',
-    web:'https://www.hacienda.gob.es/',
-    presupuesto: 22100, funcionarios: 16.0,
-    secretarios:['Jesús Gascón · Hacienda','Carlos San Basilio · Presupuestos y Gastos'],
-    prioridades:['Aprobar PGE 2026','Reforma fiscal pendiente','Senda fiscal con CCAA'],
+  { nombre:'Carlos Cuerpo', cartera:'Economía, Comercio y Empresa', partido:'PSOE', vicepresidencia:1, desde:'03/2026',
+    web:'https://www.mineco.gob.es/',
+    presupuesto: 6700, funcionarios: 8.0,
+    secretarios:['Gonzalo García Andrés · Economía','Amparo López · Comercio','Jaime Pérez Renovales · Política Económica'],
+    prioridades:['Captación de inversión extranjera','Plan de pymes','Fondos NextGen'],
   },
   { nombre:'Yolanda Díaz', cartera:'Trabajo y Economía Social', partido:'Sumar', vicepresidencia:2, desde:'01/2020',
     web:'https://www.trabajo.gob.es/',
@@ -53,11 +53,11 @@ const VICEPRESIDENCIAS: Ministro[] = [
 ]
 
 const MINISTROS: Ministro[] = [
-  { nombre:'Carlos Cuerpo', cartera:'Economía, Comercio y Empresa', partido:'PSOE', desde:'12/2023',
-    web:'https://www.mineco.gob.es/',
-    presupuesto: 6700, funcionarios: 8.0,
-    secretarios:['Gonzalo García Andrés · Economía','Amparo López · Comercio','Jaime Pérez Renovales · Política Económica'],
-    prioridades:['Captación de inversión extranjera','Plan de pymes','Fondos NextGen'],
+  { nombre:'Arcadi España', cartera:'Hacienda', partido:'PSOE', desde:'03/2026',
+    web:'https://www.hacienda.gob.es/',
+    presupuesto: 22100, funcionarios: 16.0,
+    secretarios:['Jesús Gascón · Hacienda','Carlos San Basilio · Presupuestos y Gastos'],
+    prioridades:['Aprobar PGE 2026','Reforma fiscal pendiente','Senda fiscal con CCAA'],
   },
   { nombre:'José Manuel Albares', cartera:'Asuntos Exteriores · UE · Cooperación', partido:'PSOE', desde:'07/2021',
     web:'https://www.exteriores.gob.es/',
@@ -89,7 +89,7 @@ const MINISTROS: Ministro[] = [
     secretarios:['José Antonio Santano · SE Transportes','Pedro Saura · Adif (Pdte.)'],
     prioridades:['Mejora calidad servicio Renfe','Corredor Mediterráneo','Inversión carreteras'],
   },
-  { nombre:'Pilar Alegría', cartera:'Educación · FP · Deportes · Portavoz', partido:'PSOE', desde:'07/2021',
+  { nombre:'Milagros Tolón', cartera:'Educación · FP · Deportes', partido:'PSOE', desde:'12/2025',
     web:'https://www.educacionyfp.gob.es/',
     presupuesto: 6450, funcionarios: 11.0,
     secretarios:['María del Mar Sánchez · Educación y FP','José Manuel Franco · CSD'],
@@ -143,7 +143,7 @@ const MINISTROS: Ministro[] = [
     secretarios:['David Lucas · SE Vivienda','Iñaki Carnicero · DG Agenda Urbana'],
     prioridades:['Plan estatal de vivienda','Zonas tensionadas','SEPES vivienda asequible'],
   },
-  { nombre:'Elma Saiz', cartera:'Inclusión · Seguridad Social · Migraciones', partido:'PSOE', desde:'11/2023',
+  { nombre:'Elma Saiz', cartera:'Inclusión · Seguridad Social · Migraciones · Portavoz', partido:'PSOE', desde:'11/2023',
     web:'https://www.inclusion.gob.es/',
     presupuesto: 230400, funcionarios: 38.0,
     secretarios:['Borja Suárez · SE Seguridad Social','Pilar Cancela · SE Migraciones','Mercedes Martínez · SE Inclusión'],
@@ -212,6 +212,8 @@ const HITOS: Hito[] = [
   { fecha:'22/04/2025', titulo:'Reducción jornada 37,5h',                detalle:'Trabajo aprueba en CMin · pendiente trámite Congreso',          tipo:'Ley',      resultado:'pendiente' },
   { fecha:'03/11/2025', titulo:'Dimisión de Carlos Mazón (GVA)',         detalle:'President de la Generalitat dimite un año después de la DANA · presión social y judicial', tipo:'Crisis',   resultado:'aprobado'  },
   { fecha:'27/11/2025', titulo:'Investidura Pérez Llorca (GVA)',         detalle:'PP en minoría tras la ruptura con VOX en diciembre 2025',       tipo:'Acuerdo',  resultado:'aprobado'  },
+  { fecha:'22/12/2025', titulo:'Remodelación · Educación y Portavocía',  detalle:'Milagros Tolón entra en Educación; sale Pilar Alegría; Elma Saiz asume la Portavocía del Gobierno', tipo:'Acuerdo', resultado:'aprobado' },
+  { fecha:'27/03/2026', titulo:'Remodelación · Hacienda y Vicepresidencia 1ª', detalle:'M. J. Montero deja el Gobierno (candidata andaluza); Carlos Cuerpo, vicepresidente 1º (mantiene Economía); Arcadi España, ministro de Hacienda', tipo:'Acuerdo', resultado:'aprobado' },
   { fecha:'06/05/2026', titulo:'Negociación PGE 2026 con Junts',         detalle:'Reunión bilateral fiscal antes del 15 de mayo · clave',         tipo:'Acuerdo',  resultado:'pendiente' },
   { fecha:'09/05/2026', titulo:'Cumbre informal UE Día de Europa',       detalle:'España presidencia rotatoria 2025 · Estrasburgo',               tipo:'Cumbre',   resultado:'pendiente' },
 ]

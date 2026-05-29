@@ -56,6 +56,7 @@ export interface RelacionExplicita {
 import { RELACIONES_CSV_CURADAS } from './relaciones-csv-curadas'
 import { RELACIONES_CSV_TOP50 } from './relaciones-csv-top50'
 import { RELACIONES_DESDE_DOSIERES } from './relaciones-from-dosieres'
+import { RELACIONES_GRAFO_DOSIERES } from './grafo-dosieres'
 
 // Slugs comunes (mismo algoritmo que actores.ts buildActor → id)
 const id = (nombre: string) => nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
@@ -1085,6 +1086,9 @@ export const RELACIONES_EXPLICITAS: RelacionExplicita[] = [
   // El grafo deduplica con las curadas anteriores · si una relación ya
   // existía aquí arriba, la curada gana (más rica en contexto).
   ...RELACIONES_DESDE_DOSIERES,
+  // ─── Relaciones de los dossiers nuevos (IBEX 35, poder no-electo,
+  //     diputaciones) · derivadas de sus apartados "redes" ──────────────
+  ...RELACIONES_GRAFO_DOSIERES,
 ]
 
 /**
