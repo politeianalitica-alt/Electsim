@@ -356,8 +356,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0002",
@@ -723,8 +723,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0003",
@@ -1077,8 +1077,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0004",
@@ -1400,8 +1400,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0005",
@@ -1729,8 +1729,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0006",
@@ -2088,8 +2088,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0007",
@@ -2428,8 +2428,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0008",
@@ -2742,8 +2742,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0009",
@@ -3067,8 +3067,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0010",
@@ -3393,8 +3393,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0011",
@@ -3739,8 +3739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0012",
@@ -4015,8 +4015,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0013",
@@ -4306,8 +4306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0014",
@@ -4648,8 +4648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0015",
@@ -4988,8 +4988,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0016",
@@ -5278,8 +5278,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0017",
@@ -5575,8 +5575,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0018",
@@ -5903,8 +5903,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0019",
@@ -6220,8 +6220,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0020",
@@ -6515,8 +6515,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0021",
@@ -6801,8 +6801,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0022",
@@ -7086,8 +7086,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0023",
@@ -7354,8 +7354,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0024",
@@ -7595,8 +7595,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0025",
@@ -7852,8 +7852,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0026",
@@ -8163,8 +8163,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0027",
@@ -8490,8 +8490,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0028",
@@ -8833,8 +8833,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0029",
@@ -9076,8 +9076,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0030",
@@ -9333,8 +9333,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0031",
@@ -9648,8 +9648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0032",
@@ -9891,8 +9891,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0033",
@@ -10214,8 +10214,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0034",
@@ -10471,8 +10471,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0035",
@@ -10739,8 +10739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0036",
@@ -10772,7 +10772,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0036-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en A Coruña en 1984. Licenciada en European Business por la European Business School de Londres. Carrera dentro del grupo en Zara (Londres, Shanghai). Hija de Amancio Ortega.",
+            "contenido": "Marta Ortega Pérez (A Coruña, 1984) es presidenta no ejecutiva de Inditex, el mayor grupo textil del mundo y matriz de Zara. Hija menor del fundador Amancio Ortega, se formó dentro de la propia compañía y asumió la presidencia en 2022, encarnando la continuidad familiar al frente del imperio creado por su padre.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10806,9 +10806,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0036-ap-01-it-00",
             "apartado_id": "ibx-0036-ap-01",
             "tipo": "evento",
-            "titulo": "Inicio en tienda",
-            "contenido": "Entró en Zara en 2007 como dependienta en Londres y Shanghai, según narrativa corporativa.",
-            "fecha": null,
+            "titulo": "Formación dentro de Inditex",
+            "contenido": "Tras estudiar en el extranjero, se incorporó a Inditex empezando por la tienda y pasando por distintas áreas de negocio, con especial implicación en la imagen y la estrategia de marca de Zara, durante años lejos del foco mediático.",
+            "fecha": "2007-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -10818,9 +10818,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0036-ap-01-it-01",
             "apartado_id": "ibx-0036-ap-01",
             "tipo": "evento",
-            "titulo": "Asesora de marca",
-            "contenido": "Asesora de moda y posicionamiento de Zara desde 2014 aproximadamente.",
-            "fecha": "2014-01-01",
+            "titulo": "Presidenta de Inditex",
+            "contenido": "En 2022 sucedió a Pablo Isla como presidenta no ejecutiva de Inditex, en una transición que devolvía la presidencia a la familia fundadora, con Óscar García Maceiras como consejero delegado encargado de la gestión diaria.",
+            "fecha": "2022-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -10830,9 +10830,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0036-ap-01-it-02",
             "apartado_id": "ibx-0036-ap-01",
             "tipo": "evento",
-            "titulo": "Presidenta no ejecutiva",
-            "contenido": "Designada presidenta no ejecutiva de Inditex en abril de 2022, sustituyendo a Pablo Isla.",
-            "fecha": "2022-04-01",
+            "titulo": "Continuidad y giro premium",
+            "contenido": "Su etapa se ha caracterizado por la continuidad del modelo de moda rápida y por la apuesta por la calidad, la sostenibilidad, lo digital y un posicionamiento más premium de Zara, con resultados récord en ventas y beneficios del grupo.",
+            "fecha": "2023-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -10966,8 +10966,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0037",
@@ -10998,7 +10998,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0037-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en A Coruña en 1973. Abogado del Estado (opositó en 2003). Trayectoria mixta sector público-banca-cotizada.",
+            "contenido": "Óscar García Maceiras es consejero delegado de Inditex, el mayor grupo textil del mundo, dueño de Zara. Abogado del Estado y procedente de la alta dirección bancaria, asumió la gestión ejecutiva del gigante gallego en 2022, en el relevo que llevó a Marta Ortega a la presidencia no ejecutiva.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11032,9 +11032,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0037-ap-01-it-00",
             "apartado_id": "ibx-0037-ap-01",
             "tipo": "evento",
-            "titulo": "Abogado del Estado",
-            "contenido": "Cuerpo desde 2003. Asignaciones en Coruña y Madrid.",
-            "fecha": "2003-09-01",
+            "titulo": "Abogado del Estado y directivo bancario",
+            "contenido": "Abogado del Estado, desarrolló su carrera entre la Administración y el sector financiero, llegando a secretario general y del consejo del Banco Santander.",
+            "fecha": "2005-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11044,9 +11044,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0037-ap-01-it-01",
             "apartado_id": "ibx-0037-ap-01",
             "tipo": "evento",
-            "titulo": "Banco Popular",
-            "contenido": "Secretario del consejo y general counsel de Banco Popular entre 2014 y 2017 (hasta resolución).",
-            "fecha": "2014-01-01",
+            "titulo": "Llegada a Inditex",
+            "contenido": "Se incorporó a Inditex como secretario general y del consejo en 2021 y, pocos meses después, fue nombrado consejero delegado, asumiendo la gestión ejecutiva del grupo.",
+            "fecha": "2021-11-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11056,25 +11056,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0037-ap-01-it-02",
             "apartado_id": "ibx-0037-ap-01",
             "tipo": "evento",
-            "titulo": "Santander",
-            "contenido": "Secretario general y del consejo de Banco Santander 2017-2021 tras la integración del Popular.",
-            "fecha": "2017-06-07",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 2
-          },
-          {
-            "id": "ibx-0037-ap-01-it-03",
-            "apartado_id": "ibx-0037-ap-01",
-            "tipo": "evento",
-            "titulo": "Inditex",
-            "contenido": "Director general en marzo 2021 y CEO en abril 2022.",
+            "titulo": "Consejero delegado",
+            "contenido": "Como consejero delegado desde 2022, comparte el liderazgo con la presidenta Marta Ortega y ha pilotado una etapa de resultados récord, fuerte crecimiento online, integración de tienda física y digital y mejora de márgenes.",
             "fecha": "2022-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
-            "orden": 3
+            "orden": 2
           }
         ]
       },
@@ -11200,8 +11188,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0038",
@@ -11232,7 +11220,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0038-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Salamanca, 1950. Ingeniero industrial (ICAI) y MBA. Considerado el ejecutivo con la carrera más larga al frente de un IBEX 35.",
+            "contenido": "Ignacio Sánchez Galán (Salamanca, 1950) es presidente ejecutivo de Iberdrola, la mayor eléctrica española y una de las grandes utilities del mundo por capitalización bursátil. Ingeniero, ha pilotado durante más de dos décadas la transformación de la compañía en un gigante global de las energías renovables y las redes de distribución, con fuerte presencia en Reino Unido, Estados Unidos, Brasil y México.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11266,9 +11254,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0038-ap-01-it-00",
             "apartado_id": "ibx-0038-ap-01",
             "tipo": "evento",
-            "titulo": "Sogecable / Antibióticos",
-            "contenido": "Carrera previa en Sogecable y Antibióticos S.A.",
-            "fecha": "1980-01-01",
+            "titulo": "Ingeniero y gestor industrial",
+            "contenido": "Ingeniero técnico industrial por la Universidad Pontificia de Comillas (ICAI), con formación en administración de empresas, hizo carrera directiva en compañías industriales —entre ellas Industria de Turbo Propulsores y la operadora de telefonía Airtel— antes de dar el salto al sector eléctrico.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11278,9 +11266,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0038-ap-01-it-01",
             "apartado_id": "ibx-0038-ap-01",
             "tipo": "evento",
-            "titulo": "Airtel / Vodafone",
-            "contenido": "CEO de Airtel (predecesor de Vodafone España) entre 1995 y 2001.",
-            "fecha": "1995-06-01",
+            "titulo": "Al frente de Iberdrola",
+            "contenido": "Llegó a Iberdrola como consejero delegado en 2001 y poco después asumió la presidencia ejecutiva. Apostó tempranamente por la energía eólica y por las redes, anticipándose a la transición energética cuando las renovables eran aún una opción minoritaria en el sector.",
+            "fecha": "2001-05-25",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11290,25 +11278,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0038-ap-01-it-02",
             "apartado_id": "ibx-0038-ap-01",
             "tipo": "evento",
-            "titulo": "CEO de Iberdrola",
-            "contenido": "Llega a Iberdrola como CEO en septiembre 2001.",
-            "fecha": "2001-09-01",
+            "titulo": "Expansión global y renovables",
+            "contenido": "Bajo su mando, Iberdrola adquirió ScottishPower en Reino Unido, Energy East/Avangrid en Estados Unidos y Neoenergia en Brasil, multiplicando su tamaño y diversificando ingresos en geografías reguladas. La compañía se ha situado entre los líderes mundiales en eólica marina e inversión en redes, alcanzando en distintos momentos la mayor capitalización del IBEX 35.",
+            "fecha": "2007-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0038-ap-01-it-03",
-            "apartado_id": "ibx-0038-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidente ejecutivo",
-            "contenido": "Asume la presidencia ejecutiva en junio 2006 (sustituyendo a Íñigo de Oriol).",
-            "fecha": "2006-06-21",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -11507,8 +11483,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0039",
@@ -11800,8 +11776,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0040",
@@ -11832,7 +11808,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0040-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en México, 1965. Universidad Anáhuac. Carrera previa en Credit Suisse (México, NY).",
+            "contenido": "Héctor Grisi Checa es consejero delegado del Banco Santander, el mayor banco de España y uno de los grandes de la eurozona. Banquero mexicano de dilatada trayectoria, dirigió con éxito la filial del grupo en México antes de asumir la gestión global del banco bajo la presidencia de Ana Botín.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11866,9 +11842,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0040-ap-01-it-00",
             "apartado_id": "ibx-0040-ap-01",
             "tipo": "evento",
-            "titulo": "Credit Suisse",
-            "contenido": "Carrera en Credit Suisse en banca de inversión, 1997-2015.",
-            "fecha": "1997-01-01",
+            "titulo": "Banca de inversión y Santander México",
+            "contenido": "Con formación financiera y experiencia en la banca de inversión internacional (Credit Suisse), se incorporó al Santander para dirigir su filial en México, uno de los mercados más rentables del grupo.",
+            "fecha": "2015-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11878,9 +11854,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0040-ap-01-it-01",
             "apartado_id": "ibx-0040-ap-01",
             "tipo": "evento",
-            "titulo": "Santander México",
-            "contenido": "CEO de Santander México 2015-2022.",
-            "fecha": "2015-12-01",
+            "titulo": "Consejero delegado del grupo",
+            "contenido": "En 2023 fue nombrado consejero delegado del Banco Santander, asumiendo la gestión global de un grupo presente en Europa, América y, de forma creciente, en banca digital y de consumo.",
+            "fecha": "2023-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11890,37 +11866,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0040-ap-01-it-02",
             "apartado_id": "ibx-0040-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Grupo Santander",
-            "contenido": "Sucede a José Antonio Álvarez como CEO del grupo el 1 enero 2023.",
+            "titulo": "Transformación y eficiencia",
+            "contenido": "Ha impulsado la simplificación del banco en torno a divisiones globales (banca minorista, de empresas, de inversión y de consumo) y la mejora de la eficiencia y la rentabilidad, ejes de la estrategia marcada por la presidenta Ana Botín.",
             "fecha": "2023-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0040-ap-01-it-03",
-            "apartado_id": "ibx-0040-ap-01",
-            "tipo": "evento",
-            "titulo": "Credit Suisse México",
-            "contenido": "CEO de Credit Suisse México y Country Head North America entre 2010 y 2015.",
-            "fecha": "2010-06-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0040-ap-01-it-04",
-            "apartado_id": "ibx-0040-ap-01",
-            "tipo": "evento",
-            "titulo": "Country Head North America",
-            "contenido": "Country Head North America de Santander 2019-2022, supervisando la venta de BBVA USA a PNC y la integración USA-México.",
-            "fecha": "2019-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -12070,8 +12022,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0041",
@@ -12102,7 +12054,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0041-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Salamanca, 1966. Ingeniero eléctrico (MIT) y MBA por MIT Sloan. Trayectoria mixta consultoría-banca-tecnología.",
+            "contenido": "Carlos Torres Vila (Salamanca, 1966) es presidente ejecutivo de BBVA, el segundo banco español y uno de los mayores de la eurozona. Ingeniero y MBA con experiencia internacional, ha liderado la digitalización del banco y, sobre todo, la ofensiva por hacerse con el Banco Sabadell, una de las mayores operaciones bancarias europeas de los últimos años.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12136,9 +12088,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0041-ap-01-it-00",
             "apartado_id": "ibx-0041-ap-01",
             "tipo": "evento",
-            "titulo": "McKinsey",
-            "contenido": "Consultor en McKinsey 1992-1996.",
-            "fecha": "1992-09-01",
+            "titulo": "De la consultoría a la banca",
+            "contenido": "Ingeniero por el MIT y con experiencia en consultoría (McKinsey) y en la energía (Endesa), se incorporó al BBVA, donde dirigió la estrategia digital del grupo, un área que marcó su perfil de gestor.",
+            "fecha": "2008-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12148,9 +12100,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0041-ap-01-it-01",
             "apartado_id": "ibx-0041-ap-01",
             "tipo": "evento",
-            "titulo": "Endesa",
-            "contenido": "Director general de Endesa entre 1996 y 2008 (M&A, estrategia).",
-            "fecha": "1996-01-01",
+            "titulo": "Presidente de BBVA",
+            "contenido": "Sucedió a Francisco González en la presidencia de BBVA en 2018-2019, asumiendo el liderazgo de un banco con fuerte presencia en México, Turquía y América del Sur y una apuesta decidida por la transformación tecnológica.",
+            "fecha": "2019-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12160,37 +12112,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0041-ap-01-it-02",
             "apartado_id": "ibx-0041-ap-01",
             "tipo": "evento",
-            "titulo": "Goirigolzarri stint",
-            "contenido": "Director de Estrategia de Bancaja antes de pasar a BBVA.",
-            "fecha": "2008-04-01",
+            "titulo": "La OPA sobre el Sabadell",
+            "contenido": "Desde 2024 lideró la OPA sobre el Banco Sabadell, una operación que aspiraba a crear un gigante bancario español y que marcó el pulso del sector, con la oposición inicial del Gobierno y un largo y complejo proceso regulatorio y político.",
+            "fecha": "2024-05-09",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0041-ap-01-it-03",
-            "apartado_id": "ibx-0041-ap-01",
-            "tipo": "evento",
-            "titulo": "BBVA - banca digital",
-            "contenido": "Llega a BBVA en 2008. Responsable de banca digital, luego CEO en 2015.",
-            "fecha": "2015-05-04",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0041-ap-01-it-04",
-            "apartado_id": "ibx-0041-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidente BBVA",
-            "contenido": "Asume la presidencia el 31 diciembre 2018 sustituyendo a Francisco González (relevo precipitado por escándalo Villarejo).",
-            "fecha": "2018-12-31",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -12371,8 +12299,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0042",
@@ -12403,7 +12331,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0042-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Turquía, 1975. ITU Estambul y Carnegie Mellon (MBA).",
+            "contenido": "Onur Genç es consejero delegado de BBVA, el segundo banco español por tamaño y uno de los mayores de la eurozona, con fuerte presencia en México, Turquía y América del Sur. De origen turco y con formación internacional, dirige la gestión del grupo y ha liderado la ofensiva del banco para hacerse con el Sabadell.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12437,9 +12365,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0042-ap-01-it-00",
             "apartado_id": "ibx-0042-ap-01",
             "tipo": "evento",
-            "titulo": "Garanti BBVA",
-            "contenido": "CEO de Garanti BBVA (Turquía) 2015-2017.",
-            "fecha": "2015-04-01",
+            "titulo": "De la consultoría a la banca",
+            "contenido": "Formado en ingeniería y con un MBA por la Carnegie Mellon, trabajó en la consultoría estratégica (McKinsey) antes de incorporarse al sector bancario, donde desarrolló su carrera en mercados emergentes.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12449,9 +12377,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0042-ap-01-it-01",
             "apartado_id": "ibx-0042-ap-01",
             "tipo": "evento",
-            "titulo": "BBVA USA",
-            "contenido": "CEO de BBVA USA 2017-2018 (vendida a PNC en 2021).",
-            "fecha": "2017-12-01",
+            "titulo": "CEO de Garanti",
+            "contenido": "Dirigió Garanti BBVA, la filial turca del grupo, uno de sus mercados más rentables y a la vez más expuestos a la volatilidad macroeconómica, lo que le dio proyección dentro del banco.",
+            "fecha": "2017-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12461,25 +12389,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0042-ap-01-it-02",
             "apartado_id": "ibx-0042-ap-01",
             "tipo": "evento",
-            "titulo": "CEO BBVA",
-            "contenido": "CEO del grupo desde diciembre 2018.",
-            "fecha": "2018-12-21",
+            "titulo": "Consejero delegado de BBVA y la OPA al Sabadell",
+            "contenido": "Como consejero delegado del grupo desde 2018-2019, junto al presidente Carlos Torres, lideró desde 2024 la OPA sobre el Banco Sabadell, una operación que aspiraba a crear un gigante bancario y que marcó el pulso del sector financiero español.",
+            "fecha": "2019-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0042-ap-01-it-03",
-            "apartado_id": "ibx-0042-ap-01",
-            "tipo": "evento",
-            "titulo": "McKinsey",
-            "contenido": "Consultor en McKinsey en Estambul y Nueva York antes de incorporarse a Garanti.",
-            "fecha": "2002-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -12630,8 +12546,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0043",
@@ -12662,7 +12578,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0043-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Bilbao, 1954. Licenciado en Económicas (Universidad de Deusto). Especializado en banca minorista y reestructuración.",
+            "contenido": "José Ignacio Goirigolzarri Tellaeche (Bilbao, 1954) es presidente no ejecutivo de CaixaBank, el mayor banco del mercado doméstico español. Economista, fue consejero delegado del BBVA y, sobre todo, el hombre llamado a rescatar Bankia tras su nacionalización, entidad que saneó y condujo hasta su fusión con CaixaBank.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12696,9 +12612,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0043-ap-01-it-00",
             "apartado_id": "ibx-0043-ap-01",
             "tipo": "evento",
-            "titulo": "BBV / BBVA",
-            "contenido": "Carrera en BBV y luego BBVA. Director general (1994), CEO entre 2001 y 2009. Salida tras conflicto con FG.",
-            "fecha": "2001-12-22",
+            "titulo": "Carrera en BBVA",
+            "contenido": "Economista de formación, desarrolló una larga carrera en el BBVA, donde llegó a consejero delegado, dirigiendo el negocio en España y América antes de salir del banco.",
+            "fecha": "2001-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12708,8 +12624,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0043-ap-01-it-01",
             "apartado_id": "ibx-0043-ap-01",
             "tipo": "evento",
-            "titulo": "Bankia",
-            "contenido": "Presidente de Bankia nacionalizada desde mayo 2012, gestionando la mayor reestructuración bancaria española.",
+            "titulo": "El rescate de Bankia",
+            "contenido": "En 2012 asumió la presidencia de Bankia tras su nacionalización en plena crisis financiera, gestionando el saneamiento de la entidad rescatada con dinero público, su vuelta a beneficios y su salida a bolsa.",
             "fecha": "2012-05-09",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12720,8 +12636,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0043-ap-01-it-02",
             "apartado_id": "ibx-0043-ap-01",
             "tipo": "evento",
-            "titulo": "CaixaBank",
-            "contenido": "Presidente de CaixaBank desde marzo 2021 tras la fusión.",
+            "titulo": "Presidente de CaixaBank",
+            "contenido": "Pilotó la fusión de Bankia con CaixaBank en 2021, asumiendo la presidencia del grupo resultante, líder doméstico por activos, donde ejerce de presidente no ejecutivo junto al consejero delegado Gonzalo Gortázar.",
             "fecha": "2021-03-26",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12906,8 +12822,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0044",
@@ -12938,7 +12854,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0044-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en 1965. Derecho (ICADE), MBA INSEAD. Abogado del Estado.",
+            "contenido": "Gonzalo Gortázar Rotaeche (1965) es consejero delegado de CaixaBank, el mayor banco por activos en el mercado doméstico español tras su fusión con Bankia. Ingeniero y MBA con experiencia en banca de inversión internacional, dirige la gestión ordinaria del grupo en el que CriteriaCaixa es accionista de referencia.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12972,8 +12888,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0044-ap-01-it-00",
             "apartado_id": "ibx-0044-ap-01",
             "tipo": "evento",
-            "titulo": "Banca de inversión",
-            "contenido": "Bank of America y Morgan Stanley en M&A, 1990s-2000s.",
+            "titulo": "Banca de inversión internacional",
+            "contenido": "Formado como ingeniero y MBA, trabajó en banca de inversión (Morgan Stanley, Bank of America) antes de incorporarse al perímetro de La Caixa, donde dirigió Criteria y la actividad financiera del grupo.",
             "fecha": "1993-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12984,9 +12900,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0044-ap-01-it-01",
             "apartado_id": "ibx-0044-ap-01",
             "tipo": "evento",
-            "titulo": "Criteria",
-            "contenido": "Director general financiero de Criteria CaixaCorp 2009-2014.",
-            "fecha": "2009-09-01",
+            "titulo": "Consejero delegado de CaixaBank",
+            "contenido": "Asumió la consejería delegada de CaixaBank, encargándose de la gestión diaria del banco y de su estrategia comercial, digital y de rentabilidad bajo la presidencia primero de Fainé y luego de Goirigolzarri.",
+            "fecha": "2014-06-26",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12996,9 +12912,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0044-ap-01-it-02",
             "apartado_id": "ibx-0044-ap-01",
             "tipo": "evento",
-            "titulo": "CEO CaixaBank",
-            "contenido": "CEO desde junio 2014, mantenido tras fusión con Bankia.",
-            "fecha": "2014-06-30",
+            "titulo": "La fusión con Bankia",
+            "contenido": "Pilotó en 2021 la integración de Bankia en CaixaBank, la mayor operación bancaria de la historia reciente de España, que situó al grupo como líder doméstico por cuota en crédito, depósitos y seguros.",
+            "fecha": "2021-03-26",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13092,8 +13008,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0045",
@@ -13124,7 +13040,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0045-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1972. Ingeniero industrial (UPC) y MBA London Business School.",
+            "contenido": "Marc Murtra (1972) es presidente de Telefónica, la mayor operadora de telecomunicaciones española y un activo considerado estratégico por el Estado. Ingeniero industrial y economista, llegó a la presidencia en enero de 2025 tras el refuerzo del peso público en el capital, después de haber presidido la tecnológica de defensa Indra.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13158,9 +13074,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0045-ap-01-it-00",
             "apartado_id": "ibx-0045-ap-01",
             "tipo": "evento",
-            "titulo": "Lehman / consultoría",
-            "contenido": "Carrera previa en Lehman Brothers (banca de inversión) y Atrium Capital.",
-            "fecha": "1998-01-01",
+            "titulo": "Formación e inicios",
+            "contenido": "Ingeniero industrial y economista con formación internacional, desarrolló su carrera entre la consultoría, la empresa industrial y la gestión de participadas, con un interés marcado por la política industrial y tecnológica del país.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13170,9 +13086,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0045-ap-01-it-01",
             "apartado_id": "ibx-0045-ap-01",
             "tipo": "evento",
-            "titulo": "Secretario de Estado",
-            "contenido": "Secretario de Estado de Telecomunicaciones y Sociedad de la Información en el Gobierno Zapatero (2010-2011).",
-            "fecha": "2010-12-01",
+            "titulo": "Presidente de Indra",
+            "contenido": "En 2021 fue nombrado presidente de Indra a propuesta de la SEPI, el holding público que es primer accionista de la tecnológica. Pilotó su giro hacia la defensa y la consolidación del sector en un contexto de aumento del gasto militar europeo.",
+            "fecha": "2021-01-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13182,37 +13098,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0045-ap-01-it-02",
             "apartado_id": "ibx-0045-ap-01",
             "tipo": "evento",
-            "titulo": "SEPI / Hispasat",
-            "contenido": "Director de Empresas Industriales de la SEPI 2011-2012. Vinculado al ecosistema empresa pública.",
-            "fecha": "2011-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 2
-          },
-          {
-            "id": "ibx-0045-ap-01-it-03",
-            "apartado_id": "ibx-0045-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidente Indra",
-            "contenido": "Presidente de Indra desde enero 2021. Pivot a defensa.",
-            "fecha": "2021-01-22",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0045-ap-01-it-04",
-            "apartado_id": "ibx-0045-ap-01",
-            "tipo": "evento",
-            "titulo": "Telefónica",
-            "contenido": "Presidente de Telefónica desde 18 enero 2025 (designado por consenso accionarial SEPI/STC/CriteriaCaixa).",
+            "titulo": "Presidente de Telefónica",
+            "contenido": "En enero de 2025 sustituyó a José María Álvarez-Pallete al frente de Telefónica, después de que la SEPI se convirtiera en uno de los mayores accionistas de la operadora —junto a la saudí STC y CriteriaCaixa—, en una operación que reforzó el control nacional sobre una infraestructura estratégica.",
             "fecha": "2025-01-18",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
-            "orden": 4
+            "orden": 2
           }
         ]
       },
@@ -13380,8 +13272,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0046",
@@ -13412,7 +13304,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0046-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sariñena (Huesca) en 1948. Económicas (Universidad de Barcelona). Auditoría (Arthur Andersen).",
+            "contenido": "Antonio Brufau Niubó (Mont-roig del Camp, Tarragona, 1948) es presidente de Repsol, la mayor petrolera y compañía multienergética española. Economista de formación y procedente del perímetro de La Caixa, ha presidido el grupo durante dos décadas, pilotando su transformación desde la petrolera tradicional hacia un modelo multienergético con objetivo de descarbonización.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13446,9 +13338,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0046-ap-01-it-00",
             "apartado_id": "ibx-0046-ap-01",
             "tipo": "evento",
-            "titulo": "Arthur Andersen",
-            "contenido": "Carrera en auditoría 1971-1988.",
-            "fecha": "1971-09-01",
+            "titulo": "De Arthur Andersen a La Caixa",
+            "contenido": "Economista y censor jurado de cuentas, desarrolló su carrera entre la auditoría (Arthur Andersen) y el grupo La Caixa, donde llegó a la dirección general antes de asumir la presidencia de Gas Natural.",
+            "fecha": "1988-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13458,9 +13350,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0046-ap-01-it-01",
             "apartado_id": "ibx-0046-ap-01",
             "tipo": "evento",
-            "titulo": "La Caixa",
-            "contenido": "Director general de La Caixa 1988-2003.",
-            "fecha": "1988-01-01",
+            "titulo": "Presidente de Gas Natural",
+            "contenido": "Dirigió Gas Natural, impulsando su crecimiento en el negocio gasista y eléctrico, lo que le dio el peso y la experiencia para dar el salto a la petrolera de referencia del país.",
+            "fecha": "1997-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13470,9 +13362,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0046-ap-01-it-02",
             "apartado_id": "ibx-0046-ap-01",
             "tipo": "evento",
-            "titulo": "Gas Natural / Repsol",
-            "contenido": "Presidente de Gas Natural 1997-2004; presidente de Repsol desde 2004.",
-            "fecha": "2004-10-27",
+            "titulo": "Presidente de Repsol",
+            "contenido": "Preside Repsol desde 2004. Gestionó episodios críticos como la expropiación de YPF por Argentina en 2012 y ha orientado al grupo hacia un modelo multienergético —química, renovables, combustibles renovables y movilidad— con el objetivo declarado de cero emisiones netas en 2050.",
+            "fecha": "2004-10-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13626,8 +13518,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0047",
@@ -13659,7 +13551,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0047-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Zumarraga (Gipuzkoa), 1963. Doctor en Química. Trayectoria política PNV-empresa.",
+            "contenido": "Josu Jon Imaz San Miguel (Zumárraga, Gipuzkoa, 1963) es consejero delegado de Repsol, la mayor compañía energética española. Doctor en Química y expresidente del PNV, dio el salto de la primera línea política vasca a la gestión empresarial y dirige la transformación de Repsol hacia un modelo multienergético, defendiendo con firmeza la neutralidad tecnológica.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13693,9 +13585,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0047-ap-01-it-00",
             "apartado_id": "ibx-0047-ap-01",
             "tipo": "evento",
-            "titulo": "PNV",
-            "contenido": "Diputado en el Parlamento Vasco, consejero de Industria del Gobierno Vasco (1999-2001), portavoz EAJ-PNV.",
-            "fecha": "1999-01-01",
+            "titulo": "De la química a la política",
+            "contenido": "Doctor en Ciencias Químicas, compaginó la investigación con la política en el PNV, llegando a portavoz del Gobierno vasco y a presidente del partido entre 2004 y 2007, en una etapa especialmente convulsa del País Vasco.",
+            "fecha": "2004-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13705,9 +13597,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0047-ap-01-it-01",
             "apartado_id": "ibx-0047-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente PNV",
-            "contenido": "Presidente del EBB del PNV entre 2004 y 2007 (relevo de Arzalluz, antes que Urkullu).",
-            "fecha": "2004-01-31",
+            "titulo": "Salto a la empresa energética",
+            "contenido": "Tras dejar la primera línea política, se incorporó al sector empresarial energético, primero en Petronor (filial de Repsol en el País Vasco) y después en la matriz del grupo.",
+            "fecha": "2008-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13717,8 +13609,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0047-ap-01-it-02",
             "apartado_id": "ibx-0047-ap-01",
             "tipo": "evento",
-            "titulo": "Petronor / Repsol",
-            "contenido": "Presidente de Petronor (filial Repsol) desde 2008. Repsol como CEO desde 2014.",
+            "titulo": "Consejero delegado de Repsol",
+            "contenido": "Es consejero delegado de Repsol desde 2014. Ha pilotado la estrategia multienergética del grupo —química, renovables, combustibles renovables— y se ha convertido en una de las voces más beligerantes del sector contra una transición energética que considera ideológica y no basada en la neutralidad tecnológica.",
             "fecha": "2014-04-30",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13902,8 +13794,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0048",
@@ -13936,7 +13828,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0048-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1971. Economista. Doctor en Economía por la Universidad de Cambridge.",
+            "contenido": "Maurici Lucena Betriu es presidente y consejero delegado de Aena, el primer operador aeroportuario del mundo por número de pasajeros y una compañía cotizada controlada por el Estado a través de Enaire. Economista y exparlamentario socialista catalán, dirige la gestión de la red de aeropuertos españoles y sus planes de inversión y tarifas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13970,9 +13862,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0048-ap-01-it-00",
             "apartado_id": "ibx-0048-ap-01",
             "tipo": "evento",
-            "titulo": "PSC / Generalitat",
-            "contenido": "Diputado del PSC en el Parlament. Director del CIDOB (think tank Barcelona).",
-            "fecha": "2007-01-01",
+            "titulo": "Economista y gestión pública",
+            "contenido": "Economista de formación, combinó la actividad profesional con la gestión pública, incluida la dirección del Centro para el Desarrollo Tecnológico Industrial (CDTI), agencia estatal de innovación.",
+            "fecha": "2004-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13982,9 +13874,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0048-ap-01-it-01",
             "apartado_id": "ibx-0048-ap-01",
             "tipo": "evento",
-            "titulo": "Sec. Estado Comercio",
-            "contenido": "Secretario de Estado de Comercio (2018) en el primer Gobierno Sánchez (Reyes Maroto).",
-            "fecha": "2018-06-07",
+            "titulo": "Política en Cataluña",
+            "contenido": "Fue diputado en el Parlament de Cataluña por el PSC, con responsabilidades en política económica, antes de regresar a la gestión de empresas y organismos públicos.",
+            "fecha": "2010-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13994,8 +13886,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0048-ap-01-it-02",
             "apartado_id": "ibx-0048-ap-01",
             "tipo": "evento",
-            "titulo": "Presidencia Aena",
-            "contenido": "Designado presidente de Aena en diciembre 2018.",
+            "titulo": "Presidente de Aena",
+            "contenido": "Preside Aena desde 2018. Ha gestionado el desplome y la posterior recuperación récord del tráfico aéreo tras la pandemia, el debate sobre la ampliación del aeropuerto de Barcelona-El Prat y el marco regulado de tarifas aeroportuarias (DORA).",
             "fecha": "2018-12-04",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14132,8 +14024,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0049",
@@ -14164,7 +14056,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0049-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniero industrial. Toda la carrera en Endesa: redes, generación, comercialización.",
+            "contenido": "José Bogas Gálvez es consejero delegado de Endesa, la mayor eléctrica de España por número de clientes, controlada por la italiana Enel. Ingeniero con casi toda su carrera profesional ligada a la compañía, dirige el día a día del grupo en plena transición desde el carbón hacia las renovables y la electrificación de la demanda.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14212,9 +14104,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0049-ap-01-it-00",
             "apartado_id": "ibx-0049-ap-01",
             "tipo": "evento",
-            "titulo": "Endesa carrera interna",
-            "contenido": "Director general de España y Portugal antes de ser CEO.",
-            "fecha": "2009-09-01",
+            "titulo": "Carrera en Endesa",
+            "contenido": "Ingeniero, desarrolló su trayectoria en distintas áreas de Endesa —generación, negocio internacional y mercados liberalizados—, lo que le dio un conocimiento profundo del negocio eléctrico antes de acceder a la primera línea ejecutiva.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14224,9 +14116,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0049-ap-01-it-01",
             "apartado_id": "ibx-0049-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Endesa",
-            "contenido": "CEO desde octubre 2014.",
-            "fecha": "2014-10-09",
+            "titulo": "Consejero delegado",
+            "contenido": "Asumió la dirección general/consejería delegada de Endesa en 2014, ya bajo control del grupo italiano Enel, asumiendo la gestión ordinaria de la compañía y su relación con el accionista de referencia.",
+            "fecha": "2014-10-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14236,9 +14128,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0049-ap-01-it-02",
             "apartado_id": "ibx-0049-ap-01",
             "tipo": "evento",
-            "titulo": "Generación, distribución, comercialización",
-            "contenido": "Carrera en distintas direcciones generales de Endesa (Generación, Distribución, Iberia).",
-            "fecha": "1995-01-01",
+            "titulo": "Cierre del carbón y renovables",
+            "contenido": "Ha pilotado el cierre de las centrales de carbón y la apuesta por la generación renovable, las redes de distribución y la comercialización, en un sector marcado por la volatilidad de los precios y la regulación energética europea.",
+            "fecha": "2019-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14429,8 +14321,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0050",
@@ -14462,7 +14354,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0050-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Palma de Mallorca, 1963. Ingeniero industrial.",
+            "contenido": "Francisco Reynés (1963) es presidente ejecutivo de Naturgy, la mayor gasista española y una de sus grandes eléctricas, participada por CriteriaCaixa y por fondos internacionales. Ingeniero de Caminos, llegó a la energética tras dirigir el grupo de autopistas Abertis, y ha protagonizado los sucesivos planes estratégicos y movimientos accionariales del grupo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14496,9 +14388,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0050-ap-01-it-00",
             "apartado_id": "ibx-0050-ap-01",
             "tipo": "evento",
-            "titulo": "Abertis",
-            "contenido": "CEO de Abertis (concesionaria) entre 2010 y 2017.",
-            "fecha": "2010-12-01",
+            "titulo": "De la banca de inversión a la gestión",
+            "contenido": "Ingeniero de Caminos con formación en administración de empresas, desarrolló su carrera entre las finanzas corporativas y la gestión de infraestructuras, vinculándose al perímetro empresarial de La Caixa.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14508,13 +14400,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0050-ap-01-it-01",
             "apartado_id": "ibx-0050-ap-01",
             "tipo": "evento",
-            "titulo": "Naturgy",
-            "contenido": "Presidente y CEO de Naturgy desde febrero 2018.",
-            "fecha": "2018-02-01",
+            "titulo": "Consejero delegado de Abertis",
+            "contenido": "Dirigió durante años el grupo de concesiones de autopistas Abertis, expandiéndolo internacionalmente, hasta su venta y troceo entre ACS-Hochtief y la italiana Atlantia.",
+            "fecha": "2009-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0050-ap-01-it-02",
+            "apartado_id": "ibx-0050-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Naturgy",
+            "contenido": "En 2018 asumió la presidencia ejecutiva de Naturgy (antes Gas Natural Fenosa), donde ha pilotado planes de eficiencia, la rotación de accionistas —con la entrada del fondo IFM y la OPA fallida y posteriores movimientos— y el reparto entre dividendo e inversión en transición energética.",
+            "fecha": "2018-02-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -14647,8 +14551,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0051",
@@ -14679,7 +14583,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0051-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1958. Ingeniero de Caminos. MBA por MIT Sloan. Hijo del fundador Rafael del Pino y Moreno.",
+            "contenido": "Rafael del Pino y Calvo-Sotelo (Madrid, 1958) es presidente de Ferrovial, una de las mayores constructoras y operadoras de infraestructuras del mundo. Ingeniero de Caminos formado también en EE. UU., heredó el liderazgo del grupo fundado por su padre y lo convirtió en una multinacional de concesiones de autopistas y aeropuertos, una de las mayores fortunas de España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14713,13 +14617,37 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0051-ap-01-it-00",
             "apartado_id": "ibx-0051-ap-01",
             "tipo": "evento",
-            "titulo": "Familia / cargos",
-            "contenido": "Carrera entera dentro de Ferrovial. Director general en los 90, vicepresidente y luego presidente desde 2000.",
-            "fecha": "2000-04-26",
+            "titulo": "Formación e ingreso en la empresa familiar",
+            "contenido": "Ingeniero de Caminos con un MBA por el MIT, se incorporó a la constructora fundada por su padre, Rafael del Pino y Moreno, donde fue asumiendo responsabilidades crecientes hasta tomar las riendas del grupo.",
+            "fecha": "1992-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0051-ap-01-it-01",
+            "apartado_id": "ibx-0051-ap-01",
+            "tipo": "evento",
+            "titulo": "Internacionalización de Ferrovial",
+            "contenido": "Bajo su mando, Ferrovial viró del negocio puramente constructor al de concesionario y operador de infraestructuras, con activos emblemáticos como la autopista 407 ETR en Canadá y el aeropuerto de Heathrow en Londres, y una fuerte implantación en EE. UU.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0051-ap-01-it-02",
+            "apartado_id": "ibx-0051-ap-01",
+            "tipo": "evento",
+            "titulo": "Traslado de la sede a Países Bajos",
+            "contenido": "En 2023 lideró el traslado del domicilio social de Ferrovial a los Países Bajos, con vistas a cotizar también en EE. UU., una decisión que generó un agrio choque político con el Gobierno por su lectura como una fuga fiscal y de prestigio empresarial.",
+            "fecha": "2023-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -14904,8 +14832,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0052",
@@ -14936,7 +14864,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0052-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1965. Ingeniero de Caminos por la UPM y MBA por Stanford Graduate School of Business.",
+            "contenido": "Ignacio Madridejos Fernández es consejero delegado de Ferrovial, una de las mayores constructoras y operadoras de infraestructuras del mundo. Ingeniero con amplia experiencia internacional en grandes multinacionales industriales, dirige la gestión del grupo presidido por Rafael del Pino, centrado en concesiones de autopistas y aeropuertos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14970,9 +14898,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0052-ap-01-it-00",
             "apartado_id": "ibx-0052-ap-01",
             "tipo": "evento",
-            "titulo": "Repsol",
-            "contenido": "Inicios en Repsol en planificación estratégica.",
-            "fecha": "1989-01-01",
+            "titulo": "Carrera internacional",
+            "contenido": "Ingeniero de Caminos con MBA, desarrolló una larga carrera internacional en multinacionales del cemento y los materiales de construcción, como Cemex, ocupando altos cargos directivos en distintos países.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14982,9 +14910,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0052-ap-01-it-01",
             "apartado_id": "ibx-0052-ap-01",
             "tipo": "evento",
-            "titulo": "McKinsey",
-            "contenido": "Consultor en McKinsey & Co. en los 90s.",
-            "fecha": "1994-01-01",
+            "titulo": "Consejero delegado de Ferrovial",
+            "contenido": "Se incorporó a Ferrovial como consejero delegado en 2019, asumiendo la gestión del grupo de infraestructuras y su estrategia de concesiones de autopistas y aeropuertos.",
+            "fecha": "2019-10-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14994,25 +14922,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0052-ap-01-it-02",
             "apartado_id": "ibx-0052-ap-01",
             "tipo": "evento",
-            "titulo": "Cemex",
-            "contenido": "Carrera completa en Cemex (México): director de planificación, director Cemex USA, CEO Cemex Europa.",
-            "fecha": "2002-01-01",
+            "titulo": "Traslado a Países Bajos y EE. UU.",
+            "contenido": "Le correspondió ejecutar el traslado del domicilio social a los Países Bajos y la cotización en Estados Unidos, una operación clave para el grupo que generó un fuerte choque político con el Gobierno español.",
+            "fecha": "2023-04-13",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0052-ap-01-it-03",
-            "apartado_id": "ibx-0052-ap-01",
-            "tipo": "evento",
-            "titulo": "CEO Ferrovial",
-            "contenido": "CEO desde octubre 2019. Lideró operativamente la transición y traslado de sede a Países Bajos.",
-            "fecha": "2019-10-23",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -15192,8 +15108,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0053",
@@ -15224,7 +15140,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0053-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1965. Económicas (Complutense) y MBA IE.",
+            "contenido": "Luis Maroto Camino es consejero delegado de Amadeus IT Group, la multinacional tecnológica española líder mundial en sistemas de reservas y soluciones para el turismo y las aerolíneas. Economista, dirige una de las grandes tecnológicas europeas, cuyo negocio está estrechamente ligado a la evolución del tráfico aéreo y los viajes globales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15258,9 +15174,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0053-ap-01-it-00",
             "apartado_id": "ibx-0053-ap-01",
             "tipo": "evento",
-            "titulo": "Pepsico / consultoría",
-            "contenido": "Carrera previa en Pepsico y consultoría.",
-            "fecha": "1990-01-01",
+            "titulo": "De la gestión a Amadeus",
+            "contenido": "Economista y MBA, desarrolló su carrera en empresas de gran consumo antes de incorporarse a Amadeus, donde ocupó responsabilidades financieras y comerciales.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -15270,8 +15186,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0053-ap-01-it-01",
             "apartado_id": "ibx-0053-ap-01",
             "tipo": "evento",
-            "titulo": "Amadeus carrera interna",
-            "contenido": "En Amadeus desde 2000, ascenso a CFO y luego CEO en 2011.",
+            "titulo": "Consejero delegado",
+            "contenido": "Asumió la dirección ejecutiva de Amadeus en 2011, consolidando su liderazgo mundial en distribución de viajes (GDS) y soluciones tecnológicas para aerolíneas y aeropuertos.",
             "fecha": "2011-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15282,37 +15198,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0053-ap-01-it-02",
             "apartado_id": "ibx-0053-ap-01",
             "tipo": "evento",
-            "titulo": "Llegada a Amadeus",
-            "contenido": "Entra en Amadeus en 1999. CFO y luego director general antes del salto a CEO.",
-            "fecha": "1999-06-01",
+            "titulo": "La pandemia y la recuperación",
+            "contenido": "Gestionó el durísimo impacto de la pandemia, que paralizó los viajes y el negocio de Amadeus, y su posterior recuperación, reforzando la apuesta por la tecnología y la diversificación del grupo.",
+            "fecha": "2020-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0053-ap-01-it-03",
-            "apartado_id": "ibx-0053-ap-01",
-            "tipo": "evento",
-            "titulo": "OPV 2010",
-            "contenido": "Lidera la salida a bolsa de Amadeus en 2010, tras el periodo de capital riesgo (BC Partners, Cinven).",
-            "fecha": "2010-04-29",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0053-ap-01-it-04",
-            "apartado_id": "ibx-0053-ap-01",
-            "tipo": "evento",
-            "titulo": "Pandemia Covid",
-            "contenido": "Gestionó la caída del 60% de ingresos en 2020 y la rápida recuperación 2022-2023 con planes de eficiencia y reducción de plantilla.",
-            "fecha": "2020-04-15",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -15462,8 +15354,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0054",
@@ -15494,7 +15386,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0054-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Italiano, nacido en 1964. Licenciado en Economía por la Università Bocconi de Milán. MBA en INSEAD (Fontainebleau).",
+            "contenido": "Marco Patuano es consejero delegado de Cellnex Telecom, el mayor operador independiente de torres e infraestructuras de telecomunicaciones de Europa. Directivo italiano con larga experiencia en el sector —dirigió Telecom Italia—, pilota el giro de Cellnex desde la fase de crecimiento acelerado hacia la consolidación y la reducción de la deuda.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15528,9 +15420,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0054-ap-01-it-00",
             "apartado_id": "ibx-0054-ap-01",
             "tipo": "evento",
-            "titulo": "Pirelli",
-            "contenido": "Inicios en Pirelli en los 90, en el conglomerado Tronchetti Provera.",
-            "fecha": "1990-09-01",
+            "titulo": "Telecom Italia",
+            "contenido": "Desarrolló su carrera en el sector de las telecomunicaciones, llegando a consejero delegado de Telecom Italia, uno de los grandes operadores europeos.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -15540,9 +15432,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0054-ap-01-it-01",
             "apartado_id": "ibx-0054-ap-01",
             "tipo": "evento",
-            "titulo": "Telecom Italia",
-            "contenido": "Entra en Telecom Italia en 1995. CFO desde 2008, COO en 2010, CEO 2011-2016.",
-            "fecha": "2011-04-12",
+            "titulo": "Llegada a Cellnex",
+            "contenido": "Se incorporó a Cellnex como consejero y después asumió la consejería delegada en 2023, tras la etapa de fuerte expansión por adquisiciones que convirtió a la compañía en líder europeo de torres.",
+            "fecha": "2023-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -15552,37 +15444,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0054-ap-01-it-02",
             "apartado_id": "ibx-0054-ap-01",
             "tipo": "evento",
-            "titulo": "Salida TI por Vivendi",
-            "contenido": "Sale de Telecom Italia tras la toma de control de Vivendi (2015-2016).",
-            "fecha": "2016-03-21",
+            "titulo": "Consolidación y desapalancamiento",
+            "contenido": "Su mandato se centra en consolidar el enorme crecimiento previo, reducir el elevado endeudamiento, recuperar el grado de inversión y optimizar la cartera de activos en los distintos países europeos.",
+            "fecha": "2024-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0054-ap-01-it-03",
-            "apartado_id": "ibx-0054-ap-01",
-            "tipo": "evento",
-            "titulo": "Edizione (Benetton)",
-            "contenido": "Director general de Edizione 2017-2020, holding industrial de los Benetton (Atlantia, Cellnex, Autogrill).",
-            "fecha": "2017-04-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0054-ap-01-it-04",
-            "apartado_id": "ibx-0054-ap-01",
-            "tipo": "evento",
-            "titulo": "CEO Cellnex",
-            "contenido": "Designado CEO en junio 2023 sustituyendo a Tobías Martínez. Mandato: desapalancar y consolidar tras la fase de M&A agresiva.",
-            "fecha": "2023-06-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -15802,8 +15670,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0055",
@@ -16115,8 +15983,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0056",
@@ -16147,7 +16015,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0056-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sabadell, 1949. Económicas (UAB y Universidad de Minnesota).",
+            "contenido": "Josep Oliu Creus (Sabadell, 1949) es presidente de Banco Sabadell, una de las grandes entidades financieras españolas. Economista con doctorado en EE. UU., ha encarnado durante décadas el crecimiento del banco mediante adquisiciones y ha sido figura central en la defensa de su independencia frente a la OPA hostil del BBVA.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16181,13 +16049,37 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0056-ap-01-it-00",
             "apartado_id": "ibx-0056-ap-01",
             "tipo": "evento",
-            "titulo": "Sabadell carrera entera",
-            "contenido": "Toda su carrera en Banco Sabadell. CEO en 1990, presidente desde 1999.",
-            "fecha": "1999-03-19",
+            "titulo": "Economista y vuelta al banco familiar",
+            "contenido": "Doctor en Economía por la Universidad de Minnesota y profesor universitario, se incorporó al Banco Sabadell —ligado a su familia— donde fue escalando hasta la presidencia.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0056-ap-01-it-01",
+            "apartado_id": "ibx-0056-ap-01",
+            "tipo": "evento",
+            "titulo": "Crecimiento por adquisiciones",
+            "contenido": "Bajo su mando, el Sabadell creció absorbiendo entidades como Banco Herrero, Banco Guipuzcoano y la CAM, y dio el salto internacional con la compra del británico TSB, hasta consolidarse como cuarto banco del país.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0056-ap-01-it-02",
+            "apartado_id": "ibx-0056-ap-01",
+            "tipo": "evento",
+            "titulo": "La OPA del BBVA",
+            "contenido": "Desde 2024 lideró la respuesta del consejo a la OPA hostil lanzada por el BBVA, defendiendo el proyecto en solitario del Sabadell, la venta de TSB y el reparto de dividendos como alternativa de valor para los accionistas frente a la fusión.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -16355,8 +16247,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0057",
@@ -16387,7 +16279,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0057-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1960. Económicas (ICADE) y MBA por Harvard Business School.",
+            "contenido": "César González-Bueno Mayer es consejero delegado de Banco Sabadell, donde ha dirigido la gestión del banco durante la OPA del BBVA. Banquero con amplia experiencia en banca minorista y digital —dirigió ING en España y el neobanco EVO—, pilotó el plan en solitario del Sabadell, la venta de su filial británica TSB y una elevada remuneración al accionista.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16421,9 +16313,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0057-ap-01-it-00",
             "apartado_id": "ibx-0057-ap-01",
             "tipo": "evento",
-            "titulo": "McKinsey / Banesto",
-            "contenido": "Inicios en McKinsey y posteriormente Banesto en los 90s.",
-            "fecha": "1985-01-01",
+            "titulo": "Banca minorista y digital",
+            "contenido": "Desarrolló su carrera en la banca comercial y digital, destacando al frente de ING en España, pionera de la banca sin oficinas, y después en otras entidades y en el neobanco EVO Banco.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -16433,9 +16325,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0057-ap-01-it-01",
             "apartado_id": "ibx-0057-ap-01",
             "tipo": "evento",
-            "titulo": "Fundador ING Direct España",
-            "contenido": "Funda ING Direct en España en 1999 (filial del grupo neerlandés ING). Pionero en banca digital. CEO hasta 2011.",
-            "fecha": "1999-05-25",
+            "titulo": "Consejero delegado del Sabadell",
+            "contenido": "Asumió la consejería delegada del Banco Sabadell en 2021, con el encargo de mejorar la rentabilidad y la eficiencia tras unos años difíciles, lo que logró con un fuerte recorte de costes y la recuperación de la cotización.",
+            "fecha": "2021-03-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -16445,37 +16337,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0057-ap-01-it-02",
             "apartado_id": "ibx-0057-ap-01",
             "tipo": "evento",
-            "titulo": "Novagalicia / Abanca",
-            "contenido": "CEO de Novagalicia Banco (luego Abanca) 2012-2014 durante la reestructuración tras la nacionalización.",
-            "fecha": "2012-09-01",
+            "titulo": "La defensa frente al BBVA",
+            "contenido": "Junto al presidente Josep Oliu, lideró desde 2024 la respuesta del banco a la OPA del BBVA, defendiendo el proyecto en solitario del Sabadell, la venta de TSB y el reparto de dividendos como alternativa de valor para el accionista.",
+            "fecha": "2024-05-09",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0057-ap-01-it-03",
-            "apartado_id": "ibx-0057-ap-01",
-            "tipo": "evento",
-            "titulo": "Mutua Madrileña",
-            "contenido": "CEO de Mutua Madrileña Automovilista 2015-2018.",
-            "fecha": "2015-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0057-ap-01-it-04",
-            "apartado_id": "ibx-0057-ap-01",
-            "tipo": "evento",
-            "titulo": "CEO Sabadell",
-            "contenido": "CEO desde marzo 2021 tras la salida de Jaume Guardiola y la fusión fallida con BBVA de 2020.",
-            "fecha": "2021-03-26",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -16671,8 +16539,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0058",
@@ -16703,7 +16571,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0058-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en San Sebastián, 1959. Derecho (Universidad de Navarra).",
+            "contenido": "María Dolores Dancausa Treviño es una de las banqueras más reputadas de España, vicepresidenta y consejera de Bankinter tras haber sido su consejera delegada durante más de una década. Abogada del Estado, dirigió el banco mediano más rentable del país y pilotó proyectos como la salida a bolsa de Línea Directa o la integración del neobanco EVO.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16737,9 +16605,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0058-ap-01-it-00",
             "apartado_id": "ibx-0058-ap-01",
             "tipo": "evento",
-            "titulo": "Bankinter / LDA",
-            "contenido": "Carrera en Bankinter; CEO de Línea Directa Aseguradora durante 13 años antes del salto al banco.",
-            "fecha": "1992-01-01",
+            "titulo": "Abogada del Estado y Línea Directa",
+            "contenido": "Abogada del Estado, desarrolló su carrera en la gestión empresarial dirigiendo Línea Directa Aseguradora, la compañía de seguros del grupo Bankinter, con notable éxito comercial.",
+            "fecha": "1998-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -16749,9 +16617,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0058-ap-01-it-01",
             "apartado_id": "ibx-0058-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Bankinter",
-            "contenido": "CEO entre 2006 y 2024.",
-            "fecha": "2006-10-20",
+            "titulo": "Consejera delegada de Bankinter",
+            "contenido": "Asumió la consejería delegada de Bankinter en 2010, en plena crisis, y lo convirtió en el banco mediano más rentable y solvente de España, con un modelo centrado en rentas altas, empresas y calidad de servicio.",
+            "fecha": "2010-10-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -16761,9 +16629,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0058-ap-01-it-02",
             "apartado_id": "ibx-0058-ap-01",
             "tipo": "evento",
-            "titulo": "Cambio a vicepresidencia",
-            "contenido": "En 2024 pasa a la vicepresidencia no ejecutiva del consejo; Gloria Ortiz asume el CEO.",
-            "fecha": "2024-03-21",
+            "titulo": "Crear valor y dar el relevo",
+            "contenido": "Pilotó operaciones como la salida a bolsa de Línea Directa y la integración del neobanco EVO, y dejó la consejería delegada en 2024 pasando a la vicepresidencia, tras una de las etapas más exitosas de la banca española reciente.",
+            "fecha": "2021-04-29",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -16932,8 +16800,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0059",
@@ -16965,7 +16833,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0059-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Cáceres, 1964. Derecho (Salamanca). MBA EOI.",
+            "contenido": "Antonio Huertas Mejías es presidente de Mapfre, la mayor aseguradora española y un grupo con fuerte implantación en Latinoamérica. Procedente de la propia compañía, dirige el grupo controlado por la Fundación Mapfre y ha impulsado su diversificación geográfica y su discurso sobre longevidad, reaseguro y sostenibilidad.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16999,8 +16867,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0059-ap-01-it-00",
             "apartado_id": "ibx-0059-ap-01",
             "tipo": "evento",
-            "titulo": "Mapfre carrera interna",
-            "contenido": "En Mapfre desde 1988. Diversos cargos directivos.",
+            "titulo": "Carrera dentro de Mapfre",
+            "contenido": "Desarrolló prácticamente toda su trayectoria profesional dentro de Mapfre, pasando por distintas direcciones territoriales y de negocio, lo que le dio un conocimiento detallado de la aseguradora antes de acceder a la presidencia.",
             "fecha": "1988-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17011,8 +16879,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0059-ap-01-it-01",
             "apartado_id": "ibx-0059-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente",
-            "contenido": "Presidente desde marzo 2012.",
+            "titulo": "Presidente del grupo",
+            "contenido": "Asumió la presidencia de Mapfre en 2012, sucediendo a José Manuel Martínez, con el control del grupo en manos de la Fundación Mapfre, su accionista mayoritario.",
             "fecha": "2012-03-10",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17023,9 +16891,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0059-ap-01-it-02",
             "apartado_id": "ibx-0059-ap-01",
             "tipo": "evento",
-            "titulo": "Cargos previos",
-            "contenido": "Director de Mapfre Caja Madrid Holding y director general adjunto de Mapfre antes de asumir la presidencia en 2012.",
-            "fecha": "2008-01-01",
+            "titulo": "Diversificación internacional",
+            "contenido": "Ha pilotado el peso creciente de Latinoamérica, Estados Unidos y el negocio de reaseguro en la cuenta del grupo, junto a una agenda pública sobre el reto demográfico, el ahorro para la jubilación y la sostenibilidad del seguro.",
+            "fecha": "2015-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -17163,8 +17031,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0060",
@@ -17196,7 +17064,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0060-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1968. Derecho (Complutense). Registradora de la Propiedad. Vinculada al PSOE.",
+            "contenido": "Beatriz Corredor Sierra (Madrid, 1968) es presidenta de Redeia (matriz de Red Eléctrica), el operador del sistema eléctrico español, una infraestructura crítica de titularidad mayoritariamente pública a través de la SEPI. Registradora de la propiedad y exministra socialista de Vivienda, dirige la compañía responsable del transporte de electricidad y la operación de la red.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17230,9 +17098,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0060-ap-01-it-00",
             "apartado_id": "ibx-0060-ap-01",
             "tipo": "evento",
-            "titulo": "PSOE / Vivienda",
-            "contenido": "Concejal Ayuntamiento Madrid (PSOE). Ministra de Vivienda 2008-2010 con Zapatero.",
-            "fecha": "2008-04-14",
+            "titulo": "Registradora y política",
+            "contenido": "Registradora de la propiedad de profesión, dio el salto a la política en el PSOE, ocupando un escaño y responsabilidades en el área de vivienda y suelo.",
+            "fecha": "2004-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -17242,13 +17110,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0060-ap-01-it-01",
             "apartado_id": "ibx-0060-ap-01",
             "tipo": "evento",
-            "titulo": "Presidenta Redeia",
-            "contenido": "Presidenta desde febrero 2020 designada por el primer Gobierno Sánchez.",
-            "fecha": "2020-02-14",
+            "titulo": "Ministra de Vivienda",
+            "contenido": "Fue ministra de Vivienda entre 2008 y 2010 con José Luis Rodríguez Zapatero, en plena crisis del ladrillo, y después secretaria de Estado, gestionando el desplome del sector inmobiliario.",
+            "fecha": "2008-04-14",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0060-ap-01-it-02",
+            "apartado_id": "ibx-0060-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta de Redeia",
+            "contenido": "En 2020 asumió la presidencia de Red Eléctrica/Redeia. Le ha correspondido pilotar la integración de las renovables en el sistema y el operador quedó bajo el foco tras el gran apagón del 28 de abril de 2025, cuyas causas fueron objeto de investigación oficial.",
+            "fecha": "2020-02-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -17399,8 +17279,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0061",
@@ -17431,7 +17311,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0061-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Tarrasa, 1952. Ingeniero industrial.",
+            "contenido": "Antonio Llardén Carratalá es presidente de Enagás, el gestor técnico del sistema gasista español y operador de la red de transporte de gas natural, una infraestructura regulada y estratégica. Ingeniero, ha pilotado durante años la compañía, su diversificación internacional y su giro hacia los gases renovables y el hidrógeno.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17465,9 +17345,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0061-ap-01-it-00",
             "apartado_id": "ibx-0061-ap-01",
             "tipo": "evento",
-            "titulo": "Industria / Enagás",
-            "contenido": "Carrera en el sector industrial e Hidrocarburos. Presidente Enagás desde 2007.",
-            "fecha": "2007-05-01",
+            "titulo": "Ingeniero y gestor energético",
+            "contenido": "Ingeniero industrial, desarrolló una larga carrera en el sector energético y en la Administración, con responsabilidades en empresas y organismos del ámbito de la energía.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -17477,13 +17357,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0061-ap-01-it-01",
             "apartado_id": "ibx-0061-ap-01",
             "tipo": "evento",
-            "titulo": "Trayectoria previa",
-            "contenido": "Director general en Catalana de Gas y luego Gas Natural antes de Enagás.",
-            "fecha": "1990-01-01",
+            "titulo": "Presidente de Enagás",
+            "contenido": "Preside Enagás desde 2007, dirigiendo el operador del sistema gasista, una compañía de ingresos mayoritariamente regulados y un papel central en la seguridad de suministro de gas de España.",
+            "fecha": "2007-10-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0061-ap-01-it-02",
+            "apartado_id": "ibx-0061-ap-01",
+            "tipo": "evento",
+            "titulo": "Internacionalización e hidrógeno",
+            "contenido": "Bajo su mando, Enagás invirtió en infraestructuras gasistas internacionales y reorientó su estrategia hacia el hidrógeno verde y los gases renovables, posicionándose como pieza clave de los futuros corredores de hidrógeno europeos.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -17640,8 +17532,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0062",
@@ -17672,7 +17564,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0062-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniero de Minas (Universidad Politécnica de Madrid). Especialización en política energética y sostenibilidad.",
+            "contenido": "Arturo Gonzalo Aizpiri es consejero delegado de Enagás, el gestor técnico del sistema gasista español y operador de la red de transporte de gas. Ingeniero con experiencia en la energía y la sostenibilidad, dirige la gestión de la compañía y su apuesta estratégica por el hidrógeno verde y los gases renovables.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17706,8 +17598,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0062-ap-01-it-00",
             "apartado_id": "ibx-0062-ap-01",
             "tipo": "evento",
-            "titulo": "Repsol carrera larga",
-            "contenido": "En Repsol desde los 90s. Director ejecutivo de Personas y Organización (RR.HH.) y de Climate Change, Innovation & Sustainability.",
+            "titulo": "Ingeniero y directivo energético",
+            "contenido": "Ingeniero con formación en gestión, desarrolló su carrera en el sector energético, entre otros en Repsol, con responsabilidades en áreas industriales, de personas y de sostenibilidad.",
             "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17718,40 +17610,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0062-ap-01-it-01",
             "apartado_id": "ibx-0062-ap-01",
             "tipo": "evento",
-            "titulo": "Secretario Estado MMA",
-            "contenido": "Secretario General para la Prevención de la Contaminación y el Cambio Climático con Cristina Narbona (PSOE) 2004-2008.",
-            "fecha": "2004-04-30",
+            "titulo": "Consejero delegado de Enagás",
+            "contenido": "Asumió la dirección ejecutiva de Enagás, el operador del sistema gasista de ingresos regulados, encargado de garantizar la seguridad de suministro de gas en España.",
+            "fecha": "2022-02-01",
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [
-              "psoe",
-              "politica"
-            ],
+            "tags": [],
             "orden": 1
           },
           {
             "id": "ibx-0062-ap-01-it-02",
             "apartado_id": "ibx-0062-ap-01",
             "tipo": "evento",
-            "titulo": "Vuelta Repsol",
-            "contenido": "Regreso a Repsol como director ejecutivo tras la etapa pública.",
-            "fecha": "2008-06-01",
+            "titulo": "Apuesta por el hidrógeno",
+            "contenido": "Pilota la transformación de Enagás hacia el transporte de hidrógeno verde, con proyectos de infraestructura clave para los futuros corredores de hidrógeno europeos y la descarbonización del sistema energético.",
+            "fecha": "2022-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0062-ap-01-it-03",
-            "apartado_id": "ibx-0062-ap-01",
-            "tipo": "evento",
-            "titulo": "CEO Enagás",
-            "contenido": "CEO desde abril 2022, sustituyendo a Marcelino Oreja.",
-            "fecha": "2022-04-04",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -17923,8 +17800,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0063",
@@ -17956,7 +17833,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0063-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1963. Económicas (Yale). MBA Columbia. Hijo de José María Entrecanales (fundador de Necso) y nieto del fundador de la saga.",
+            "contenido": "José Manuel Entrecanales Domecq (Madrid, 1963) es presidente de Acciona, grupo familiar de infraestructuras, energía y servicios convertido en uno de los grandes referentes mundiales de las renovables. Nieto del fundador, transformó la antigua constructora en una compañía centrada en la sostenibilidad y sacó a bolsa su filial verde, Acciona Energía.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17990,13 +17867,37 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0063-ap-01-it-00",
             "apartado_id": "ibx-0063-ap-01",
             "tipo": "evento",
-            "titulo": "Acciona desde 2004",
-            "contenido": "Presidente desde mayo 2004.",
-            "fecha": "2004-05-26",
+            "titulo": "De la banca a la empresa familiar",
+            "contenido": "Tras formarse y pasar por la banca de inversión, se incorporó al grupo familiar (entonces en torno a la constructora Entrecanales y Távora) y lideró su reordenación bajo la marca Acciona.",
+            "fecha": "1992-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0063-ap-01-it-01",
+            "apartado_id": "ibx-0063-ap-01",
+            "tipo": "evento",
+            "titulo": "Apuesta por las renovables",
+            "contenido": "Anticipó la apuesta por la energía eólica y la sostenibilidad como eje estratégico, posicionando a Acciona como pionera mundial en renovables y desarrollo de infraestructuras de agua y transporte.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0063-ap-01-it-02",
+            "apartado_id": "ibx-0063-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa de Acciona Energía",
+            "contenido": "En 2021 sacó a bolsa Acciona Energía, una de las mayores OPV del año en España, para financiar el crecimiento del negocio verde y poner en valor unos activos renovables que el mercado no reconocía dentro del holding.",
+            "fecha": "2021-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -18120,8 +18021,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0064",
@@ -18152,7 +18053,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0064-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniero industrial. Carrera en Endesa y Acciona Energía.",
+            "contenido": "Rafael Mateo Alcalá es consejero delegado de Acciona Energía, la filial de renovables del grupo Acciona y una de las grandes compañías de energía limpia cotizadas en España. Ingeniero con amplia trayectoria en el sector eléctrico, dirige la gestión de una cartera global de parques eólicos, plantas solares e instalaciones hidráulicas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18200,9 +18101,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0064-ap-01-it-00",
             "apartado_id": "ibx-0064-ap-01",
             "tipo": "evento",
-            "titulo": "CEO desde OPV 2021",
-            "contenido": "",
-            "fecha": "2021-07-01",
+            "titulo": "Ingeniero del sector eléctrico",
+            "contenido": "Ingeniero con una larga carrera en la energía, ocupó responsabilidades de dirección en compañías eléctricas antes de incorporarse al grupo Acciona.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18212,9 +18113,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0064-ap-01-it-01",
             "apartado_id": "ibx-0064-ap-01",
             "tipo": "evento",
-            "titulo": "Endesa / Enel Green Power",
-            "contenido": "Carrera previa en Endesa y en Enel Green Power LatAm.",
-            "fecha": "1990-01-01",
+            "titulo": "Dirección de Acciona Energía",
+            "contenido": "Asumió la dirección del negocio energético de Acciona, una de las mayores carteras de renovables del mundo desarrollada desde España, con activos en numerosos países.",
+            "fecha": "2015-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18224,8 +18125,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0064-ap-01-it-02",
             "apartado_id": "ibx-0064-ap-01",
             "tipo": "evento",
-            "titulo": "Acciona Energía",
-            "contenido": "Lidera la salida a bolsa en julio 2021 como CEO de la filial cotizada.",
+            "titulo": "La salida a bolsa",
+            "contenido": "Pilotó la gestión de Acciona Energía tras su salida a bolsa en 2021, en un contexto de fuerte volatilidad de los precios de la electricidad y de aceleración de la inversión en renovables.",
             "fecha": "2021-07-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18334,8 +18235,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0065",
@@ -18367,7 +18268,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0065-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido 1970. Abogado del Estado. Trayectoria en M&A inmobiliario.",
+            "contenido": "Ismael Clemente Orrego es presidente y consejero delegado de Merlin Properties, la mayor socimi (sociedad cotizada de inversión inmobiliaria) de España y una de las grandes del sector en Europa, con una cartera de oficinas, centros logísticos, centros comerciales y centros de datos. Es además una de las voces más reconocidas y opinantes del sector inmobiliario español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18401,9 +18302,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0065-ap-01-it-00",
             "apartado_id": "ibx-0065-ap-01",
             "tipo": "evento",
-            "titulo": "Abogado del Estado",
-            "contenido": "Cuerpo desde 1995.",
-            "fecha": "1995-01-01",
+            "titulo": "De la banca inmobiliaria a Magic Real Estate",
+            "contenido": "Formado en Derecho y gestión, desarrolló su carrera en la banca de inversión inmobiliaria internacional —entre otras, en Deutsche Bank/RREEF— antes de fundar la gestora Magic Real Estate, embrión de su proyecto propio.",
+            "fecha": "2012-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18413,13 +18314,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0065-ap-01-it-01",
             "apartado_id": "ibx-0065-ap-01",
             "tipo": "evento",
-            "titulo": "Merlin",
-            "contenido": "Cofundador de Merlin (con Miguel Ollero) y CEO desde 2014.",
+            "titulo": "Creación y salida a bolsa de Merlin",
+            "contenido": "Lideró en 2014 la creación y salida a bolsa de Merlin Properties, aprovechando el nuevo régimen de las socimis para construir, mediante grandes adquisiciones (incluida la cartera de Testa y activos de la banca), uno de los mayores patrimonios inmobiliarios cotizados de España.",
             "fecha": "2014-06-30",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0065-ap-01-it-02",
+            "apartado_id": "ibx-0065-ap-01",
+            "tipo": "evento",
+            "titulo": "Apuesta por los centros de datos",
+            "contenido": "Ha reorientado parte de la estrategia hacia los centros de datos como nuevo motor de crecimiento, junto a las oficinas prime y la logística, y se ha consolidado como referente y comentarista influyente sobre el ciclo inmobiliario y la economía española.",
+            "fecha": "2022-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -18530,8 +18443,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0066",
@@ -18562,7 +18475,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0066-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1947. Económicas y empresariales.",
+            "contenido": "Juan José Brugera Clavero es presidente de Inmobiliaria Colonial, una de las mayores socimis de España, especializada en edificios de oficinas de máxima calidad (prime) en Madrid, Barcelona y París a través de su filial francesa SFL. Bajo su presidencia, Colonial se saneó tras la crisis y se consolidó como referente patrimonialista del sector.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18596,9 +18509,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0066-ap-01-it-00",
             "apartado_id": "ibx-0066-ap-01",
             "tipo": "evento",
-            "titulo": "Círculo de Economía",
-            "contenido": "Presidente del Círculo de Economía (Cataluña).",
-            "fecha": "2003-01-01",
+            "titulo": "Directivo y gestor",
+            "contenido": "Con formación económica y empresarial, desarrolló su carrera en la gestión de empresas y entidades financieras, vinculándose al sector inmobiliario y al perímetro del grupo La Caixa.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18608,9 +18521,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0066-ap-01-it-01",
             "apartado_id": "ibx-0066-ap-01",
             "tipo": "evento",
-            "titulo": "Colonial",
-            "contenido": "Presidente desde 2008.",
-            "fecha": "2008-12-15",
+            "titulo": "Reestructuración de Colonial",
+            "contenido": "Tomó las riendas de Inmobiliaria Colonial tras su grave crisis financiera, liderando su saneamiento, recapitalización y reenfoque hacia un modelo patrimonialista de oficinas prime de bajo riesgo.",
+            "fecha": "2008-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18620,9 +18533,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0066-ap-01-it-02",
             "apartado_id": "ibx-0066-ap-01",
             "tipo": "evento",
-            "titulo": "Mutua Madrileña",
-            "contenido": "Director general de Mutua Madrileña antes de Colonial.",
-            "fecha": "1998-01-01",
+            "titulo": "Colonial, socimi de oficinas prime",
+            "contenido": "Convirtió Colonial en una socimi centrada en activos de máxima calidad en Madrid, Barcelona y París (vía SFL), con la entrada de grandes inversores internacionales y la integración de Axiare, situándola entre las primeras inmobiliarias cotizadas del país.",
+            "fecha": "2017-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18746,8 +18659,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0067",
@@ -18778,7 +18691,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0067-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Economista catalán. Trayectoria en Renta Corporación previa.",
+            "contenido": "Pere Viñolas Serra es consejero delegado de Inmobiliaria Colonial, una de las mayores socimis de España, especializada en oficinas prime en Madrid, Barcelona y París. Economista con experiencia en banca de inversión y mercados de capitales, ha sido el gestor del giro de Colonial hacia un modelo patrimonialista de activos de máxima calidad, junto al presidente Juan José Brugera.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -18826,9 +18739,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0067-ap-01-it-00",
             "apartado_id": "ibx-0067-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Colonial",
-            "contenido": "CEO desde 2008.",
-            "fecha": "2008-12-15",
+            "titulo": "Mercados y banca de inversión",
+            "contenido": "Economista de formación, desarrolló su carrera en los mercados financieros y la banca de inversión, llegando a dirigir la bolsa de Barcelona y a ocupar puestos de responsabilidad en el sector.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -18838,13 +18751,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0067-ap-01-it-01",
             "apartado_id": "ibx-0067-ap-01",
             "tipo": "evento",
-            "titulo": "Renta Corporación",
-            "contenido": "Director general de Renta Corporación antes de Colonial.",
-            "fecha": "2002-01-01",
+            "titulo": "Consejero delegado de Colonial",
+            "contenido": "Asumió la dirección ejecutiva de Inmobiliaria Colonial en su etapa de saneamiento, pilotando la gestión diaria de la compañía y su reorientación hacia el patrimonio en renta de oficinas de alta calidad.",
+            "fecha": "2008-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0067-ap-01-it-02",
+            "apartado_id": "ibx-0067-ap-01",
+            "tipo": "evento",
+            "titulo": "Crecimiento y oficinas prime",
+            "contenido": "Lideró operaciones como la integración de Axiare y la consolidación de la cartera de oficinas prime en Madrid, Barcelona y París (a través de SFL), situando a Colonial entre las grandes inmobiliarias cotizadas europeas.",
+            "fecha": "2017-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -18963,8 +18888,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0068",
@@ -18995,7 +18920,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0068-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Rajasthan, 1950. Construyó imperio siderúrgico desde Indonesia.",
+            "contenido": "Lakshmi Niwas Mittal (Sadulpur, India, 1950) es presidente de ArcelorMittal, la mayor siderúrgica del mundo fuera de China y un actor industrial de primer orden en España (con grandes plantas en Asturias). Magnate del acero de origen indio y una de las grandes fortunas mundiales, construyó el gigante mediante una agresiva estrategia de adquisiciones globales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19029,9 +18954,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0068-ap-01-it-00",
             "apartado_id": "ibx-0068-ap-01",
             "tipo": "evento",
-            "titulo": "OPA hostil Arcelor",
-            "contenido": "Lanzó OPA hostil sobre Arcelor (2006), cerrando la creación de ArcelorMittal.",
-            "fecha": "2006-06-25",
+            "titulo": "De la India al acero global",
+            "contenido": "Procedente de una familia siderúrgica india, se independizó y empezó a comprar acerías en dificultades por todo el mundo, construyendo Mittal Steel a base de reflotar plantas y consolidar el fragmentado sector mundial del acero.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19041,9 +18966,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0068-ap-01-it-01",
             "apartado_id": "ibx-0068-ap-01",
             "tipo": "evento",
-            "titulo": "Construcción del imperio",
-            "contenido": "Mittal Steel construido en Indonesia, Trinidad, Kazajistán y Sudáfrica entre 1976 y 2005.",
-            "fecha": "1976-01-01",
+            "titulo": "La fusión que creó ArcelorMittal",
+            "contenido": "En 2006 protagonizó la OPA hostil y posterior fusión con la europea Arcelor, creando ArcelorMittal, líder mundial del acero, en una de las mayores operaciones industriales de la década.",
+            "fecha": "2006-06-25",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19053,9 +18978,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0068-ap-01-it-02",
             "apartado_id": "ibx-0068-ap-01",
             "tipo": "evento",
-            "titulo": "Compra Mittal-Arcelor",
-            "contenido": "OPA hostil sobre Arcelor en 2006 culmina con la creación de ArcelorMittal.",
-            "fecha": "2006-06-25",
+            "titulo": "Presencia en España y descarbonización",
+            "contenido": "ArcelorMittal es un actor industrial clave en España, con grandes plantas en Asturias, donde afronta el reto de la descarbonización del acero (hornos eléctricos, hidrógeno) con apoyo de fondos públicos europeos.",
+            "fecha": "2021-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19198,8 +19123,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0069",
@@ -19230,7 +19155,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0069-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en India, 1976. Wharton. Sucede a su padre como CEO.",
+            "contenido": "Aditya Mittal es consejero delegado de ArcelorMittal, la mayor siderúrgica del mundo fuera de China, con presencia industrial relevante en España. Hijo del fundador y presidente Lakshmi Mittal, fue durante años el director financiero del grupo y artífice de su estrategia corporativa antes de asumir la dirección ejecutiva.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19279,9 +19204,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0069-ap-01-it-00",
             "apartado_id": "ibx-0069-ap-01",
             "tipo": "evento",
-            "titulo": "CEO desde 2021",
-            "contenido": "",
-            "fecha": "2021-02-11",
+            "titulo": "Director financiero del grupo",
+            "contenido": "Formado en finanzas, se incorporó al grupo siderúrgico familiar, donde como director financiero diseñó la estrategia de fusiones y adquisiciones, incluida la operación que creó ArcelorMittal.",
+            "fecha": "2006-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19291,13 +19216,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0069-ap-01-it-01",
             "apartado_id": "ibx-0069-ap-01",
             "tipo": "evento",
-            "titulo": "Carrera ArcelorMittal",
-            "contenido": "Antes de CEO fue CFO (2008-2020) y Director Comercial.",
+            "titulo": "Arquitecto de la consolidación",
+            "contenido": "Fue clave en la integración de Arcelor y Mittal Steel y en la gestión financiera del gigante del acero a través de los duros ciclos del sector, marcados por la sobrecapacidad mundial y la competencia china.",
             "fecha": "2008-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0069-ap-01-it-02",
+            "apartado_id": "ibx-0069-ap-01",
+            "tipo": "evento",
+            "titulo": "Consejero delegado",
+            "contenido": "Asumió la consejería delegada de ArcelorMittal en 2021, encabezando la gestión del grupo y su apuesta por la descarbonización del acero, con planes de hornos eléctricos e hidrógeno también en sus plantas españolas.",
+            "fecha": "2021-02-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -19403,8 +19340,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0070",
@@ -19435,7 +19372,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0070-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1968. Ingeniero aeronáutico (UPM). MBA Pricewaterhouse.",
+            "contenido": "Luis Gallego Martín (Madrid, 1968) es consejero delegado de IAG (International Airlines Group), el holding que reúne a Iberia, British Airways, Vueling, Aer Lingus y Level, uno de los mayores grupos aéreos del mundo. Ingeniero aeronáutico, dirigió antes Iberia, a la que reflotó, antes de asumir el mando de todo el grupo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19469,9 +19406,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0070-ap-01-it-00",
             "apartado_id": "ibx-0070-ap-01",
             "tipo": "evento",
-            "titulo": "Vueling",
-            "contenido": "CEO de Vueling 2009-2013.",
-            "fecha": "2009-04-01",
+            "titulo": "Ingeniero aeronáutico y gestor",
+            "contenido": "Ingeniero aeronáutico, desarrolló su carrera en la aviación, pasando por compañías como Clickair y Vueling antes de dar el salto a la dirección de Iberia.",
+            "fecha": "2009-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19481,9 +19418,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0070-ap-01-it-01",
             "apartado_id": "ibx-0070-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Iberia",
-            "contenido": "CEO de Iberia 2013-2020.",
-            "fecha": "2013-03-25",
+            "titulo": "El reflote de Iberia",
+            "contenido": "Como consejero delegado de Iberia desde 2013, pilotó un duro plan de reestructuración que devolvió a la aerolínea española a la rentabilidad tras años de pérdidas, dentro del grupo IAG.",
+            "fecha": "2013-03-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19493,37 +19430,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0070-ap-01-it-02",
             "apartado_id": "ibx-0070-ap-01",
             "tipo": "evento",
-            "titulo": "CEO IAG",
-            "contenido": "CEO de IAG desde septiembre 2020.",
+            "titulo": "Consejero delegado de IAG",
+            "contenido": "Asumió la dirección de IAG en 2020, justo cuando la pandemia hundió el tráfico aéreo mundial, y ha gestionado la recuperación del grupo, su vuelta a beneficios récord y operaciones como la frustrada integración de Air Europa.",
             "fecha": "2020-09-08",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0070-ap-01-it-03",
-            "apartado_id": "ibx-0070-ap-01",
-            "tipo": "evento",
-            "titulo": "Clickair / Vueling",
-            "contenido": "CEO de Clickair (2006-2009), luego CEO de Vueling tras la fusión 2009-2013.",
-            "fecha": "2006-10-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0070-ap-01-it-04",
-            "apartado_id": "ibx-0070-ap-01",
-            "tipo": "evento",
-            "titulo": "Reestructuración Iberia",
-            "contenido": "Como CEO de Iberia (2013-2020), lideró un ERE histórico y la modernización de flota.",
-            "fecha": "2013-03-25",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -19703,8 +19616,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0071",
@@ -19735,7 +19648,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0071-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Suizo, nacido en 1959. Doctor en Farmacia y MBA. Trayectoria internacional en farma.",
+            "contenido": "Thomas Glanzmann es presidente ejecutivo de Grifols, la multinacional catalana de hemoderivados y una de las mayores compañías del mundo en plasma sanguíneo. Directivo de perfil internacional y larga vinculación al consejo de la compañía, asumió funciones ejecutivas para pilotar a Grifols en un periodo de fuerte tensión financiera y reputacional.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -19769,9 +19682,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0071-ap-01-it-00",
             "apartado_id": "ibx-0071-ap-01",
             "tipo": "evento",
-            "titulo": "Baxter International",
-            "contenido": "Carrera larga en Baxter, llegó a vicepresidente senior. Vínculo con la división de plasma y hemoderivados (luego escindida como Baxalta).",
-            "fecha": "1988-01-01",
+            "titulo": "Trayectoria internacional",
+            "contenido": "Con una larga carrera directiva en el sector salud y biotecnológico a nivel internacional, se incorporó al consejo de administración de Grifols, del que llegó a ser una figura de referencia.",
+            "fecha": "2017-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19781,9 +19694,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0071-ap-01-it-01",
             "apartado_id": "ibx-0071-ap-01",
             "tipo": "evento",
-            "titulo": "Cerimon / Lundbeck",
-            "contenido": "Posiciones ejecutivas en biotechs y farma especializada en los 2010s.",
-            "fecha": "2010-01-01",
+            "titulo": "Presidente ejecutivo",
+            "contenido": "Asumió la presidencia ejecutiva de Grifols en 2023, en una etapa de relevo respecto a la gestión familiar tradicional, con el reto de reducir el elevado endeudamiento del grupo.",
+            "fecha": "2023-02-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -19793,25 +19706,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0071-ap-01-it-02",
             "apartado_id": "ibx-0071-ap-01",
             "tipo": "evento",
-            "titulo": "Consejero Grifols",
-            "contenido": "Consejero independiente de Grifols desde 2017.",
-            "fecha": "2017-01-01",
+            "titulo": "La crisis Gotham y la opa de Brookfield",
+            "contenido": "Pilotó la respuesta de Grifols al ataque del fondo bajista Gotham City Research, que en 2024 cuestionó su contabilidad y hundió la cotización, así como las posteriores negociaciones de una posible opa del fondo Brookfield junto a la familia fundadora, finalmente frustrada.",
+            "fecha": "2024-01-09",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0071-ap-01-it-03",
-            "apartado_id": "ibx-0071-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidente ejecutivo",
-            "contenido": "Presidente ejecutivo en febrero 2023 con mandato de profesionalizar la gestión tras el conflicto familiar y la presión de inversores.",
-            "fecha": "2023-02-15",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -20032,8 +19933,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0072",
@@ -20065,7 +19966,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0072-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario español. Carrera entera en la empresa familiar Escribano M&E, especializada en electrónica de defensa, torres de tiro, sistemas de control y vehículos blindados.",
+            "contenido": "Ángel Escribano Ruiz es presidente de Indra, la principal tecnológica de defensa española y un activo estratégico participado por el Estado a través de la SEPI. Empresario del sector de defensa —cofundador del grupo EM&E (Escribano Mechanical & Engineering)—, asumió la presidencia de Indra en 2025 en plena ola de aumento del gasto militar europeo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20099,8 +20000,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0072-ap-01-it-00",
             "apartado_id": "ibx-0072-ap-01",
             "tipo": "evento",
-            "titulo": "Fundación Escribano M&E",
-            "contenido": "Fundada por los hermanos Ángel y Javier Escribano. Crecimiento como suministrador del Ministerio de Defensa y exportaciones internacionales.",
+            "titulo": "Empresario de defensa",
+            "contenido": "Junto a su hermano Javier, fundó y desarrolló Escribano Mechanical & Engineering (EM&E), una empresa española de sistemas de defensa y seguridad que entró en el accionariado de Indra.",
             "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20111,24 +20012,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0072-ap-01-it-01",
             "apartado_id": "ibx-0072-ap-01",
             "tipo": "evento",
-            "titulo": "Accionista Indra (8%)",
-            "contenido": "Escribano M&E comienza a tomar posiciones en Indra desde 2022. Llega al ~8% del capital.",
-            "fecha": "2022-06-01",
+            "titulo": "Entrada en Indra",
+            "contenido": "La irrupción de los hermanos Escribano en el capital de Indra los convirtió en accionistas de referencia de la tecnológica, junto a la SEPI y otros inversores.",
+            "fecha": "2023-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
-            "tags": [
-              "sepi",
-              "indra"
-            ],
+            "tags": [],
             "orden": 1
           },
           {
             "id": "ibx-0072-ap-01-it-02",
             "apartado_id": "ibx-0072-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente Indra",
-            "contenido": "Designado presidente el 22 enero 2025, en bloque accionarial con SEPI tras la salida de Marc Murtra (que saltó a Telefónica).",
-            "fecha": "2025-01-22",
+            "titulo": "Presidente de Indra",
+            "contenido": "En 2025 fue nombrado presidente de Indra, en sustitución de Marc Murtra, con el reto de impulsar la compañía en plena expansión del gasto en defensa europeo y posibles operaciones de consolidación del sector.",
+            "fecha": "2025-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20357,8 +20255,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0073",
@@ -20390,7 +20288,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0073-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en 1949. Ingeniero de Caminos. Carrera entera en Sacyr/SyV.",
+            "contenido": "Manuel Manrique Cecilia es presidente y consejero delegado de Sacyr, uno de los grandes grupos españoles de construcción y concesiones de infraestructuras, con fuerte presencia internacional. Ingeniero, ha reorientado la compañía hacia el negocio concesional, de ingresos más estables, tras los años de elevado endeudamiento.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20424,9 +20322,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0073-ap-01-it-00",
             "apartado_id": "ibx-0073-ap-01",
             "tipo": "evento",
-            "titulo": "Sacyr carrera interna",
-            "contenido": "En Sacyr desde los 90s. Diferentes responsabilidades operativas y financieras.",
-            "fecha": "1996-01-01",
+            "titulo": "Ingeniero y directivo de Sacyr",
+            "contenido": "Ingeniero de formación, desarrolló su carrera en Sacyr, asumiendo responsabilidades en distintas divisiones del grupo de construcción y servicios.",
+            "fecha": "2004-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20436,9 +20334,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0073-ap-01-it-01",
             "apartado_id": "ibx-0073-ap-01",
             "tipo": "evento",
-            "titulo": "Tras salida Del Rivero",
-            "contenido": "Asume la presidencia en octubre 2011 tras la dimisión forzada de Luis del Rivero (en el contexto de la deuda y el conflicto con Repsol).",
-            "fecha": "2011-10-12",
+            "titulo": "Presidente y consejero delegado",
+            "contenido": "Accedió a la presidencia ejecutiva de Sacyr en 2013, en un momento delicado por la deuda y por la participación del grupo en Repsol, de la que fue desinvirtiendo progresivamente.",
+            "fecha": "2013-10-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20448,9 +20346,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0073-ap-01-it-02",
             "apartado_id": "ibx-0073-ap-01",
             "tipo": "evento",
-            "titulo": "Reestructuración financiera",
-            "contenido": "Lidera la reducción del apalancamiento y el saneamiento del balance 2012-2017.",
-            "fecha": "2014-01-01",
+            "titulo": "El giro concesional",
+            "contenido": "Ha reorientado Sacyr hacia las concesiones de infraestructuras (autopistas, hospitales, agua) en España, América Latina y otros mercados, un negocio de ingresos regulados y recurrentes que ha mejorado la estabilidad financiera del grupo.",
+            "fecha": "2018-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20648,8 +20546,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0074",
@@ -20681,7 +20579,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0074-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1962. MBA Harvard. Nieto del fundador.",
+            "contenido": "Marc Puig Guasch (Barcelona, 1962) es presidente y consejero delegado de Puig, el grupo familiar catalán de perfumería, moda y belleza dueño de marcas como Carolina Herrera, Paco Rabanne, Jean Paul Gaultier o Charlotte Tilbury. Tercera generación de la familia fundadora, lideró en 2024 la mayor salida a bolsa española en años.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20715,9 +20613,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0074-ap-01-it-00",
             "apartado_id": "ibx-0074-ap-01",
             "tipo": "evento",
-            "titulo": "Puig carrera interna",
-            "contenido": "En la empresa familiar desde 1990s. CEO desde 2007.",
-            "fecha": "2007-01-01",
+            "titulo": "Formación e ingreso en la empresa familiar",
+            "contenido": "Ingeniero y MBA por Harvard, con experiencia en consultoría internacional, se incorporó a la empresa familiar fundada por su abuelo, asumiendo responsabilidades crecientes en la internacionalización del grupo.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20727,9 +20625,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0074-ap-01-it-01",
             "apartado_id": "ibx-0074-ap-01",
             "tipo": "evento",
-            "titulo": "OPV 2024",
-            "contenido": "Lideró la salida a bolsa en mayo 2024.",
-            "fecha": "2024-05-03",
+            "titulo": "Presidente y consejero delegado",
+            "contenido": "Asumió la dirección ejecutiva de Puig, profesionalizando la gestión, reordenando el accionariado familiar y convirtiendo a la compañía en un gigante global de la belleza premium y los perfumes de diseñador.",
+            "fecha": "2007-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20739,25 +20637,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0074-ap-01-it-02",
             "apartado_id": "ibx-0074-ap-01",
             "tipo": "evento",
-            "titulo": "Inicios en P&G",
-            "contenido": "Antes de incorporarse a la empresa familiar, carrera en Procter & Gamble en marketing.",
-            "fecha": "1988-01-01",
+            "titulo": "La salida a bolsa de Puig",
+            "contenido": "En 2024 lideró la salida a bolsa de Puig, la mayor OPV española en mucho tiempo, manteniendo el control familiar mediante una estructura de doble clase de acciones y situando al grupo entre las grandes cotizadas del IBEX 35.",
+            "fecha": "2024-05-03",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0074-ap-01-it-03",
-            "apartado_id": "ibx-0074-ap-01",
-            "tipo": "evento",
-            "titulo": "Adquisiciones nicho lujo",
-            "contenido": "Lidera la compra de Jean Paul Gaultier, Penhaligon's, L'Artisan Parfumeur, Charlotte Tilbury (2020) y Byredo (2022).",
-            "fecha": "2020-06-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -20877,8 +20763,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0075",
@@ -20909,7 +20795,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0075-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Económicas. Trayectoria larga en Bankia (vinculado al equipo Goirigolzarri).",
+            "contenido": "José Sevilla Álvarez es presidente no ejecutivo de Unicaja Banco, entidad surgida de la unión de la malagueña Unicaja y la asturiana Liberbank. Banquero con larga trayectoria, fue consejero delegado de Bankia durante su saneamiento y vuelta a beneficios, y aporta esa experiencia al frente del consejo de un banco marcado por las tensiones de gobierno corporativo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -20943,9 +20829,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0075-ap-01-it-00",
             "apartado_id": "ibx-0075-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Bankia",
-            "contenido": "CEO de Bankia 2014-2021.",
-            "fecha": "2014-12-22",
+            "titulo": "De BBVA a Bankia",
+            "contenido": "Desarrolló su carrera en la banca, vinculado al equipo de José Ignacio Goirigolzarri, con quien trabajó en el BBVA y después en el rescate de Bankia.",
+            "fecha": "2001-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20955,9 +20841,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0075-ap-01-it-01",
             "apartado_id": "ibx-0075-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente Unicaja",
-            "contenido": "Presidente desde 2024.",
-            "fecha": "2024-03-22",
+            "titulo": "Consejero delegado de Bankia",
+            "contenido": "Como consejero delegado de Bankia, gestionó el día a día de la entidad nacionalizada durante su saneamiento, su vuelta a beneficios y su salida a bolsa, hasta la fusión con CaixaBank en 2021.",
+            "fecha": "2014-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -20967,25 +20853,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0075-ap-01-it-02",
             "apartado_id": "ibx-0075-ap-01",
             "tipo": "evento",
-            "titulo": "Banco de España / FROB",
-            "contenido": "Carrera en el Banco de España y servicio de inspección antes de la banca privada.",
-            "fecha": "1990-01-01",
+            "titulo": "Presidente de Unicaja",
+            "contenido": "Asumió la presidencia de Unicaja Banco con el encargo de estabilizar el gobierno corporativo de un banco resultante de la fusión Unicaja-Liberbank, con tensiones entre sus distintas sensibilidades accionariales.",
+            "fecha": "2024-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0075-ap-01-it-03",
-            "apartado_id": "ibx-0075-ap-01",
-            "tipo": "evento",
-            "titulo": "Equipo Goirigolzarri en BBVA",
-            "contenido": "Director general adjunto en BBVA bajo Goirigolzarri en los 2000s.",
-            "fecha": "2005-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -21090,8 +20964,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0076",
@@ -21343,8 +21217,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0077",
@@ -21566,8 +21440,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0078",
@@ -21598,7 +21472,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0078-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Teruel, 1953. Abogado del Estado.",
+            "contenido": "Manuel Pizarro Moreno (Teruel, 1951) es vicepresidente del consejo del Banco Santander. Abogado del Estado y agente de cambio y bolsa, fue una figura central del capitalismo español como presidente de Endesa —donde protagonizó la resistencia a las OPAs sobre la eléctrica— y tuvo también una etapa en la política como diputado del PP.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21632,9 +21506,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0078-ap-01-it-00",
             "apartado_id": "ibx-0078-ap-01",
             "tipo": "evento",
-            "titulo": "Ibercaja / Endesa",
-            "contenido": "Presidente de Ibercaja 1988-2004. Presidente de Endesa 2002-2007.",
-            "fecha": "2002-01-01",
+            "titulo": "Abogado del Estado y bolsa",
+            "contenido": "Abogado del Estado y agente de cambio y bolsa, presidió la Bolsa de Madrid y desarrolló una intensa carrera en el mundo financiero y empresarial.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21644,9 +21518,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0078-ap-01-it-01",
             "apartado_id": "ibx-0078-ap-01",
             "tipo": "evento",
-            "titulo": "Diputado PP",
-            "contenido": "Diputado del PP (2008-2011). Cabeza de lista por Madrid en 2008.",
-            "fecha": "2008-03-09",
+            "titulo": "Presidente de Endesa",
+            "contenido": "Como presidente de Endesa, lideró la defensa de la eléctrica frente a las ofertas de Gas Natural y de la alemana E.ON, en una de las batallas empresariales más sonadas de los años 2000.",
+            "fecha": "2002-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21656,37 +21530,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0078-ap-01-it-02",
             "apartado_id": "ibx-0078-ap-01",
             "tipo": "evento",
-            "titulo": "Santander",
-            "contenido": "Consejero externo del Santander.",
-            "fecha": "2017-04-07",
+            "titulo": "Política y Santander",
+            "contenido": "Dio el salto a la política como número dos del PP por Madrid en las elecciones de 2008 y, posteriormente, regresó al mundo empresarial, incorporándose al consejo del Banco Santander, del que es vicepresidente.",
+            "fecha": "2008-03-09",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0078-ap-01-it-03",
-            "apartado_id": "ibx-0078-ap-01",
-            "tipo": "evento",
-            "titulo": "Ibercaja",
-            "contenido": "Presidente de Ibercaja entre 1988 y 2004.",
-            "fecha": "1988-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0078-ap-01-it-04",
-            "apartado_id": "ibx-0078-ap-01",
-            "tipo": "evento",
-            "titulo": "Endesa OPAs",
-            "contenido": "Como presidente de Endesa (2002-2007), pieza central en la batalla OPA Gas Natural-E.ON-Enel.",
-            "fecha": "2002-06-21",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 4
           }
         ]
       },
@@ -21807,8 +21657,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0079",
@@ -21838,7 +21688,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0079-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1949. Derecho. MBA Berkeley.",
+            "contenido": "Rodrigo de Rato y Figaredo (Madrid, 1949) es un economista y político que fue una de las figuras más poderosas de la economía española y mundial: vicepresidente económico del Gobierno y ministro de Economía con Aznar, director gerente del FMI y presidente de Bankia. Su trayectoria quedó marcada por la crisis de Bankia y por posteriores condenas judiciales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21872,9 +21722,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0079-ap-01-it-00",
             "apartado_id": "ibx-0079-ap-01",
             "tipo": "evento",
-            "titulo": "Ministro Economía PP",
-            "contenido": "Vicepresidente económico y ministro de Economía bajo Aznar (1996-2004).",
-            "fecha": "1996-05-05",
+            "titulo": "Ministro de Economía y 'milagro español'",
+            "contenido": "Economista, fue vicepresidente segundo y ministro de Economía en los gobiernos de José María Aznar (1996-2004), una etapa de fuerte crecimiento y entrada de España en el euro que sus partidarios bautizaron como 'milagro económico español'.",
+            "fecha": "1996-05-06",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21884,8 +21734,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0079-ap-01-it-01",
             "apartado_id": "ibx-0079-ap-01",
             "tipo": "evento",
-            "titulo": "Director gerente FMI",
-            "contenido": "Director gerente del FMI 2004-2007.",
+            "titulo": "Director gerente del FMI",
+            "contenido": "Entre 2004 y 2007 fue director gerente del Fondo Monetario Internacional, uno de los cargos más influyentes de la economía mundial, que abandonó antes de finalizar su mandato.",
             "fecha": "2004-06-07",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21896,13 +21746,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0079-ap-01-it-02",
             "apartado_id": "ibx-0079-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente Bankia",
-            "contenido": "Preside Caja Madrid y luego Bankia 2010-2012. Salida tras nacionalización.",
-            "fecha": "2010-01-21",
+            "titulo": "Bankia y su nacionalización",
+            "contenido": "Presidió Caja Madrid y después Bankia, cuya salida a bolsa en 2011 y posterior nacionalización en 2012 precipitaron el rescate financiero de España, en uno de los episodios más traumáticos de la crisis.",
+            "fecha": "2010-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0079-ap-01-it-03",
+            "apartado_id": "ibx-0079-ap-01",
+            "tipo": "evento",
+            "titulo": "Condenas judiciales",
+            "contenido": "Fue condenado de forma firme en el caso de las 'tarjetas black' de Caja Madrid/Bankia, por el que cumplió prisión, y absuelto en el juicio penal por la salida a bolsa de Bankia. En 2024 fue condenado en primera instancia por delitos fiscales y otros, sentencia que ha recurrido, por lo que en lo no firme rige la presunción de inocencia.",
+            "fecha": "2017-02-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -22095,8 +21957,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0080",
@@ -22125,7 +21987,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0080-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1964. Abogado del Estado. MBA IESE.",
+            "contenido": "Pablo Isla Álvarez de Tejera (Madrid, 1964) es uno de los gestores españoles más reconocidos internacionalmente, conocido por su etapa al frente de Inditex (Zara). Abogado del Estado, presidió el gigante textil durante su gran expansión global y digital, y posteriormente se incorporó a consejos de multinacionales como Nestlé.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22159,9 +22021,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0080-ap-01-it-00",
             "apartado_id": "ibx-0080-ap-01",
             "tipo": "evento",
-            "titulo": "Altadis",
-            "contenido": "Co-presidente de Altadis (tabaco) 2000-2005.",
-            "fecha": "2000-01-01",
+            "titulo": "Abogado del Estado y directivo",
+            "contenido": "Abogado del Estado, ocupó cargos en la administración y dirigió áreas jurídicas y de gestión en empresas como el Banco Popular y la tabacalera Altadis antes de su salto a Inditex.",
+            "fecha": "1998-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -22171,8 +22033,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0080-ap-01-it-01",
             "apartado_id": "ibx-0080-ap-01",
             "tipo": "evento",
-            "titulo": "Inditex",
-            "contenido": "Vicepresidente Inditex 2005, presidente desde 2011.",
+            "titulo": "Presidente ejecutivo de Inditex",
+            "contenido": "Tomó el relevo de Amancio Ortega como presidente ejecutivo de Inditex y lideró durante más de una década la expansión internacional del grupo, la integración de tienda física y online y su reconocimiento como uno de los mejores CEO del mundo según rankings internacionales.",
             "fecha": "2011-07-19",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22183,8 +22045,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0080-ap-01-it-02",
             "apartado_id": "ibx-0080-ap-01",
             "tipo": "evento",
-            "titulo": "Salida Inditex",
-            "contenido": "Cede la presidencia a Marta Ortega en abril 2022.",
+            "titulo": "Salida y nuevos consejos",
+            "contenido": "Dejó la presidencia de Inditex en 2022, dando paso a Marta Ortega, y orientó su actividad hacia los consejos de grandes multinacionales —entre ellas la suiza Nestlé— y la inversión, manteniéndose como referente de la alta gestión española.",
             "fecha": "2022-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22296,8 +22158,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0081",
@@ -22496,8 +22358,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0082",
@@ -22768,8 +22630,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0083",
@@ -23003,8 +22865,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0084",
@@ -23210,8 +23072,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0085",
@@ -23365,8 +23227,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0086",
@@ -23587,8 +23449,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0087",
@@ -23791,8 +23653,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0088",
@@ -23971,8 +23833,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0089",
@@ -24109,8 +23971,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0090",
@@ -24272,8 +24134,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0091",
@@ -24444,8 +24306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0092",
@@ -24476,7 +24338,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0092-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1969. Licenciada en Derecho (Universidad Complutense). Cuerpo Superior de Administradores Civiles del Estado.",
+            "contenido": "Teresa Ribera Rodríguez (Madrid, 1969) es vicepresidenta ejecutiva de la Comisión Europea para una Transición Limpia, Justa y Competitiva y responsable de Competencia, uno de los cargos más poderosos de la UE. Jurista y alta funcionaria especializada en medio ambiente, fue vicepresidenta del Gobierno de España y ministra para la Transición Ecológica con Pedro Sánchez, donde pilotó la política climática y energética del país. En 2024 dio el salto a Bruselas como número dos de Ursula von der Leyen, con enorme poder sobre la competencia, las ayudas de Estado y la agenda verde europea.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24496,9 +24358,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0092-ap-01-it-00",
             "apartado_id": "ibx-0092-ap-01",
             "tipo": "evento",
-            "titulo": "Secretaria Cambio Climático",
-            "contenido": "Secretaria de Estado de Cambio Climático con Zapatero (2008-2011).",
-            "fecha": "2008-04-15",
+            "titulo": "Alta funcionaria del clima",
+            "contenido": "Jurista y técnica de la Administración, se especializó en cambio climático, dirigiendo la oficina española de cambio climático y un think tank internacional (IDDRI) en París.",
+            "fecha": "2008-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -24508,9 +24370,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0092-ap-01-it-01",
             "apartado_id": "ibx-0092-ap-01",
             "tipo": "evento",
-            "titulo": "Directora IDDRI",
-            "contenido": "Directora del Institut du Développement Durable et des Relations Internationales (París) 2014-2018.",
-            "fecha": "2014-03-01",
+            "titulo": "Ministra de Transición Ecológica",
+            "contenido": "En 2018 entró en el Gobierno de Pedro Sánchez como ministra para la Transición Ecológica y, después, vicepresidenta, pilotando la política energética, climática y de despoblación.",
+            "fecha": "2018-06-07",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -24520,9 +24382,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0092-ap-01-it-02",
             "apartado_id": "ibx-0092-ap-01",
             "tipo": "evento",
-            "titulo": "Ministra Transición",
-            "contenido": "Ministra de Transición Ecológica 2018-2024. Vicepresidenta tercera 2020-2023, segunda 2023-2024.",
-            "fecha": "2018-06-07",
+            "titulo": "La gestión energética",
+            "contenido": "Lideró la respuesta española a la crisis energética y los precios de la electricidad, la «excepción ibérica» y la planificación del cierre de las nucleares y el carbón, con una apuesta ambiciosa por las renovables.",
+            "fecha": "2021-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -24532,8 +24394,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0092-ap-01-it-03",
             "apartado_id": "ibx-0092-ap-01",
             "tipo": "evento",
-            "titulo": "Comisión Europea",
-            "contenido": "Vicepresidenta ejecutiva en la Comisión von der Leyen II desde diciembre 2024.",
+            "titulo": "Vicepresidenta de la Comisión Europea",
+            "contenido": "En 2024 fue nombrada vicepresidenta ejecutiva de la Comisión Europea para la Transición Limpia y responsable de Competencia, uno de los cargos comunitarios de mayor poder, con la regulación de las grandes empresas en sus manos.",
             "fecha": "2024-12-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24577,6 +24439,21 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
               "tope-gas"
             ],
             "orden": 1
+          },
+          {
+            "id": "ibx-0092-ap-02-it-02",
+            "apartado_id": "ibx-0092-ap-02",
+            "tipo": "dato",
+            "titulo": "Agenda verde y competencia europea",
+            "contenido": "Defiende una transición ecológica ambiciosa y, desde Bruselas, una política de competencia que combine el cumplimiento de las reglas con la autonomía estratégica europea.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "transicion-ecologica",
+              "ue"
+            ],
+            "orden": 2
           }
         ]
       },
@@ -24680,8 +24557,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0093",
@@ -24712,7 +24589,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0093-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1962. Licenciado en Derecho (UB).",
+            "contenido": "Joan Laporta Estruch (Barcelona, 1962) es presidente del FC Barcelona, uno de los clubes de fútbol más poderosos e influyentes del mundo, cargo que ocupa por segunda vez. Abogado de profesión y figura del catalanismo político, ha protagonizado dos etapas de gran impacto al frente del club, marcadas tanto por los éxitos deportivos como por la delicada situación económica e institucional de la entidad.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -24732,9 +24609,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0093-ap-01-it-00",
             "apartado_id": "ibx-0093-ap-01",
             "tipo": "evento",
-            "titulo": "Primera presidencia",
-            "contenido": "Presidente FC Barcelona 2003-2010 (era Ronaldinho-Messi-Guardiola).",
-            "fecha": "2003-06-15",
+            "titulo": "Abogado y barcelonismo",
+            "contenido": "Abogado de formación, lideró el movimiento de oposición 'Elefant Blau' contra la directiva de Josep Lluís Núñez, ganando notoriedad como crítico de la gestión del club.",
+            "fecha": "1997-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -24744,9 +24621,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0093-ap-01-it-01",
             "apartado_id": "ibx-0093-ap-01",
             "tipo": "evento",
-            "titulo": "Solidaritat Catalana",
-            "contenido": "Diputado del Parlament por Solidaritat (independentista) 2010-2012.",
-            "fecha": "2010-11-28",
+            "titulo": "Primera presidencia y era dorada",
+            "contenido": "Presidió el FC Barcelona entre 2003 y 2010, una etapa de enorme éxito deportivo con la eclosión de Messi y el equipo de Guardiola, que dio al club algunos de sus mayores títulos.",
+            "fecha": "2003-06-15",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -24756,13 +24633,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0093-ap-01-it-02",
             "apartado_id": "ibx-0093-ap-01",
             "tipo": "evento",
-            "titulo": "Segunda presidencia",
-            "contenido": "Vuelve a presidir Barça en marzo 2021.",
-            "fecha": "2021-03-07",
+            "titulo": "Política catalana",
+            "contenido": "Tras dejar el club, se implicó en la política independentista catalana, impulsando formaciones soberanistas y ocupando un escaño en el Parlament de Cataluña.",
+            "fecha": "2010-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
+          },
+          {
+            "id": "ibx-0093-ap-01-it-03",
+            "apartado_id": "ibx-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Regreso y crisis económica",
+            "contenido": "Volvió a la presidencia del Barça en 2021, en plena crisis financiera y con la dolorosa salida de Messi, gestionando las polémicas 'palancas' económicas, la reforma del estadio (Espai Barça) y el caso Negreira sobre pagos a un exdirigente arbitral, asunto judicializado en el que rige la presunción de inocencia.",
+            "fecha": "2021-03-07",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -24830,8 +24719,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0094",
@@ -24984,8 +24873,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0095",
@@ -25124,8 +25013,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0096",
@@ -25302,8 +25191,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0097",
@@ -25492,8 +25381,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0098",
@@ -25594,8 +25483,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0099",
@@ -25733,8 +25622,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0100",
@@ -25881,8 +25770,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0101",
@@ -26022,8 +25911,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0102",
@@ -26157,8 +26046,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0103",
@@ -26290,8 +26179,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0104",
@@ -26447,8 +26336,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0105",
@@ -26478,7 +26367,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0105-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santander, 1936. Hermano del Emilio Botín II (padre de Ana Botín).",
+            "contenido": "Jaime Botín-Sanz de Sautuola y García de los Ríos (1936) es un banquero y empresario español, hermano del fallecido Emilio Botín y miembro de la saga financiera cántabra. Es el accionista de control de Bankinter a través de la sociedad Cartival, y ha sido una figura discreta pero influyente de la banca española, con un notable patrimonio y una importante colección de arte.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -26572,10 +26461,67 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "ibx-0105-ap-04",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "ibx-0105-ap-04-it-00",
+            "apartado_id": "ibx-0105-ap-04",
+            "tipo": "evento",
+            "titulo": "La saga Botín y la banca",
+            "contenido": "Miembro de la familia Botín, desarrolló su carrera en la banca, vinculado al Banco Santander y, sobre todo, a Bankinter, entidad de la que se convirtió en accionista de referencia.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "ibx-0105-ap-04-it-01",
+            "apartado_id": "ibx-0105-ap-04",
+            "tipo": "evento",
+            "titulo": "Control de Bankinter",
+            "contenido": "A través de la sociedad Cartival, controla la participación de referencia en Bankinter, uno de los bancos más rentables de España, manteniendo la influencia familiar sobre la entidad.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0105-ap-04-it-02",
+            "apartado_id": "ibx-0105-ap-04",
+            "tipo": "evento",
+            "titulo": "El caso del Picasso",
+            "contenido": "Fue condenado de forma firme por un delito de contrabando de bienes culturales por intentar sacar de España, sin autorización, un cuadro de Picasso ('Cabeza de mujer'), que fue finalmente confiscado, en un caso de gran repercusión mediática.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "ibx-0105-ap-04-it-03",
+            "apartado_id": "ibx-0105-ap-04",
+            "tipo": "evento",
+            "titulo": "Coleccionista y perfil discreto",
+            "contenido": "Gran coleccionista de arte y figura de perfil muy reservado, ha mantenido su influencia sobre Bankinter al margen de la primera línea pública, como uno de los miembros más discretos pero poderosos de la saga financiera de los Botín.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0106",
@@ -26758,8 +26704,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0107",
@@ -26940,8 +26886,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0108",
@@ -27069,8 +27015,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0109",
@@ -27201,8 +27147,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0110",
@@ -27313,8 +27259,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0111",
@@ -27409,8 +27355,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0112",
@@ -27518,8 +27464,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0113",
@@ -27614,8 +27560,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0114",
@@ -27694,8 +27640,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0115",
@@ -27772,8 +27718,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0116",
@@ -27953,8 +27899,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0117",
@@ -28050,8 +27996,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0118",
@@ -28130,8 +28076,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0119",
@@ -28242,8 +28188,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0120",
@@ -28360,8 +28306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0121",
@@ -28489,8 +28435,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0122",
@@ -28622,8 +28568,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0123",
@@ -28771,8 +28717,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0124",
@@ -28911,8 +28857,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0125",
@@ -29050,8 +28996,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0126",
@@ -29161,8 +29107,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0127",
@@ -29310,8 +29256,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0128",
@@ -29436,8 +29382,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0129",
@@ -29532,8 +29478,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0130",
@@ -29659,8 +29605,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0131",
@@ -29776,8 +29722,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0132",
@@ -29908,8 +29854,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0133",
@@ -30052,8 +29998,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0134",
@@ -30152,8 +30098,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0135",
@@ -30248,8 +30194,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0136",
@@ -30360,8 +30306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0137",
@@ -30478,8 +30424,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0138",
@@ -30575,8 +30521,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0139",
@@ -30672,8 +30618,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0140",
@@ -30784,8 +30730,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0141",
@@ -30897,8 +30843,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0142",
@@ -30995,8 +30941,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0143",
@@ -31093,8 +31039,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0144",
@@ -31191,8 +31137,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   },
   {
     "id": "ibx-0145",
@@ -31310,8 +31256,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T15:17:58.362994Z",
+    "updated_at": "2026-05-29T15:17:58.362994Z"
   }
 ]
 

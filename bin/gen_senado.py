@@ -23,6 +23,7 @@ from __future__ import annotations
 import json
 import re
 import ssl
+import sys
 import unicodedata
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -31,6 +32,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "senado" / "senadores.json"
 TOP = REPO / "bin" / "senado_top.json"
+DECL_SEN = REPO / "bin" / "declaraciones_senado.json"  # enlaces directos (decl_links_senado.py)
 
 CTX = ssl.create_default_context()
 CTX.check_hostname = False
@@ -107,6 +109,17 @@ def titlecase(s: str) -> str:
 
 
 def main() -> int:
+    force = "--force" in sys.argv
+    if OUT.exists() and not force:
+        print(f"\n⚠  {OUT.relative_to(REPO)} ya existe.")
+        print("   Regenerar desde el opendata SOBRESCRIBE el fichero. Los enlaces de")
+        print("   declaraciones SÍ se re-hornean desde declaraciones_senado.json, pero")
+        print("   cualquier otro parche manual (cifras curadas) se perdería.")
+        print("   · Forma segura (refresca cache, hornea y regenera fixture):")
+        print("       python3 bin/rebuild_dossiers.py --source senado")
+        print("   · Manual (si sabes lo que haces): repite con --force y luego:")
+        print("       python3 bin/gen_subfixture.py --source senado")
+        return 2
     print("· descargando datos abiertos del Senado…")
     data = fetch(BASE + "/web/ficopendataservlet?tipoFich=10&legis=15")
     root = ET.fromstring(data)
@@ -117,6 +130,14 @@ def main() -> int:
     if TOP.exists():
         top = {norm_key(k): v for k, v in json.loads(TOP.read_text("utf-8")).items()
                if not k.startswith("_")}
+
+    # enlaces directos a las declaraciones (bienes XML + actividades PDF), por
+    # nombre normalizado — los produce bin/decl_links_senado.py. Hornearlos aquí
+    # evita que un re-run de este generador pise el trabajo de ese parche.
+    decl_sen = {}
+    if DECL_SEN.exists():
+        decl_sen = json.loads(DECL_SEN.read_text("utf-8"))
+        print(f"  enlaces de declaraciones (Senado): {len(decl_sen)}")
 
     dossiers = []
     for s in xv:
@@ -166,15 +187,36 @@ def main() -> int:
                          "contenido": t.get("texto", ""), "fecha": t.get("fecha"),
                          "fuente_url": t.get("fuente"), "fuente_titulo": t.get("fuente_titulo", "Fuente"),
                          "tags": ["patrimonio", "cifras"]})
-        evid.append({
-            "tipo": "documento", "titulo": "Declaración de actividades, bienes y rentas (oficial)",
-            "contenido": ("Declaración de actividades, bienes patrimoniales, rentas e intereses económicos "
-                          "presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; "
-                          "consúltense en la sección oficial de declaraciones."),
-            "fuente_url": DECLARACIONES,
-            "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
-            "tags": ["patrimonio", "declaracion-bienes", "fuente-oficial"],
-        })
+        rec = decl_sen.get(norm_key(full)) or {}
+        if rec.get("bienes_url") or rec.get("actividades_url"):
+            if rec.get("bienes_url"):
+                evid.append({
+                    "tipo": "documento", "titulo": "Declaración de bienes patrimoniales y rentas (XML oficial)",
+                    "contenido": ("Declaración de bienes patrimoniales y rentas presentada en el Senado "
+                                  "(XV Legislatura). Enlace directo al documento oficial publicado por el Senado."),
+                    "fuente_url": rec["bienes_url"],
+                    "fuente_titulo": "Senado · Declaración de bienes patrimoniales y rentas",
+                    "tags": ["patrimonio", "declaracion-bienes", "fuente-oficial", "directo"],
+                })
+            if rec.get("actividades_url"):
+                evid.append({
+                    "tipo": "documento", "titulo": "Declaración de actividades (PDF oficial)",
+                    "contenido": ("Declaración de actividades presentada en el Senado (XV Legislatura). "
+                                  "Enlace directo al PDF oficial publicado por el Senado."),
+                    "fuente_url": rec["actividades_url"],
+                    "fuente_titulo": "Senado · Declaración de actividades (PDF oficial)",
+                    "tags": ["intereses", "declaracion-actividades", "fuente-oficial", "pdf-directo"],
+                })
+        else:
+            evid.append({
+                "tipo": "documento", "titulo": "Declaración de actividades, bienes y rentas (oficial)",
+                "contenido": ("Declaración de actividades, bienes patrimoniales, rentas e intereses económicos "
+                              "presentada ante el Senado en la XV Legislatura. Los importes los publica el Senado; "
+                              "consúltense en la sección oficial de declaraciones."),
+                "fuente_url": DECLARACIONES,
+                "fuente_titulo": "Senado · Declaraciones de bienes y actividades",
+                "tags": ["patrimonio", "declaracion-bienes", "fuente-oficial"],
+            })
         ap.append({"tipo": "evidencia", "orden": 5, "items": evid})
 
         dossiers.append({
@@ -194,7 +236,10 @@ def main() -> int:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     con_top = sum(1 for d in out if any(i.get("titulo", "").endswith("(cifras)") for ap in d["apartados"] for i in ap["items"]))
-    print(f"OK · {len(out)} senadores escritos en {OUT.relative_to(REPO)} · con cifras transcritas: {con_top}")
+    con_decl = sum(1 for d in out for ap in d["apartados"] for i in ap["items"]
+                   if "directo" in (i.get("tags") or []))
+    print(f"OK · {len(out)} senadores escritos en {OUT.relative_to(REPO)} · con cifras transcritas: {con_top} · con enlace directo a declaración: {con_decl}")
+    print("  · regenera el fixture:  python3 bin/gen_subfixture.py --source senado")
     return 0
 
 

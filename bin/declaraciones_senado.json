@@ -1,0 +1,1556 @@
+{
+  "abdelhakimabdeselamallal": {
+    "nombre": "Abdelhakim Abdeselam Al Lal",
+    "cred": 110,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_110_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184086"
+  },
+  "miguelangeladriangutierrez": {
+    "nombre": "Miguel Ángel Adrián Gutiérrez",
+    "cred": 296,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_296_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=228684"
+  },
+  "nereaahedoceza": {
+    "nombre": "Nerea Ahedo Ceza",
+    "cred": 258,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_258_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=201904"
+  },
+  "rosamariaaldeagomez": {
+    "nombre": "Rosa María Aldea Gómez",
+    "cred": 109,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_109_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=262423"
+  },
+  "agustinalmodobarbarcelo": {
+    "nombre": "Agustín Almodóbar Barceló",
+    "cred": 60,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_060_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183835"
+  },
+  "joseangelalonsoperez": {
+    "nombre": "José Ángel Alonso Pérez",
+    "cred": 218,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_218_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=204865"
+  },
+  "mariajesusalvarezgonzalez": {
+    "nombre": "María Jesús Álvarez González",
+    "cred": 300,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_300_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=241114"
+  },
+  "juanramonamoresgarcia": {
+    "nombre": "Juan Ramón Amores García",
+    "cred": 262,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_262_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185030"
+  },
+  "concepcionandreurodriguez": {
+    "nombre": "Concepción Andreu Rodríguez",
+    "cred": 238,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_238_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184734"
+  },
+  "javierantoncacho": {
+    "nombre": "Javier Antón Cacho",
+    "cred": 187,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_187_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=220091"
+  },
+  "mariolaarandagarcia": {
+    "nombre": "Mariola Aranda García",
+    "cred": 30,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_030_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183691"
+  },
+  "josemanuelarandalassa": {
+    "nombre": "José Manuel Aranda Lassa",
+    "cred": 146,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_146_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184266"
+  },
+  "franciscojavierarenasbocanegra": {
+    "nombre": "Francisco Javier Arenas Bocanegra",
+    "cred": 15,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_015_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183553"
+  },
+  "nidiamariaarevalogomez": {
+    "nombre": "Nidia María Arévalo Gómez",
+    "cred": 64,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_064_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183853"
+  },
+  "anicetojavierarmasgonzalez": {
+    "nombre": "Aniceto Javier Armas González",
+    "cred": 75,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_075_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183904"
+  },
+  "josealbertoarmijonavas": {
+    "nombre": "José Alberto Armijo Navas",
+    "cred": 43,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_043_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=231602"
+  },
+  "martaarochacorrea": {
+    "nombre": "Marta Arocha Correa",
+    "cred": 108,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_108_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184076"
+  },
+  "bienvenidodearribasanchez": {
+    "nombre": "Bienvenido De Arriba Sánchez",
+    "cred": 183,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_183_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184453"
+  },
+  "juanmanuelavilagutierrez": {
+    "nombre": "Juan Manuel Ávila Gutiérrez",
+    "cred": 31,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_031_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183696"
+  },
+  "vicenteazpitarteperez": {
+    "nombre": "Vicente Azpitarte Pérez",
+    "cred": 124,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_124_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184153"
+  },
+  "joanbaptistabagueroura": {
+    "nombre": "Joan Baptista Bagué Roura",
+    "cred": 226,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_226_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184672"
+  },
+  "sarabailacardanuy": {
+    "nombre": "Sara Bailac Ardanuy",
+    "cred": 175,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_175_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184410"
+  },
+  "carmenballesterfeliu": {
+    "nombre": "Carmen Ballester Feliu",
+    "cred": 266,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_266_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185081"
+  },
+  "josemanuelbalseiroorol": {
+    "nombre": "José Manuel Balseiro Orol",
+    "cred": 278,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_278_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=200200"
+  },
+  "josemanuelbaltarblanco": {
+    "nombre": "José Manuel Baltar Blanco",
+    "cred": 51,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_051_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184990"
+  },
+  "mirenuxuebarcosberruezo": {
+    "nombre": "Miren Uxue Barcos Berruezo",
+    "cred": 272,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_272_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185384"
+  },
+  "josemanuelbarreirofernandez": {
+    "nombre": "José Manuel Barreiro Fernández",
+    "cred": 190,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_190_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=238643"
+  },
+  "josemariabarriostejero": {
+    "nombre": "José María Barrios Tejero",
+    "cred": 65,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_065_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183858"
+  },
+  "teresamariabelmontesanchez": {
+    "nombre": "Teresa María Belmonte Sánchez",
+    "cred": 50,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_050_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183789"
+  },
+  "estefaniabeltrandeherediaarroniz": {
+    "nombre": "Estefanía Beltrán De Heredia Arroniz",
+    "cred": 291,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_291_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=209248"
+  },
+  "anamariabeltranvillalba": {
+    "nombre": "Ana María Beltrán Villalba",
+    "cred": 120,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_120_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184134"
+  },
+  "franciscojavierbermudezcarrillo": {
+    "nombre": "Francisco Javier Bermúdez Carrillo",
+    "cred": 93,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_093_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184000"
+  },
+  "franciscomartinbernabeperez": {
+    "nombre": "Francisco Martín Bernabé Pérez",
+    "cred": 135,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_135_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185095"
+  },
+  "idurrebidegurengabantxo": {
+    "nombre": "Idurre Bideguren Gabantxo",
+    "cred": 292,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_292_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=209569"
+  },
+  "luisablanchfulcara": {
+    "nombre": "Luisa Blanch Fulcarà",
+    "cred": 151,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_151_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184289"
+  },
+  "mariamarblancogarrido": {
+    "nombre": "María Mar Blanco Garrido",
+    "cred": 7,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_007_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249592"
+  },
+  "carlosluisboneamela": {
+    "nombre": "Carlos Luis Boné Amela",
+    "cred": 255,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_255_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184824"
+  },
+  "mariajesusbonilladominguez": {
+    "nombre": "María Jesús Bonilla Domínguez",
+    "cred": 179,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_179_7.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=186494"
+  },
+  "miriambravosanchez": {
+    "nombre": "Miriam Bravo Sánchez",
+    "cred": 8,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_008_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183522"
+  },
+  "estherbasiliadelbriogonzalez": {
+    "nombre": "Esther Basilia Del Brío González",
+    "cred": 152,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_152_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184294"
+  },
+  "rociobrionesmorales": {
+    "nombre": "Rocío Briones Morales",
+    "cred": 215,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_215_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184611"
+  },
+  "evapatriciabuenocampanario": {
+    "nombre": "Eva Patricia Bueno Campanario",
+    "cred": 228,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_228_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184682"
+  },
+  "simonvalentinbuenovargas": {
+    "nombre": "Simón Valentín Bueno Vargas",
+    "cred": 136,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_136_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=267455"
+  },
+  "mariaemmabujsanchez": {
+    "nombre": "María Emma Buj Sánchez",
+    "cred": 150,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_150_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184285"
+  },
+  "mariamarcaballeromartinez": {
+    "nombre": "María Mar Caballero Martínez",
+    "cred": 69,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_069_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183875"
+  },
+  "jesuscaicedobernabe": {
+    "nombre": "Jesús Caicedo Bernabé",
+    "cred": 29,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_029_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183687"
+  },
+  "franciscojoaquincamachoborrego": {
+    "nombre": "Francisco Joaquín Camacho Borrego",
+    "cred": 182,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_182_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184447"
+  },
+  "javiercampoymonreal": {
+    "nombre": "Javier Campoy Monreal",
+    "cred": 170,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_170_7.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=222736"
+  },
+  "gerardocampsdevesa": {
+    "nombre": "Gerardo Camps Devesa",
+    "cred": 100,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_100_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184039"
+  },
+  "consolcantenysarboli": {
+    "nombre": "Consol Cantenys Arbolí",
+    "cred": 134,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_134_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184205"
+  },
+  "fernandocarbonelltatay": {
+    "nombre": "Fernando Carbonell Tatay",
+    "cred": 63,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_063_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183847"
+  },
+  "jesusjuliocarnerogarcia": {
+    "nombre": "Jesús Julio Carnero García",
+    "cred": 178,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_178_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=242983"
+  },
+  "jesuscaroadanero": {
+    "nombre": "Jesús Caro Adanero",
+    "cred": 81,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_081_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185078"
+  },
+  "veronicamariacasalmiguez": {
+    "nombre": "Verónica María Casal Míguez",
+    "cred": 34,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_034_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183708"
+  },
+  "cristinacasanuevajimenez": {
+    "nombre": "Cristina Casanueva Jiménez",
+    "cred": 169,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_169_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185113"
+  },
+  "secundinocasoroiz": {
+    "nombre": "Secundino Caso Roiz",
+    "cred": 37,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_037_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=229580"
+  },
+  "lauracastelfort": {
+    "nombre": "Laura Castel Fort",
+    "cred": 282,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_282_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206423"
+  },
+  "miguelangelcastellonrubio": {
+    "nombre": "Miguel Ángel Castellón Rubio",
+    "cred": 145,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_145_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184261"
+  },
+  "elenacastillolopez": {
+    "nombre": "Elena Castillo López",
+    "cred": 139,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_139_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184232"
+  },
+  "lucascastillorodriguez": {
+    "nombre": "Lucas Castillo Rodríguez",
+    "cred": 122,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_122_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184143"
+  },
+  "fabianchineacorrea": {
+    "nombre": "Fabián Chinea Correa",
+    "cred": 112,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_112_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184096"
+  },
+  "gabrielcolomegarcia": {
+    "nombre": "Gabriel Colomé García",
+    "cred": 118,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_118_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184123"
+  },
+  "marcotelobalmaseda": {
+    "nombre": "Mar Cotelo Balmaseda",
+    "cred": 270,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_270_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185277"
+  },
+  "josecrespoiglesias": {
+    "nombre": "José Crespo Iglesias",
+    "cred": 203,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_203_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184549"
+  },
+  "manuelcruzrodriguez": {
+    "nombre": "Manuel Cruz Rodríguez",
+    "cred": 235,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_235_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184721"
+  },
+  "severianoangelcuestaalonso": {
+    "nombre": "Severiano Ángel Cuesta Alonso",
+    "cred": 140,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_140_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184237"
+  },
+  "miguelcarmelodalmaublanco": {
+    "nombre": "Miguel Carmelo Dalmau Blanco",
+    "cred": 78,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_078_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185586"
+  },
+  "esteladelcarmendarocasmarin": {
+    "nombre": "Estela Del Carmen Darocas Marín",
+    "cred": 95,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_095_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184011"
+  },
+  "carladelgadogomez": {
+    "nombre": "Carla Delgado Gómez",
+    "cred": 11,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_011_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183535"
+  },
+  "cristinadiazmoreno": {
+    "nombre": "Cristina Díaz Moreno",
+    "cred": 167,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_167_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184374"
+  },
+  "susanadiazpacheco": {
+    "nombre": "Susana Díaz Pacheco",
+    "cred": 10,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_010_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183530"
+  },
+  "joseramondiezderevengaalbacete": {
+    "nombre": "José Ramón Díez De Revenga Albacete",
+    "cred": 273,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_273_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=234908"
+  },
+  "mariadelrociodivarconde": {
+    "nombre": "María Del Rocío Dívar Conde",
+    "cred": 54,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_054_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183807"
+  },
+  "olaiaduartelopez": {
+    "nombre": "Olaia Duarte López",
+    "cred": 242,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_242_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=217282"
+  },
+  "gorkaelejabarrietadiaz": {
+    "nombre": "Gorka Elejabarrieta Díaz",
+    "cred": 245,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_245_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184770"
+  },
+  "joseentrenaavila": {
+    "nombre": "José Entrena Ávila",
+    "cred": 90,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_090_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=216752"
+  },
+  "juanespadascejas": {
+    "nombre": "Juan Espadas Cejas",
+    "cred": 13,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_013_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=219740"
+  },
+  "josuestarronaelizondo": {
+    "nombre": "Josu Estarrona Elizondo",
+    "cred": 244,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_244_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184764"
+  },
+  "mariadoloresestevejuan": {
+    "nombre": "María Dolores Esteve Juan",
+    "cred": 119,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_119_7.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184128"
+  },
+  "mariadoloresetxanovarela": {
+    "nombre": "María Dolores Etxano Varela",
+    "cred": 251,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_251_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184806"
+  },
+  "franciscomanuelfajardopalarea": {
+    "nombre": "Francisco Manuel Fajardo Palarea",
+    "cred": 216,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_216_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=238836"
+  },
+  "mariafernandezalvarez": {
+    "nombre": "María Fernández Álvarez",
+    "cred": 48,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_048_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=250565"
+  },
+  "josefernandezblanco": {
+    "nombre": "José Fernández Blanco",
+    "cred": 186,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_186_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=213918"
+  },
+  "josemanuelfernandezdiaz": {
+    "nombre": "José Manuel Fernández Díaz",
+    "cred": 39,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_039_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183738"
+  },
+  "inigofernandezgarcia": {
+    "nombre": "Íñigo Fernández García",
+    "cred": 9,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_009_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183526"
+  },
+  "franciscojosefernandezperez": {
+    "nombre": "Francisco José Fernández Pérez",
+    "cred": 260,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_260_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184962"
+  },
+  "juanjoferrermartinez": {
+    "nombre": "Juanjo Ferrer Martínez",
+    "cred": 210,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_210_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=257366"
+  },
+  "mariadoloresfloresgarcia": {
+    "nombre": "María Dolores Flores García",
+    "cred": 274,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_274_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=186325"
+  },
+  "salvadordeforondavaquero": {
+    "nombre": "Salvador De Foronda Vaquero",
+    "cred": 208,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_208_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=222734"
+  },
+  "josemanuelfrancopardo": {
+    "nombre": "José Manuel Franco Pardo",
+    "cred": 221,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_221_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184646"
+  },
+  "vidalgaliciajaramillo": {
+    "nombre": "Vidal Galicia Jaramillo",
+    "cred": 3,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_003_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183501"
+  },
+  "rosamariagallegoneira": {
+    "nombre": "Rosa María Gallego Neira",
+    "cred": 72,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_072_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183891"
+  },
+  "juancarlosgarciadiego": {
+    "nombre": "Juan Carlos García Diego",
+    "cred": 189,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_189_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184479"
+  },
+  "mariaangelesgarciaherrero": {
+    "nombre": "María Ángeles García Herrero",
+    "cred": 104,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_104_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184057"
+  },
+  "miriamgarcianavarro": {
+    "nombre": "Miriam García Navarro",
+    "cred": 148,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_148_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184277"
+  },
+  "alfonsogarciarodriguez": {
+    "nombre": "Alfonso García Rodríguez",
+    "cred": 286,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_286_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206616"
+  },
+  "aliciagarciarodriguez": {
+    "nombre": "Alicia García Rodríguez",
+    "cred": 91,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_091_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183990"
+  },
+  "jorgegarciavega": {
+    "nombre": "Jorge García Vega",
+    "cred": 79,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_079_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183929"
+  },
+  "piogarciaescuderomarquez": {
+    "nombre": "Pío García-Escudero Márquez",
+    "cred": 204,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_204_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184556"
+  },
+  "mariajosegarciapelayojurado": {
+    "nombre": "María José García-Pelayo Jurado",
+    "cred": 180,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_180_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184434"
+  },
+  "abigailgarridotinta": {
+    "nombre": "Abigail Garrido Tinta",
+    "cred": 293,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_293_7.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=212070"
+  },
+  "jordigaseniblanch": {
+    "nombre": "Jordi Gaseni Blanch",
+    "cred": 156,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_156_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184312"
+  },
+  "alfonsogilinvernon": {
+    "nombre": "Alfonso Gil Invernón",
+    "cred": 290,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_290_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=263824"
+  },
+  "palomagomezenriquez": {
+    "nombre": "Paloma Gómez Enríquez",
+    "cred": 23,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_023_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=234243"
+  },
+  "raquelgonzalezbenito": {
+    "nombre": "Raquel González Benito",
+    "cred": 209,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_209_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249059"
+  },
+  "juanmanuelgonzalezcamacho": {
+    "nombre": "Juan Manuel González Camacho",
+    "cred": 57,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_057_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183822"
+  },
+  "victorgonzalezfernandez": {
+    "nombre": "Víctor González Fernández",
+    "cred": 25,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_025_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183659"
+  },
+  "pablogonzalezmenendez": {
+    "nombre": "Pablo González Menéndez",
+    "cred": 126,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_126_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184166"
+  },
+  "angelluisgonzalezmunoz": {
+    "nombre": "Ángel Luis González Muñoz",
+    "cred": 217,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_217_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184625"
+  },
+  "miguelgraciaferrer": {
+    "nombre": "Miguel Gracia Ferrer",
+    "cred": 280,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_280_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=205531"
+  },
+  "monicagradoscaro": {
+    "nombre": "Mónica Grados Caro",
+    "cred": 194,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_194_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184502"
+  },
+  "rafaelgranadosruiz": {
+    "nombre": "Rafael Granados Ruiz",
+    "cred": 160,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_160_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184340"
+  },
+  "lorenaguerrasanchez": {
+    "nombre": "Lorena Guerra Sánchez",
+    "cred": 172,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_172_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184396"
+  },
+  "fernandoadolfogutierrezdiazdeotazu": {
+    "nombre": "Fernando Adolfo Gutiérrez Díaz De Otazu",
+    "cred": 33,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_033_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183704"
+  },
+  "antoniogutierrezlimones": {
+    "nombre": "Antonio Gutiérrez Limones",
+    "cred": 41,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_041_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183748"
+  },
+  "palomahernandezcerezo": {
+    "nombre": "Paloma Hernández Cerezo",
+    "cred": 155,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_155_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184308"
+  },
+  "inmaculadahernandezrodriguez": {
+    "nombre": "Inmaculada Hernández Rodríguez",
+    "cred": 59,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_059_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183830"
+  },
+  "josemanuelhernandogarcia": {
+    "nombre": "José Manuel Hernando García",
+    "cred": 38,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_038_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183733"
+  },
+  "josefranciscohilavargas": {
+    "nombre": "José Francisco Hila Vargas",
+    "cred": 205,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_205_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184562"
+  },
+  "amarohuelvabetanzos": {
+    "nombre": "Amaro Huelva Betanzos",
+    "cred": 142,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_142_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=254500"
+  },
+  "mariayolandaibarroladelafuente": {
+    "nombre": "María Yolanda Ibarrola De La Fuente",
+    "cred": 5,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_005_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183510"
+  },
+  "miguelangeljerezjuan": {
+    "nombre": "Miguel Ángel Jerez Juan",
+    "cred": 220,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_220_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184640"
+  },
+  "javierjimenezsantamaria": {
+    "nombre": "Javier Jiménez Santamaría",
+    "cred": 45,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_045_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183766"
+  },
+  "franciscojavierlacallelacalle": {
+    "nombre": "Francisco Javier Lacalle Lacalle",
+    "cred": 144,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_144_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184257"
+  },
+  "joseignaciolandalucecalleja": {
+    "nombre": "José Ignacio Landaluce Calleja",
+    "cred": 85,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_085_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183962"
+  },
+  "adolfolandervera": {
+    "nombre": "Adolfo Lander Vera",
+    "cred": 71,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_071_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183885"
+  },
+  "joselatorreruiz": {
+    "nombre": "José Latorre Ruiz",
+    "cred": 125,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_125_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=217107"
+  },
+  "rafaeldamianlemusrubiales": {
+    "nombre": "Rafael Damián Lemus Rubiales",
+    "cred": 35,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_035_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183714"
+  },
+  "mariadelcarmenleytecoello": {
+    "nombre": "María Del Carmen Leyte Coello",
+    "cred": 76,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_076_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=212637"
+  },
+  "juliamarialiberalliberal": {
+    "nombre": "Julia María Liberal Liberal",
+    "cred": 73,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_073_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=193760"
+  },
+  "mariaeugenialimonbayo": {
+    "nombre": "María Eugenia Limón Bayo",
+    "cred": 141,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_141_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184242"
+  },
+  "jaumellorensmonzonis": {
+    "nombre": "Jaume Llorens Monzonís",
+    "cred": 281,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_281_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206242"
+  },
+  "juanlobatogandarias": {
+    "nombre": "Juan Lobato Gandarias",
+    "cred": 6,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_006_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185024"
+  },
+  "antonialopezmoya": {
+    "nombre": "Antonia López Moya",
+    "cred": 137,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_137_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=190163"
+  },
+  "igotzlopeztorre": {
+    "nombre": "Igotz López Torre",
+    "cred": 252,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_252_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=232402"
+  },
+  "carmenbelenlopezzapata": {
+    "nombre": "Carmen Belén López Zapata",
+    "cred": 198,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_198_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184523"
+  },
+  "antonioluengozapata": {
+    "nombre": "Antonio Luengo Zapata",
+    "cred": 138,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_138_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184228"
+  },
+  "mariadelosangeleslunamorales": {
+    "nombre": "María De Los Ángeles Luna Morales",
+    "cred": 106,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_106_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184067"
+  },
+  "mariateresamaciasmateos": {
+    "nombre": "María Teresa Macías Mateos",
+    "cred": 36,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_036_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=267229"
+  },
+  "antoniomagdalenoalegria": {
+    "nombre": "Antonio Magdaleno Alegría",
+    "cred": 111,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_111_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=208885"
+  },
+  "mariateresamalladadecastro": {
+    "nombre": "María Teresa Mallada De Castro",
+    "cred": 55,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_055_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183811"
+  },
+  "mariaamparomarcogual": {
+    "nombre": "María Amparo Marco Gual",
+    "cred": 219,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_219_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206283"
+  },
+  "mariadoloresmarcosmoyano": {
+    "nombre": "María Dolores Marcos Moyano",
+    "cred": 89,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_089_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183982"
+  },
+  "javierignaciomarotoaranzabal": {
+    "nombre": "Javier Ignacio Maroto Aranzábal",
+    "cred": 4,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_004_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184898"
+  },
+  "mariasusanamarquesescoin": {
+    "nombre": "María Susana Marqués Escoín",
+    "cred": 94,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_094_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184005"
+  },
+  "cristobalmarquespalliser": {
+    "nombre": "Cristóbal Marqués Palliser",
+    "cred": 166,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_166_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184370"
+  },
+  "franciscojaviermarquezsanchez": {
+    "nombre": "Francisco Javier Márquez Sánchez",
+    "cred": 222,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_222_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184650"
+  },
+  "pedromanuelmartindominguez": {
+    "nombre": "Pedro Manuel Martín Domínguez",
+    "cred": 147,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_147_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184272"
+  },
+  "mariadelliriomartingarcia": {
+    "nombre": "María Del Lirio Martín García",
+    "cred": 86,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_086_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=246455"
+  },
+  "juanpablomartinmartin": {
+    "nombre": "Juan Pablo Martín Martín",
+    "cred": 165,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_165_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184366"
+  },
+  "palomamartinmartin": {
+    "nombre": "Paloma Martín Martín",
+    "cred": 259,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_259_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184851"
+  },
+  "mariaevamartinperez": {
+    "nombre": "María Eva Martín Pérez",
+    "cred": 47,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_047_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183776"
+  },
+  "jorgedomingomartinezantolin": {
+    "nombre": "Jorge Domingo Martínez Antolín",
+    "cred": 177,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_177_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184420"
+  },
+  "aracelimartinezesteban": {
+    "nombre": "Araceli Martínez Esteban",
+    "cred": 229,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_229_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184688"
+  },
+  "antoniomartinezrodriguez": {
+    "nombre": "Antonio Martínez Rodríguez",
+    "cred": 68,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_068_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183871"
+  },
+  "anamartinezzaragoza": {
+    "nombre": "Ana Martínez Zaragoza",
+    "cred": 199,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_199_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184527"
+  },
+  "fernandomartinezmaillotoribio": {
+    "nombre": "Fernando Martínez-Maíllo Toribio",
+    "cred": 233,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_233_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184711"
+  },
+  "luismartinezportillosubero": {
+    "nombre": "Luis Martínez-Portillo Subero",
+    "cred": 188,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_188_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184475"
+  },
+  "juanjosematarisaez": {
+    "nombre": "Juan José Matarí Sáez",
+    "cred": 213,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_213_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184602"
+  },
+  "davidmatuteperez": {
+    "nombre": "David Matute Pérez",
+    "cred": 299,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_299_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=236348"
+  },
+  "mariaasuncionmayofernandez": {
+    "nombre": "María Asunción Mayo Fernández",
+    "cred": 77,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_077_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=218505"
+  },
+  "nuriamedinasantos": {
+    "nombre": "Nuria Medina Santos",
+    "cred": 107,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_107_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184072"
+  },
+  "alejojoaquinmirandadelarraarnaiz": {
+    "nombre": "Alejo Joaquín Miranda De Larra Arnaiz",
+    "cred": 53,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_053_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183803"
+  },
+  "manuelmirasfranqueira": {
+    "nombre": "Manuel Mirás Franqueira",
+    "cred": 298,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_298_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=230079"
+  },
+  "cesaralejandromogozaro": {
+    "nombre": "César Alejandro Mogo Zaro",
+    "cred": 176,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_176_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=235317"
+  },
+  "joseantoniomonagoterraza": {
+    "nombre": "José Antonio Monago Terraza",
+    "cred": 157,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_157_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184317"
+  },
+  "jaimemoralesgarcia": {
+    "nombre": "Jaime Morales García",
+    "cred": 294,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_294_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=215732"
+  },
+  "ramonmoralesquesada": {
+    "nombre": "Ramón Morales Quesada",
+    "cred": 92,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_092_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183994"
+  },
+  "mariaisabelmorenoduque": {
+    "nombre": "María Isabel Moreno Duque",
+    "cred": 128,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_128_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184174"
+  },
+  "cristinamorenofernandez": {
+    "nombre": "Cristina Moreno Fernández",
+    "cred": 129,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_129_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184179"
+  },
+  "isabelmariamorenomohamed": {
+    "nombre": "Isabel María Moreno Mohamed",
+    "cred": 67,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_067_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183867"
+  },
+  "enricxaviermoreracatala": {
+    "nombre": "Enric Xavier Morera Català",
+    "cred": 230,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_230_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184693"
+  },
+  "alfonsocarlosmoscosogonzalez": {
+    "nombre": "Alfonso Carlos Moscoso González",
+    "cred": 212,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_212_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184598"
+  },
+  "antoniomunozmartinez": {
+    "nombre": "Antonio Muñoz Martínez",
+    "cred": 253,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_253_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184814"
+  },
+  "melaniamursangra": {
+    "nombre": "Melania Mur Sangrá",
+    "cred": 200,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_200_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184535"
+  },
+  "miguelangelnacarinomuriel": {
+    "nombre": "Miguel Ángel Nacarino Muriel",
+    "cred": 231,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_231_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184697"
+  },
+  "emiliojosenavarrocastanedo": {
+    "nombre": "Emilio José Navarro Castanedo",
+    "cred": 196,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_196_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184512"
+  },
+  "juliannievadelgado": {
+    "nombre": "Julián Nieva Delgado",
+    "cred": 84,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_084_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183958"
+  },
+  "josemariaoleagazalvidea": {
+    "nombre": "José María Oleaga Zalvidea",
+    "cred": 74,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_074_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183900"
+  },
+  "dionisonamartin": {
+    "nombre": "Dionís Oña Martín",
+    "cred": 115,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_115_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=223517"
+  },
+  "mariajoseortegagomez": {
+    "nombre": "María José Ortega Gómez",
+    "cred": 114,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_114_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184105"
+  },
+  "evaortizvilella": {
+    "nombre": "Eva Ortiz Vilella",
+    "cred": 97,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_097_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=219738"
+  },
+  "carmenpagadorlopez": {
+    "nombre": "Carmen Pagador López",
+    "cred": 173,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_173_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184400"
+  },
+  "mariateresapallarespique": {
+    "nombre": "Maria Teresa Pallarès Piqué",
+    "cred": 288,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_288_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206629"
+  },
+  "mariajosepardopumar": {
+    "nombre": "María José Pardo Pumar",
+    "cred": 80,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_080_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183933"
+  },
+  "mariapatriciozafra": {
+    "nombre": "María Patricio Zafra",
+    "cred": 121,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_121_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184138"
+  },
+  "mariadelcarmenperezbecerra": {
+    "nombre": "María Del Carmen Pérez Becerra",
+    "cred": 191,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_191_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184488"
+  },
+  "israelrobertoperezjimenez": {
+    "nombre": "Israel Roberto Pérez Jiménez",
+    "cred": 211,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_211_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184592"
+  },
+  "mariacarmenisabelpobosanchez": {
+    "nombre": "María Carmen Isabel Pobo Sánchez",
+    "cred": 149,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_149_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184281"
+  },
+  "carlosalfonsopolancorebolleda": {
+    "nombre": "Carlos Alfonso Polanco Rebolleda",
+    "cred": 98,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_098_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=254869"
+  },
+  "janpomeslopez": {
+    "nombre": "Jan Pomés López",
+    "cred": 117,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_117_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=205828"
+  },
+  "perejoanponssampietro": {
+    "nombre": "Pere Joan Pons Sampietro",
+    "cred": 206,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_206_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184566"
+  },
+  "antoniopovedazapata": {
+    "nombre": "Antonio Poveda Zapata",
+    "cred": 287,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_287_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=214686"
+  },
+  "fernandopriegochacon": {
+    "nombre": "Fernando Priego Chacón",
+    "cred": 40,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_040_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183744"
+  },
+  "benjaminprietovalencia": {
+    "nombre": "Benjamín Prieto Valencia",
+    "cred": 131,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_131_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184189"
+  },
+  "eduardpujolbonell": {
+    "nombre": "Eduard Pujol Bonell",
+    "cred": 284,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_284_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=240938"
+  },
+  "joanjosepqueraltjimenez": {
+    "nombre": "Joan Josep Queralt Jiménez",
+    "cred": 225,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_225_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184665"
+  },
+  "evamariaredondogamero": {
+    "nombre": "Eva María Redondo Gamero",
+    "cred": 277,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_277_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=257494"
+  },
+  "josemanuelreyvarela": {
+    "nombre": "José Manuel Rey Varela",
+    "cred": 195,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_195_10.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184507"
+  },
+  "mariacarmenriolobosregadera": {
+    "nombre": "María Carmen Riolobos Regadera",
+    "cred": 27,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_027_6.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183677"
+  },
+  "mariamontserratrivasdelatorre": {
+    "nombre": "María Montserrat Rivas De La Torre",
+    "cred": 123,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_123_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184147"
+  },
+  "gonzalojesusroblesorozco": {
+    "nombre": "Gonzalo Jesús Robles Orozco",
+    "cred": 158,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_158_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184329"
+  },
+  "josemanuelrodriguezgonzalez": {
+    "nombre": "José Manuel Rodríguez González",
+    "cred": 269,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_269_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185229"
+  },
+  "rafaelrodriguezvillarino": {
+    "nombre": "Rafael Rodríguez Villarino",
+    "cred": 130,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_130_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184185"
+  },
+  "luisrogeliorodriguezcomendadorperez": {
+    "nombre": "Luis Rogelio Rodríguez-Comendador Pérez",
+    "cred": 192,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_192_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184494"
+  },
+  "pilarmilagrosrojonoguera": {
+    "nombre": "Pilar Milagros Rojo Noguera",
+    "cred": 193,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_193_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184498"
+  },
+  "pedromanuelrollanojeda": {
+    "nombre": "Pedro Manuel Rollán Ojeda",
+    "cred": 201,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_201_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=267228"
+  },
+  "pasiongadorromerogarcia": {
+    "nombre": "Pasión Gador Romero García",
+    "cred": 116,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_116_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184114"
+  },
+  "carmeloromerohernandez": {
+    "nombre": "Carmelo Romero Hernández",
+    "cred": 58,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_058_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183826"
+  },
+  "rosamariaromerosanchez": {
+    "nombre": "Rosa María Romero Sánchez",
+    "cred": 240,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_240_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184744"
+  },
+  "miguelangeldelarosamartin": {
+    "nombre": "Miguel Ángel De La Rosa Martín",
+    "cred": 264,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_264_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185052"
+  },
+  "nuriaroviracostas": {
+    "nombre": "Núria Rovira Costas",
+    "cred": 246,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_246_7.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=237675"
+  },
+  "mariacristinarubioblasco": {
+    "nombre": "María Cristina Rubio Blasco",
+    "cred": 44,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_044_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183761"
+  },
+  "luisafernandarudiubeda": {
+    "nombre": "Luisa Fernanda Rudi Úbeda",
+    "cred": 32,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_032_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183700"
+  },
+  "enriqueruizescudero": {
+    "nombre": "Enrique Ruiz Escudero",
+    "cred": 1,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_001_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185001"
+  },
+  "manuelsantosruizrivas": {
+    "nombre": "Manuel Santos Ruiz Rivas",
+    "cred": 61,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_061_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249229"
+  },
+  "mariateresaruizsillerobernal": {
+    "nombre": "María Teresa Ruiz-Sillero Bernal",
+    "cred": 14,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_014_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249781"
+  },
+  "martajorginasaavedradomenech": {
+    "nombre": "Marta Jorgina Saavedra Doménech",
+    "cred": 207,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_207_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=215443"
+  },
+  "juanantoniosagredomarco": {
+    "nombre": "Juan Antonio Sagredo Marco",
+    "cred": 234,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_234_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184716"
+  },
+  "mariasalomcoll": {
+    "nombre": "María Salom Coll",
+    "cred": 133,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_133_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184201"
+  },
+  "mariadelmarsanmartinibarra": {
+    "nombre": "María Del Mar San Martín Ibarra",
+    "cred": 224,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_224_5.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184660"
+  },
+  "rosamariasanchezgandara": {
+    "nombre": "Rosa María Sánchez Gándara",
+    "cred": 56,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_056_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185267"
+  },
+  "piedadsanchezgarcia": {
+    "nombre": "Piedad Sánchez García",
+    "cred": 99,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_099_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184033"
+  },
+  "inmaculadasanchezroca": {
+    "nombre": "Inmaculada Sánchez Roca",
+    "cred": 247,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_247_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=236525"
+  },
+  "kiliansanchezsanjuan": {
+    "nombre": "Kilian Sánchez San Juan",
+    "cred": 202,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_202_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184545"
+  },
+  "pedromanuelsanginesgutierrez": {
+    "nombre": "Pedro Manuel Sanginés Gutiérrez",
+    "cred": 254,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_254_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=213917"
+  },
+  "martinsanspairuto": {
+    "nombre": "Martín Sans Pairutó",
+    "cred": 143,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_143_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184251"
+  },
+  "luisjaviersantamariaruiz": {
+    "nombre": "Luis Javier Santamaría Ruiz",
+    "cred": 197,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_197_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184518"
+  },
+  "palomainessanzjeronimo": {
+    "nombre": "Paloma Inés Sanz Jerónimo",
+    "cred": 103,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_103_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184053"
+  },
+  "juanjosesanzvitorio": {
+    "nombre": "Juan José Sanz Vitorio",
+    "cred": 46,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_046_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183771"
+  },
+  "mariaarenalesserranoarguello": {
+    "nombre": "María Arenales Serrano Argüello",
+    "cred": 83,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_083_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183953"
+  },
+  "juancarlosserranolopez": {
+    "nombre": "Juan Carlos Serrano López",
+    "cred": 153,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_153_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=238644"
+  },
+  "alfonsocarlosserranosanchezcapuchino": {
+    "nombre": "Alfonso Carlos Serrano Sánchez-Capuchino",
+    "cred": 16,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_016_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183557"
+  },
+  "leopoldojeronimosierragallardo": {
+    "nombre": "Leopoldo Jerónimo Sierra Gallardo",
+    "cred": 101,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_101_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184043"
+  },
+  "mariacarmendasilvamendez": {
+    "nombre": "María Carmen Da Silva Méndez",
+    "cred": 223,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_223_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184655"
+  },
+  "mariadelcarmensilvarego": {
+    "nombre": "María Del Carmen Silva Rego",
+    "cred": 168,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_168_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184379"
+  },
+  "antoniosilvanrodriguez": {
+    "nombre": "Antonio Silván Rodríguez",
+    "cred": 42,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_042_1.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183752"
+  },
+  "mariosolersantos": {
+    "nombre": "Mario Soler Santos",
+    "cred": 52,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_052_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183797"
+  },
+  "paulaaliciasomalogarcia": {
+    "nombre": "Paula Alicia Somalo García",
+    "cred": 70,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_070_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183880"
+  },
+  "francescxaviertencosta": {
+    "nombre": "Francesc Xavier Ten Costa",
+    "cred": 283,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_283_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=206441"
+  },
+  "vicentetiradoochoa": {
+    "nombre": "Vicente Tirado Ochoa",
+    "cred": 28,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_028_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183682"
+  },
+  "josemanueltofinoperez": {
+    "nombre": "José Manuel Tofiño Pérez",
+    "cred": 26,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_026_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183663"
+  },
+  "carmentorralbavaliente": {
+    "nombre": "Carmen Torralba Valiente",
+    "cred": 49,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_049_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183785"
+  },
+  "amparotorresvalencoso": {
+    "nombre": "Amparo Torres Valencoso",
+    "cred": 159,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_159_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184335"
+  },
+  "martinangeltorresvalls": {
+    "nombre": "Martín Ángel Torres Valls",
+    "cred": 132,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_132_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184194"
+  },
+  "luistudancafernandez": {
+    "nombre": "Luis Tudanca Fernández",
+    "cred": 297,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_297_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=228978"
+  },
+  "nataliauceroperez": {
+    "nombre": "Natalia Ucero Pérez",
+    "cred": 66,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_066_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183862"
+  },
+  "luisjesusuribeetxebarriaapalategui": {
+    "nombre": "Luis Jesús Uribe-Etxebarria Apalategui",
+    "cred": 250,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_250_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184801"
+  },
+  "joseantoniovalbuenaalonso": {
+    "nombre": "José Antonio Valbuena Alonso",
+    "cred": 22,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_022_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=183624"
+  },
+  "rauldalmaciovaleromejia": {
+    "nombre": "Raúl Dalmacio Valero Mejía",
+    "cred": 102,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_102_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184047"
+  },
+  "josemanueldelavegacarrera": {
+    "nombre": "José Manuel De La Vega Carrera",
+    "cred": 113,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_113_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184100"
+  },
+  "salvadorvidalvarela": {
+    "nombre": "Salvador Vidal Varela",
+    "cred": 237,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_237_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184730"
+  },
+  "rosafaustinavierafernandez": {
+    "nombre": "Rosa Faustina Viera Fernández",
+    "cred": 279,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_279_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=204397"
+  },
+  "elenavilagomez": {
+    "nombre": "Elena Vila Gómez",
+    "cred": 96,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_096_4.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=257400"
+  },
+  "mariajosevillalbachavarria": {
+    "nombre": "María José Villalba Chavarría",
+    "cred": 164,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_164_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184361"
+  },
+  "carlosyecoraroca": {
+    "nombre": "Carlos Yécora Roca",
+    "cred": 127,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_127_2.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=184170"
+  },
+  "luciayevesleal": {
+    "nombre": "Lucía Yeves Leal",
+    "cred": 184,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_184_7.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=229558"
+  },
+  "mariadelpilarzamorabastante": {
+    "nombre": "María Del Pilar Zamora Bastante",
+    "cred": 263,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_263_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=185034"
+  },
+  "mariozubiagagarate": {
+    "nombre": "Mario Zubiaga Garate",
+    "cred": 243,
+    "actividades_url": "https://www.senado.es/legis15/senadores/regact/RA_15_243_3.pdf",
+    "bienes_url": "https://www.senado.es/web/expedientxmlclobservlet?legis=15&id=249058"
+  }
+}

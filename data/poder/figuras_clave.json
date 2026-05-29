@@ -23,7 +23,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pepa Bueno (Badajoz, 1964) es directora de El País, el diario de referencia de la izquierda española y buque insignia del grupo PRISA. Periodista de larga trayectoria en televisión y radio, dirige la redacción más influyente del país en un momento de pugna por la propiedad del grupo."
+            "contenido": "Josefa «Pepa» Bueno Echeverría (Albuquerque, Badajoz, 1964) es directora de El País, el diario de mayor difusión de España y buque insignia del grupo Prisa, y la primera mujer al frente de su redacción. Periodista de larga y reconocida trayectoria en radio y televisión, dirigió y presentó los informativos de TVE y el magacín matinal de la Cadena SER, 'Hoy por Hoy', antes de asumir la dirección del periódico, de línea editorial socioliberal y proyección internacional en español."
           }
         ]
       },
@@ -33,21 +33,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Televisión: el Telediario",
-            "contenido": "Se hizo conocida presentando los informativos de TVE, incluido el Telediario, durante años, con un estilo riguroso e institucional.",
-            "fecha": "2004-09-01"
+            "titulo": "Radio y televisión",
+            "contenido": "Desarrolló su carrera en TVE, donde presentó los telediarios y programas de máxima audiencia, antes de dar el salto a la radio.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Radio: Hoy por Hoy",
-            "contenido": "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, referencia informativa de la radio, antes de dar el salto a la prensa escrita.",
-            "fecha": "2012-09-03"
+            "titulo": "'Hoy por Hoy' en la SER",
+            "contenido": "Dirigió y presentó 'Hoy por Hoy', el magacín matinal de la Cadena SER, el de mayor audiencia de la radio española, consolidándose como una de las grandes voces del periodismo.",
+            "fecha": "2015-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Dirección de El País",
-            "contenido": "En 2023 asumió la dirección de El País, primera mujer al frente del diario, en plena reordenación accionarial del grupo PRISA (Amber Capital, bancos, socios con intereses políticos).",
-            "fecha": "2023-04-19"
+            "titulo": "Directora de El País",
+            "contenido": "En 2021 fue nombrada directora de El País, con el reto de liderar la transición digital y el modelo de suscripciones del diario.",
+            "fecha": "2021-11-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Línea editorial de referencia",
+            "contenido": "Dirige un diario de referencia internacional en español, de orientación socioliberal, con peso en la agenda política y en los debates sobre la independencia editorial frente a los vaivenes accionariales de Prisa.",
+            "fecha": "2022-01-01"
           }
         ]
       },
@@ -148,7 +154,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Antonio García Ferreras (Lupiana, Guadalajara, 1966) es director y presentador de 'Al Rojo Vivo' (laSexta) y uno de los periodistas más influyentes y polémicos de la televisión española. Desde su programa fija buena parte de la agenda política diaria del espacio progresista."
+            "contenido": "Antonio García Ferreras (Madrid, 1966) es director y presentador de 'Al Rojo Vivo' (La Sexta), uno de los programas de debate político más influyentes de la televisión española, y figura clave del grupo Atresmedia. Periodista de origen deportivo y exdirector de informativos, es uno de los comunicadores con más peso en la conversación política, con un perfil próximo a la izquierda según sus críticos."
           }
         ]
       },
@@ -158,20 +164,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Del deporte a la dirección de informativos",
-            "contenido": "Empezó en radio y prensa deportiva y dirigió los informativos de la Cadena SER y de Telemadrid. Su salto a la dirección de la recién nacida laSexta (2006) lo situó en el centro del nuevo audiovisual privado.",
+            "titulo": "Del deporte a la información",
+            "contenido": "Desarrolló su carrera en el periodismo, pasando por la radio (Cadena SER) y la dirección de comunicación, antes de dirigir los informativos de la recién nacida La Sexta.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director de informativos de La Sexta",
+            "contenido": "Fue director de los servicios informativos de La Sexta, dándoles un perfil propio y fundando el sello de programas de debate político que caracterizaría a la cadena.",
             "fecha": "2006-03-27"
           },
           {
             "tipo": "evento",
-            "titulo": "'Al Rojo Vivo' y la maquinaria de tertulia",
-            "contenido": "Desde 2011 dirige y presenta 'Al Rojo Vivo', el magacín de actualidad de laSexta que ha popularizado el formato de tertulia política intensiva. Su capacidad para marcar agenda y elegir contertulios lo convierte en un actor de poder, no solo en un periodista.",
-            "fecha": "2011-01-10"
+            "titulo": "'Al Rojo Vivo'",
+            "contenido": "Dirige y presenta 'Al Rojo Vivo', programa diario de debate y análisis político de gran audiencia e influencia, que marca buena parte de la agenda televisiva de la actualidad.",
+            "fecha": "2011-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Vínculo con Atresmedia y el espacio progresista",
-            "contenido": "Como rostro estrella del grupo Atresmedia (Planeta), su línea editorial, crítica con la derecha, pesa en la imagen del grupo y en la conversación pública de la izquierda."
+            "titulo": "Influencia y polémica",
+            "contenido": "Su programa y su figura son centrales en la conversación política; muy seguido y a la vez muy criticado por la derecha, que le atribuye un sesgo progresista, ha protagonizado diversas polémicas mediáticas.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -286,7 +299,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ignacio Escolar (Burgos, 1975) es fundador y director de elDiario.es, uno de los digitales más influyentes de la izquierda española, pionero del modelo de financiación por socios. Periodista de investigación, su medio ha destapado casos de gran impacto político."
+            "contenido": "Ignacio Escolar García (Burgos, 1975) es fundador y director de elDiario.es, uno de los principales medios digitales españoles, de línea editorial progresista y modelo sostenido en buena parte por sus socios. Periodista pionero de internet, fue director fundador del diario Público antes de crear su propio proyecto, y es además un rostro habitual de las tertulias de televisión y radio y autor de varios libros."
           }
         ]
       },
@@ -296,15 +309,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Público y el blescolar.net",
-            "contenido": "Fue primer director del diario Público (2007) y uno de los blogueros políticos pioneros en España, con gran influencia en la conversación digital de la izquierda.",
+            "titulo": "Pionero del periodismo digital",
+            "contenido": "Hijo del periodista Arsenio Escolar, se dio a conocer como uno de los primeros blogueros políticos de referencia en España, combinando la escritura en internet con la radio y la televisión.",
+            "fecha": "2005-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director fundador de Público",
+            "contenido": "Fue el director fundador del diario Público en 2007, un periódico de izquierdas que rompió moldes en el mercado de la prensa escrita antes de su crisis y reconversión.",
             "fecha": "2007-09-26"
           },
           {
             "tipo": "evento",
-            "titulo": "Fundación de elDiario.es",
-            "contenido": "En 2012 fundó elDiario.es sobre un modelo mixto de publicidad y socios pagadores que lo blindó frente a presiones. Lo ha convertido en referente del periodismo de investigación progresista.",
+            "titulo": "elDiario.es",
+            "contenido": "En 2012 fundó elDiario.es, medio nativo digital sostenido en gran parte por sus socios, que se ha consolidado como referente del periodismo progresista y de investigación, con una posición crítica hacia la derecha y los poderes económicos.",
             "fecha": "2012-09-18"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Influencia y polémica",
+            "contenido": "Su medio y su figura se han convertido en referencia del espacio progresista y en blanco de la derecha mediática; sus investigaciones y editoriales son citados con frecuencia en el debate público y en sede parlamentaria.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -318,6 +343,15 @@
             "contenido": "Progresista, crítico con la derecha y los poderes económicos. Periodismo de investigación sobre corrupción y derechos.",
             "tags": [
               "progresista"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Medio progresista de socios",
+            "contenido": "Defiende un periodismo de izquierdas, independiente de los grandes grupos, financiado por sus lectores-socios. Crítico con la derecha y el poder económico, mantiene también investigaciones que han afectado a gobiernos de distinto signo.",
+            "tags": [
+              "medios",
+              "digital"
             ]
           }
         ]
@@ -395,7 +429,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Eduardo Inda (Pamplona, 1966) es fundador y director de OKDiario, uno de los digitales más combativos contra el Gobierno de coalición. Tertuliano omnipresente en televisión, encarna el periodismo de trinchera del bloque de la derecha."
+            "contenido": "Eduardo Inda Arriaga (Pamplona, 1966) es fundador y director de OKDiario, un medio digital de línea derechista y combativa, muy crítico con la izquierda y los nacionalismos. Periodista con pasado en El Mundo y Marca, es además un habitual de las tertulias televisivas, donde mantiene un estilo polémico y de confrontación que ha convertido a su medio en un actor influyente de la derecha mediática española."
           }
         ]
       },
@@ -405,15 +439,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "El Mundo y Marca",
-            "contenido": "Hizo carrera en El Mundo, donde fue subdirector, y dirigió el diario deportivo Marca, antes de emprender su propio proyecto digital.",
-            "fecha": "2000-01-01"
+            "titulo": "Carrera en prensa",
+            "contenido": "Desarrolló su carrera en el periodismo, ocupando puestos de responsabilidad como subdirector de El Mundo y director del diario deportivo Marca.",
+            "fecha": "1995-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Fundación de OKDiario",
-            "contenido": "En 2015 fundó OKDiario, con una línea editorial muy agresiva con el Gobierno y su entorno y una intensa actividad en tertulias. Su periodismo de investigación ha sido objeto de polémicas y desmentidos.",
-            "fecha": "2015-09-15"
+            "contenido": "En 2015 fundó OKDiario, medio nativo digital que ha basado su crecimiento en exclusivas de fuerte impacto político, especialmente contra la izquierda y el independentismo, algunas de ellas objeto de polémica y de litigios.",
+            "fecha": "2015-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tertuliano y polémicas",
+            "contenido": "Su presencia constante en las tertulias televisivas y su estilo agresivo lo han convertido en una figura mediática controvertida, admirada por su público y muy cuestionada por sus detractores.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Choque permanente con la izquierda",
+            "contenido": "OKDiario y su director mantienen una confrontación constante con el Gobierno de coalición, con la izquierda alternativa y con el independentismo, en una estrategia de exclusivas de denuncia tan exitosa en audiencia como contestada en los tribunales.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -478,6 +524,21 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Medio digital de derecha combativa",
+            "contenido": "OKDiario mantiene una línea abiertamente derechista y de oposición frontal al Gobierno de coalición y al independentismo, con un periodismo de impacto y denuncia que sus críticos acusan en ocasiones de falta de rigor.",
+            "tags": [
+              "medios",
+              "digital"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -496,7 +557,7 @@
       "conservador"
     ],
     "confidence": 0.82,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -505,7 +566,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1961. Doctor en Derecho e Historia. Profesor universitario. Línea conservadora pero con interlocución transversal."
+            "contenido": "Francisco Marhuenda García (Barcelona, 1961) es director del diario La Razón, de línea conservadora, y uno de los tertulianos más presentes y vehementes de la televisión española. Profesor universitario y doctor en Historia y en Derecho, fue alto cargo en gobiernos del PP antes de volcarse en el periodismo y la opinión, y es hoy uno de los rostros más reconocibles del debate televisivo en España."
           }
         ]
       },
@@ -515,18 +576,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Gabinete de Rajoy",
-            "contenido": "Jefe de gabinete de Mariano Rajoy en el Ministerio de Administraciones Públicas (1996-1999).",
-            "fecha": "1996-05-01",
-            "tags": [
-              "pp"
-            ]
+            "titulo": "Académico y cargo político",
+            "contenido": "Doctor en Historia y en Derecho y profesor universitario, ocupó cargos en la Administración con el PP, entre ellos jefe de gabinete de ministros en la etapa de José María Aznar.",
+            "fecha": "1996-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Director de La Razón",
-            "contenido": "Dirige La Razón desde 2008.",
+            "contenido": "Dirige el diario La Razón, periódico de línea conservadora, desde mediados de los años 2000, con una posición editorial de derechas y un fuerte componente de opinión.",
             "fecha": "2008-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tertuliano omnipresente",
+            "contenido": "Es uno de los contertulios más habituales y reconocibles de la televisión, con un estilo apasionado y a menudo polémico que lo ha convertido en personaje popular más allá de la prensa escrita.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Profesor y autor",
+            "contenido": "Compagina la dirección del diario y la presencia televisiva con la docencia universitaria y la publicación de libros de historia y ensayo político, un perfil que mezcla el academicismo con el periodismo de opinión.",
+            "fecha": "2010-01-01"
           }
         ]
       },
@@ -566,6 +636,21 @@
             "fuente_url": "https://www.larazon.es"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Opinión conservadora",
+            "contenido": "Desde La Razón y las tertulias defiende posiciones de derecha y constitucionalistas, con crítica al Gobierno de coalición y a los nacionalismos, aunque con un perfil pragmático en su trato con los distintos poderes.",
+            "tags": [
+              "medios",
+              "opinion"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -593,7 +678,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ana Rosa Quintana (Madrid, 1956) es la presentadora más influyente de Mediaset España y una de las grandes figuras de la televisión. Su magacín matinal lidera la franja desde hace dos décadas y condiciona la agenda mediática del centro-derecha."
+            "contenido": "Ana Rosa Quintana Hortal (Madrid, 1956) es una de las presentadoras más influyentes y populares de la televisión española, rostro estrella de Mediaset (Telecinco). Su magacín matinal, 'El programa de Ana Rosa', ha liderado durante años las mañanas de la televisión, convirtiéndola en una figura con notable peso en la conversación política y social, además de empresaria de producción audiovisual."
           }
         ]
       },
@@ -603,20 +688,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De la prensa del corazón a la mañana",
-            "contenido": "Formada en periodismo, saltó a la fama en programas de corazón y sucesos. En 2005 estrenó 'El Programa de Ana Rosa' en Telecinco, que se convirtió en el magacín matinal de referencia.",
+            "titulo": "De la prensa a la televisión",
+            "contenido": "Periodista de formación, comenzó en la prensa escrita y en la radio antes de dar el salto a la televisión, donde se consolidó como presentadora de programas de gran audiencia.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "'El programa de Ana Rosa'",
+            "contenido": "Desde 2005 dirige y presenta 'El programa de Ana Rosa' en Telecinco, magacín matinal de información y actualidad que ha liderado de forma sostenida las audiencias de la mañana.",
             "fecha": "2005-01-10"
           },
           {
             "tipo": "evento",
-            "titulo": "Productora propia y poder de mercado",
-            "contenido": "A través de su productora (Unicorn Content) controla la producción de sus propios formatos y de otros de la cadena, lo que le da un poder inusual sobre la parrilla de Mediaset."
+            "titulo": "Empresaria audiovisual",
+            "contenido": "Es socia de la productora Unicorn Content, con la que produce sus propios programas y otros espacios para Mediaset, combinando el papel de presentadora con el de empresaria.",
+            "fecha": "2018-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Vespertina y peso editorial",
-            "contenido": "Tras una etapa en las tardes, su criterio y su tono marcan la línea de buena parte del entretenimiento informativo de Mediaset, con un encuadre crítico hacia el Gobierno.",
-            "fecha": "2023-09-01"
+            "titulo": "Influencia mediática",
+            "contenido": "Su tono y sus comentarios marcan con frecuencia la agenda política y social, lo que la convierte en una de las comunicadoras con mayor influencia y también en objeto de polémica.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -678,7 +770,7 @@
       "onda-cero"
     ],
     "confidence": 0.8,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -687,7 +779,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1969. Periodista de radio. Considerado riguroso y de difícil clasificación ideológica."
+            "contenido": "Carlos Alsina Ramírez (Madrid, 1969) es uno de los periodistas de radio más influyentes de España, director y presentador del programa matinal 'Más de uno' de Onda Cero. Su entrevista diaria y su 'Monólogo' de apertura se han convertido en una referencia de la conversación política, con un estilo incisivo que le ha valido los principales premios del periodismo radiofónico, como el Premio Ondas, y la fama de entrevistador temido por los políticos."
           }
         ]
       },
@@ -697,9 +789,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Más de uno",
-            "contenido": "Dirige el matinal de Onda Cero desde 2015.",
+            "titulo": "Carrera en la radio",
+            "contenido": "Desarrolló prácticamente toda su carrera en la radio, formándose en Onda Cero y en la COPE, donde fue creciendo como redactor, presentador y director de informativos y programas.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "'Más de uno' en Onda Cero",
+            "contenido": "Asumió la dirección y presentación del magacín matinal de Onda Cero, 'Más de uno', consolidándolo como uno de los espacios de referencia de la mañana radiofónica y a sí mismo como entrevistador exigente con los políticos de todos los partidos.",
             "fecha": "2015-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Referente de la mañana radiofónica",
+            "contenido": "Su programa compite en la franja matinal con los grandes magacines de la SER y la COPE, y su entrevista y su monólogo marcan a menudo la agenda política del día, citados y replicados por el resto de medios.",
+            "fecha": "2020-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Premios y reconocimiento",
+            "contenido": "Su trabajo le ha valido los principales galardones del periodismo radiofónico español, situándolo entre las voces más respetadas e influyentes del medio y como uno de los comunicadores con mayor credibilidad transversal."
           }
         ]
       },
@@ -739,6 +848,21 @@
             "fuente_url": "https://www.ondacero.es/programas/mas-de-uno/"
           }
         ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Periodismo de equilibrio exigente",
+            "contenido": "Cultiva un perfil de periodista riguroso y exigente con el poder, sin un alineamiento partidista evidente, lo que le da credibilidad transversal aunque sus entrevistas resulten incómodas tanto para el Gobierno como para la oposición.",
+            "tags": [
+              "medios",
+              "radio"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -766,7 +890,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Vicente Vallés (Madrid, 1963) es director y presentador de 'Antena 3 Noticias 2', el informativo de máxima audiencia de la televisión española. Con un estilo analítico y entrevistas incisivas, es uno de los periodistas con mayor credibilidad del panorama."
+            "contenido": "Vicente Vallés Lázaro (Madrid, 1963) es uno de los periodistas más influyentes de la televisión española, director y presentador de la segunda edición de Antena 3 Noticias. Reconocido por sus análisis de política nacional e internacional y por sus entrevistas, ha recibido los principales premios del periodismo y es autor de varios libros de éxito sobre geopolítica y la injerencia rusa en las democracias."
           }
         ]
       },
@@ -823,15 +947,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De CNN+ a Telecinco",
-            "contenido": "Trabajó en CNN+ y dirigió informativos en Telecinco y Cuatro antes de recalar en Atresmedia, donde se consolidó como referente de la información política.",
-            "fecha": "2000-01-01"
+            "titulo": "Carrera en informativos",
+            "contenido": "Desarrolló su carrera en los informativos de televisión, pasando por cadenas como Telecinco, CNN+ y Cuatro, donde dirigió y presentó espacios de noticias.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Antena 3 Noticias y los editoriales",
-            "contenido": "Desde 2017 dirige y presenta el informativo de la noche de Antena 3, líder de audiencia, célebre por sus editoriales de cierre. Es además autor de varios ensayos de éxito sobre geopolítica y desinformación.",
-            "fecha": "2017-09-04"
+            "titulo": "Antena 3 Noticias",
+            "contenido": "Se incorporó a Antena 3, donde dirige y presenta la edición de la noche de los informativos, líderes de audiencia en su franja, consolidándose como una de las caras de referencia de la información en España.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reconocimiento y premios",
+            "contenido": "Su trabajo le ha valido los grandes galardones del periodismo audiovisual, como el Premio Ondas y la Antena de Oro, por su rigor y su capacidad de análisis.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Escritor de geopolítica",
+            "contenido": "Es autor de ensayos de gran éxito sobre la política internacional, la desinformación y la estrategia rusa, que lo han situado también como analista de referencia más allá de la pantalla.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -861,7 +997,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Isabel Perelló (Valencia, 1958) es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en ocupar la cúspide del poder judicial español. Magistrada de prestigio, accedió al cargo en 2024 tras el desbloqueo de la renovación del CGPJ."
+            "contenido": "Isabel Perelló Doménech es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en presidir el poder judicial español en sus dos siglos de historia. Magistrada de larga trayectoria en la Sala de lo Contencioso-Administrativo del Tribunal Supremo, fue elegida en 2024 como candidata de consenso entre los bloques conservador y progresista para desbloquear la renovación del órgano de gobierno de los jueces, que había permanecido paralizada durante más de cinco años."
           }
         ]
       },
@@ -871,15 +1007,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Carrera en la magistratura",
-            "contenido": "Magistrada de larga trayectoria, llegó a la Sala de lo Contencioso-Administrativo del Tribunal Supremo, donde se ganó la reputación de jurista rigurosa e independiente.",
-            "fecha": "2000-01-01"
+            "titulo": "Carrera judicial",
+            "contenido": "Ingresó en la carrera judicial y desarrolló una larga trayectoria como magistrada, llegando al Tribunal Supremo, donde ejerció en la Sala de lo Contencioso-Administrativo.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Magistrada del Supremo",
+            "contenido": "Como magistrada del alto tribunal, participó en relevantes resoluciones del orden contencioso-administrativo, ganándose una reputación de independencia y rigor técnico.",
+            "fecha": "2009-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Presidenta del TS y del CGPJ",
-            "contenido": "En 2024, tras cinco años de bloqueo político en la renovación del CGPJ, fue elegida por consenso presidenta del Tribunal Supremo y del Consejo, con el reto de despolitizar el órgano de gobierno de los jueces.",
-            "fecha": "2024-09-05"
+            "contenido": "En 2024 fue elegida presidenta del Tribunal Supremo y del CGPJ, como candidata de consenso entre los vocales propuestos por PSOE y PP, tras años de bloqueo en la renovación del órgano.",
+            "fecha": "2024-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primera mujer al frente del poder judicial",
+            "contenido": "Su elección supuso un hito histórico al ser la primera mujer en presidir el poder judicial español, con el reto de recuperar la normalidad institucional y los nombramientos pendientes en la cúpula judicial.",
+            "fecha": "2024-09-02"
           }
         ]
       },
@@ -959,7 +1107,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional desde 2023. Magistrado de larga carrera y exfiscal general del Estado, es una de las figuras más influyentes —y discutidas— del poder judicial español."
+            "contenido": "Cándido Conde-Pumpido Tourón (Santiago de Compostela, 1949) es presidente del Tribunal Constitucional, el máximo intérprete de la Constitución y árbitro último de los grandes conflictos jurídico-políticos del país. Magistrado de larga trayectoria y exfiscal general del Estado en la etapa de Rodríguez Zapatero, su elección y su gestión al frente del tribunal han sido objeto de fuerte polémica política, con acusaciones de la derecha de un sesgo progresista y de alinear al órgano con los intereses del Gobierno, algo que él rechaza apelando a la autonomía del tribunal."
           }
         ]
       },
@@ -970,20 +1118,26 @@
           {
             "tipo": "evento",
             "titulo": "Carrera judicial y fiscal",
-            "contenido": "Magistrado de profesión, desarrolló una extensa carrera en la judicatura y la Fiscalía, con paso por el Tribunal Supremo. Se le identifica con el sector progresista de la judicatura.",
-            "fecha": "1975-01-01"
+            "contenido": "Magistrado de dilatada trayectoria, ocupó plaza en el Tribunal Supremo y desarrolló una intensa carrera en la judicatura y el ministerio fiscal.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Fiscal General con Zapatero",
-            "contenido": "Fue fiscal general del Estado durante los gobiernos de Rodríguez Zapatero (2004-2011), una etapa marcada por causas de gran calado político y por las tensiones habituales entre Fiscalía, Gobierno y oposición.",
-            "fecha": "2004-04-24"
+            "titulo": "Fiscal General del Estado",
+            "contenido": "Fue fiscal general del Estado entre 2004 y 2011, durante los gobiernos de José Luis Rodríguez Zapatero, una etapa marcada por causas sensibles y por su perfil reformista.",
+            "fecha": "2004-04-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Magistrado y presidente del TC",
-            "contenido": "Llegó al Tribunal Constitucional en 2017 y, tras la renovación que dio mayoría al bloque progresista, fue elegido presidente del tribunal en enero de 2023. Desde la presidencia ha pilotado sentencias de gran trascendencia política.",
-            "fecha": "2023-01-10"
+            "titulo": "Magistrado del Constitucional",
+            "contenido": "Fue nombrado magistrado del Tribunal Constitucional, donde se alineó con el bloque considerado progresista en debates jurídicos de gran calado político.",
+            "fecha": "2017-03-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente del TC",
+            "contenido": "En 2023 fue elegido presidente del Tribunal Constitucional, al frente de un órgano cuya composición y resoluciones —sobre leyes clave del Gobierno— han alimentado un duro choque entre bloques políticos.",
+            "fecha": "2023-01-09"
           }
         ]
       },
@@ -1087,7 +1241,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Álvaro García Ortiz (Valdediós, Asturias, 1967) es fiscal general del Estado desde 2022. Fiscal de carrera especializado en medio ambiente, su mandato ha estado marcado por una tensión inédita con parte de la carrera fiscal, el poder judicial y la oposición."
+            "contenido": "Álvaro García Ortiz (Oviedo, 1967) es el Fiscal General del Estado, máximo responsable del Ministerio Fiscal, cargo que ocupa desde 2022 a propuesta del Gobierno. Fiscal de carrera especializado en medio ambiente y delitos económicos, su mandato ha estado marcado por una intensa controversia política sobre la independencia de la Fiscalía y por una causa abierta en su contra en el Tribunal Supremo por una presunta revelación de secretos, proceso en el que rige plenamente la presunción de inocencia."
           }
         ]
       },
@@ -1097,21 +1251,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Fiscal especialista en medio ambiente",
-            "contenido": "Fiscal de carrera, se especializó en delitos contra el medio ambiente y la ordenación del territorio, llegando a ser fiscal de Sala de Medio Ambiente, antes de ascender en la cúpula del ministerio público.",
-            "fecha": "2000-01-01"
+            "titulo": "Fiscal de carrera",
+            "contenido": "Fiscal de profesión, se especializó en medio ambiente, urbanismo y criminalidad económica, y desarrolló responsabilidades en la Fiscalía y en la Secretaría Técnica.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ascenso en la Fiscalía",
+            "contenido": "Ocupó puestos de relevancia en la estructura de la Fiscalía General, incluida la jefatura de la Secretaría Técnica, ganando peso en la cúpula del ministerio fiscal.",
+            "fecha": "2020-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Fiscal General del Estado",
-            "contenido": "Fue nombrado fiscal general en 2022 a propuesta del Gobierno y renovado en 2024. Su designación, como la de sus predecesores, reavivó el debate sobre la autonomía de la Fiscalía respecto del Ejecutivo que la propone.",
-            "fecha": "2022-07-27"
+            "contenido": "Fue nombrado Fiscal General del Estado en 2022, al frente del Ministerio Fiscal, en un contexto de fuerte tensión política sobre la independencia de la institución.",
+            "fecha": "2022-09-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Una causa sin precedentes",
-            "contenido": "García Ortiz está siendo investigado por el Tribunal Supremo por una presunta revelación de secretos en relación con la difusión de información sobre un caso fiscal. Es la primera vez que un fiscal general en activo se ve en esa situación. La causa sigue su curso y rige la presunción de inocencia mientras no haya sentencia firme.",
-            "fecha": "2024-10-30"
+            "titulo": "Causa en el Tribunal Supremo",
+            "contenido": "El Tribunal Supremo abrió una causa contra él por una presunta revelación de secretos en relación con un asunto fiscal de gran repercusión política; el proceso sigue su curso y rige plenamente la presunción de inocencia.",
+            "fecha": "2024-10-01"
           }
         ]
       },
@@ -1437,7 +1597,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Cani Fernández (1968) es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el superregulador que vigila la competencia y los sectores de energía, telecomunicaciones y transporte. Abogada especialista en competencia, su criterio condiciona fusiones y precios en toda la economía."
+            "contenido": "Cani Fernández Vicién es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el organismo que vela por la libre competencia y supervisa sectores regulados como la energía, las telecomunicaciones, el transporte o el sector audiovisual. Abogada de prestigio internacional especializada en derecho de la competencia y de la Unión Europea, con una larga trayectoria ante los tribunales españoles y comunitarios, dirige al gran regulador económico español, cuyas decisiones sobre cárteles, concentraciones empresariales y mercados regulados condicionan a las mayores compañías del país."
           }
         ]
       },
@@ -1502,15 +1662,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Especialista en competencia",
-            "contenido": "Abogada del Estado y socia de competencia en Cuatrecasas, fue letrada en el Tribunal de Justicia de la Unión Europea, donde se forjó como una de las grandes expertas en derecho de la competencia.",
-            "fecha": "2000-01-01"
+            "titulo": "Abogada de la competencia",
+            "contenido": "Abogada especializada en derecho europeo y de la competencia, desarrolló una destacada carrera en la abogacía de los negocios, con experiencia ante los tribunales españoles y comunitarios.",
+            "fecha": "1995-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Presidencia de la CNMC",
-            "contenido": "Desde 2020 preside la CNMC, organismo que autoriza concentraciones, sanciona cárteles y regula la energía y las telecos. Sus decisiones afectan directamente a las grandes cotizadas y a la factura de los consumidores.",
-            "fecha": "2020-09-15"
+            "titulo": "Presidenta de la CNMC",
+            "contenido": "Fue nombrada presidenta de la CNMC en 2020, al frente del organismo que sanciona los cárteles, autoriza concentraciones y supervisa los sectores regulados.",
+            "fecha": "2020-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Defensa de la competencia",
+            "contenido": "Bajo su mandato, la CNMC ha actuado contra prácticas anticompetitivas en numerosos sectores y ha analizado grandes operaciones, como concentraciones bancarias y energéticas.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Regulación de sectores estratégicos",
+            "contenido": "Le corresponde arbitrar en mercados clave —energía, telecomunicaciones, transporte— en un contexto de transición energética, concentración empresarial y tensión sobre los precios.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -1541,7 +1713,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Roig (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Su modelo de gestión y su discurso del 'esfuerzo' lo han convertido en un referente —y a la vez en una figura controvertida— del empresariado español."
+            "contenido": "Juan Roig Alfonso (Valencia, 1949) es presidente de Mercadona, la mayor cadena de distribución alimentaria de España, y una de las primeras fortunas del país. Convirtió un pequeño negocio familiar de ultramarinos en el líder absoluto del supermercado español, con un modelo de gestión —y un discurso del «esfuerzo»— que lo ha hecho referente y a la vez figura controvertida del empresariado. Reinvierte buena parte de su fortuna en el emprendimiento y el deporte, y su mujer, Hortensia Herrero, destaca como gran mecenas del arte."
           }
         ]
       },
@@ -1552,18 +1724,26 @@
           {
             "tipo": "evento",
             "titulo": "De la tienda familiar a Mercadona",
-            "contenido": "Transformó el pequeño negocio de ultramarinos de su familia en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España con miles de supermercados.",
+            "contenido": "Hijo de una familia de tenderos valencianos, transformó el pequeño negocio de ultramarinos en Mercadona, que bajo su dirección se convirtió en líder absoluto de la distribución en España, con más de 1.600 supermercados.",
             "fecha": "1981-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "El modelo Mercadona",
-            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), 'siempre precios bajos' e integración con proveedores ('interproveedores'), copiado y estudiado en todo el sector."
+            "titulo": "El «modelo Mercadona»",
+            "contenido": "Impuso un modelo de marca propia (Hacendado, Deliplus), «siempre precios bajos», fuerte inversión en logística e integración con proveedores (los «interproveedores»), estudiado y copiado en todo el sector mundial.",
+            "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Marina de Empresas y mecenazgo",
-            "contenido": "Reinvierte parte de su fortuna en el emprendimiento (Marina de Empresas, Lanzadera, EDEM) y en el deporte (Valencia Basket). Su mujer, Hortensia Herrero, destaca como mecenas del arte."
+            "titulo": "Marina de Empresas y emprendimiento",
+            "contenido": "Reinvierte parte de su fortuna en el emprendimiento a través de Marina de Empresas, la aceleradora Lanzadera y la escuela de negocios EDEM, con el objetivo declarado de fomentar la cultura del esfuerzo y la empresa.",
+            "fecha": "2013-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Patrón y mecenas valenciano",
+            "contenido": "Es propietario del Valencia Basket y un activo patrón de iniciativas en la Comunidad Valenciana; junto a su esposa, Hortensia Herrero, forma uno de los grandes binomios empresariales y filantrópicos de España.",
+            "fecha": "2018-01-01"
           }
         ]
       },
@@ -1655,7 +1835,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y una de las grandes fortunas del país. Hija del fundador de Inditex, Amancio Ortega, y de Rosalía Mera, heredó la participación de su madre y gestiona su patrimonio e iniciativas filantrópicas con un perfil discreto."
+            "contenido": "Sandra Ortega Mera (A Coruña, 1968) es la mujer más rica de España y la principal accionista individual de Inditex después de su padre, Amancio Ortega. Heredó la participación de su madre, Rosalía Mera, cofundadora del grupo Zara, y gestiona su patrimonio e inversiones a través de la sociedad Rosp Corunna, con un perfil personal muy discreto y una intensa actividad filantrópica orientada a la discapacidad y la inclusión social."
           }
         ]
       },
@@ -1712,14 +1892,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Heredera de Rosalía Mera",
-            "contenido": "Tras el fallecimiento de su madre, cofundadora de Inditex, en 2013, heredó su participación accionarial, convirtiéndose en una de las mayores accionistas del grupo textil.",
+            "titulo": "Hija de los fundadores de Zara",
+            "contenido": "Hija de Amancio Ortega y de Rosalía Mera, cofundadores de Zara/Inditex, se formó en el ámbito de la terapia ocupacional y la atención a la discapacidad, lejos del foco empresarial.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La herencia de Rosalía Mera",
+            "contenido": "Tras el fallecimiento de su madre en 2013, heredó su participación en Inditex y su patrimonio, convirtiéndose en la mujer más rica de España y una de las mayores accionistas del grupo textil.",
             "fecha": "2013-08-15"
           },
           {
             "tipo": "evento",
-            "titulo": "Rosp Corunna y filantropía",
-            "contenido": "Gestiona su fortuna a través de la sociedad Rosp Corunna y dedica una parte relevante a la filantropía, especialmente a la discapacidad (Fundación Pa de Mel) y la salud, siguiendo la estela de su madre."
+            "titulo": "Rosp Corunna",
+            "contenido": "Gestiona su patrimonio e inversiones a través de la sociedad Rosp Corunna, diversificando en cotizadas, inmobiliario y otros activos, además de su paquete en Inditex.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Filantropía social",
+            "contenido": "Continúa la labor social iniciada por su madre a través de la fundación familiar, con proyectos centrados en la discapacidad y la inclusión, manteniendo un perfil público muy reservado.",
+            "fecha": "2015-01-01"
           }
         ]
       }
@@ -1749,7 +1942,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Juan Carlos Escotet (Caracas, 1959) es presidente de Abanca, el gran banco gallego, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, es una de las figuras de mayor poder económico del noroeste peninsular."
+            "contenido": "Juan Carlos Escotet Rodríguez es presidente de Abanca, el banco gallego surgido de la antigua Novacaixagalicia, y fundador del grupo financiero venezolano Banesco. Banquero de origen venezolano afincado en Galicia, reflotó la entidad gallega tras la crisis de las cajas y la convirtió en un banco rentable y en plena expansión por España y Portugal, figurando entre las mayores fortunas de su país de origen y como uno de los grandes nombres de la banca española."
           }
         ]
       },
@@ -1802,14 +1995,26 @@
           {
             "tipo": "evento",
             "titulo": "Banesco en Venezuela",
-            "contenido": "Construyó en Venezuela uno de los mayores grupos bancarios privados del país (Banesco), antes de expandirse internacionalmente ante la crisis venezolana.",
-            "fecha": "1992-01-01"
+            "contenido": "Construyó en Venezuela el grupo Banesco, uno de los mayores bancos privados del país, lo que le dio la dimensión financiera necesaria para expandirse internacionalmente.",
+            "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Compra de Novagalicia y nacimiento de Abanca",
-            "contenido": "En 2013 adquirió la antigua Novagalicia Banco (rescatada con dinero público) y la refundó como Abanca, que ha crecido con sucesivas compras hasta convertirse en un banco de relevancia nacional.",
-            "fecha": "2014-06-25"
+            "titulo": "Compra de NCG / Abanca",
+            "contenido": "Adquirió en 2014 NCG Banco, la entidad gallega nacionalizada heredera de las cajas (Novacaixagalicia), rebautizándola como Abanca y devolviéndola a la rentabilidad.",
+            "fecha": "2014-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Expansión de Abanca",
+            "contenido": "Bajo su presidencia, Abanca ha crecido mediante adquisiciones de otras entidades en España y Portugal, consolidándose como banco de referencia en Galicia y como actor relevante del sistema financiero español.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Banca y fortuna",
+            "contenido": "Compagina la presidencia de Abanca con su papel al frente del grupo Banesco, figurando entre las mayores fortunas de origen venezolano y como uno de los banqueros más influyentes del noroeste español.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -1838,7 +2043,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Unai Sordo (Barakaldo, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España, desde 2017. Es uno de los dos vértices sindicales del diálogo social y un actor central en la negociación de salarios, pensiones y reforma laboral."
+            "contenido": "Unai Sordo Calvo (Barakaldo, Bizkaia, 1972) es secretario general de Comisiones Obreras (CCOO), el mayor sindicato de España junto a UGT, desde 2017. Sindicalista de origen vasco y curtido en el metal, es uno de los principales interlocutores sociales del país en la negociación de salarios, pensiones, jornada y reformas laborales con el Gobierno y la patronal, y una de las voces de referencia de la izquierda sindical española."
           }
         ]
       },
@@ -1909,15 +2114,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Del metal vasco a la cúpula",
-            "contenido": "Trabajador del sector industrial vasco, ascendió en la estructura de CCOO de Euskadi hasta dirigir el sindicato en el País Vasco.",
-            "fecha": "2009-01-01"
+            "titulo": "Del metal a la cúpula sindical",
+            "contenido": "Curtido en la federación industrial y en CCOO del País Vasco, fue escalando en la organización hasta liderar el sindicato en Euskadi.",
+            "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Secretario general de CCOO",
-            "contenido": "En 2017 fue elegido secretario general confederal. Ha pilotado la firma de la reforma laboral de 2021, las subidas del SMI y el acuerdo de pensiones, en coordinación con UGT.",
+            "contenido": "Fue elegido secretario general de CCOO en 2017, sucediendo a Ignacio Fernández Toxo, al frente del mayor sindicato español por representación.",
             "fecha": "2017-06-30"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diálogo social",
+            "contenido": "Ha sido protagonista del diálogo social en la etapa del Gobierno de coalición, con acuerdos como la reforma laboral de 2021, las sucesivas subidas del salario mínimo y la reforma de las pensiones.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Sindicalismo de concertación",
+            "contenido": "Defiende un modelo de sindicalismo de concertación y acuerdo, combinando la movilización con la negociación, en un contexto en el que la inflación, la vivienda y el reparto de la riqueza marcan el debate.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -1946,7 +2163,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Pepe Álvarez (Degaña, Asturias, 1956) es secretario general de la Unión General de Trabajadores (UGT) desde 2016. Junto a CCOO, lidera el bloque sindical en el diálogo social y la negociación colectiva de ámbito estatal."
+            "contenido": "José María «Pepe» Álvarez Suárez (Crémenes, León, 1956) es secretario general de la Unión General de Trabajadores (UGT), uno de los dos grandes sindicatos de España, desde 2016. Sindicalista veterano, curtido durante décadas en Cataluña, es junto al líder de CCOO uno de los principales representantes de los trabajadores en el diálogo social y un protagonista habitual de la negociación de salarios, pensiones y derechos laborales con el Gobierno y los empresarios."
           }
         ]
       },
@@ -2014,15 +2231,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De UGT Catalunya a Madrid",
-            "contenido": "Dirigió UGT de Cataluña durante casi dos décadas, donde se forjó como negociador, antes de dar el salto a la secretaría general confederal.",
+            "titulo": "Sindicalismo en Cataluña",
+            "contenido": "Desarrolló su carrera sindical en Cataluña, llegando a dirigir la UGT catalana, con un perfil forjado en la negociación colectiva y la representación de los trabajadores.",
             "fecha": "1990-01-01"
           },
           {
             "tipo": "evento",
             "titulo": "Secretario general de UGT",
-            "contenido": "Desde 2016 dirige la UGT. Ha firmado los grandes acuerdos del diálogo social de la etapa (reforma laboral, SMI, pensiones) y defiende la reducción de jornada y el blindaje del poder adquisitivo.",
+            "contenido": "Fue elegido secretario general de UGT en 2016, sucediendo a Cándido Méndez, con el reto de revitalizar el sindicato tras los años de crisis y de causas judiciales heredadas.",
             "fecha": "2016-03-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Diálogo social y acuerdos",
+            "contenido": "Ha participado en los grandes acuerdos del diálogo social del Gobierno de coalición —reforma laboral, salario mínimo, pensiones—, alternando la firma de pactos con la presión y la movilización.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz de los trabajadores",
+            "contenido": "Reivindica el reparto de los beneficios empresariales, la reducción de la jornada laboral y la mejora de los salarios como ejes de su acción sindical en un contexto de inflación y debate sobre la vivienda.",
+            "fecha": "2023-01-01"
           }
         ]
       }
@@ -2043,7 +2272,7 @@
       "baleares"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2052,7 +2281,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Inca (Mallorca), 1971. Farmacéutica de formación. Tercera autoridad del Estado como presidenta del Congreso."
+            "contenido": "Francesca «Francina» Armengol Socías (Inca, Mallorca, 1971) es presidenta del Congreso de los Diputados desde 2023, la tercera autoridad del Estado. Farmacéutica de formación y dirigente del PSIB-PSOE, fue presidenta del Govern de las Islas Baleares durante ocho años antes de presidir la Cámara baja en una legislatura especialmente tensa y fragmentada."
           }
         ]
       },
@@ -2062,15 +2291,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Presidenta de Baleares",
-            "contenido": "Presidenta del Govern balear entre 2015 y 2023 (pacto progresista).",
-            "fecha": "2015-07-02"
+            "titulo": "De la farmacia a la política balear",
+            "contenido": "Farmacéutica de profesión, inició su carrera política en el socialismo balear, presidiendo el Consell de Mallorca antes de liderar el PSIB-PSOE.",
+            "fecha": "2007-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta del Govern balear",
+            "contenido": "Fue presidenta del Govern de las Islas Baleares entre 2015 y 2023, gobernando en coalición con la izquierda y los nacionalistas, con políticas sociales y de defensa del catalán y del territorio.",
+            "fecha": "2015-07-01"
           },
           {
             "tipo": "evento",
             "titulo": "Presidenta del Congreso",
-            "contenido": "Elegida presidenta del Congreso en agosto 2023, parte del acuerdo de investidura de Sánchez.",
+            "contenido": "Tras las elecciones de 2023 fue elegida presidenta del Congreso de los Diputados con el apoyo de los socios de investidura de Pedro Sánchez, dirigiendo una Cámara muy fragmentada y polarizada y aplicando medidas como el uso de las lenguas cooficiales.",
             "fecha": "2023-08-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Tercera autoridad del Estado",
+            "contenido": "Como presidenta del Congreso ocupa la tercera magistratura del Estado, por detrás del Rey y del presidente del Gobierno, con un papel clave en la ordenación de los debates, la tramitación de las leyes y la representación institucional de la Cámara.",
+            "fecha": "2023-09-01"
           }
         ]
       },
@@ -2135,7 +2376,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Luis Argüello (Meneses de Campos, Palencia, 1953) es arzobispo de Valladolid y presidente de la Conferencia Episcopal Española desde 2024, la máxima autoridad de la Iglesia católica en España. Canonista de formación, representa a los obispos ante el Estado y la sociedad."
+            "contenido": "Luis Javier Argüello García (Meneses de Campos, Palencia, 1953) es presidente de la Conferencia Episcopal Española y arzobispo de Valladolid. Doctor en Teología y con formación jurídica, ejerció como abogado antes de ordenarse sacerdote, ya entrado en la madurez. Sucedió al cardenal Juan José Omella al frente del episcopado español en 2024, convirtiéndose en la principal voz institucional de la Iglesia católica en España y en su interlocutor de referencia ante el Gobierno, en asuntos que van desde la respuesta a los abusos y la inmigración hasta la enseñanza de la religión, la financiación de la Iglesia o los debates sobre el aborto y la eutanasia."
           }
         ]
       },
@@ -2195,21 +2436,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Sacerdote y obispo",
-            "contenido": "Ordenado sacerdote y luego obispo auxiliar de Valladolid, combinó la labor pastoral con la formación en Derecho Canónico, especializándose en las relaciones Iglesia-Estado.",
-            "fecha": "2016-01-01"
+            "titulo": "Del derecho al sacerdocio",
+            "contenido": "Ejerció como abogado antes de ingresar en el seminario y ordenarse sacerdote, combinando después el ministerio pastoral con su formación jurídica y teológica.",
+            "fecha": "1980-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Secretario y portavoz de la CEE",
-            "contenido": "Fue secretario general y portavoz de la Conferencia Episcopal, voz visible de los obispos en debates como la eutanasia, el aborto o la educación.",
+            "titulo": "Obispo y secretario de la CEE",
+            "contenido": "Fue nombrado obispo auxiliar de Valladolid y secretario general y portavoz de la Conferencia Episcopal Española, ejerciendo de voz pública del episcopado.",
             "fecha": "2018-03-01"
           },
           {
             "tipo": "evento",
+            "titulo": "Arzobispo de Valladolid",
+            "contenido": "Fue nombrado arzobispo de Valladolid, consolidando su peso en la jerarquía de la Iglesia española.",
+            "fecha": "2022-05-01"
+          },
+          {
+            "tipo": "evento",
             "titulo": "Presidente de la Conferencia Episcopal",
-            "contenido": "En 2024 fue elegido presidente de la CEE, asumiendo la interlocución con el Gobierno en asuntos sensibles como los abusos, las inmatriculaciones y la financiación.",
-            "fecha": "2024-03-06"
+            "contenido": "En 2024 fue elegido presidente de la Conferencia Episcopal Española, sucediendo al cardenal Omella, al frente de la institución en asuntos como los abusos, la inmigración, la educación o la relación con el Gobierno.",
+            "fecha": "2024-03-01"
           }
         ]
       }
@@ -2384,7 +2631,7 @@
       "ex-periodista"
     ],
     "confidence": 0.85,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2393,7 +2640,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Oviedo, 1972. Periodista de profesión, primera reina consorte de origen no aristocrático y con carrera profesional propia."
+            "contenido": "Letizia Ortiz Rocasolano (Oviedo, 1972) es la Reina de España, esposa del rey Felipe VI. Antes de su matrimonio fue una periodista de prestigio, presentadora de los informativos de TVE y CNN+, lo que la convirtió en la primera reina consorte de la democracia procedente de una familia no aristocrática y con una carrera profesional propia. Como reina, ejerce una intensa agenda institucional centrada en la educación, la salud, la cultura y las causas sociales."
           }
         ]
       },
@@ -2443,9 +2690,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "De periodista a Reina",
-            "contenido": "Antes de casarse con Felipe en 2004 fue periodista en agencias, CNN+ y presentadora del Telediario de TVE. Es la primera reina consorte de origen plebeyo y con carrera profesional propia, lo que marca su perfil público."
+            "tipo": "evento",
+            "titulo": "Periodista de televisión",
+            "contenido": "Licenciada en Periodismo y con experiencia en agencias y diarios, se consolidó como presentadora de informativos en CNN+ y, sobre todo, en Televisión Española, donde condujo el Telediario en el horario de máxima audiencia.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Boda con el Príncipe de Asturias",
+            "contenido": "En 2004 contrajo matrimonio con el entonces príncipe Felipe, en una boda de enorme repercusión, convirtiéndose en princesa de Asturias. La pareja tiene dos hijas: Leonor, heredera de la Corona, y Sofía.",
+            "fecha": "2004-05-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reina de España",
+            "contenido": "Tras la proclamación de Felipe VI en 2014, asumió el papel de reina consorte, con una agenda propia centrada en la educación, la formación profesional, la investigación, la salud (nutrición, cáncer, enfermedades raras) y la cultura.",
+            "fecha": "2014-06-19"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Imagen de una monarquía renovada",
+            "contenido": "Su perfil profesional y su estilo han contribuido a la imagen de una monarquía más cercana y moderna, aunque sometida al escrutinio mediático propio de la institución y a las tensiones de la Corona en la España contemporánea.",
+            "fecha": "2018-01-01"
           }
         ]
       }
@@ -2602,7 +2868,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Begoña Gómez (Bilbao, 1975) es directora de cátedra en la Universidad Complutense y esposa del presidente del Gobierno, Pedro Sánchez. Su actividad profesional ha pasado a un primer plano público al verse investigada en un procedimiento judicial."
+            "contenido": "Begoña Gómez Fernández (Bilbao, 1975) es la esposa del presidente del Gobierno, Pedro Sánchez. Profesional del ámbito de la consultoría, el marketing y la captación de fondos (fundraising) para entidades, dirigió una cátedra extraordinaria en la Universidad Complutense de Madrid centrada en la transformación social. Desde 2024 es objeto de una investigación judicial abierta en Madrid relacionada con su actividad profesional; la causa sigue su curso y rige plenamente la presunción de inocencia, sin que por el momento existan hechos probados en su contra."
           }
         ]
       },
@@ -2666,13 +2932,25 @@
           {
             "tipo": "evento",
             "titulo": "Trayectoria profesional",
-            "contenido": "Consultora y directiva en el ámbito de la captación de fondos y la responsabilidad social, dirigió un máster y una cátedra extraordinaria sobre transformación social competitiva en la Universidad Complutense.",
+            "contenido": "Con formación en marketing y dirección, desarrolló su carrera en la consultoría, la captación de fondos para entidades y la responsabilidad social corporativa en distintas organizaciones.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Cátedra en la Universidad Complutense",
+            "contenido": "Dirigió una cátedra extraordinaria de transformación social competitiva en la Universidad Complutense de Madrid, vinculada a la captación de patrocinios empresariales.",
             "fecha": "2020-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Procedimiento judicial abierto",
-            "contenido": "Desde 2024 está siendo investigada por un juzgado de Madrid en una causa sobre presuntos tráfico de influencias y otros delitos en torno a su actividad. La causa sigue su curso y rige plenamente la presunción de inocencia mientras no haya sentencia firme.",
+            "titulo": "Esposa del presidente del Gobierno",
+            "contenido": "Como cónyuge de Pedro Sánchez, ha mantenido un perfil discreto, aunque su actividad profesional y sus relaciones institucionales han sido objeto de creciente atención pública y política.",
+            "fecha": "2018-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Investigación judicial",
+            "contenido": "Desde 2024 es investigada en una causa instruida en Madrid por presuntos delitos relacionados con su actividad profesional y la cátedra; la investigación sigue su curso y rige plenamente la presunción de inocencia.",
             "fecha": "2024-04-23"
           }
         ]
@@ -2703,7 +2981,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), 'MAR', es jefe de gabinete de la presidenta de la Comunidad de Madrid, Isabel Díaz Ayuso, y uno de los estrategas de comunicación más influyentes y polémicos de la derecha española. Exsecretario de Estado con Aznar, es el cerebro comunicativo del 'efecto Ayuso'."
+            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), conocido como 'MAR', es jefe de gabinete y principal asesor de comunicación de Isabel Díaz Ayuso, presidenta de la Comunidad de Madrid. Veterano del oficio, fue secretario de Estado de Comunicación y portavoz con José María Aznar, y es considerado uno de los estrategas de comunicación política más influyentes y combativos de la derecha española."
           }
         ]
       },
@@ -2760,15 +3038,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Secretario de Estado con Aznar",
-            "contenido": "Periodista de profesión, fue secretario de Estado de Comunicación en el primer Gobierno de Aznar, donde se forjó como uno de los grandes spin doctors de la derecha.",
-            "fecha": "1996-05-05"
+            "titulo": "Portavoz con Aznar",
+            "contenido": "Periodista de formación, fue secretario de Estado de Comunicación y portavoz del Gobierno en la primera etapa de José María Aznar, ganándose fama de duro estratega de la comunicación.",
+            "fecha": "1996-05-06"
           },
           {
             "tipo": "evento",
-            "titulo": "El cerebro de Ayuso",
-            "contenido": "Como jefe de gabinete de Díaz Ayuso, diseña su estrategia de confrontación con el Gobierno central y su comunicación, en el centro de polémicas como la del correo sobre el novio de la presidenta.",
-            "fecha": "2019-08-01"
+            "titulo": "Consultoría y comunicación",
+            "contenido": "Tras dejar la política institucional, desarrolló su actividad en la consultoría de comunicación y los medios, manteniéndose como una voz influyente en la derecha mediática.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Jefe de gabinete de Ayuso",
+            "contenido": "Se incorporó al equipo de Isabel Díaz Ayuso como jefe de gabinete, convirtiéndose en uno de los principales arquitectos de su estrategia política y comunicativa.",
+            "fecha": "2019-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Polémicas de comunicación",
+            "contenido": "Su papel ha estado en el foco por episodios de fuerte confrontación política y mediática, en particular en torno al caso de la pareja de Ayuso y la difusión de informaciones, asuntos sobre los que rige la presunción de inocencia.",
+            "fecha": "2024-03-01"
           }
         ]
       }

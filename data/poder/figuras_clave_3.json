@@ -329,7 +329,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.76,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -338,7 +338,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Presidenta de El Corte Inglés y miembro de la familia accionista de referencia. Lidera el grupo en su transición digital y la reordenación de su deuda y activos inmobiliarios."
+            "contenido": "Marta Álvarez González es presidenta de El Corte Inglés, el mayor grupo de grandes almacenes de España y uno de los mayores empleadores privados del país. Hija de Isidoro Álvarez, histórico presidente de la compañía, representa a la familia fundadora en el control de un grupo centenario que afronta su transformación tras décadas de hegemonía indiscutida en el comercio minorista español."
           }
         ]
       },
@@ -383,9 +383,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Reordenación de El Corte Inglés",
-            "contenido": "Asumió la presidencia tras años de pugnas familiares y societarias. Ha pilotado la reducción de deuda, la entrada de socios (catarí, banca) y la monetización de la enorme cartera inmobiliaria del grupo."
+            "tipo": "evento",
+            "titulo": "Formación en la empresa familiar",
+            "contenido": "Vinculada desde joven a El Corte Inglés, se formó en distintas áreas del grupo creado por Ramón Areces y consolidado por su tío Isidoro Álvarez, accionista de referencia a través de la fundación y la cartera familiar.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pugna por el control",
+            "contenido": "Tras el fallecimiento de Isidoro Álvarez en 2014, la familia y los principales ejecutivos protagonizaron una pugna por el control del grupo, de la que Marta Álvarez emergió reforzada al frente del accionariado de referencia.",
+            "fecha": "2014-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de El Corte Inglés",
+            "contenido": "Asumió la presidencia en 2019, en plena transformación del modelo de grandes almacenes ante el comercio electrónico, con planes de reducción de deuda y de puesta en valor de un enorme patrimonio inmobiliario.",
+            "fecha": "2019-09-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Nuevos socios y diversificación",
+            "contenido": "Bajo su presidencia, el grupo ha dado entrada a socios e inversores —como el catarí Hamad Al-Thani y la alianza aseguradora con Mutua Madrileña— y ha buscado diversificar y digitalizar el negocio para competir con los gigantes del comercio online.",
+            "fecha": "2021-01-01"
           }
         ]
       }
@@ -406,7 +425,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -415,7 +434,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario vinculado a Freixenet y a la promoción del comercio exterior. Presidió la Cámara de Comercio de España y el Foro de Marcas Renombradas."
+            "contenido": "José Luis Bonet Ferrer (Barcelona, 1941) es presidente de honor de Freixenet, el mayor grupo mundial de cava, y fue presidente de la Cámara de Comercio de España. Doctor en Derecho y en Ciencias Económicas, ha sido una de las grandes figuras del empresariado catalán y español y un firme defensor de la unidad de mercado y de la 'marca España'."
           }
         ]
       },
@@ -445,9 +464,28 @@
         "orden": 2,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Freixenet y la marca España",
-            "contenido": "Patriarca de Freixenet (hoy en la órbita de la alemana Henkell) y promotor del Foro de Marcas Renombradas, ha sido uno de los grandes embajadores de la internacionalización de la empresa española."
+            "tipo": "evento",
+            "titulo": "Freixenet, líder mundial del cava",
+            "contenido": "Ligado a la familia fundadora, dirigió durante décadas Freixenet, la histórica casa de cava catalana, internacionalizándola hasta convertirla en líder mundial del espumoso, antes de su integración con la alemana Henkell.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de la Cámara de España",
+            "contenido": "Presidió la Cámara de Comercio de España, ejerciendo de representante institucional del conjunto del empresariado y de defensor del comercio exterior y de la internacionalización de la empresa española.",
+            "fecha": "2014-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz del empresariado constitucionalista",
+            "contenido": "Referente del empresariado catalán constitucionalista, ha defendido públicamente la unidad de mercado y la permanencia de las empresas en Cataluña, especialmente durante el proceso independentista.",
+            "fecha": "2017-10-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mecenazgo y legado",
+            "contenido": "Más allá de la empresa, ha impulsado iniciativas culturales y educativas y el discurso de la 'marca España', consolidándose como uno de los grandes patriarcas del empresariado español del último medio siglo.",
+            "fecha": "2018-01-01"
           }
         ]
       }
@@ -469,7 +507,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -478,7 +516,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Inversor de larga trayectoria, presidente de Torreal. Ha participado en operaciones en sectores tan diversos como la sanidad, la alimentación, la energía y los servicios."
+            "contenido": "Juan Abelló Gallo (Madrid, 1941) es un empresario e inversor español, una de las grandes fortunas del país y presidente de la sociedad de capital riesgo Torreal. Farmacéutico de formación y heredero de un grupo farmacéutico que vendió, reorientó su patrimonio hacia la inversión en grandes empresas y es además uno de los más importantes coleccionistas privados de arte de España, con una densa red de relaciones en la élite económica."
           }
         ]
       },
@@ -508,9 +546,28 @@
         "orden": 2,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Del laboratorio a Torreal",
-            "contenido": "Hizo su primera gran fortuna en el sector farmacéutico y la multiplicó con la sociedad de inversión Torreal, presente en sanidad, energía, alimentación y servicios. Reconocido coleccionista de arte."
+            "tipo": "evento",
+            "titulo": "Del laboratorio farmacéutico a la inversión",
+            "contenido": "Procedente de una familia con intereses en el sector farmacéutico, vendió esos negocios y reorientó su patrimonio hacia la inversión empresarial y financiera.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Torreal y las participaciones",
+            "contenido": "A través de Torreal, ha tomado participaciones en numerosas empresas de distintos sectores, actuando como inversor de referencia y socio capitalista en grandes operaciones del capitalismo español.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Inversor y coleccionista",
+            "contenido": "Compagina su actividad inversora con una de las más importantes colecciones privadas de arte de España, y figura de forma recurrente entre las mayores fortunas del país.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gran fortuna discreta",
+            "contenido": "Mantiene un perfil discreto pese a su enorme peso económico, con presencia histórica en consejos de administración de grandes empresas y una densa red de relaciones en la élite empresarial y financiera.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -532,7 +589,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -541,7 +598,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Vicepresidenta y copropietaria de Mercadona. Su fundación impulsa la restauración de patrimonio y el coleccionismo de arte contemporáneo en Valencia."
+            "contenido": "Hortensia Herrero Chacón (Valencia, 1950) es vicepresidenta de Mercadona, la mayor cadena de supermercados de España, y una de las mujeres más ricas del país. Copropietaria de la compañía junto a su marido, Juan Roig, ha destacado además como gran mecenas de las artes a través de su fundación y del centro de arte que lleva su nombre en Valencia."
           }
         ]
       },
@@ -572,9 +629,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Centro de Arte Hortensia Herrero",
-            "contenido": "Abrió en Valencia uno de los grandes centros privados de arte contemporáneo de España, rehabilitando un palacio histórico. Su fundación es hoy referente del mecenazgo cultural.",
+            "titulo": "Cofundadora de la Mercadona moderna",
+            "contenido": "Acompañó a su marido, Juan Roig, en la transformación de Mercadona desde una modesta cadena de tiendas valenciana hasta el líder indiscutible de la distribución alimentaria en España, de la que es vicepresidenta y accionista de referencia.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mecenas de las artes",
+            "contenido": "Creó la Fundación Hortensia Herrero, volcada en la restauración del patrimonio y el apoyo a la cultura, e impulsó el Centro de Arte Hortensia Herrero (CAHH) en Valencia, una de las grandes colecciones privadas de arte contemporáneo abiertas al público.",
             "fecha": "2023-11-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Una de las grandes fortunas",
+            "contenido": "Su participación en Mercadona la sitúa entre las mayores fortunas femeninas de España, con un perfil discreto centrado en la empresa y en una intensa actividad filantrópica y cultural.",
+            "fecha": "2023-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Perfil discreto e influyente",
+            "contenido": "Pese a rehuir la exposición pública, su papel en Mercadona y su ambicioso proyecto cultural en Valencia la han convertido en una de las mujeres más influyentes de la economía y el mecenazgo españoles.",
+            "fecha": "2024-01-01"
           }
         ]
       }
@@ -595,7 +670,7 @@
       "no-electo"
     ],
     "confidence": 0.78,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -604,7 +679,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario inmobiliario afincado en el sureste español. Su grupo desarrolla y explota grandes centros comerciales. Figura recurrente en lo más alto de las listas de grandes fortunas españolas."
+            "contenido": "Tomás Olivo López es un empresario inmobiliario español, presidente y principal accionista de General de Galerías Comerciales (GGC), una socimi dueña de numerosos centros comerciales en España. Hecho a sí mismo y de perfil personal muy reservado, ha construido a partir del comercio y la promoción uno de los mayores patrimonios inmobiliarios del país, lo que lo ha situado de forma recurrente entre las mayores fortunas españolas."
           }
         ]
       },
@@ -629,9 +704,28 @@
         "orden": 2,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "De Murcia al podio de las fortunas",
-            "contenido": "Construyó desde el sureste un imperio de grandes centros comerciales (La Salinas, Nueva Condomina). El valor de su cartera inmobiliaria lo sitúa de forma recurrente entre las mayores fortunas de España, con un perfil de máxima discreción pública."
+            "tipo": "evento",
+            "titulo": "Del comercio al ladrillo",
+            "contenido": "Empresario de origen humilde, desarrolló su actividad en el comercio y la promoción inmobiliaria, especialmente en el sur y el levante español, donde levantó y explotó en régimen de alquiler grandes superficies y galerías comerciales.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "General de Galerías Comerciales",
+            "contenido": "Construyó y consolidó General de Galerías Comerciales, una cartera de grandes centros y galerías comerciales que le aporta unos ingresos por rentas muy elevados.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salida a bolsa como socimi",
+            "contenido": "Sacó GGC al mercado bursátil como socimi, lo que dio visibilidad a un patrimonio que lo sitúa entre los hombres más ricos de España, con un perfil personal muy reservado.",
+            "fecha": "2018-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gran patrimonio inmobiliario",
+            "contenido": "Su fortuna, basada en activos inmobiliarios en renta, lo ha situado de forma recurrente en los primeros puestos de los rankings de grandes patrimonios nacionales.",
+            "fecha": "2020-01-01"
           }
         ]
       }

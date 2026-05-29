@@ -1233,7 +1233,7 @@
       "transicion-ecologica"
     ],
     "confidence": 0.92,
-    "completeness": 0.75,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1242,7 +1242,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1969. Licenciada en Derecho (Universidad Complutense). Cuerpo Superior de Administradores Civiles del Estado."
+            "contenido": "Teresa Ribera Rodríguez (Madrid, 1969) es vicepresidenta ejecutiva de la Comisión Europea para una Transición Limpia, Justa y Competitiva y responsable de Competencia, uno de los cargos más poderosos de la UE. Jurista y alta funcionaria especializada en medio ambiente, fue vicepresidenta del Gobierno de España y ministra para la Transición Ecológica con Pedro Sánchez, donde pilotó la política climática y energética del país. En 2024 dio el salto a Bruselas como número dos de Ursula von der Leyen, con enorme poder sobre la competencia, las ayudas de Estado y la agenda verde europea."
           }
         ]
       },
@@ -1252,26 +1252,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Secretaria Cambio Climático",
-            "contenido": "Secretaria de Estado de Cambio Climático con Zapatero (2008-2011).",
-            "fecha": "2008-04-15"
+            "titulo": "Alta funcionaria del clima",
+            "contenido": "Jurista y técnica de la Administración, se especializó en cambio climático, dirigiendo la oficina española de cambio climático y un think tank internacional (IDDRI) en París.",
+            "fecha": "2008-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Directora IDDRI",
-            "contenido": "Directora del Institut du Développement Durable et des Relations Internationales (París) 2014-2018.",
-            "fecha": "2014-03-01"
-          },
-          {
-            "tipo": "evento",
-            "titulo": "Ministra Transición",
-            "contenido": "Ministra de Transición Ecológica 2018-2024. Vicepresidenta tercera 2020-2023, segunda 2023-2024.",
+            "titulo": "Ministra de Transición Ecológica",
+            "contenido": "En 2018 entró en el Gobierno de Pedro Sánchez como ministra para la Transición Ecológica y, después, vicepresidenta, pilotando la política energética, climática y de despoblación.",
             "fecha": "2018-06-07"
           },
           {
             "tipo": "evento",
-            "titulo": "Comisión Europea",
-            "contenido": "Vicepresidenta ejecutiva en la Comisión von der Leyen II desde diciembre 2024.",
+            "titulo": "La gestión energética",
+            "contenido": "Lideró la respuesta española a la crisis energética y los precios de la electricidad, la «excepción ibérica» y la planificación del cierre de las nucleares y el carbón, con una apuesta ambiciosa por las renovables.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vicepresidenta de la Comisión Europea",
+            "contenido": "En 2024 fue nombrada vicepresidenta ejecutiva de la Comisión Europea para la Transición Limpia y responsable de Competencia, uno de los cargos comunitarios de mayor poder, con la regulación de las grandes empresas en sus manos.",
             "fecha": "2024-12-01"
           }
         ]
@@ -1295,6 +1295,15 @@
             "tags": [
               "mibel",
               "tope-gas"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Agenda verde y competencia europea",
+            "contenido": "Defiende una transición ecológica ambiciosa y, desde Bruselas, una política de competencia que combine el cumplimiento de las reglas con la autonomía estratégica europea.",
+            "tags": [
+              "transicion-ecologica",
+              "ue"
             ]
           }
         ]
@@ -1375,7 +1384,7 @@
       "independentista"
     ],
     "confidence": 0.88,
-    "completeness": 0.65,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1384,7 +1393,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1962. Licenciado en Derecho (UB)."
+            "contenido": "Joan Laporta Estruch (Barcelona, 1962) es presidente del FC Barcelona, uno de los clubes de fútbol más poderosos e influyentes del mundo, cargo que ocupa por segunda vez. Abogado de profesión y figura del catalanismo político, ha protagonizado dos etapas de gran impacto al frente del club, marcadas tanto por los éxitos deportivos como por la delicada situación económica e institucional de la entidad."
           }
         ]
       },
@@ -1394,20 +1403,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Primera presidencia",
-            "contenido": "Presidente FC Barcelona 2003-2010 (era Ronaldinho-Messi-Guardiola).",
+            "titulo": "Abogado y barcelonismo",
+            "contenido": "Abogado de formación, lideró el movimiento de oposición 'Elefant Blau' contra la directiva de Josep Lluís Núñez, ganando notoriedad como crítico de la gestión del club.",
+            "fecha": "1997-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primera presidencia y era dorada",
+            "contenido": "Presidió el FC Barcelona entre 2003 y 2010, una etapa de enorme éxito deportivo con la eclosión de Messi y el equipo de Guardiola, que dio al club algunos de sus mayores títulos.",
             "fecha": "2003-06-15"
           },
           {
             "tipo": "evento",
-            "titulo": "Solidaritat Catalana",
-            "contenido": "Diputado del Parlament por Solidaritat (independentista) 2010-2012.",
-            "fecha": "2010-11-28"
+            "titulo": "Política catalana",
+            "contenido": "Tras dejar el club, se implicó en la política independentista catalana, impulsando formaciones soberanistas y ocupando un escaño en el Parlament de Cataluña.",
+            "fecha": "2010-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Segunda presidencia",
-            "contenido": "Vuelve a presidir Barça en marzo 2021.",
+            "titulo": "Regreso y crisis económica",
+            "contenido": "Volvió a la presidencia del Barça en 2021, en plena crisis financiera y con la dolorosa salida de Messi, gestionando las polémicas 'palancas' económicas, la reforma del estadio (Espai Barça) y el caso Negreira sobre pagos a un exdirigente arbitral, asunto judicializado en el que rige la presunción de inocencia.",
             "fecha": "2021-03-07"
           }
         ]
@@ -2490,7 +2505,7 @@
       "condenado"
     ],
     "confidence": 0.88,
-    "completeness": 0.65,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2499,7 +2514,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santander, 1936. Hermano del Emilio Botín II (padre de Ana Botín)."
+            "contenido": "Jaime Botín-Sanz de Sautuola y García de los Ríos (1936) es un banquero y empresario español, hermano del fallecido Emilio Botín y miembro de la saga financiera cántabra. Es el accionista de control de Bankinter a través de la sociedad Cartival, y ha sido una figura discreta pero influyente de la banca española, con un notable patrimonio y una importante colección de arte."
           }
         ]
       },
@@ -2553,6 +2568,35 @@
             "tipo": "documento",
             "titulo": "Sentencia AN 2020",
             "fuente_url": "https://www.audienciananacional.es"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La saga Botín y la banca",
+            "contenido": "Miembro de la familia Botín, desarrolló su carrera en la banca, vinculado al Banco Santander y, sobre todo, a Bankinter, entidad de la que se convirtió en accionista de referencia.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Control de Bankinter",
+            "contenido": "A través de la sociedad Cartival, controla la participación de referencia en Bankinter, uno de los bancos más rentables de España, manteniendo la influencia familiar sobre la entidad.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El caso del Picasso",
+            "contenido": "Fue condenado de forma firme por un delito de contrabando de bienes culturales por intentar sacar de España, sin autorización, un cuadro de Picasso ('Cabeza de mujer'), que fue finalmente confiscado, en un caso de gran repercusión mediática.",
+            "fecha": "2020-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Coleccionista y perfil discreto",
+            "contenido": "Gran coleccionista de arte y figura de perfil muy reservado, ha mantenido su influencia sobre Bankinter al margen de la primera línea pública, como uno de los miembros más discretos pero poderosos de la saga financiera de los Botín."
           }
         ]
       }

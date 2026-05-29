@@ -1,0 +1,206 @@
+{
+  "isabel-diaz-ayuso": {
+    "url": "https://www.comunidad.madrid/transparencia/sites/default/files/person/documents/income/00_presidenta_cm_declaracion_bienes_.pdf",
+    "titulo": "Declaración de bienes (Comunidad de Madrid · PDF oficial)",
+    "fuente": "Portal de Transparencia · Comunidad de Madrid",
+    "tipo": "pdf"
+  },
+  "alfonso-fernandez-manueco": {
+    "url": "https://gobierno.jcyl.es/web/jcyl/binarios/348/529/DeclaracionBienesPTE.pdf?blobheader=application%2Fpdf%3Bcharset%3DUTF-8&blobnocache=true",
+    "titulo": "Declaración de bienes (Junta de Castilla y León · PDF oficial)",
+    "fuente": "Gobierno de Castilla y León",
+    "tipo": "pdf"
+  },
+  "jorge-azcon": {
+    "url": "https://transparencia.aragon.es/transparencia/declaraciones/XI/MODELO_5_JORGE_AZCON.pdf",
+    "titulo": "Declaración de bienes (Gobierno de Aragón · PDF oficial)",
+    "fuente": "Portal de Transparencia · Gobierno de Aragón",
+    "tipo": "pdf"
+  },
+  "fernando-clavijo": {
+    "url": "https://www.gobiernodecanarias.org/organigrama/descargar-ficha?ou=42091&tipo=declaracion",
+    "titulo": "Declaración de bienes y actividades (Gobierno de Canarias · PDF oficial)",
+    "fuente": "Gobierno de Canarias",
+    "tipo": "pdf"
+  },
+  "salvador-illa": {
+    "url": "https://direcciopublica.transparencia.gencat.cat/personas/salvador-illa-roca",
+    "titulo": "Declaración de bienes y actividades (Generalitat de Catalunya · ficha oficial)",
+    "fuente": "Transparència · Generalitat de Catalunya",
+    "tipo": "pagina"
+  },
+  "fernando-lopez-miras": {
+    "url": "https://transparencia.carm.es/el-presidente",
+    "titulo": "Declaración de bienes e intereses (CARM · ficha oficial)",
+    "fuente": "Portal de Transparencia · Región de Murcia",
+    "tipo": "pagina"
+  },
+  "maria-chivite": {
+    "url": "https://gobiernoabierto.navarra.es/es/gobernanza/rendicion-de-cuentas/miembros-de-gobierno-de-navarra/maria-chivite-navascues",
+    "titulo": "Declaración de bienes y actividades (Gobierno de Navarra · ficha oficial)",
+    "fuente": "Gobierno Abierto de Navarra",
+    "tipo": "pagina"
+  },
+  "adrian-barbon": {
+    "url": "https://transparencia.asturias.es/-/gobierno/equipo-gobierno/adrian-barbon-presidente",
+    "titulo": "Declaración de bienes y actividades (Principado de Asturias · ficha oficial)",
+    "fuente": "Portal de Transparencia · Principado de Asturias",
+    "tipo": "pagina"
+  },
+  "juan-manuel-moreno-bonilla": {
+    "url": "https://www.juntadeandalucia.es/organismos/transparencia/altos-cargos/actividades-bienes-intereses.html",
+    "titulo": "Declaración de bienes e intereses (Junta de Andalucía · registro oficial)",
+    "fuente": "Portal de Transparencia · Junta de Andalucía",
+    "tipo": "registro"
+  },
+  "alfonso-rueda": {
+    "url": "https://transparencia.xunta.gal/es/tema/transparencia-institucional/goberno-e-altos-cargos/declaracions-de-actividades",
+    "titulo": "Declaración de actividades y bienes (Xunta de Galicia · registro oficial)",
+    "fuente": "Portal de Transparencia · Xunta de Galicia",
+    "tipo": "registro"
+  },
+  "maria-guardiola": {
+    "url": "https://ciudadano.gobex.es/web/portal-transparencia",
+    "titulo": "Declaración de bienes y actividades (Junta de Extremadura · portal oficial)",
+    "fuente": "Portal de Transparencia · Junta de Extremadura",
+    "tipo": "registro"
+  },
+  "emiliano-garcia-page": {
+    "url": "https://transparencia.castillalamancha.es",
+    "titulo": "Declaración de bienes y actividades (Castilla-La Mancha · portal oficial)",
+    "fuente": "Portal de Transparencia · Junta de Castilla-La Mancha",
+    "tipo": "registro"
+  },
+  "maria-jose-saenz-de-buruaga": {
+    "url": "https://transparencia.cantabria.es",
+    "titulo": "Declaración de bienes y actividades (Gobierno de Cantabria · portal oficial)",
+    "fuente": "Portal de Transparencia · Gobierno de Cantabria",
+    "tipo": "registro"
+  },
+  "gonzalo-capellan": {
+    "url": "https://web.larioja.org/portal-transparencia/transparencia?n=tra-declaraciones-de-bienes-y-actividades-de-los-altos-cargos-de-la-comunidad-autonoma",
+    "titulo": "Declaración de bienes y actividades (Gobierno de La Rioja · registro oficial)",
+    "fuente": "Portal de Transparencia · Gobierno de La Rioja",
+    "tipo": "registro"
+  },
+  "imanol-pradales": {
+    "url": "https://www.euskadi.eus/gobierno-vasco/funcion-publica/-/indicador_bienes_actividades/",
+    "titulo": "Declaración de actividades (Gobierno Vasco · portal oficial)",
+    "fuente": "Gobierno Vasco · Euskadi.eus",
+    "tipo": "registro"
+  },
+  "juan-francisco-perez-llorca": {
+    "url": "https://gvaoberta.gva.es",
+    "titulo": "Declaración de bienes y actividades (GVA Oberta · portal oficial)",
+    "fuente": "GVA Oberta · Generalitat Valenciana",
+    "tipo": "registro"
+  },
+  "jose-luis-martinez-almeida": {
+    "url": "https://transparencia.madrid.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Madrid · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Madrid",
+    "tipo": "registro"
+  },
+  "jaume-collboni": {
+    "url": "https://ajuntament.barcelona.cat/transparencia",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Barcelona · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Barcelona",
+    "tipo": "registro"
+  },
+  "maria-jose-catala": {
+    "url": "https://sede.valencia.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Valencia · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Valencia",
+    "tipo": "registro"
+  },
+  "jose-luis-sanz": {
+    "url": "https://www.sevilla.org/transparencia",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Sevilla · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Sevilla",
+    "tipo": "registro"
+  },
+  "natalia-chueca": {
+    "url": "https://www.zaragoza.es/sede/portal/transparencia/",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Zaragoza · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Zaragoza",
+    "tipo": "registro"
+  },
+  "francisco-de-la-torre": {
+    "url": "https://transparencia.malaga.eu",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Málaga · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Málaga",
+    "tipo": "registro"
+  },
+  "jose-ballesta": {
+    "url": "https://transparencia.murcia.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Murcia · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Murcia",
+    "tipo": "registro"
+  },
+  "jaime-martinez": {
+    "url": "https://www.palma.cat",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Palma · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Palma",
+    "tipo": "registro"
+  },
+  "carolina-darias": {
+    "url": "https://transparencia.laspalmasgc.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Las Palmas de Gran Canaria · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Las Palmas de Gran Canaria",
+    "tipo": "registro"
+  },
+  "juan-mari-aburto": {
+    "url": "https://www.bilbao.eus/transparencia",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Bilbao · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Bilbao",
+    "tipo": "registro"
+  },
+  "jesus-julio-carnero": {
+    "url": "https://www.valladolid.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Valladolid · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Valladolid",
+    "tipo": "registro"
+  },
+  "abel-caballero": {
+    "url": "https://transparencia.vigo.org",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Vigo · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Vigo",
+    "tipo": "registro"
+  },
+  "carmen-moriyon": {
+    "url": "https://transparencia.gijon.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Gijón · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Gijón",
+    "tipo": "registro"
+  },
+  "ines-rey": {
+    "url": "https://www.coruna.gal/transparencia/es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de A Coruña · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de A Coruña",
+    "tipo": "registro"
+  },
+  "marifran-carazo": {
+    "url": "https://transparencia.granada.org",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Granada · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Granada",
+    "tipo": "registro"
+  },
+  "jose-maria-bellido": {
+    "url": "https://transparencia.cordoba.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Córdoba · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Córdoba",
+    "tipo": "registro"
+  },
+  "maider-etxebarria": {
+    "url": "https://www.vitoria-gasteiz.org/transparencia",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Vitoria-Gasteiz · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Vitoria-Gasteiz",
+    "tipo": "registro"
+  },
+  "luis-barcala": {
+    "url": "https://transparencia.alicante.es",
+    "titulo": "Declaración de bienes y actividades (Ayuntamiento de Alicante · portal de transparencia)",
+    "fuente": "Portal de Transparencia · Ayuntamiento de Alicante",
+    "tipo": "registro"
+  }
+}

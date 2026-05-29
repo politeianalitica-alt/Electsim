@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-import { useApi } from '@/lib/useApi'
+import dynamic from 'next/dynamic'
+import { useApiQuery } from '@/lib/api/use-api-query'
+import { apiClient } from '@/lib/api/client'
 import BrainBriefing from '@/components/BrainBriefing'
 import BriefingExports from '@/components/BriefingExports'
 import CountUp from '@/components/CountUp'
@@ -14,12 +16,16 @@ import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/comp
 import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
-import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
-import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
-import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
-import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
-import { ComtradeSpainOverview } from '@/components/trade/ComtradeSpainOverview'
 import type { DashboardHome } from '../api/dashboard/home/route'
+
+// Bloques pesados (mercados, macro, geopolítica, energía, comercio) cargados de
+// forma diferida (code-split + ssr:false) para aligerar el JS inicial del dashboard.
+const _ph = () => <div aria-hidden style={{ minHeight: 120 }} />
+const MarketSnapshot = dynamic(() => import('@/components/markets/MarketSnapshot').then(m => m.MarketSnapshot), { ssr: false, loading: _ph })
+const NasdaqMacroSnapshot = dynamic(() => import('@/components/macro/NasdaqMacroSnapshot').then(m => m.NasdaqMacroSnapshot), { ssr: false, loading: _ph })
+const AcledSpainContext = dynamic(() => import('@/components/geopolitics/AcledSpainContext').then(m => m.AcledSpainContext), { ssr: false, loading: _ph })
+const EmberSpainElectricity = dynamic(() => import('@/components/energy/EmberSpainElectricity').then(m => m.EmberSpainElectricity), { ssr: false, loading: _ph })
+const ComtradeSpainOverview = dynamic(() => import('@/components/trade/ComtradeSpainOverview').then(m => m.ComtradeSpainOverview), { ssr: false, loading: _ph })
 
 // ── News feed types (backend Ollama-analyzed, sin HTML escapado) ─────────────
 
@@ -174,27 +180,46 @@ function sanitizeParties(raw: unknown): string {
   return ''
 }
 
+// Flecha decorativa reutilizable; aria-hidden para que los lectores de pantalla
+// no la lean (el botón ya tiene texto visible).
+function ArrowIcon({ size = 11 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  )
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
+  // null = comprobando sesión; evita renderizar el dashboard antes de confirmar auth.
+  const [authed, setAuthed] = useState<boolean | null>(null)
 
-  const { data, source, updatedAt, loading, refresh } = useApi<DashboardHome>(
- '/api/dashboard/home',
-    { refreshInterval: 60_000 }
+  // React Query (caché compartida + dedupe). El provider está en app/layout.tsx.
+  const homeQ = useApiQuery<DashboardHome>(
+    ['dashboard', 'home'],
+    () => apiClient.get<DashboardHome>('/api/dashboard/home'),
+    { refetchInterval: 60_000 },
+  )
+  const data = homeQ.data
+  const source = homeQ.meta?.source ?? null
+  const updatedAt = homeQ.meta?.ts ?? null
+  const loading = homeQ.isLoading
+  const refresh = homeQ.refetch
+
+  // /api/news/feed devuelve artículos ya analizados (ai_summary limpio, ai_relevance…)
+  const { data: newsRaw, isLoading: trendsLoading } = useApiQuery<{ articles?: NewsFeedArticle[]; count?: number }>(
+    ['news', 'feed', 'dashboard'],
+    () => apiClient.get('/api/news/feed?limit=12&min_relevance=0.5'),
+    { refetchInterval: 120_000 },
   )
 
-  // Antes usaba /api/trends (Google News RSS sin sanear, llegaba HTML escapado
-  // como <ol><li><a href=...). Ahora apuntamos a /api/news/feed que devuelve
-  // artículos ya analizados por Ollama (ai_summary limpio, ai_relevance, etc).
-  const { data: newsRaw, loading: trendsLoading } = useApi<{ articles?: NewsFeedArticle[]; count?: number }>(
- '/api/news/feed?limit=12&min_relevance=0.5',
-    { refreshInterval: 120_000 }
-  )
-
-  // Alertas con shape rico para mostrar con la misma visual que /alertas
-  const { data: signalsData } = useApi<{ signals?: AlertaItem[] }>(
- '/api/intelligence/signals?legacy=1',
-    { refreshInterval: 30_000 }
+  // Alertas con shape rico (misma visual que /alertas)
+  const { data: signalsData } = useApiQuery<{ signals?: AlertaItem[] }>(
+    ['intelligence', 'signals', 'legacy'],
+    () => apiClient.get('/api/intelligence/signals?legacy=1'),
+    { refetchInterval: 30_000 },
   )
   const richAlerts: AlertaItem[] = (signalsData?.signals ?? [])
     .slice()
@@ -202,10 +227,18 @@ export default function DashboardPage() {
   const top5Alerts = richAlerts.slice(0, 5)
 
   useEffect(() => {
-    if (!isAuthenticated()) router.push('/login')
+    const ok = isAuthenticated()
+    if (!ok) router.push('/login')
+    setAuthed(ok)
   }, [router])
 
   const isReady = !!data && Array.isArray(data.parties) && data.parties.length > 0
+
+  // Sesión en localStorage (solo legible en cliente). Hasta confirmarla no
+  // renderizamos el dashboard: evita el "flash" antes de redirigir al login.
+  if (authed !== true) {
+    return <div style={{ background: 'var(--bg)', minHeight: '100vh' }} aria-busy="true" />
+  }
 
   return (
  <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
@@ -296,6 +329,20 @@ export default function DashboardPage() {
  <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
  </div>
 
+          {homeQ.isError && !data && (
+ <div role="alert" style={{
+              background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C',
+              borderRadius: 10, padding: '10px 14px', marginBottom: 12, fontSize: 13,
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+            }}>
+ <span>No se pudieron cargar los datos del panel.</span>
+ <button onClick={() => refresh()} style={{
+                background: '#B91C1C', color: '#fff', border: 'none', borderRadius: 999,
+                padding: '5px 14px', fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}>Reintentar</button>
+ </div>
+          )}
+
           {/* Row 1: Risk hero (left) + KPIs grid 2x2 (right) */}
  <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2fr', gap: 12, marginBottom: 12 }}>
 
@@ -307,7 +354,11 @@ export default function DashboardPage() {
               const semColor = semaforo === 'rojo' ? '#DC2626' : semaforo === 'ambar' || semaforo === 'amarillo' ? '#D97706' : '#16A34A'
               const semLabel = semaforo === 'rojo' ? 'Rojo' : semaforo === 'ambar' || semaforo === 'amarillo' ? 'Ámbar' : 'Verde'
               return (
- <div onClick={() => router.push('/riesgo')} style={{
+ <div onClick={() => router.push('/riesgo')}
+                  role="button" tabIndex={0}
+                  aria-label={`Índice de riesgo político: ${semLabel}. Abrir detalle`}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push('/riesgo') } }}
+                  style={{
                   background: '#fff', borderRadius: 12, padding: '16px 18px',
                   border: '1px solid #ECECEF', borderLeft: `4px solid ${semColor}`,
                   cursor: 'pointer', transition: 'box-shadow 150ms, transform 150ms',
@@ -476,7 +527,7 @@ export default function DashboardPage() {
                     onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
                     onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}>
                       Ver las {richAlerts.length} alertas
- <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ <ArrowIcon size={11}/>
  </button>
                   )}
  </div>
@@ -771,7 +822,7 @@ export default function DashboardPage() {
                 display: 'inline-flex', alignItems: 'center', gap: 4,
               }}>
                 Ver todo
- <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ <ArrowIcon size={10}/>
  </button>
  </div>
 

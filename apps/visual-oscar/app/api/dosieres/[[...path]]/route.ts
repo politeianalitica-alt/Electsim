@@ -8,6 +8,12 @@ import {
 import { getCONGBySlug } from '@/data/congreso-fixture'
 import { getSENBySlug } from '@/data/senado-fixture'
 import { getMEDBySlug } from '@/data/medios-fixture'
+// Seeds que no están en el backend Python (IBEX 35, Diputaciones, Poder).
+// Se resuelven aquí, server-side, para que la página de detalle no tenga que
+// importarlos en cliente (~14 MB de fixtures fuera del bundle del navegador).
+import { IBEX35_FIXTURE } from '@/data/ibex35-fixture'
+import { DIPUTACIONES_FIXTURE } from '@/data/diputaciones-fixture'
+import { PODER_FIXTURE } from '@/data/poder-fixture'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -72,8 +78,15 @@ export async function GET(req: NextRequest, { params }: { params: { path?: strin
     // Devolver array DIRECTO · no envolver con withMeta (rompe arrays)
     return NextResponse.json(filtered)
   }
-  // Detalle por slug · ficha oficial (Congreso/Senado) prevalece sobre la genérica
-  const dossier = getCONGBySlug(subpath) ?? getSENBySlug(subpath) ?? getMEDBySlug(subpath) ?? getDossierBySlug(subpath)
+  // Detalle por slug · ficha oficial (Congreso/Senado) prevalece sobre la
+  // genérica; los seeds locales (IBEX/Diputaciones/Poder) van al final, igual
+  // que hacía el fallback que antes vivía en el cliente.
+  const dossier: object | null =
+    getCONGBySlug(subpath) ?? getSENBySlug(subpath) ?? getMEDBySlug(subpath) ?? getDossierBySlug(subpath) ??
+    IBEX35_FIXTURE.find(d => d.slug === subpath) ??
+    DIPUTACIONES_FIXTURE.find(d => d.slug === subpath) ??
+    PODER_FIXTURE.find(d => d.slug === subpath) ??
+    null
   if (!dossier) {
     return NextResponse.json(
       withMeta({ error: 'not_found', slug: subpath }, 'mock', {

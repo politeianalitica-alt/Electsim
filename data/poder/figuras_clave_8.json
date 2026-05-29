@@ -1,0 +1,2132 @@
+[
+  {
+    "slug": "jose-luis-martinez-almeida",
+    "tipo": "politico",
+    "nombre": "José Luis Martínez-Almeida Navasqüés",
+    "alias": "José Luis Martínez-Almeida",
+    "cargo": "Alcalde de Madrid",
+    "bio_corta": "Alcalde de Madrid (PP) desde 2019, con mayoría absoluta desde 2023, y portavoz nacional del Partido Popular.",
+    "fuente_principal": "https://www.madrid.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "madrid"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "José Luis Martínez-Almeida Navasqüés (Madrid, 1975) es alcalde de Madrid desde 2019 y portavoz nacional del Partido Popular. Abogado del Estado, llegó a la alcaldía de la capital en 2019 con el apoyo de Ciudadanos y Vox y en 2023 revalidó el cargo con mayoría absoluta. De estilo afable e irónico, combina la gestión del mayor ayuntamiento de España con un papel destacado como una de las voces nacionales del PP y como estrecho aliado de Isabel Díaz Ayuso en Madrid, lo que le da un peso político que trasciende lo municipal."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abogado del Estado y concejal",
+            "contenido": "Abogado del Estado de profesión, entró en política en el PP de Madrid como concejal y portavoz del grupo municipal, ganando peso en la oposición al gobierno de Manuela Carmena.",
+            "fecha": "2015-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Madrid",
+            "contenido": "En 2019 fue investido alcalde de Madrid pese a no ganar las elecciones, gracias a un pacto con Ciudadanos y Vox que desalojó a la izquierda del consistorio.",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mayoría absoluta",
+            "contenido": "En 2023 arrasó en las urnas y revalidó la alcaldía con mayoría absoluta, consolidando su liderazgo en la capital.",
+            "fecha": "2023-05-28"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Portavoz nacional del PP",
+            "contenido": "Compagina la alcaldía con la portavocía nacional del Partido Popular, lo que lo convierte en una de las caras más visibles del partido a nivel estatal.",
+            "fecha": "2022-04-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Gestión municipal y voz del PP",
+            "contenido": "Defiende una gestión liberal-conservadora de la ciudad (limpieza, movilidad, grandes eventos) y ejerce de portavoz nacional del PP, con un tono combativo pero de registro amable hacia el Gobierno de Sánchez.",
+            "tags": [
+              "pp",
+              "madrid"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +8/10) — Portavoz nacional del partido y hombre de máxima confianza de la dirección.",
+            "tags": [
+              "pp",
+              "nota-+8",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Isabel Díaz Ayuso",
+            "contenido": "**Presidenta de la Comunidad de Madrid** (nota +6/10) — Tándem institucional en Madrid (Ayuntamiento y Comunidad), con sintonía política.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Madrid · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.madrid.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Madrid",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jaume-collboni",
+    "tipo": "politico",
+    "nombre": "Jaume Collboni Cuadrado",
+    "alias": "Jaume Collboni",
+    "cargo": "Alcalde de Barcelona",
+    "bio_corta": "Alcalde de Barcelona (PSC) desde 2023; puso fin a la etapa de Ada Colau frenando al independentista Trias.",
+    "fuente_principal": "https://www.barcelona.cat",
+    "tags": [
+      "politico",
+      "psc",
+      "alcalde",
+      "cataluna"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jaume Collboni Cuadrado (Barcelona, 1969) es alcalde de Barcelona desde 2023 y dirigente del PSC. Puso fin a la etapa de los comunes de Ada Colau al ser investido alcalde pese a quedar tercero, gracias a una insólita confluencia de votos del PSC, el PP y los comunes que frenó al independentista Xavier Trias (Junts). Representa el regreso del socialismo a la alcaldía de la capital catalana, con una agenda centrada en la seguridad, la vivienda, la regulación del turismo y la reactivación económica de la ciudad."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Carrera en el PSC",
+            "contenido": "Desarrolló su carrera en el PSC y en las Juventudes Socialistas, llegando a diputado en el Parlament y primer secretario del PSC de Barcelona.",
+            "fecha": "2003-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Teniente de alcalde con Colau",
+            "contenido": "Fue primer teniente de alcalde y responsable de economía en el gobierno municipal de Ada Colau, en una etapa de coalición entre comunes y socialistas.",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Barcelona",
+            "contenido": "En 2023, pese a quedar tercero en votos, fue investido alcalde con el apoyo de PP y comunes para evitar la alcaldía del independentista Xavier Trias.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Agenda de gestión",
+            "contenido": "Su mandato se centra en la seguridad, el acceso a la vivienda, la regulación del turismo masivo y la proyección económica e internacional de Barcelona.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Socialismo municipal catalán",
+            "contenido": "Defiende un catalanismo no independentista y una gestión centrada en seguridad, vivienda y turismo, en sintonía con el Gobierno de Sánchez y la Generalitat de Illa.",
+            "tags": [
+              "psc",
+              "cataluna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +7/10) — Alineado con la dirección federal del partido.",
+            "tags": [
+              "psoe",
+              "nota-+7",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Salvador Illa",
+            "contenido": "**Presidente de la Generalitat de Cataluña** (nota +6/10) — Mismo partido (PSC) y estrecha cooperación institucional ciudad-Generalitat.",
+            "tags": [
+              "psc",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Barcelona · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://ajuntament.barcelona.cat/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Barcelona",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "maria-jose-catala",
+    "tipo": "politico",
+    "nombre": "María José Catalá Verdet",
+    "alias": "María José Catalá",
+    "cargo": "Alcaldesa de Valencia",
+    "bio_corta": "Alcaldesa de Valencia (PP) desde 2023; puso fin a los 8 años de Compromís de Joan Ribó. Gobierna con Vox.",
+    "fuente_principal": "https://www.valencia.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "comunidad-valenciana"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María José Catalá Verdet (Torrent, Valencia, 1981) es alcaldesa de Valencia desde 2023 y una de las dirigentes emergentes del PP. Exconsejera de Educación de la Generalitat Valenciana y portavoz popular, ganó las elecciones municipales de 2023 poniendo fin a los ocho años de gobierno de Compromís de Joan Ribó. Gobierna la tercera ciudad de España con el apoyo de Vox y ha ganado proyección autonómica tras la crisis de la DANA y el relevo en la Generalitat, situándose como una de las figuras de referencia del PP valenciano."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Joven dirigente del PP valenciano",
+            "contenido": "Doctora en Derecho, tuvo un ascenso rápido en el PP valenciano, siendo alcaldesa de Torrent y consejera de Educación de la Generalitat a muy temprana edad.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Portavoz y oposición",
+            "contenido": "Tras la pérdida del poder del PP en la Comunidad Valenciana, ejerció de portavoz municipal en Valencia, liderando la oposición a Joan Ribó (Compromís).",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Valencia",
+            "contenido": "Ganó las elecciones de 2023 y fue investida alcaldesa de Valencia con el apoyo de Vox, recuperando la capital para el centroderecha tras ocho años de Compromís.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Proyección autonómica",
+            "contenido": "Su peso creció con la crisis posterior a la DANA y la dimisión de Mazón, consolidándose como una de las dirigentes con mayor proyección del PP en la Comunidad Valenciana.",
+            "fecha": "2025-11-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha en Valencia",
+            "contenido": "Defiende una gestión de centroderecha (fiscalidad, grandes proyectos, Fallas y turismo) y se ha consolidado como una de las dirigentes con mayor proyección del PP valenciano.",
+            "tags": [
+              "pp",
+              "comunidad-valenciana"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineada con la dirección nacional, que valora su proyección.",
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Francisco Pérez Llorca",
+            "contenido": "**Presidente de la Generalitat Valenciana** (nota +5/10) — Coordinación PP entre ciudad y Generalitat tras el relevo de Mazón.",
+            "tags": [
+              "pp",
+              "nota-+5",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Valencia · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://sede.valencia.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Valencia",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-luis-sanz",
+    "tipo": "politico",
+    "nombre": "José Luis Sanz Ruiz",
+    "alias": "José Luis Sanz",
+    "cargo": "Alcalde de Sevilla",
+    "bio_corta": "Alcalde de Sevilla (PP) desde 2023; arrebató la capital andaluza al PSOE.",
+    "fuente_principal": "https://www.sevilla.org",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "andalucia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "José Luis Sanz Ruiz es alcalde de Sevilla desde 2023, dirigente del PP. Exalcalde de Tomares y senador, ganó las elecciones de 2023 arrebatando la capital andaluza al PSOE de Antonio Muñoz. Gobierna la cuarta ciudad de España con una agenda centrada en las grandes infraestructuras (la ampliación del metro, los accesos), el turismo, la Semana Santa y los grandes eventos, en una ciudad históricamente disputada entre el PSOE y el PP y de enorme peso simbólico en Andalucía. Su victoria en una de las ciudades más pobladas del país reforzó el avance del PP en la Andalucía urbana tras la conquista de la Junta por Moreno Bonilla."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Tomares",
+            "contenido": "Desarrolló su carrera en el PP de Sevilla y fue durante años alcalde de Tomares, uno de los municipios de mayor renta del área metropolitana sevillana.",
+            "fecha": "2003-06-14"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Senador y portavoz",
+            "contenido": "Fue senador y portavoz del PP, ganando proyección antes de centrarse en la conquista de la alcaldía de la capital.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Sevilla",
+            "contenido": "Ganó las elecciones municipales de 2023 y fue investido alcalde de Sevilla, desbancando al PSOE de la capital andaluza.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la capital",
+            "contenido": "Su mandato se centra en el transporte (la ampliación del metro), el turismo, la cultura y las grandes infraestructuras de una de las ciudades más visitadas de España.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha andaluz",
+            "contenido": "Defiende una gestión de centroderecha y reclama inversiones del Estado en infraestructuras (metro, cercanías), en sintonía con la Junta de Moreno Bonilla.",
+            "tags": [
+              "pp",
+              "andalucia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Alineado con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Manuel Moreno Bonilla",
+            "contenido": "**Presidente de la Junta de Andalucía** (nota +6/10) — Coordinación PP entre la capital y la Junta.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Sevilla · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.sevilla.org/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Sevilla",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "natalia-chueca",
+    "tipo": "politico",
+    "nombre": "Natalia Chueca Muñoz",
+    "alias": "Natalia Chueca",
+    "cargo": "Alcaldesa de Zaragoza",
+    "bio_corta": "Alcaldesa de Zaragoza (PP) desde 2023; sucedió a Azcón al frente de la ciudad.",
+    "fuente_principal": "https://www.zaragoza.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "aragon"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Natalia Chueca Muñoz (Zaragoza, 1976) es alcaldesa de Zaragoza desde 2023, dirigente del PP. Procedente del sector privado y del equipo de Jorge Azcón, a quien sucedió cuando este dio el salto a la presidencia de Aragón, ganó las elecciones de 2023 y mantuvo la quinta ciudad de España en manos del centroderecha. Gobierna con un perfil de gestión centrado en la digitalización, la movilidad sostenible, la vivienda y los grandes proyectos urbanos de la capital aragonesa. Es una de las pocas mujeres al frente de una gran capital y representa el perfil de gestora procedente del mundo de la empresa que el PP ha impulsado en los ayuntamientos."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Del sector privado a la política",
+            "contenido": "Con experiencia en la empresa privada y la consultoría, entró en la política municipal de la mano de Jorge Azcón, ocupando concejalías en el Ayuntamiento de Zaragoza.",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Concejala de área",
+            "contenido": "Como concejala en el gobierno de Azcón, gestionó áreas de servicios públicos, medio ambiente y movilidad de la ciudad.",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Zaragoza",
+            "contenido": "Cuando Azcón asumió la presidencia de Aragón en 2023, ella encabezó la candidatura y fue investida alcaldesa, manteniendo la capital para el PP.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión urbana",
+            "contenido": "Su mandato se centra en la digitalización, la movilidad sostenible, la vivienda y los grandes proyectos urbanísticos de la quinta ciudad de España.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Gestión de centroderecha",
+            "contenido": "Defiende una gestión municipal de centroderecha centrada en servicios, movilidad e inversión, en estrecha coordinación con el Gobierno de Aragón de Jorge Azcón.",
+            "tags": [
+              "pp",
+              "aragon"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Jorge Azcón",
+            "contenido": "**Presidente de Aragón** (nota +7/10) — Mentor político: Chueca fue su concejala y su sucesora en la alcaldía de Zaragoza.",
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineada con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Zaragoza · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.zaragoza.es/sede/portal/transparencia/",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Zaragoza",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "francisco-de-la-torre",
+    "tipo": "politico",
+    "nombre": "Francisco de la Torre Prados",
+    "alias": "Francisco de la Torre",
+    "cargo": "Alcalde de Málaga",
+    "bio_corta": "Alcalde de Málaga (PP) desde 2000; uno de los regidores más veteranos de España.",
+    "fuente_principal": "https://www.malaga.eu",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "andalucia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Francisco de la Torre Prados (Málaga, 1942) es alcalde de Málaga desde 2000, uno de los regidores más veteranos y longevos de España. Economista y técnico del Estado, ha gobernado la ciudad durante más de dos décadas, transformándola en un polo cultural (los museos), tecnológico y turístico de primer orden. Su longevidad, su perfil moderado y transversal y sus sucesivas reelecciones lo han convertido en una figura singular dentro del PP y en una marca personal ligada al auge de Málaga. Con más de ochenta años, sigue siendo una rareza en la política española por su longevidad y por su independencia respecto a los vaivenes internos del partido."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Décadas en la política malagueña",
+            "contenido": "Con una larguísima trayectoria que se remonta a la etapa preautonómica, ocupó cargos en la Diputación y la administración antes de centrarse en la ciudad de Málaga.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Málaga",
+            "contenido": "Accedió a la alcaldía de Málaga en 2000 y desde entonces ha revalidado el cargo en sucesivas elecciones, con y sin mayoría absoluta.",
+            "fecha": "2000-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La transformación de Málaga",
+            "contenido": "Bajo su mandato, Málaga vivió una profunda transformación urbana y económica, con la apuesta por los museos (Picasso, Pompidou, Thyssen), la tecnología y el turismo.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Decano de los grandes alcaldes",
+            "contenido": "Su permanencia de más de dos décadas lo ha convertido en uno de los alcaldes más veteranos del país, con un perfil personalista y moderado.",
+            "fecha": "2023-05-28"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Málaga como marca",
+            "contenido": "Defiende el modelo de Málaga como ciudad de cultura, tecnología y turismo, con un perfil moderado y transversal que trasciende la disciplina estricta de partido.",
+            "tags": [
+              "pp",
+              "andalucia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Manuel Moreno Bonilla",
+            "contenido": "**Presidente de la Junta de Andalucía** (nota +6/10) — Coordinación PP entre la ciudad y la Junta.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Veterano del partido, con perfil propio y autonomía.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Málaga · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.malaga.eu",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Málaga",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-ballesta",
+    "tipo": "politico",
+    "nombre": "José Antonio Ballesta Germán",
+    "alias": "José Ballesta",
+    "cargo": "Alcalde de Murcia",
+    "bio_corta": "Alcalde de Murcia (PP); lo fue 2015-2021 (cesado por moción de censura) y recuperó la alcaldía en 2023.",
+    "fuente_principal": "https://www.murcia.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "murcia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "José Antonio Ballesta Germán es alcalde de Murcia, dirigente del PP. Catedrático universitario y exrector, fue alcalde de la ciudad entre 2015 y 2021 —cuando una moción de censura lo desalojó— y recuperó la alcaldía tras las elecciones de 2023. Gobierna la séptima ciudad de España, con una agenda centrada en la huerta, el soterramiento del ferrocarril, el agua y la modernización urbana, en coordinación con el Gobierno regional de Fernando López Miras. Profesor universitario y gestor antes que político de partido, afronta el reto de modernizar la séptima ciudad de España y de cerrar heridas tras la inestabilidad institucional del mandato anterior."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Catedrático y gestor",
+            "contenido": "Catedrático universitario y exrector de la Universidad de Murcia, dio el salto a la política municipal de la mano del PP.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primer mandato y moción de censura",
+            "contenido": "Fue alcalde de Murcia desde 2015 hasta 2021, cuando una moción de censura de PSOE y Ciudadanos le arrebató la alcaldía.",
+            "fecha": "2015-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Regreso a la alcaldía",
+            "contenido": "Tras las elecciones de 2023 recuperó la alcaldía de Murcia para el PP, volviendo al cargo que había perdido dos años antes.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la ciudad",
+            "contenido": "Su mandato se centra en el soterramiento del ferrocarril, la huerta, el agua y la modernización de una de las grandes ciudades del sureste.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha murciano",
+            "contenido": "Defiende los intereses de Murcia (agua, huerta, infraestructuras) en coordinación con el Gobierno regional de López Miras.",
+            "tags": [
+              "pp",
+              "murcia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Fernando López Miras",
+            "contenido": "**Presidente de la Región de Murcia** (nota +6/10) — Coordinación PP entre la capital y la Comunidad.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineado con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Murcia · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.murcia.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Murcia",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jaime-martinez",
+    "tipo": "politico",
+    "nombre": "Jaime Martínez Llabrés",
+    "alias": "Jaime Martínez",
+    "cargo": "Alcalde de Palma",
+    "bio_corta": "Alcalde de Palma (PP) desde 2023; exconsejero de Turismo del Govern balear.",
+    "fuente_principal": "https://www.palma.cat",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "baleares"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jaime Martínez Llabrés es alcalde de Palma desde 2023, dirigente del PP balear. Exconsejero de Turismo del Govern, ganó las elecciones municipales de 2023 y recuperó la capital balear para el centroderecha. Gobierna la mayor ciudad de las islas, marcada por la fuerte presión turística, el difícil acceso a la vivienda y la movilidad, en sintonía con el Govern de Marga Prohens y con un perfil de gestión ligado al sector turístico, motor económico del archipiélago. Gobierna una ciudad tensionada entre su éxito turístico y los problemas de vivienda y saturación que ese mismo éxito genera, en una de las comunidades con mayor presión inmobiliaria de España."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Empresa y turismo",
+            "contenido": "Con experiencia en el sector empresarial y turístico, desarrolló su carrera política en el PP de Baleares, llegando a consejero de Turismo del Govern.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Consejero autonómico",
+            "contenido": "Ocupó responsabilidades de gobierno en la Comunidad Autónoma, especialmente en el área de turismo, motor económico de las islas.",
+            "fecha": "2011-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Palma",
+            "contenido": "Ganó las elecciones de 2023 y fue investido alcalde de Palma, recuperando la capital balear para el PP.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Turismo y vivienda",
+            "contenido": "Su mandato afronta la masificación turística, la emergencia habitacional y la movilidad de una ciudad mediterránea de gran atractivo.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Gestión turística insular",
+            "contenido": "Defiende un modelo turístico ordenado y medidas sobre vivienda y movilidad, en coordinación con el Govern de Marga Prohens.",
+            "tags": [
+              "pp",
+              "baleares"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Marga Prohens",
+            "contenido": "**Presidenta del Govern de las Islas Baleares** (nota +6/10) — Coordinación PP entre la capital y el Govern.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineado con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Palma · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.palma.cat",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Palma",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carolina-darias",
+    "tipo": "politico",
+    "nombre": "Carolina Darias San Sebastián",
+    "alias": "Carolina Darias",
+    "cargo": "Alcaldesa de Las Palmas de Gran Canaria",
+    "bio_corta": "Alcaldesa de Las Palmas de Gran Canaria (PSOE) desde 2023; exministra de Sanidad de Sánchez.",
+    "fuente_principal": "https://www.laspalmasgc.es",
+    "tags": [
+      "politico",
+      "psoe",
+      "alcalde",
+      "canarias"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Carolina Darias San Sebastián (Las Palmas de Gran Canaria, 1965) es alcaldesa de Las Palmas de Gran Canaria desde 2023 y dirigente del PSOE canario. Antes fue ministra de Política Territorial y de Sanidad en el Gobierno de Pedro Sánchez, donde gestionó parte de la pandemia de COVID-19. Jurista y veterana política, regresó a su ciudad natal para liderar la alcaldía de la capital grancanaria, con una agenda de vivienda, turismo, movilidad y servicios sociales. Su salto de ministra a alcaldesa ilustra el peso que el PSOE concede al poder municipal y la convierte en una de las socialistas de mayor perfil institucional en Canarias."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Política canaria y estatal",
+            "contenido": "Jurista de formación, desarrolló su carrera en la política canaria (fue consejera y parlamentaria) antes de dar el salto al Gobierno central.",
+            "fecha": "2007-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ministra de Sánchez",
+            "contenido": "Fue ministra de Política Territorial y Función Pública y después ministra de Sanidad en el Gobierno de Pedro Sánchez, gestionando parte de la pandemia.",
+            "fecha": "2020-01-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Las Palmas",
+            "contenido": "En 2023 encabezó la candidatura socialista y fue investida alcaldesa de Las Palmas de Gran Canaria, regresando a la política municipal de su ciudad.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la capital",
+            "contenido": "Su mandato se centra en el turismo, la vivienda, la movilidad y los servicios sociales de una de las mayores ciudades canarias.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Socialismo municipal canario",
+            "contenido": "Defiende una agenda social y de servicios públicos, leal a la dirección federal del PSOE, en una comunidad gobernada por Coalición Canaria y el PP.",
+            "tags": [
+              "psoe",
+              "canarias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +7/10) — Exministra de su Gobierno, leal a la dirección federal.",
+            "tags": [
+              "psoe",
+              "nota-+7",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Las Palmas de Gran Canaria · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.laspalmasgc.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Las Palmas de Gran Canaria",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "juan-mari-aburto",
+    "tipo": "politico",
+    "nombre": "Juan María Aburto Rike",
+    "alias": "Juan Mari Aburto",
+    "cargo": "Alcalde de Bilbao",
+    "bio_corta": "Alcalde de Bilbao (PNV) desde 2015; sucesor de Azkuna, gobierna con el PSE-EE.",
+    "fuente_principal": "https://www.bilbao.eus",
+    "tags": [
+      "politico",
+      "pnv",
+      "alcalde",
+      "pais-vasco"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Juan María Aburto Rike (Bilbao, 1961) es alcalde de Bilbao desde 2015, dirigente del PNV. Procedente del ámbito social y de la Diputación Foral de Bizkaia, ha consolidado el dominio jeltzale en la capital vizcaína, gobernando habitualmente en coalición con el PSE-EE. Representa la continuidad del nacionalismo moderado del PNV en la gestión de la mayor ciudad del País Vasco, con la cultura, la transformación urbana postindustrial y los servicios como ejes de su mandato. Bajo su gestión, Bilbao ha seguido proyectándose internacionalmente como modelo de regeneración urbana —el llamado «efecto Guggenheim»—, referencia mundial de transformación de ciudades industriales."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Del ámbito social a la Diputación",
+            "contenido": "Vinculado al mundo asociativo y social, desarrolló su carrera en el PNV y en la Diputación Foral de Bizkaia, donde fue diputado de Empleo y Políticas Sociales.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Bilbao",
+            "contenido": "Sucedió a Iñaki Azkuna al frente de la alcaldía de Bilbao en 2015, dando continuidad al proyecto de transformación de la ciudad.",
+            "fecha": "2015-06-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reelecciones",
+            "contenido": "Ha revalidado la alcaldía en sucesivas elecciones, manteniendo el liderazgo del PNV en la capital vizcaína en coalición con los socialistas.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Bilbao postindustrial",
+            "contenido": "Su gestión profundiza en la transformación de Bilbao como ciudad de servicios, cultura y turismo tras su reconversión industrial, con el Guggenheim como símbolo.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Nacionalismo moderado de gestión",
+            "contenido": "Defiende un PNV de gestión y transformación urbana, en coalición con el PSE-EE, dentro de la estrategia del partido en las instituciones vascas.",
+            "tags": [
+              "pnv",
+              "pais-vasco"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "**Lehendakari (Gobierno Vasco)** (nota +7/10) — Mismo partido (PNV); coordinación entre la capital y el Gobierno vasco.",
+            "tags": [
+              "pnv",
+              "nota-+7",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Bilbao · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.bilbao.eus/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Bilbao",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jesus-julio-carnero",
+    "tipo": "politico",
+    "nombre": "Jesús Julio Carnero García",
+    "alias": "Jesús Julio Carnero",
+    "cargo": "Alcalde de Valladolid",
+    "bio_corta": "Alcalde de Valladolid (PP) desde 2023; desbancó al socialista Óscar Puente. Gobierna con Vox.",
+    "fuente_principal": "https://www.valladolid.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "castilla-y-leon"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jesús Julio Carnero García es alcalde de Valladolid desde 2023, dirigente del PP de Castilla y León. Abogado y veterano cargo autonómico —fue consejero de la Junta y presidente de la Diputación de Valladolid—, ganó la alcaldía en 2023 arrebatándola al socialista Óscar Puente, que poco después se incorporó al Gobierno de Sánchez como ministro de Transportes. Gobierna la capital vallisoletana con el apoyo de Vox y una agenda industrial, de movilidad y de vivienda. Su llegada a la alcaldía estuvo ligada al ascenso de Óscar Puente a la primera línea estatal, y dirige una ciudad clave para la automoción española en plena transformación del sector hacia el vehículo eléctrico."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Cargo autonómico y provincial",
+            "contenido": "Abogado, desarrolló una larga carrera en el PP de Castilla y León, siendo presidente de la Diputación de Valladolid y consejero de la Junta.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Consejero de la Junta",
+            "contenido": "Ocupó consejerías en el Gobierno autonómico de Castilla y León, ganando experiencia de gestión.",
+            "fecha": "2019-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Valladolid",
+            "contenido": "En 2023 ganó la alcaldía de Valladolid, desbancando al socialista Óscar Puente, con el apoyo de Vox.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la capital",
+            "contenido": "Su mandato se centra en la industria (automoción), la movilidad, la vivienda y los servicios de la principal ciudad de Castilla y León.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha castellanoleonés",
+            "contenido": "Defiende una gestión de centroderecha y la reivindicación industrial de Valladolid, en coordinación con la Junta de Mañueco.",
+            "tags": [
+              "pp",
+              "castilla-y-leon"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Alfonso Fernández Mañueco",
+            "contenido": "**Presidente de la Junta de Castilla y León** (nota +6/10) — Coordinación PP entre la capital y la Junta.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineado con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Valladolid · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.valladolid.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Valladolid",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "abel-caballero",
+    "tipo": "politico",
+    "nombre": "Abel Caballero Álvarez",
+    "alias": "Abel Caballero",
+    "cargo": "Alcalde de Vigo",
+    "bio_corta": "Alcalde de Vigo (PSOE) desde 2007 con mayorías absolutas crecientes; presidente de la FEMP. Exministro con Felipe González.",
+    "fuente_principal": "https://www.vigo.org",
+    "tags": [
+      "politico",
+      "psoe",
+      "alcalde",
+      "galicia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Abel Caballero Álvarez (Ponteareas, Pontevedra, 1946) es alcalde de Vigo desde 2007 y presidente de la Federación Española de Municipios y Provincias (FEMP). Catedrático de Economía y exministro de Transportes con Felipe González, es uno de los alcaldes más veteranos, populares y mediáticos de España, conocido por sus arrolladoras mayorías absolutas y por la espectacular iluminación navideña que ha convertido a Vigo en un fenómeno turístico nacional. Su figura, omnipresente en los medios y en las redes, encarna un modelo de alcalde-marca que combina la gestión local con una enorme proyección mediática personal poco habitual en el municipalismo."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Ministro con Felipe González",
+            "contenido": "Catedrático de Economía, fue diputado y ministro de Transportes, Turismo y Comunicaciones en el Gobierno de Felipe González en los años ochenta.",
+            "fecha": "1985-07-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Vigo",
+            "contenido": "Regresó a la política municipal y en 2007 fue elegido alcalde de Vigo, cargo en el que se ha consolidado con sucesivas mayorías absolutas cada vez más amplias.",
+            "fecha": "2007-06-16"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de la FEMP",
+            "contenido": "Preside la Federación Española de Municipios y Provincias, convirtiéndose en la voz institucional del municipalismo español ante el Estado.",
+            "fecha": "2019-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El fenómeno de las luces",
+            "contenido": "Ha dado a Vigo enorme proyección mediática con su apuesta por la Navidad y la iluminación, además de grandes proyectos urbanos, con un estilo personalista y desenfadado.",
+            "fecha": "2016-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Socialismo municipal y municipalismo",
+            "contenido": "Defiende los intereses de Vigo y del municipalismo español (financiación local), con un fuerte liderazgo personal y lealtad a la dirección federal del PSOE.",
+            "tags": [
+              "psoe",
+              "galicia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +7/10) — Barón municipal leal a la dirección federal.",
+            "tags": [
+              "psoe",
+              "nota-+7",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Vigo · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.vigo.org",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Vigo",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "carmen-moriyon",
+    "tipo": "politico",
+    "nombre": "Carmen Moriyón Entrialgo",
+    "alias": "Carmen Moriyón",
+    "cargo": "Alcaldesa de Gijón",
+    "bio_corta": "Alcaldesa de Gijón (Foro Asturias); lo fue 2011-2019 y volvió en 2023 con apoyo del PP.",
+    "fuente_principal": "https://www.gijon.es",
+    "tags": [
+      "politico",
+      "foro",
+      "alcalde",
+      "asturias"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Carmen Moriyón Entrialgo (Gijón, 1967) es alcaldesa de Gijón, dirigente de Foro Asturias, el partido regionalista fundado por Francisco Álvarez-Cascos. Médica de profesión, ya fue alcaldesa de la ciudad entre 2011 y 2019 y recuperó la alcaldía en 2023 gobernando con el apoyo del PP. Representa el regionalismo asturiano de centroderecha en la mayor ciudad del Principado, con la industria, el puerto de El Musel y los servicios como prioridades de su gestión. Su perfil de médica y su marca regionalista le permiten un discurso transversal, alejado de la confrontación de bloques, en la mayor ciudad de Asturias."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Médica y política regionalista",
+            "contenido": "Médica de profesión, dio el salto a la política de la mano de Foro Asturias, el partido fundado por Francisco Álvarez-Cascos.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primera etapa como alcaldesa",
+            "contenido": "Fue alcaldesa de Gijón entre 2011 y 2019, al frente de Foro, en una etapa de coaliciones y pactos en el Ayuntamiento.",
+            "fecha": "2011-06-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Regreso a la alcaldía",
+            "contenido": "Tras unos años fuera del cargo, recuperó la alcaldía de Gijón en 2023 con el apoyo del PP, manteniendo viva la marca de Foro Asturias.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la ciudad",
+            "contenido": "Su mandato se centra en la industria, el puerto de El Musel, la movilidad y los servicios de la mayor ciudad de Asturias.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Regionalismo asturiano de centroderecha",
+            "contenido": "Defiende los intereses de Gijón y Asturias desde un regionalismo de centroderecha, en colaboración con el PP frente al PSOE de Barbón.",
+            "tags": [
+              "foro",
+              "asturias"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Adrián Barbón",
+            "contenido": "**Presidente del Principado de Asturias** (nota -3/10) — Rivalidad institucional: gobierno municipal de centroderecha frente al Principado socialista.",
+            "tags": [
+              "psoe",
+              "nota--3",
+              "tension"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +4/10) — El PP es su socio de gobierno municipal en Gijón.",
+            "tags": [
+              "pp",
+              "nota-+4",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Gijón · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.gijon.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Gijón",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "ines-rey",
+    "tipo": "politico",
+    "nombre": "Inés Rey García",
+    "alias": "Inés Rey",
+    "cargo": "Alcaldesa de A Coruña",
+    "bio_corta": "Alcaldesa de A Coruña (PSOE) desde 2019, reelegida en 2023.",
+    "fuente_principal": "https://www.coruna.gal",
+    "tags": [
+      "politico",
+      "psoe",
+      "alcalde",
+      "galicia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Inés Rey García (A Coruña, 1979) es alcaldesa de A Coruña desde 2019, dirigente del PSdeG-PSOE. Abogada, recuperó la alcaldía coruñesa para el socialismo y la revalidó en 2023, consolidando el dominio de la izquierda en la ciudad herculina. Gobierna una de las principales urbes gallegas, con una agenda de vivienda, regeneración urbana (la fachada marítima), movilidad y servicios, en contraposición a la Xunta del PP de Alfonso Rueda. Representa el perfil de alcaldesa joven que el PSOE ha promovido en las grandes ciudades, y gobierna una urbe atlántica de fuerte peso económico y portuario, en permanente competencia institucional con una Xunta de signo contrario."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abogada y socialista coruñesa",
+            "contenido": "Abogada de formación, desarrolló su carrera en el PSdeG, ganando peso en la política municipal de A Coruña.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldesa de A Coruña",
+            "contenido": "En 2019 fue investida alcaldesa de A Coruña, recuperando el bastón de mando para el PSOE.",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reelección en 2023",
+            "contenido": "Revalidó la alcaldía en 2023, consolidando su liderazgo en la ciudad frente a la Xunta del PP.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Regeneración urbana",
+            "contenido": "Su mandato se centra en la vivienda, la regeneración de la fachada marítima, la movilidad y los grandes proyectos urbanos de la ciudad.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Socialismo municipal gallego",
+            "contenido": "Defiende una agenda social y de regeneración urbana, leal a la dirección federal del PSOE y en contraposición a la Xunta del PP de Rueda.",
+            "tags": [
+              "psoe",
+              "galicia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +6/10) — Alcaldesa leal a la dirección federal.",
+            "tags": [
+              "psoe",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alfonso Rueda",
+            "contenido": "**Presidente de la Xunta de Galicia** (nota -3/10) — Rivalidad institucional entre la ciudad socialista y la Xunta del PP.",
+            "tags": [
+              "pp",
+              "nota--3",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de A Coruña · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.coruna.gal/transparencia/es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de A Coruña",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "marifran-carazo",
+    "tipo": "politico",
+    "nombre": "María Francisca Carazo Villalonga",
+    "alias": "Marifrán Carazo",
+    "cargo": "Alcaldesa de Granada",
+    "bio_corta": "Alcaldesa de Granada (PP) desde 2023; exconsejera de Fomento de la Junta de Andalucía.",
+    "fuente_principal": "https://www.granada.org",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "andalucia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María Francisca «Marifrán» Carazo Villalonga (Granada, 1976) es alcaldesa de Granada desde 2023, dirigente del PP andaluz. Fue consejera de Fomento de la Junta de Andalucía con Juan Manuel Moreno antes de encabezar la candidatura municipal y recuperar la alcaldía de Granada para el PP. Gobierna una ciudad de fuerte peso turístico y universitario —con la Alhambra como emblema mundial—, con la movilidad (el metro, los accesos), el turismo y la vivienda como grandes prioridades. Su trayectoria —de consejera autonómica a alcaldesa— refleja la estrategia del PP de situar perfiles de gestión en las grandes capitales, y afronta el reto de impulsar las eternamente reclamadas infraestructuras ferroviarias de Granada."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Carrera en el PP de Granada",
+            "contenido": "Desarrolló su carrera en el PP de Granada, ocupando cargos municipales y autonómicos en su provincia.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Consejera de la Junta",
+            "contenido": "Fue consejera de Fomento, Infraestructuras y Ordenación del Territorio de la Junta de Andalucía en el Gobierno de Moreno Bonilla.",
+            "fecha": "2019-01-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Granada",
+            "contenido": "En 2023 encabezó la candidatura del PP y fue investida alcaldesa de Granada, recuperando la ciudad para el centroderecha.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la ciudad",
+            "contenido": "Su mandato se centra en el turismo (la Alhambra), la movilidad, la universidad y la vivienda de una de las grandes ciudades de Andalucía.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha andaluz",
+            "contenido": "Defiende una gestión de centroderecha y la reivindicación de infraestructuras (AVE, accesos) para Granada, en sintonía con la Junta de Moreno Bonilla.",
+            "tags": [
+              "pp",
+              "andalucia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Manuel Moreno Bonilla",
+            "contenido": "**Presidente de la Junta de Andalucía** (nota +7/10) — Mentor político: Carazo fue su consejera de Fomento.",
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineada con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Granada · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.granada.org",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Granada",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "jose-maria-bellido",
+    "tipo": "politico",
+    "nombre": "José María Bellido Roche",
+    "alias": "José María Bellido",
+    "cargo": "Alcalde de Córdoba",
+    "bio_corta": "Alcalde de Córdoba (PP) desde 2019, con mayoría absoluta desde 2023.",
+    "fuente_principal": "https://www.cordoba.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "andalucia"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "José María Bellido Roche (Córdoba, 1977) es alcalde de Córdoba desde 2019, dirigente del PP andaluz. Abogado, recuperó la alcaldía cordobesa para el centroderecha y la revalidó en 2023 con mayoría absoluta, consolidando el giro de una ciudad históricamente disputada por la izquierda (incluido el PCE/IU). Gobierna una urbe de enorme patrimonio —con la Mezquita-Catedral como símbolo—, con el turismo, el agua y las infraestructuras como ejes de su mandato. Su mayoría absoluta en 2023 consolidó un giro político notable en una ciudad de fuerte tradición de izquierdas, y afronta los grandes retos de Córdoba: el turismo cultural, el agua, el desempleo y las conexiones ferroviarias y por autovía con el resto de Andalucía."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abogado y concejal",
+            "contenido": "Abogado de formación, desarrolló su carrera en el PP de Córdoba, ocupando concejalías en el Ayuntamiento.",
+            "fecha": "2011-06-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Córdoba",
+            "contenido": "En 2019 fue investido alcalde de Córdoba, recuperando la ciudad para el centroderecha.",
+            "fecha": "2019-06-15"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Mayoría absoluta",
+            "contenido": "En 2023 revalidó la alcaldía con mayoría absoluta, consolidando su liderazgo en una ciudad de tradición política plural.",
+            "fecha": "2023-05-28"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Patrimonio y turismo",
+            "contenido": "Su mandato se centra en el turismo y el patrimonio (la Mezquita-Catedral), el agua, la agricultura del entorno y las infraestructuras.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha andaluz",
+            "contenido": "Defiende una gestión de centroderecha centrada en turismo, patrimonio y agua, en coordinación con la Junta de Moreno Bonilla.",
+            "tags": [
+              "pp",
+              "andalucia"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Manuel Moreno Bonilla",
+            "contenido": "**Presidente de la Junta de Andalucía** (nota +6/10) — Coordinación PP entre la ciudad y la Junta.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineado con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Córdoba · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.cordoba.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Córdoba",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "maider-etxebarria",
+    "tipo": "politico",
+    "nombre": "Maider Etxebarria García",
+    "alias": "Maider Etxebarria",
+    "cargo": "Alcaldesa de Vitoria-Gasteiz",
+    "bio_corta": "Alcaldesa de Vitoria-Gasteiz (PSE-EE) desde 2023; accedió pese a no ganar, apartando al PNV.",
+    "fuente_principal": "https://www.vitoria-gasteiz.org",
+    "tags": [
+      "politico",
+      "psoe",
+      "alcalde",
+      "pais-vasco"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Maider Etxebarria García es alcaldesa de Vitoria-Gasteiz desde 2023, dirigente del PSE-EE (los socialistas vascos). Accedió a la alcaldía de la capital de Euskadi pese a no ganar las elecciones, en un pacto que desplazó al PNV de la alcaldía, lo que tensó la relación entre socialistas y jeltzales pese a compartir el Gobierno vasco. Gobierna la sede de las instituciones de Euskadi, con la vivienda, la movilidad sostenible y los servicios sociales como prioridades."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Socialista alavesa",
+            "contenido": "Desarrolló su carrera en el PSE-EE en Álava, ocupando responsabilidades orgánicas e institucionales antes de liderar la candidatura municipal.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Candidata en Vitoria",
+            "contenido": "Encabezó la candidatura del PSE-EE en Vitoria-Gasteiz en las elecciones municipales de 2023.",
+            "fecha": "2023-05-28"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Vitoria",
+            "contenido": "Fue investida alcaldesa de Vitoria-Gasteiz en 2023 pese a no ganar las elecciones, mediante un pacto que apartó al PNV de la alcaldía de la capital vasca.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la capital vasca",
+            "contenido": "Su mandato se centra en la vivienda, la movilidad sostenible (Vitoria es referente verde europeo) y los servicios sociales de la sede de las instituciones de Euskadi. Su acceso a la alcaldía sin haber ganado las elecciones, apartando al PNV, ha marcado su mandato y tensa la convivencia entre socialistas y nacionalistas en la capital vasca.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Socialismo municipal vasco",
+            "contenido": "Defiende una agenda social y de sostenibilidad, en una relación compleja con el PNV pese a compartir el Gobierno vasco a nivel autonómico.",
+            "tags": [
+              "psoe",
+              "pais-vasco"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +6/10) — Alineada con la dirección federal del partido.",
+            "tags": [
+              "psoe",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "**Lehendakari (Gobierno Vasco)** (nota -2/10) — Tensión PNV-PSE por la alcaldía de Vitoria pese a la coalición autonómica.",
+            "tags": [
+              "pnv",
+              "nota--2",
+              "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Vitoria-Gasteiz · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.vitoria-gasteiz.org/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Vitoria-Gasteiz",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "luis-barcala",
+    "tipo": "politico",
+    "nombre": "Luis Barcala Sierra",
+    "alias": "Luis Barcala",
+    "cargo": "Alcalde de Alicante",
+    "bio_corta": "Alcalde de Alicante (PP) desde 2018, reelegido en 2019 y 2023.",
+    "fuente_principal": "https://www.alicante.es",
+    "tags": [
+      "politico",
+      "pp",
+      "alcalde",
+      "comunidad-valenciana"
+    ],
+    "confidence": 0.9,
+    "completeness": 0.95,
+    "apartados": [
+      {
+        "tipo": "identidad",
+        "orden": 0,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Luis Barcala Sierra (Alicante, 1961) es alcalde de Alicante desde 2018, dirigente del PP. Abogado, accedió a la alcaldía durante el mandato y la revalidó en 2019 y 2023, consolidando el dominio del centroderecha en la segunda ciudad de la Comunidad Valenciana. Gobierna una urbe mediterránea de fuerte peso turístico, con los grandes proyectos urbanos (el puerto, las playas), la movilidad y las infraestructuras como prioridades, en coordinación con la Generalitat del PP. Veterano de la política alicantina, gobierna una ciudad de fuerte crecimiento y atractivo turístico del litoral mediterráneo, con grandes proyectos urbanos pendientes en el frente portuario y las playas."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Abogado y concejal",
+            "contenido": "Abogado de formación, desarrolló su carrera en el PP de Alicante, ocupando concejalías y la portavocía municipal.",
+            "fecha": "2011-06-11"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Alcalde de Alicante",
+            "contenido": "Accedió a la alcaldía de Alicante en 2018 durante el mandato, tras la salida de su predecesor.",
+            "fecha": "2018-04-18"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Reelecciones",
+            "contenido": "Revalidó la alcaldía en 2019 y 2023, consolidando el gobierno del PP en la ciudad, con apoyo de Vox en la última etapa.",
+            "fecha": "2023-06-17"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Gestión de la ciudad",
+            "contenido": "Su mandato se centra en el turismo, los grandes proyectos urbanos (el puerto, las playas), la movilidad y las infraestructuras de la ciudad.",
+            "fecha": "2024-01-01"
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha alicantino",
+            "contenido": "Defiende una gestión de centroderecha centrada en turismo e infraestructuras, en coordinación con la Generalitat Valenciana del PP.",
+            "tags": [
+              "pp",
+              "comunidad-valenciana"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "redes",
+        "orden": 3,
+        "items": [
+          {
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +6/10) — Alineado con la dirección nacional del partido.",
+            "tags": [
+              "pp",
+              "nota-+6",
+              "alianza"
+            ]
+          },
+          {
+            "tipo": "contacto",
+            "titulo": "Juan Francisco Pérez Llorca",
+            "contenido": "**Presidente de la Generalitat Valenciana** (nota +5/10) — Coordinación PP entre la ciudad y la Generalitat.",
+            "tags": [
+              "pp",
+              "nota-+5",
+              "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Alicante · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.alicante.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Alicante",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
