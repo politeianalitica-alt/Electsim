@@ -18875,7 +18875,7 @@
     "bio_corta": "Padre de Alberto Núñez de Cardenal. · Licenciado en Derecho (1979-1984) Compostela. Grupo A. Técnico Superior Xunta de Galicia 1985. Alto cargo del Gobierno de España (1996-2003). Alto cargo en la Xunta de Galicia (1991-1996). Miembro Gobierno y Presidente de la Xunta de Galicia …",
     "fuente_principal": "https://www.congreso.es/es/busqueda-de-diputados",
     "confidence": 0.95,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -18884,7 +18884,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Padre de Alberto Núñez de Cardenal. · Licenciado en Derecho (1979-1984) Compostela. Grupo A. Técnico Superior Xunta de Galicia 1985. Alto cargo del Gobierno de España (1996-2003). Alto cargo en la Xunta de Galicia (1991-1996). Miembro Gobierno y Presidente de la Xunta de Galicia …"
+            "contenido": "Alberto Núñez Feijóo (Ourense, 1961) es el presidente del Partido Popular y líder de la oposición desde 2022. Funcionario y gestor sanitario de formación, presidió la Xunta de Galicia durante 13 años con cuatro mayorías absolutas consecutivas, un récord que lo convirtió en el barón territorial más sólido del PP. Tras la crisis del liderazgo de Pablo Casado, asumió la presidencia nacional del partido con el objetivo de llegar a la Moncloa; ganó las elecciones de 2023 en escaños pero no logró la investidura, quedándose como líder de la oposición frente a Pedro Sánchez."
           },
           {
             "tipo": "dato",
@@ -18903,15 +18903,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Biografía (ficha oficial del Congreso)",
-            "contenido": "Padre de Alberto Núñez de Cardenal. · Licenciado en Derecho (1979-1984) Compostela. Grupo A. Técnico Superior Xunta de Galicia 1985. Alto cargo del Gobierno de España (1996-2003). Alto cargo en la Xunta de Galicia (1991-1996). Miembro Gobierno y Presidente de la Xunta de Galicia (2003-2005 ; 2009-2021). Presidente del Partido Popular de España (2022-2023)."
+            "titulo": "Funcionario y gestor",
+            "contenido": "Funcionario de carrera, ocupó altos cargos en la sanidad gallega y estatal (Insalud, Correos) antes de liderar el PP de Galicia.",
+            "fecha": "1996-01-01"
           },
           {
-            "tipo": "dato",
-            "titulo": "Actividades económicas declaradas (anteriores al escaño)",
-            "contenido": "DIPUTADO (PARLAMENTO DE GALICIA, , 2009-2022) · PRESIDENTE (XUNT A DE GALICIA, , 2009-2022) · PRESIDENTE (PARTIDO POPULAR DE GALICIA, , 2006-2022) · PRESIDENTE (PARTIDO POPULAR, , abril 2022-) · SENADOR EN REPRESENTACIÓN AUTONÓMICA (SENADO, , mayo 2022-julio 2023)",
-            "fecha": "16/08/2023",
-            "fuente_titulo": "Declaración de intereses · Congreso (opendata)"
+            "tipo": "evento",
+            "titulo": "Presidente de la Xunta",
+            "contenido": "Presidió la Xunta de Galicia desde 2009, encadenando cuatro mayorías absolutas, con un perfil de gestor moderado y eficaz que lo convirtió en referencia del partido.",
+            "fecha": "2009-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Salto a la dirección nacional",
+            "contenido": "Tras la crisis interna que se llevó por delante a Pablo Casado, fue elegido presidente nacional del PP en 2022, con el mandato de recuperar el poder.",
+            "fecha": "2022-04-02"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Líder de la oposición",
+            "contenido": "Ganó las elecciones generales de julio de 2023 en escaños, pero no consiguió los apoyos para la investidura, quedándose como líder de la oposición frente al Gobierno de coalición de Sánchez.",
+            "fecha": "2023-07-23"
           }
         ]
       },
@@ -18951,6 +18963,21 @@
             "fecha": "16/08/2023",
             "tags": [
               "intereses"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "posiciones",
+        "orden": 2,
+        "items": [
+          {
+            "tipo": "dato",
+            "titulo": "Centroderecha moderado",
+            "contenido": "Defiende un PP de centroderecha, de gestión y moderación, aunque presionado por la competencia de Vox; hace de la regeneración institucional, la economía y la crítica a los pactos de Sánchez con el independentismo sus ejes.",
+            "tags": [
+              "pp",
+              "oposicion"
             ]
           }
         ]

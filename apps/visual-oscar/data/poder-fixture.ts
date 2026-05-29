@@ -244,8 +244,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0002",
@@ -482,8 +482,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0003",
@@ -697,8 +697,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0004",
@@ -922,8 +922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0005",
@@ -1107,8 +1107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0006",
@@ -1275,8 +1275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0007",
@@ -1468,8 +1468,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0008",
@@ -1649,8 +1649,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0009",
@@ -1833,8 +1833,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0010",
@@ -2055,8 +2055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0011",
@@ -2279,8 +2279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0012",
@@ -2406,8 +2406,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0013",
@@ -2630,8 +2630,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0014",
@@ -2824,8 +2824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0015",
@@ -3013,8 +3013,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0016",
@@ -3191,8 +3191,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0017",
@@ -3364,8 +3364,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0018",
@@ -3563,8 +3563,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0019",
@@ -3760,8 +3760,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0020",
@@ -3920,8 +3920,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0021",
@@ -4102,8 +4102,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0022",
@@ -4364,8 +4364,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0023",
@@ -4535,8 +4535,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0024",
@@ -4750,8 +4750,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0025",
@@ -4934,8 +4934,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0026",
@@ -5111,8 +5111,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0027",
@@ -5384,8 +5384,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0028",
@@ -5596,8 +5596,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0029",
@@ -5835,8 +5835,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0030",
@@ -6047,8 +6047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0031",
@@ -6228,8 +6228,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0032",
@@ -6365,8 +6365,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0033",
@@ -6530,8 +6530,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0034",
@@ -6650,8 +6650,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0035",
@@ -6777,8 +6777,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0036",
@@ -6938,8 +6938,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0037",
@@ -7148,8 +7148,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0038",
@@ -7356,8 +7356,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0039",
@@ -7529,8 +7529,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0040",
@@ -7686,8 +7686,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0041",
@@ -7857,8 +7857,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0042",
@@ -8014,8 +8014,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0043",
@@ -8154,8 +8154,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0044",
@@ -8361,8 +8361,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0045",
@@ -8521,8 +8521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0046",
@@ -8682,8 +8682,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0047",
@@ -8815,8 +8815,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0048",
@@ -8915,8 +8915,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0049",
@@ -9048,8 +9048,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0050",
@@ -9135,8 +9135,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0051",
@@ -9222,8 +9222,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0052",
@@ -9390,8 +9390,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0053",
@@ -9534,8 +9534,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0054",
@@ -9679,8 +9679,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0055",
@@ -9824,8 +9824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0056",
@@ -9956,8 +9956,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0057",
@@ -10137,8 +10137,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0058",
@@ -10307,8 +10307,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0059",
@@ -10477,8 +10477,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0060",
@@ -10658,8 +10658,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0061",
@@ -10866,8 +10866,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0062",
@@ -11051,8 +11051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0063",
@@ -11236,8 +11236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0064",
@@ -11421,8 +11421,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0065",
@@ -11521,8 +11521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0066",
@@ -11621,8 +11621,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0067",
@@ -11718,8 +11718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0068",
@@ -11806,8 +11806,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0069",
@@ -11965,8 +11965,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0070",
@@ -12079,8 +12079,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0071",
@@ -12236,8 +12236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0072",
@@ -12393,8 +12393,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0073",
@@ -12562,8 +12562,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0074",
@@ -12720,8 +12720,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0075",
@@ -12891,8 +12891,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0076",
@@ -13047,8 +13047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0077",
@@ -13216,8 +13216,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0078",
@@ -13338,8 +13338,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0079",
@@ -13521,8 +13521,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0080",
@@ -13707,8 +13707,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0081",
@@ -13864,8 +13864,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0082",
@@ -14021,8 +14021,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0083",
@@ -14154,8 +14154,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0084",
@@ -14325,8 +14325,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0085",
@@ -14401,8 +14401,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0086",
@@ -14533,8 +14533,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0087",
@@ -14677,8 +14677,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0088",
@@ -14798,8 +14798,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0089",
@@ -14930,8 +14930,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0090",
@@ -15043,8 +15043,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0091",
@@ -15207,8 +15207,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0092",
@@ -15355,8 +15355,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0093",
@@ -15519,8 +15519,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0094",
@@ -15683,8 +15683,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0095",
@@ -15847,8 +15847,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0096",
@@ -15995,8 +15995,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0097",
@@ -16159,8 +16159,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0098",
@@ -16307,8 +16307,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0099",
@@ -16471,8 +16471,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0100",
@@ -16635,8 +16635,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0101",
@@ -16799,8 +16799,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0102",
@@ -16963,8 +16963,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0103",
@@ -17127,8 +17127,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0104",
@@ -17275,8 +17275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0105",
@@ -17423,8 +17423,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0106",
@@ -17587,8 +17587,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0107",
@@ -17751,8 +17751,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0108",
@@ -17915,8 +17915,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0109",
@@ -18079,8 +18079,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0110",
@@ -18243,8 +18243,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0111",
@@ -18407,8 +18407,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0112",
@@ -18571,8 +18571,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0113",
@@ -18735,8 +18735,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0114",
@@ -18899,8 +18899,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0115",
@@ -19047,8 +19047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0116",
@@ -19195,8 +19195,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0117",
@@ -19359,8 +19359,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0118",
@@ -19507,8 +19507,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0119",
@@ -19671,8 +19671,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0120",
@@ -19835,8 +19835,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0121",
@@ -19999,8 +19999,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0122",
@@ -20163,8 +20163,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0123",
@@ -20327,8 +20327,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   },
   {
     "id": "pod-0124",
@@ -20491,8 +20491,2584 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T12:43:18.063843Z",
-    "updated_at": "2026-05-29T12:43:18.063843Z"
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0125",
+    "slug": "santiago-abascal",
+    "nombre_completo": "Santiago Abascal Conde",
+    "alias": "Santiago Abascal",
+    "cargo_actual": "Presidente de Vox",
+    "partido": "VOX",
+    "foto_url": null,
+    "bio_corta": "Presidente y fundador de Vox; líder de la derecha radical española y tercera fuerza del Congreso.",
+    "tags": [
+      "politico",
+      "vox",
+      "lider-nacional",
+      "vox"
+    ],
+    "fuente_principal": "https://www.voxespana.es",
+    "apartados": [
+      {
+        "id": "pod-0125-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0125-ap-00-it-00",
+            "apartado_id": "pod-0125-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Santiago Abascal Conde (Bilbao, 1976) es el presidente y fundador de Vox, el partido de la derecha radical que ha irrumpido con fuerza en la política española. Procedente de una familia vasca del PP castigada por el terrorismo de ETA, militó durante años en el Partido Popular del País Vasco antes de romper con él y fundar Vox en 2013. Bajo su liderazgo, el partido pasó de la irrelevancia a ser la tercera fuerza del Congreso, con un discurso nacionalista español, antiinmigración, contrario al «globalismo» y a los nacionalismos periféricos, y de defensa de la unidad de España.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0125-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0125-ap-01-it-00",
+            "apartado_id": "pod-0125-ap-01",
+            "tipo": "evento",
+            "titulo": "Del PP vasco a la ruptura",
+            "contenido": "Criado en una familia del PP del País Vasco amenazada por ETA, fue concejal y cargo del partido en Álava y en la Comunidad de Madrid, hasta romper con el PP por considerarlo tibio.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0125-ap-01-it-01",
+            "apartado_id": "pod-0125-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación de Vox",
+            "contenido": "En 2013 cofundó Vox junto a otros exdirigentes del PP, asumiendo después su liderazgo, en un partido inicialmente marginal que defendía una derecha «sin complejos».",
+            "fecha": "2013-12-17",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0125-ap-01-it-02",
+            "apartado_id": "pod-0125-ap-01",
+            "tipo": "evento",
+            "titulo": "La irrupción electoral",
+            "contenido": "Tras el desafío independentista catalán, Vox irrumpió en las instituciones (Andalucía 2018, Congreso 2019), consolidándose como tercera fuerza y entrando en gobiernos autonómicos en coalición con el PP.",
+            "fecha": "2019-04-28",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0125-ap-01-it-03",
+            "apartado_id": "pod-0125-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de la derecha radical",
+            "contenido": "Ha situado a Vox en la órbita de la derecha radical europea (Patriots), con un discurso antiinmigración, soberanista y contrario a la agenda climática y de género, en competencia y a la vez dependencia mutua con el PP.",
+            "fecha": "2023-07-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0125-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0125-ap-02-it-00",
+            "apartado_id": "pod-0125-ap-02",
+            "tipo": "dato",
+            "titulo": "Derecha radical y unidad de España",
+            "contenido": "Defiende la recentralización del Estado, el endurecimiento migratorio, la derogación de leyes «ideológicas» y la unidad de España frente a los nacionalismos, en confrontación frontal con el Gobierno de Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "derecha-radical"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0125-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0125-ap-03-it-00",
+            "apartado_id": "pod-0125-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -9/10) — Adversario frontal; encarna la oposición más dura al «sanchismo».",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--9",
+              "confrontacion"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0125-ap-03-it-01",
+            "apartado_id": "pod-0125-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota -2/10) — Competencia por el electorado de la derecha y a la vez socio imprescindible en gobiernos autonómicos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota--2",
+              "competencia"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0126",
+    "slug": "yolanda-diaz",
+    "nombre_completo": "Yolanda Díaz Pérez",
+    "alias": "Yolanda Díaz",
+    "cargo_actual": "Vicepresidenta segunda del Gobierno y líder de Sumar",
+    "partido": "SUMAR",
+    "foto_url": null,
+    "bio_corta": "Vicepresidenta 2ª, ministra de Trabajo y líder de Sumar; sucesora de Pablo Iglesias al frente de la izquierda alternativa.",
+    "tags": [
+      "politico",
+      "sumar",
+      "lider-nacional",
+      "sumar"
+    ],
+    "fuente_principal": "https://www.mites.gob.es",
+    "apartados": [
+      {
+        "id": "pod-0126-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0126-ap-00-it-00",
+            "apartado_id": "pod-0126-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Yolanda Díaz Pérez (Fene, A Coruña, 1971) es vicepresidenta segunda del Gobierno, ministra de Trabajo y líder de Sumar, la coalición de la izquierda alternativa. Abogada laboralista de familia comunista gallega, fue la sucesora de Pablo Iglesias al frente del espacio a la izquierda del PSOE. Como ministra de Trabajo impulsó la reforma laboral de 2021 y sucesivas subidas del salario mínimo, sus grandes logros, y en 2023 lanzó Sumar como plataforma para aglutinar a la izquierda, aunque el proyecto ha sufrido un fuerte desgaste, malos resultados y la ruptura con Podemos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0126-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0126-ap-01-it-00",
+            "apartado_id": "pod-0126-ap-01",
+            "tipo": "evento",
+            "titulo": "Abogada laboralista y comunista",
+            "contenido": "Hija de un histórico sindicalista, ejerció como abogada laboralista y militó en el PCE e Izquierda Unida, siendo diputada en el Parlamento gallego.",
+            "fecha": "2005-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0126-ap-01-it-01",
+            "apartado_id": "pod-0126-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministra de Trabajo",
+            "contenido": "En 2020 entró en el Gobierno de coalición como ministra de Trabajo, donde negoció con sindicatos y patronal la reforma laboral de 2021 y la subida del salario mínimo.",
+            "fecha": "2020-01-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0126-ap-01-it-02",
+            "apartado_id": "pod-0126-ap-01",
+            "tipo": "evento",
+            "titulo": "Vicepresidenta y sucesión de Iglesias",
+            "contenido": "Tras la salida de Pablo Iglesias asumió el liderazgo del espacio y la vicepresidencia, con un perfil más moderado y transversal que su predecesor.",
+            "fecha": "2021-03-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0126-ap-01-it-03",
+            "apartado_id": "pod-0126-ap-01",
+            "tipo": "evento",
+            "titulo": "El proyecto Sumar",
+            "contenido": "En 2023 lanzó la plataforma Sumar, que concurrió a las generales aglutinando a la izquierda, pero el proyecto se ha debilitado por los malos resultados, la ruptura con Podemos y las dudas sobre su continuidad.",
+            "fecha": "2023-07-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0126-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0126-ap-02-it-00",
+            "apartado_id": "pod-0126-ap-02",
+            "tipo": "dato",
+            "titulo": "Izquierda transformadora",
+            "contenido": "Defiende los derechos laborales, la reducción de la jornada, la subida del SMI y una agenda social y feminista, como socia minoritaria del PSOE en el Gobierno de coalición.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sumar",
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0126-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0126-ap-03-it-00",
+            "apartado_id": "pod-0126-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +5/10) — Socia de coalición: colaboración estable pero con tensiones recurrentes por las políticas sociales y los presupuestos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+5",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0126-ap-03-it-01",
+            "apartado_id": "pod-0126-ap-03",
+            "tipo": "contacto",
+            "titulo": "Ione Belarra",
+            "contenido": "**Secretaria general de Podemos** (nota -5/10) — Ruptura del espacio: Podemos abandonó Sumar y compite con Díaz por la izquierda.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "podemos",
+              "nota--5",
+              "ruptura"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0127",
+    "slug": "ione-belarra",
+    "nombre_completo": "Ione Belarra Gorka",
+    "alias": "Ione Belarra",
+    "cargo_actual": "Secretaria general de Podemos",
+    "partido": "PODEMOS",
+    "foto_url": null,
+    "bio_corta": "Secretaria general de Podemos y exministra de Derechos Sociales; lidera el ala más combativa de la izquierda.",
+    "tags": [
+      "politico",
+      "podemos",
+      "lider-nacional",
+      "podemos"
+    ],
+    "fuente_principal": "https://podemos.info",
+    "apartados": [
+      {
+        "id": "pod-0127-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0127-ap-00-it-00",
+            "apartado_id": "pod-0127-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ione Belarra Gorka (Pamplona, 1987) es la secretaria general de Podemos y exministra de Derechos Sociales y Agenda 2030. Psicóloga de formación, es una de las dirigentes de la generación fundadora de Podemos y heredó el liderazgo del partido de manos de Pablo Iglesias. Desde la ruptura con Sumar y la salida del Gobierno, lidera un Podemos reducido pero combativo, situado a la izquierda de Sumar y del PSOE, con un discurso radicalizado en feminismo, vivienda, la causa palestina y la crítica frontal a la OTAN y al aumento del gasto militar. Es una de las dirigentes que mantienen viva la marca Podemos pese a su drástica reducción parlamentaria y a la competencia de Sumar por el mismo espacio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0127-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0127-ap-01-it-00",
+            "apartado_id": "pod-0127-ap-01",
+            "tipo": "evento",
+            "titulo": "De la universidad a Podemos",
+            "contenido": "Psicóloga, se incorporó al núcleo fundador de Podemos, ejerciendo de diputada y secretaria de organización del partido.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0127-ap-01-it-01",
+            "apartado_id": "pod-0127-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministra de Derechos Sociales",
+            "contenido": "Fue ministra de Derechos Sociales y Agenda 2030 en el Gobierno de coalición, impulsando la ley de vivienda y políticas sociales.",
+            "fecha": "2021-03-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0127-ap-01-it-02",
+            "apartado_id": "pod-0127-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretaria general de Podemos",
+            "contenido": "Asumió la secretaría general de Podemos tras la marcha de Pablo Iglesias, manteniendo el perfil más combativo del espacio.",
+            "fecha": "2021-06-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0127-ap-01-it-03",
+            "apartado_id": "pod-0127-ap-01",
+            "tipo": "evento",
+            "titulo": "Ruptura con Sumar",
+            "contenido": "Tras los malos resultados y los choques con Yolanda Díaz, Podemos rompió con Sumar y se situó en la oposición por la izquierda al Gobierno, con un discurso radicalizado.",
+            "fecha": "2023-12-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0127-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0127-ap-02-it-00",
+            "apartado_id": "pod-0127-ap-02",
+            "tipo": "dato",
+            "titulo": "Izquierda de ruptura",
+            "contenido": "Defiende posiciones de izquierda radical en vivienda, feminismo, antimilitarismo y la causa palestina, situándose a la izquierda del Gobierno y criticando la moderación de Sumar.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "podemos",
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0127-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0127-ap-03-it-00",
+            "apartado_id": "pod-0127-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pablo Iglesias Turrión",
+            "contenido": "**Fundador de Podemos** (nota +7/10) — Mentor político y referente del proyecto que ahora lidera.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "podemos",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0127-ap-03-it-01",
+            "apartado_id": "pod-0127-ap-03",
+            "tipo": "contacto",
+            "titulo": "Yolanda Díaz",
+            "contenido": "**Vicepresidenta 2ª y líder de Sumar** (nota -5/10) — Ruptura y competencia por el espacio de la izquierda alternativa.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "sumar",
+              "nota--5",
+              "ruptura"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0128",
+    "slug": "carles-puigdemont",
+    "nombre_completo": "Carles Puigdemont i Casamajó",
+    "alias": "Carles Puigdemont",
+    "cargo_actual": "Líder de Junts per Catalunya",
+    "partido": "JUNTS",
+    "foto_url": null,
+    "bio_corta": "Líder de Junts y expresidente de la Generalitat; encabezó el 1-O de 2017 y dirige el partido desde el extranjero.",
+    "tags": [
+      "politico",
+      "junts",
+      "lider-nacional",
+      "cataluna"
+    ],
+    "fuente_principal": "https://www.junts.cat",
+    "apartados": [
+      {
+        "id": "pod-0128-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0128-ap-00-it-00",
+            "apartado_id": "pod-0128-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Carles Puigdemont i Casamajó (Amer, Girona, 1962) es el líder de Junts per Catalunya y una de las figuras centrales del independentismo. Periodista y exalcalde de Girona, fue presidente de la Generalitat (2016-2017) y encabezó el referéndum ilegal del 1 de octubre de 2017 y la declaración de independencia, tras lo cual se trasladó a Bélgica para eludir la acción de la justicia española. Desde el extranjero y como eurodiputado ha seguido dirigiendo Junts, cuyos votos resultaron decisivos para la investidura de Pedro Sánchez en 2023 a cambio de la ley de amnistía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0128-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0128-ap-01-it-00",
+            "apartado_id": "pod-0128-ap-01",
+            "tipo": "evento",
+            "titulo": "Periodista y alcalde de Girona",
+            "contenido": "Periodista de profesión y militante del nacionalismo catalán (CDC), fue alcalde de Girona antes de dar el salto a la primera línea autonómica.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0128-ap-01-it-01",
+            "apartado_id": "pod-0128-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Generalitat",
+            "contenido": "Fue investido presidente de la Generalitat en 2016 y lideró el proceso soberanista que culminó en el referéndum ilegal del 1-O de 2017 y la declaración de independencia.",
+            "fecha": "2016-01-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0128-ap-01-it-02",
+            "apartado_id": "pod-0128-ap-01",
+            "tipo": "evento",
+            "titulo": "La salida a Bélgica",
+            "contenido": "Tras la aplicación del artículo 155 y la causa judicial por el procés, se trasladó a Bélgica para eludir a la justicia española; fue elegido eurodiputado y su entrega se debatió durante años en la justicia europea.",
+            "fecha": "2017-10-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0128-ap-01-it-03",
+            "apartado_id": "pod-0128-ap-01",
+            "tipo": "evento",
+            "titulo": "La amnistía y la llave de la investidura",
+            "contenido": "Sus diputados resultaron decisivos para la investidura de Sánchez en 2023, a cambio de la ley de amnistía, cuya aplicación a su caso por malversación fue, sin embargo, discutida por el Tribunal Supremo.",
+            "fecha": "2023-11-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0128-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0128-ap-02-it-00",
+            "apartado_id": "pod-0128-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo y negociación dura",
+            "contenido": "Defiende la independencia de Cataluña y una confrontación negociadora con el Estado; desde una posición de bisagra, condiciona la estabilidad del Gobierno de Sánchez a cambio de cesiones para Cataluña.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junts",
+              "independentismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0128-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0128-ap-03-it-00",
+            "apartado_id": "pod-0128-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +1/10) — Relación puramente transaccional: apoyo condicionado a la amnistía y a las cesiones, con bloqueos frecuentes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+1",
+              "transaccional"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0128-ap-03-it-01",
+            "apartado_id": "pod-0128-ap-03",
+            "tipo": "contacto",
+            "titulo": "Míriam Nogueras",
+            "contenido": "**Portavoz de Junts en el Congreso** (nota +8/10) — Su negociadora de máxima confianza en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junts",
+              "nota-+8",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0129",
+    "slug": "miriam-nogueras",
+    "nombre_completo": "Míriam Nogueras i Camero",
+    "alias": "Míriam Nogueras",
+    "cargo_actual": "Portavoz de Junts per Catalunya en el Congreso",
+    "partido": "JUNTS",
+    "foto_url": null,
+    "bio_corta": "Portavoz de Junts en el Congreso y negociadora de máxima confianza de Puigdemont; línea dura con el Gobierno.",
+    "tags": [
+      "politico",
+      "junts",
+      "lider-nacional",
+      "cataluna"
+    ],
+    "fuente_principal": "https://www.junts.cat",
+    "apartados": [
+      {
+        "id": "pod-0129-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0129-ap-00-it-00",
+            "apartado_id": "pod-0129-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Míriam Nogueras i Camero (Barcelona, 1980) es la portavoz de Junts per Catalunya en el Congreso de los Diputados y una de las dirigentes de máxima confianza de Carles Puigdemont. Se ha convertido en la negociadora de Junts en Madrid, marcando una línea dura y exigente en el apoyo —o el bloqueo— a las iniciativas del Gobierno de Sánchez, cuya estabilidad depende en buena medida de los votos de su grupo. Encarna el ala más confrontacional del independentismo en la negociación con el Estado, y su firmeza negociadora la ha convertido en una de las parlamentarias más temidas y citadas de la legislatura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0129-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0129-ap-01-it-00",
+            "apartado_id": "pod-0129-ap-01",
+            "tipo": "evento",
+            "titulo": "Empresa y política",
+            "contenido": "Con experiencia en el sector privado, se vinculó a la política de la mano de Convergència y después de Junts, ocupando responsabilidades orgánicas.",
+            "fecha": "2017-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0129-ap-01-it-01",
+            "apartado_id": "pod-0129-ap-01",
+            "tipo": "evento",
+            "titulo": "Diputada de Junts",
+            "contenido": "Fue diputada de Junts en el Congreso, ganando peso como una de las voces de confianza de Puigdemont en Madrid.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0129-ap-01-it-02",
+            "apartado_id": "pod-0129-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz y negociadora",
+            "contenido": "Asumió la portavocía de Junts en el Congreso, convirtiéndose en la negociadora del partido con el Gobierno, con una línea dura y exigente.",
+            "fecha": "2023-08-17",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0129-ap-01-it-03",
+            "apartado_id": "pod-0129-ap-01",
+            "tipo": "evento",
+            "titulo": "La llave de la legislatura",
+            "contenido": "Los votos de Junts son decisivos para la estabilidad del Gobierno de Sánchez, lo que ha situado a Nogueras en el centro de la negociación, alternando apoyos y bloqueos.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0129-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0129-ap-02-it-00",
+            "apartado_id": "pod-0129-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo exigente",
+            "contenido": "Defiende los intereses de Junts y de Cataluña con una estrategia de máxima exigencia, condicionando su apoyo al cumplimiento de los acuerdos (amnistía, financiación, traspasos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junts",
+              "independentismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0129-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0129-ap-03-it-00",
+            "apartado_id": "pod-0129-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carles Puigdemont",
+            "contenido": "**Líder de Junts** (nota +8/10) — Dirigente de su máxima confianza y ejecutora de su estrategia en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junts",
+              "nota-+8",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0129-ap-03-it-01",
+            "apartado_id": "pod-0129-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +1/10) — Apoyo transaccional y exigente; su grupo condiciona la viabilidad de la legislatura.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+1",
+              "transaccional"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0130",
+    "slug": "oriol-junqueras",
+    "nombre_completo": "Oriol Junqueras i Vies",
+    "alias": "Oriol Junqueras",
+    "cargo_actual": "Presidente de Esquerra Republicana de Catalunya (ERC)",
+    "partido": "ERC",
+    "foto_url": null,
+    "bio_corta": "Presidente de ERC; vicepresidente de la Generalitat en el 1-O, condenado e indultado. Línea independentista posibilista.",
+    "tags": [
+      "politico",
+      "erc",
+      "lider-nacional",
+      "cataluna"
+    ],
+    "fuente_principal": "https://www.esquerra.cat",
+    "apartados": [
+      {
+        "id": "pod-0130-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0130-ap-00-it-00",
+            "apartado_id": "pod-0130-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Oriol Junqueras i Vies (Barcelona, 1969) es el presidente de Esquerra Republicana de Catalunya (ERC) y uno de los principales líderes del independentismo catalán. Historiador y profesor universitario, fue vicepresidente de la Generalitat con Puigdemont y uno de los responsables del referéndum del 1-O de 2017. Condenado por sedición y malversación, cumplió prisión hasta que el Gobierno le concedió el indulto en 2021, y la ley de amnistía de 2024 buscó cerrar su situación judicial. Mantiene a ERC en una estrategia de negociación con el Estado más posibilista que la de Junts.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0130-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0130-ap-01-it-00",
+            "apartado_id": "pod-0130-ap-01",
+            "tipo": "evento",
+            "titulo": "Historiador y republicano",
+            "contenido": "Doctor en Historia y profesor universitario, militó en el republicanismo catalán y fue eurodiputado y alcalde de Sant Vicenç dels Horts antes de liderar ERC.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0130-ap-01-it-01",
+            "apartado_id": "pod-0130-ap-01",
+            "tipo": "evento",
+            "titulo": "Vicepresidente de la Generalitat",
+            "contenido": "Fue vicepresidente y conseller de Economía de la Generalitat con Puigdemont, y uno de los organizadores del referéndum ilegal del 1-O de 2017.",
+            "fecha": "2016-01-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0130-ap-01-it-02",
+            "apartado_id": "pod-0130-ap-01",
+            "tipo": "evento",
+            "titulo": "Prisión e indulto",
+            "contenido": "Tras el procés fue juzgado y condenado por sedición y malversación, de lo que cumplió parte en prisión, hasta que en 2021 recibió el indulto del Gobierno de Sánchez.",
+            "fecha": "2019-10-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0130-ap-01-it-03",
+            "apartado_id": "pod-0130-ap-01",
+            "tipo": "evento",
+            "titulo": "Liderazgo posibilista de ERC",
+            "contenido": "Recuperó el liderazgo de ERC y la situó en una estrategia de negociación con el Estado (apoyo a la investidura de Sánchez, financiación, traspasos), más pragmática que Junts.",
+            "fecha": "2024-11-30",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0130-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0130-ap-02-it-00",
+            "apartado_id": "pod-0130-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo posibilista",
+            "contenido": "Defiende la república catalana por la vía del diálogo y la ampliación del autogobierno, apoyando al Gobierno a cambio de cesiones (indultos, amnistía, financiación singular, traspasos).",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "independentismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0130-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0130-ap-03-it-00",
+            "apartado_id": "pod-0130-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +4/10) — Socio de investidura: apoyo negociado a cambio de indultos, amnistía y financiación para Cataluña.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+4",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0130-ap-03-it-01",
+            "apartado_id": "pod-0130-ap-03",
+            "tipo": "contacto",
+            "titulo": "Gabriel Rufián",
+            "contenido": "**Portavoz de ERC en el Congreso** (nota +7/10) — Principal cara mediática del partido en Madrid.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0131",
+    "slug": "gabriel-rufian",
+    "nombre_completo": "Gabriel Rufián Romero",
+    "alias": "Gabriel Rufián",
+    "cargo_actual": "Portavoz de ERC en el Congreso",
+    "partido": "ERC",
+    "foto_url": null,
+    "bio_corta": "Portavoz de ERC en el Congreso; cara mediática del independentismo, estilo combativo y orientado a redes.",
+    "tags": [
+      "politico",
+      "erc",
+      "lider-nacional",
+      "cataluna"
+    ],
+    "fuente_principal": "https://www.esquerra.cat",
+    "apartados": [
+      {
+        "id": "pod-0131-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0131-ap-00-it-00",
+            "apartado_id": "pod-0131-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Gabriel Rufián Romero (Santa Coloma de Gramenet, 1982) es el portavoz de Esquerra Republicana (ERC) en el Congreso de los Diputados y uno de los políticos más mediáticos del independentismo. De origen andaluz y de barrio metropolitano, irrumpió en 2016 como diputado con un estilo combativo, irónico y orientado a la viralidad en redes y platós. Se ha convertido en la cara de ERC en Madrid, defendiendo el apoyo de los republicanos al Gobierno de Sánchez a cambio de avances para Cataluña y la izquierda, con un discurso que combina el independentismo con lo social. Su programa de entrevistas y su intensa actividad en redes lo han convertido en un fenómeno mediático que trasciende el Congreso.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0131-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0131-ap-01-it-00",
+            "apartado_id": "pod-0131-ap-01",
+            "tipo": "evento",
+            "titulo": "Irrupción mediática",
+            "contenido": "Procedente del ámbito de la empresa y el activismo, irrumpió como número dos de ERC en las generales de 2015-2016, con un estilo rupturista y muy mediático.",
+            "fecha": "2016-01-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0131-ap-01-it-01",
+            "apartado_id": "pod-0131-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz en el Congreso",
+            "contenido": "Se consolidó como portavoz de ERC en el Congreso, protagonista de duelos parlamentarios y entrevistas de gran repercusión.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0131-ap-01-it-02",
+            "apartado_id": "pod-0131-ap-01",
+            "tipo": "evento",
+            "titulo": "Negociador en Madrid",
+            "contenido": "Ha pilotado el apoyo de ERC a las investiduras y los presupuestos de Sánchez, negociando indultos, traspasos y financiación para Cataluña.",
+            "fecha": "2023-11-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0131-ap-01-it-03",
+            "apartado_id": "pod-0131-ap-01",
+            "tipo": "evento",
+            "titulo": "Cara social del independentismo",
+            "contenido": "Combina el discurso independentista con una agenda social de izquierdas, buscando ampliar el electorado de ERC más allá del soberanismo clásico.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0131-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0131-ap-02-it-00",
+            "apartado_id": "pod-0131-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo de izquierdas",
+            "contenido": "Defiende la república catalana y una agenda social, apoyando al Gobierno de coalición a cambio de cesiones para Cataluña, con un estilo combativo y orientado a los medios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "independentismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0131-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0131-ap-03-it-00",
+            "apartado_id": "pod-0131-ap-03",
+            "tipo": "contacto",
+            "titulo": "Oriol Junqueras",
+            "contenido": "**Presidente de ERC** (nota +7/10) — Líder de su partido, del que Rufián es la principal voz parlamentaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0131-ap-03-it-01",
+            "apartado_id": "pod-0131-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +4/10) — Apoyo negociado del grupo de ERC a la investidura y los presupuestos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+4",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0132",
+    "slug": "aitor-esteban",
+    "nombre_completo": "Aitor Esteban Bravo",
+    "alias": "Aitor Esteban",
+    "cargo_actual": "Presidente del PNV (EBB)",
+    "partido": "PNV",
+    "foto_url": null,
+    "bio_corta": "Presidente del PNV (EBB) desde 2025; durante casi dos décadas, su influyente portavoz en el Congreso.",
+    "tags": [
+      "politico",
+      "pnv",
+      "lider-nacional",
+      "pais-vasco"
+    ],
+    "fuente_principal": "https://www.eaj-pnv.eus",
+    "apartados": [
+      {
+        "id": "pod-0132-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0132-ap-00-it-00",
+            "apartado_id": "pod-0132-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Aitor Esteban Bravo (Bilbao, 1962) es el presidente del Euzkadi Buru Batzar (EBB), el máximo órgano del PNV, desde 2025, lo que lo convierte en el principal dirigente del nacionalismo vasco moderado. Abogado, fue durante casi dos décadas el portavoz del PNV en el Congreso de los Diputados, donde se ganó fama de negociador hábil y de orador influyente, clave en numerosas investiduras, presupuestos y en la moción de censura de 2018 contra Rajoy. Sucedió a Andoni Ortuzar al frente del partido, en plena competencia con EH Bildu por la hegemonía en Euskadi.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0132-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0132-ap-01-it-00",
+            "apartado_id": "pod-0132-ap-01",
+            "tipo": "evento",
+            "titulo": "Abogado y cargo foral",
+            "contenido": "Abogado de formación, desarrolló su carrera en el PNV, ocupando responsabilidades forales en Bizkaia antes de dar el salto a la política estatal.",
+            "fecha": "1999-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0132-ap-01-it-01",
+            "apartado_id": "pod-0132-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz del PNV en el Congreso",
+            "contenido": "Durante casi dos décadas fue el portavoz del PNV en el Congreso, donde su voto resultó decisivo en investiduras, presupuestos y la moción de censura de 2018 contra Rajoy.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0132-ap-01-it-02",
+            "apartado_id": "pod-0132-ap-01",
+            "tipo": "evento",
+            "titulo": "El negociador clave",
+            "contenido": "Se consolidó como uno de los negociadores más influyentes de la Cámara, apoyando con condiciones al PSOE y obteniendo réditos para Euskadi (cupo, transferencias).",
+            "fecha": "2018-06-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0132-ap-01-it-03",
+            "apartado_id": "pod-0132-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente del PNV",
+            "contenido": "En 2025 fue elegido presidente del EBB, sucediendo a Andoni Ortuzar al frente del PNV, con el reto de mantener la hegemonía jeltzale frente al ascenso de EH Bildu.",
+            "fecha": "2025-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0132-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0132-ap-02-it-00",
+            "apartado_id": "pod-0132-ap-02",
+            "tipo": "dato",
+            "titulo": "Nacionalismo vasco moderado",
+            "contenido": "Defiende el autogobierno y la actualización del estatus de Euskadi por la vía pactista, apoyando al Gobierno de Sánchez a cambio de transferencias y del respeto al concierto vasco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "nacionalismo-vasco"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0132-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0132-ap-03-it-00",
+            "apartado_id": "pod-0132-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +6/10) — El PNV es socio de investidura y apoyo parlamentario estable del Gobierno.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+6",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0132-ap-03-it-01",
+            "apartado_id": "pod-0132-ap-03",
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "**Lehendakari (Gobierno Vasco)** (nota +7/10) — Mismo partido; coordinación entre la dirección del PNV y el Gobierno vasco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0133",
+    "slug": "arnaldo-otegi",
+    "nombre_completo": "Arnaldo Otegi Mondragón",
+    "alias": "Arnaldo Otegi",
+    "cargo_actual": "Coordinador general de EH Bildu",
+    "partido": "BILDU",
+    "foto_url": null,
+    "bio_corta": "Coordinador general de EH Bildu; artífice del giro de la izquierda abertzale a la vía política tras el fin de ETA.",
+    "tags": [
+      "politico",
+      "bildu",
+      "lider-nacional",
+      "pais-vasco"
+    ],
+    "fuente_principal": "https://www.ehbildu.eus",
+    "apartados": [
+      {
+        "id": "pod-0133-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0133-ap-00-it-00",
+            "apartado_id": "pod-0133-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Arnaldo Otegi Mondragón (Elgoibar, 1958) es el coordinador general de EH Bildu, la coalición de la izquierda abertzale, y el principal artífice de su estrategia política. Figura histórica del nacionalismo vasco radical y exmiembro de ETA en su juventud (por lo que estuvo en prisión), lideró el proceso que llevó a la izquierda abertzale a renunciar a la violencia e integrarse plenamente en el juego democrático tras el fin de ETA. Bajo su dirección, EH Bildu se ha convertido en primera o segunda fuerza de Euskadi y en socio parlamentario del Gobierno de Sánchez.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0133-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0133-ap-01-it-00",
+            "apartado_id": "pod-0133-ap-01",
+            "tipo": "evento",
+            "titulo": "Pasado en la izquierda abertzale",
+            "contenido": "Figura histórica del nacionalismo vasco radical, estuvo vinculado a ETA en su juventud y pasó varios periodos en prisión a lo largo de las décadas siguientes.",
+            "fecha": "1987-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0133-ap-01-it-01",
+            "apartado_id": "pod-0133-ap-01",
+            "tipo": "evento",
+            "titulo": "El giro hacia la vía política",
+            "contenido": "Fue uno de los principales impulsores del giro estratégico de la izquierda abertzale hacia la vía exclusivamente política, clave en el cese definitivo de la violencia de ETA en 2011.",
+            "fecha": "2011-10-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0133-ap-01-it-02",
+            "apartado_id": "pod-0133-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de EH Bildu",
+            "contenido": "Como coordinador general de EH Bildu, ha pilotado el crecimiento electoral de la coalición hasta disputar la hegemonía al PNV en Euskadi y en Navarra.",
+            "fecha": "2013-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0133-ap-01-it-03",
+            "apartado_id": "pod-0133-ap-01",
+            "tipo": "evento",
+            "titulo": "Socio del Gobierno",
+            "contenido": "EH Bildu se ha convertido en socio parlamentario del Gobierno de Sánchez, apoyando investiduras y presupuestos, lo que genera fuerte controversia con la derecha y las víctimas del terrorismo.",
+            "fecha": "2023-11-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0133-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0133-ap-02-it-00",
+            "apartado_id": "pod-0133-ap-02",
+            "tipo": "dato",
+            "titulo": "Izquierda abertzale",
+            "contenido": "Defiende la independencia de Euskal Herria y una agenda social de izquierdas por la vía política, apoyando al Gobierno de coalición; su pasado en ETA sigue siendo objeto de fuerte controversia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bildu",
+              "izquierda-abertzale"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0133-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0133-ap-03-it-00",
+            "apartado_id": "pod-0133-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +5/10) — Socio parlamentario: EH Bildu apoya investiduras y presupuestos, en una relación muy contestada por la derecha.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+5",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0133-ap-03-it-01",
+            "apartado_id": "pod-0133-ap-03",
+            "tipo": "contacto",
+            "titulo": "Aitor Esteban",
+            "contenido": "**Presidente del PNV** (nota -3/10) — Competencia directa por la hegemonía del nacionalismo vasco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "nota--3",
+              "competencia"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0134",
+    "slug": "mertxe-aizpurua",
+    "nombre_completo": "Mertxe Aizpurua Arzallus",
+    "alias": "Mertxe Aizpurua",
+    "cargo_actual": "Portavoz de EH Bildu en el Congreso",
+    "partido": "BILDU",
+    "foto_url": null,
+    "bio_corta": "Portavoz de EH Bildu en el Congreso; periodista, exdirectora de Egin y Gara.",
+    "tags": [
+      "politico",
+      "bildu",
+      "lider-nacional",
+      "pais-vasco"
+    ],
+    "fuente_principal": "https://www.ehbildu.eus",
+    "apartados": [
+      {
+        "id": "pod-0134-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0134-ap-00-it-00",
+            "apartado_id": "pod-0134-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Mertxe Aizpurua Arzallus (Tolosa, 1960) es la portavoz de EH Bildu en el Congreso de los Diputados. Periodista de profesión —fue directora de los diarios Egin y Gara, vinculados a la izquierda abertzale—, es una de las voces más reconocibles de la coalición en Madrid. Como portavoz, ha defendido el apoyo de EH Bildu a las investiduras y presupuestos del Gobierno de Sánchez, así como la agenda social y memorialista de su espacio, en un papel de creciente normalización institucional pese a la controversia que rodea al pasado de la izquierda abertzale. Su trayectoria periodística y su perfil sereno han contribuido a la creciente normalización institucional de EH Bildu en la política española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0134-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0134-ap-01-it-00",
+            "apartado_id": "pod-0134-ap-01",
+            "tipo": "evento",
+            "titulo": "Periodista abertzale",
+            "contenido": "Periodista de profesión, dirigió cabeceras vinculadas a la izquierda abertzale como Egin y Gara, con un perfil muy ligado al nacionalismo vasco radical.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0134-ap-01-it-01",
+            "apartado_id": "pod-0134-ap-01",
+            "tipo": "evento",
+            "titulo": "Diputada de EH Bildu",
+            "contenido": "Dio el salto a la política institucional como diputada de EH Bildu en el Congreso, integrándose en el grupo de la coalición.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0134-ap-01-it-02",
+            "apartado_id": "pod-0134-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz en el Congreso",
+            "contenido": "Asumió la portavocía de EH Bildu en el Congreso, convirtiéndose en la cara parlamentaria de la coalición en Madrid.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0134-ap-01-it-03",
+            "apartado_id": "pod-0134-ap-01",
+            "tipo": "evento",
+            "titulo": "Apoyo al Gobierno",
+            "contenido": "Ha pilotado el apoyo de EH Bildu a las investiduras y presupuestos de Sánchez, defendiendo una agenda social, memorialista y de autogobierno.",
+            "fecha": "2023-11-16",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0134-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0134-ap-02-it-00",
+            "apartado_id": "pod-0134-ap-02",
+            "tipo": "dato",
+            "titulo": "Izquierda abertzale en Madrid",
+            "contenido": "Defiende la agenda social y soberanista de EH Bildu y su apoyo condicionado al Gobierno de coalición, con un papel de normalización institucional de su espacio.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bildu",
+              "izquierda-abertzale"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0134-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0134-ap-03-it-00",
+            "apartado_id": "pod-0134-ap-03",
+            "tipo": "contacto",
+            "titulo": "Arnaldo Otegi",
+            "contenido": "**Coordinador general de EH Bildu** (nota +7/10) — Líder de su coalición, cuya estrategia ejecuta en el Congreso.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "bildu",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0134-ap-03-it-01",
+            "apartado_id": "pod-0134-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota +5/10) — Apoyo parlamentario de EH Bildu a investiduras y presupuestos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota-+5",
+              "alianza"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0135",
+    "slug": "miguel-tellado",
+    "nombre_completo": "Miguel Tellado Filgueira",
+    "alias": "Miguel Tellado",
+    "cargo_actual": "Secretario general del PP y portavoz en el Congreso",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Secretario general del PP y portavoz en el Congreso; mano derecha de Feijóo y azote del Gobierno.",
+    "tags": [
+      "politico",
+      "pp",
+      "lider-nacional",
+      "pp"
+    ],
+    "fuente_principal": "https://www.pp.es",
+    "apartados": [
+      {
+        "id": "pod-0135-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0135-ap-00-it-00",
+            "apartado_id": "pod-0135-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Miguel Tellado Filgueira (Ferrol, A Coruña, 1976) es el secretario general del Partido Popular y portavoz del grupo popular en el Congreso, lo que lo convierte en uno de los principales dirigentes y en la mano derecha de Alberto Núñez Feijóo en la maquinaria del partido y en la batalla parlamentaria. De perfil duro y combativo, procede del PP gallego, donde se forjó junto a Feijóo, y ejerce de azote del Gobierno de Sánchez en el Congreso, marcando la estrategia de oposición más agresiva del partido. Su ascenso refleja el peso del PP gallego en la dirección de Feijóo y la apuesta del partido por una oposición sin tregua en sede parlamentaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0135-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0135-ap-01-it-00",
+            "apartado_id": "pod-0135-ap-01",
+            "tipo": "evento",
+            "titulo": "Del PP gallego a Madrid",
+            "contenido": "Procedente del PP de Galicia, donde trabajó junto a Feijóo, desarrolló su carrera en la organización y la comunicación del partido.",
+            "fecha": "2009-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0135-ap-01-it-01",
+            "apartado_id": "pod-0135-ap-01",
+            "tipo": "evento",
+            "titulo": "Dirigente de organización",
+            "contenido": "Ocupó responsabilidades orgánicas en el PP, ganando peso en la estructura interna del partido.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0135-ap-01-it-02",
+            "apartado_id": "pod-0135-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretario general del PP",
+            "contenido": "Tras la llegada de Feijóo, fue nombrado secretario general del Partido Popular en el congreso de 2024, asumiendo el control de la maquinaria del partido.",
+            "fecha": "2024-07-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0135-ap-01-it-03",
+            "apartado_id": "pod-0135-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz en el Congreso",
+            "contenido": "Como portavoz del grupo popular en el Congreso, lidera la oposición parlamentaria al Gobierno de Sánchez con un estilo especialmente combativo.",
+            "fecha": "2023-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0135-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0135-ap-02-it-00",
+            "apartado_id": "pod-0135-ap-02",
+            "tipo": "dato",
+            "titulo": "Oposición dura al Gobierno",
+            "contenido": "Pilota la estrategia de confrontación del PP con el Gobierno de Sánchez en el Congreso y la organización del partido, con un perfil duro y disciplinado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "oposicion"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0135-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0135-ap-03-it-00",
+            "apartado_id": "pod-0135-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +9/10) — Mano derecha en la organización y la estrategia parlamentaria del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+9",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0135-ap-03-it-01",
+            "apartado_id": "pod-0135-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -8/10) — Principal adversario en la batalla parlamentaria.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--8",
+              "confrontacion"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0136",
+    "slug": "cuca-gamarra",
+    "nombre_completo": "María de los Reyes «Cuca» Gamarra Ruiz-Clavijo",
+    "alias": "Cuca Gamarra",
+    "cargo_actual": "Vicesecretaria del PP",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Dirigente del PP, exalcaldesa de Logroño, exportavoz en el Congreso y exsecretaria general del partido.",
+    "tags": [
+      "politico",
+      "pp",
+      "lider-nacional",
+      "pp"
+    ],
+    "fuente_principal": "https://www.pp.es",
+    "apartados": [
+      {
+        "id": "pod-0136-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0136-ap-00-it-00",
+            "apartado_id": "pod-0136-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María de los Reyes «Cuca» Gamarra Ruiz-Clavijo (Logroño, 1974) es una dirigente del Partido Popular y una de las figuras de confianza de Alberto Núñez Feijóo. Exalcaldesa de Logroño, fue portavoz del grupo popular en el Congreso y secretaria general del PP en la primera etapa de Feijóo, ejerciendo de cara visible de la oposición al Gobierno de Sánchez. Mantiene un peso relevante en la dirección nacional del partido y en su representación institucional, con un perfil de gestión y moderación. Su trayectoria —de la alcaldía de una capital de provincia a la cúpula del partido— ilustra el modelo de dirigente territorial que Feijóo ha promovido en el PP.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0136-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0136-ap-01-it-00",
+            "apartado_id": "pod-0136-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Logroño",
+            "contenido": "Desarrolló su carrera en el PP de La Rioja, siendo alcaldesa de Logroño, antes de dar el salto a la política nacional.",
+            "fecha": "2011-06-11",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0136-ap-01-it-01",
+            "apartado_id": "pod-0136-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz en el Congreso",
+            "contenido": "Fue portavoz del grupo parlamentario popular en el Congreso, ejerciendo de cara visible de la oposición al Gobierno de Sánchez.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0136-ap-01-it-02",
+            "apartado_id": "pod-0136-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretaria general del PP",
+            "contenido": "Con la llegada de Feijóo, fue secretaria general del PP en su primera etapa, pilotando la reorganización del partido.",
+            "fecha": "2022-04-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0136-ap-01-it-03",
+            "apartado_id": "pod-0136-ap-01",
+            "tipo": "evento",
+            "titulo": "Dirección nacional",
+            "contenido": "Mantiene su peso en la cúpula del PP como vicesecretaria y figura de confianza de la dirección, con responsabilidades institucionales y orgánicas.",
+            "fecha": "2024-07-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0136-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0136-ap-02-it-00",
+            "apartado_id": "pod-0136-ap-02",
+            "tipo": "dato",
+            "titulo": "Centroderecha institucional",
+            "contenido": "Defiende la estrategia del PP de Feijóo, con un perfil institucional y de gestión dentro de la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "oposicion"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0136-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0136-ap-03-it-00",
+            "apartado_id": "pod-0136-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Figura de confianza de la dirección nacional del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0137",
+    "slug": "borja-semper",
+    "nombre_completo": "Borja Sémper Pascual",
+    "alias": "Borja Sémper",
+    "cargo_actual": "Portavoz nacional del PP",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Portavoz nacional del PP; ala centrista y moderada del partido de Feijóo, con pasado en el PP vasco.",
+    "tags": [
+      "politico",
+      "pp",
+      "lider-nacional",
+      "pp"
+    ],
+    "fuente_principal": "https://www.pp.es",
+    "apartados": [
+      {
+        "id": "pod-0137-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0137-ap-00-it-00",
+            "apartado_id": "pod-0137-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Borja Sémper Pascual (San Sebastián, 1976) es el portavoz nacional del Partido Popular y vicesecretario de Cultura del partido. Procedente del PP del País Vasco —donde fue dirigente en años especialmente duros del terrorismo de ETA, que lo amenazó—, encarna el ala más moderada y de centro del PP de Feijóo. Tras unos años fuera de la política, regresó para ejercer de portavoz, con un estilo dialogante y de perfil liberal-centrista que contrasta con el tono más duro de otros dirigentes del partido. Su regreso a la primera línea respondió a la voluntad de Feijóo de dotar al PP de un rostro moderado de cara al electorado de centro.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0137-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0137-ap-01-it-00",
+            "apartado_id": "pod-0137-ap-01",
+            "tipo": "evento",
+            "titulo": "Dirigente del PP vasco",
+            "contenido": "Lideró el PP en Gipuzkoa y fue parlamentario vasco en los años más duros del terrorismo de ETA, que lo amenazó, con un perfil de defensa del constitucionalismo.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0137-ap-01-it-01",
+            "apartado_id": "pod-0137-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida y regreso",
+            "contenido": "Tras dejar temporalmente la primera línea política y pasar por el sector privado, regresó al PP de la mano de Alberto Núñez Feijóo.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0137-ap-01-it-02",
+            "apartado_id": "pod-0137-ap-01",
+            "tipo": "evento",
+            "titulo": "Portavoz nacional del PP",
+            "contenido": "Fue nombrado portavoz nacional del Partido Popular, ejerciendo de cara comunicativa del partido con un estilo dialogante y moderado.",
+            "fecha": "2023-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0137-ap-01-it-03",
+            "apartado_id": "pod-0137-ap-01",
+            "tipo": "evento",
+            "titulo": "Ala centrista del PP",
+            "contenido": "Encarna el ala más centrista y liberal del PP de Feijóo, en ocasiones en contraste con el tono más combativo de otros dirigentes.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0137-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0137-ap-02-it-00",
+            "apartado_id": "pod-0137-ap-02",
+            "tipo": "dato",
+            "titulo": "Centrismo y moderación",
+            "contenido": "Defiende un PP de centro, dialogante y transversal, con un perfil liberal en lo cultural, dentro de la estrategia de Feijóo de ampliar el electorado del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "centro"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0137-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0137-ap-03-it-00",
+            "apartado_id": "pod-0137-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Portavoz y rostro comunicativo de su proyecto.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0138",
+    "slug": "esteban-gonzalez-pons",
+    "nombre_completo": "Esteban González Pons",
+    "alias": "Esteban González Pons",
+    "cargo_actual": "Vicesecretario institucional del PP",
+    "partido": "PP",
+    "foto_url": null,
+    "bio_corta": "Veterano dirigente del PP; vicesecretario institucional y negociador de la renovación del CGPJ.",
+    "tags": [
+      "politico",
+      "pp",
+      "lider-nacional",
+      "pp"
+    ],
+    "fuente_principal": "https://www.pp.es",
+    "apartados": [
+      {
+        "id": "pod-0138-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0138-ap-00-it-00",
+            "apartado_id": "pod-0138-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Esteban González Pons (Valencia, 1964) es un veterano dirigente del Partido Popular, vicesecretario institucional del partido y una de sus voces más experimentadas. Abogado y de larga trayectoria, ha sido diputado nacional, eurodiputado y dirigente de máximo nivel desde la época de Mariano Rajoy, con un perfil de orador brillante y negociador. Bajo Feijóo ha pilotado asuntos institucionales clave, como la difícil negociación de la renovación del Consejo General del Poder Judicial con el PSOE, finalmente desbloqueada en 2024 con mediación europea. Considerado uno de los grandes oradores del partido, ha ejercido de puente del PP con las instituciones europeas en las grandes cuestiones de Estado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0138-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0138-ap-01-it-00",
+            "apartado_id": "pod-0138-ap-01",
+            "tipo": "evento",
+            "titulo": "Carrera en el PP valenciano y nacional",
+            "contenido": "Abogado, desarrolló su carrera en el PP de Valencia y después a nivel nacional, siendo diputado y vicesecretario de comunicación del partido con Rajoy.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0138-ap-01-it-01",
+            "apartado_id": "pod-0138-ap-01",
+            "tipo": "evento",
+            "titulo": "Eurodiputado",
+            "contenido": "Fue durante años eurodiputado y dirigente del PP en el Parlamento Europeo, ganando peso en la política comunitaria y en el PPE.",
+            "fecha": "2014-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0138-ap-01-it-02",
+            "apartado_id": "pod-0138-ap-01",
+            "tipo": "evento",
+            "titulo": "Vicesecretario institucional",
+            "contenido": "Con Feijóo, asumió la vicesecretaría institucional del PP, encargándose de las grandes negociaciones de Estado.",
+            "fecha": "2022-04-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0138-ap-01-it-03",
+            "apartado_id": "pod-0138-ap-01",
+            "tipo": "evento",
+            "titulo": "La negociación del CGPJ",
+            "contenido": "Pilotó por parte del PP la negociación con el PSOE para la renovación del Consejo General del Poder Judicial, desbloqueada en 2024 con mediación de la Comisión Europea.",
+            "fecha": "2024-06-25",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0138-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0138-ap-02-it-00",
+            "apartado_id": "pod-0138-ap-02",
+            "tipo": "dato",
+            "titulo": "Institucionalismo del PP",
+            "contenido": "Defiende un perfil institucional y de Estado, encargándose de las grandes negociaciones del PP con el Gobierno y de su política europea.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "institucional"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0138-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0138-ap-03-it-00",
+            "apartado_id": "pod-0138-ap-03",
+            "tipo": "contacto",
+            "titulo": "Alberto Núñez Feijóo",
+            "contenido": "**Líder del PP** (nota +7/10) — Negociador institucional de máxima confianza de la dirección.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0139",
+    "slug": "jorge-buxade",
+    "nombre_completo": "Jorge Buxadé Villalba",
+    "alias": "Jorge Buxadé",
+    "cargo_actual": "Vicepresidente de Acción Política de Vox",
+    "partido": "VOX",
+    "foto_url": null,
+    "bio_corta": "Vicepresidente de Acción Política de Vox y eurodiputado; principal ideólogo y estratega del partido.",
+    "tags": [
+      "politico",
+      "vox",
+      "lider-nacional",
+      "vox"
+    ],
+    "fuente_principal": "https://www.voxespana.es",
+    "apartados": [
+      {
+        "id": "pod-0139-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0139-ap-00-it-00",
+            "apartado_id": "pod-0139-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Jorge Buxadé Villalba (Barcelona, 1975) es el vicepresidente de Acción Política de Vox y una de las figuras de máxima confianza de Santiago Abascal, además de eurodiputado. Abogado del Estado y de origen catalán, con un pasado político en la extrema derecha, se ha convertido en el principal ideólogo y estratega de Vox, con un discurso especialmente duro en inmigración, soberanía nacional y crítica a la Unión Europea, las autonomías y las agendas climática y de género. Su perfil jurídico y su radicalidad ideológica lo han convertido en el principal arquitecto del discurso y la estrategia de Vox, más allá de su faceta como eurodiputado.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0139-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0139-ap-01-it-00",
+            "apartado_id": "pod-0139-ap-01",
+            "tipo": "evento",
+            "titulo": "Abogado del Estado",
+            "contenido": "Abogado del Estado de profesión y de origen catalán, con un pasado político en la extrema derecha, desarrolló su carrera jurídica antes de incorporarse a Vox.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0139-ap-01-it-01",
+            "apartado_id": "pod-0139-ap-01",
+            "tipo": "evento",
+            "titulo": "Estratega de Vox",
+            "contenido": "Se integró en la dirección de Vox como uno de sus principales ideólogos y estrategas, encargado de la acción política del partido.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0139-ap-01-it-02",
+            "apartado_id": "pod-0139-ap-01",
+            "tipo": "evento",
+            "titulo": "Eurodiputado",
+            "contenido": "Fue cabeza de lista de Vox a las elecciones europeas y eurodiputado, vinculando al partido con la derecha radical europea.",
+            "fecha": "2019-05-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0139-ap-01-it-03",
+            "apartado_id": "pod-0139-ap-01",
+            "tipo": "evento",
+            "titulo": "Línea dura",
+            "contenido": "Encarna la línea más dura e ideológica de Vox en inmigración, soberanía y crítica a la UE, las autonomías y las políticas climática y de género.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0139-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0139-ap-02-it-00",
+            "apartado_id": "pod-0139-ap-02",
+            "tipo": "dato",
+            "titulo": "Derecha radical ideológica",
+            "contenido": "Defiende la recentralización, el endurecimiento migratorio y la salida de la agenda «globalista», como principal estratega ideológico de Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "derecha-radical"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0139-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0139-ap-03-it-00",
+            "apartado_id": "pod-0139-ap-03",
+            "tipo": "contacto",
+            "titulo": "Santiago Abascal",
+            "contenido": "**Presidente de Vox** (nota +8/10) — Hombre de máxima confianza y principal estratega del partido.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "nota-+8",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0139-ap-03-it-01",
+            "apartado_id": "pod-0139-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -8/10) — Oposición frontal desde la derecha radical.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--8",
+              "confrontacion"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
+  },
+  {
+    "id": "pod-0140",
+    "slug": "ignacio-garriga",
+    "nombre_completo": "Ignacio Garriga Vaz de Concicao",
+    "alias": "Ignacio Garriga",
+    "cargo_actual": "Secretario general de Vox",
+    "partido": "VOX",
+    "foto_url": null,
+    "bio_corta": "Secretario general de Vox y líder del partido en Cataluña; número dos de Abascal.",
+    "tags": [
+      "politico",
+      "vox",
+      "lider-nacional",
+      "vox"
+    ],
+    "fuente_principal": "https://www.voxespana.es",
+    "apartados": [
+      {
+        "id": "pod-0140-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0140-ap-00-it-00",
+            "apartado_id": "pod-0140-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ignacio Garriga Vaz de Concicao (Barcelona, 1987) es el secretario general de Vox y uno de los principales dirigentes del partido junto a Santiago Abascal. De origen catalán y con ascendencia guineana, odontólogo de profesión, se ha consolidado como número dos de Vox y como su rostro en Cataluña, donde lidera el partido. Ejerce de portavoz y organizador, con un discurso de defensa de la unidad de España y de oposición frontal al independentismo y al Gobierno de coalición. Su perfil joven y de origen catalán y guineano le da a Vox un rostro de relevo generacional, especialmente en Cataluña.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0140-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0140-ap-01-it-00",
+            "apartado_id": "pod-0140-ap-01",
+            "tipo": "evento",
+            "titulo": "Odontólogo y activismo",
+            "contenido": "Odontólogo de profesión, se vinculó al activismo y a la política de la mano de Vox en Cataluña, con un perfil de defensa del constitucionalismo.",
+            "fecha": "2018-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0140-ap-01-it-01",
+            "apartado_id": "pod-0140-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de Vox en Cataluña",
+            "contenido": "Encabezó las candidaturas de Vox en Cataluña, dando al partido representación en el Parlament y en el Congreso por Barcelona.",
+            "fecha": "2021-02-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0140-ap-01-it-02",
+            "apartado_id": "pod-0140-ap-01",
+            "tipo": "evento",
+            "titulo": "Secretario general de Vox",
+            "contenido": "Asumió la secretaría general de Vox, convirtiéndose en el número dos del partido y en uno de sus principales organizadores y portavoces.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0140-ap-01-it-03",
+            "apartado_id": "pod-0140-ap-01",
+            "tipo": "evento",
+            "titulo": "Rostro de Vox",
+            "contenido": "Ejerce de cara visible del partido en debates y campañas, con un discurso de unidad de España y oposición al independentismo y al Gobierno.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0140-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0140-ap-02-it-00",
+            "apartado_id": "pod-0140-ap-02",
+            "tipo": "dato",
+            "titulo": "Unidad de España y oposición",
+            "contenido": "Defiende la unidad de España, el constitucionalismo frente al independentismo y la oposición frontal al Gobierno de coalición, como número dos de Vox.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "derecha-radical"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0140-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0140-ap-03-it-00",
+            "apartado_id": "pod-0140-ap-03",
+            "tipo": "contacto",
+            "titulo": "Santiago Abascal",
+            "contenido": "**Presidente de Vox** (nota +8/10) — Número dos del partido y hombre de su confianza.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "vox",
+              "nota-+8",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0140-ap-03-it-01",
+            "apartado_id": "pod-0140-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Presidente del Gobierno** (nota -8/10) — Oposición frontal desde la derecha radical.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "gobierno",
+              "nota--8",
+              "confrontacion"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T13:03:16.727833Z",
+    "updated_at": "2026-05-29T13:03:16.727833Z"
   }
 ]
 

@@ -140,8 +140,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0002",
@@ -285,8 +285,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0003",
@@ -429,8 +429,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0004",
@@ -573,8 +573,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0005",
@@ -703,8 +703,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0006",
@@ -833,8 +833,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0007",
@@ -977,8 +977,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0008",
@@ -1107,8 +1107,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0009",
@@ -1237,8 +1237,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0010",
@@ -1367,8 +1367,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0011",
@@ -1497,8 +1497,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0012",
@@ -1641,8 +1641,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0013",
@@ -1785,8 +1785,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0014",
@@ -1915,8 +1915,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0015",
@@ -2059,8 +2059,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0016",
@@ -2189,8 +2189,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0017",
@@ -2319,8 +2319,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0018",
@@ -2449,8 +2449,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0019",
@@ -2579,8 +2579,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0020",
@@ -2697,8 +2697,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0021",
@@ -2827,8 +2827,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0022",
@@ -2971,8 +2971,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0023",
@@ -3101,8 +3101,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0024",
@@ -3231,8 +3231,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0025",
@@ -3361,8 +3361,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0026",
@@ -3477,8 +3477,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0027",
@@ -3607,8 +3607,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0028",
@@ -3751,8 +3751,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0029",
@@ -3881,8 +3881,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0030",
@@ -4011,8 +4011,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0031",
@@ -4141,8 +4141,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0032",
@@ -4285,8 +4285,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0033",
@@ -4415,8 +4415,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0034",
@@ -4533,8 +4533,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0035",
@@ -4663,8 +4663,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0036",
@@ -4807,8 +4807,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0037",
@@ -4937,8 +4937,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0038",
@@ -5081,8 +5081,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0039",
@@ -5211,8 +5211,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0040",
@@ -5327,8 +5327,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0041",
@@ -5457,8 +5457,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0042",
@@ -5587,8 +5587,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0043",
@@ -5731,8 +5731,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0044",
@@ -5875,8 +5875,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0045",
@@ -6005,8 +6005,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0046",
@@ -6135,8 +6135,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0047",
@@ -6265,8 +6265,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0048",
@@ -6395,8 +6395,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0049",
@@ -6525,8 +6525,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0050",
@@ -6655,8 +6655,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0051",
@@ -6785,8 +6785,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0052",
@@ -6929,8 +6929,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0053",
@@ -7059,8 +7059,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0054",
@@ -7189,8 +7189,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0055",
@@ -7319,8 +7319,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0056",
@@ -7463,8 +7463,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0057",
@@ -7593,8 +7593,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0058",
@@ -7723,8 +7723,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0059",
@@ -7853,8 +7853,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0060",
@@ -7969,8 +7969,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0061",
@@ -8113,8 +8113,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0062",
@@ -8243,8 +8243,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0063",
@@ -8373,8 +8373,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0064",
@@ -8503,8 +8503,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0065",
@@ -8633,8 +8633,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0066",
@@ -8763,8 +8763,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0067",
@@ -8893,8 +8893,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0068",
@@ -9037,8 +9037,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0069",
@@ -9167,8 +9167,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0070",
@@ -9297,8 +9297,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0071",
@@ -9427,8 +9427,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0072",
@@ -9557,8 +9557,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0073",
@@ -9687,8 +9687,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0074",
@@ -9817,8 +9817,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0075",
@@ -9961,8 +9961,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0076",
@@ -10091,8 +10091,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0077",
@@ -10221,8 +10221,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0078",
@@ -10351,8 +10351,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0079",
@@ -10481,8 +10481,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0080",
@@ -10611,8 +10611,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0081",
@@ -10741,8 +10741,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0082",
@@ -10885,8 +10885,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0083",
@@ -11015,8 +11015,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0084",
@@ -11145,8 +11145,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0085",
@@ -11289,8 +11289,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0086",
@@ -11419,8 +11419,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0087",
@@ -11549,8 +11549,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0088",
@@ -11679,8 +11679,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0089",
@@ -11809,8 +11809,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0090",
@@ -11953,8 +11953,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0091",
@@ -12097,8 +12097,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0092",
@@ -12241,8 +12241,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0093",
@@ -12371,8 +12371,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0094",
@@ -12516,8 +12516,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0095",
@@ -12646,8 +12646,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0096",
@@ -12750,8 +12750,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0097",
@@ -12894,8 +12894,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0098",
@@ -13038,8 +13038,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0099",
@@ -13168,8 +13168,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0100",
@@ -13312,8 +13312,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0101",
@@ -13456,8 +13456,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0102",
@@ -13600,8 +13600,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0103",
@@ -13730,8 +13730,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0104",
@@ -13860,8 +13860,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0105",
@@ -13990,8 +13990,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0106",
@@ -14120,8 +14120,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0107",
@@ -14250,8 +14250,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0108",
@@ -14380,8 +14380,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0109",
@@ -14510,8 +14510,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0110",
@@ -14654,8 +14654,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0111",
@@ -14798,8 +14798,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0112",
@@ -14928,8 +14928,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0113",
@@ -15058,8 +15058,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0114",
@@ -15188,8 +15188,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0115",
@@ -15332,8 +15332,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0116",
@@ -15462,8 +15462,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0117",
@@ -15592,8 +15592,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0118",
@@ -15722,8 +15722,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0119",
@@ -15852,8 +15852,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0120",
@@ -15996,8 +15996,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0121",
@@ -16126,8 +16126,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0122",
@@ -16242,8 +16242,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0123",
@@ -16372,8 +16372,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0124",
@@ -16502,8 +16502,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0125",
@@ -16632,8 +16632,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0126",
@@ -16736,8 +16736,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0127",
@@ -16866,8 +16866,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0128",
@@ -17010,8 +17010,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0129",
@@ -17154,8 +17154,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0130",
@@ -17298,8 +17298,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0131",
@@ -17442,8 +17442,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0132",
@@ -17572,8 +17572,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0133",
@@ -17702,8 +17702,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0134",
@@ -17846,8 +17846,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0135",
@@ -17976,8 +17976,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0136",
@@ -18106,8 +18106,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0137",
@@ -18236,8 +18236,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0138",
@@ -18366,8 +18366,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0139",
@@ -18482,8 +18482,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0140",
@@ -18626,8 +18626,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0141",
@@ -18756,8 +18756,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0142",
@@ -18886,8 +18886,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0143",
@@ -19016,8 +19016,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0144",
@@ -19146,8 +19146,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0145",
@@ -19276,8 +19276,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0146",
@@ -19406,8 +19406,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0147",
@@ -19550,8 +19550,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0148",
@@ -19694,8 +19694,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0149",
@@ -19824,8 +19824,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0150",
@@ -19954,8 +19954,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0151",
@@ -20098,8 +20098,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0152",
@@ -20228,8 +20228,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0153",
@@ -20358,8 +20358,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0154",
@@ -20488,8 +20488,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0155",
@@ -20618,8 +20618,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0156",
@@ -20748,8 +20748,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0157",
@@ -20878,8 +20878,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0158",
@@ -21008,8 +21008,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0159",
@@ -21138,8 +21138,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0160",
@@ -21268,8 +21268,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0161",
@@ -21398,8 +21398,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0162",
@@ -21528,8 +21528,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0163",
@@ -21658,8 +21658,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0164",
@@ -21788,8 +21788,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0165",
@@ -21918,8 +21918,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0166",
@@ -22062,8 +22062,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0167",
@@ -22192,8 +22192,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0168",
@@ -22322,8 +22322,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0169",
@@ -22466,8 +22466,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0170",
@@ -22596,8 +22596,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0171",
@@ -22726,8 +22726,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0172",
@@ -22856,8 +22856,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0173",
@@ -22986,8 +22986,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0174",
@@ -23130,8 +23130,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0175",
@@ -23260,8 +23260,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0176",
@@ -23376,8 +23376,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0177",
@@ -23506,8 +23506,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0178",
@@ -23636,8 +23636,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0179",
@@ -23766,8 +23766,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0180",
@@ -23910,8 +23910,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0181",
@@ -24040,8 +24040,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0182",
@@ -24184,8 +24184,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0183",
@@ -24328,8 +24328,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0184",
@@ -24472,8 +24472,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0185",
@@ -24616,8 +24616,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0186",
@@ -24760,8 +24760,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0187",
@@ -24890,8 +24890,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0188",
@@ -25020,8 +25020,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0189",
@@ -25150,8 +25150,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0190",
@@ -25280,8 +25280,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0191",
@@ -25410,8 +25410,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0192",
@@ -25540,8 +25540,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0193",
@@ -25656,8 +25656,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0194",
@@ -25772,8 +25772,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0195",
@@ -25902,8 +25902,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0196",
@@ -26032,8 +26032,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0197",
@@ -26162,8 +26162,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0198",
@@ -26292,8 +26292,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0199",
@@ -26436,8 +26436,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0200",
@@ -26566,8 +26566,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0201",
@@ -26696,8 +26696,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0202",
@@ -26812,8 +26812,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0203",
@@ -26942,8 +26942,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0204",
@@ -27072,8 +27072,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0205",
@@ -27202,8 +27202,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0206",
@@ -27332,8 +27332,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0207",
@@ -27462,8 +27462,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0208",
@@ -27592,8 +27592,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0209",
@@ -27722,8 +27722,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0210",
@@ -27852,8 +27852,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0211",
@@ -27996,8 +27996,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0212",
@@ -28126,8 +28126,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0213",
@@ -28256,8 +28256,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0214",
@@ -28386,8 +28386,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0215",
@@ -28516,8 +28516,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0216",
@@ -28660,8 +28660,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0217",
@@ -28790,8 +28790,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0218",
@@ -28920,8 +28920,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0219",
@@ -29038,8 +29038,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0220",
@@ -29182,8 +29182,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0221",
@@ -29215,7 +29215,7 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
             "apartado_id": "cong-0221-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Padre de Alberto Núñez de Cardenal. · Licenciado en Derecho (1979-1984) Compostela. Grupo A. Técnico Superior Xunta de Galicia 1985. Alto cargo del Gobierno de España (1996-2003). Alto cargo en la Xunta de Galicia (1991-1996). Miembro Gobierno y Presidente de la Xunta de Galicia …",
+            "contenido": "Alberto Núñez Feijóo (Ourense, 1961) es el presidente del Partido Popular y líder de la oposición desde 2022. Funcionario y gestor sanitario de formación, presidió la Xunta de Galicia durante 13 años con cuatro mayorías absolutas consecutivas, un récord que lo convirtió en el barón territorial más sólido del PP. Tras la crisis del liderazgo de Pablo Casado, asumió la presidencia nacional del partido con el objetivo de llegar a la Moncloa; ganó las elecciones de 2023 en escaños pero no logró la investidura, quedándose como líder de la oposición frente a Pedro Sánchez.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -29250,9 +29250,9 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
             "id": "cong-0221-ap-01-it-00",
             "apartado_id": "cong-0221-ap-01",
             "tipo": "evento",
-            "titulo": "Biografía (ficha oficial del Congreso)",
-            "contenido": "Padre de Alberto Núñez de Cardenal. · Licenciado en Derecho (1979-1984) Compostela. Grupo A. Técnico Superior Xunta de Galicia 1985. Alto cargo del Gobierno de España (1996-2003). Alto cargo en la Xunta de Galicia (1991-1996). Miembro Gobierno y Presidente de la Xunta de Galicia (2003-2005 ; 2009-2021). Presidente del Partido Popular de España (2022-2023).",
-            "fecha": null,
+            "titulo": "Funcionario y gestor",
+            "contenido": "Funcionario de carrera, ocupó altos cargos en la sanidad gallega y estatal (Insalud, Correos) antes de liderar el PP de Galicia.",
+            "fecha": "1996-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -29261,14 +29261,38 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
           {
             "id": "cong-0221-ap-01-it-01",
             "apartado_id": "cong-0221-ap-01",
-            "tipo": "dato",
-            "titulo": "Actividades económicas declaradas (anteriores al escaño)",
-            "contenido": "DIPUTADO (PARLAMENTO DE GALICIA, , 2009-2022) · PRESIDENTE (XUNT A DE GALICIA, , 2009-2022) · PRESIDENTE (PARTIDO POPULAR DE GALICIA, , 2006-2022) · PRESIDENTE (PARTIDO POPULAR, , abril 2022-) · SENADOR EN REPRESENTACIÓN AUTONÓMICA (SENADO, , mayo 2022-julio 2023)",
-            "fecha": "16/08/2023",
+            "tipo": "evento",
+            "titulo": "Presidente de la Xunta",
+            "contenido": "Presidió la Xunta de Galicia desde 2009, encadenando cuatro mayorías absolutas, con un perfil de gestor moderado y eficaz que lo convirtió en referencia del partido.",
+            "fecha": "2009-04-01",
             "fuente_url": null,
-            "fuente_titulo": "Declaración de intereses · Congreso (opendata)",
+            "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "cong-0221-ap-01-it-02",
+            "apartado_id": "cong-0221-ap-01",
+            "tipo": "evento",
+            "titulo": "Salto a la dirección nacional",
+            "contenido": "Tras la crisis interna que se llevó por delante a Pablo Casado, fue elegido presidente nacional del PP en 2022, con el mandato de recuperar el poder.",
+            "fecha": "2022-04-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "cong-0221-ap-01-it-03",
+            "apartado_id": "cong-0221-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder de la oposición",
+            "contenido": "Ganó las elecciones generales de julio de 2023 en escaños, pero no consiguió los apoyos para la investidura, quedándose como líder de la oposición frente al Gobierno de coalición de Sánchez.",
+            "fecha": "2023-07-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -29325,10 +29349,34 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
             "orden": 2
           }
         ]
+      },
+      {
+        "id": "cong-0221-ap-03",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "cong-0221-ap-03-it-00",
+            "apartado_id": "cong-0221-ap-03",
+            "tipo": "dato",
+            "titulo": "Centroderecha moderado",
+            "contenido": "Defiende un PP de centroderecha, de gestión y moderación, aunque presionado por la competencia de Vox; hace de la regeneración institucional, la economía y la crítica a los pactos de Sánchez con el independentismo sus ejes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "oposicion"
+            ],
+            "orden": 0
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0222",
@@ -29443,8 +29491,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0223",
@@ -29587,8 +29635,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0224",
@@ -29717,8 +29765,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0225",
@@ -29847,8 +29895,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0226",
@@ -29951,8 +29999,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0227",
@@ -30081,8 +30129,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0228",
@@ -30211,8 +30259,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0229",
@@ -30327,8 +30375,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0230",
@@ -30471,8 +30519,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0231",
@@ -30601,8 +30649,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0232",
@@ -30745,8 +30793,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0233",
@@ -30875,8 +30923,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0234",
@@ -31005,8 +31053,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0235",
@@ -31135,8 +31183,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0236",
@@ -31265,8 +31313,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0237",
@@ -31395,8 +31443,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0238",
@@ -31525,8 +31573,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0239",
@@ -31655,8 +31703,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0240",
@@ -31799,8 +31847,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0241",
@@ -31943,8 +31991,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0242",
@@ -32087,8 +32135,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0243",
@@ -32203,8 +32251,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0244",
@@ -32333,8 +32381,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0245",
@@ -32463,8 +32511,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0246",
@@ -32607,8 +32655,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0247",
@@ -32737,8 +32785,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0248",
@@ -32867,8 +32915,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0249",
@@ -32997,8 +33045,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0250",
@@ -33127,8 +33175,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0251",
@@ -33257,8 +33305,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0252",
@@ -33401,8 +33449,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0253",
@@ -33545,8 +33593,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0254",
@@ -33675,8 +33723,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0255",
@@ -33819,8 +33867,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0256",
@@ -33963,8 +34011,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0257",
@@ -34093,8 +34141,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0258",
@@ -34237,8 +34285,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0259",
@@ -34367,8 +34415,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0260",
@@ -34497,8 +34545,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0261",
@@ -34627,8 +34675,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0262",
@@ -34757,8 +34805,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0263",
@@ -34887,8 +34935,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0264",
@@ -35031,8 +35079,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0265",
@@ -35161,8 +35209,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0266",
@@ -35291,8 +35339,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0267",
@@ -35435,8 +35483,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0268",
@@ -35565,8 +35613,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0269",
@@ -35695,8 +35743,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0270",
@@ -35825,8 +35873,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0271",
@@ -35941,8 +35989,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0272",
@@ -36071,8 +36119,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0273",
@@ -36201,8 +36249,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0274",
@@ -36317,8 +36365,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0275",
@@ -36447,8 +36495,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0276",
@@ -36591,8 +36639,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0277",
@@ -36735,8 +36783,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0278",
@@ -36879,8 +36927,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0279",
@@ -36995,8 +37043,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0280",
@@ -37125,8 +37173,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0281",
@@ -37269,8 +37317,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0282",
@@ -37399,8 +37447,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0283",
@@ -37529,8 +37577,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0284",
@@ -37659,8 +37707,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0285",
@@ -37789,8 +37837,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0286",
@@ -37933,8 +37981,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0287",
@@ -38063,8 +38111,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0288",
@@ -38193,8 +38241,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0289",
@@ -38323,8 +38371,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0290",
@@ -38453,8 +38501,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0291",
@@ -38583,8 +38631,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0292",
@@ -38713,8 +38761,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0293",
@@ -38843,8 +38891,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0294",
@@ -38947,8 +38995,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0295",
@@ -39077,8 +39125,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0296",
@@ -39207,8 +39255,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0297",
@@ -39337,8 +39385,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0298",
@@ -39467,8 +39515,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0299",
@@ -39611,8 +39659,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0300",
@@ -39741,8 +39789,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0301",
@@ -39871,8 +39919,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0302",
@@ -39987,8 +40035,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0303",
@@ -40117,8 +40165,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0304",
@@ -40262,8 +40310,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0305",
@@ -40392,8 +40440,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0306",
@@ -40508,8 +40556,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0307",
@@ -40638,8 +40686,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0308",
@@ -40768,8 +40816,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0309",
@@ -40886,8 +40934,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0310",
@@ -41016,8 +41064,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0311",
@@ -41146,8 +41194,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0312",
@@ -41276,8 +41324,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0313",
@@ -41406,8 +41454,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0314",
@@ -41536,8 +41584,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0315",
@@ -41666,8 +41714,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0316",
@@ -41796,8 +41844,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0317",
@@ -41926,8 +41974,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0318",
@@ -42056,8 +42104,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0319",
@@ -42186,8 +42234,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0320",
@@ -42316,8 +42364,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0321",
@@ -42460,8 +42508,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0322",
@@ -42590,8 +42638,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0323",
@@ -42694,8 +42742,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0324",
@@ -42824,8 +42872,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0325",
@@ -42954,8 +43002,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0326",
@@ -43084,8 +43132,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0327",
@@ -43214,8 +43262,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0328",
@@ -43344,8 +43392,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0329",
@@ -43474,8 +43522,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0330",
@@ -43618,8 +43666,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0331",
@@ -43748,8 +43796,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0332",
@@ -43892,8 +43940,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0333",
@@ -44022,8 +44070,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0334",
@@ -44166,8 +44214,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0335",
@@ -44282,8 +44330,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0336",
@@ -44412,8 +44460,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0337",
@@ -44542,8 +44590,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0338",
@@ -44686,8 +44734,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0339",
@@ -44830,8 +44878,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0340",
@@ -44946,8 +44994,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0341",
@@ -45076,8 +45124,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0342",
@@ -45206,8 +45254,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0343",
@@ -45350,8 +45398,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0344",
@@ -45454,8 +45502,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0345",
@@ -45584,8 +45632,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0346",
@@ -45728,8 +45776,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0347",
@@ -45811,8 +45859,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0348",
@@ -45941,8 +45989,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0349",
@@ -46071,8 +46119,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   },
   {
     "id": "cong-0350",
@@ -46203,8 +46251,8 @@ export const CONGRESO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T22:12:38.991944Z",
-    "updated_at": "2026-05-28T22:12:38.991944Z"
+    "created_at": "2026-05-29T13:03:16.804586Z",
+    "updated_at": "2026-05-29T13:03:16.804586Z"
   }
 ]
 
