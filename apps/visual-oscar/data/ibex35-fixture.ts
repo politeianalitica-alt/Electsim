@@ -356,8 +356,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0002",
@@ -723,8 +723,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0003",
@@ -1077,8 +1077,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0004",
@@ -1400,8 +1400,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0005",
@@ -1729,8 +1729,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0006",
@@ -2088,8 +2088,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0007",
@@ -2428,8 +2428,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0008",
@@ -2742,8 +2742,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0009",
@@ -3067,8 +3067,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0010",
@@ -3393,8 +3393,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0011",
@@ -3739,8 +3739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0012",
@@ -4015,8 +4015,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0013",
@@ -4306,8 +4306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0014",
@@ -4648,8 +4648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0015",
@@ -4988,8 +4988,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0016",
@@ -5278,8 +5278,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0017",
@@ -5575,8 +5575,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0018",
@@ -5903,8 +5903,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0019",
@@ -6220,8 +6220,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0020",
@@ -6515,8 +6515,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0021",
@@ -6801,8 +6801,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0022",
@@ -7086,8 +7086,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0023",
@@ -7354,8 +7354,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0024",
@@ -7595,8 +7595,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0025",
@@ -7852,8 +7852,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0026",
@@ -8163,8 +8163,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0027",
@@ -8490,8 +8490,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0028",
@@ -8833,8 +8833,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0029",
@@ -9076,8 +9076,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0030",
@@ -9333,8 +9333,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0031",
@@ -9648,8 +9648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0032",
@@ -9891,8 +9891,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0033",
@@ -10214,8 +10214,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0034",
@@ -10471,8 +10471,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0035",
@@ -10739,8 +10739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0036",
@@ -10966,8 +10966,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0037",
@@ -11200,8 +11200,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0038",
@@ -11232,7 +11232,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0038-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Salamanca, 1950. Ingeniero industrial (ICAI) y MBA. Considerado el ejecutivo con la carrera más larga al frente de un IBEX 35.",
+            "contenido": "Ignacio Sánchez Galán (Salamanca, 1950) es presidente ejecutivo de Iberdrola, la mayor eléctrica española y una de las grandes utilities del mundo por capitalización bursátil. Ingeniero, ha pilotado durante más de dos décadas la transformación de la compañía en un gigante global de las energías renovables y las redes de distribución, con fuerte presencia en Reino Unido, Estados Unidos, Brasil y México.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11266,9 +11266,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0038-ap-01-it-00",
             "apartado_id": "ibx-0038-ap-01",
             "tipo": "evento",
-            "titulo": "Sogecable / Antibióticos",
-            "contenido": "Carrera previa en Sogecable y Antibióticos S.A.",
-            "fecha": "1980-01-01",
+            "titulo": "Ingeniero y gestor industrial",
+            "contenido": "Ingeniero técnico industrial por la Universidad Pontificia de Comillas (ICAI), con formación en administración de empresas, hizo carrera directiva en compañías industriales —entre ellas Industria de Turbo Propulsores y la operadora de telefonía Airtel— antes de dar el salto al sector eléctrico.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11278,9 +11278,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0038-ap-01-it-01",
             "apartado_id": "ibx-0038-ap-01",
             "tipo": "evento",
-            "titulo": "Airtel / Vodafone",
-            "contenido": "CEO de Airtel (predecesor de Vodafone España) entre 1995 y 2001.",
-            "fecha": "1995-06-01",
+            "titulo": "Al frente de Iberdrola",
+            "contenido": "Llegó a Iberdrola como consejero delegado en 2001 y poco después asumió la presidencia ejecutiva. Apostó tempranamente por la energía eólica y por las redes, anticipándose a la transición energética cuando las renovables eran aún una opción minoritaria en el sector.",
+            "fecha": "2001-05-25",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11290,25 +11290,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0038-ap-01-it-02",
             "apartado_id": "ibx-0038-ap-01",
             "tipo": "evento",
-            "titulo": "CEO de Iberdrola",
-            "contenido": "Llega a Iberdrola como CEO en septiembre 2001.",
-            "fecha": "2001-09-01",
+            "titulo": "Expansión global y renovables",
+            "contenido": "Bajo su mando, Iberdrola adquirió ScottishPower en Reino Unido, Energy East/Avangrid en Estados Unidos y Neoenergia en Brasil, multiplicando su tamaño y diversificando ingresos en geografías reguladas. La compañía se ha situado entre los líderes mundiales en eólica marina e inversión en redes, alcanzando en distintos momentos la mayor capitalización del IBEX 35.",
+            "fecha": "2007-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0038-ap-01-it-03",
-            "apartado_id": "ibx-0038-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidente ejecutivo",
-            "contenido": "Asume la presidencia ejecutiva en junio 2006 (sustituyendo a Íñigo de Oriol).",
-            "fecha": "2006-06-21",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -11507,8 +11495,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0039",
@@ -11800,8 +11788,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0040",
@@ -12070,8 +12058,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0041",
@@ -12371,8 +12359,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0042",
@@ -12403,7 +12391,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0042-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Turquía, 1975. ITU Estambul y Carnegie Mellon (MBA).",
+            "contenido": "Onur Genç es consejero delegado de BBVA, el segundo banco español por tamaño y uno de los mayores de la eurozona, con fuerte presencia en México, Turquía y América del Sur. De origen turco y con formación internacional, dirige la gestión del grupo y ha liderado la ofensiva del banco para hacerse con el Sabadell.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12437,9 +12425,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0042-ap-01-it-00",
             "apartado_id": "ibx-0042-ap-01",
             "tipo": "evento",
-            "titulo": "Garanti BBVA",
-            "contenido": "CEO de Garanti BBVA (Turquía) 2015-2017.",
-            "fecha": "2015-04-01",
+            "titulo": "De la consultoría a la banca",
+            "contenido": "Formado en ingeniería y con un MBA por la Carnegie Mellon, trabajó en la consultoría estratégica (McKinsey) antes de incorporarse al sector bancario, donde desarrolló su carrera en mercados emergentes.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12449,9 +12437,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0042-ap-01-it-01",
             "apartado_id": "ibx-0042-ap-01",
             "tipo": "evento",
-            "titulo": "BBVA USA",
-            "contenido": "CEO de BBVA USA 2017-2018 (vendida a PNC en 2021).",
-            "fecha": "2017-12-01",
+            "titulo": "CEO de Garanti",
+            "contenido": "Dirigió Garanti BBVA, la filial turca del grupo, uno de sus mercados más rentables y a la vez más expuestos a la volatilidad macroeconómica, lo que le dio proyección dentro del banco.",
+            "fecha": "2017-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12461,25 +12449,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0042-ap-01-it-02",
             "apartado_id": "ibx-0042-ap-01",
             "tipo": "evento",
-            "titulo": "CEO BBVA",
-            "contenido": "CEO del grupo desde diciembre 2018.",
-            "fecha": "2018-12-21",
+            "titulo": "Consejero delegado de BBVA y la OPA al Sabadell",
+            "contenido": "Como consejero delegado del grupo desde 2018-2019, junto al presidente Carlos Torres, lideró desde 2024 la OPA sobre el Banco Sabadell, una operación que aspiraba a crear un gigante bancario y que marcó el pulso del sector financiero español.",
+            "fecha": "2019-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0042-ap-01-it-03",
-            "apartado_id": "ibx-0042-ap-01",
-            "tipo": "evento",
-            "titulo": "McKinsey",
-            "contenido": "Consultor en McKinsey en Estambul y Nueva York antes de incorporarse a Garanti.",
-            "fecha": "2002-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -12630,8 +12606,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0043",
@@ -12906,8 +12882,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0044",
@@ -12938,7 +12914,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0044-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en 1965. Derecho (ICADE), MBA INSEAD. Abogado del Estado.",
+            "contenido": "Gonzalo Gortázar Rotaeche (1965) es consejero delegado de CaixaBank, el mayor banco por activos en el mercado doméstico español tras su fusión con Bankia. Ingeniero y MBA con experiencia en banca de inversión internacional, dirige la gestión ordinaria del grupo en el que CriteriaCaixa es accionista de referencia.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12972,8 +12948,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0044-ap-01-it-00",
             "apartado_id": "ibx-0044-ap-01",
             "tipo": "evento",
-            "titulo": "Banca de inversión",
-            "contenido": "Bank of America y Morgan Stanley en M&A, 1990s-2000s.",
+            "titulo": "Banca de inversión internacional",
+            "contenido": "Formado como ingeniero y MBA, trabajó en banca de inversión (Morgan Stanley, Bank of America) antes de incorporarse al perímetro de La Caixa, donde dirigió Criteria y la actividad financiera del grupo.",
             "fecha": "1993-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12984,9 +12960,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0044-ap-01-it-01",
             "apartado_id": "ibx-0044-ap-01",
             "tipo": "evento",
-            "titulo": "Criteria",
-            "contenido": "Director general financiero de Criteria CaixaCorp 2009-2014.",
-            "fecha": "2009-09-01",
+            "titulo": "Consejero delegado de CaixaBank",
+            "contenido": "Asumió la consejería delegada de CaixaBank, encargándose de la gestión diaria del banco y de su estrategia comercial, digital y de rentabilidad bajo la presidencia primero de Fainé y luego de Goirigolzarri.",
+            "fecha": "2014-06-26",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -12996,9 +12972,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0044-ap-01-it-02",
             "apartado_id": "ibx-0044-ap-01",
             "tipo": "evento",
-            "titulo": "CEO CaixaBank",
-            "contenido": "CEO desde junio 2014, mantenido tras fusión con Bankia.",
-            "fecha": "2014-06-30",
+            "titulo": "La fusión con Bankia",
+            "contenido": "Pilotó en 2021 la integración de Bankia en CaixaBank, la mayor operación bancaria de la historia reciente de España, que situó al grupo como líder doméstico por cuota en crédito, depósitos y seguros.",
+            "fecha": "2021-03-26",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13092,8 +13068,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0045",
@@ -13124,7 +13100,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0045-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1972. Ingeniero industrial (UPC) y MBA London Business School.",
+            "contenido": "Marc Murtra (1972) es presidente de Telefónica, la mayor operadora de telecomunicaciones española y un activo considerado estratégico por el Estado. Ingeniero industrial y economista, llegó a la presidencia en enero de 2025 tras el refuerzo del peso público en el capital, después de haber presidido la tecnológica de defensa Indra.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13158,9 +13134,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0045-ap-01-it-00",
             "apartado_id": "ibx-0045-ap-01",
             "tipo": "evento",
-            "titulo": "Lehman / consultoría",
-            "contenido": "Carrera previa en Lehman Brothers (banca de inversión) y Atrium Capital.",
-            "fecha": "1998-01-01",
+            "titulo": "Formación e inicios",
+            "contenido": "Ingeniero industrial y economista con formación internacional, desarrolló su carrera entre la consultoría, la empresa industrial y la gestión de participadas, con un interés marcado por la política industrial y tecnológica del país.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13170,9 +13146,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0045-ap-01-it-01",
             "apartado_id": "ibx-0045-ap-01",
             "tipo": "evento",
-            "titulo": "Secretario de Estado",
-            "contenido": "Secretario de Estado de Telecomunicaciones y Sociedad de la Información en el Gobierno Zapatero (2010-2011).",
-            "fecha": "2010-12-01",
+            "titulo": "Presidente de Indra",
+            "contenido": "En 2021 fue nombrado presidente de Indra a propuesta de la SEPI, el holding público que es primer accionista de la tecnológica. Pilotó su giro hacia la defensa y la consolidación del sector en un contexto de aumento del gasto militar europeo.",
+            "fecha": "2021-01-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13182,37 +13158,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0045-ap-01-it-02",
             "apartado_id": "ibx-0045-ap-01",
             "tipo": "evento",
-            "titulo": "SEPI / Hispasat",
-            "contenido": "Director de Empresas Industriales de la SEPI 2011-2012. Vinculado al ecosistema empresa pública.",
-            "fecha": "2011-01-01",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 2
-          },
-          {
-            "id": "ibx-0045-ap-01-it-03",
-            "apartado_id": "ibx-0045-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidente Indra",
-            "contenido": "Presidente de Indra desde enero 2021. Pivot a defensa.",
-            "fecha": "2021-01-22",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
-          },
-          {
-            "id": "ibx-0045-ap-01-it-04",
-            "apartado_id": "ibx-0045-ap-01",
-            "tipo": "evento",
-            "titulo": "Telefónica",
-            "contenido": "Presidente de Telefónica desde 18 enero 2025 (designado por consenso accionarial SEPI/STC/CriteriaCaixa).",
+            "titulo": "Presidente de Telefónica",
+            "contenido": "En enero de 2025 sustituyó a José María Álvarez-Pallete al frente de Telefónica, después de que la SEPI se convirtiera en uno de los mayores accionistas de la operadora —junto a la saudí STC y CriteriaCaixa—, en una operación que reforzó el control nacional sobre una infraestructura estratégica.",
             "fecha": "2025-01-18",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
-            "orden": 4
+            "orden": 2
           }
         ]
       },
@@ -13380,8 +13332,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0046",
@@ -13412,7 +13364,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0046-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sariñena (Huesca) en 1948. Económicas (Universidad de Barcelona). Auditoría (Arthur Andersen).",
+            "contenido": "Antonio Brufau Niubó (Mont-roig del Camp, Tarragona, 1948) es presidente de Repsol, la mayor petrolera y compañía multienergética española. Economista de formación y procedente del perímetro de La Caixa, ha presidido el grupo durante dos décadas, pilotando su transformación desde la petrolera tradicional hacia un modelo multienergético con objetivo de descarbonización.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13446,9 +13398,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0046-ap-01-it-00",
             "apartado_id": "ibx-0046-ap-01",
             "tipo": "evento",
-            "titulo": "Arthur Andersen",
-            "contenido": "Carrera en auditoría 1971-1988.",
-            "fecha": "1971-09-01",
+            "titulo": "De Arthur Andersen a La Caixa",
+            "contenido": "Economista y censor jurado de cuentas, desarrolló su carrera entre la auditoría (Arthur Andersen) y el grupo La Caixa, donde llegó a la dirección general antes de asumir la presidencia de Gas Natural.",
+            "fecha": "1988-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13458,9 +13410,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0046-ap-01-it-01",
             "apartado_id": "ibx-0046-ap-01",
             "tipo": "evento",
-            "titulo": "La Caixa",
-            "contenido": "Director general de La Caixa 1988-2003.",
-            "fecha": "1988-01-01",
+            "titulo": "Presidente de Gas Natural",
+            "contenido": "Dirigió Gas Natural, impulsando su crecimiento en el negocio gasista y eléctrico, lo que le dio el peso y la experiencia para dar el salto a la petrolera de referencia del país.",
+            "fecha": "1997-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13470,9 +13422,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0046-ap-01-it-02",
             "apartado_id": "ibx-0046-ap-01",
             "tipo": "evento",
-            "titulo": "Gas Natural / Repsol",
-            "contenido": "Presidente de Gas Natural 1997-2004; presidente de Repsol desde 2004.",
-            "fecha": "2004-10-27",
+            "titulo": "Presidente de Repsol",
+            "contenido": "Preside Repsol desde 2004. Gestionó episodios críticos como la expropiación de YPF por Argentina en 2012 y ha orientado al grupo hacia un modelo multienergético —química, renovables, combustibles renovables y movilidad— con el objetivo declarado de cero emisiones netas en 2050.",
+            "fecha": "2004-10-19",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13626,8 +13578,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0047",
@@ -13902,8 +13854,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0048",
@@ -13936,7 +13888,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0048-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Barcelona, 1971. Economista. Doctor en Economía por la Universidad de Cambridge.",
+            "contenido": "Maurici Lucena Betriu es presidente y consejero delegado de Aena, el primer operador aeroportuario del mundo por número de pasajeros y una compañía cotizada controlada por el Estado a través de Enaire. Economista y exparlamentario socialista catalán, dirige la gestión de la red de aeropuertos españoles y sus planes de inversión y tarifas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -13970,9 +13922,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0048-ap-01-it-00",
             "apartado_id": "ibx-0048-ap-01",
             "tipo": "evento",
-            "titulo": "PSC / Generalitat",
-            "contenido": "Diputado del PSC en el Parlament. Director del CIDOB (think tank Barcelona).",
-            "fecha": "2007-01-01",
+            "titulo": "Economista y gestión pública",
+            "contenido": "Economista de formación, combinó la actividad profesional con la gestión pública, incluida la dirección del Centro para el Desarrollo Tecnológico Industrial (CDTI), agencia estatal de innovación.",
+            "fecha": "2004-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13982,9 +13934,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0048-ap-01-it-01",
             "apartado_id": "ibx-0048-ap-01",
             "tipo": "evento",
-            "titulo": "Sec. Estado Comercio",
-            "contenido": "Secretario de Estado de Comercio (2018) en el primer Gobierno Sánchez (Reyes Maroto).",
-            "fecha": "2018-06-07",
+            "titulo": "Política en Cataluña",
+            "contenido": "Fue diputado en el Parlament de Cataluña por el PSC, con responsabilidades en política económica, antes de regresar a la gestión de empresas y organismos públicos.",
+            "fecha": "2010-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -13994,8 +13946,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0048-ap-01-it-02",
             "apartado_id": "ibx-0048-ap-01",
             "tipo": "evento",
-            "titulo": "Presidencia Aena",
-            "contenido": "Designado presidente de Aena en diciembre 2018.",
+            "titulo": "Presidente de Aena",
+            "contenido": "Preside Aena desde 2018. Ha gestionado el desplome y la posterior recuperación récord del tráfico aéreo tras la pandemia, el debate sobre la ampliación del aeropuerto de Barcelona-El Prat y el marco regulado de tarifas aeroportuarias (DORA).",
             "fecha": "2018-12-04",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14132,8 +14084,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0049",
@@ -14164,7 +14116,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0049-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Ingeniero industrial. Toda la carrera en Endesa: redes, generación, comercialización.",
+            "contenido": "José Bogas Gálvez es consejero delegado de Endesa, la mayor eléctrica de España por número de clientes, controlada por la italiana Enel. Ingeniero con casi toda su carrera profesional ligada a la compañía, dirige el día a día del grupo en plena transición desde el carbón hacia las renovables y la electrificación de la demanda.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14212,9 +14164,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0049-ap-01-it-00",
             "apartado_id": "ibx-0049-ap-01",
             "tipo": "evento",
-            "titulo": "Endesa carrera interna",
-            "contenido": "Director general de España y Portugal antes de ser CEO.",
-            "fecha": "2009-09-01",
+            "titulo": "Carrera en Endesa",
+            "contenido": "Ingeniero, desarrolló su trayectoria en distintas áreas de Endesa —generación, negocio internacional y mercados liberalizados—, lo que le dio un conocimiento profundo del negocio eléctrico antes de acceder a la primera línea ejecutiva.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14224,9 +14176,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0049-ap-01-it-01",
             "apartado_id": "ibx-0049-ap-01",
             "tipo": "evento",
-            "titulo": "CEO Endesa",
-            "contenido": "CEO desde octubre 2014.",
-            "fecha": "2014-10-09",
+            "titulo": "Consejero delegado",
+            "contenido": "Asumió la dirección general/consejería delegada de Endesa en 2014, ya bajo control del grupo italiano Enel, asumiendo la gestión ordinaria de la compañía y su relación con el accionista de referencia.",
+            "fecha": "2014-10-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14236,9 +14188,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0049-ap-01-it-02",
             "apartado_id": "ibx-0049-ap-01",
             "tipo": "evento",
-            "titulo": "Generación, distribución, comercialización",
-            "contenido": "Carrera en distintas direcciones generales de Endesa (Generación, Distribución, Iberia).",
-            "fecha": "1995-01-01",
+            "titulo": "Cierre del carbón y renovables",
+            "contenido": "Ha pilotado el cierre de las centrales de carbón y la apuesta por la generación renovable, las redes de distribución y la comercialización, en un sector marcado por la volatilidad de los precios y la regulación energética europea.",
+            "fecha": "2019-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14429,8 +14381,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0050",
@@ -14462,7 +14414,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0050-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Palma de Mallorca, 1963. Ingeniero industrial.",
+            "contenido": "Francisco Reynés (1963) es presidente ejecutivo de Naturgy, la mayor gasista española y una de sus grandes eléctricas, participada por CriteriaCaixa y por fondos internacionales. Ingeniero de Caminos, llegó a la energética tras dirigir el grupo de autopistas Abertis, y ha protagonizado los sucesivos planes estratégicos y movimientos accionariales del grupo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14496,9 +14448,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0050-ap-01-it-00",
             "apartado_id": "ibx-0050-ap-01",
             "tipo": "evento",
-            "titulo": "Abertis",
-            "contenido": "CEO de Abertis (concesionaria) entre 2010 y 2017.",
-            "fecha": "2010-12-01",
+            "titulo": "De la banca de inversión a la gestión",
+            "contenido": "Ingeniero de Caminos con formación en administración de empresas, desarrolló su carrera entre las finanzas corporativas y la gestión de infraestructuras, vinculándose al perímetro empresarial de La Caixa.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -14508,13 +14460,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0050-ap-01-it-01",
             "apartado_id": "ibx-0050-ap-01",
             "tipo": "evento",
-            "titulo": "Naturgy",
-            "contenido": "Presidente y CEO de Naturgy desde febrero 2018.",
-            "fecha": "2018-02-01",
+            "titulo": "Consejero delegado de Abertis",
+            "contenido": "Dirigió durante años el grupo de concesiones de autopistas Abertis, expandiéndolo internacionalmente, hasta su venta y troceo entre ACS-Hochtief y la italiana Atlantia.",
+            "fecha": "2009-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0050-ap-01-it-02",
+            "apartado_id": "ibx-0050-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Naturgy",
+            "contenido": "En 2018 asumió la presidencia ejecutiva de Naturgy (antes Gas Natural Fenosa), donde ha pilotado planes de eficiencia, la rotación de accionistas —con la entrada del fondo IFM y la OPA fallida y posteriores movimientos— y el reparto entre dividendo e inversión en transición energética.",
+            "fecha": "2018-02-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -14647,8 +14611,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0051",
@@ -14679,7 +14643,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0051-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1958. Ingeniero de Caminos. MBA por MIT Sloan. Hijo del fundador Rafael del Pino y Moreno.",
+            "contenido": "Rafael del Pino y Calvo-Sotelo (Madrid, 1958) es presidente de Ferrovial, una de las mayores constructoras y operadoras de infraestructuras del mundo. Ingeniero de Caminos formado también en EE. UU., heredó el liderazgo del grupo fundado por su padre y lo convirtió en una multinacional de concesiones de autopistas y aeropuertos, una de las mayores fortunas de España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -14713,13 +14677,37 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0051-ap-01-it-00",
             "apartado_id": "ibx-0051-ap-01",
             "tipo": "evento",
-            "titulo": "Familia / cargos",
-            "contenido": "Carrera entera dentro de Ferrovial. Director general en los 90, vicepresidente y luego presidente desde 2000.",
-            "fecha": "2000-04-26",
+            "titulo": "Formación e ingreso en la empresa familiar",
+            "contenido": "Ingeniero de Caminos con un MBA por el MIT, se incorporó a la constructora fundada por su padre, Rafael del Pino y Moreno, donde fue asumiendo responsabilidades crecientes hasta tomar las riendas del grupo.",
+            "fecha": "1992-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0051-ap-01-it-01",
+            "apartado_id": "ibx-0051-ap-01",
+            "tipo": "evento",
+            "titulo": "Internacionalización de Ferrovial",
+            "contenido": "Bajo su mando, Ferrovial viró del negocio puramente constructor al de concesionario y operador de infraestructuras, con activos emblemáticos como la autopista 407 ETR en Canadá y el aeropuerto de Heathrow en Londres, y una fuerte implantación en EE. UU.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0051-ap-01-it-02",
+            "apartado_id": "ibx-0051-ap-01",
+            "tipo": "evento",
+            "titulo": "Traslado de la sede a Países Bajos",
+            "contenido": "En 2023 lideró el traslado del domicilio social de Ferrovial a los Países Bajos, con vistas a cotizar también en EE. UU., una decisión que generó un agrio choque político con el Gobierno por su lectura como una fuga fiscal y de prestigio empresarial.",
+            "fecha": "2023-04-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -14904,8 +14892,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0052",
@@ -15192,8 +15180,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0053",
@@ -15462,8 +15450,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0054",
@@ -15802,8 +15790,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0055",
@@ -16115,8 +16103,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0056",
@@ -16147,7 +16135,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0056-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sabadell, 1949. Económicas (UAB y Universidad de Minnesota).",
+            "contenido": "Josep Oliu Creus (Sabadell, 1949) es presidente de Banco Sabadell, una de las grandes entidades financieras españolas. Economista con doctorado en EE. UU., ha encarnado durante décadas el crecimiento del banco mediante adquisiciones y ha sido figura central en la defensa de su independencia frente a la OPA hostil del BBVA.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16181,13 +16169,37 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0056-ap-01-it-00",
             "apartado_id": "ibx-0056-ap-01",
             "tipo": "evento",
-            "titulo": "Sabadell carrera entera",
-            "contenido": "Toda su carrera en Banco Sabadell. CEO en 1990, presidente desde 1999.",
-            "fecha": "1999-03-19",
+            "titulo": "Economista y vuelta al banco familiar",
+            "contenido": "Doctor en Economía por la Universidad de Minnesota y profesor universitario, se incorporó al Banco Sabadell —ligado a su familia— donde fue escalando hasta la presidencia.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0056-ap-01-it-01",
+            "apartado_id": "ibx-0056-ap-01",
+            "tipo": "evento",
+            "titulo": "Crecimiento por adquisiciones",
+            "contenido": "Bajo su mando, el Sabadell creció absorbiendo entidades como Banco Herrero, Banco Guipuzcoano y la CAM, y dio el salto internacional con la compra del británico TSB, hasta consolidarse como cuarto banco del país.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0056-ap-01-it-02",
+            "apartado_id": "ibx-0056-ap-01",
+            "tipo": "evento",
+            "titulo": "La OPA del BBVA",
+            "contenido": "Desde 2024 lideró la respuesta del consejo a la OPA hostil lanzada por el BBVA, defendiendo el proyecto en solitario del Sabadell, la venta de TSB y el reparto de dividendos como alternativa de valor para los accionistas frente a la fusión.",
+            "fecha": "2024-05-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -16355,8 +16367,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0057",
@@ -16671,8 +16683,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0058",
@@ -16932,8 +16944,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0059",
@@ -16965,7 +16977,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0059-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Cáceres, 1964. Derecho (Salamanca). MBA EOI.",
+            "contenido": "Antonio Huertas Mejías es presidente de Mapfre, la mayor aseguradora española y un grupo con fuerte implantación en Latinoamérica. Procedente de la propia compañía, dirige el grupo controlado por la Fundación Mapfre y ha impulsado su diversificación geográfica y su discurso sobre longevidad, reaseguro y sostenibilidad.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -16999,8 +17011,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0059-ap-01-it-00",
             "apartado_id": "ibx-0059-ap-01",
             "tipo": "evento",
-            "titulo": "Mapfre carrera interna",
-            "contenido": "En Mapfre desde 1988. Diversos cargos directivos.",
+            "titulo": "Carrera dentro de Mapfre",
+            "contenido": "Desarrolló prácticamente toda su trayectoria profesional dentro de Mapfre, pasando por distintas direcciones territoriales y de negocio, lo que le dio un conocimiento detallado de la aseguradora antes de acceder a la presidencia.",
             "fecha": "1988-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17011,8 +17023,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0059-ap-01-it-01",
             "apartado_id": "ibx-0059-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente",
-            "contenido": "Presidente desde marzo 2012.",
+            "titulo": "Presidente del grupo",
+            "contenido": "Asumió la presidencia de Mapfre en 2012, sucediendo a José Manuel Martínez, con el control del grupo en manos de la Fundación Mapfre, su accionista mayoritario.",
             "fecha": "2012-03-10",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17023,9 +17035,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0059-ap-01-it-02",
             "apartado_id": "ibx-0059-ap-01",
             "tipo": "evento",
-            "titulo": "Cargos previos",
-            "contenido": "Director de Mapfre Caja Madrid Holding y director general adjunto de Mapfre antes de asumir la presidencia en 2012.",
-            "fecha": "2008-01-01",
+            "titulo": "Diversificación internacional",
+            "contenido": "Ha pilotado el peso creciente de Latinoamérica, Estados Unidos y el negocio de reaseguro en la cuenta del grupo, junto a una agenda pública sobre el reto demográfico, el ahorro para la jubilación y la sostenibilidad del seguro.",
+            "fecha": "2015-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -17163,8 +17175,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0060",
@@ -17196,7 +17208,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0060-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1968. Derecho (Complutense). Registradora de la Propiedad. Vinculada al PSOE.",
+            "contenido": "Beatriz Corredor Sierra (Madrid, 1968) es presidenta de Redeia (matriz de Red Eléctrica), el operador del sistema eléctrico español, una infraestructura crítica de titularidad mayoritariamente pública a través de la SEPI. Registradora de la propiedad y exministra socialista de Vivienda, dirige la compañía responsable del transporte de electricidad y la operación de la red.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17230,9 +17242,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0060-ap-01-it-00",
             "apartado_id": "ibx-0060-ap-01",
             "tipo": "evento",
-            "titulo": "PSOE / Vivienda",
-            "contenido": "Concejal Ayuntamiento Madrid (PSOE). Ministra de Vivienda 2008-2010 con Zapatero.",
-            "fecha": "2008-04-14",
+            "titulo": "Registradora y política",
+            "contenido": "Registradora de la propiedad de profesión, dio el salto a la política en el PSOE, ocupando un escaño y responsabilidades en el área de vivienda y suelo.",
+            "fecha": "2004-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -17242,13 +17254,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0060-ap-01-it-01",
             "apartado_id": "ibx-0060-ap-01",
             "tipo": "evento",
-            "titulo": "Presidenta Redeia",
-            "contenido": "Presidenta desde febrero 2020 designada por el primer Gobierno Sánchez.",
-            "fecha": "2020-02-14",
+            "titulo": "Ministra de Vivienda",
+            "contenido": "Fue ministra de Vivienda entre 2008 y 2010 con José Luis Rodríguez Zapatero, en plena crisis del ladrillo, y después secretaria de Estado, gestionando el desplome del sector inmobiliario.",
+            "fecha": "2008-04-14",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0060-ap-01-it-02",
+            "apartado_id": "ibx-0060-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta de Redeia",
+            "contenido": "En 2020 asumió la presidencia de Red Eléctrica/Redeia. Le ha correspondido pilotar la integración de las renovables en el sistema y el operador quedó bajo el foco tras el gran apagón del 28 de abril de 2025, cuyas causas fueron objeto de investigación oficial.",
+            "fecha": "2020-02-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -17399,8 +17423,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0061",
@@ -17640,8 +17664,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0062",
@@ -17923,8 +17947,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0063",
@@ -17956,7 +17980,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0063-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1963. Económicas (Yale). MBA Columbia. Hijo de José María Entrecanales (fundador de Necso) y nieto del fundador de la saga.",
+            "contenido": "José Manuel Entrecanales Domecq (Madrid, 1963) es presidente de Acciona, grupo familiar de infraestructuras, energía y servicios convertido en uno de los grandes referentes mundiales de las renovables. Nieto del fundador, transformó la antigua constructora en una compañía centrada en la sostenibilidad y sacó a bolsa su filial verde, Acciona Energía.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -17990,13 +18014,37 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0063-ap-01-it-00",
             "apartado_id": "ibx-0063-ap-01",
             "tipo": "evento",
-            "titulo": "Acciona desde 2004",
-            "contenido": "Presidente desde mayo 2004.",
-            "fecha": "2004-05-26",
+            "titulo": "De la banca a la empresa familiar",
+            "contenido": "Tras formarse y pasar por la banca de inversión, se incorporó al grupo familiar (entonces en torno a la constructora Entrecanales y Távora) y lideró su reordenación bajo la marca Acciona.",
+            "fecha": "1992-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "ibx-0063-ap-01-it-01",
+            "apartado_id": "ibx-0063-ap-01",
+            "tipo": "evento",
+            "titulo": "Apuesta por las renovables",
+            "contenido": "Anticipó la apuesta por la energía eólica y la sostenibilidad como eje estratégico, posicionando a Acciona como pionera mundial en renovables y desarrollo de infraestructuras de agua y transporte.",
+            "fecha": "2004-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "ibx-0063-ap-01-it-02",
+            "apartado_id": "ibx-0063-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida a bolsa de Acciona Energía",
+            "contenido": "En 2021 sacó a bolsa Acciona Energía, una de las mayores OPV del año en España, para financiar el crecimiento del negocio verde y poner en valor unos activos renovables que el mercado no reconocía dentro del holding.",
+            "fecha": "2021-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -18120,8 +18168,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0064",
@@ -18334,8 +18382,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0065",
@@ -18530,8 +18578,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0066",
@@ -18746,8 +18794,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0067",
@@ -18963,8 +19011,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0068",
@@ -19198,8 +19246,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0069",
@@ -19403,8 +19451,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0070",
@@ -19703,8 +19751,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0071",
@@ -20032,8 +20080,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0072",
@@ -20357,8 +20405,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0073",
@@ -20648,8 +20696,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0074",
@@ -20877,8 +20925,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0075",
@@ -21090,8 +21138,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0076",
@@ -21343,8 +21391,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0077",
@@ -21566,8 +21614,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0078",
@@ -21807,8 +21855,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0079",
@@ -22095,8 +22143,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0080",
@@ -22125,7 +22173,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0080-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1964. Abogado del Estado. MBA IESE.",
+            "contenido": "Pablo Isla Álvarez de Tejera (Madrid, 1964) es uno de los gestores españoles más reconocidos internacionalmente, conocido por su etapa al frente de Inditex (Zara). Abogado del Estado, presidió el gigante textil durante su gran expansión global y digital, y posteriormente se incorporó a consejos de multinacionales como Nestlé.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22159,9 +22207,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0080-ap-01-it-00",
             "apartado_id": "ibx-0080-ap-01",
             "tipo": "evento",
-            "titulo": "Altadis",
-            "contenido": "Co-presidente de Altadis (tabaco) 2000-2005.",
-            "fecha": "2000-01-01",
+            "titulo": "Abogado del Estado y directivo",
+            "contenido": "Abogado del Estado, ocupó cargos en la administración y dirigió áreas jurídicas y de gestión en empresas como el Banco Popular y la tabacalera Altadis antes de su salto a Inditex.",
+            "fecha": "1998-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -22171,8 +22219,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0080-ap-01-it-01",
             "apartado_id": "ibx-0080-ap-01",
             "tipo": "evento",
-            "titulo": "Inditex",
-            "contenido": "Vicepresidente Inditex 2005, presidente desde 2011.",
+            "titulo": "Presidente ejecutivo de Inditex",
+            "contenido": "Tomó el relevo de Amancio Ortega como presidente ejecutivo de Inditex y lideró durante más de una década la expansión internacional del grupo, la integración de tienda física y online y su reconocimiento como uno de los mejores CEO del mundo según rankings internacionales.",
             "fecha": "2011-07-19",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22183,8 +22231,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0080-ap-01-it-02",
             "apartado_id": "ibx-0080-ap-01",
             "tipo": "evento",
-            "titulo": "Salida Inditex",
-            "contenido": "Cede la presidencia a Marta Ortega en abril 2022.",
+            "titulo": "Salida y nuevos consejos",
+            "contenido": "Dejó la presidencia de Inditex en 2022, dando paso a Marta Ortega, y orientó su actividad hacia los consejos de grandes multinacionales —entre ellas la suiza Nestlé— y la inversión, manteniéndose como referente de la alta gestión española.",
             "fecha": "2022-04-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22296,8 +22344,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0081",
@@ -22496,8 +22544,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0082",
@@ -22768,8 +22816,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0083",
@@ -23003,8 +23051,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0084",
@@ -23210,8 +23258,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0085",
@@ -23365,8 +23413,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0086",
@@ -23587,8 +23635,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0087",
@@ -23791,8 +23839,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0088",
@@ -23971,8 +24019,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0089",
@@ -24109,8 +24157,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0090",
@@ -24272,8 +24320,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0091",
@@ -24444,8 +24492,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0092",
@@ -24680,8 +24728,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0093",
@@ -24830,8 +24878,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0094",
@@ -24984,8 +25032,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0095",
@@ -25124,8 +25172,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0096",
@@ -25302,8 +25350,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0097",
@@ -25492,8 +25540,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0098",
@@ -25594,8 +25642,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0099",
@@ -25733,8 +25781,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0100",
@@ -25881,8 +25929,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0101",
@@ -26022,8 +26070,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0102",
@@ -26157,8 +26205,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0103",
@@ -26290,8 +26338,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0104",
@@ -26447,8 +26495,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0105",
@@ -26574,8 +26622,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0106",
@@ -26758,8 +26806,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0107",
@@ -26940,8 +26988,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0108",
@@ -27069,8 +27117,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0109",
@@ -27201,8 +27249,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0110",
@@ -27313,8 +27361,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0111",
@@ -27409,8 +27457,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0112",
@@ -27518,8 +27566,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0113",
@@ -27614,8 +27662,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0114",
@@ -27694,8 +27742,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0115",
@@ -27772,8 +27820,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0116",
@@ -27953,8 +28001,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0117",
@@ -28050,8 +28098,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0118",
@@ -28130,8 +28178,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0119",
@@ -28242,8 +28290,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0120",
@@ -28360,8 +28408,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0121",
@@ -28489,8 +28537,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0122",
@@ -28622,8 +28670,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0123",
@@ -28771,8 +28819,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0124",
@@ -28911,8 +28959,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0125",
@@ -29050,8 +29098,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0126",
@@ -29161,8 +29209,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0127",
@@ -29310,8 +29358,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0128",
@@ -29436,8 +29484,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0129",
@@ -29532,8 +29580,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0130",
@@ -29659,8 +29707,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0131",
@@ -29776,8 +29824,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0132",
@@ -29908,8 +29956,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0133",
@@ -30052,8 +30100,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0134",
@@ -30152,8 +30200,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0135",
@@ -30248,8 +30296,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0136",
@@ -30360,8 +30408,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0137",
@@ -30478,8 +30526,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0138",
@@ -30575,8 +30623,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0139",
@@ -30672,8 +30720,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0140",
@@ -30784,8 +30832,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0141",
@@ -30897,8 +30945,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0142",
@@ -30995,8 +31043,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0143",
@@ -31093,8 +31141,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0144",
@@ -31191,8 +31239,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   },
   {
     "id": "ibx-0145",
@@ -31310,8 +31358,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.548677Z",
-    "updated_at": "2026-05-29T09:31:58.548677Z"
+    "created_at": "2026-05-29T09:49:50.207110Z",
+    "updated_at": "2026-05-29T09:49:50.207110Z"
   }
 ]
 

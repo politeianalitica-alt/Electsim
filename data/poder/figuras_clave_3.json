@@ -329,7 +329,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.76,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -338,7 +338,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Presidenta de El Corte Inglés y miembro de la familia accionista de referencia. Lidera el grupo en su transición digital y la reordenación de su deuda y activos inmobiliarios."
+            "contenido": "Marta Álvarez González es presidenta de El Corte Inglés, el mayor grupo de grandes almacenes de España y uno de los mayores empleadores privados del país. Hija de Isidoro Álvarez, histórico presidente de la compañía, representa a la familia fundadora en el control de un grupo centenario que afronta su transformación tras décadas de hegemonía indiscutida en el comercio minorista español."
           }
         ]
       },
@@ -383,9 +383,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Reordenación de El Corte Inglés",
-            "contenido": "Asumió la presidencia tras años de pugnas familiares y societarias. Ha pilotado la reducción de deuda, la entrada de socios (catarí, banca) y la monetización de la enorme cartera inmobiliaria del grupo."
+            "tipo": "evento",
+            "titulo": "Formación en la empresa familiar",
+            "contenido": "Vinculada desde joven a El Corte Inglés, se formó en distintas áreas del grupo creado por Ramón Areces y consolidado por su tío Isidoro Álvarez, accionista de referencia a través de la fundación y la cartera familiar.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Pugna por el control",
+            "contenido": "Tras el fallecimiento de Isidoro Álvarez en 2014, la familia y los principales ejecutivos protagonizaron una pugna por el control del grupo, de la que Marta Álvarez emergió reforzada al frente del accionariado de referencia.",
+            "fecha": "2014-09-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de El Corte Inglés",
+            "contenido": "Asumió la presidencia en 2019, en plena transformación del modelo de grandes almacenes ante el comercio electrónico, con planes de reducción de deuda y de puesta en valor de un enorme patrimonio inmobiliario.",
+            "fecha": "2019-09-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Nuevos socios y diversificación",
+            "contenido": "Bajo su presidencia, el grupo ha dado entrada a socios e inversores —como el catarí Hamad Al-Thani y la alianza aseguradora con Mutua Madrileña— y ha buscado diversificar y digitalizar el negocio para competir con los gigantes del comercio online.",
+            "fecha": "2021-01-01"
           }
         ]
       }

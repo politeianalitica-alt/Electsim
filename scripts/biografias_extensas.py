@@ -392,6 +392,126 @@ BIOS: dict[str, dict] = {
             ("Desembarco en España", "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.", "2014-12-01"),
         ],
     },
+    "jose-creuheras": {
+        "perfil": "José Creuheras Margenat es presidente del Grupo Planeta —el mayor grupo editorial en lengua española— y de Atresmedia, propietaria de Antena 3, laSexta, Onda Cero y Europa FM. Ligado a la familia fundadora de Planeta, reúne en sus manos un poder doble, editorial y audiovisual, que lo convierte en una de las figuras más influyentes del ecosistema mediático y cultural español e iberoamericano.",
+        "trayectoria": [
+            ("La saga Lara y el Grupo Planeta", "Vinculado a la familia fundadora de Planeta —el editor José Manuel Lara Hernández creó el grupo en Barcelona en 1949—, se formó en la gestión empresarial y fue asumiendo responsabilidades dentro de un conglomerado que reúne sellos como Planeta, Espasa, Seix Barral, Destino o Booket, además del Premio Planeta, el galardón literario mejor dotado del mundo tras el Nobel.", "1995-01-01"),
+            ("Presidente de Planeta y Atresmedia", "Tras el fallecimiento de José Manuel Lara Bosch en 2015, asumió la presidencia del Grupo Planeta y, con ella, la de Atresmedia, el grupo audiovisual en el que Planeta es accionista de referencia, sumando al negocio editorial dos de las grandes cadenas de televisión y radio del país.", "2015-02-01"),
+            ("Un conglomerado cultural y educativo", "Bajo su mando, el grupo abarca edición, la productora DeAPlaneta, formación universitaria privada, el diario La Razón y una amplia presencia en América Latina, además de haber crecido en Francia con la editorial Editis, consolidándose como un gigante cultural transnacional.", "2019-01-01"),
+            ("Poder editorial y audiovisual", "Su posición al frente de Planeta y Atresmedia lo sitúa como interlocutor de primer orden del poder político y económico y como actor central del mercado publicitario y de la opinión pública, más allá de adscripciones ideológicas explícitas.", "2022-01-01"),
+        ],
+        "posiciones": [
+            ("Influencia mediática", "Su grupo combina el mayor catálogo editorial en español con cadenas generalistas de amplia audiencia, lo que lo sitúa como interlocutor de primer orden del poder político y económico, más allá de adscripciones ideológicas explícitas.", ["medios", "editorial"]),
+        ],
+    },
+    "joseph-oughourlian": {
+        "perfil": "Joseph Oughourlian (París, 1972) es presidente de Prisa, el grupo editor de El País, la Cadena SER y el diario deportivo AS, uno de los mayores grupos de medios en lengua española. Financiero franco-armenio y fundador del fondo activista Amber Capital, irrumpió como primer accionista de Prisa y acabó tomando su presidencia tras años de batallas por el control de un grupo considerado estratégico para la conversación pública en español.",
+        "trayectoria": [
+            ("Financiero y fundador de Amber Capital", "Formado en Francia y curtido en la banca de inversión en Estados Unidos, fundó en 2005 el fondo Amber Capital, especializado en tomar posiciones activistas en compañías cotizadas europeas y presionar a sus gestores para crear valor.", "2005-01-01"),
+            ("Activismo en grandes grupos", "Amber protagonizó sonadas batallas accionariales en empresas europeas —entre ellas el grupo francés Lagardère—, ganándose una reputación de inversor combativo dispuesto a enfrentarse a los consejos y a las familias propietarias.", "2010-01-01"),
+            ("Primer accionista de Prisa", "Fue elevando su participación en Prisa hasta convertirse en su primer accionista, en un grupo muy endeudado y con una propiedad fragmentada, en disputa con otros inversores y con la presión recurrente sobre el control del consejo.", "2015-01-01"),
+            ("Presidente de Prisa", "Asumió la presidencia de Prisa a finales de 2021, en medio de batallas por el control y de la presión política sobre la línea editorial de El País y la SER, con la entrada de nuevos accionistas y la pugna recurrente por la orientación del grupo.", "2021-12-31"),
+        ],
+        "posiciones": [
+            ("Línea editorial y disputas de control", "Su llegada coincidió con tensiones recurrentes sobre la orientación editorial de Prisa y sobre la entrada de nuevos accionistas (financieros e internacionales), en un grupo que es a la vez una empresa endeudada y un actor político de primer nivel.", ["medios", "prisa"]),
+        ],
+    },
+    "javier-tebas": {
+        "perfil": "Javier Tebas Medrano (San José, Costa Rica, 1962) es presidente de LaLiga, la patronal del fútbol profesional español, desde 2013. Abogado de formación y de origen aragonés, ha convertido la organización en una potencia económica global gracias a la venta centralizada de derechos audiovisuales, al tiempo que mantiene sonoros enfrentamientos con clubes, federaciones y la UEFA.",
+        "trayectoria": [
+            ("Abogado y dirigente futbolístico", "Nacido en Costa Rica de padres españoles y criado en Huesca, ejerció como abogado mercantil y se vinculó pronto a la gestión del fútbol, ocupando vicepresidencias en la patronal de clubes antes de presidirla.", "2002-01-01"),
+            ("Presidente de LaLiga", "Accedió a la presidencia de la Liga de Fútbol Profesional en 2013 e impulsó la venta centralizada de los derechos televisivos —antes negociados club a club—, multiplicando los ingresos del fútbol español y ordenando su reparto. Ha sido reelegido en sucesivas ocasiones.", "2013-04-26"),
+            ("Control económico y el acuerdo con CVC", "Hizo bandera de la lucha contra la piratería y del control económico (límite de gasto) de los clubes, y selló el acuerdo 'LaLiga Impulso' con el fondo CVC, que inyectó miles de millones a cambio de un porcentaje de los ingresos audiovisuales, una operación rechazada por Real Madrid, Barcelona y Athletic.", "2021-08-04"),
+            ("Choques permanentes", "Protagoniza enfrentamientos continuos con los grandes clubes, con la Federación Española (RFEF), con la UEFA y con el PSG y el fútbol-Estado, además de oponerse frontalmente al proyecto de la Superliga europea.", "2021-04-19"),
+        ],
+        "posiciones": [
+            ("Modelo de negocio del fútbol", "Defiende un modelo de competición sostenible, con límites de gasto y derechos audiovisuales centralizados, frente a los grandes clubes que reclaman más autonomía. Su gestión divide entre quienes le atribuyen el salto económico de LaLiga y quienes le critican por su estilo y sus enfrentamientos.", ["futbol", "laliga"]),
+        ],
+    },
+    "nacho-cardero": {
+        "perfil": "Nacho Cardero es director de El Confidencial, uno de los principales diarios digitales españoles, nacido como nativo digital y especializado en información económica, política y de investigación. Bajo su dirección, el medio —editado por Titania— se ha consolidado entre los más leídos del país y ha publicado algunas de las exclusivas e investigaciones periodísticas de mayor impacto de la última década.",
+        "trayectoria": [
+            ("Periodista económico", "Desarrolló su carrera en el periodismo económico y de investigación en distintas redacciones antes de incorporarse a El Confidencial en sus primeros años como diario digital de referencia.", "2005-01-01"),
+            ("Director de El Confidencial", "Asumió la dirección del medio en 2011 y lo consolidó como uno de los digitales más leídos e influyentes de España, con una potente unidad de investigación y datos.", "2011-01-01"),
+            ("Grandes investigaciones", "Bajo su mandato, El Confidencial ha participado en investigaciones internacionales de enorme repercusión —como los Papeles de Panamá, Football Leaks o la lista Falciani— y ha publicado exclusivas sobre corrupción política y financiera.", "2016-01-01"),
+            ("Periodismo de investigación de referencia", "El medio ha recibido reconocimientos del sector y se ha situado como actor central del periodismo de datos en español, lo que ha llevado a Cardero a enfrentarse con frecuencia a poderes políticos y económicos por sus publicaciones.", "2020-01-01"),
+        ],
+    },
+    "javier-moll": {
+        "perfil": "Javier Moll de Miguel es presidente de Prensa Ibérica, el mayor grupo de prensa regional de España, propietario de cabeceras como El Periódico de Catalunya, Información de Alicante, La Nueva España, Levante-EMV, Faro de Vigo, Diario de Mallorca o el deportivo Sport, entre muchas otras. Empresario de origen canario, ha construido un imperio de diarios locales que le otorga un peso decisivo en la información de proximidad de toda España.",
+        "trayectoria": [
+            ("De Canarias a la prensa regional", "Procedente del negocio editorial en Canarias —en torno a cabeceras como La Provincia—, empezó a adquirir diarios provinciales por toda España, construyendo un grupo basado en el liderazgo en mercados locales y regionales.", "1984-01-01"),
+            ("Consolidación de Prensa Ibérica", "Convirtió Prensa Ibérica en uno de los mayores grupos de prensa del país por número de cabeceras, con una red de diarios líderes en sus territorios y una gestión familiar junto a su esposa, Arantza Sarasola, vicepresidenta del grupo.", "2000-01-01"),
+            ("La compra del Grupo Zeta", "En 2019 adquirió el Grupo Zeta, sumando El Periódico de Catalunya y el deportivo Sport a su cartera y reforzando su posición como gigante de la prensa española en pleno desplome de la difusión en papel.", "2019-04-01"),
+            ("Transición al digital", "Ha pilotado la transformación digital del grupo —con el lanzamiento de la marca nacional El Periódico de España y la apuesta por las ediciones online de sus cabeceras—, en un sector golpeado por la caída de ingresos publicitarios y de ventas en quiosco.", "2021-01-01"),
+        ],
+    },
+    "borja-prado": {
+        "perfil": "Borja Prado Eulate es presidente de Mediaset España, el grupo audiovisual propietario de Telecinco y Cuatro, integrado en el holding paneuropeo MFE-MediaForEurope de la familia Berlusconi. Banquero de inversión de larga trayectoria y figura muy conectada con el poder económico español, antes presidió la eléctrica Endesa durante una década, lo que lo sitúa en el cruce entre la gran empresa, las finanzas y los medios.",
+        "trayectoria": [
+            ("Banca de inversión", "Desarrolló su carrera en la banca de inversión y el asesoramiento de grandes operaciones corporativas, pasando por entidades de prestigio y tejiendo una densa red de relaciones en el IBEX y en los consejos de administración.", "1990-01-01"),
+            ("Presidente de Endesa", "Presidió Endesa entre 2009 y 2019, durante los años de control de la eléctrica por la italiana Enel, ejerciendo de puente entre el accionista transalpino y el establishment empresarial y político español.", "2009-06-20"),
+            ("Presidente de Mediaset España", "En 2019 asumió la presidencia de Mediaset España (Telecinco, Cuatro), bajo control de la italiana Mediaset, pilotando la cadena en la dura competencia por la audiencia y la publicidad frente a Atresmedia.", "2019-04-12"),
+            ("La integración en MFE", "Le ha correspondido gestionar la integración de la filial española en el holding paneuropeo MFE-MediaForEurope, el proyecto de la familia Berlusconi para consolidar sus operaciones audiovisuales en Europa, en pleno debate sobre la concentración de medios.", "2021-01-01"),
+        ],
+    },
+    "gerardo-cuerva": {
+        "perfil": "Gerardo Cuerva Valdivia es presidente de CEPYME, la confederación que representa a la pequeña y mediana empresa española, y vicepresidente de la CEOE. Empresario granadino al frente de un grupo familiar del sector eléctrico y energético, es una de las voces patronales de referencia en el diálogo social, especialmente en lo que afecta a los costes laborales, la morosidad y la fiscalidad de las pymes y los autónomos.",
+        "trayectoria": [
+            ("Empresario familiar", "Dirige el Grupo Cuerva, empresa familiar granadina del ámbito de las instalaciones eléctricas y la energía, desde donde dio el salto a la representación de los intereses empresariales.", "2000-01-01"),
+            ("Dirigente patronal territorial", "Se implicó en la representación empresarial desde el ámbito provincial y autonómico, presidiendo organizaciones de su entorno antes de dar el salto a la cúpula confederal.", "2010-01-01"),
+            ("Presidente de CEPYME", "Accedió a la presidencia de CEPYME en 2017, reelegido posteriormente, asumiendo la defensa de los intereses de las pequeñas y medianas empresas, que constituyen el grueso del tejido productivo y del empleo en España.", "2017-11-22"),
+            ("Voz de las pymes en el diálogo social", "Participa en la negociación de la reforma laboral, el salario mínimo, las cotizaciones y la lucha contra la morosidad, reclamando que el coste de las nuevas regulaciones no recaiga de forma desproporcionada sobre las empresas más pequeñas.", "2021-01-01"),
+        ],
+    },
+    "santiago-munoz-machado": {
+        "perfil": "Santiago Muñoz Machado (Pozoblanco, Córdoba, 1949) es director de la Real Academia Española (RAE) y una de las máximas autoridades del derecho público en España. Catedrático de Derecho Administrativo, jurista de enorme prestigio y autor de una vastísima obra ensayística e histórica, dirige también la Asociación de Academias de la Lengua Española, que agrupa a las academias del español de todo el mundo.",
+        "trayectoria": [
+            ("Catedrático y jurista", "Catedrático de Derecho Administrativo en varias universidades, se convirtió en una de las grandes referencias del derecho público español, con obra extensa sobre el Estado autonómico, la Constitución, la regulación económica y la historia del derecho.", "1980-01-01"),
+            ("Ensayista y académico", "Miembro de tres reales academias —la Española, la de Ciencias Morales y Políticas y la de Jurisprudencia—, compaginó la cátedra con una intensa producción que le valió, entre otros, el Premio Nacional de Historia y el Premio Nacional de Ensayo.", "2013-01-01"),
+            ("Director de la RAE", "Fue elegido director de la Real Academia Española en 2018 y reelegido posteriormente, impulsando la sostenibilidad económica de la institución, su proyección digital y los grandes proyectos lexicográficos en línea.", "2018-12-13"),
+            ("Panhispanismo lingüístico", "Desde la dirección de la RAE y de la asociación de academias defiende la unidad y el valor del español como lengua global de cientos de millones de hablantes, así como la cooperación con las academias americanas.", "2020-01-01"),
+        ],
+    },
+    "juan-jose-omella": {
+        "perfil": "Juan José Omella Omella (Cretas, Teruel, 1946) es cardenal arzobispo de Barcelona y una de las grandes figuras de la Iglesia católica en España. Creado cardenal por el papa Francisco, presidió la Conferencia Episcopal Española entre 2020 y 2024 y forma parte del Dicasterio para los Obispos del Vaticano, encarnando una línea pastoral próxima al magisterio social del pontífice argentino.",
+        "trayectoria": [
+            ("Sacerdote y misionero", "Ordenado sacerdote en 1970, ejerció el ministerio en parroquias de la diócesis de Zaragoza y como misionero en África (Zaire), forjando un perfil pastoral cercano a los más desfavorecidos.", "1970-09-20"),
+            ("Obispo y arzobispo de Barcelona", "Fue obispo de Barbastro-Monzón y de Calahorra y La Calzada-Logroño antes de ser nombrado arzobispo de Barcelona en 2015 por el papa Francisco, que lo creó cardenal en 2017.", "2015-11-06"),
+            ("Presidente de la Conferencia Episcopal", "Presidió la Conferencia Episcopal Española entre 2020 y 2024, en años marcados por la pandemia, el debate sobre los abusos en la Iglesia y la tensa relación con un Gobierno de coalición de izquierdas, manteniendo un tono de diálogo institucional.", "2020-03-03"),
+            ("Peso en el Vaticano", "Como miembro del Dicasterio para los Obispos, el organismo que asesora al Papa en el nombramiento de obispos en todo el mundo, es una de las voces españolas con mayor influencia en la Curia romana.", "2017-01-01"),
+        ],
+    },
+    "marta-alvarez": {
+        "perfil": "Marta Álvarez González es presidenta de El Corte Inglés, el mayor grupo de grandes almacenes de España y uno de los mayores empleadores privados del país. Hija de Isidoro Álvarez, histórico presidente de la compañía, representa a la familia fundadora en el control de un grupo centenario que afronta su transformación tras décadas de hegemonía indiscutida en el comercio minorista español.",
+        "trayectoria": [
+            ("Formación en la empresa familiar", "Vinculada desde joven a El Corte Inglés, se formó en distintas áreas del grupo creado por Ramón Areces y consolidado por su tío Isidoro Álvarez, accionista de referencia a través de la fundación y la cartera familiar.", "1995-01-01"),
+            ("Pugna por el control", "Tras el fallecimiento de Isidoro Álvarez en 2014, la familia y los principales ejecutivos protagonizaron una pugna por el control del grupo, de la que Marta Álvarez emergió reforzada al frente del accionariado de referencia.", "2014-09-01"),
+            ("Presidenta de El Corte Inglés", "Asumió la presidencia en 2019, en plena transformación del modelo de grandes almacenes ante el comercio electrónico, con planes de reducción de deuda y de puesta en valor de un enorme patrimonio inmobiliario.", "2019-09-12"),
+            ("Nuevos socios y diversificación", "Bajo su presidencia, el grupo ha dado entrada a socios e inversores —como el catarí Hamad Al-Thani y la alianza aseguradora con Mutua Madrileña— y ha buscado diversificar y digitalizar el negocio para competir con los gigantes del comercio online.", "2021-01-01"),
+        ],
+    },
+    "federico-jimenez-losantos": {
+        "perfil": "Federico Jiménez Losantos (Orihuela del Tremedal, Teruel, 1951) es periodista, escritor y uno de los comunicadores más influyentes y polémicos de la derecha mediática española. Filólogo de formación, fundador de esRadio y de Libertad Digital, dirige y presenta el programa matinal 'Es la mañana de Federico', desde donde ejerce una crítica frontal a la izquierda, a los nacionalismos periféricos y, con frecuencia, a la propia derecha institucional.",
+        "trayectoria": [
+            ("De la izquierda en Cataluña al giro liberal", "Filólogo y profesor, militó en la izquierda comunista en la Barcelona de los años setenta. En 1981 impulsó el 'Manifiesto de los 2.300' en defensa del castellano en Cataluña y ese mismo año fue secuestrado y tiroteado en una pierna por el grupo independentista Terra Lliure.", "1981-05-21"),
+            ("Articulista y giro ideológico", "Protagonizó un giro ideológico hacia posiciones liberal-conservadoras y se consolidó como articulista combativo, primero en la prensa y después como una de las grandes voces de la tertulia política.", "1990-01-01"),
+            ("La radio como tribuna", "Se convirtió en una estrella de la radio matinal, primero en la COPE con 'La Mañana', desde donde ejerció una durísima oposición mediática que le granjeó enormes audiencias y sonadas polémicas con políticos y con la propia jerarquía de la cadena.", "2003-01-01"),
+            ("esRadio y Libertad Digital", "Fundó junto a otros socios Libertad Digital y la emisora esRadio, plataformas desde las que mantiene una línea editorial abiertamente conservadora, anti-nacionalista y crítica con el Gobierno, además de publicar numerosos libros de ensayo y memorias.", "2009-11-01"),
+        ],
+        "posiciones": [
+            ("Comentarista de la derecha radical-liberal", "Defiende posiciones liberal-conservadoras, el españolismo frente a los nacionalismos y una crítica feroz a la izquierda; su estilo combativo lo convierte en figura admirada por su público y muy contestada por sus adversarios.", ["medios", "opinion"]),
+        ],
+    },
+    "jaume-roures": {
+        "perfil": "Jaume Roures Llop (Barcelona, 1950) es uno de los grandes productores audiovisuales de España, cofundador de Mediapro (grupo Imagina). De pasado militante en la izquierda trotskista, construyó un imperio de producción de cine, televisión y, sobre todo, derechos deportivos, con proyección internacional y una estrecha relación con causas progresistas y con el soberanismo catalán.",
+        "trayectoria": [
+            ("Militancia y entrada en los medios", "Con un pasado en la izquierda revolucionaria (Liga Comunista Revolucionaria), entró en el sector audiovisual y de la comunicación, vinculándose a proyectos televisivos y deportivos en Cataluña y en el conjunto de España.", "1980-01-01"),
+            ("Fundación de Mediapro", "Cofundó en 1994 Mediapro, que creció hasta convertirse en uno de los mayores grupos audiovisuales europeos, con un papel central en la producción y comercialización de los derechos del fútbol.", "1994-01-01"),
+            ("La guerra del fútbol y el cine", "Mediapro/Imagina lideró durante años la pugna por los derechos televisivos del fútbol en España y produjo cine de proyección internacional, incluidas películas de Woody Allen como 'Vicky Cristina Barcelona' y 'Midnight in Paris'.", "2008-01-01"),
+            ("Expansión global y compromiso político", "El grupo se expandió internacionalmente con producción y derechos deportivos en numerosos países, mientras Roures mantenía un perfil público comprometido con causas de izquierda y, en distintos momentos, con el proceso soberanista catalán.", "2015-01-01"),
+        ],
+    },
 }
 
 

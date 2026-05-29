@@ -232,8 +232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0002",
@@ -458,8 +458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0003",
@@ -634,8 +634,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0004",
@@ -811,8 +811,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0005",
@@ -950,8 +950,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0006",
@@ -1106,8 +1106,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0007",
@@ -1239,8 +1239,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0008",
@@ -1396,8 +1396,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0009",
@@ -1556,8 +1556,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0010",
@@ -1766,8 +1766,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0011",
@@ -1978,8 +1978,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0012",
@@ -2105,8 +2105,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0013",
@@ -2329,8 +2329,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0014",
@@ -2499,8 +2499,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0015",
@@ -2688,8 +2688,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0016",
@@ -2842,8 +2842,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0017",
@@ -2991,8 +2991,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0018",
@@ -3166,8 +3166,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0019",
@@ -3339,8 +3339,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0020",
@@ -3475,8 +3475,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0021",
@@ -3645,8 +3645,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0022",
@@ -3907,8 +3907,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0023",
@@ -4042,8 +4042,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0024",
@@ -4257,8 +4257,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0025",
@@ -4417,8 +4417,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0026",
@@ -4570,8 +4570,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0027",
@@ -4843,8 +4843,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0028",
@@ -5055,8 +5055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0029",
@@ -5294,8 +5294,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0030",
@@ -5506,8 +5506,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0031",
@@ -5687,8 +5687,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0032",
@@ -5824,8 +5824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0033",
@@ -5989,8 +5989,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0034",
@@ -6109,8 +6109,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0035",
@@ -6236,8 +6236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0036",
@@ -6385,8 +6385,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0037",
@@ -6571,8 +6571,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0038",
@@ -6755,8 +6755,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0039",
@@ -6904,8 +6904,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0040",
@@ -7037,8 +7037,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0041",
@@ -7184,8 +7184,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0042",
@@ -7317,8 +7317,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0043",
@@ -7457,8 +7457,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0044",
@@ -7592,8 +7592,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0045",
@@ -7752,8 +7752,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0046",
@@ -7913,8 +7913,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0047",
@@ -8046,8 +8046,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0048",
@@ -8146,8 +8146,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0049",
@@ -8279,8 +8279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0050",
@@ -8366,8 +8366,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0051",
@@ -8453,8 +8453,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0052",
@@ -8485,7 +8485,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0052-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Presidenta de El Corte Inglés y miembro de la familia accionista de referencia. Lidera el grupo en su transición digital y la reordenación de su deuda y activos inmobiliarios.",
+            "contenido": "Marta Álvarez González es presidenta de El Corte Inglés, el mayor grupo de grandes almacenes de España y uno de los mayores empleadores privados del país. Hija de Isidoro Álvarez, histórico presidente de la compañía, representa a la familia fundadora en el control de un grupo centenario que afronta su transformación tras décadas de hegemonía indiscutida en el comercio minorista español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -8573,20 +8573,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0052-ap-03-it-00",
             "apartado_id": "pod-0052-ap-03",
-            "tipo": "dato",
-            "titulo": "Reordenación de El Corte Inglés",
-            "contenido": "Asumió la presidencia tras años de pugnas familiares y societarias. Ha pilotado la reducción de deuda, la entrada de socios (catarí, banca) y la monetización de la enorme cartera inmobiliaria del grupo.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Formación en la empresa familiar",
+            "contenido": "Vinculada desde joven a El Corte Inglés, se formó en distintas áreas del grupo creado por Ramón Areces y consolidado por su tío Isidoro Álvarez, accionista de referencia a través de la fundación y la cartera familiar.",
+            "fecha": "1995-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0052-ap-03-it-01",
+            "apartado_id": "pod-0052-ap-03",
+            "tipo": "evento",
+            "titulo": "Pugna por el control",
+            "contenido": "Tras el fallecimiento de Isidoro Álvarez en 2014, la familia y los principales ejecutivos protagonizaron una pugna por el control del grupo, de la que Marta Álvarez emergió reforzada al frente del accionariado de referencia.",
+            "fecha": "2014-09-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0052-ap-03-it-02",
+            "apartado_id": "pod-0052-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidenta de El Corte Inglés",
+            "contenido": "Asumió la presidencia en 2019, en plena transformación del modelo de grandes almacenes ante el comercio electrónico, con planes de reducción de deuda y de puesta en valor de un enorme patrimonio inmobiliario.",
+            "fecha": "2019-09-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0052-ap-03-it-03",
+            "apartado_id": "pod-0052-ap-03",
+            "tipo": "evento",
+            "titulo": "Nuevos socios y diversificación",
+            "contenido": "Bajo su presidencia, el grupo ha dado entrada a socios e inversores —como el catarí Hamad Al-Thani y la alianza aseguradora con Mutua Madrileña— y ha buscado diversificar y digitalizar el negocio para competir con los gigantes del comercio online.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0053",
@@ -8693,8 +8729,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0054",
@@ -8802,8 +8838,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0055",
@@ -8911,8 +8947,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0056",
@@ -9007,8 +9043,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0057",
@@ -9131,8 +9167,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0058",
@@ -9277,8 +9313,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0059",
@@ -9390,8 +9426,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0060",
@@ -9514,8 +9550,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0061",
@@ -9547,7 +9583,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0061-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Comunicador veterano, fundador de esRadio y Libertad Digital. Su programa matinal es referencia de la derecha liberal-conservadora y un termómetro del ánimo de ese electorado.",
+            "contenido": "Federico Jiménez Losantos (Orihuela del Tremedal, Teruel, 1951) es periodista, escritor y uno de los comunicadores más influyentes y polémicos de la derecha mediática española. Filólogo de formación, fundador de esRadio y de Libertad Digital, dirige y presenta el programa matinal 'Es la mañana de Federico', desde donde ejerce una crítica frontal a la izquierda, a los nacionalismos periféricos y, con frecuencia, a la propia derecha institucional.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9577,6 +9613,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "anti-sanchismo"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0061-ap-01-it-01",
+            "apartado_id": "pod-0061-ap-01",
+            "tipo": "dato",
+            "titulo": "Comentarista de la derecha radical-liberal",
+            "contenido": "Defiende posiciones liberal-conservadoras, el españolismo frente a los nacionalismos y una crítica feroz a la izquierda; su estilo combativo lo convierte en figura admirada por su público y muy contestada por sus adversarios.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medios",
+              "opinion"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9659,20 +9710,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0061-ap-04-it-00",
             "apartado_id": "pod-0061-ap-04",
-            "tipo": "dato",
-            "titulo": "De Barcelona al micrófono",
-            "contenido": "Filólogo aragonés afincado en Barcelona en su juventud, sufrió un atentado de Terra Lliure en 1981. Pasó por El País y ABC, fue estrella de la COPE y fundó esRadio y Libertad Digital.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "De la izquierda en Cataluña al giro liberal",
+            "contenido": "Filólogo y profesor, militó en la izquierda comunista en la Barcelona de los años setenta. En 1981 impulsó el 'Manifiesto de los 2.300' en defensa del castellano en Cataluña y ese mismo año fue secuestrado y tiroteado en una pierna por el grupo independentista Terra Lliure.",
+            "fecha": "1981-05-21",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0061-ap-04-it-01",
+            "apartado_id": "pod-0061-ap-04",
+            "tipo": "evento",
+            "titulo": "Articulista y giro ideológico",
+            "contenido": "Protagonizó un giro ideológico hacia posiciones liberal-conservadoras y se consolidó como articulista combativo, primero en la prensa y después como una de las grandes voces de la tertulia política.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0061-ap-04-it-02",
+            "apartado_id": "pod-0061-ap-04",
+            "tipo": "evento",
+            "titulo": "La radio como tribuna",
+            "contenido": "Se convirtió en una estrella de la radio matinal, primero en la COPE con 'La Mañana', desde donde ejerció una durísima oposición mediática que le granjeó enormes audiencias y sonadas polémicas con políticos y con la propia jerarquía de la cadena.",
+            "fecha": "2003-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0061-ap-04-it-03",
+            "apartado_id": "pod-0061-ap-04",
+            "tipo": "evento",
+            "titulo": "esRadio y Libertad Digital",
+            "contenido": "Fundó junto a otros socios Libertad Digital y la emisora esRadio, plataformas desde las que mantiene una línea editorial abiertamente conservadora, anti-nacionalista y crítica con el Gobierno, además de publicar numerosos libros de ensayo y memorias.",
+            "fecha": "2009-11-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0062",
@@ -9704,7 +9791,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0062-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Heredero de la familia Lara al frente del Grupo Planeta. Preside también Atresmedia, primer grupo audiovisual privado por audiencia e ingresos publicitarios junto a Mediaset.",
+            "contenido": "José Creuheras Margenat es presidente del Grupo Planeta —el mayor grupo editorial en lengua española— y de Atresmedia, propietaria de Antena 3, laSexta, Onda Cero y Europa FM. Ligado a la familia fundadora de Planeta, reúne en sus manos un poder doble, editorial y audiovisual, que lo convierte en una de las figuras más influyentes del ecosistema mediático y cultural español e iberoamericano.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9735,6 +9822,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "agenda"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0062-ap-01-it-01",
+            "apartado_id": "pod-0062-ap-01",
+            "tipo": "dato",
+            "titulo": "Influencia mediática",
+            "contenido": "Su grupo combina el mayor catálogo editorial en español con cadenas generalistas de amplia audiencia, lo que lo sitúa como interlocutor de primer orden del poder político y económico, más allá de adscripciones ideológicas explícitas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medios",
+              "editorial"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9782,10 +9884,67 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 2
           }
         ]
+      },
+      {
+        "id": "pod-0062-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0062-ap-03-it-00",
+            "apartado_id": "pod-0062-ap-03",
+            "tipo": "evento",
+            "titulo": "La saga Lara y el Grupo Planeta",
+            "contenido": "Vinculado a la familia fundadora de Planeta —el editor José Manuel Lara Hernández creó el grupo en Barcelona en 1949—, se formó en la gestión empresarial y fue asumiendo responsabilidades dentro de un conglomerado que reúne sellos como Planeta, Espasa, Seix Barral, Destino o Booket, además del Premio Planeta, el galardón literario mejor dotado del mundo tras el Nobel.",
+            "fecha": "1995-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0062-ap-03-it-01",
+            "apartado_id": "pod-0062-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidente de Planeta y Atresmedia",
+            "contenido": "Tras el fallecimiento de José Manuel Lara Bosch en 2015, asumió la presidencia del Grupo Planeta y, con ella, la de Atresmedia, el grupo audiovisual en el que Planeta es accionista de referencia, sumando al negocio editorial dos de las grandes cadenas de televisión y radio del país.",
+            "fecha": "2015-02-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0062-ap-03-it-02",
+            "apartado_id": "pod-0062-ap-03",
+            "tipo": "evento",
+            "titulo": "Un conglomerado cultural y educativo",
+            "contenido": "Bajo su mando, el grupo abarca edición, la productora DeAPlaneta, formación universitaria privada, el diario La Razón y una amplia presencia en América Latina, además de haber crecido en Francia con la editorial Editis, consolidándose como un gigante cultural transnacional.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0062-ap-03-it-03",
+            "apartado_id": "pod-0062-ap-03",
+            "tipo": "evento",
+            "titulo": "Poder editorial y audiovisual",
+            "contenido": "Su posición al frente de Planeta y Atresmedia lo sitúa como interlocutor de primer orden del poder político y económico y como actor central del mercado publicitario y de la opinión pública, más allá de adscripciones ideológicas explícitas.",
+            "fecha": "2022-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0063",
@@ -9817,7 +9976,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0063-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Gestor de fondos fundador de Amber Capital. Tomó el control de PRISA tras una larga batalla accionarial y preside el grupo de El País, la SER y Santillana.",
+            "contenido": "Joseph Oughourlian (París, 1972) es presidente de Prisa, el grupo editor de El País, la Cadena SER y el diario deportivo AS, uno de los mayores grupos de medios en lengua española. Financiero franco-armenio y fundador del fondo activista Amber Capital, irrumpió como primer accionista de Prisa y acabó tomando su presidencia tras años de batallas por el control de un grupo considerado estratégico para la conversación pública en español.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9848,6 +10007,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "linea-editorial"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0063-ap-01-it-01",
+            "apartado_id": "pod-0063-ap-01",
+            "tipo": "dato",
+            "titulo": "Línea editorial y disputas de control",
+            "contenido": "Su llegada coincidió con tensiones recurrentes sobre la orientación editorial de Prisa y sobre la entrada de nuevos accionistas (financieros e internacionales), en un grupo que es a la vez una empresa endeudada y un actor político de primer nivel.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "medios",
+              "prisa"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -9907,19 +10081,55 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0063-ap-03-it-00",
             "apartado_id": "pod-0063-ap-03",
             "tipo": "evento",
-            "titulo": "La batalla por PRISA",
-            "contenido": "Desde Amber Capital protagonizó una larga guerra accionarial por el control de PRISA, desplazando a la vieja guardia y a otros socios como Vivendi/Telefónica, hasta hacerse con la presidencia del grupo.",
-            "fecha": "2021-12-01",
+            "titulo": "Financiero y fundador de Amber Capital",
+            "contenido": "Formado en Francia y curtido en la banca de inversión en Estados Unidos, fundó en 2005 el fondo Amber Capital, especializado en tomar posiciones activistas en compañías cotizadas europeas y presionar a sus gestores para crear valor.",
+            "fecha": "2005-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0063-ap-03-it-01",
+            "apartado_id": "pod-0063-ap-03",
+            "tipo": "evento",
+            "titulo": "Activismo en grandes grupos",
+            "contenido": "Amber protagonizó sonadas batallas accionariales en empresas europeas —entre ellas el grupo francés Lagardère—, ganándose una reputación de inversor combativo dispuesto a enfrentarse a los consejos y a las familias propietarias.",
+            "fecha": "2010-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0063-ap-03-it-02",
+            "apartado_id": "pod-0063-ap-03",
+            "tipo": "evento",
+            "titulo": "Primer accionista de Prisa",
+            "contenido": "Fue elevando su participación en Prisa hasta convertirse en su primer accionista, en un grupo muy endeudado y con una propiedad fragmentada, en disputa con otros inversores y con la presión recurrente sobre el control del consejo.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0063-ap-03-it-03",
+            "apartado_id": "pod-0063-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidente de Prisa",
+            "contenido": "Asumió la presidencia de Prisa a finales de 2021, en medio de batallas por el control y de la presión política sobre la línea editorial de El País y la SER, con la entrada de nuevos accionistas y la pugna recurrente por la orientación del grupo.",
+            "fecha": "2021-12-31",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0064",
@@ -9951,7 +10161,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0064-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Abogado y dirigente deportivo. Preside LaLiga, donde ha profesionalizado la venta centralizada de derechos audiovisuales y la lucha contra la piratería y el déficit de los clubes.",
+            "contenido": "Javier Tebas Medrano (San José, Costa Rica, 1962) es presidente de LaLiga, la patronal del fútbol profesional español, desde 2013. Abogado de formación y de origen aragonés, ha convertido la organización en una potencia económica global gracias a la venta centralizada de derechos audiovisuales, al tiempo que mantiene sonoros enfrentamientos con clubes, federaciones y la UEFA.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9982,6 +10192,21 @@ export const PODER_FIXTURE: DossierCompleto[] = [
               "derechos-tv"
             ],
             "orden": 0
+          },
+          {
+            "id": "pod-0064-ap-01-it-01",
+            "apartado_id": "pod-0064-ap-01",
+            "tipo": "dato",
+            "titulo": "Modelo de negocio del fútbol",
+            "contenido": "Defiende un modelo de competición sostenible, con límites de gasto y derechos audiovisuales centralizados, frente a los grandes clubes que reclaman más autonomía. Su gestión divide entre quienes le atribuyen el salto económico de LaLiga y quienes le critican por su estilo y sus enfrentamientos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "futbol",
+              "laliga"
+            ],
+            "orden": 1
           }
         ]
       },
@@ -10040,20 +10265,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0064-ap-03-it-00",
             "apartado_id": "pod-0064-ap-03",
-            "tipo": "dato",
-            "titulo": "Guerra a la piratería y la Superliga",
-            "contenido": "Ha hecho de la lucha contra la piratería audiovisual y de la oposición frontal a la Superliga sus grandes batallas, defendiendo el modelo de venta centralizada de derechos y el control económico de los clubes.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Abogado y dirigente futbolístico",
+            "contenido": "Nacido en Costa Rica de padres españoles y criado en Huesca, ejerció como abogado mercantil y se vinculó pronto a la gestión del fútbol, ocupando vicepresidencias en la patronal de clubes antes de presidirla.",
+            "fecha": "2002-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0064-ap-03-it-01",
+            "apartado_id": "pod-0064-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidente de LaLiga",
+            "contenido": "Accedió a la presidencia de la Liga de Fútbol Profesional en 2013 e impulsó la venta centralizada de los derechos televisivos —antes negociados club a club—, multiplicando los ingresos del fútbol español y ordenando su reparto. Ha sido reelegido en sucesivas ocasiones.",
+            "fecha": "2013-04-26",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0064-ap-03-it-02",
+            "apartado_id": "pod-0064-ap-03",
+            "tipo": "evento",
+            "titulo": "Control económico y el acuerdo con CVC",
+            "contenido": "Hizo bandera de la lucha contra la piratería y del control económico (límite de gasto) de los clubes, y selló el acuerdo 'LaLiga Impulso' con el fondo CVC, que inyectó miles de millones a cambio de un porcentaje de los ingresos audiovisuales, una operación rechazada por Real Madrid, Barcelona y Athletic.",
+            "fecha": "2021-08-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0064-ap-03-it-03",
+            "apartado_id": "pod-0064-ap-03",
+            "tipo": "evento",
+            "titulo": "Choques permanentes",
+            "contenido": "Protagoniza enfrentamientos continuos con los grandes clubes, con la Federación Española (RFEF), con la UEFA y con el PSG y el fútbol-Estado, además de oponerse frontalmente al proyecto de la Superliga europea.",
+            "fecha": "2021-04-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0065",
@@ -10152,8 +10413,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0066",
@@ -10252,8 +10513,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0067",
@@ -10349,8 +10610,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0068",
@@ -10437,8 +10698,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0069",
@@ -10596,8 +10857,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0070",
@@ -10710,8 +10971,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0071",
@@ -10743,7 +11004,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0071-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Periodista económico al frente de El Confidencial, medio de referencia en periodismo de datos e investigación, con fuerte penetración entre directivos, inversores y clase política.",
+            "contenido": "Nacho Cardero es director de El Confidencial, uno de los principales diarios digitales españoles, nacido como nativo digital y especializado en información económica, política y de investigación. Bajo su dirección, el medio —editado por Titania— se ha consolidado entre los más leídos del país y ha publicado algunas de las exclusivas e investigaciones periodísticas de mayor impacto de la última década.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10762,14 +11023,50 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0071-ap-01-it-00",
             "apartado_id": "pod-0071-ap-01",
-            "tipo": "dato",
-            "titulo": "Periodismo de investigación",
-            "contenido": "Bajo su dirección el diario ha publicado investigaciones de gran impacto sobre corrupción, finanzas y poder empresarial, consolidándose como uno de los digitales más leídos del país.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Periodista económico",
+            "contenido": "Desarrolló su carrera en el periodismo económico y de investigación en distintas redacciones antes de incorporarse a El Confidencial en sus primeros años como diario digital de referencia.",
+            "fecha": "2005-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0071-ap-01-it-01",
+            "apartado_id": "pod-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Director de El Confidencial",
+            "contenido": "Asumió la dirección del medio en 2011 y lo consolidó como uno de los digitales más leídos e influyentes de España, con una potente unidad de investigación y datos.",
+            "fecha": "2011-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0071-ap-01-it-02",
+            "apartado_id": "pod-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Grandes investigaciones",
+            "contenido": "Bajo su mandato, El Confidencial ha participado en investigaciones internacionales de enorme repercusión —como los Papeles de Panamá, Football Leaks o la lista Falciani— y ha publicado exclusivas sobre corrupción política y financiera.",
+            "fecha": "2016-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0071-ap-01-it-03",
+            "apartado_id": "pod-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Periodismo de investigación de referencia",
+            "contenido": "El medio ha recibido reconocimientos del sector y se ha situado como actor central del periodismo de datos en español, lo que ha llevado a Cardero a enfrentarse con frecuencia a poderes políticos y económicos por sus publicaciones.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -10831,8 +11128,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0072",
@@ -10864,7 +11161,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0072-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario canario de la comunicación, fundador y presidente de Prensa Ibérica. Su grupo agrupa decenas de diarios regionales y locales que dominan la información de proximidad en buena parte del territorio.",
+            "contenido": "Javier Moll de Miguel es presidente de Prensa Ibérica, el mayor grupo de prensa regional de España, propietario de cabeceras como El Periódico de Catalunya, Información de Alicante, La Nueva España, Levante-EMV, Faro de Vigo, Diario de Mallorca o el deportivo Sport, entre muchas otras. Empresario de origen canario, ha construido un imperio de diarios locales que le otorga un peso decisivo en la información de proximidad de toda España.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10884,9 +11181,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0072-ap-01-it-00",
             "apartado_id": "pod-0072-ap-01",
             "tipo": "evento",
-            "titulo": "Compra de El Periódico",
-            "contenido": "Prensa Ibérica adquirió el Grupo Zeta, sumando El Periódico de Catalunya y Sport a su cartera, reforzando su peso en el mercado catalán y deportivo.",
-            "fecha": "2019-06-01",
+            "titulo": "De Canarias a la prensa regional",
+            "contenido": "Procedente del negocio editorial en Canarias —en torno a cabeceras como La Provincia—, empezó a adquirir diarios provinciales por toda España, construyendo un grupo basado en el liderazgo en mercados locales y regionales.",
+            "fecha": "1984-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -10895,14 +11192,38 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0072-ap-01-it-01",
             "apartado_id": "pod-0072-ap-01",
-            "tipo": "dato",
-            "titulo": "Origen canario",
-            "contenido": "Construyó Prensa Ibérica desde Canarias (La Provincia) hasta convertirla en el mayor grupo de prensa regional de España, con una expansión basada en la compra de cabeceras locales líderes.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Consolidación de Prensa Ibérica",
+            "contenido": "Convirtió Prensa Ibérica en uno de los mayores grupos de prensa del país por número de cabeceras, con una red de diarios líderes en sus territorios y una gestión familiar junto a su esposa, Arantza Sarasola, vicepresidenta del grupo.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0072-ap-01-it-02",
+            "apartado_id": "pod-0072-ap-01",
+            "tipo": "evento",
+            "titulo": "La compra del Grupo Zeta",
+            "contenido": "En 2019 adquirió el Grupo Zeta, sumando El Periódico de Catalunya y el deportivo Sport a su cartera y reforzando su posición como gigante de la prensa española en pleno desplome de la difusión en papel.",
+            "fecha": "2019-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0072-ap-01-it-03",
+            "apartado_id": "pod-0072-ap-01",
+            "tipo": "evento",
+            "titulo": "Transición al digital",
+            "contenido": "Ha pilotado la transformación digital del grupo —con el lanzamiento de la marca nacional El Periódico de España y la apuesta por las ediciones online de sus cabeceras—, en un sector golpeado por la caída de ingresos publicitarios y de ventas en quiosco.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -10964,8 +11285,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0073",
@@ -10997,7 +11318,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0073-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Directivo con un largo recorrido en la banca de inversión y la gran empresa. Presidió Endesa y hoy preside Mediaset España, primer grupo audiovisual privado junto a Atresmedia.",
+            "contenido": "Borja Prado Eulate es presidente de Mediaset España, el grupo audiovisual propietario de Telecinco y Cuatro, integrado en el holding paneuropeo MFE-MediaForEurope de la familia Berlusconi. Banquero de inversión de larga trayectoria y figura muy conectada con el poder económico español, antes presidió la eléctrica Endesa durante una década, lo que lo sitúa en el cruce entre la gran empresa, las finanzas y los medios.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11017,13 +11338,49 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0073-ap-01-it-00",
             "apartado_id": "pod-0073-ap-01",
             "tipo": "evento",
-            "titulo": "De Endesa a Mediaset",
-            "contenido": "Tras más de una década al frente de Endesa, dio el salto a la presidencia de Mediaset España, en plena reordenación del grupo bajo el paraguas del italiano MFE (Berlusconi).",
-            "fecha": "2021-04-01",
+            "titulo": "Banca de inversión",
+            "contenido": "Desarrolló su carrera en la banca de inversión y el asesoramiento de grandes operaciones corporativas, pasando por entidades de prestigio y tejiendo una densa red de relaciones en el IBEX y en los consejos de administración.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0073-ap-01-it-01",
+            "apartado_id": "pod-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Endesa",
+            "contenido": "Presidió Endesa entre 2009 y 2019, durante los años de control de la eléctrica por la italiana Enel, ejerciendo de puente entre el accionista transalpino y el establishment empresarial y político español.",
+            "fecha": "2009-06-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0073-ap-01-it-02",
+            "apartado_id": "pod-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Mediaset España",
+            "contenido": "En 2019 asumió la presidencia de Mediaset España (Telecinco, Cuatro), bajo control de la italiana Mediaset, pilotando la cadena en la dura competencia por la audiencia y la publicidad frente a Atresmedia.",
+            "fecha": "2019-04-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0073-ap-01-it-03",
+            "apartado_id": "pod-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "La integración en MFE",
+            "contenido": "Le ha correspondido gestionar la integración de la filial española en el holding paneuropeo MFE-MediaForEurope, el proyecto de la familia Berlusconi para consolidar sus operaciones audiovisuales en Europa, en pleno debate sobre la concentración de medios.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -11097,8 +11454,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0074",
@@ -11130,7 +11487,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0074-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario granadino, preside CEPYME, la patronal de las pymes que forma parte de la estructura de la CEOE. Defiende los intereses del pequeño y mediano empresario en la negociación con el Gobierno y los sindicatos.",
+            "contenido": "Gerardo Cuerva Valdivia es presidente de CEPYME, la confederación que representa a la pequeña y mediana empresa española, y vicepresidente de la CEOE. Empresario granadino al frente de un grupo familiar del sector eléctrico y energético, es una de las voces patronales de referencia en el diálogo social, especialmente en lo que afecta a los costes laborales, la morosidad y la fiscalidad de las pymes y los autónomos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11207,20 +11564,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0074-ap-03-it-00",
             "apartado_id": "pod-0074-ap-03",
-            "tipo": "dato",
-            "titulo": "Empresario y dirigente",
-            "contenido": "Empresario granadino del sector servicios, llegó a la presidencia de CEPYME desde la representación territorial y sectorial de las pequeñas y medianas empresas.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Empresario familiar",
+            "contenido": "Dirige el Grupo Cuerva, empresa familiar granadina del ámbito de las instalaciones eléctricas y la energía, desde donde dio el salto a la representación de los intereses empresariales.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0074-ap-03-it-01",
+            "apartado_id": "pod-0074-ap-03",
+            "tipo": "evento",
+            "titulo": "Dirigente patronal territorial",
+            "contenido": "Se implicó en la representación empresarial desde el ámbito provincial y autonómico, presidiendo organizaciones de su entorno antes de dar el salto a la cúpula confederal.",
+            "fecha": "2010-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0074-ap-03-it-02",
+            "apartado_id": "pod-0074-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidente de CEPYME",
+            "contenido": "Accedió a la presidencia de CEPYME en 2017, reelegido posteriormente, asumiendo la defensa de los intereses de las pequeñas y medianas empresas, que constituyen el grueso del tejido productivo y del empleo en España.",
+            "fecha": "2017-11-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0074-ap-03-it-03",
+            "apartado_id": "pod-0074-ap-03",
+            "tipo": "evento",
+            "titulo": "Voz de las pymes en el diálogo social",
+            "contenido": "Participa en la negociación de la reforma laboral, el salario mínimo, las cotizaciones y la lucha contra la morosidad, reclamando que el coste de las nuevas regulaciones no recaiga de forma desproporcionada sobre las empresas más pequeñas.",
+            "fecha": "2021-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0075",
@@ -11253,7 +11646,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0075-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Jurista y académico, catedrático de Derecho Administrativo. Dirige la RAE y la Asociación de Academias de la Lengua Española (ASALE), lo que le otorga autoridad sobre el idioma en todo el mundo hispano.",
+            "contenido": "Santiago Muñoz Machado (Pozoblanco, Córdoba, 1949) es director de la Real Academia Española (RAE) y una de las máximas autoridades del derecho público en España. Catedrático de Derecho Administrativo, jurista de enorme prestigio y autor de una vastísima obra ensayística e histórica, dirige también la Asociación de Academias de la Lengua Española, que agrupa a las academias del español de todo el mundo.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11342,20 +11735,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0075-ap-03-it-00",
             "apartado_id": "pod-0075-ap-03",
-            "tipo": "dato",
-            "titulo": "Tratadista del Derecho",
-            "contenido": "Catedrático de Derecho Administrativo, autor de tratados de referencia y de obras sobre el Estado autonómico y el Código Civil. Su autoridad académica precede a su llegada a la RAE.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Catedrático y jurista",
+            "contenido": "Catedrático de Derecho Administrativo en varias universidades, se convirtió en una de las grandes referencias del derecho público español, con obra extensa sobre el Estado autonómico, la Constitución, la regulación económica y la historia del derecho.",
+            "fecha": "1980-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0075-ap-03-it-01",
+            "apartado_id": "pod-0075-ap-03",
+            "tipo": "evento",
+            "titulo": "Ensayista y académico",
+            "contenido": "Miembro de tres reales academias —la Española, la de Ciencias Morales y Políticas y la de Jurisprudencia—, compaginó la cátedra con una intensa producción que le valió, entre otros, el Premio Nacional de Historia y el Premio Nacional de Ensayo.",
+            "fecha": "2013-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0075-ap-03-it-02",
+            "apartado_id": "pod-0075-ap-03",
+            "tipo": "evento",
+            "titulo": "Director de la RAE",
+            "contenido": "Fue elegido director de la Real Academia Española en 2018 y reelegido posteriormente, impulsando la sostenibilidad económica de la institución, su proyección digital y los grandes proyectos lexicográficos en línea.",
+            "fecha": "2018-12-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0075-ap-03-it-03",
+            "apartado_id": "pod-0075-ap-03",
+            "tipo": "evento",
+            "titulo": "Panhispanismo lingüístico",
+            "contenido": "Desde la dirección de la RAE y de la asociación de academias defiende la unidad y el valor del español como lengua global de cientos de millones de hablantes, así como la cooperación con las academias americanas.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0076",
@@ -11386,7 +11815,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0076-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Cardenal arzobispo de Barcelona, nombrado por el Papa Francisco, de quien es considerado hombre de confianza en España. Presidió la Conferencia Episcopal en una etapa marcada por la crisis de los abusos.",
+            "contenido": "Juan José Omella Omella (Cretas, Teruel, 1946) es cardenal arzobispo de Barcelona y una de las grandes figuras de la Iglesia católica en España. Creado cardenal por el papa Francisco, presidió la Conferencia Episcopal Española entre 2020 y 2024 y forma parte del Dicasterio para los Obispos del Vaticano, encarnando una línea pastoral próxima al magisterio social del pontífice argentino.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11462,20 +11891,56 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0076-ap-03-it-00",
             "apartado_id": "pod-0076-ap-03",
-            "tipo": "dato",
-            "titulo": "La crisis de los abusos",
-            "contenido": "Al frente de la Conferencia Episcopal pilotó la respuesta de la Iglesia española a la crisis de los abusos, con encargos de auditoría externa y planes de reparación, en un terreno de fuerte escrutinio público.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Sacerdote y misionero",
+            "contenido": "Ordenado sacerdote en 1970, ejerció el ministerio en parroquias de la diócesis de Zaragoza y como misionero en África (Zaire), forjando un perfil pastoral cercano a los más desfavorecidos.",
+            "fecha": "1970-09-20",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0076-ap-03-it-01",
+            "apartado_id": "pod-0076-ap-03",
+            "tipo": "evento",
+            "titulo": "Obispo y arzobispo de Barcelona",
+            "contenido": "Fue obispo de Barbastro-Monzón y de Calahorra y La Calzada-Logroño antes de ser nombrado arzobispo de Barcelona en 2015 por el papa Francisco, que lo creó cardenal en 2017.",
+            "fecha": "2015-11-06",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0076-ap-03-it-02",
+            "apartado_id": "pod-0076-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidente de la Conferencia Episcopal",
+            "contenido": "Presidió la Conferencia Episcopal Española entre 2020 y 2024, en años marcados por la pandemia, el debate sobre los abusos en la Iglesia y la tensa relación con un Gobierno de coalición de izquierdas, manteniendo un tono de diálogo institucional.",
+            "fecha": "2020-03-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0076-ap-03-it-03",
+            "apartado_id": "pod-0076-ap-03",
+            "tipo": "evento",
+            "titulo": "Peso en el Vaticano",
+            "contenido": "Como miembro del Dicasterio para los Obispos, el organismo que asesora al Papa en el nombramiento de obispos en todo el mundo, es una de las voces españolas con mayor influencia en la Curia romana.",
+            "fecha": "2017-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0077",
@@ -11586,8 +12051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0078",
@@ -11708,8 +12173,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0079",
@@ -11834,8 +12299,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0080",
@@ -12020,8 +12485,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0081",
@@ -12120,8 +12585,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0082",
@@ -12220,8 +12685,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0083",
@@ -12253,7 +12718,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0083-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Productor audiovisual catalán, fundador de Mediapro (hoy en la órbita del fondo Orient Hontai). Trotskista en su juventud, ha mantenido un perfil ideológico de izquierdas y vínculos con el soberanismo y el sanchismo.",
+            "contenido": "Jaume Roures Llop (Barcelona, 1950) es uno de los grandes productores audiovisuales de España, cofundador de Mediapro (grupo Imagina). De pasado militante en la izquierda trotskista, construyó un imperio de producción de cine, televisión y, sobre todo, derechos deportivos, con proyección internacional y una estrecha relación con causas progresistas y con el soberanismo catalán.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -12273,13 +12738,49 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0083-ap-01-it-00",
             "apartado_id": "pod-0083-ap-01",
             "tipo": "evento",
-            "titulo": "La guerra del fútbol",
-            "contenido": "Mediapro fue protagonista de la batalla por los derechos televisivos del fútbol durante años, enfrentándose a las plataformas y al propio modelo de LaLiga.",
-            "fecha": "2015-01-01",
+            "titulo": "Militancia y entrada en los medios",
+            "contenido": "Con un pasado en la izquierda revolucionaria (Liga Comunista Revolucionaria), entró en el sector audiovisual y de la comunicación, vinculándose a proyectos televisivos y deportivos en Cataluña y en el conjunto de España.",
+            "fecha": "1980-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0083-ap-01-it-01",
+            "apartado_id": "pod-0083-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundación de Mediapro",
+            "contenido": "Cofundó en 1994 Mediapro, que creció hasta convertirse en uno de los mayores grupos audiovisuales europeos, con un papel central en la producción y comercialización de los derechos del fútbol.",
+            "fecha": "1994-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0083-ap-01-it-02",
+            "apartado_id": "pod-0083-ap-01",
+            "tipo": "evento",
+            "titulo": "La guerra del fútbol y el cine",
+            "contenido": "Mediapro/Imagina lideró durante años la pugna por los derechos televisivos del fútbol en España y produjo cine de proyección internacional, incluidas películas de Woody Allen como 'Vicky Cristina Barcelona' y 'Midnight in Paris'.",
+            "fecha": "2008-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0083-ap-01-it-03",
+            "apartado_id": "pod-0083-ap-01",
+            "tipo": "evento",
+            "titulo": "Expansión global y compromiso político",
+            "contenido": "El grupo se expandió internacionalmente con producción y derechos deportivos en numerosos países, mientras Roures mantenía un perfil público comprometido con causas de izquierda y, en distintos momentos, con el proceso soberanista catalán.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
           }
         ]
       },
@@ -12317,8 +12818,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0084",
@@ -12416,8 +12917,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0085",
@@ -12492,8 +12993,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0086",
@@ -12567,8 +13068,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0087",
@@ -12654,8 +13155,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0088",
@@ -12718,8 +13219,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0089",
@@ -12793,8 +13294,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   },
   {
     "id": "pod-0090",
@@ -12906,8 +13407,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:31:58.497976Z",
-    "updated_at": "2026-05-29T09:31:58.497976Z"
+    "created_at": "2026-05-29T09:56:02.247594Z",
+    "updated_at": "2026-05-29T09:56:02.247594Z"
   }
 ]
 

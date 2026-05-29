@@ -313,7 +313,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.78,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -322,7 +322,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Comunicador veterano, fundador de esRadio y Libertad Digital. Su programa matinal es referencia de la derecha liberal-conservadora y un termómetro del ánimo de ese electorado."
+            "contenido": "Federico Jiménez Losantos (Orihuela del Tremedal, Teruel, 1951) es periodista, escritor y uno de los comunicadores más influyentes y polémicos de la derecha mediática española. Filólogo de formación, fundador de esRadio y de Libertad Digital, dirige y presenta el programa matinal 'Es la mañana de Federico', desde donde ejerce una crítica frontal a la izquierda, a los nacionalismos periféricos y, con frecuencia, a la propia derecha institucional."
           }
         ]
       },
@@ -337,6 +337,15 @@
             "tags": [
               "liberalismo",
               "anti-sanchismo"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Comentarista de la derecha radical-liberal",
+            "contenido": "Defiende posiciones liberal-conservadoras, el españolismo frente a los nacionalismos y una crítica feroz a la izquierda; su estilo combativo lo convierte en figura admirada por su público y muy contestada por sus adversarios.",
+            "tags": [
+              "medios",
+              "opinion"
             ]
           }
         ]
@@ -382,9 +391,28 @@
         "orden": 4,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "De Barcelona al micrófono",
-            "contenido": "Filólogo aragonés afincado en Barcelona en su juventud, sufrió un atentado de Terra Lliure en 1981. Pasó por El País y ABC, fue estrella de la COPE y fundó esRadio y Libertad Digital."
+            "tipo": "evento",
+            "titulo": "De la izquierda en Cataluña al giro liberal",
+            "contenido": "Filólogo y profesor, militó en la izquierda comunista en la Barcelona de los años setenta. En 1981 impulsó el 'Manifiesto de los 2.300' en defensa del castellano en Cataluña y ese mismo año fue secuestrado y tiroteado en una pierna por el grupo independentista Terra Lliure.",
+            "fecha": "1981-05-21"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Articulista y giro ideológico",
+            "contenido": "Protagonizó un giro ideológico hacia posiciones liberal-conservadoras y se consolidó como articulista combativo, primero en la prensa y después como una de las grandes voces de la tertulia política.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La radio como tribuna",
+            "contenido": "Se convirtió en una estrella de la radio matinal, primero en la COPE con 'La Mañana', desde donde ejerció una durísima oposición mediática que le granjeó enormes audiencias y sonadas polémicas con políticos y con la propia jerarquía de la cadena.",
+            "fecha": "2003-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "esRadio y Libertad Digital",
+            "contenido": "Fundó junto a otros socios Libertad Digital y la emisora esRadio, plataformas desde las que mantiene una línea editorial abiertamente conservadora, anti-nacionalista y crítica con el Gobierno, además de publicar numerosos libros de ensayo y memorias.",
+            "fecha": "2009-11-01"
           }
         ]
       }
@@ -406,7 +434,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -415,7 +443,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Heredero de la familia Lara al frente del Grupo Planeta. Preside también Atresmedia, primer grupo audiovisual privado por audiencia e ingresos publicitarios junto a Mediaset."
+            "contenido": "José Creuheras Margenat es presidente del Grupo Planeta —el mayor grupo editorial en lengua española— y de Atresmedia, propietaria de Antena 3, laSexta, Onda Cero y Europa FM. Ligado a la familia fundadora de Planeta, reúne en sus manos un poder doble, editorial y audiovisual, que lo convierte en una de las figuras más influyentes del ecosistema mediático y cultural español e iberoamericano."
           }
         ]
       },
@@ -431,6 +459,15 @@
               "audiovisual",
               "publicidad",
               "agenda"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Influencia mediática",
+            "contenido": "Su grupo combina el mayor catálogo editorial en español con cadenas generalistas de amplia audiencia, lo que lo sitúa como interlocutor de primer orden del poder político y económico, más allá de adscripciones ideológicas explícitas.",
+            "tags": [
+              "medios",
+              "editorial"
             ]
           }
         ]
@@ -455,6 +492,36 @@
             "contenido": "**Director de La Razón, del grupo Planeta** (nota +6/10) — La cabecera conservadora forma parte del perímetro editorial de Planeta."
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "La saga Lara y el Grupo Planeta",
+            "contenido": "Vinculado a la familia fundadora de Planeta —el editor José Manuel Lara Hernández creó el grupo en Barcelona en 1949—, se formó en la gestión empresarial y fue asumiendo responsabilidades dentro de un conglomerado que reúne sellos como Planeta, Espasa, Seix Barral, Destino o Booket, además del Premio Planeta, el galardón literario mejor dotado del mundo tras el Nobel.",
+            "fecha": "1995-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de Planeta y Atresmedia",
+            "contenido": "Tras el fallecimiento de José Manuel Lara Bosch en 2015, asumió la presidencia del Grupo Planeta y, con ella, la de Atresmedia, el grupo audiovisual en el que Planeta es accionista de referencia, sumando al negocio editorial dos de las grandes cadenas de televisión y radio del país.",
+            "fecha": "2015-02-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Un conglomerado cultural y educativo",
+            "contenido": "Bajo su mando, el grupo abarca edición, la productora DeAPlaneta, formación universitaria privada, el diario La Razón y una amplia presencia en América Latina, además de haber crecido en Francia con la editorial Editis, consolidándose como un gigante cultural transnacional.",
+            "fecha": "2019-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Poder editorial y audiovisual",
+            "contenido": "Su posición al frente de Planeta y Atresmedia lo sitúa como interlocutor de primer orden del poder político y económico y como actor central del mercado publicitario y de la opinión pública, más allá de adscripciones ideológicas explícitas.",
+            "fecha": "2022-01-01"
+          }
+        ]
       }
     ]
   },
@@ -474,7 +541,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.76,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -483,7 +550,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Gestor de fondos fundador de Amber Capital. Tomó el control de PRISA tras una larga batalla accionarial y preside el grupo de El País, la SER y Santillana."
+            "contenido": "Joseph Oughourlian (París, 1972) es presidente de Prisa, el grupo editor de El País, la Cadena SER y el diario deportivo AS, uno de los mayores grupos de medios en lengua española. Financiero franco-armenio y fundador del fondo activista Amber Capital, irrumpió como primer accionista de Prisa y acabó tomando su presidencia tras años de batallas por el control de un grupo considerado estratégico para la conversación pública en español."
           }
         ]
       },
@@ -499,6 +566,15 @@
               "accionariado",
               "activismo",
               "linea-editorial"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Línea editorial y disputas de control",
+            "contenido": "Su llegada coincidió con tensiones recurrentes sobre la orientación editorial de Prisa y sobre la entrada de nuevos accionistas (financieros e internacionales), en un grupo que es a la vez una empresa endeudada y un actor político de primer nivel.",
+            "tags": [
+              "medios",
+              "prisa"
             ]
           }
         ]
@@ -530,9 +606,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "La batalla por PRISA",
-            "contenido": "Desde Amber Capital protagonizó una larga guerra accionarial por el control de PRISA, desplazando a la vieja guardia y a otros socios como Vivendi/Telefónica, hasta hacerse con la presidencia del grupo.",
-            "fecha": "2021-12-01"
+            "titulo": "Financiero y fundador de Amber Capital",
+            "contenido": "Formado en Francia y curtido en la banca de inversión en Estados Unidos, fundó en 2005 el fondo Amber Capital, especializado en tomar posiciones activistas en compañías cotizadas europeas y presionar a sus gestores para crear valor.",
+            "fecha": "2005-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Activismo en grandes grupos",
+            "contenido": "Amber protagonizó sonadas batallas accionariales en empresas europeas —entre ellas el grupo francés Lagardère—, ganándose una reputación de inversor combativo dispuesto a enfrentarse a los consejos y a las familias propietarias.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Primer accionista de Prisa",
+            "contenido": "Fue elevando su participación en Prisa hasta convertirse en su primer accionista, en un grupo muy endeudado y con una propiedad fragmentada, en disputa con otros inversores y con la presión recurrente sobre el control del consejo.",
+            "fecha": "2015-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de Prisa",
+            "contenido": "Asumió la presidencia de Prisa a finales de 2021, en medio de batallas por el control y de la presión política sobre la línea editorial de El País y la SER, con la entrada de nuevos accionistas y la pugna recurrente por la orientación del grupo.",
+            "fecha": "2021-12-31"
           }
         ]
       }
@@ -554,7 +648,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -563,7 +657,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Abogado y dirigente deportivo. Preside LaLiga, donde ha profesionalizado la venta centralizada de derechos audiovisuales y la lucha contra la piratería y el déficit de los clubes."
+            "contenido": "Javier Tebas Medrano (San José, Costa Rica, 1962) es presidente de LaLiga, la patronal del fútbol profesional español, desde 2013. Abogado de formación y de origen aragonés, ha convertido la organización en una potencia económica global gracias a la venta centralizada de derechos audiovisuales, al tiempo que mantiene sonoros enfrentamientos con clubes, federaciones y la UEFA."
           }
         ]
       },
@@ -579,6 +673,15 @@
               "superliga",
               "fair-play",
               "derechos-tv"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Modelo de negocio del fútbol",
+            "contenido": "Defiende un modelo de competición sostenible, con límites de gasto y derechos audiovisuales centralizados, frente a los grandes clubes que reclaman más autonomía. Su gestión divide entre quienes le atribuyen el salto económico de LaLiga y quienes le critican por su estilo y sus enfrentamientos.",
+            "tags": [
+              "futbol",
+              "laliga"
             ]
           }
         ]
@@ -609,9 +712,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Guerra a la piratería y la Superliga",
-            "contenido": "Ha hecho de la lucha contra la piratería audiovisual y de la oposición frontal a la Superliga sus grandes batallas, defendiendo el modelo de venta centralizada de derechos y el control económico de los clubes."
+            "tipo": "evento",
+            "titulo": "Abogado y dirigente futbolístico",
+            "contenido": "Nacido en Costa Rica de padres españoles y criado en Huesca, ejerció como abogado mercantil y se vinculó pronto a la gestión del fútbol, ocupando vicepresidencias en la patronal de clubes antes de presidirla.",
+            "fecha": "2002-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de LaLiga",
+            "contenido": "Accedió a la presidencia de la Liga de Fútbol Profesional en 2013 e impulsó la venta centralizada de los derechos televisivos —antes negociados club a club—, multiplicando los ingresos del fútbol español y ordenando su reparto. Ha sido reelegido en sucesivas ocasiones.",
+            "fecha": "2013-04-26"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Control económico y el acuerdo con CVC",
+            "contenido": "Hizo bandera de la lucha contra la piratería y del control económico (límite de gasto) de los clubes, y selló el acuerdo 'LaLiga Impulso' con el fondo CVC, que inyectó miles de millones a cambio de un porcentaje de los ingresos audiovisuales, una operación rechazada por Real Madrid, Barcelona y Athletic.",
+            "fecha": "2021-08-04"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Choques permanentes",
+            "contenido": "Protagoniza enfrentamientos continuos con los grandes clubes, con la Federación Española (RFEF), con la UEFA y con el PSG y el fútbol-Estado, además de oponerse frontalmente al proyecto de la Superliga europea.",
+            "fecha": "2021-04-19"
           }
         ]
       }

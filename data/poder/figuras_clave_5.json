@@ -175,7 +175,7 @@
       "no-electo"
     ],
     "confidence": 0.85,
-    "completeness": 0.72,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -184,7 +184,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Periodista económico al frente de El Confidencial, medio de referencia en periodismo de datos e investigación, con fuerte penetración entre directivos, inversores y clase política."
+            "contenido": "Nacho Cardero es director de El Confidencial, uno de los principales diarios digitales españoles, nacido como nativo digital y especializado en información económica, política y de investigación. Bajo su dirección, el medio —editado por Titania— se ha consolidado entre los más leídos del país y ha publicado algunas de las exclusivas e investigaciones periodísticas de mayor impacto de la última década."
           }
         ]
       },
@@ -193,9 +193,28 @@
         "orden": 1,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Periodismo de investigación",
-            "contenido": "Bajo su dirección el diario ha publicado investigaciones de gran impacto sobre corrupción, finanzas y poder empresarial, consolidándose como uno de los digitales más leídos del país."
+            "tipo": "evento",
+            "titulo": "Periodista económico",
+            "contenido": "Desarrolló su carrera en el periodismo económico y de investigación en distintas redacciones antes de incorporarse a El Confidencial en sus primeros años como diario digital de referencia.",
+            "fecha": "2005-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director de El Confidencial",
+            "contenido": "Asumió la dirección del medio en 2011 y lo consolidó como uno de los digitales más leídos e influyentes de España, con una potente unidad de investigación y datos.",
+            "fecha": "2011-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Grandes investigaciones",
+            "contenido": "Bajo su mandato, El Confidencial ha participado en investigaciones internacionales de enorme repercusión —como los Papeles de Panamá, Football Leaks o la lista Falciani— y ha publicado exclusivas sobre corrupción política y financiera.",
+            "fecha": "2016-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Periodismo de investigación de referencia",
+            "contenido": "El medio ha recibido reconocimientos del sector y se ha situado como actor central del periodismo de datos en español, lo que ha llevado a Cardero a enfrentarse con frecuencia a poderes políticos y económicos por sus publicaciones.",
+            "fecha": "2020-01-01"
           }
         ]
       },
@@ -248,7 +267,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.76,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -257,7 +276,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario canario de la comunicación, fundador y presidente de Prensa Ibérica. Su grupo agrupa decenas de diarios regionales y locales que dominan la información de proximidad en buena parte del territorio."
+            "contenido": "Javier Moll de Miguel es presidente de Prensa Ibérica, el mayor grupo de prensa regional de España, propietario de cabeceras como El Periódico de Catalunya, Información de Alicante, La Nueva España, Levante-EMV, Faro de Vigo, Diario de Mallorca o el deportivo Sport, entre muchas otras. Empresario de origen canario, ha construido un imperio de diarios locales que le otorga un peso decisivo en la información de proximidad de toda España."
           }
         ]
       },
@@ -267,14 +286,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Compra de El Periódico",
-            "contenido": "Prensa Ibérica adquirió el Grupo Zeta, sumando El Periódico de Catalunya y Sport a su cartera, reforzando su peso en el mercado catalán y deportivo.",
-            "fecha": "2019-06-01"
+            "titulo": "De Canarias a la prensa regional",
+            "contenido": "Procedente del negocio editorial en Canarias —en torno a cabeceras como La Provincia—, empezó a adquirir diarios provinciales por toda España, construyendo un grupo basado en el liderazgo en mercados locales y regionales.",
+            "fecha": "1984-01-01"
           },
           {
-            "tipo": "dato",
-            "titulo": "Origen canario",
-            "contenido": "Construyó Prensa Ibérica desde Canarias (La Provincia) hasta convertirla en el mayor grupo de prensa regional de España, con una expansión basada en la compra de cabeceras locales líderes."
+            "tipo": "evento",
+            "titulo": "Consolidación de Prensa Ibérica",
+            "contenido": "Convirtió Prensa Ibérica en uno de los mayores grupos de prensa del país por número de cabeceras, con una red de diarios líderes en sus territorios y una gestión familiar junto a su esposa, Arantza Sarasola, vicepresidenta del grupo.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La compra del Grupo Zeta",
+            "contenido": "En 2019 adquirió el Grupo Zeta, sumando El Periódico de Catalunya y el deportivo Sport a su cartera y reforzando su posición como gigante de la prensa española en pleno desplome de la difusión en papel.",
+            "fecha": "2019-04-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Transición al digital",
+            "contenido": "Ha pilotado la transformación digital del grupo —con el lanzamiento de la marca nacional El Periódico de España y la apuesta por las ediciones online de sus cabeceras—, en un sector golpeado por la caída de ingresos publicitarios y de ventas en quiosco.",
+            "fecha": "2021-01-01"
           }
         ]
       },
@@ -327,7 +359,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.76,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -336,7 +368,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Directivo con un largo recorrido en la banca de inversión y la gran empresa. Presidió Endesa y hoy preside Mediaset España, primer grupo audiovisual privado junto a Atresmedia."
+            "contenido": "Borja Prado Eulate es presidente de Mediaset España, el grupo audiovisual propietario de Telecinco y Cuatro, integrado en el holding paneuropeo MFE-MediaForEurope de la familia Berlusconi. Banquero de inversión de larga trayectoria y figura muy conectada con el poder económico español, antes presidió la eléctrica Endesa durante una década, lo que lo sitúa en el cruce entre la gran empresa, las finanzas y los medios."
           }
         ]
       },
@@ -346,9 +378,27 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De Endesa a Mediaset",
-            "contenido": "Tras más de una década al frente de Endesa, dio el salto a la presidencia de Mediaset España, en plena reordenación del grupo bajo el paraguas del italiano MFE (Berlusconi).",
-            "fecha": "2021-04-01"
+            "titulo": "Banca de inversión",
+            "contenido": "Desarrolló su carrera en la banca de inversión y el asesoramiento de grandes operaciones corporativas, pasando por entidades de prestigio y tejiendo una densa red de relaciones en el IBEX y en los consejos de administración.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de Endesa",
+            "contenido": "Presidió Endesa entre 2009 y 2019, durante los años de control de la eléctrica por la italiana Enel, ejerciendo de puente entre el accionista transalpino y el establishment empresarial y político español.",
+            "fecha": "2009-06-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de Mediaset España",
+            "contenido": "En 2019 asumió la presidencia de Mediaset España (Telecinco, Cuatro), bajo control de la italiana Mediaset, pilotando la cadena en la dura competencia por la audiencia y la publicidad frente a Atresmedia.",
+            "fecha": "2019-04-12"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La integración en MFE",
+            "contenido": "Le ha correspondido gestionar la integración de la filial española en el holding paneuropeo MFE-MediaForEurope, el proyecto de la familia Berlusconi para consolidar sus operaciones audiovisuales en Europa, en pleno debate sobre la concentración de medios.",
+            "fecha": "2021-01-01"
           }
         ]
       },
@@ -406,7 +456,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.76,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -415,7 +465,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Empresario granadino, preside CEPYME, la patronal de las pymes que forma parte de la estructura de la CEOE. Defiende los intereses del pequeño y mediano empresario en la negociación con el Gobierno y los sindicatos."
+            "contenido": "Gerardo Cuerva Valdivia es presidente de CEPYME, la confederación que representa a la pequeña y mediana empresa española, y vicepresidente de la CEOE. Empresario granadino al frente de un grupo familiar del sector eléctrico y energético, es una de las voces patronales de referencia en el diálogo social, especialmente en lo que afecta a los costes laborales, la morosidad y la fiscalidad de las pymes y los autónomos."
           }
         ]
       },
@@ -456,9 +506,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Empresario y dirigente",
-            "contenido": "Empresario granadino del sector servicios, llegó a la presidencia de CEPYME desde la representación territorial y sectorial de las pequeñas y medianas empresas."
+            "tipo": "evento",
+            "titulo": "Empresario familiar",
+            "contenido": "Dirige el Grupo Cuerva, empresa familiar granadina del ámbito de las instalaciones eléctricas y la energía, desde donde dio el salto a la representación de los intereses empresariales.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Dirigente patronal territorial",
+            "contenido": "Se implicó en la representación empresarial desde el ámbito provincial y autonómico, presidiendo organizaciones de su entorno antes de dar el salto a la cúpula confederal.",
+            "fecha": "2010-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de CEPYME",
+            "contenido": "Accedió a la presidencia de CEPYME en 2017, reelegido posteriormente, asumiendo la defensa de los intereses de las pequeñas y medianas empresas, que constituyen el grueso del tejido productivo y del empleo en España.",
+            "fecha": "2017-11-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz de las pymes en el diálogo social",
+            "contenido": "Participa en la negociación de la reforma laboral, el salario mínimo, las cotizaciones y la lucha contra la morosidad, reclamando que el coste de las nuevas regulaciones no recaiga de forma desproporcionada sobre las empresas más pequeñas.",
+            "fecha": "2021-01-01"
           }
         ]
       }
@@ -481,7 +550,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.74,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -490,7 +559,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Jurista y académico, catedrático de Derecho Administrativo. Dirige la RAE y la Asociación de Academias de la Lengua Española (ASALE), lo que le otorga autoridad sobre el idioma en todo el mundo hispano."
+            "contenido": "Santiago Muñoz Machado (Pozoblanco, Córdoba, 1949) es director de la Real Academia Española (RAE) y una de las máximas autoridades del derecho público en España. Catedrático de Derecho Administrativo, jurista de enorme prestigio y autor de una vastísima obra ensayística e histórica, dirige también la Asociación de Academias de la Lengua Española, que agrupa a las academias del español de todo el mundo."
           }
         ]
       },
@@ -536,9 +605,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Tratadista del Derecho",
-            "contenido": "Catedrático de Derecho Administrativo, autor de tratados de referencia y de obras sobre el Estado autonómico y el Código Civil. Su autoridad académica precede a su llegada a la RAE."
+            "tipo": "evento",
+            "titulo": "Catedrático y jurista",
+            "contenido": "Catedrático de Derecho Administrativo en varias universidades, se convirtió en una de las grandes referencias del derecho público español, con obra extensa sobre el Estado autonómico, la Constitución, la regulación económica y la historia del derecho.",
+            "fecha": "1980-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Ensayista y académico",
+            "contenido": "Miembro de tres reales academias —la Española, la de Ciencias Morales y Políticas y la de Jurisprudencia—, compaginó la cátedra con una intensa producción que le valió, entre otros, el Premio Nacional de Historia y el Premio Nacional de Ensayo.",
+            "fecha": "2013-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Director de la RAE",
+            "contenido": "Fue elegido director de la Real Academia Española en 2018 y reelegido posteriormente, impulsando la sostenibilidad económica de la institución, su proyección digital y los grandes proyectos lexicográficos en línea.",
+            "fecha": "2018-12-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Panhispanismo lingüístico",
+            "contenido": "Desde la dirección de la RAE y de la asociación de academias defiende la unidad y el valor del español como lengua global de cientos de millones de hablantes, así como la cooperación con las academias americanas.",
+            "fecha": "2020-01-01"
           }
         ]
       }
@@ -559,7 +647,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.74,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -568,7 +656,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Cardenal arzobispo de Barcelona, nombrado por el Papa Francisco, de quien es considerado hombre de confianza en España. Presidió la Conferencia Episcopal en una etapa marcada por la crisis de los abusos."
+            "contenido": "Juan José Omella Omella (Cretas, Teruel, 1946) es cardenal arzobispo de Barcelona y una de las grandes figuras de la Iglesia católica en España. Creado cardenal por el papa Francisco, presidió la Conferencia Episcopal Española entre 2020 y 2024 y forma parte del Dicasterio para los Obispos del Vaticano, encarnando una línea pastoral próxima al magisterio social del pontífice argentino."
           }
         ]
       },
@@ -608,9 +696,28 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "La crisis de los abusos",
-            "contenido": "Al frente de la Conferencia Episcopal pilotó la respuesta de la Iglesia española a la crisis de los abusos, con encargos de auditoría externa y planes de reparación, en un terreno de fuerte escrutinio público."
+            "tipo": "evento",
+            "titulo": "Sacerdote y misionero",
+            "contenido": "Ordenado sacerdote en 1970, ejerció el ministerio en parroquias de la diócesis de Zaragoza y como misionero en África (Zaire), forjando un perfil pastoral cercano a los más desfavorecidos.",
+            "fecha": "1970-09-20"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Obispo y arzobispo de Barcelona",
+            "contenido": "Fue obispo de Barbastro-Monzón y de Calahorra y La Calzada-Logroño antes de ser nombrado arzobispo de Barcelona en 2015 por el papa Francisco, que lo creó cardenal en 2017.",
+            "fecha": "2015-11-06"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidente de la Conferencia Episcopal",
+            "contenido": "Presidió la Conferencia Episcopal Española entre 2020 y 2024, en años marcados por la pandemia, el debate sobre los abusos en la Iglesia y la tensa relación con un Gobierno de coalición de izquierdas, manteniendo un tono de diálogo institucional.",
+            "fecha": "2020-03-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Peso en el Vaticano",
+            "contenido": "Como miembro del Dicasterio para los Obispos, el organismo que asesora al Papa en el nombramiento de obispos en todo el mundo, es una de las voces españolas con mayor influencia en la Curia romana.",
+            "fecha": "2017-01-01"
           }
         ]
       }

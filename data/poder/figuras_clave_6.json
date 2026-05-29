@@ -247,7 +247,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -256,7 +256,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Productor audiovisual catalán, fundador de Mediapro (hoy en la órbita del fondo Orient Hontai). Trotskista en su juventud, ha mantenido un perfil ideológico de izquierdas y vínculos con el soberanismo y el sanchismo."
+            "contenido": "Jaume Roures Llop (Barcelona, 1950) es uno de los grandes productores audiovisuales de España, cofundador de Mediapro (grupo Imagina). De pasado militante en la izquierda trotskista, construyó un imperio de producción de cine, televisión y, sobre todo, derechos deportivos, con proyección internacional y una estrecha relación con causas progresistas y con el soberanismo catalán."
           }
         ]
       },
@@ -266,8 +266,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "La guerra del fútbol",
-            "contenido": "Mediapro fue protagonista de la batalla por los derechos televisivos del fútbol durante años, enfrentándose a las plataformas y al propio modelo de LaLiga.",
+            "titulo": "Militancia y entrada en los medios",
+            "contenido": "Con un pasado en la izquierda revolucionaria (Liga Comunista Revolucionaria), entró en el sector audiovisual y de la comunicación, vinculándose a proyectos televisivos y deportivos en Cataluña y en el conjunto de España.",
+            "fecha": "1980-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Fundación de Mediapro",
+            "contenido": "Cofundó en 1994 Mediapro, que creció hasta convertirse en uno de los mayores grupos audiovisuales europeos, con un papel central en la producción y comercialización de los derechos del fútbol.",
+            "fecha": "1994-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La guerra del fútbol y el cine",
+            "contenido": "Mediapro/Imagina lideró durante años la pugna por los derechos televisivos del fútbol en España y produjo cine de proyección internacional, incluidas películas de Woody Allen como 'Vicky Cristina Barcelona' y 'Midnight in Paris'.",
+            "fecha": "2008-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Expansión global y compromiso político",
+            "contenido": "El grupo se expandió internacionalmente con producción y derechos deportivos en numerosos países, mientras Roures mantenía un perfil público comprometido con causas de izquierda y, en distintos momentos, con el proceso soberanista catalán.",
             "fecha": "2015-01-01"
           }
         ]
