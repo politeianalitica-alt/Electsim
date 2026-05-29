@@ -23,6 +23,7 @@ from __future__ import annotations
 import json
 import re
 import ssl
+import sys
 import unicodedata
 import urllib.request
 from pathlib import Path
@@ -93,6 +94,19 @@ def norm_key(s: str) -> str:
 
 
 def main() -> int:
+    force = "--force" in sys.argv
+    if OUT.exists() and not force:
+        print(f"\n⚠  {OUT.relative_to(REPO)} ya existe.")
+        print("   Regenerar desde el opendata SOBRESCRIBE el fichero y descarta los")
+        print("   parches manuales (biografías extensas de líderes, etc.).")
+        print("   Los enlaces de declaraciones SÍ se re-hornean (declaraciones_congreso.json).")
+        print("   · Forma segura (re-aplica bios + decls + fixture):")
+        print("       python3 bin/rebuild_dossiers.py --source congreso")
+        print("   · Manual (si sabes lo que haces): repite con --force y luego:")
+        print("       python3 scripts/lideres_nacionales.py     # re-aplica bios manuales")
+        print("       python3 bin/patch_decl_links_congreso.py  # (idempotente)")
+        print("       python3 bin/gen_subfixture.py --source congreso")
+        return 2
     print("· descargando opendata del Congreso…")
     activos = json.loads(fetch(discover("DiputadosActivos")).decode("utf-8", "ignore"))
     acteco = json.loads(fetch(discover("docacteco")).decode("utf-8", "ignore"))
@@ -240,6 +254,7 @@ def main() -> int:
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=2), encoding="utf-8")
     con_top = sum(1 for d in out if any(i.get("titulo", "").endswith("(cifras)") for ap in d["apartados"] for i in ap["items"]))
     print(f"OK · {len(out)} diputados escritos en {OUT.relative_to(REPO)} · con cifras transcritas: {con_top}")
+    print("  · re-aplica bios y regenera el fixture (o usa: python3 bin/rebuild_dossiers.py --source congreso)")
     return 0
 
 
