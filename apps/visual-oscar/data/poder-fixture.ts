@@ -244,8 +244,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0002",
@@ -482,8 +482,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0003",
@@ -697,8 +697,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0004",
@@ -922,8 +922,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0005",
@@ -1107,8 +1107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0006",
@@ -1275,8 +1275,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0007",
@@ -1468,8 +1468,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0008",
@@ -1649,8 +1649,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0009",
@@ -1833,8 +1833,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0010",
@@ -2055,8 +2055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0011",
@@ -2279,8 +2279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0012",
@@ -2406,8 +2406,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0013",
@@ -2630,8 +2630,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0014",
@@ -2824,8 +2824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0015",
@@ -3025,8 +3025,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0016",
@@ -3203,8 +3203,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0017",
@@ -3376,8 +3376,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0018",
@@ -3575,8 +3575,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0019",
@@ -3772,8 +3772,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0020",
@@ -3932,8 +3932,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0021",
@@ -4114,8 +4114,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0022",
@@ -4376,8 +4376,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0023",
@@ -4547,8 +4547,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0024",
@@ -4762,8 +4762,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0025",
@@ -4946,8 +4946,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0026",
@@ -5123,8 +5123,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0027",
@@ -5396,8 +5396,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0028",
@@ -5608,8 +5608,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0029",
@@ -5847,8 +5847,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0030",
@@ -6059,8 +6059,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0031",
@@ -6252,8 +6252,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0032",
@@ -6413,8 +6413,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0033",
@@ -6578,8 +6578,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0034",
@@ -6698,8 +6698,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0035",
@@ -6825,8 +6825,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0036",
@@ -6986,8 +6986,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0037",
@@ -7196,8 +7196,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0038",
@@ -7404,8 +7404,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0039",
@@ -7577,8 +7577,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0040",
@@ -7734,8 +7734,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0041",
@@ -7905,8 +7905,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0042",
@@ -8062,8 +8062,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0043",
@@ -8202,8 +8202,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0044",
@@ -8409,8 +8409,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0045",
@@ -8581,8 +8581,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0046",
@@ -8742,8 +8742,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0047",
@@ -8875,8 +8875,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0048",
@@ -8975,8 +8975,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0049",
@@ -9108,8 +9108,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0050",
@@ -9195,8 +9195,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0051",
@@ -9282,8 +9282,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0052",
@@ -9450,8 +9450,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0053",
@@ -9594,8 +9594,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0054",
@@ -9739,8 +9739,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0055",
@@ -9884,8 +9884,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0056",
@@ -10016,8 +10016,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0057",
@@ -10197,8 +10197,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0058",
@@ -10367,8 +10367,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0059",
@@ -10537,8 +10537,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0060",
@@ -10718,8 +10718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0061",
@@ -10926,8 +10926,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0062",
@@ -11111,8 +11111,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0063",
@@ -11296,8 +11296,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0064",
@@ -11481,8 +11481,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0065",
@@ -11581,8 +11581,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0066",
@@ -11681,8 +11681,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0067",
@@ -11778,8 +11778,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0068",
@@ -11866,8 +11866,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0069",
@@ -12025,8 +12025,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0070",
@@ -12139,8 +12139,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0071",
@@ -12296,8 +12296,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0072",
@@ -12453,8 +12453,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0073",
@@ -12622,8 +12622,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0074",
@@ -12780,8 +12780,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0075",
@@ -12951,8 +12951,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0076",
@@ -13107,8 +13107,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0077",
@@ -13276,8 +13276,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0078",
@@ -13422,8 +13422,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0079",
@@ -13605,8 +13605,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0080",
@@ -13791,8 +13791,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0081",
@@ -13948,8 +13948,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0082",
@@ -14105,8 +14105,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0083",
@@ -14238,8 +14238,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0084",
@@ -14409,8 +14409,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0085",
@@ -14485,8 +14485,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0086",
@@ -14617,8 +14617,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0087",
@@ -14761,8 +14761,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0088",
@@ -14882,8 +14882,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0089",
@@ -15014,8 +15014,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0090",
@@ -15127,8 +15127,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0091",
@@ -15291,8 +15291,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0092",
@@ -15439,8 +15439,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0093",
@@ -15603,8 +15603,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0094",
@@ -15767,8 +15767,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0095",
@@ -15931,8 +15931,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0096",
@@ -16079,8 +16079,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0097",
@@ -16243,8 +16243,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0098",
@@ -16391,8 +16391,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0099",
@@ -16555,8 +16555,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0100",
@@ -16719,8 +16719,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0101",
@@ -16883,8 +16883,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0102",
@@ -17047,8 +17047,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0103",
@@ -17211,8 +17211,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0104",
@@ -17359,8 +17359,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0105",
@@ -17507,8 +17507,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0106",
@@ -17671,8 +17671,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0107",
@@ -17835,8 +17835,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0108",
@@ -17999,8 +17999,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0109",
@@ -18163,8 +18163,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0110",
@@ -18327,8 +18327,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0111",
@@ -18491,8 +18491,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0112",
@@ -18655,8 +18655,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0113",
@@ -18819,8 +18819,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0114",
@@ -18983,8 +18983,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0115",
@@ -19131,8 +19131,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0116",
@@ -19279,8 +19279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0117",
@@ -19443,8 +19443,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0118",
@@ -19591,8 +19591,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0119",
@@ -19755,8 +19755,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0120",
@@ -19919,8 +19919,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0121",
@@ -20083,8 +20083,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0122",
@@ -20247,8 +20247,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0123",
@@ -20411,8 +20411,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0124",
@@ -20575,8 +20575,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0125",
@@ -20739,8 +20739,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0126",
@@ -20903,8 +20903,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0127",
@@ -21067,8 +21067,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0128",
@@ -21231,8 +21231,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0129",
@@ -21395,8 +21395,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0130",
@@ -21559,8 +21559,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0131",
@@ -21723,8 +21723,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0132",
@@ -21887,8 +21887,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0133",
@@ -22051,8 +22051,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0134",
@@ -22215,8 +22215,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0135",
@@ -22379,8 +22379,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0136",
@@ -22527,8 +22527,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0137",
@@ -22675,8 +22675,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0138",
@@ -22823,8 +22823,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0139",
@@ -22987,8 +22987,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   },
   {
     "id": "pod-0140",
@@ -23151,8 +23151,2007 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:00:09.215855Z",
-    "updated_at": "2026-05-29T15:00:09.215855Z"
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0141",
+    "slug": "manuel-marchena",
+    "nombre_completo": "Manuel Marchena Gómez",
+    "alias": "Manuel Marchena",
+    "cargo_actual": "Magistrado del Tribunal Supremo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Magistrado del Tribunal Supremo; presidió el tribunal del juicio del procés (2019).",
+    "tags": [
+      "politico",
+      "judicatura",
+      "judicatura"
+    ],
+    "fuente_principal": "https://www.poderjudicial.es",
+    "apartados": [
+      {
+        "id": "pod-0141-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0141-ap-00-it-00",
+            "apartado_id": "pod-0141-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Manuel Marchena Gómez (Las Palmas de Gran Canaria, 1959) es magistrado del Tribunal Supremo y uno de los jueces más influyentes y conocidos de España. Presidente de la Sala de lo Penal del Supremo, presidió el tribunal que juzgó a los líderes del procés en 2019, dictando las condenas por sedición y malversación. Su nombre saltó a la primera plana en 2018 por un mensaje del senador del PP Ignacio Cosidó que presumía de «controlar la Sala Segunda desde detrás», lo que le llevó a renunciar a presidir el Consejo General del Poder Judicial. Encarna el peso —y la politización— de la cúpula judicial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0141-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0141-ap-01-it-00",
+            "apartado_id": "pod-0141-ap-01",
+            "tipo": "evento",
+            "titulo": "Fiscal y magistrado",
+            "contenido": "Procedente de la carrera fiscal y judicial, ascendió hasta el Tribunal Supremo, donde se especializó en lo penal y llegó a presidir su Sala Segunda (de lo Penal).",
+            "fecha": "2007-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0141-ap-01-it-01",
+            "apartado_id": "pod-0141-ap-01",
+            "tipo": "evento",
+            "titulo": "El frustrado salto al CGPJ",
+            "contenido": "En 2018 fue el candidato pactado por PP y PSOE para presidir el Tribunal Supremo y el CGPJ, pero renunció tras filtrarse el mensaje del PP que presumía de «controlar» la Sala Penal, en un sonado escándalo institucional.",
+            "fecha": "2018-11-19",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0141-ap-01-it-02",
+            "apartado_id": "pod-0141-ap-01",
+            "tipo": "evento",
+            "titulo": "El juicio del procés",
+            "contenido": "Presidió el tribunal del Supremo que juzgó a los líderes del procés independentista, dictando en 2019 las condenas por sedición y malversación, en uno de los juicios más mediáticos de la democracia.",
+            "fecha": "2019-10-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0141-ap-01-it-03",
+            "apartado_id": "pod-0141-ap-01",
+            "tipo": "evento",
+            "titulo": "Referente de la Sala Penal",
+            "contenido": "Sigue siendo una figura de referencia de la cúpula judicial, en un periodo de fuerte tensión entre poderes y de debate sobre la independencia y la renovación de los órganos judiciales.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0141-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0141-ap-02-it-00",
+            "apartado_id": "pod-0141-ap-02",
+            "tipo": "dato",
+            "titulo": "Cúpula judicial y tensión política",
+            "contenido": "Encarna el peso de la alta judicatura en los grandes conflictos políticos del país; visto por unos como garante de la ley y por otros como exponente de la politización de la Sala Penal.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "tribunal-supremo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0141-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0141-ap-03-it-00",
+            "apartado_id": "pod-0141-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carles Puigdemont",
+            "contenido": "**Líder de Junts** (nota -6/10) — Presidió el tribunal del Supremo que juzgó el procés, causa de la que Puigdemont huyó al extranjero.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "nota--6",
+              "procesal"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0142",
+    "slug": "pablo-llarena",
+    "nombre_completo": "Pablo Llarena Conde",
+    "alias": "Pablo Llarena",
+    "cargo_actual": "Magistrado instructor del Tribunal Supremo",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Magistrado del Tribunal Supremo; instructor de la causa del procés y de las euroórdenes contra Puigdemont.",
+    "tags": [
+      "politico",
+      "judicatura",
+      "judicatura"
+    ],
+    "fuente_principal": "https://www.poderjudicial.es",
+    "apartados": [
+      {
+        "id": "pod-0142-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0142-ap-00-it-00",
+            "apartado_id": "pod-0142-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Pablo Llarena Conde (San Sebastián, 1962) es magistrado del Tribunal Supremo, conocido por ser el instructor de la causa del procés independentista catalán. Como juez instructor, dictó las euroórdenes y órdenes de detención contra Carles Puigdemont y los dirigentes huidos al extranjero, protagonizando un largo pulso con la justicia belga y alemana sobre su entrega. Es una de las figuras centrales —y más controvertidas— de la respuesta judicial al desafío independentista, y la aplicación de la ley de amnistía al delito de malversación lo ha vuelto a situar en el foco del conflicto entre justicia y política.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0142-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0142-ap-01-it-00",
+            "apartado_id": "pod-0142-ap-01",
+            "tipo": "evento",
+            "titulo": "Carrera judicial",
+            "contenido": "Juez de carrera, desarrolló su trayectoria en distintos órganos hasta llegar al Tribunal Supremo, donde fue además vocal del Consejo General del Poder Judicial.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0142-ap-01-it-01",
+            "apartado_id": "pod-0142-ap-01",
+            "tipo": "evento",
+            "titulo": "Instructor del procés",
+            "contenido": "Asumió la instrucción de la causa del procés en el Tribunal Supremo, procesando a los líderes independentistas por rebelión, sedición y malversación.",
+            "fecha": "2017-11-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0142-ap-01-it-02",
+            "apartado_id": "pod-0142-ap-01",
+            "tipo": "evento",
+            "titulo": "La batalla de las euroórdenes",
+            "contenido": "Dictó las órdenes de detención y entrega contra Puigdemont y los huidos, en un largo y accidentado pulso con los tribunales belgas y alemanes que evidenció las dificultades de la cooperación judicial europea.",
+            "fecha": "2018-03-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0142-ap-01-it-03",
+            "apartado_id": "pod-0142-ap-01",
+            "tipo": "evento",
+            "titulo": "La amnistía y la malversación",
+            "contenido": "Tras la ley de amnistía de 2024, mantuvo una interpretación restrictiva sobre su aplicación al delito de malversación de Puigdemont y otros, prolongando la batalla jurídica.",
+            "fecha": "2024-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0142-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0142-ap-02-it-00",
+            "apartado_id": "pod-0142-ap-02",
+            "tipo": "dato",
+            "titulo": "Respuesta judicial al procés",
+            "contenido": "Encarna la respuesta judicial firme al desafío independentista; visto como garante de la ley por unos y como obstáculo a la «desjudicialización» por otros.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "tribunal-supremo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0142-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0142-ap-03-it-00",
+            "apartado_id": "pod-0142-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carles Puigdemont",
+            "contenido": "**Líder de Junts** (nota -7/10) — Instruye su causa y dictó las euroórdenes; choque jurídico permanente, agravado por la amnistía.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "nota--7",
+              "procesal"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0143",
+    "slug": "carlos-lesmes",
+    "nombre_completo": "Carlos Lesmes Serrano",
+    "alias": "Carlos Lesmes",
+    "cargo_actual": "Expresidente del Tribunal Supremo y del CGPJ",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Presidió el Tribunal Supremo y el CGPJ (2013-2022); dimitió denunciando el bloqueo en la renovación del órgano.",
+    "tags": [
+      "politico",
+      "judicatura",
+      "judicatura"
+    ],
+    "fuente_principal": "https://www.poderjudicial.es",
+    "apartados": [
+      {
+        "id": "pod-0143-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0143-ap-00-it-00",
+            "apartado_id": "pod-0143-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Carlos Lesmes Serrano (Madrid, 1958) fue presidente del Tribunal Supremo y del Consejo General del Poder Judicial entre 2013 y 2022, la máxima autoridad del poder judicial durante casi una década. Magistrado de carrera y exalto cargo del Ministerio de Justicia con gobiernos del PP, dimitió en 2022 en un gesto sin precedentes para denunciar el bloqueo en la renovación del CGPJ, que llevaba más de tres años caducado por la falta de acuerdo entre el PSOE y el PP. Su marcha simbolizó la crisis del gobierno de los jueces.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0143-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0143-ap-01-it-00",
+            "apartado_id": "pod-0143-ap-01",
+            "tipo": "evento",
+            "titulo": "Magistrado y alto cargo",
+            "contenido": "Magistrado de lo contencioso-administrativo, fue director general de Relaciones con la Administración de Justicia con gobiernos del PP antes de regresar a la carrera y llegar al Tribunal Supremo.",
+            "fecha": "1996-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0143-ap-01-it-01",
+            "apartado_id": "pod-0143-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente del TS y del CGPJ",
+            "contenido": "En 2013 fue elegido presidente del Tribunal Supremo y del Consejo General del Poder Judicial, al frente del poder judicial en una etapa de fuerte tensión política.",
+            "fecha": "2013-12-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0143-ap-01-it-02",
+            "apartado_id": "pod-0143-ap-01",
+            "tipo": "evento",
+            "titulo": "El bloqueo del CGPJ",
+            "contenido": "Su mandato quedó marcado por el bloqueo en la renovación del CGPJ desde 2018, con el órgano caducado durante años por la falta de acuerdo entre los grandes partidos.",
+            "fecha": "2018-12-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0143-ap-01-it-03",
+            "apartado_id": "pod-0143-ap-01",
+            "tipo": "evento",
+            "titulo": "La dimisión",
+            "contenido": "En octubre de 2022 dimitió en un gesto sin precedentes, denunciando la dejación de los políticos y la situación insostenible del órgano caducado, lo que aceleró —dos años después— el desbloqueo de la renovación.",
+            "fecha": "2022-10-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0143-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0143-ap-02-it-00",
+            "apartado_id": "pod-0143-ap-02",
+            "tipo": "dato",
+            "titulo": "Independencia y crisis del CGPJ",
+            "contenido": "Defendió la independencia judicial y denunció la instrumentalización política del gobierno de los jueces; su dimisión es un símbolo de la crisis institucional del poder judicial.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "cgpj"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0144",
+    "slug": "juan-carlos-campo",
+    "nombre_completo": "Juan Carlos Campo Moreno",
+    "alias": "Juan Carlos Campo",
+    "cargo_actual": "Magistrado del Tribunal Constitucional",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Magistrado del Tribunal Constitucional y exministro de Justicia de Sánchez.",
+    "tags": [
+      "politico",
+      "judicatura",
+      "judicatura"
+    ],
+    "fuente_principal": "https://www.tribunalconstitucional.es",
+    "apartados": [
+      {
+        "id": "pod-0144-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0144-ap-00-it-00",
+            "apartado_id": "pod-0144-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Juan Carlos Campo Moreno (Osuna, Sevilla, 1961) es magistrado del Tribunal Constitucional desde 2023 y exministro de Justicia. Juez de carrera con larga trayectoria, fue secretario de Estado y vocal del CGPJ, y ejerció de ministro de Justicia en el Gobierno de Pedro Sánchez (2020-2021), donde pilotó reformas legales y la preparación de los indultos a los líderes del procés. Su salto del Ejecutivo al Tribunal Constitucional, a propuesta del Gobierno, fue criticado por la oposición como ejemplo de la politización del órgano de garantías, un debate recurrente en la justicia española.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0144-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0144-ap-01-it-00",
+            "apartado_id": "pod-0144-ap-01",
+            "tipo": "evento",
+            "titulo": "Juez y alto cargo",
+            "contenido": "Juez de carrera, ocupó responsabilidades en el CGPJ y como secretario de Estado de Justicia, combinando la judicatura con la gestión.",
+            "fecha": "2009-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0144-ap-01-it-01",
+            "apartado_id": "pod-0144-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro de Justicia",
+            "contenido": "Fue ministro de Justicia en el Gobierno de Pedro Sánchez entre 2020 y 2021, pilotando reformas legales y la preparación de los indultos a los líderes del procés.",
+            "fecha": "2020-01-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0144-ap-01-it-02",
+            "apartado_id": "pod-0144-ap-01",
+            "tipo": "evento",
+            "titulo": "Magistrado del Constitucional",
+            "contenido": "En 2023 fue nombrado magistrado del Tribunal Constitucional a propuesta del Gobierno, en la renovación que dio mayoría al bloque progresista.",
+            "fecha": "2023-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0144-ap-01-it-03",
+            "apartado_id": "pod-0144-ap-01",
+            "tipo": "evento",
+            "titulo": "Debate sobre la politización",
+            "contenido": "Su salto del Ejecutivo al TC fue criticado por la oposición como muestra de la politización del órgano, en un debate recurrente sobre la independencia de la justicia.",
+            "fecha": "2023-01-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0144-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0144-ap-02-it-00",
+            "apartado_id": "pod-0144-ap-02",
+            "tipo": "dato",
+            "titulo": "Garantías y politización del TC",
+            "contenido": "Como magistrado del Constitucional participa en resoluciones de gran calado político; su trayectoria alimenta el debate sobre la frontera entre política y justicia.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "tribunal-constitucional"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0145",
+    "slug": "maria-luisa-balaguer",
+    "nombre_completo": "María Luisa Balaguer Callejón",
+    "alias": "María Luisa Balaguer",
+    "cargo_actual": "Magistrada del Tribunal Constitucional",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Magistrada del Tribunal Constitucional; catedrática y voz del sector progresista en derechos fundamentales.",
+    "tags": [
+      "politico",
+      "judicatura",
+      "judicatura"
+    ],
+    "fuente_principal": "https://www.tribunalconstitucional.es",
+    "apartados": [
+      {
+        "id": "pod-0145-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0145-ap-00-it-00",
+            "apartado_id": "pod-0145-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "María Luisa Balaguer Callejón (Granada, 1953) es magistrada del Tribunal Constitucional, una de las juristas de referencia del bloque progresista del órgano. Catedrática de Derecho Constitucional, llegó al Tribunal Constitucional en 2017 a propuesta del Senado, y es conocida por sus posiciones avanzadas en materia de derechos fundamentales, igualdad y feminismo, reflejadas en ponencias y votos particulares en asuntos como el aborto o la violencia de género. Encarna el perfil académico y garantista dentro de un tribunal cuya composición es objeto de permanente disputa política entre los bloques. Su voz figura entre las que han marcado la jurisprudencia reciente del tribunal en materia de derechos, en un periodo de máxima exposición pública del órgano de garantías.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0145-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0145-ap-01-it-00",
+            "apartado_id": "pod-0145-ap-01",
+            "tipo": "evento",
+            "titulo": "Catedrática de Derecho Constitucional",
+            "contenido": "Catedrática de Derecho Constitucional, desarrolló una larga carrera académica especializada en derechos fundamentales, igualdad y comunicación audiovisual.",
+            "fecha": "1990-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0145-ap-01-it-01",
+            "apartado_id": "pod-0145-ap-01",
+            "tipo": "evento",
+            "titulo": "Magistrada del Tribunal Constitucional",
+            "contenido": "En 2017 fue elegida magistrada del Tribunal Constitucional a propuesta del Senado, integrándose en el sector progresista del órgano.",
+            "fecha": "2017-03-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0145-ap-01-it-02",
+            "apartado_id": "pod-0145-ap-01",
+            "tipo": "evento",
+            "titulo": "Derechos y feminismo",
+            "contenido": "Es conocida por sus posiciones avanzadas en derechos fundamentales, igualdad de género y feminismo, reflejadas en ponencias y votos particulares.",
+            "fecha": "2020-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0145-ap-01-it-03",
+            "apartado_id": "pod-0145-ap-01",
+            "tipo": "evento",
+            "titulo": "Perfil garantista",
+            "contenido": "Encarna el perfil académico y garantista del tribunal, en un órgano cuya composición y resoluciones son objeto de permanente disputa entre los bloques políticos.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0145-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0145-ap-02-it-00",
+            "apartado_id": "pod-0145-ap-02",
+            "tipo": "dato",
+            "titulo": "Garantismo y derechos fundamentales",
+            "contenido": "Defiende una interpretación avanzada de los derechos fundamentales y la igualdad, en el sector progresista del Tribunal Constitucional.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "judicatura",
+              "tribunal-constitucional"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0146",
+    "slug": "artur-mas",
+    "nombre_completo": "Artur Mas i Gavarró",
+    "alias": "Artur Mas",
+    "cargo_actual": "Expresidente de la Generalitat de Cataluña",
+    "partido": "JUNTS",
+    "foto_url": null,
+    "bio_corta": "Expresidente de la Generalitat (2010-2016); del pujolismo al giro soberanista y la consulta del 9-N.",
+    "tags": [
+      "politico",
+      "junts",
+      "cataluna"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Artur_Mas",
+    "apartados": [
+      {
+        "id": "pod-0146-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0146-ap-00-it-00",
+            "apartado_id": "pod-0146-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Artur Mas i Gavarró (Barcelona, 1956) es expresidente de la Generalitat de Cataluña (2010-2016) y figura clave en el giro del nacionalismo catalán hacia el independentismo. Economista y delfín de Jordi Pujol al frente de Convergència (CiU), gobernó Cataluña durante los años de la crisis y de la eclosión soberanista, impulsando la consulta del 9 de noviembre de 2014, por la que fue inhabilitado. Su apuesta por el «derecho a decidir» transformó CiU y abrió el camino al procés, antes de ceder el liderazgo a Puigdemont y refundar el espacio posconvergente en el PDeCAT.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0146-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0146-ap-01-it-00",
+            "apartado_id": "pod-0146-ap-01",
+            "tipo": "evento",
+            "titulo": "Delfín de Pujol",
+            "contenido": "Economista, se formó en la Generalitat y en Convergència bajo el liderazgo de Jordi Pujol, de quien fue considerado sucesor natural.",
+            "fecha": "2003-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0146-ap-01-it-01",
+            "apartado_id": "pod-0146-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Generalitat",
+            "contenido": "Tras ganar las elecciones de 2010, presidió la Generalitat al frente de CiU, gobernando en plena crisis económica con duros recortes.",
+            "fecha": "2010-12-23",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0146-ap-01-it-02",
+            "apartado_id": "pod-0146-ap-01",
+            "tipo": "evento",
+            "titulo": "El giro soberanista y el 9-N",
+            "contenido": "Ante el auge independentista y el rechazo del Estado a un nuevo pacto fiscal, viró hacia el «derecho a decidir» e impulsó la consulta del 9-N de 2014, por la que fue inhabilitado.",
+            "fecha": "2014-11-09",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0146-ap-01-it-03",
+            "apartado_id": "pod-0146-ap-01",
+            "tipo": "evento",
+            "titulo": "Relevo y PDeCAT",
+            "contenido": "Cedió la presidencia a Carles Puigdemont en 2016 y lideró la refundación del espacio posconvergente en el PDeCAT, manteniendo un papel de referencia en el independentismo moderado.",
+            "fecha": "2016-01-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0146-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0146-ap-02-it-00",
+            "apartado_id": "pod-0146-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo posconvergente",
+            "contenido": "Defiende la independencia de Cataluña desde el espacio liberal y posconvergente; su giro soberanista marcó el inicio del procés.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "independentismo",
+              "cataluna"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0146-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0146-ap-03-it-00",
+            "apartado_id": "pod-0146-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carles Puigdemont",
+            "contenido": "**Líder de Junts** (nota +4/10) — Su sucesor en la Generalitat y en el liderazgo del espacio posconvergente.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junts",
+              "nota-+4",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0147",
+    "slug": "quim-torra",
+    "nombre_completo": "Joaquim «Quim» Torra i Pla",
+    "alias": "Quim Torra",
+    "cargo_actual": "Expresidente de la Generalitat de Cataluña",
+    "partido": "JUNTS",
+    "foto_url": null,
+    "bio_corta": "Expresidente de la Generalitat (2018-2020); designado por Puigdemont, inhabilitado por desobediencia.",
+    "tags": [
+      "politico",
+      "junts",
+      "cataluna"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Quim_Torra",
+    "apartados": [
+      {
+        "id": "pod-0147-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0147-ap-00-it-00",
+            "apartado_id": "pod-0147-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Joaquim «Quim» Torra i Pla (Blanes, Girona, 1962) es expresidente de la Generalitat de Cataluña (2018-2020). Abogado y editor de perfil marcadamente ideológico, fue elegido por Carles Puigdemont desde el extranjero como su sustituto, en plena tensión tras el 1-O. Su mandato, marcado por la confrontación con el Estado, terminó cuando el Tribunal Supremo lo inhabilitó por desobediencia, por negarse a retirar lazos amarillos y una pancarta de los edificios públicos en periodo electoral. Tras ello se apartó de la primera línea política y de las direcciones de los partidos independentistas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0147-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0147-ap-01-it-00",
+            "apartado_id": "pod-0147-ap-01",
+            "tipo": "evento",
+            "titulo": "Editor y activista",
+            "contenido": "Abogado de formación, desarrolló su carrera en el mundo editorial y el activismo cultural independentista, con un perfil ideológico muy marcado.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0147-ap-01-it-01",
+            "apartado_id": "pod-0147-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente «designado» por Puigdemont",
+            "contenido": "Diputado poco conocido, fue designado por Puigdemont desde el extranjero como candidato a la presidencia de la Generalitat, siendo investido en 2018.",
+            "fecha": "2018-05-14",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0147-ap-01-it-02",
+            "apartado_id": "pod-0147-ap-01",
+            "tipo": "evento",
+            "titulo": "Confrontación con el Estado",
+            "contenido": "Su mandato estuvo marcado por la confrontación con el Gobierno central y por la defensa de los presos del procés, con un discurso de máxima tensión.",
+            "fecha": "2019-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0147-ap-01-it-03",
+            "apartado_id": "pod-0147-ap-01",
+            "tipo": "evento",
+            "titulo": "Inhabilitación",
+            "contenido": "El Tribunal Supremo lo inhabilitó en 2020 por desobedecer a la Junta Electoral al no retirar símbolos independentistas de edificios públicos en campaña, lo que puso fin a su presidencia.",
+            "fecha": "2020-09-28",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0147-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0147-ap-02-it-00",
+            "apartado_id": "pod-0147-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo de confrontación",
+            "contenido": "Defendió un independentismo de máxima confrontación con el Estado; tras su inhabilitación se distanció de las direcciones de Junts y ERC.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "independentismo",
+              "cataluna"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0147-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0147-ap-03-it-00",
+            "apartado_id": "pod-0147-ap-03",
+            "tipo": "contacto",
+            "titulo": "Carles Puigdemont",
+            "contenido": "**Líder de Junts** (nota +4/10) — Lo designó como su sucesor en la Generalitat desde el extranjero.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "junts",
+              "nota-+4",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0148",
+    "slug": "pere-aragones",
+    "nombre_completo": "Pere Aragonès i Garcia",
+    "alias": "Pere Aragonès",
+    "cargo_actual": "Expresidente de la Generalitat de Cataluña",
+    "partido": "ERC",
+    "foto_url": null,
+    "bio_corta": "Expresidente de la Generalitat (2021-2024) por ERC; apostó por el diálogo y la desjudicialización.",
+    "tags": [
+      "politico",
+      "erc",
+      "cataluna"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Pere_Aragon%C3%A8s",
+    "apartados": [
+      {
+        "id": "pod-0148-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0148-ap-00-it-00",
+            "apartado_id": "pod-0148-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Pere Aragonès i Garcia (Pineda de Mar, Barcelona, 1982) es expresidente de la Generalitat de Cataluña (2021-2024) y dirigente de ERC. Economista, fue el primer presidente de ERC al frente de la Generalitat en la etapa reciente, apostando por la vía del diálogo y la «desjudicialización» del conflicto (indultos, mesa de diálogo, reforma de la sedición, amnistía) frente a la confrontación. Tras el mal resultado de ERC en las elecciones de 2024, que dieron la presidencia al socialista Salvador Illa, dejó la primera línea política. Su etapa estuvo marcada por la pandemia, la gestión de la sequía y la negociación con el Estado de los traspasos y de una financiación singular para Cataluña.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0148-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0148-ap-01-it-00",
+            "apartado_id": "pod-0148-ap-01",
+            "tipo": "evento",
+            "titulo": "Economista republicano",
+            "contenido": "Economista, militó desde joven en ERC y en las juventudes republicanas, ocupando responsabilidades parlamentarias y de gobierno.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0148-ap-01-it-01",
+            "apartado_id": "pod-0148-ap-01",
+            "tipo": "evento",
+            "titulo": "Vicepresidente con Torra",
+            "contenido": "Fue vicepresidente y conseller de Economía en el Gobierno de Quim Torra, ganando peso como hombre fuerte de ERC en la Generalitat.",
+            "fecha": "2018-06-02",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0148-ap-01-it-02",
+            "apartado_id": "pod-0148-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de la Generalitat",
+            "contenido": "En 2021 fue investido presidente de la Generalitat, el primero de ERC en la etapa reciente, apostando por el diálogo con el Estado y la desjudicialización del conflicto.",
+            "fecha": "2021-05-21",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0148-ap-01-it-03",
+            "apartado_id": "pod-0148-ap-01",
+            "tipo": "evento",
+            "titulo": "Salida tras las elecciones de 2024",
+            "contenido": "Tras el retroceso de ERC en las elecciones de 2024 y la llegada de Salvador Illa a la presidencia, se apartó de la primera línea política.",
+            "fecha": "2024-08-10",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0148-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0148-ap-02-it-00",
+            "apartado_id": "pod-0148-ap-02",
+            "tipo": "dato",
+            "titulo": "Independentismo dialogante",
+            "contenido": "Defendió la vía del diálogo y la desjudicialización (indultos, amnistía) frente a la confrontación, en sintonía con la estrategia posibilista de ERC.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "independentismo"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0148-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0148-ap-03-it-00",
+            "apartado_id": "pod-0148-ap-03",
+            "tipo": "contacto",
+            "titulo": "Oriol Junqueras",
+            "contenido": "**Presidente de ERC** (nota +6/10) — Líder de su partido, con el que después mantuvo tensiones internas.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "erc",
+              "nota-+6",
+              "alianza"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "pod-0148-ap-03-it-01",
+            "apartado_id": "pod-0148-ap-03",
+            "tipo": "contacto",
+            "titulo": "Salvador Illa",
+            "contenido": "**Presidente de la Generalitat de Cataluña** (nota -3/10) — Le sucedió al frente de la Generalitat tras ganar las elecciones de 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psc",
+              "nota--3",
+              "competencia"
+            ],
+            "orden": 1
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0149",
+    "slug": "inigo-urkullu",
+    "nombre_completo": "Iñigo Urkullu Renteria",
+    "alias": "Iñigo Urkullu",
+    "cargo_actual": "Expresidente del Gobierno Vasco (lehendakari)",
+    "partido": "PNV",
+    "foto_url": null,
+    "bio_corta": "Lehendakari entre 2012 y 2024 (PNV); nacionalismo moderado y gestor, predecesor de Pradales.",
+    "tags": [
+      "politico",
+      "pnv",
+      "pais-vasco"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/I%C3%B1igo_Urkullu",
+    "apartados": [
+      {
+        "id": "pod-0149-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0149-ap-00-it-00",
+            "apartado_id": "pod-0149-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Iñigo Urkullu Renteria (Alonsotegi, Bizkaia, 1961) fue presidente del Gobierno Vasco (lehendakari) entre 2012 y 2024, una de las etapas más largas y estables al frente de Euskadi. Dirigente histórico del PNV —presidió el partido (EBB) antes de ser lehendakari—, encarnó un nacionalismo moderado, gestor y pactista, que mantuvo la hegemonía jeltzale durante más de una década en coalición con el PSE-EE. Ejerció además un discreto pero relevante papel mediador en momentos de tensión territorial, como el procés. Cedió el testigo a Imanol Pradales en 2024.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0149-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0149-ap-01-it-00",
+            "apartado_id": "pod-0149-ap-01",
+            "tipo": "evento",
+            "titulo": "Dirigente del PNV",
+            "contenido": "Maestro de formación, hizo carrera en el PNV hasta presidir su máximo órgano, el Euzkadi Buru Batzar (EBB), liderando el partido.",
+            "fecha": "2008-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0149-ap-01-it-01",
+            "apartado_id": "pod-0149-ap-01",
+            "tipo": "evento",
+            "titulo": "Lehendakari",
+            "contenido": "En 2012 fue investido lehendakari, iniciando una larga etapa de gobierno del PNV en coalición habitual con los socialistas del PSE-EE.",
+            "fecha": "2012-12-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0149-ap-01-it-02",
+            "apartado_id": "pod-0149-ap-01",
+            "tipo": "evento",
+            "titulo": "Gestión y mediación",
+            "contenido": "Su mandato se caracterizó por la estabilidad, la gestión y un perfil moderado, además de un discreto papel mediador en momentos de tensión territorial como el procés catalán.",
+            "fecha": "2017-10-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0149-ap-01-it-03",
+            "apartado_id": "pod-0149-ap-01",
+            "tipo": "evento",
+            "titulo": "Relevo en 2024",
+            "contenido": "Tras más de una década, no se presentó a la reelección en 2024 y cedió el liderazgo y la lehendakaritza a Imanol Pradales, en el relevo generacional del PNV.",
+            "fecha": "2024-06-22",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0149-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0149-ap-02-it-00",
+            "apartado_id": "pod-0149-ap-02",
+            "tipo": "dato",
+            "titulo": "Nacionalismo vasco moderado",
+            "contenido": "Defendió un nacionalismo vasco moderado, gestor y pactista, manteniendo la hegemonía del PNV y una relación pragmática con los gobiernos centrales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "pais-vasco"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0149-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0149-ap-03-it-00",
+            "apartado_id": "pod-0149-ap-03",
+            "tipo": "contacto",
+            "titulo": "Imanol Pradales",
+            "contenido": "**Lehendakari (Gobierno Vasco)** (nota +7/10) — Su sucesor al frente del PNV en el Gobierno vasco.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pnv",
+              "nota-+7",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0150",
+    "slug": "ximo-puig",
+    "nombre_completo": "Ximo Puig i Ferrer",
+    "alias": "Ximo Puig",
+    "cargo_actual": "Expresidente de la Generalitat Valenciana",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Expresidente de la Generalitat Valenciana (2015-2023) por el PSPV; lideró el «Botànic». Embajador ante la OCDE.",
+    "tags": [
+      "politico",
+      "psoe",
+      "comunidad-valenciana"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Ximo_Puig",
+    "apartados": [
+      {
+        "id": "pod-0150-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0150-ap-00-it-00",
+            "apartado_id": "pod-0150-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ximo Puig i Ferrer (Morella, Castellón, 1959) es expresidente de la Generalitat Valenciana (2015-2023) y dirigente histórico del PSPV-PSOE. Periodista y exalcalde de Morella, lideró el llamado «Botànic», el gobierno de coalición de izquierdas (PSOE, Compromís y Podemos) que desalojó al PP del poder valenciano tras décadas de hegemonía conservadora. Barón socialista de peso, tras perder la Generalitat en 2023 ante Carlos Mazón fue nombrado embajador de España ante la OCDE, dejando la primera línea de la política autonómica. Su gestión, marcada por la reconstrucción del autogobierno tras años de casos de corrupción del PP y por la reivindicación de una financiación más justa, lo consolidó como uno de los barones de mayor peso del PSOE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0150-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0150-ap-01-it-00",
+            "apartado_id": "pod-0150-ap-01",
+            "tipo": "evento",
+            "titulo": "Periodista y alcalde de Morella",
+            "contenido": "Periodista de profesión, fue alcalde de Morella y presidente de la Diputación de Castellón, forjando un perfil de político de territorio.",
+            "fecha": "2007-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0150-ap-01-it-01",
+            "apartado_id": "pod-0150-ap-01",
+            "tipo": "evento",
+            "titulo": "Líder del PSPV",
+            "contenido": "Asumió el liderazgo del socialismo valenciano y lo reconstruyó como alternativa al PP tras los años de gobiernos conservadores y de casos de corrupción.",
+            "fecha": "2012-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0150-ap-01-it-02",
+            "apartado_id": "pod-0150-ap-01",
+            "tipo": "evento",
+            "titulo": "El «Botànic»",
+            "contenido": "En 2015 fue investido presidente de la Generalitat Valenciana al frente del «Botànic», la coalición de izquierdas que desbancó al PP, revalidando el cargo en 2019.",
+            "fecha": "2015-06-27",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0150-ap-01-it-03",
+            "apartado_id": "pod-0150-ap-01",
+            "tipo": "evento",
+            "titulo": "Embajador ante la OCDE",
+            "contenido": "Tras perder la Generalitat en 2023 frente a Carlos Mazón, fue nombrado embajador de España ante la OCDE, apartándose de la primera línea política.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0150-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0150-ap-02-it-00",
+            "apartado_id": "pod-0150-ap-02",
+            "tipo": "dato",
+            "titulo": "Socialismo valenciano de coalición",
+            "contenido": "Defendió un modelo de coalición de izquierdas y el valencianismo dentro del PSOE, con reivindicaciones de financiación y agua para la Comunidad.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "comunidad-valenciana"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0150-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0150-ap-03-it-00",
+            "apartado_id": "pod-0150-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pedro Sánchez",
+            "contenido": "**Secretario general del PSOE y presidente del Gobierno** (nota +5/10) — Barón socialista leal, recompensado con la embajada ante la OCDE.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+5",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0151",
+    "slug": "miguel-angel-revilla",
+    "nombre_completo": "Miguel Ángel Revilla Roiz",
+    "alias": "Miguel Ángel Revilla",
+    "cargo_actual": "Expresidente de Cantabria y líder del PRC",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Líder histórico del PRC y expresidente de Cantabria; fenómeno televisivo de enorme popularidad.",
+    "tags": [
+      "politico",
+      "prc",
+      "cantabria"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Miguel_%C3%81ngel_Revilla",
+    "apartados": [
+      {
+        "id": "pod-0151-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0151-ap-00-it-00",
+            "apartado_id": "pod-0151-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Miguel Ángel Revilla Roiz (Polaciones, Cantabria, 1943) es un veterano político cántabro, fundador y líder histórico del Partido Regionalista de Cantabria (PRC) y expresidente de Cantabria. Economista y profesor, presidió la comunidad en dos etapas (2003-2011 y 2015-2023), marcando la política cántabra durante décadas con un regionalismo de centro y pactista. Más allá de la gestión, se convirtió en un fenómeno televisivo nacional por su verbo popular, espontáneo y campechano en las tertulias. Perdió la presidencia en 2023 ante el PP de María José Sáenz de Buruaga, aunque mantiene una intensa proyección mediática.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0151-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0151-ap-01-it-00",
+            "apartado_id": "pod-0151-ap-01",
+            "tipo": "evento",
+            "titulo": "Fundador del PRC",
+            "contenido": "Economista y profesor, fundó y lideró durante décadas el Partido Regionalista de Cantabria, una formación de ámbito autonómico y carácter pactista.",
+            "fecha": "1978-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0151-ap-01-it-01",
+            "apartado_id": "pod-0151-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente de Cantabria",
+            "contenido": "Presidió Cantabria en dos etapas (2003-2011 y 2015-2023), gobernando habitualmente en coalición con el PSOE y marcando la política regional.",
+            "fecha": "2003-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0151-ap-01-it-02",
+            "apartado_id": "pod-0151-ap-01",
+            "tipo": "evento",
+            "titulo": "Fenómeno televisivo",
+            "contenido": "Su estilo popular, espontáneo y campechano lo convirtió en un personaje televisivo de enorme popularidad nacional, presente en innumerables tertulias y programas.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0151-ap-01-it-03",
+            "apartado_id": "pod-0151-ap-01",
+            "tipo": "evento",
+            "titulo": "Fin de etapa",
+            "contenido": "Perdió la presidencia de Cantabria en 2023 ante el PP de María José Sáenz de Buruaga, cerrando una larguísima etapa al frente de la comunidad.",
+            "fecha": "2023-07-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0151-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0151-ap-02-it-00",
+            "apartado_id": "pod-0151-ap-02",
+            "tipo": "dato",
+            "titulo": "Regionalismo cántabro pactista",
+            "contenido": "Defiende los intereses de Cantabria desde un regionalismo de centro y pactista, con un estilo personal directo y enorme popularidad mediática.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "prc",
+              "cantabria"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0151-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0151-ap-03-it-00",
+            "apartado_id": "pod-0151-ap-03",
+            "tipo": "contacto",
+            "titulo": "María José Sáenz de Buruaga",
+            "contenido": "**Presidenta de Cantabria** (nota -3/10) — Le arrebató la presidencia de la comunidad en 2023.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "pp",
+              "nota--3",
+              "competencia"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0152",
+    "slug": "ada-colau",
+    "nombre_completo": "Ada Colau Ballano",
+    "alias": "Ada Colau",
+    "cargo_actual": "Exalcaldesa de Barcelona",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Exalcaldesa de Barcelona (2015-2023); del activismo de la PAH al municipalismo de los comunes.",
+    "tags": [
+      "politico",
+      "comunes",
+      "cataluna"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Ada_Colau",
+    "apartados": [
+      {
+        "id": "pod-0152-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0152-ap-00-it-00",
+            "apartado_id": "pod-0152-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Ada Colau Ballano (Barcelona, 1974) es exalcaldesa de Barcelona (2015-2023) y referente del activismo y la izquierda alternativa. Surgida del movimiento social como portavoz de la Plataforma de Afectados por la Hipoteca (PAH) durante la crisis de los desahucios, dio el salto a la política con Barcelona en Comú y se convirtió en la primera mujer alcaldesa de Barcelona, en la estela del 15-M y los «ayuntamientos del cambio». Gobernó dos mandatos con una agenda de vivienda, regulación turística y movilidad, antes de perder la alcaldía en 2023 frente al socialista Jaume Collboni.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0152-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0152-ap-01-it-00",
+            "apartado_id": "pod-0152-ap-01",
+            "tipo": "evento",
+            "titulo": "Activista de la PAH",
+            "contenido": "Se dio a conocer como portavoz de la Plataforma de Afectados por la Hipoteca (PAH), liderando la lucha contra los desahucios durante la crisis económica.",
+            "fecha": "2009-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0152-ap-01-it-01",
+            "apartado_id": "pod-0152-ap-01",
+            "tipo": "evento",
+            "titulo": "Alcaldesa de Barcelona",
+            "contenido": "En 2015, al frente de Barcelona en Comú, se convirtió en la primera mujer alcaldesa de Barcelona, símbolo de los «ayuntamientos del cambio» surgidos del 15-M.",
+            "fecha": "2015-06-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0152-ap-01-it-02",
+            "apartado_id": "pod-0152-ap-01",
+            "tipo": "evento",
+            "titulo": "Dos mandatos municipalistas",
+            "contenido": "Gobernó dos mandatos (revalidó en 2019 con el apoyo del PSC) con una agenda de vivienda, regulación del turismo, movilidad sostenible y derechos sociales, no exenta de polémica.",
+            "fecha": "2019-06-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0152-ap-01-it-03",
+            "apartado_id": "pod-0152-ap-01",
+            "tipo": "evento",
+            "titulo": "Fin de etapa",
+            "contenido": "Perdió la alcaldía en 2023 frente al socialista Jaume Collboni, manteniéndose como una de las voces de referencia del espacio de los comunes y la izquierda alternativa.",
+            "fecha": "2023-06-17",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0152-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0152-ap-02-it-00",
+            "apartado_id": "pod-0152-ap-02",
+            "tipo": "dato",
+            "titulo": "Municipalismo de izquierda alternativa",
+            "contenido": "Defiende un municipalismo transformador centrado en la vivienda, el decrecimiento turístico y los derechos sociales, en el espacio de los comunes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "comunes",
+              "cataluna"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0152-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0152-ap-03-it-00",
+            "apartado_id": "pod-0152-ap-03",
+            "tipo": "contacto",
+            "titulo": "Jaume Collboni",
+            "contenido": "**Alcalde de Barcelona** (nota -3/10) — Le arrebató la alcaldía en 2023 con apoyo de PP y comunes.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psc",
+              "nota--3",
+              "competencia"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0153",
+    "slug": "jose-bono",
+    "nombre_completo": "José Bono Martínez",
+    "alias": "José Bono",
+    "cargo_actual": "Expresidente del Congreso y exministro de Defensa",
+    "partido": "PSOE",
+    "foto_url": null,
+    "bio_corta": "Histórico barón del PSOE; expresidente de Castilla-La Mancha, exministro de Defensa y expresidente del Congreso.",
+    "tags": [
+      "politico",
+      "psoe",
+      "castilla-la-mancha"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Jos%C3%A9_Bono",
+    "apartados": [
+      {
+        "id": "pod-0153-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0153-ap-00-it-00",
+            "apartado_id": "pod-0153-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "José Bono Martínez (Salobre, Albacete, 1950) es un veterano dirigente histórico del PSOE, expresidente de Castilla-La Mancha, exministro de Defensa y expresidente del Congreso de los Diputados. Abogado, fue uno de los grandes barones territoriales del socialismo, presidiendo Castilla-La Mancha durante más de dos décadas (1983-2004). Después fue ministro de Defensa con Rodríguez Zapatero y presidente del Congreso. De perfil moderado, católico y monárquico, sigue siendo una voz pública del socialismo más clásico, con frecuentes intervenciones y memorias de gran repercusión.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0153-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0153-ap-01-it-00",
+            "apartado_id": "pod-0153-ap-01",
+            "tipo": "evento",
+            "titulo": "Barón de Castilla-La Mancha",
+            "contenido": "Abogado, presidió la Junta de Comunidades de Castilla-La Mancha desde 1983 durante más de dos décadas, como uno de los grandes barones territoriales del PSOE.",
+            "fecha": "1983-05-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0153-ap-01-it-01",
+            "apartado_id": "pod-0153-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro de Defensa",
+            "contenido": "Fue ministro de Defensa en el primer Gobierno de José Luis Rodríguez Zapatero (2004-2006), gestionando la retirada de las tropas de Irak y la modernización de las Fuerzas Armadas.",
+            "fecha": "2004-04-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0153-ap-01-it-02",
+            "apartado_id": "pod-0153-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidente del Congreso",
+            "contenido": "Entre 2008 y 2011 presidió el Congreso de los Diputados, la tercera autoridad del Estado, con un perfil institucional y moderado.",
+            "fecha": "2008-04-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0153-ap-01-it-03",
+            "apartado_id": "pod-0153-ap-01",
+            "tipo": "evento",
+            "titulo": "Voz del socialismo clásico",
+            "contenido": "Retirado de los cargos, mantiene una intensa actividad pública como voz del socialismo más clásico, moderado y monárquico, con memorias y declaraciones de gran repercusión.",
+            "fecha": "2015-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0153-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0153-ap-02-it-00",
+            "apartado_id": "pod-0153-ap-02",
+            "tipo": "dato",
+            "titulo": "Socialismo clásico y moderado",
+            "contenido": "Defiende un socialismo moderado, constitucionalista y monárquico, con frecuentes críticas matizadas al rumbo del partido en cuestiones territoriales.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "historico"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0153-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0153-ap-03-it-00",
+            "apartado_id": "pod-0153-ap-03",
+            "tipo": "contacto",
+            "titulo": "Felipe González",
+            "contenido": "**Expresidente del Gobierno** (nota +6/10) — Comparte la sensibilidad del socialismo histórico y clásico.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "psoe",
+              "nota-+6",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
+  },
+  {
+    "id": "pod-0154",
+    "slug": "alberto-garzon",
+    "nombre_completo": "Alberto Garzón Espinosa",
+    "alias": "Alberto Garzón",
+    "cargo_actual": "Exministro de Consumo y excoordinador de IU",
+    "partido": null,
+    "foto_url": null,
+    "bio_corta": "Excoordinador federal de IU y exministro de Consumo; economista de la generación del 15-M.",
+    "tags": [
+      "politico",
+      "izquierda-unida",
+      "izquierda"
+    ],
+    "fuente_principal": "https://es.wikipedia.org/wiki/Alberto_Garz%C3%B3n",
+    "apartados": [
+      {
+        "id": "pod-0154-ap-00",
+        "tipo": "identidad",
+        "titulo": null,
+        "resumen": null,
+        "orden": 0,
+        "items": [
+          {
+            "id": "pod-0154-ap-00-it-00",
+            "apartado_id": "pod-0154-ap-00",
+            "tipo": "dato",
+            "titulo": "Perfil",
+            "contenido": "Alberto Garzón Espinosa (Logroño, 1985) es un economista y político, excoordinador federal de Izquierda Unida y exministro de Consumo. De la generación surgida en la crisis y el 15-M, fue uno de los rostros jóvenes de la izquierda, diputado por IU integrado en las confluencias de Unidas Podemos. Como ministro de Consumo (2020-2023) impulsó la regulación de la publicidad del juego y de los alimentos, y protagonizó polémicas como la de las macrogranjas o el consumo de carne. Tras dejar la política activa, se ha orientado a la divulgación económica.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0154-ap-01",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0154-ap-01-it-00",
+            "apartado_id": "pod-0154-ap-01",
+            "tipo": "evento",
+            "titulo": "Economista del 15-M",
+            "contenido": "Economista, se dio a conocer como diputado de IU muy joven, en la estela del 15-M, con un perfil de divulgación de la economía crítica.",
+            "fecha": "2011-11-20",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0154-ap-01-it-01",
+            "apartado_id": "pod-0154-ap-01",
+            "tipo": "evento",
+            "titulo": "Coordinador de IU",
+            "contenido": "Asumió la coordinación federal de Izquierda Unida, integrando a la formación en las confluencias de Unidos/Unidas Podemos.",
+            "fecha": "2016-06-12",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0154-ap-01-it-02",
+            "apartado_id": "pod-0154-ap-01",
+            "tipo": "evento",
+            "titulo": "Ministro de Consumo",
+            "contenido": "Fue ministro de Consumo en el Gobierno de coalición (2020-2023), impulsando la regulación del juego y la publicidad alimentaria, con polémicas como la de las macrogranjas.",
+            "fecha": "2020-01-13",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          },
+          {
+            "id": "pod-0154-ap-01-it-03",
+            "apartado_id": "pod-0154-ap-01",
+            "tipo": "evento",
+            "titulo": "Divulgación económica",
+            "contenido": "Tras no repetir en las listas de 2023, dejó la primera línea política y se orientó a la divulgación y el análisis económico.",
+            "fecha": "2023-08-17",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 3
+          }
+        ]
+      },
+      {
+        "id": "pod-0154-ap-02",
+        "tipo": "posiciones",
+        "titulo": null,
+        "resumen": null,
+        "orden": 2,
+        "items": [
+          {
+            "id": "pod-0154-ap-02-it-00",
+            "apartado_id": "pod-0154-ap-02",
+            "tipo": "dato",
+            "titulo": "Izquierda y economía crítica",
+            "contenido": "Defiende posiciones de izquierda transformadora y de crítica al modelo económico, con un perfil de divulgador más que de aparato.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda-unida",
+              "izquierda"
+            ],
+            "orden": 0
+          }
+        ]
+      },
+      {
+        "id": "pod-0154-ap-03",
+        "tipo": "redes",
+        "titulo": null,
+        "resumen": null,
+        "orden": 3,
+        "items": [
+          {
+            "id": "pod-0154-ap-03-it-00",
+            "apartado_id": "pod-0154-ap-03",
+            "tipo": "contacto",
+            "titulo": "Pablo Iglesias Turrión",
+            "contenido": "**Fundador de Podemos** (nota +5/10) — Compañero de espacio en las confluencias de Unidas Podemos.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [
+              "izquierda",
+              "nota-+5",
+              "alianza"
+            ],
+            "orden": 0
+          }
+        ]
+      }
+    ],
+    "created_at": "2026-05-29T15:17:58.246721Z",
+    "updated_at": "2026-05-29T15:17:58.246721Z"
   }
 ]
 

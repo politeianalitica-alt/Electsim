@@ -1233,7 +1233,7 @@
       "transicion-ecologica"
     ],
     "confidence": 0.92,
-    "completeness": 0.75,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1242,7 +1242,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1969. Licenciada en Derecho (Universidad Complutense). Cuerpo Superior de Administradores Civiles del Estado."
+            "contenido": "Teresa Ribera Rodríguez (Madrid, 1969) es vicepresidenta ejecutiva de la Comisión Europea para una Transición Limpia, Justa y Competitiva y responsable de Competencia, uno de los cargos más poderosos de la UE. Jurista y alta funcionaria especializada en medio ambiente, fue vicepresidenta del Gobierno de España y ministra para la Transición Ecológica con Pedro Sánchez, donde pilotó la política climática y energética del país. En 2024 dio el salto a Bruselas como número dos de Ursula von der Leyen, con enorme poder sobre la competencia, las ayudas de Estado y la agenda verde europea."
           }
         ]
       },
@@ -1252,26 +1252,26 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Secretaria Cambio Climático",
-            "contenido": "Secretaria de Estado de Cambio Climático con Zapatero (2008-2011).",
-            "fecha": "2008-04-15"
+            "titulo": "Alta funcionaria del clima",
+            "contenido": "Jurista y técnica de la Administración, se especializó en cambio climático, dirigiendo la oficina española de cambio climático y un think tank internacional (IDDRI) en París.",
+            "fecha": "2008-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Directora IDDRI",
-            "contenido": "Directora del Institut du Développement Durable et des Relations Internationales (París) 2014-2018.",
-            "fecha": "2014-03-01"
-          },
-          {
-            "tipo": "evento",
-            "titulo": "Ministra Transición",
-            "contenido": "Ministra de Transición Ecológica 2018-2024. Vicepresidenta tercera 2020-2023, segunda 2023-2024.",
+            "titulo": "Ministra de Transición Ecológica",
+            "contenido": "En 2018 entró en el Gobierno de Pedro Sánchez como ministra para la Transición Ecológica y, después, vicepresidenta, pilotando la política energética, climática y de despoblación.",
             "fecha": "2018-06-07"
           },
           {
             "tipo": "evento",
-            "titulo": "Comisión Europea",
-            "contenido": "Vicepresidenta ejecutiva en la Comisión von der Leyen II desde diciembre 2024.",
+            "titulo": "La gestión energética",
+            "contenido": "Lideró la respuesta española a la crisis energética y los precios de la electricidad, la «excepción ibérica» y la planificación del cierre de las nucleares y el carbón, con una apuesta ambiciosa por las renovables.",
+            "fecha": "2021-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vicepresidenta de la Comisión Europea",
+            "contenido": "En 2024 fue nombrada vicepresidenta ejecutiva de la Comisión Europea para la Transición Limpia y responsable de Competencia, uno de los cargos comunitarios de mayor poder, con la regulación de las grandes empresas en sus manos.",
             "fecha": "2024-12-01"
           }
         ]
@@ -1295,6 +1295,15 @@
             "tags": [
               "mibel",
               "tope-gas"
+            ]
+          },
+          {
+            "tipo": "dato",
+            "titulo": "Agenda verde y competencia europea",
+            "contenido": "Defiende una transición ecológica ambiciosa y, desde Bruselas, una política de competencia que combine el cumplimiento de las reglas con la autonomía estratégica europea.",
+            "tags": [
+              "transicion-ecologica",
+              "ue"
             ]
           }
         ]
