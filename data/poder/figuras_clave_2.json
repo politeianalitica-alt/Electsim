@@ -574,7 +574,7 @@
       "izquierda"
     ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -583,7 +583,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1978. Profesor de Ciencia Política. Fundó Podemos en 2014 tras el 15-M. Hoy comunicador (Canal Red) y referente ideológico."
+            "contenido": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo en 2014. Profesor de Ciencia Política, hoy dirige el medio Canal Red y mantiene una influencia notable en el espacio de la izquierda alternativa."
           }
         ]
       },
@@ -593,15 +593,21 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Fundación de Podemos",
-            "contenido": "Funda Podemos en 2014; irrupción en el Congreso en 2015-2016.",
+            "titulo": "Del 15-M a Podemos",
+            "contenido": "Politólogo y tertuliano (La Tuerka), capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y luego en las generales, rompiendo el bipartidismo.",
             "fecha": "2014-01-16"
           },
           {
             "tipo": "evento",
-            "titulo": "Vicepresidente",
-            "contenido": "Vicepresidente segundo del Gobierno de coalición 2020-2021. Dejó el cargo tras las elecciones de Madrid de 2021.",
+            "titulo": "Vicepresidente del Gobierno",
+            "contenido": "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras las elecciones madrileñas.",
             "fecha": "2020-01-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Canal Red y la batalla mediática",
+            "contenido": "Apartado de la primera línea, fundó Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y con el espacio de Sumar.",
+            "fecha": "2021-05-04"
           }
         ]
       },
@@ -679,7 +685,7 @@
       "diplomacia"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -688,7 +694,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Pobla de Segur (Lleida), 1947. Ingeniero aeronáutico y economista. Larga carrera nacional y europea en el PSOE."
+            "contenido": "Josep Borrell (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero y economista, fue ministro, presidente del Parlamento Europeo y Alto Representante de la UE para Asuntos Exteriores, el cargo diplomático más alto de Europa."
           }
         ]
       },
@@ -698,15 +704,15 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Alto Representante UE",
-            "contenido": "Jefe de la diplomacia europea 2019-2024 (Comisión Von der Leyen I): guerra de Ucrania, Oriente Medio, relación con China.",
-            "fecha": "2019-12-01"
+            "titulo": "Ministro y presidente del Parlamento Europeo",
+            "contenido": "Ministro de Obras Públicas con Felipe González, ganó las primarias del PSOE en 1998 y presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.",
+            "fecha": "2004-07-20"
           },
           {
             "tipo": "evento",
-            "titulo": "Ministro de Exteriores",
-            "contenido": "Ministro de Asuntos Exteriores con Pedro Sánchez (2018-2019) antes de saltar a la UE.",
-            "fecha": "2018-06-07"
+            "titulo": "Ministro de Exteriores y Alto Representante",
+            "contenido": "Volvió a la primera línea como ministro de Exteriores con Sánchez (2018) y, desde 2019, fue Alto Representante de la UE y vicepresidente de la Comisión, pilotando la respuesta europea a la guerra de Ucrania y a Oriente Próximo.",
+            "fecha": "2019-12-01"
           }
         ]
       },
@@ -764,7 +770,7 @@
       "bei"
     ],
     "confidence": 0.85,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -773,7 +779,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en A Coruña, 1968. Economista y abogada. Alta funcionaria de la Comisión Europea antes de su etapa ministerial. Perfil técnico-independiente."
+            "contenido": "Nadia Calviño (A Coruña, 1968) es presidenta del Banco Europeo de Inversiones (BEI), la mayor institución financiera multilateral del mundo. Economista y alta funcionaria, fue vicepresidenta primera y ministra de Economía del Gobierno de España, donde pilotó la política económica y los fondos europeos."
           }
         ]
       },
@@ -783,14 +789,20 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Vicepresidenta económica",
-            "contenido": "Ministra de Economía y vicepresidenta del Gobierno 2018-2023; gestión de la pandemia y los fondos Next Generation.",
+            "titulo": "De Bruselas al Gobierno",
+            "contenido": "Funcionaria de prestigio, fue directora general de Presupuestos de la Comisión Europea antes de incorporarse al Gobierno de Sánchez como ministra de Economía en 2018.",
             "fecha": "2018-06-07"
           },
           {
             "tipo": "evento",
-            "titulo": "Presidenta del BEI",
-            "contenido": "Asume la presidencia del Banco Europeo de Inversiones en 2024.",
+            "titulo": "Vicepresidenta económica",
+            "contenido": "Como vicepresidenta primera, gestionó la respuesta económica a la pandemia y el despliegue de los fondos Next Generation, con un perfil de ortodoxia y credibilidad ante los mercados y Bruselas.",
+            "fecha": "2020-01-13"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidencia del BEI",
+            "contenido": "En 2024 asumió la presidencia del Banco Europeo de Inversiones, primera española al frente de una gran institución financiera multilateral.",
             "fecha": "2024-01-01"
           }
         ]
@@ -1214,7 +1226,7 @@
       "psoe"
     ],
     "confidence": 0.8,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1223,7 +1235,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santander, 1946. Catedrático de Sociología. Histórico militante del PSOE. Preside el CIS desde 2018."
+            "contenido": "José Félix Tezanos (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el principal instituto demoscópico público de España. Catedrático de Sociología y teórico histórico del PSOE, sus encuestas y su metodología son objeto de polémica recurrente."
           }
         ]
       },
@@ -1292,6 +1304,24 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Sociólogo y dirigente socialista",
+            "contenido": "Catedrático de Sociología en la UNED y figura intelectual del PSOE durante décadas, dirigió la revista 'Temas para el Debate' y teorizó sobre la socialdemocracia.",
+            "fecha": "1980-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidencia del CIS",
+            "contenido": "Nombrado presidente del CIS en 2018, defendió un modelo de estimación ('cocina') que ajusta los datos brutos. Sus sondeos, a menudo más favorables al PSOE que otros, han alimentado el debate sobre la independencia del organismo.",
+            "fecha": "2018-06-29"
+          }
+        ]
       }
     ]
   },
@@ -1310,7 +1340,7 @@
       "psoe"
     ],
     "confidence": 0.8,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1319,7 +1349,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en San Sebastián, 1949. Catedrático de Filosofía y ex rector de la UAM. Ministro de Educación (2009-2011) y candidato del PSOE en Madrid."
+            "contenido": "Ángel Gabilondo (San Sebastián, 1949) es Defensor del Pueblo, la alta institución que supervisa a las administraciones y defiende los derechos de los ciudadanos. Catedrático de Filosofía y exministro de Educación, llegó al cargo tras una larga carrera académica y política."
           }
         ]
       },
@@ -1370,9 +1400,16 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "De ministro a Defensor del Pueblo",
-            "contenido": "Exministro de Educación y excandidato del PSOE a la Comunidad de Madrid, fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que supervisa a las administraciones y tramita el polémico informe sobre los abusos en la Iglesia."
+            "tipo": "evento",
+            "titulo": "Universidad y Ministerio",
+            "contenido": "Catedrático de Filosofía y rector de la Universidad Autónoma de Madrid, fue ministro de Educación en el último Gobierno de Zapatero (2009-2011).",
+            "fecha": "2009-04-07"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Política y Defensor del Pueblo",
+            "contenido": "Fue candidato del PSOE a la Comunidad de Madrid en varias elecciones. En 2021 fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que tramitó el polémico informe sobre los abusos en la Iglesia.",
+            "fecha": "2021-11-18"
           }
         ]
       }
@@ -1393,7 +1430,7 @@
       "historico"
     ],
     "confidence": 0.78,
-    "completeness": 0.63,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1402,7 +1439,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1944. Director fundador de El País (1976-1988) y luego consejero delegado y presidente de PRISA."
+            "contenido": "Juan Luis Cebrián (Madrid, 1944) es una figura histórica del periodismo y el poder mediático español. Primer director de El País y después consejero delegado y presidente de PRISA, construyó y dirigió durante décadas el mayor grupo de comunicación de la izquierda."
           }
         ]
       },
@@ -1444,9 +1481,15 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Fundador de El País",
-            "contenido": "Primer director de El País (1976) y después consejero delegado y presidente de PRISA durante décadas. Figura central del poder mediático de la Transición y de la construcción del grupo de comunicación más influyente de la izquierda.",
+            "titulo": "Fundador y director de El País",
+            "contenido": "Fue el primer director de El País (1976), el diario que se convirtió en referencia de la Transición y del progresismo. Académico de la RAE, marcó la línea editorial del periódico durante años.",
             "fecha": "1976-05-04"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "La era PRISA",
+            "contenido": "Como consejero delegado y luego presidente de PRISA, lideró la expansión del grupo (Cadena SER, Canal+, Santillana) y su salida a bolsa, antes de las guerras accionariales que acabaron desplazándolo.",
+            "fecha": "1988-01-01"
           }
         ]
       }
@@ -1466,7 +1509,7 @@
       "no-ibex"
     ],
     "confidence": 0.78,
-    "completeness": 0.63,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1475,7 +1518,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1952. Inversora vía Omega Capital. Coleccionista de arte de prestigio internacional."
+            "contenido": "Alicia Koplowitz (Madrid, 1952), marquesa de Bellavista, es una de las grandes fortunas e inversoras de España. Tras su etapa en la constructora FCC, gestiona su patrimonio a través del family office Omega Capital y es una de las mayores coleccionistas y mecenas de arte del país."
           }
         ]
       },
@@ -1525,9 +1568,16 @@
         "orden": 3,
         "items": [
           {
-            "tipo": "dato",
+            "tipo": "evento",
+            "titulo": "La era FCC",
+            "contenido": "Junto a su hermana Esther, heredó y dirigió el grupo Construcciones y Contratas (FCC), uno de los gigantes de la obra pública española, del que se desligó tras repartir el patrimonio familiar.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
             "titulo": "Omega Capital y el arte",
-            "contenido": "Tras separar su patrimonio del de su hermana Esther y salir de FCC, gestiona su fortuna a través del family office Omega Capital, con inversiones diversificadas, y es una de las grandes coleccionistas y mecenas de arte de España."
+            "contenido": "Desde Omega Capital invierte en cotizadas, inmobiliario y capital riesgo con un perfil discreto. Su colección de arte y su fundación la sitúan entre los grandes mecenas culturales.",
+            "fecha": "2000-01-01"
           }
         ]
       }
@@ -1548,7 +1598,7 @@
       "juego"
     ],
     "confidence": 0.76,
-    "completeness": 0.6,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1557,7 +1607,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Almería, 1944. Fundó Cirsa (juego y apuestas). Tras venderla a Blackstone, invierte vía Nortia Capital."
+            "contenido": "Manuel Lao Hernández (Granada, 1944) es uno de los grandes empresarios y fortunas de España, fundador del gigante del juego Cirsa. Tras vender la compañía, gestiona su patrimonio diversificado a través del family office Nortia, con un perfil de extrema discreción."
           }
         ]
       },
@@ -1599,8 +1649,14 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "La venta de Cirsa",
-            "contenido": "Fundó y desarrolló Cirsa hasta convertirla en un gigante europeo del juego, que vendió al fondo Blackstone, operación que cristalizó una de las mayores fortunas del país. Reinvierte a través de su family office Nortia.",
+            "titulo": "De las máquinas a Cirsa",
+            "contenido": "Construyó desde Cataluña, partiendo del negocio de máquinas recreativas, uno de los mayores grupos de juego y ocio de Europa (Cirsa), con presencia en casinos, salones y apuestas en España y Latinoamérica.",
+            "fecha": "1978-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Venta a Blackstone y Nortia",
+            "contenido": "En 2018 vendió Cirsa al fondo Blackstone, cristalizando una de las mayores fortunas del país, que hoy reinvierte a través de su holding Nortia en cotizadas, inmobiliario y energía.",
             "fecha": "2018-05-01"
           }
         ]
@@ -1791,7 +1847,7 @@
       "historico"
     ],
     "confidence": 0.8,
-    "completeness": 0.63,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1800,7 +1856,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sevilla, 1940. Arquitecto del PSOE moderno junto a Felipe González. Vicepresidente del Gobierno 1982-1991."
+            "contenido": "Alfonso Guerra (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y hoy es una de las voces críticas más duras con el rumbo del PSOE de Sánchez."
           }
         ]
       },
@@ -1845,6 +1901,30 @@
             "fuente_url": "https://es.wikipedia.org/wiki/Alfonso_Guerra"
           }
         ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "El arquitecto del PSOE",
+            "contenido": "Hombre de confianza de Felipe González desde Suresnes, diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo.",
+            "fecha": "1974-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Vicepresidente del Gobierno",
+            "contenido": "Fue vicepresidente del Gobierno (1982-1991), pieza clave de la modernización de España, hasta que el caso de su hermano Juan precipitó su salida del Ejecutivo.",
+            "fecha": "1982-12-03"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Voz crítica",
+            "contenido": "Retirado de la primera línea, preside la Fundación Pablo Iglesias y se ha convertido en uno de los críticos más severos con los pactos del Gobierno con el independentismo y la amnistía.",
+            "fecha": "2023-01-01"
+          }
+        ]
       }
     ]
   },
@@ -1863,7 +1943,7 @@
       "internacional"
     ],
     "confidence": 0.82,
-    "completeness": 0.66,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1872,7 +1952,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Bruselas, 1958. Médico y política alemana (CDU/PPE). Presidenta de la Comisión Europea desde 2019."
+            "contenido": "Ursula von der Leyen (Bruselas, 1958) es presidenta de la Comisión Europea, la institución que propone la legislación de la UE y gestiona los fondos comunitarios. Médico de formación y veterana de la política alemana, es una de las figuras más poderosas de Europa y decisiva para España como gran receptora de fondos."
           }
         ]
       },
@@ -1929,8 +2009,14 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "De ministra de Merkel a la Comisión",
-            "contenido": "Ministra durante años en los gobiernos de Angela Merkel, preside la Comisión Europea desde 2019, reelegida en 2024. Pilota la respuesta europea en pandemia, energía y la guerra de Ucrania.",
+            "titulo": "Ministra de Merkel",
+            "contenido": "Pediatra y madre de siete hijos, hizo carrera en la CDU alemana y fue ministra durante años en los gobiernos de Angela Merkel (Trabajo, Familia y, finalmente, Defensa).",
+            "fecha": "2005-11-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta de la Comisión Europea",
+            "contenido": "En 2019 fue elegida presidenta de la Comisión Europea, reelegida en 2024. Pilotó el plan de recuperación pos-pandemia (del que España es gran beneficiaria), el Pacto Verde y la respuesta a la guerra de Ucrania.",
             "fecha": "2019-12-01"
           }
         ]

@@ -852,7 +852,7 @@
       "cgpj"
     ],
     "confidence": 0.85,
-    "completeness": 0.72,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -861,7 +861,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Magistrada del Tribunal Supremo (Sala de lo Contencioso-Administrativo). Hito histórico: primera mujer al frente del poder judicial español."
+            "contenido": "Isabel Perelló (Valencia, 1958) es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en ocupar la cúspide del poder judicial español. Magistrada de prestigio, accedió al cargo en 2024 tras el desbloqueo de la renovación del CGPJ."
           }
         ]
       },
@@ -871,8 +871,14 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Elección consensuada",
-            "contenido": "Elegida en septiembre 2024 por el nuevo CGPJ, renovado tras 5 años de bloqueo, mediante acuerdo PSOE-PP mediado por la Comisión Europea.",
+            "titulo": "Carrera en la magistratura",
+            "contenido": "Magistrada de larga trayectoria, llegó a la Sala de lo Contencioso-Administrativo del Tribunal Supremo, donde se ganó la reputación de jurista rigurosa e independiente.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidenta del TS y del CGPJ",
+            "contenido": "En 2024, tras cinco años de bloqueo político en la renovación del CGPJ, fue elegida por consenso presidenta del Tribunal Supremo y del Consejo, con el reto de despolitizar el órgano de gobierno de los jueces.",
             "fecha": "2024-09-05"
           }
         ]
@@ -1422,7 +1428,7 @@
       "competencia"
     ],
     "confidence": 0.8,
-    "completeness": 0.73,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -1431,7 +1437,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Abogada del Estado en excedencia y especialista en derecho de la competencia (ex socia de Cuatrecasas). Presidenta de la CNMC desde 2020."
+            "contenido": "Cani Fernández (1968) es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el superregulador que vigila la competencia y los sectores de energía, telecomunicaciones y transporte. Abogada especialista en competencia, su criterio condiciona fusiones y precios en toda la economía."
           }
         ]
       },
@@ -1495,9 +1501,16 @@
         "orden": 4,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "De Cuatrecasas y Luxemburgo a la CNMC",
-            "contenido": "Abogada especialista en competencia, trabajó en Cuatrecasas y como letrada en el Tribunal de Justicia de la UE antes de presidir la Comisión Nacional de los Mercados y la Competencia."
+            "tipo": "evento",
+            "titulo": "Especialista en competencia",
+            "contenido": "Abogada del Estado y socia de competencia en Cuatrecasas, fue letrada en el Tribunal de Justicia de la Unión Europea, donde se forjó como una de las grandes expertas en derecho de la competencia.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidencia de la CNMC",
+            "contenido": "Desde 2020 preside la CNMC, organismo que autoriza concentraciones, sanciona cárteles y regula la energía y las telecos. Sus decisiones afectan directamente a las grandes cotizadas y a la factura de los consumidores.",
+            "fecha": "2020-09-15"
           }
         ]
       }
@@ -2681,7 +2694,7 @@
       "madrid"
     ],
     "confidence": 0.8,
-    "completeness": 0.62,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -2690,7 +2703,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en 1956. Veterano estratega de comunicación del PP. Secretario de Estado de Comunicación con José María Aznar (1996-1998). Hoy mano derecha mediática de Ayuso."
+            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), 'MAR', es jefe de gabinete de la presidenta de la Comunidad de Madrid, Isabel Díaz Ayuso, y uno de los estrategas de comunicación más influyentes y polémicos de la derecha española. Exsecretario de Estado con Aznar, es el cerebro comunicativo del 'efecto Ayuso'."
           }
         ]
       },
@@ -2738,6 +2751,24 @@
             "tipo": "documento",
             "titulo": "Comunidad de Madrid",
             "fuente_url": "https://www.comunidad.madrid"
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Secretario de Estado con Aznar",
+            "contenido": "Periodista de profesión, fue secretario de Estado de Comunicación en el primer Gobierno de Aznar, donde se forjó como uno de los grandes spin doctors de la derecha.",
+            "fecha": "1996-05-05"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El cerebro de Ayuso",
+            "contenido": "Como jefe de gabinete de Díaz Ayuso, diseña su estrategia de confrontación con el Gobierno central y su comunicación, en el centro de polémicas como la del correo sobre el novio de la presidenta.",
+            "fecha": "2019-08-01"
           }
         ]
       }

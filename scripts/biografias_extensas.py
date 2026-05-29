@@ -275,6 +275,123 @@ BIOS: dict[str, dict] = {
             ("Procedimiento judicial abierto", "Desde 2024 está siendo investigada por un juzgado de Madrid en una causa sobre presuntos tráfico de influencias y otros delitos en torno a su actividad. La causa sigue su curso y rige plenamente la presunción de inocencia mientras no haya sentencia firme.", "2024-04-23"),
         ],
     },
+
+    # ── 3er lote · más poder a nivel Sánchez ────────────────────────────────
+    "pablo-iglesias-turrion": {
+        "perfil": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo en 2014. Profesor de Ciencia Política, hoy dirige el medio Canal Red y mantiene una influencia notable en el espacio de la izquierda alternativa.",
+        "trayectoria": [
+            ("Del 15-M a Podemos", "Politólogo y tertuliano (La Tuerka), capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y luego en las generales, rompiendo el bipartidismo.", "2014-01-16"),
+            ("Vicepresidente del Gobierno", "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras las elecciones madrileñas.", "2020-01-13"),
+            ("Canal Red y la batalla mediática", "Apartado de la primera línea, fundó Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y con el espacio de Sumar.", "2021-05-04"),
+        ],
+    },
+    "josep-borrell": {
+        "perfil": "Josep Borrell (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero y economista, fue ministro, presidente del Parlamento Europeo y Alto Representante de la UE para Asuntos Exteriores, el cargo diplomático más alto de Europa.",
+        "trayectoria": [
+            ("Ministro y presidente del Parlamento Europeo", "Ministro de Obras Públicas con Felipe González, ganó las primarias del PSOE en 1998 y presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.", "2004-07-20"),
+            ("Ministro de Exteriores y Alto Representante", "Volvió a la primera línea como ministro de Exteriores con Sánchez (2018) y, desde 2019, fue Alto Representante de la UE y vicepresidente de la Comisión, pilotando la respuesta europea a la guerra de Ucrania y a Oriente Próximo.", "2019-12-01"),
+        ],
+    },
+    "nadia-calvino": {
+        "perfil": "Nadia Calviño (A Coruña, 1968) es presidenta del Banco Europeo de Inversiones (BEI), la mayor institución financiera multilateral del mundo. Economista y alta funcionaria, fue vicepresidenta primera y ministra de Economía del Gobierno de España, donde pilotó la política económica y los fondos europeos.",
+        "trayectoria": [
+            ("De Bruselas al Gobierno", "Funcionaria de prestigio, fue directora general de Presupuestos de la Comisión Europea antes de incorporarse al Gobierno de Sánchez como ministra de Economía en 2018.", "2018-06-07"),
+            ("Vicepresidenta económica", "Como vicepresidenta primera, gestionó la respuesta económica a la pandemia y el despliegue de los fondos Next Generation, con un perfil de ortodoxia y credibilidad ante los mercados y Bruselas.", "2020-01-13"),
+            ("Presidencia del BEI", "En 2024 asumió la presidencia del Banco Europeo de Inversiones, primera española al frente de una gran institución financiera multilateral.", "2024-01-01"),
+        ],
+    },
+    "juan-luis-cebrian": {
+        "perfil": "Juan Luis Cebrián (Madrid, 1944) es una figura histórica del periodismo y el poder mediático español. Primer director de El País y después consejero delegado y presidente de PRISA, construyó y dirigió durante décadas el mayor grupo de comunicación de la izquierda.",
+        "trayectoria": [
+            ("Fundador y director de El País", "Fue el primer director de El País (1976), el diario que se convirtió en referencia de la Transición y del progresismo. Académico de la RAE, marcó la línea editorial del periódico durante años.", "1976-05-04"),
+            ("La era PRISA", "Como consejero delegado y luego presidente de PRISA, lideró la expansión del grupo (Cadena SER, Canal+, Santillana) y su salida a bolsa, antes de las guerras accionariales que acabaron desplazándolo.", "1988-01-01"),
+        ],
+    },
+    "alicia-koplowitz": {
+        "perfil": "Alicia Koplowitz (Madrid, 1952), marquesa de Bellavista, es una de las grandes fortunas e inversoras de España. Tras su etapa en la constructora FCC, gestiona su patrimonio a través del family office Omega Capital y es una de las mayores coleccionistas y mecenas de arte del país.",
+        "trayectoria": [
+            ("La era FCC", "Junto a su hermana Esther, heredó y dirigió el grupo Construcciones y Contratas (FCC), uno de los gigantes de la obra pública española, del que se desligó tras repartir el patrimonio familiar.", "1990-01-01"),
+            ("Omega Capital y el arte", "Desde Omega Capital invierte en cotizadas, inmobiliario y capital riesgo con un perfil discreto. Su colección de arte y su fundación la sitúan entre los grandes mecenas culturales.", "2000-01-01"),
+        ],
+    },
+    "manuel-lao": {
+        "perfil": "Manuel Lao Hernández (Granada, 1944) es uno de los grandes empresarios y fortunas de España, fundador del gigante del juego Cirsa. Tras vender la compañía, gestiona su patrimonio diversificado a través del family office Nortia, con un perfil de extrema discreción.",
+        "trayectoria": [
+            ("De las máquinas a Cirsa", "Construyó desde Cataluña, partiendo del negocio de máquinas recreativas, uno de los mayores grupos de juego y ocio de Europa (Cirsa), con presencia en casinos, salones y apuestas en España y Latinoamérica.", "1978-01-01"),
+            ("Venta a Blackstone y Nortia", "En 2018 vendió Cirsa al fondo Blackstone, cristalizando una de las mayores fortunas del país, que hoy reinvierte a través de su holding Nortia en cotizadas, inmobiliario y energía.", "2018-05-01"),
+        ],
+    },
+    "carlos-san-basilio": {
+        "perfil": "Carlos San Basilio (Madrid, 1968) es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Alto funcionario del Estado, vigila a todas las cotizadas del IBEX, autoriza las grandes operaciones y persigue el abuso de mercado.",
+        "trayectoria": [
+            ("Alta función pública del Tesoro", "Técnico comercial y economista del Estado, desarrolló su carrera en la Secretaría General del Tesoro y la política financiera del Ministerio de Economía, donde fue secretario general.", "2000-01-01"),
+            ("Presidencia de la CNMV", "Accedió a la presidencia del supervisor bursátil, desde donde arbitra OPAs, fusiones bancarias y salidas a bolsa, con la OPA del BBVA sobre el Sabadell como gran asunto de su mandato.", "2024-12-01"),
+        ],
+    },
+    "cani-fernandez": {
+        "perfil": "Cani Fernández (1968) es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el superregulador que vigila la competencia y los sectores de energía, telecomunicaciones y transporte. Abogada especialista en competencia, su criterio condiciona fusiones y precios en toda la economía.",
+        "trayectoria": [
+            ("Especialista en competencia", "Abogada del Estado y socia de competencia en Cuatrecasas, fue letrada en el Tribunal de Justicia de la Unión Europea, donde se forjó como una de las grandes expertas en derecho de la competencia.", "2000-01-01"),
+            ("Presidencia de la CNMC", "Desde 2020 preside la CNMC, organismo que autoriza concentraciones, sanciona cárteles y regula la energía y las telecos. Sus decisiones afectan directamente a las grandes cotizadas y a la factura de los consumidores.", "2020-09-15"),
+        ],
+    },
+    "isabel-perello": {
+        "perfil": "Isabel Perelló (Valencia, 1958) es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en ocupar la cúspide del poder judicial español. Magistrada de prestigio, accedió al cargo en 2024 tras el desbloqueo de la renovación del CGPJ.",
+        "trayectoria": [
+            ("Carrera en la magistratura", "Magistrada de larga trayectoria, llegó a la Sala de lo Contencioso-Administrativo del Tribunal Supremo, donde se ganó la reputación de jurista rigurosa e independiente.", "2000-01-01"),
+            ("Presidenta del TS y del CGPJ", "En 2024, tras cinco años de bloqueo político en la renovación del CGPJ, fue elegida por consenso presidenta del Tribunal Supremo y del Consejo, con el reto de despolitizar el órgano de gobierno de los jueces.", "2024-09-05"),
+        ],
+    },
+    "jose-felix-tezanos": {
+        "perfil": "José Félix Tezanos (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el principal instituto demoscópico público de España. Catedrático de Sociología y teórico histórico del PSOE, sus encuestas y su metodología son objeto de polémica recurrente.",
+        "trayectoria": [
+            ("Sociólogo y dirigente socialista", "Catedrático de Sociología en la UNED y figura intelectual del PSOE durante décadas, dirigió la revista 'Temas para el Debate' y teorizó sobre la socialdemocracia.", "1980-01-01"),
+            ("Presidencia del CIS", "Nombrado presidente del CIS en 2018, defendió un modelo de estimación ('cocina') que ajusta los datos brutos. Sus sondeos, a menudo más favorables al PSOE que otros, han alimentado el debate sobre la independencia del organismo.", "2018-06-29"),
+        ],
+    },
+    "angel-gabilondo": {
+        "perfil": "Ángel Gabilondo (San Sebastián, 1949) es Defensor del Pueblo, la alta institución que supervisa a las administraciones y defiende los derechos de los ciudadanos. Catedrático de Filosofía y exministro de Educación, llegó al cargo tras una larga carrera académica y política.",
+        "trayectoria": [
+            ("Universidad y Ministerio", "Catedrático de Filosofía y rector de la Universidad Autónoma de Madrid, fue ministro de Educación en el último Gobierno de Zapatero (2009-2011).", "2009-04-07"),
+            ("Política y Defensor del Pueblo", "Fue candidato del PSOE a la Comunidad de Madrid en varias elecciones. En 2021 fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que tramitó el polémico informe sobre los abusos en la Iglesia.", "2021-11-18"),
+        ],
+    },
+    "alfonso-guerra": {
+        "perfil": "Alfonso Guerra (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y hoy es una de las voces críticas más duras con el rumbo del PSOE de Sánchez.",
+        "trayectoria": [
+            ("El arquitecto del PSOE", "Hombre de confianza de Felipe González desde Suresnes, diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo.", "1974-01-01"),
+            ("Vicepresidente del Gobierno", "Fue vicepresidente del Gobierno (1982-1991), pieza clave de la modernización de España, hasta que el caso de su hermano Juan precipitó su salida del Ejecutivo.", "1982-12-03"),
+            ("Voz crítica", "Retirado de la primera línea, preside la Fundación Pablo Iglesias y se ha convertido en uno de los críticos más severos con los pactos del Gobierno con el independentismo y la amnistía.", "2023-01-01"),
+        ],
+    },
+    "ursula-von-der-leyen": {
+        "perfil": "Ursula von der Leyen (Bruselas, 1958) es presidenta de la Comisión Europea, la institución que propone la legislación de la UE y gestiona los fondos comunitarios. Médico de formación y veterana de la política alemana, es una de las figuras más poderosas de Europa y decisiva para España como gran receptora de fondos.",
+        "trayectoria": [
+            ("Ministra de Merkel", "Pediatra y madre de siete hijos, hizo carrera en la CDU alemana y fue ministra durante años en los gobiernos de Angela Merkel (Trabajo, Familia y, finalmente, Defensa).", "2005-11-22"),
+            ("Presidenta de la Comisión Europea", "En 2019 fue elegida presidenta de la Comisión Europea, reelegida en 2024. Pilotó el plan de recuperación pos-pandemia (del que España es gran beneficiaria), el Pacto Verde y la respuesta a la guerra de Ucrania.", "2019-12-01"),
+        ],
+    },
+    "miguel-angel-rodriguez": {
+        "perfil": "Miguel Ángel Rodríguez (Madrid, 1956), 'MAR', es jefe de gabinete de la presidenta de la Comunidad de Madrid, Isabel Díaz Ayuso, y uno de los estrategas de comunicación más influyentes y polémicos de la derecha española. Exsecretario de Estado con Aznar, es el cerebro comunicativo del 'efecto Ayuso'.",
+        "trayectoria": [
+            ("Secretario de Estado con Aznar", "Periodista de profesión, fue secretario de Estado de Comunicación en el primer Gobierno de Aznar, donde se forjó como uno de los grandes spin doctors de la derecha.", "1996-05-05"),
+            ("El cerebro de Ayuso", "Como jefe de gabinete de Díaz Ayuso, diseña su estrategia de confrontación con el Gobierno central y su comunicación, en el centro de polémicas como la del correo sobre el novio de la presidenta.", "2019-08-01"),
+        ],
+    },
+    "blackrock": {
+        "perfil": "BlackRock es la mayor gestora de activos del mundo, con billones de dólares bajo gestión, y el primer o uno de los mayores accionistas institucionales de casi todas las grandes cotizadas del IBEX 35. Su voto en juntas y su política de gobernanza condicionan, de forma silenciosa, la estrategia de la élite empresarial española.",
+        "trayectoria": [
+            ("El gigante de los fondos índice", "Fundada en 1988 por Larry Fink, creció hasta convertirse en la mayor gestora del planeta gracias a su plataforma de fondos indexados (iShares), que la convierte en accionista automático de prácticamente toda gran empresa cotizada del mundo.", "1988-01-01"),
+            ("Presencia estructural en España", "Declara participaciones significativas en la mayoría del IBEX 35 (Santander, BBVA, Iberdrola, Telefónica, Inditex…). Sus criterios de gobernanza y sostenibilidad marcan tendencia y su voto es decisivo en operaciones como la OPA del BBVA sobre el Sabadell.", ""),
+        ],
+    },
+    "carlos-slim": {
+        "perfil": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de las telecomunicaciones y una de las mayores fortunas del mundo. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, lo que lo convierte en uno de los mayores propietarios extranjeros de empresas españolas.",
+        "trayectoria": [
+            ("El imperio América Móvil", "Inversor de origen libanés, construyó un conglomerado en torno a América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.", "1990-01-01"),
+            ("Desembarco en España", "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.", "2014-12-01"),
+        ],
+    },
 }
 
 

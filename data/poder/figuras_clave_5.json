@@ -16,7 +16,7 @@
       "no-electo"
     ],
     "confidence": 0.9,
-    "completeness": 0.78,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -25,7 +25,7 @@
           {
             "tipo": "dato",
             "titulo": "Qué es",
-            "contenido": "Gestora estadounidense fundada por Larry Fink, con billones de dólares bajo gestión. Su plataforma de fondos indexados (iShares) la convierte en accionista automático de prácticamente toda gran empresa cotizada del mundo, España incluida."
+            "contenido": "BlackRock es la mayor gestora de activos del mundo, con billones de dólares bajo gestión, y el primer o uno de los mayores accionistas institucionales de casi todas las grandes cotizadas del IBEX 35. Su voto en juntas y su política de gobernanza condicionan, de forma silenciosa, la estrategia de la élite empresarial española."
           }
         ]
       },
@@ -34,14 +34,15 @@
         "orden": 1,
         "items": [
           {
-            "tipo": "dato",
-            "titulo": "Presencia en España",
-            "contenido": "Declara participaciones significativas en la mayoría del IBEX 35 y vota en sus juntas generales. Sus criterios de gobernanza, sostenibilidad y remuneración de consejeros marcan tendencia en el resto de inversores."
+            "tipo": "evento",
+            "titulo": "El gigante de los fondos índice",
+            "contenido": "Fundada en 1988 por Larry Fink, creció hasta convertirse en la mayor gestora del planeta gracias a su plataforma de fondos indexados (iShares), que la convierte en accionista automático de prácticamente toda gran empresa cotizada del mundo.",
+            "fecha": "1988-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Operaciones bancarias",
-            "contenido": "Como accionista relevante de varios bancos, su posición es seguida de cerca en operaciones como la OPA de BBVA sobre Sabadell, donde el voto de los grandes institucionales es decisivo."
+            "titulo": "Presencia estructural en España",
+            "contenido": "Declara participaciones significativas en la mayoría del IBEX 35 (Santander, BBVA, Iberdrola, Telefónica, Inditex…). Sus criterios de gobernanza y sostenibilidad marcan tendencia y su voto es decisivo en operaciones como la OPA del BBVA sobre el Sabadell."
           }
         ]
       },
@@ -699,7 +700,7 @@
       "no-electo"
     ],
     "confidence": 0.8,
-    "completeness": 0.72,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -708,7 +709,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Inversor mexicano de origen libanés, dueño de América Móvil. Tras la crisis tomó el control de FCC y Realia en España, convirtiéndose en uno de los mayores propietarios extranjeros de empresas españolas."
+            "contenido": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de las telecomunicaciones y una de las mayores fortunas del mundo. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, lo que lo convierte en uno de los mayores propietarios extranjeros de empresas españolas."
           }
         ]
       },
@@ -718,8 +719,14 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Control de FCC",
-            "contenido": "Entró en el capital de FCC en plena reestructuración de la deuda del grupo, desplazando progresivamente a la familia Koplowitz como accionista de referencia.",
+            "titulo": "El imperio América Móvil",
+            "contenido": "Inversor de origen libanés, construyó un conglomerado en torno a América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.",
+            "fecha": "1990-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Desembarco en España",
+            "contenido": "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.",
             "fecha": "2014-12-01"
           }
         ]

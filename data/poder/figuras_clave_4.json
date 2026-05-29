@@ -87,7 +87,7 @@
       "no-electo"
     ],
     "confidence": 0.82,
-    "completeness": 0.68,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -96,7 +96,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Alto funcionario del Estado con experiencia en la Secretaría General del Tesoro y la política financiera. Preside el supervisor bursátil, organismo independiente clave del sistema financiero."
+            "contenido": "Carlos San Basilio (Madrid, 1968) es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Alto funcionario del Estado, vigila a todas las cotizadas del IBEX, autoriza las grandes operaciones y persigue el abuso de mercado."
           }
         ]
       },
@@ -134,6 +134,24 @@
             "tipo": "contacto",
             "titulo": "jose-luis-escriva",
             "contenido": "**Coordinación con el Banco de España** (nota +5/10) — CNMV y BdE reparten la supervisión financiera; coordinación obligada en estabilidad y solvencia."
+          }
+        ]
+      },
+      {
+        "tipo": "trayectoria",
+        "orden": 1,
+        "items": [
+          {
+            "tipo": "evento",
+            "titulo": "Alta función pública del Tesoro",
+            "contenido": "Técnico comercial y economista del Estado, desarrolló su carrera en la Secretaría General del Tesoro y la política financiera del Ministerio de Economía, donde fue secretario general.",
+            "fecha": "2000-01-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Presidencia de la CNMV",
+            "contenido": "Accedió a la presidencia del supervisor bursátil, desde donde arbitra OPAs, fusiones bancarias y salidas a bolsa, con la OPA del BBVA sobre el Sabadell como gran asunto de su mandato.",
+            "fecha": "2024-12-01"
           }
         ]
       }

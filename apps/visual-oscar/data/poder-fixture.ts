@@ -232,8 +232,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0002",
@@ -458,8 +458,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0003",
@@ -634,8 +634,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0004",
@@ -811,8 +811,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0005",
@@ -950,8 +950,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0006",
@@ -1106,8 +1106,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0007",
@@ -1239,8 +1239,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0008",
@@ -1396,8 +1396,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0009",
@@ -1428,7 +1428,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0009-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Magistrada del Tribunal Supremo (Sala de lo Contencioso-Administrativo). Hito histórico: primera mujer al frente del poder judicial español.",
+            "contenido": "Isabel Perelló (Valencia, 1958) es presidenta del Tribunal Supremo y del Consejo General del Poder Judicial (CGPJ), la primera mujer en ocupar la cúspide del poder judicial español. Magistrada de prestigio, accedió al cargo en 2024 tras el desbloqueo de la renovación del CGPJ.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -1448,13 +1448,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0009-ap-01-it-00",
             "apartado_id": "pod-0009-ap-01",
             "tipo": "evento",
-            "titulo": "Elección consensuada",
-            "contenido": "Elegida en septiembre 2024 por el nuevo CGPJ, renovado tras 5 años de bloqueo, mediante acuerdo PSOE-PP mediado por la Comisión Europea.",
-            "fecha": "2024-09-05",
+            "titulo": "Carrera en la magistratura",
+            "contenido": "Magistrada de larga trayectoria, llegó a la Sala de lo Contencioso-Administrativo del Tribunal Supremo, donde se ganó la reputación de jurista rigurosa e independiente.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0009-ap-01-it-01",
+            "apartado_id": "pod-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidenta del TS y del CGPJ",
+            "contenido": "En 2024, tras cinco años de bloqueo político en la renovación del CGPJ, fue elegida por consenso presidenta del Tribunal Supremo y del Consejo, con el reto de despolitizar el órgano de gobierno de los jueces.",
+            "fecha": "2024-09-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -1544,8 +1556,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0010",
@@ -1754,8 +1766,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0011",
@@ -1966,8 +1978,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0012",
@@ -2093,8 +2105,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0013",
@@ -2317,8 +2329,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0014",
@@ -2348,7 +2360,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0014-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Abogada del Estado en excedencia y especialista en derecho de la competencia (ex socia de Cuatrecasas). Presidenta de la CNMC desde 2020.",
+            "contenido": "Cani Fernández (1968) es presidenta de la Comisión Nacional de los Mercados y la Competencia (CNMC), el superregulador que vigila la competencia y los sectores de energía, telecomunicaciones y transporte. Abogada especialista en competencia, su criterio condiciona fusiones y precios en toda la economía.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -2463,20 +2475,32 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0014-ap-04-it-00",
             "apartado_id": "pod-0014-ap-04",
-            "tipo": "dato",
-            "titulo": "De Cuatrecasas y Luxemburgo a la CNMC",
-            "contenido": "Abogada especialista en competencia, trabajó en Cuatrecasas y como letrada en el Tribunal de Justicia de la UE antes de presidir la Comisión Nacional de los Mercados y la Competencia.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Especialista en competencia",
+            "contenido": "Abogada del Estado y socia de competencia en Cuatrecasas, fue letrada en el Tribunal de Justicia de la Unión Europea, donde se forjó como una de las grandes expertas en derecho de la competencia.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0014-ap-04-it-01",
+            "apartado_id": "pod-0014-ap-04",
+            "tipo": "evento",
+            "titulo": "Presidencia de la CNMC",
+            "contenido": "Desde 2020 preside la CNMC, organismo que autoriza concentraciones, sanciona cárteles y regula la energía y las telecos. Sus decisiones afectan directamente a las grandes cotizadas y a la factura de los consumidores.",
+            "fecha": "2020-09-15",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0015",
@@ -2664,8 +2688,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0016",
@@ -2818,8 +2842,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0017",
@@ -2967,8 +2991,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0018",
@@ -3142,8 +3166,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0019",
@@ -3315,8 +3339,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0020",
@@ -3451,8 +3475,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0021",
@@ -3621,8 +3645,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0022",
@@ -3883,8 +3907,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0023",
@@ -4018,8 +4042,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0024",
@@ -4233,8 +4257,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0025",
@@ -4393,8 +4417,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0026",
@@ -4425,7 +4449,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0026-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en 1956. Veterano estratega de comunicación del PP. Secretario de Estado de Comunicación con José María Aznar (1996-1998). Hoy mano derecha mediática de Ayuso.",
+            "contenido": "Miguel Ángel Rodríguez (Madrid, 1956), 'MAR', es jefe de gabinete de la presidenta de la Comunidad de Madrid, Isabel Díaz Ayuso, y uno de los estrategas de comunicación más influyentes y polémicos de la derecha española. Exsecretario de Estado con Aznar, es el cerebro comunicativo del 'efecto Ayuso'.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -4511,10 +4535,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0026-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0026-ap-03-it-00",
+            "apartado_id": "pod-0026-ap-03",
+            "tipo": "evento",
+            "titulo": "Secretario de Estado con Aznar",
+            "contenido": "Periodista de profesión, fue secretario de Estado de Comunicación en el primer Gobierno de Aznar, donde se forjó como uno de los grandes spin doctors de la derecha.",
+            "fecha": "1996-05-05",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0026-ap-03-it-01",
+            "apartado_id": "pod-0026-ap-03",
+            "tipo": "evento",
+            "titulo": "El cerebro de Ayuso",
+            "contenido": "Como jefe de gabinete de Díaz Ayuso, diseña su estrategia de confrontación con el Gobierno central y su comunicación, en el centro de polémicas como la del correo sobre el novio de la presidenta.",
+            "fecha": "2019-08-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0027",
@@ -4786,8 +4843,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0028",
@@ -4998,8 +5055,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0029",
@@ -5237,8 +5294,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0030",
@@ -5449,8 +5506,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0031",
@@ -5481,7 +5538,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0031-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1978. Profesor de Ciencia Política. Fundó Podemos en 2014 tras el 15-M. Hoy comunicador (Canal Red) y referente ideológico.",
+            "contenido": "Pablo Iglesias Turrión (Madrid, 1978) fue vicepresidente segundo del Gobierno y fundador de Podemos, el partido que sacudió el bipartidismo en 2014. Profesor de Ciencia Política, hoy dirige el medio Canal Red y mantiene una influencia notable en el espacio de la izquierda alternativa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5501,8 +5558,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0031-ap-01-it-00",
             "apartado_id": "pod-0031-ap-01",
             "tipo": "evento",
-            "titulo": "Fundación de Podemos",
-            "contenido": "Funda Podemos en 2014; irrupción en el Congreso en 2015-2016.",
+            "titulo": "Del 15-M a Podemos",
+            "contenido": "Politólogo y tertuliano (La Tuerka), capitalizó el malestar del 15-M para fundar Podemos en 2014, que irrumpió con fuerza en las europeas y luego en las generales, rompiendo el bipartidismo.",
             "fecha": "2014-01-16",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5513,13 +5570,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0031-ap-01-it-01",
             "apartado_id": "pod-0031-ap-01",
             "tipo": "evento",
-            "titulo": "Vicepresidente",
-            "contenido": "Vicepresidente segundo del Gobierno de coalición 2020-2021. Dejó el cargo tras las elecciones de Madrid de 2021.",
+            "titulo": "Vicepresidente del Gobierno",
+            "contenido": "Tras el acuerdo con el PSOE, fue vicepresidente segundo y ministro de Derechos Sociales en el primer Gobierno de coalición (2020-2021), antes de dejar la política activa tras las elecciones madrileñas.",
             "fecha": "2020-01-13",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0031-ap-01-it-02",
+            "apartado_id": "pod-0031-ap-01",
+            "tipo": "evento",
+            "titulo": "Canal Red y la batalla mediática",
+            "contenido": "Apartado de la primera línea, fundó Canal Red y se volcó en la comunicación, manteniendo el pulso con la derecha mediática y con el espacio de Sumar.",
+            "fecha": "2021-05-04",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -5618,8 +5687,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0032",
@@ -5650,7 +5719,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0032-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Pobla de Segur (Lleida), 1947. Ingeniero aeronáutico y economista. Larga carrera nacional y europea en el PSOE.",
+            "contenido": "Josep Borrell (La Pobla de Segur, Lérida, 1947) es uno de los grandes estadistas del socialismo español y europeo. Ingeniero y economista, fue ministro, presidente del Parlamento Europeo y Alto Representante de la UE para Asuntos Exteriores, el cargo diplomático más alto de Europa.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5670,9 +5739,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0032-ap-01-it-00",
             "apartado_id": "pod-0032-ap-01",
             "tipo": "evento",
-            "titulo": "Alto Representante UE",
-            "contenido": "Jefe de la diplomacia europea 2019-2024 (Comisión Von der Leyen I): guerra de Ucrania, Oriente Medio, relación con China.",
-            "fecha": "2019-12-01",
+            "titulo": "Ministro y presidente del Parlamento Europeo",
+            "contenido": "Ministro de Obras Públicas con Felipe González, ganó las primarias del PSOE en 1998 y presidió el Parlamento Europeo (2004-2007), consolidando su perfil europeísta.",
+            "fecha": "2004-07-20",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -5682,9 +5751,9 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0032-ap-01-it-01",
             "apartado_id": "pod-0032-ap-01",
             "tipo": "evento",
-            "titulo": "Ministro de Exteriores",
-            "contenido": "Ministro de Asuntos Exteriores con Pedro Sánchez (2018-2019) antes de saltar a la UE.",
-            "fecha": "2018-06-07",
+            "titulo": "Ministro de Exteriores y Alto Representante",
+            "contenido": "Volvió a la primera línea como ministro de Exteriores con Sánchez (2018) y, desde 2019, fue Alto Representante de la UE y vicepresidente de la Comisión, pilotando la respuesta europea a la guerra de Ucrania y a Oriente Próximo.",
+            "fecha": "2019-12-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -5755,8 +5824,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0033",
@@ -5787,7 +5856,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0033-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en A Coruña, 1968. Economista y abogada. Alta funcionaria de la Comisión Europea antes de su etapa ministerial. Perfil técnico-independiente.",
+            "contenido": "Nadia Calviño (A Coruña, 1968) es presidenta del Banco Europeo de Inversiones (BEI), la mayor institución financiera multilateral del mundo. Economista y alta funcionaria, fue vicepresidenta primera y ministra de Economía del Gobierno de España, donde pilotó la política económica y los fondos europeos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5807,8 +5876,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0033-ap-01-it-00",
             "apartado_id": "pod-0033-ap-01",
             "tipo": "evento",
-            "titulo": "Vicepresidenta económica",
-            "contenido": "Ministra de Economía y vicepresidenta del Gobierno 2018-2023; gestión de la pandemia y los fondos Next Generation.",
+            "titulo": "De Bruselas al Gobierno",
+            "contenido": "Funcionaria de prestigio, fue directora general de Presupuestos de la Comisión Europea antes de incorporarse al Gobierno de Sánchez como ministra de Economía en 2018.",
             "fecha": "2018-06-07",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -5819,13 +5888,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0033-ap-01-it-01",
             "apartado_id": "pod-0033-ap-01",
             "tipo": "evento",
-            "titulo": "Presidenta del BEI",
-            "contenido": "Asume la presidencia del Banco Europeo de Inversiones en 2024.",
-            "fecha": "2024-01-01",
+            "titulo": "Vicepresidenta económica",
+            "contenido": "Como vicepresidenta primera, gestionó la respuesta económica a la pandemia y el despliegue de los fondos Next Generation, con un perfil de ortodoxia y credibilidad ante los mercados y Bruselas.",
+            "fecha": "2020-01-13",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "pod-0033-ap-01-it-02",
+            "apartado_id": "pod-0033-ap-01",
+            "tipo": "evento",
+            "titulo": "Presidencia del BEI",
+            "contenido": "En 2024 asumió la presidencia del Banco Europeo de Inversiones, primera española al frente de una gran institución financiera multilateral.",
+            "fecha": "2024-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -5908,8 +5989,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0034",
@@ -6028,8 +6109,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0035",
@@ -6155,8 +6236,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0036",
@@ -6304,8 +6385,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0037",
@@ -6490,8 +6571,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0038",
@@ -6522,7 +6603,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0038-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Santander, 1946. Catedrático de Sociología. Histórico militante del PSOE. Preside el CIS desde 2018.",
+            "contenido": "José Félix Tezanos (Santander, 1946) es presidente del Centro de Investigaciones Sociológicas (CIS), el principal instituto demoscópico público de España. Catedrático de Sociología y teórico histórico del PSOE, sus encuestas y su metodología son objeto de polémica recurrente.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6639,10 +6720,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0038-ap-05",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0038-ap-05-it-00",
+            "apartado_id": "pod-0038-ap-05",
+            "tipo": "evento",
+            "titulo": "Sociólogo y dirigente socialista",
+            "contenido": "Catedrático de Sociología en la UNED y figura intelectual del PSOE durante décadas, dirigió la revista 'Temas para el Debate' y teorizó sobre la socialdemocracia.",
+            "fecha": "1980-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0038-ap-05-it-01",
+            "apartado_id": "pod-0038-ap-05",
+            "tipo": "evento",
+            "titulo": "Presidencia del CIS",
+            "contenido": "Nombrado presidente del CIS en 2018, defendió un modelo de estimación ('cocina') que ajusta los datos brutos. Sus sondeos, a menudo más favorables al PSOE que otros, han alimentado el debate sobre la independencia del organismo.",
+            "fecha": "2018-06-29",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0039",
@@ -6673,7 +6787,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0039-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en San Sebastián, 1949. Catedrático de Filosofía y ex rector de la UAM. Ministro de Educación (2009-2011) y candidato del PSOE en Madrid.",
+            "contenido": "Ángel Gabilondo (San Sebastián, 1949) es Defensor del Pueblo, la alta institución que supervisa a las administraciones y defiende los derechos de los ciudadanos. Catedrático de Filosofía y exministro de Educación, llegó al cargo tras una larga carrera académica y política.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6766,20 +6880,32 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0039-ap-03-it-00",
             "apartado_id": "pod-0039-ap-03",
-            "tipo": "dato",
-            "titulo": "De ministro a Defensor del Pueblo",
-            "contenido": "Exministro de Educación y excandidato del PSOE a la Comunidad de Madrid, fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que supervisa a las administraciones y tramita el polémico informe sobre los abusos en la Iglesia.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "Universidad y Ministerio",
+            "contenido": "Catedrático de Filosofía y rector de la Universidad Autónoma de Madrid, fue ministro de Educación en el último Gobierno de Zapatero (2009-2011).",
+            "fecha": "2009-04-07",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0039-ap-03-it-01",
+            "apartado_id": "pod-0039-ap-03",
+            "tipo": "evento",
+            "titulo": "Política y Defensor del Pueblo",
+            "contenido": "Fue candidato del PSOE a la Comunidad de Madrid en varias elecciones. En 2021 fue elegido Defensor del Pueblo con apoyo parlamentario, cargo desde el que tramitó el polémico informe sobre los abusos en la Iglesia.",
+            "fecha": "2021-11-18",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0040",
@@ -6810,7 +6936,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0040-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1944. Director fundador de El País (1976-1988) y luego consejero delegado y presidente de PRISA.",
+            "contenido": "Juan Luis Cebrián (Madrid, 1944) es una figura histórica del periodismo y el poder mediático español. Primer director de El País y después consejero delegado y presidente de PRISA, construyó y dirigió durante décadas el mayor grupo de comunicación de la izquierda.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -6888,19 +7014,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0040-ap-03-it-00",
             "apartado_id": "pod-0040-ap-03",
             "tipo": "evento",
-            "titulo": "Fundador de El País",
-            "contenido": "Primer director de El País (1976) y después consejero delegado y presidente de PRISA durante décadas. Figura central del poder mediático de la Transición y de la construcción del grupo de comunicación más influyente de la izquierda.",
+            "titulo": "Fundador y director de El País",
+            "contenido": "Fue el primer director de El País (1976), el diario que se convirtió en referencia de la Transición y del progresismo. Académico de la RAE, marcó la línea editorial del periódico durante años.",
             "fecha": "1976-05-04",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0040-ap-03-it-01",
+            "apartado_id": "pod-0040-ap-03",
+            "tipo": "evento",
+            "titulo": "La era PRISA",
+            "contenido": "Como consejero delegado y luego presidente de PRISA, lideró la expansión del grupo (Cadena SER, Canal+, Santillana) y su salida a bolsa, antes de las guerras accionariales que acabaron desplazándolo.",
+            "fecha": "1988-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0041",
@@ -6930,7 +7068,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0041-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Madrid, 1952. Inversora vía Omega Capital. Coleccionista de arte de prestigio internacional.",
+            "contenido": "Alicia Koplowitz (Madrid, 1952), marquesa de Bellavista, es una de las grandes fortunas e inversoras de España. Tras su etapa en la constructora FCC, gestiona su patrimonio a través del family office Omega Capital y es una de las mayores coleccionistas y mecenas de arte del país.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7022,20 +7160,32 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0041-ap-03-it-00",
             "apartado_id": "pod-0041-ap-03",
-            "tipo": "dato",
-            "titulo": "Omega Capital y el arte",
-            "contenido": "Tras separar su patrimonio del de su hermana Esther y salir de FCC, gestiona su fortuna a través del family office Omega Capital, con inversiones diversificadas, y es una de las grandes coleccionistas y mecenas de arte de España.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "La era FCC",
+            "contenido": "Junto a su hermana Esther, heredó y dirigió el grupo Construcciones y Contratas (FCC), uno de los gigantes de la obra pública española, del que se desligó tras repartir el patrimonio familiar.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0041-ap-03-it-01",
+            "apartado_id": "pod-0041-ap-03",
+            "tipo": "evento",
+            "titulo": "Omega Capital y el arte",
+            "contenido": "Desde Omega Capital invierte en cotizadas, inmobiliario y capital riesgo con un perfil discreto. Su colección de arte y su fundación la sitúan entre los grandes mecenas culturales.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0042",
@@ -7066,7 +7216,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0042-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Almería, 1944. Fundó Cirsa (juego y apuestas). Tras venderla a Blackstone, invierte vía Nortia Capital.",
+            "contenido": "Manuel Lao Hernández (Granada, 1944) es uno de los grandes empresarios y fortunas de España, fundador del gigante del juego Cirsa. Tras vender la compañía, gestiona su patrimonio diversificado a través del family office Nortia, con un perfil de extrema discreción.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7144,19 +7294,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0042-ap-03-it-00",
             "apartado_id": "pod-0042-ap-03",
             "tipo": "evento",
-            "titulo": "La venta de Cirsa",
-            "contenido": "Fundó y desarrolló Cirsa hasta convertirla en un gigante europeo del juego, que vendió al fondo Blackstone, operación que cristalizó una de las mayores fortunas del país. Reinvierte a través de su family office Nortia.",
-            "fecha": "2018-05-01",
+            "titulo": "De las máquinas a Cirsa",
+            "contenido": "Construyó desde Cataluña, partiendo del negocio de máquinas recreativas, uno de los mayores grupos de juego y ocio de Europa (Cirsa), con presencia en casinos, salones y apuestas en España y Latinoamérica.",
+            "fecha": "1978-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0042-ap-03-it-01",
+            "apartado_id": "pod-0042-ap-03",
+            "tipo": "evento",
+            "titulo": "Venta a Blackstone y Nortia",
+            "contenido": "En 2018 vendió Cirsa al fondo Blackstone, cristalizando una de las mayores fortunas del país, que hoy reinvierte a través de su holding Nortia en cotizadas, inmobiliario y energía.",
+            "fecha": "2018-05-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0043",
@@ -7295,8 +7457,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0044",
@@ -7430,8 +7592,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0045",
@@ -7461,7 +7623,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0045-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Sevilla, 1940. Arquitecto del PSOE moderno junto a Felipe González. Vicepresidente del Gobierno 1982-1991.",
+            "contenido": "Alfonso Guerra (Sevilla, 1940) es uno de los grandes arquitectos del PSOE moderno y de la Transición. Vicepresidente del Gobierno con Felipe González durante casi una década, fue el gran organizador del partido y hoy es una de las voces críticas más duras con el rumbo del PSOE de Sánchez.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7543,10 +7705,55 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 0
           }
         ]
+      },
+      {
+        "id": "pod-0045-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0045-ap-03-it-00",
+            "apartado_id": "pod-0045-ap-03",
+            "tipo": "evento",
+            "titulo": "El arquitecto del PSOE",
+            "contenido": "Hombre de confianza de Felipe González desde Suresnes, diseñó la maquinaria del partido y su estrategia electoral, convirtiéndose en el número dos del socialismo.",
+            "fecha": "1974-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0045-ap-03-it-01",
+            "apartado_id": "pod-0045-ap-03",
+            "tipo": "evento",
+            "titulo": "Vicepresidente del Gobierno",
+            "contenido": "Fue vicepresidente del Gobierno (1982-1991), pieza clave de la modernización de España, hasta que el caso de su hermano Juan precipitó su salida del Ejecutivo.",
+            "fecha": "1982-12-03",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          },
+          {
+            "id": "pod-0045-ap-03-it-02",
+            "apartado_id": "pod-0045-ap-03",
+            "tipo": "evento",
+            "titulo": "Voz crítica",
+            "contenido": "Retirado de la primera línea, preside la Fundación Pablo Iglesias y se ha convertido en uno de los críticos más severos con los pactos del Gobierno con el independentismo y la amnistía.",
+            "fecha": "2023-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0046",
@@ -7577,7 +7784,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0046-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Bruselas, 1958. Médico y política alemana (CDU/PPE). Presidenta de la Comisión Europea desde 2019.",
+            "contenido": "Ursula von der Leyen (Bruselas, 1958) es presidenta de la Comisión Europea, la institución que propone la legislación de la UE y gestiona los fondos comunitarios. Médico de formación y veterana de la política alemana, es una de las figuras más poderosas de Europa y decisiva para España como gran receptora de fondos.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -7683,19 +7890,31 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0046-ap-03-it-00",
             "apartado_id": "pod-0046-ap-03",
             "tipo": "evento",
-            "titulo": "De ministra de Merkel a la Comisión",
-            "contenido": "Ministra durante años en los gobiernos de Angela Merkel, preside la Comisión Europea desde 2019, reelegida en 2024. Pilota la respuesta europea en pandemia, energía y la guerra de Ucrania.",
-            "fecha": "2019-12-01",
+            "titulo": "Ministra de Merkel",
+            "contenido": "Pediatra y madre de siete hijos, hizo carrera en la CDU alemana y fue ministra durante años en los gobiernos de Angela Merkel (Trabajo, Familia y, finalmente, Defensa).",
+            "fecha": "2005-11-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0046-ap-03-it-01",
+            "apartado_id": "pod-0046-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidenta de la Comisión Europea",
+            "contenido": "En 2019 fue elegida presidenta de la Comisión Europea, reelegida en 2024. Pilotó el plan de recuperación pos-pandemia (del que España es gran beneficiaria), el Pacto Verde y la respuesta a la guerra de Ucrania.",
+            "fecha": "2019-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0047",
@@ -7827,8 +8046,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0048",
@@ -7927,8 +8146,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0049",
@@ -8060,8 +8279,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0050",
@@ -8147,8 +8366,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0051",
@@ -8234,8 +8453,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0052",
@@ -8366,8 +8585,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0053",
@@ -8474,8 +8693,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0054",
@@ -8583,8 +8802,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0055",
@@ -8692,8 +8911,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0056",
@@ -8788,8 +9007,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0057",
@@ -8912,8 +9131,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0058",
@@ -8945,7 +9164,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0058-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Alto funcionario del Estado con experiencia en la Secretaría General del Tesoro y la política financiera. Preside el supervisor bursátil, organismo independiente clave del sistema financiero.",
+            "contenido": "Carlos San Basilio (Madrid, 1968) es presidente de la Comisión Nacional del Mercado de Valores (CNMV), el supervisor de los mercados financieros españoles. Alto funcionario del Estado, vigila a todas las cotizadas del IBEX, autoriza las grandes operaciones y persigue el abuso de mercado.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -9023,10 +9242,43 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "orden": 2
           }
         ]
+      },
+      {
+        "id": "pod-0058-ap-03",
+        "tipo": "trayectoria",
+        "titulo": null,
+        "resumen": null,
+        "orden": 1,
+        "items": [
+          {
+            "id": "pod-0058-ap-03-it-00",
+            "apartado_id": "pod-0058-ap-03",
+            "tipo": "evento",
+            "titulo": "Alta función pública del Tesoro",
+            "contenido": "Técnico comercial y economista del Estado, desarrolló su carrera en la Secretaría General del Tesoro y la política financiera del Ministerio de Economía, donde fue secretario general.",
+            "fecha": "2000-01-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 0
+          },
+          {
+            "id": "pod-0058-ap-03-it-01",
+            "apartado_id": "pod-0058-ap-03",
+            "tipo": "evento",
+            "titulo": "Presidencia de la CNMV",
+            "contenido": "Accedió a la presidencia del supervisor bursátil, desde donde arbitra OPAs, fusiones bancarias y salidas a bolsa, con la OPA del BBVA sobre el Sabadell como gran asunto de su mandato.",
+            "fecha": "2024-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
+          }
+        ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0059",
@@ -9138,8 +9390,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0060",
@@ -9262,8 +9514,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0061",
@@ -9419,8 +9671,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0062",
@@ -9532,8 +9784,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0063",
@@ -9666,8 +9918,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0064",
@@ -9800,8 +10052,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0065",
@@ -9900,8 +10152,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0066",
@@ -10000,8 +10252,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0067",
@@ -10097,8 +10349,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0068",
@@ -10185,8 +10437,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0069",
@@ -10219,7 +10471,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0069-ap-00",
             "tipo": "dato",
             "titulo": "Qué es",
-            "contenido": "Gestora estadounidense fundada por Larry Fink, con billones de dólares bajo gestión. Su plataforma de fondos indexados (iShares) la convierte en accionista automático de prácticamente toda gran empresa cotizada del mundo, España incluida.",
+            "contenido": "BlackRock es la mayor gestora de activos del mundo, con billones de dólares bajo gestión, y el primer o uno de los mayores accionistas institucionales de casi todas las grandes cotizadas del IBEX 35. Su voto en juntas y su política de gobernanza condicionan, de forma silenciosa, la estrategia de la élite empresarial española.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10238,10 +10490,10 @@ export const PODER_FIXTURE: DossierCompleto[] = [
           {
             "id": "pod-0069-ap-01-it-00",
             "apartado_id": "pod-0069-ap-01",
-            "tipo": "dato",
-            "titulo": "Presencia en España",
-            "contenido": "Declara participaciones significativas en la mayoría del IBEX 35 y vota en sus juntas generales. Sus criterios de gobernanza, sostenibilidad y remuneración de consejeros marcan tendencia en el resto de inversores.",
-            "fecha": null,
+            "tipo": "evento",
+            "titulo": "El gigante de los fondos índice",
+            "contenido": "Fundada en 1988 por Larry Fink, creció hasta convertirse en la mayor gestora del planeta gracias a su plataforma de fondos indexados (iShares), que la convierte en accionista automático de prácticamente toda gran empresa cotizada del mundo.",
+            "fecha": "1988-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -10251,8 +10503,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0069-ap-01-it-01",
             "apartado_id": "pod-0069-ap-01",
             "tipo": "evento",
-            "titulo": "Operaciones bancarias",
-            "contenido": "Como accionista relevante de varios bancos, su posición es seguida de cerca en operaciones como la OPA de BBVA sobre Sabadell, donde el voto de los grandes institucionales es decisivo.",
+            "titulo": "Presencia estructural en España",
+            "contenido": "Declara participaciones significativas en la mayoría del IBEX 35 (Santander, BBVA, Iberdrola, Telefónica, Inditex…). Sus criterios de gobernanza y sostenibilidad marcan tendencia y su voto es decisivo en operaciones como la OPA del BBVA sobre el Sabadell.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -10344,8 +10596,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0070",
@@ -10458,8 +10710,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0071",
@@ -10579,8 +10831,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0072",
@@ -10712,8 +10964,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0073",
@@ -10845,8 +11097,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0074",
@@ -10967,8 +11219,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0075",
@@ -11102,8 +11354,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0076",
@@ -11222,8 +11474,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0077",
@@ -11334,8 +11586,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0078",
@@ -11368,7 +11620,7 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "apartado_id": "pod-0078-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Inversor mexicano de origen libanés, dueño de América Móvil. Tras la crisis tomó el control de FCC y Realia en España, convirtiéndose en uno de los mayores propietarios extranjeros de empresas españolas.",
+            "contenido": "Carlos Slim Helú (Ciudad de México, 1940) es un magnate mexicano de las telecomunicaciones y una de las mayores fortunas del mundo. En España es accionista de control de la constructora FCC y de la inmobiliaria Realia, lo que lo convierte en uno de los mayores propietarios extranjeros de empresas españolas.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11388,13 +11640,25 @@ export const PODER_FIXTURE: DossierCompleto[] = [
             "id": "pod-0078-ap-01-it-00",
             "apartado_id": "pod-0078-ap-01",
             "tipo": "evento",
-            "titulo": "Control de FCC",
-            "contenido": "Entró en el capital de FCC en plena reestructuración de la deuda del grupo, desplazando progresivamente a la familia Koplowitz como accionista de referencia.",
-            "fecha": "2014-12-01",
+            "titulo": "El imperio América Móvil",
+            "contenido": "Inversor de origen libanés, construyó un conglomerado en torno a América Móvil, el mayor operador de telecomunicaciones de Latinoamérica, que lo situó durante años como el hombre más rico del mundo.",
+            "fecha": "1990-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 0
+          },
+          {
+            "id": "pod-0078-ap-01-it-01",
+            "apartado_id": "pod-0078-ap-01",
+            "tipo": "evento",
+            "titulo": "Desembarco en España",
+            "contenido": "Tras la crisis financiera, tomó el control de FCC (construcción y servicios urbanos) y de Realia, desplazando a la familia Koplowitz, y mantuvo posiciones en otras cotizadas españolas.",
+            "fecha": "2014-12-01",
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 1
           }
         ]
       },
@@ -11444,8 +11708,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0079",
@@ -11570,8 +11834,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0080",
@@ -11756,8 +12020,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0081",
@@ -11856,8 +12120,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0082",
@@ -11956,8 +12220,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0083",
@@ -12053,8 +12317,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0084",
@@ -12152,8 +12416,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0085",
@@ -12228,8 +12492,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0086",
@@ -12303,8 +12567,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0087",
@@ -12390,8 +12654,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0088",
@@ -12454,8 +12718,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0089",
@@ -12529,8 +12793,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   },
   {
     "id": "pod-0090",
@@ -12642,8 +12906,8 @@ export const PODER_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T09:19:06.537248Z",
-    "updated_at": "2026-05-29T09:19:06.537248Z"
+    "created_at": "2026-05-29T09:31:58.497976Z",
+    "updated_at": "2026-05-29T09:31:58.497976Z"
   }
 ]
 

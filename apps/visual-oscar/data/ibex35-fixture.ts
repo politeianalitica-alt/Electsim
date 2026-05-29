@@ -356,8 +356,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0002",
@@ -723,8 +723,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0003",
@@ -1077,8 +1077,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0004",
@@ -1400,8 +1400,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0005",
@@ -1729,8 +1729,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0006",
@@ -2088,8 +2088,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0007",
@@ -2428,8 +2428,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0008",
@@ -2742,8 +2742,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0009",
@@ -3067,8 +3067,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0010",
@@ -3393,8 +3393,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0011",
@@ -3739,8 +3739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0012",
@@ -4015,8 +4015,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0013",
@@ -4306,8 +4306,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0014",
@@ -4648,8 +4648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0015",
@@ -4988,8 +4988,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0016",
@@ -5278,8 +5278,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0017",
@@ -5575,8 +5575,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0018",
@@ -5903,8 +5903,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0019",
@@ -6220,8 +6220,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0020",
@@ -6515,8 +6515,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0021",
@@ -6801,8 +6801,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0022",
@@ -7086,8 +7086,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0023",
@@ -7354,8 +7354,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0024",
@@ -7595,8 +7595,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0025",
@@ -7852,8 +7852,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0026",
@@ -8163,8 +8163,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0027",
@@ -8490,8 +8490,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0028",
@@ -8833,8 +8833,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0029",
@@ -9076,8 +9076,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0030",
@@ -9333,8 +9333,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0031",
@@ -9648,8 +9648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0032",
@@ -9891,8 +9891,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0033",
@@ -10214,8 +10214,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0034",
@@ -10471,8 +10471,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0035",
@@ -10739,8 +10739,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0036",
@@ -10966,8 +10966,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0037",
@@ -11200,8 +11200,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0038",
@@ -11507,8 +11507,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0039",
@@ -11539,7 +11539,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0039-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Santander, 1960. Bryn Mawr College (EE.UU.). Carrera en JP Morgan antes de incorporarse a Santander.",
+            "contenido": "Ana Botín (Santander, 1960) es presidenta ejecutiva del Banco Santander, el mayor banco de España y uno de los mayores de la eurozona. Cuarta generación de la saga Botín al frente de la entidad, es una de las banqueras más poderosas del mundo y una voz de referencia del capitalismo español en los foros globales.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -11573,9 +11573,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0039-ap-01-it-00",
             "apartado_id": "ibx-0039-ap-01",
             "tipo": "evento",
-            "titulo": "JP Morgan",
-            "contenido": "Inició su carrera en JP Morgan en Nueva York (1981-1988).",
-            "fecha": "1981-09-01",
+            "titulo": "De JP Morgan a Banesto",
+            "contenido": "Formada en Harvard y curtida en JP Morgan, se incorporó al Santander y dirigió Banesto, donde se foguéo como gestora antes de dar el salto internacional.",
+            "fecha": "2002-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11585,9 +11585,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0039-ap-01-it-01",
             "apartado_id": "ibx-0039-ap-01",
             "tipo": "evento",
-            "titulo": "Banesto",
-            "contenido": "Presidenta de Banesto entre 2002 y 2010.",
-            "fecha": "2002-02-22",
+            "titulo": "Santander UK y el salto a la presidencia",
+            "contenido": "Dirigió con éxito la filial británica del banco (Santander UK) y, tras el fallecimiento de su padre Emilio Botín en 2014, asumió la presidencia ejecutiva del grupo.",
+            "fecha": "2014-09-10",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -11597,25 +11597,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0039-ap-01-it-02",
             "apartado_id": "ibx-0039-ap-01",
             "tipo": "evento",
-            "titulo": "Santander UK",
-            "contenido": "CEO de Santander UK entre 2010 y 2014.",
-            "fecha": "2010-12-13",
+            "titulo": "Liderazgo global",
+            "contenido": "Ha pilotado la digitalización del banco, su expansión en América y Europa y su presencia en los grandes foros (Davos, banca europea), erigiéndose en portavoz informal del sector financiero español.",
+            "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0039-ap-01-it-03",
-            "apartado_id": "ibx-0039-ap-01",
-            "tipo": "evento",
-            "titulo": "Presidenta Santander",
-            "contenido": "Asume la presidencia ejecutiva el 10 sept 2014 tras la muerte de su padre Emilio Botín.",
-            "fecha": "2014-09-10",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -11812,8 +11800,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0040",
@@ -12082,8 +12070,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0041",
@@ -12383,8 +12371,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0042",
@@ -12642,8 +12630,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0043",
@@ -12918,8 +12906,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0044",
@@ -13104,8 +13092,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0045",
@@ -13392,8 +13380,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0046",
@@ -13638,8 +13626,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0047",
@@ -13914,8 +13902,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0048",
@@ -14144,8 +14132,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0049",
@@ -14441,8 +14429,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0050",
@@ -14659,8 +14647,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0051",
@@ -14916,8 +14904,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0052",
@@ -15204,8 +15192,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0053",
@@ -15474,8 +15462,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0054",
@@ -15814,8 +15802,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0055",
@@ -15847,7 +15835,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0055-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1947. Ingeniero de Caminos. Carrera vinculada al PRD/UCD y al sector de infraestructuras.",
+            "contenido": "Florentino Pérez (Madrid, 1947) es presidente de ACS, el mayor grupo constructor del mundo por ingresos, y presidente del Real Madrid. Ingeniero de Caminos, combina un poder económico de primer orden con el liderazgo del club de fútbol más influyente del planeta, lo que lo convierte en una figura de poder doble, empresarial y mediático.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -15881,9 +15869,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0055-ap-01-it-00",
             "apartado_id": "ibx-0055-ap-01",
             "tipo": "evento",
-            "titulo": "PRD-UCD",
-            "contenido": "Concejal del Ayuntamiento de Madrid (UCD, 1979-1983). Coqueteo con CDS y PSP.",
-            "fecha": "1979-04-19",
+            "titulo": "De la política a la construcción",
+            "contenido": "Ingeniero de Caminos, pasó por la administración y la política (UCD) antes de volcarse en la empresa, tomando el control de una constructora que, mediante fusiones (OCP, Dragados), convirtió en ACS.",
+            "fecha": "1997-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -15893,9 +15881,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0055-ap-01-it-01",
             "apartado_id": "ibx-0055-ap-01",
             "tipo": "evento",
-            "titulo": "OCP",
-            "contenido": "Llega a OCP Construcciones en 1987 como consejero delegado.",
-            "fecha": "1987-01-01",
+            "titulo": "ACS, gigante global",
+            "contenido": "Bajo su mando, ACS se expandió internacionalmente (Hochtief, Cimic) hasta liderar la construcción mundial de infraestructuras y concesiones, con fuerte presencia en EE. UU. y Australia.",
+            "fecha": "2000-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -15905,25 +15893,13 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0055-ap-01-it-02",
             "apartado_id": "ibx-0055-ap-01",
             "tipo": "evento",
-            "titulo": "ACS",
-            "contenido": "Fusión OCP + Ginés Navarro Construcciones en 1997 crea ACS. Florentino preside.",
-            "fecha": "1997-12-22",
+            "titulo": "El Real Madrid y la Superliga",
+            "contenido": "Presidente del Real Madrid en dos etapas (desde 2009 de forma continuada), ha hecho del club una potencia deportiva y económica y ha liderado el proyecto de la Superliga europea, en pulso con la UEFA y LaLiga.",
+            "fecha": "2009-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 2
-          },
-          {
-            "id": "ibx-0055-ap-01-it-03",
-            "apartado_id": "ibx-0055-ap-01",
-            "tipo": "evento",
-            "titulo": "Real Madrid",
-            "contenido": "Presidente del Real Madrid 1995, 2000-2006 y 2009-presente.",
-            "fecha": "2000-07-16",
-            "fuente_url": null,
-            "fuente_titulo": null,
-            "tags": [],
-            "orden": 3
           }
         ]
       },
@@ -16139,8 +16115,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0056",
@@ -16379,8 +16355,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0057",
@@ -16695,8 +16671,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0058",
@@ -16956,8 +16932,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0059",
@@ -17187,8 +17163,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0060",
@@ -17423,8 +17399,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0061",
@@ -17664,8 +17640,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0062",
@@ -17947,8 +17923,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0063",
@@ -18144,8 +18120,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0064",
@@ -18358,8 +18334,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0065",
@@ -18554,8 +18530,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0066",
@@ -18770,8 +18746,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0067",
@@ -18987,8 +18963,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0068",
@@ -19222,8 +19198,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0069",
@@ -19427,8 +19403,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0070",
@@ -19727,8 +19703,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0071",
@@ -20056,8 +20032,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0072",
@@ -20381,8 +20357,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0073",
@@ -20672,8 +20648,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0074",
@@ -20901,8 +20877,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0075",
@@ -21114,8 +21090,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0076",
@@ -21147,7 +21123,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0076-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Manresa, 1942. Económicas (Universidad de Barcelona).",
+            "contenido": "Isidre Fainé Casas (Manresa, Barcelona, 1942) es presidente de la Fundación bancaria «la Caixa» y de su holding CriteriaCaixa, el mayor inversor institucional de capital español. Desde ahí controla la participación de referencia en CaixaBank y paquetes decisivos en Naturgy y Telefónica. Es uno de los hombres con más poder económico discreto del país.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21181,9 +21157,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0076-ap-01-it-00",
             "apartado_id": "ibx-0076-ap-01",
             "tipo": "evento",
-            "titulo": "La Caixa carrera entera",
-            "contenido": "En La Caixa desde 1982. Director general 1999, presidente 2007.",
-            "fecha": "2007-06-26",
+            "titulo": "De la banca a la cúpula de La Caixa",
+            "contenido": "Doctor en Economía, hizo carrera en la banca catalana hasta llegar a la dirección general y la presidencia de La Caixa, la mayor caja de ahorros de España, a la que pilotó durante la expansión previa a la crisis.",
+            "fecha": "2007-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21193,13 +21169,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0076-ap-01-it-01",
             "apartado_id": "ibx-0076-ap-01",
             "tipo": "evento",
-            "titulo": "Fundación / Criteria",
-            "contenido": "Tras desbancarización de La Caixa (2014), preside la Fundación y Criteria.",
-            "fecha": "2014-06-29",
+            "titulo": "La transformación en CaixaBank",
+            "contenido": "Lideró la reconversión de la caja en el grupo bancario CaixaBank y, tras la reforma de las cajas, en la estructura Fundación «la Caixa» → CriteriaCaixa → participadas, que blinda el control catalán sobre un imperio financiero e industrial.",
+            "fecha": "2014-06-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0076-ap-01-it-02",
+            "apartado_id": "ibx-0076-ap-01",
+            "tipo": "evento",
+            "titulo": "El mayor inversor institucional español",
+            "contenido": "Como presidente de CriteriaCaixa gestiona una cartera multimillonaria con participaciones de control o influencia en CaixaBank, Naturgy y Telefónica, además de inmobiliario y deuda, lo que le da peso decisivo en los consejos del IBEX.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -21355,8 +21343,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0077",
@@ -21386,7 +21374,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0077-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Busdongo de Arbas (León), 1936. Sin formación universitaria. Comenzó como aprendiz en La Maja (camisería A Coruña).",
+            "contenido": "Amancio Ortega (Busdongo, León, 1936) es el fundador de Inditex (Zara) y el hombre más rico de España, una de las mayores fortunas del mundo. Creador del modelo de «moda rápida», construyó desde Galicia un imperio textil global y hoy diversifica su patrimonio en una de las mayores carteras inmobiliarias del planeta a través de Pontegadea.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -21420,9 +21408,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0077-ap-01-it-00",
             "apartado_id": "ibx-0077-ap-01",
             "tipo": "evento",
-            "titulo": "Primera Zara",
-            "contenido": "Abre primera tienda Zara en A Coruña en 1975.",
-            "fecha": "1975-05-15",
+            "titulo": "De dependiente a Zara",
+            "contenido": "Hijo de un ferroviario, empezó como dependiente y repartidor en A Coruña. En 1975 abrió la primera tienda Zara, sobre la que construyó un nuevo modelo de producción y distribución textil de respuesta rápida.",
+            "fecha": "1975-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21432,9 +21420,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0077-ap-01-it-01",
             "apartado_id": "ibx-0077-ap-01",
             "tipo": "evento",
-            "titulo": "Pontegadea",
-            "contenido": "Vehículo familiar Pontegadea, mayor inmobiliaria privada de España.",
-            "fecha": "2001-01-01",
+            "titulo": "Inditex, imperio global",
+            "contenido": "Agrupó sus marcas (Zara, Massimo Dutti, Pull&Bear, Bershka…) en Inditex, que sacó a bolsa en 2001 y convirtió en el mayor grupo textil del mundo, con miles de tiendas en todo el planeta.",
+            "fecha": "2001-05-23",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21444,9 +21432,9 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0077-ap-01-it-02",
             "apartado_id": "ibx-0077-ap-01",
             "tipo": "evento",
-            "titulo": "Retirada cargo ejecutivo",
-            "contenido": "Cede presidencia a Pablo Isla en 2011.",
-            "fecha": "2011-07-19",
+            "titulo": "Pontegadea y el ladrillo",
+            "contenido": "Retirado de la gestión (que dejó en manos de Pablo Isla y luego de su hija Marta Ortega), invierte los dividendos de Inditex a través de Pontegadea en inmuebles emblemáticos (oficinas, logística, energía) en las grandes capitales del mundo.",
+            "fecha": "2011-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
@@ -21578,8 +21566,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0078",
@@ -21819,8 +21807,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0079",
@@ -22107,8 +22095,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0080",
@@ -22308,8 +22296,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0081",
@@ -22339,7 +22327,7 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "apartado_id": "ibx-0081-ap-00",
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Getxo (Bizkaia), 1958. Empresario industrial (entornos siderúrgico y químico vasco).",
+            "contenido": "Antonio Garamendi Lecanda (Getxo, Bizkaia, 1958) es presidente de la CEOE, la gran patronal española, y por tanto el principal interlocutor empresarial del Gobierno y de los sindicatos en el diálogo social. Su voz representa a las grandes corporaciones del IBEX y a miles de pymes en la negociación de salarios, reforma laboral y pensiones.",
             "fecha": null,
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22373,8 +22361,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0081-ap-01-it-00",
             "apartado_id": "ibx-0081-ap-01",
             "tipo": "evento",
-            "titulo": "Confebask / Cepyme",
-            "contenido": "Empresarial vasco. Presidente de Cepyme 2014-2018.",
+            "titulo": "Empresario y dirigente patronal",
+            "contenido": "Empresario vasco con intereses en distintos sectores, escaló en la representación empresarial: presidió la patronal de autónomos (ATA) y CEPYME antes de dar el salto a la cúpula de la confederación.",
             "fecha": "2014-01-01",
             "fuente_url": null,
             "fuente_titulo": null,
@@ -22385,13 +22373,25 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
             "id": "ibx-0081-ap-01-it-01",
             "apartado_id": "ibx-0081-ap-01",
             "tipo": "evento",
-            "titulo": "Presidente CEOE",
-            "contenido": "Presidente desde noviembre 2018, sustituyendo a Juan Rosell.",
-            "fecha": "2018-11-21",
+            "titulo": "Presidente de la CEOE",
+            "contenido": "Preside la CEOE desde 2018, reelegido para un nuevo mandato. Pilota la posición empresarial en la subida del SMI, la reforma laboral y las pensiones, alternando la firma de acuerdos con el descuelgue cuando lo cree necesario.",
+            "fecha": "2018-11-22",
             "fuente_url": null,
             "fuente_titulo": null,
             "tags": [],
             "orden": 1
+          },
+          {
+            "id": "ibx-0081-ap-01-it-02",
+            "apartado_id": "ibx-0081-ap-01",
+            "tipo": "evento",
+            "titulo": "El interlocutor del capital",
+            "contenido": "Su valor es la representación unificada del gran empresariado ante la Moncloa, los sindicatos y Bruselas, en una relación pragmática pero tensa con el Gobierno de coalición por la fiscalidad y la regulación.",
+            "fecha": null,
+            "fuente_url": null,
+            "fuente_titulo": null,
+            "tags": [],
+            "orden": 2
           }
         ]
       },
@@ -22496,8 +22496,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0082",
@@ -22768,8 +22768,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0083",
@@ -23003,8 +23003,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0084",
@@ -23210,8 +23210,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0085",
@@ -23365,8 +23365,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0086",
@@ -23587,8 +23587,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0087",
@@ -23791,8 +23791,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0088",
@@ -23971,8 +23971,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0089",
@@ -24109,8 +24109,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0090",
@@ -24272,8 +24272,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0091",
@@ -24444,8 +24444,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0092",
@@ -24680,8 +24680,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0093",
@@ -24830,8 +24830,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0094",
@@ -24984,8 +24984,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0095",
@@ -25124,8 +25124,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0096",
@@ -25302,8 +25302,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0097",
@@ -25492,8 +25492,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0098",
@@ -25594,8 +25594,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0099",
@@ -25733,8 +25733,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0100",
@@ -25881,8 +25881,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0101",
@@ -26022,8 +26022,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0102",
@@ -26157,8 +26157,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0103",
@@ -26290,8 +26290,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0104",
@@ -26447,8 +26447,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0105",
@@ -26574,8 +26574,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0106",
@@ -26758,8 +26758,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0107",
@@ -26940,8 +26940,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0108",
@@ -27069,8 +27069,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0109",
@@ -27201,8 +27201,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0110",
@@ -27313,8 +27313,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0111",
@@ -27409,8 +27409,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0112",
@@ -27518,8 +27518,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0113",
@@ -27614,8 +27614,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0114",
@@ -27694,8 +27694,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0115",
@@ -27772,8 +27772,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0116",
@@ -27953,8 +27953,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0117",
@@ -28050,8 +28050,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0118",
@@ -28130,8 +28130,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0119",
@@ -28242,8 +28242,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0120",
@@ -28360,8 +28360,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0121",
@@ -28489,8 +28489,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0122",
@@ -28622,8 +28622,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0123",
@@ -28771,8 +28771,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0124",
@@ -28911,8 +28911,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0125",
@@ -29050,8 +29050,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0126",
@@ -29161,8 +29161,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0127",
@@ -29310,8 +29310,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0128",
@@ -29436,8 +29436,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0129",
@@ -29532,8 +29532,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0130",
@@ -29659,8 +29659,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0131",
@@ -29776,8 +29776,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0132",
@@ -29908,8 +29908,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0133",
@@ -30052,8 +30052,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0134",
@@ -30152,8 +30152,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0135",
@@ -30248,8 +30248,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0136",
@@ -30360,8 +30360,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0137",
@@ -30478,8 +30478,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0138",
@@ -30575,8 +30575,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0139",
@@ -30672,8 +30672,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0140",
@@ -30784,8 +30784,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0141",
@@ -30897,8 +30897,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0142",
@@ -30995,8 +30995,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0143",
@@ -31093,8 +31093,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0144",
@@ -31191,8 +31191,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   },
   {
     "id": "ibx-0145",
@@ -31310,8 +31310,8 @@ export const IBEX35_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-28T14:34:35.739651Z",
-    "updated_at": "2026-05-28T14:34:35.739651Z"
+    "created_at": "2026-05-29T09:31:58.548677Z",
+    "updated_at": "2026-05-29T09:31:58.548677Z"
   }
 ]
 

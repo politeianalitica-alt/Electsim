@@ -482,7 +482,7 @@
       "empresa:banco-santander"
     ],
     "confidence": 0.92,
-    "completeness": 0.82,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -491,7 +491,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacida en Santander, 1960. Bryn Mawr College (EE.UU.). Carrera en JP Morgan antes de incorporarse a Santander."
+            "contenido": "Ana Botín (Santander, 1960) es presidenta ejecutiva del Banco Santander, el mayor banco de España y uno de los mayores de la eurozona. Cuarta generación de la saga Botín al frente de la entidad, es una de las banqueras más poderosas del mundo y una voz de referencia del capitalismo español en los foros globales."
           },
           {
             "tipo": "dato",
@@ -509,27 +509,20 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "JP Morgan",
-            "contenido": "Inició su carrera en JP Morgan en Nueva York (1981-1988).",
-            "fecha": "1981-09-01"
+            "titulo": "De JP Morgan a Banesto",
+            "contenido": "Formada en Harvard y curtida en JP Morgan, se incorporó al Santander y dirigió Banesto, donde se foguéo como gestora antes de dar el salto internacional.",
+            "fecha": "2002-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Banesto",
-            "contenido": "Presidenta de Banesto entre 2002 y 2010.",
-            "fecha": "2002-02-22"
-          },
-          {
-            "tipo": "evento",
-            "titulo": "Santander UK",
-            "contenido": "CEO de Santander UK entre 2010 y 2014.",
-            "fecha": "2010-12-13"
-          },
-          {
-            "tipo": "evento",
-            "titulo": "Presidenta Santander",
-            "contenido": "Asume la presidencia ejecutiva el 10 sept 2014 tras la muerte de su padre Emilio Botín.",
+            "titulo": "Santander UK y el salto a la presidencia",
+            "contenido": "Dirigió con éxito la filial británica del banco (Santander UK) y, tras el fallecimiento de su padre Emilio Botín en 2014, asumió la presidencia ejecutiva del grupo.",
             "fecha": "2014-09-10"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "Liderazgo global",
+            "contenido": "Ha pilotado la digitalización del banco, su expansión en América y Europa y su presencia en los grandes foros (Davos, banca europea), erigiéndose en portavoz informal del sector financiero español."
           }
         ]
       },
@@ -3101,7 +3094,7 @@
       "empresa:acs"
     ],
     "confidence": 0.93,
-    "completeness": 0.85,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -3110,7 +3103,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Madrid, 1947. Ingeniero de Caminos. Carrera vinculada al PRD/UCD y al sector de infraestructuras."
+            "contenido": "Florentino Pérez (Madrid, 1947) es presidente de ACS, el mayor grupo constructor del mundo por ingresos, y presidente del Real Madrid. Ingeniero de Caminos, combina un poder económico de primer orden con el liderazgo del club de fútbol más influyente del planeta, lo que lo convierte en una figura de poder doble, empresarial y mediático."
           },
           {
             "tipo": "dato",
@@ -3128,27 +3121,21 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "PRD-UCD",
-            "contenido": "Concejal del Ayuntamiento de Madrid (UCD, 1979-1983). Coqueteo con CDS y PSP.",
-            "fecha": "1979-04-19"
+            "titulo": "De la política a la construcción",
+            "contenido": "Ingeniero de Caminos, pasó por la administración y la política (UCD) antes de volcarse en la empresa, tomando el control de una constructora que, mediante fusiones (OCP, Dragados), convirtió en ACS.",
+            "fecha": "1997-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "OCP",
-            "contenido": "Llega a OCP Construcciones en 1987 como consejero delegado.",
-            "fecha": "1987-01-01"
+            "titulo": "ACS, gigante global",
+            "contenido": "Bajo su mando, ACS se expandió internacionalmente (Hochtief, Cimic) hasta liderar la construcción mundial de infraestructuras y concesiones, con fuerte presencia en EE. UU. y Australia.",
+            "fecha": "2000-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "ACS",
-            "contenido": "Fusión OCP + Ginés Navarro Construcciones en 1997 crea ACS. Florentino preside.",
-            "fecha": "1997-12-22"
-          },
-          {
-            "tipo": "evento",
-            "titulo": "Real Madrid",
-            "contenido": "Presidente del Real Madrid 1995, 2000-2006 y 2009-presente.",
-            "fecha": "2000-07-16"
+            "titulo": "El Real Madrid y la Superliga",
+            "contenido": "Presidente del Real Madrid en dos etapas (desde 2009 de forma continuada), ha hecho del club una potencia deportiva y económica y ha liderado el proyecto de la Superliga europea, en pulso con la UEFA y LaLiga.",
+            "fecha": "2009-06-01"
           }
         ]
       },
@@ -6353,7 +6340,7 @@
       "empresa:telefonica"
     ],
     "confidence": 0.9,
-    "completeness": 0.75,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -6362,7 +6349,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Manresa, 1942. Económicas (Universidad de Barcelona)."
+            "contenido": "Isidre Fainé Casas (Manresa, Barcelona, 1942) es presidente de la Fundación bancaria «la Caixa» y de su holding CriteriaCaixa, el mayor inversor institucional de capital español. Desde ahí controla la participación de referencia en CaixaBank y paquetes decisivos en Naturgy y Telefónica. Es uno de los hombres con más poder económico discreto del país."
           },
           {
             "tipo": "dato",
@@ -6380,15 +6367,20 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "La Caixa carrera entera",
-            "contenido": "En La Caixa desde 1982. Director general 1999, presidente 2007.",
-            "fecha": "2007-06-26"
+            "titulo": "De la banca a la cúpula de La Caixa",
+            "contenido": "Doctor en Economía, hizo carrera en la banca catalana hasta llegar a la dirección general y la presidencia de La Caixa, la mayor caja de ahorros de España, a la que pilotó durante la expansión previa a la crisis.",
+            "fecha": "2007-06-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Fundación / Criteria",
-            "contenido": "Tras desbancarización de La Caixa (2014), preside la Fundación y Criteria.",
-            "fecha": "2014-06-29"
+            "titulo": "La transformación en CaixaBank",
+            "contenido": "Lideró la reconversión de la caja en el grupo bancario CaixaBank y, tras la reforma de las cajas, en la estructura Fundación «la Caixa» → CriteriaCaixa → participadas, que blinda el control catalán sobre un imperio financiero e industrial.",
+            "fecha": "2014-06-01"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El mayor inversor institucional español",
+            "contenido": "Como presidente de CriteriaCaixa gestiona una cartera multimillonaria con participaciones de control o influencia en CaixaBank, Naturgy y Telefónica, además de inmobiliario y deuda, lo que le da peso decisivo en los consejos del IBEX."
           }
         ]
       },
@@ -6500,7 +6492,7 @@
       "empresa:inditex"
     ],
     "confidence": 0.92,
-    "completeness": 0.78,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -6509,7 +6501,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Busdongo de Arbas (León), 1936. Sin formación universitaria. Comenzó como aprendiz en La Maja (camisería A Coruña)."
+            "contenido": "Amancio Ortega (Busdongo, León, 1936) es el fundador de Inditex (Zara) y el hombre más rico de España, una de las mayores fortunas del mundo. Creador del modelo de «moda rápida», construyó desde Galicia un imperio textil global y hoy diversifica su patrimonio en una de las mayores carteras inmobiliarias del planeta a través de Pontegadea."
           },
           {
             "tipo": "dato",
@@ -6527,21 +6519,21 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Primera Zara",
-            "contenido": "Abre primera tienda Zara en A Coruña en 1975.",
-            "fecha": "1975-05-15"
+            "titulo": "De dependiente a Zara",
+            "contenido": "Hijo de un ferroviario, empezó como dependiente y repartidor en A Coruña. En 1975 abrió la primera tienda Zara, sobre la que construyó un nuevo modelo de producción y distribución textil de respuesta rápida.",
+            "fecha": "1975-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Pontegadea",
-            "contenido": "Vehículo familiar Pontegadea, mayor inmobiliaria privada de España.",
-            "fecha": "2001-01-01"
+            "titulo": "Inditex, imperio global",
+            "contenido": "Agrupó sus marcas (Zara, Massimo Dutti, Pull&Bear, Bershka…) en Inditex, que sacó a bolsa en 2001 y convirtió en el mayor grupo textil del mundo, con miles de tiendas en todo el planeta.",
+            "fecha": "2001-05-23"
           },
           {
             "tipo": "evento",
-            "titulo": "Retirada cargo ejecutivo",
-            "contenido": "Cede presidencia a Pablo Isla en 2011.",
-            "fecha": "2011-07-19"
+            "titulo": "Pontegadea y el ladrillo",
+            "contenido": "Retirado de la gestión (que dejó en manos de Pablo Isla y luego de su hija Marta Ortega), invierte los dividendos de Inditex a través de Pontegadea en inmuebles emblemáticos (oficinas, logística, energía) en las grandes capitales del mundo.",
+            "fecha": "2011-01-01"
           }
         ]
       },
@@ -7087,7 +7079,7 @@
       "ceoe"
     ],
     "confidence": 0.88,
-    "completeness": 0.7,
+    "completeness": 0.95,
     "apartados": [
       {
         "tipo": "identidad",
@@ -7096,7 +7088,7 @@
           {
             "tipo": "dato",
             "titulo": "Perfil",
-            "contenido": "Nacido en Getxo (Bizkaia), 1958. Empresario industrial (entornos siderúrgico y químico vasco)."
+            "contenido": "Antonio Garamendi Lecanda (Getxo, Bizkaia, 1958) es presidente de la CEOE, la gran patronal española, y por tanto el principal interlocutor empresarial del Gobierno y de los sindicatos en el diálogo social. Su voz representa a las grandes corporaciones del IBEX y a miles de pymes en la negociación de salarios, reforma laboral y pensiones."
           },
           {
             "tipo": "dato",
@@ -7114,15 +7106,20 @@
         "items": [
           {
             "tipo": "evento",
-            "titulo": "Confebask / Cepyme",
-            "contenido": "Empresarial vasco. Presidente de Cepyme 2014-2018.",
+            "titulo": "Empresario y dirigente patronal",
+            "contenido": "Empresario vasco con intereses en distintos sectores, escaló en la representación empresarial: presidió la patronal de autónomos (ATA) y CEPYME antes de dar el salto a la cúpula de la confederación.",
             "fecha": "2014-01-01"
           },
           {
             "tipo": "evento",
-            "titulo": "Presidente CEOE",
-            "contenido": "Presidente desde noviembre 2018, sustituyendo a Juan Rosell.",
-            "fecha": "2018-11-21"
+            "titulo": "Presidente de la CEOE",
+            "contenido": "Preside la CEOE desde 2018, reelegido para un nuevo mandato. Pilota la posición empresarial en la subida del SMI, la reforma laboral y las pensiones, alternando la firma de acuerdos con el descuelgue cuando lo cree necesario.",
+            "fecha": "2018-11-22"
+          },
+          {
+            "tipo": "evento",
+            "titulo": "El interlocutor del capital",
+            "contenido": "Su valor es la representación unificada del gran empresariado ante la Moncloa, los sindicatos y Bruselas, en una relación pragmática pero tensa con el Gobierno de coalición por la fiscalidad y la regulación."
           }
         ]
       },
