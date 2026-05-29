@@ -550,6 +550,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Gobierno de Cantabria · portal oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.cantabria.es",
+            "fuente_titulo": "Portal de Transparencia · Gobierno de Cantabria",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -638,6 +657,25 @@
               "psoe",
               "nota--4",
               "tension-interna"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Castilla-La Mancha · portal oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.castillalamancha.es",
+            "fuente_titulo": "Portal de Transparencia · Junta de Castilla-La Mancha",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1213,6 +1251,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Gobierno de La Rioja · registro oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://web.larioja.org/portal-transparencia/transparencia?n=tra-declaraciones-de-bienes-y-actividades-de-los-altos-cargos-de-la-comunidad-autonoma",
+            "fuente_titulo": "Portal de Transparencia · Gobierno de La Rioja",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1655,6 +1712,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de actividades (Gobierno Vasco · portal oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.euskadi.eus/gobierno-vasco/funcion-publica/-/indicador_bienes_actividades/",
+            "fuente_titulo": "Gobierno Vasco · Euskadi.eus",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1753,6 +1829,25 @@
               "vox",
               "nota-+4",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (GVA Oberta · portal oficial)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://gvaoberta.gva.es",
+            "fuente_titulo": "GVA Oberta · Generalitat Valenciana",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]

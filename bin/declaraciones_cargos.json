@@ -64,5 +64,35 @@
     "titulo": "Declaración de bienes y actividades (Junta de Extremadura · portal oficial)",
     "fuente": "Portal de Transparencia · Junta de Extremadura",
     "tipo": "registro"
+  },
+  "emiliano-garcia-page": {
+    "url": "https://transparencia.castillalamancha.es",
+    "titulo": "Declaración de bienes y actividades (Castilla-La Mancha · portal oficial)",
+    "fuente": "Portal de Transparencia · Junta de Castilla-La Mancha",
+    "tipo": "registro"
+  },
+  "maria-jose-saenz-de-buruaga": {
+    "url": "https://transparencia.cantabria.es",
+    "titulo": "Declaración de bienes y actividades (Gobierno de Cantabria · portal oficial)",
+    "fuente": "Portal de Transparencia · Gobierno de Cantabria",
+    "tipo": "registro"
+  },
+  "gonzalo-capellan": {
+    "url": "https://web.larioja.org/portal-transparencia/transparencia?n=tra-declaraciones-de-bienes-y-actividades-de-los-altos-cargos-de-la-comunidad-autonoma",
+    "titulo": "Declaración de bienes y actividades (Gobierno de La Rioja · registro oficial)",
+    "fuente": "Portal de Transparencia · Gobierno de La Rioja",
+    "tipo": "registro"
+  },
+  "imanol-pradales": {
+    "url": "https://www.euskadi.eus/gobierno-vasco/funcion-publica/-/indicador_bienes_actividades/",
+    "titulo": "Declaración de actividades (Gobierno Vasco · portal oficial)",
+    "fuente": "Gobierno Vasco · Euskadi.eus",
+    "tipo": "registro"
+  },
+  "juan-francisco-perez-llorca": {
+    "url": "https://gvaoberta.gva.es",
+    "titulo": "Declaración de bienes y actividades (GVA Oberta · portal oficial)",
+    "fuente": "GVA Oberta · Generalitat Valenciana",
+    "tipo": "registro"
   }
 }
