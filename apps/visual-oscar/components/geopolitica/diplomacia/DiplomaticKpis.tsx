@@ -29,9 +29,9 @@ export function DiplomaticKpis() {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
       <Kpi label="Países con sanciones" value={String(s.with_sanctions || 0)} sub={`${s.pariah_states || 0} pariah states`} accent="#dc2626" />
       <Kpi label="Entidades sancionadas" value="~60.000" sub="OpenSanctions agregado 333+ fuentes" accent="#7f1d1d" />
-      <Kpi label="Pro-occidentales AGNU" value={String(s.western_aligned || 0)} sub="alignment > +50" accent="#1e40af" />
-      <Kpi label="Pro-orientales AGNU" value={String(s.eastern_aligned || 0)} sub="alignment < -30" accent="#7f1d1d" />
-      <Kpi label="No alineados" value={String(s.non_aligned || 0)} sub="abstención frecuente" accent="#94a3b8" />
+      <Kpi label="Pro-occidentales AGNU" value={String(s.western_aligned || 0)} sub="alignment ≥ +50" accent="#1e40af" />
+      <Kpi label="Pro-orientales AGNU" value={String(s.eastern_aligned || 0)} sub="alignment ≤ -50" accent="#7f1d1d" />
+      <Kpi label="No alineados AGNU" value={String(s.non_aligned || 0)} sub="|alignment| < 50" accent="#94a3b8" />
       <Kpi label="Señales 7d" value={String(data.signals?.signals?.length || 0)} sub="GDELT diplomatic events" accent="#0891b2" />
     </div>
   )

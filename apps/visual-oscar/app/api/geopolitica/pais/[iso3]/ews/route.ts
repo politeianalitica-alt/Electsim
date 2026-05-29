@@ -16,6 +16,7 @@ import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
 import { fetchPortActivityByCountry, getPortAnomalyScore } from '@/lib/portwatch/client'
 import { fetchDisplacement, getLatestDisplacement } from '@/lib/unhcr/client'
 import { buildGdeltDocUrl, fetchGdeltJson } from '@/lib/gdelt/build-query'
+import { getCountryMacro } from '@/lib/geopolitica/country-macro-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -123,24 +124,52 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   }
 
   // ──────── Bloque 3 · Mercados financieros ────────
-  // Placeholder · Finnhub CDS bonds requiere premium tier. Mantenemos shape.
-  const marketsBlock = {
+  // G22 fix · enriquecido con datos curados seed país por país (top 20 economías).
+  // Reemplaza el placeholder "Próximamente" anterior.
+  const macro = getCountryMacro(iso3)
+  const marketsBlock = macro ? {
+    available: true,
+    pending: false,
+    fx_per_usd: macro.fx_per_usd,
+    fx_currency: macro.fx_currency,
+    bond_10y_yield_pct: macro.bond_10y_yield_pct,
+    cds_5y_bps: macro.cds_5y_bps,
+    reserves_usd_bn: macro.reserves_usd_bn,
+    reserves_months_imports: macro.reserves_months_imports,
+    note: 'Datos curados Q1 2026 · ECB Reference Rates + OECD Bond Yields + IMF SDDS',
+    alert: (macro.cds_5y_bps !== null && macro.cds_5y_bps > 200) ||
+           (macro.bond_10y_yield_pct !== null && macro.bond_10y_yield_pct > 10) ||
+           (macro.reserves_months_imports !== null && macro.reserves_months_imports < 1.5),
+  } : {
     available: false,
     pending: true,
-    note: 'CDS soberano + curva tipos pendiente · Finnhub bonds requiere upgrade. Por ahora solo cotizaciones empresas vía /pais/[iso3]/empresas',
-    fx_usd: null,
+    note: 'Snapshot macro disponible solo para top 20 economías · este país pendiente seed.',
+    fx_per_usd: null,
+    fx_currency: null,
+    bond_10y_yield_pct: null,
     cds_5y_bps: null,
-    sovereign_bonds_10y_pct: null,
-    reserves_months_imports: null,                    // pendiente IMF IFS
+    reserves_usd_bn: null,
+    reserves_months_imports: null,
     alert: false,
   }
 
   // ──────── Bloque 4 · Flujos comerciales ────────
-  // Skip aquí · datos en /pais/[iso3]/comercio (más caro, on-demand)
-  const tradeBlock = {
+  // G22 fix · enriquecido con socios top + productos top + HHI + dual_use seed.
+  const tradeBlock = macro ? {
+    available: true,
+    pending: false,
+    top_export_partners: macro.top_export_partners,
+    top_import_partners: macro.top_import_partners,
+    top_exports_hs: macro.top_exports_hs,
+    export_hhi: macro.export_hhi,
+    dual_use_share_pct: macro.dual_use_share_pct,
+    note: 'Datos UN Comtrade 2023 · concentración HHI (>2500=alta dependencia) · share HS 93 = bienes doble uso/armas',
+    alert: (macro.export_hhi !== null && macro.export_hhi > 3000) ||
+           (macro.dual_use_share_pct !== null && macro.dual_use_share_pct > 5),
+  } : {
     available: false,
     pending: true,
-    note: 'Datos UN Comtrade pesados · ver /api/geopolitica/pais/[iso3]/comercio',
+    note: 'Datos UN Comtrade disponibles solo para top 20 economías · este país pendiente seed. Ver también /api/geopolitica/pais/[iso3]/comercio.',
   }
 
   // ──────── Bloque 5 · Desplazamiento UNHCR ────────
@@ -176,8 +205,15 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
     alerts_active: alertsCount,
     fetched_at: startedAt,
     _meta: {
-      sources_consulted: ['PortWatch IMF', 'GDELT 30d', 'GDELT tonechart 14d', 'UNHCR Refugee Stats'],
-      pending_sources: ['Finnhub CDS bonds (premium)', 'IMF IFS reservas', 'UN Comtrade (endpoint propio)'],
+      sources_consulted: [
+        'PortWatch IMF',
+        'GDELT 30d',
+        'GDELT tonechart 14d',
+        'UNHCR Refugee Stats',
+        macro ? 'Country macro seed Q1 2026 (ECB/OECD/IMF SDDS/UN Comtrade 2023)' : null,
+      ].filter(Boolean) as string[],
+      country_macro_in_seed: !!macro,
+      pending_sources: macro ? [] : ['Country macro snapshot (seed top 20 economías solo)'],
       cache_ttl_seconds: 1800,
     },
   }, {

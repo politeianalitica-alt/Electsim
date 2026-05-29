@@ -35,8 +35,24 @@ interface EwsResp {
   ews: {
     ports: { available: boolean; anomaly_score: number | null; ports_count: number; top_ports: any[]; deviation_avg: number | null; alert: boolean }
     media: { available: boolean; total_articles_30d: number; avg_tone: number | null; divergencia_local_internacional: { local: number; international: number; gap: number } | null; top_themes: Array<{ theme: string; count: number }>; coverage_by_source_country: Array<{ iso2: string; count: number }>; alert: boolean }
-    markets: { available: boolean; pending: boolean; note: string }
-    trade: { available: boolean; pending: boolean; note: string }
+    /** G22 fix · Block 3 con datos curados macro */
+    markets: {
+      available: boolean; pending: boolean; note: string
+      fx_per_usd?: number | null; fx_currency?: string | null
+      bond_10y_yield_pct?: number | null; cds_5y_bps?: number | null
+      reserves_usd_bn?: number | null; reserves_months_imports?: number | null
+      alert?: boolean
+    }
+    /** G22 fix · Block 4 con socios + productos + HHI */
+    trade: {
+      available: boolean; pending: boolean; note: string
+      top_export_partners?: Array<{ iso3: string; share_pct: number }>
+      top_import_partners?: Array<{ iso3: string; share_pct: number }>
+      top_exports_hs?: Array<{ hs2: string; name_es: string; share_pct: number }>
+      export_hhi?: number | null
+      dual_use_share_pct?: number | null
+      alert?: boolean
+    }
     displacement: { available: boolean; refugees_originated: number | null; refugees_received: number | null; net_flow: number; outflow_series: any[]; inflow_series: any[]; alert: boolean }
   }
   alerts_active: number
@@ -297,17 +313,127 @@ function SubSenales({ ews }: { ews: EwsResp['ews'] | null }) {
         )}
       </SignalBlock>
 
-      <SignalBlock title="💱 Mercados Financieros · Finnhub" alert={false} available={false}>
-        <p style={{ fontSize: 11, color: '#92400e', background: '#fef3c7', padding: '8px 10px', borderRadius: 6, margin: 0 }}>
-          <strong>Próximamente</strong> · CDS soberano + curva tipos requiere Finnhub premium.
-          Por ahora cotizaciones empresas vía Sub-tab Exposición España.
-        </p>
+      <SignalBlock
+        title="💱 Mercados Financieros · ECB + OECD + IMF"
+        alert={ews.markets.alert ?? false}
+        available={ews.markets.available}
+      >
+        {ews.markets.available ? (
+          <>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 8 }}>
+              {ews.markets.fx_per_usd !== null && ews.markets.fx_per_usd !== undefined && (
+                <DataChip
+                  label={`FX / USD (${ews.markets.fx_currency})`}
+                  value={ews.markets.fx_per_usd >= 100 ? ews.markets.fx_per_usd.toFixed(0) : ews.markets.fx_per_usd.toFixed(2)}
+                />
+              )}
+              {ews.markets.bond_10y_yield_pct !== null && ews.markets.bond_10y_yield_pct !== undefined && (
+                <DataChip
+                  label="Bono 10Y %"
+                  value={`${ews.markets.bond_10y_yield_pct.toFixed(2)}%`}
+                />
+              )}
+              {ews.markets.cds_5y_bps !== null && ews.markets.cds_5y_bps !== undefined && (
+                <DataChip
+                  label="CDS 5Y (bps)"
+                  value={String(ews.markets.cds_5y_bps)}
+                />
+              )}
+              {ews.markets.reserves_usd_bn !== null && ews.markets.reserves_usd_bn !== undefined && (
+                <DataChip
+                  label="Reservas (USD bn)"
+                  value={ews.markets.reserves_usd_bn.toFixed(0)}
+                />
+              )}
+              {ews.markets.reserves_months_imports !== null && ews.markets.reserves_months_imports !== undefined && (
+                <DataChip
+                  label="Reservas / meses imports"
+                  value={`${ews.markets.reserves_months_imports.toFixed(1)} m`}
+                />
+              )}
+            </div>
+            {ews.markets.alert && (
+              <p style={{ fontSize: 10, color: '#7f1d1d', fontWeight: 600, margin: '4px 0 0' }}>
+                ⚠ Estrés financiero: CDS &gt; 200 bps · o bono &gt; 10% · o reservas &lt; 1.5m imports
+              </p>
+            )}
+            <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>
+              {ews.markets.note}
+            </p>
+          </>
+        ) : (
+          <p style={{ fontSize: 11, color: '#92400e', background: '#fef3c7', padding: '8px 10px', borderRadius: 6, margin: 0 }}>
+            Snapshot macro curado solo para top 20 economías. Este país queda pendiente seed (fase G23).
+          </p>
+        )}
       </SignalBlock>
 
-      <SignalBlock title="📦 Flujos Comerciales · UN Comtrade" alert={false} available={false}>
-        <p style={{ fontSize: 11, color: '#92400e', background: '#fef3c7', padding: '8px 10px', borderRadius: 6, margin: 0 }}>
-          <strong>Próximamente</strong> · Top exports + concentración HHI + bienes doble uso (HS 93) en C3.
-        </p>
+      <SignalBlock
+        title="📦 Flujos Comerciales · UN Comtrade 2023"
+        alert={ews.trade.alert ?? false}
+        available={ews.trade.available}
+      >
+        {ews.trade.available ? (
+          <>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
+              <div>
+                <p style={{ margin: '0 0 4px', fontSize: 10, color: '#475569', fontWeight: 600 }}>Top destinos export</p>
+                {(ews.trade.top_export_partners ?? []).slice(0, 3).map((p) => (
+                  <div key={p.iso3} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, padding: '2px 0' }}>
+                    <span>{p.iso3}</span>
+                    <span style={{ fontFamily: 'ui-monospace, monospace', color: '#0f172a', fontWeight: 600 }}>{p.share_pct.toFixed(1)}%</span>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p style={{ margin: '0 0 4px', fontSize: 10, color: '#475569', fontWeight: 600 }}>Top origen import</p>
+                {(ews.trade.top_import_partners ?? []).slice(0, 3).map((p) => (
+                  <div key={p.iso3} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, padding: '2px 0' }}>
+                    <span>{p.iso3}</span>
+                    <span style={{ fontFamily: 'ui-monospace, monospace', color: '#0f172a', fontWeight: 600 }}>{p.share_pct.toFixed(1)}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {(ews.trade.top_exports_hs ?? []).length > 0 && (
+              <div style={{ marginBottom: 6 }}>
+                <p style={{ margin: '0 0 4px', fontSize: 10, color: '#475569', fontWeight: 600 }}>Top productos export</p>
+                {(ews.trade.top_exports_hs ?? []).slice(0, 3).map((h) => (
+                  <div key={h.hs2} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, padding: '2px 0', borderBottom: '1px solid #f8fafc' }}>
+                    <span><span style={{ color: '#94a3b8', fontFamily: 'ui-monospace, monospace' }}>HS{h.hs2}</span> {h.name_es}</span>
+                    <span style={{ fontFamily: 'ui-monospace, monospace', color: '#0f172a', fontWeight: 600 }}>{h.share_pct.toFixed(1)}%</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: 6, marginTop: 6 }}>
+              {ews.trade.export_hhi !== null && ews.trade.export_hhi !== undefined && (
+                <DataChip
+                  label="HHI exports"
+                  value={`${ews.trade.export_hhi.toFixed(0)}${ews.trade.export_hhi > 2500 ? ' ⚠' : ''}`}
+                />
+              )}
+              {ews.trade.dual_use_share_pct !== null && ews.trade.dual_use_share_pct !== undefined && (
+                <DataChip
+                  label="Doble uso HS93"
+                  value={`${ews.trade.dual_use_share_pct.toFixed(1)}%${ews.trade.dual_use_share_pct > 5 ? ' ⚠' : ''}`}
+                />
+              )}
+            </div>
+            {ews.trade.alert && (
+              <p style={{ fontSize: 10, color: '#7f1d1d', fontWeight: 600, margin: '4px 0 0' }}>
+                ⚠ Concentración export &gt; 3000 HHI · o doble uso &gt; 5% (riesgo armas)
+              </p>
+            )}
+            <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>
+              {ews.trade.note}
+            </p>
+          </>
+        ) : (
+          <p style={{ fontSize: 11, color: '#92400e', background: '#fef3c7', padding: '8px 10px', borderRadius: 6, margin: 0 }}>
+            Datos UN Comtrade disponibles solo para top 20 economías · este país queda pendiente seed.
+          </p>
+        )}
       </SignalBlock>
 
       <SignalBlock

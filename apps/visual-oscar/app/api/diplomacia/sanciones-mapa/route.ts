@@ -47,13 +47,16 @@ export async function GET() {
     })
   }
 
+  // G22 fix · thresholds ajustados a la nueva fórmula getAlignmentWest()
+  // basada en western_position por resolución (no suma cruda). Con esta
+  // fórmula el rango efectivo es más amplio: USA ~75, RUS = -100.
   const summary = {
     total: countries.length,
     with_sanctions: countries.filter((c) => c.has_sanctions).length,
     pariah_states: countries.filter((c) => c.sanctions_count_estimate === 'pariah').length,
-    western_aligned: countries.filter((c) => (c.alignment_west ?? 0) > 50).length,
-    eastern_aligned: countries.filter((c) => (c.alignment_west ?? 0) < -30).length,
-    non_aligned: countries.filter((c) => c.alignment_west !== null && Math.abs(c.alignment_west) <= 30).length,
+    western_aligned: countries.filter((c) => (c.alignment_west ?? 0) >= 50).length,
+    eastern_aligned: countries.filter((c) => (c.alignment_west ?? 0) <= -50).length,
+    non_aligned: countries.filter((c) => c.alignment_west !== null && Math.abs(c.alignment_west) < 50).length,
     agnu_coverage: AGNU_COUNTRIES_COUNT,
   }
 
@@ -64,11 +67,12 @@ export async function GET() {
     fetched_at: startedAt,
     _meta: {
       sources: [
-        { name: 'AGNU Voting Records · Harvard Dataverse', role: 'alignment_west · 10 resoluciones 2022-2024' },
+        { name: 'AGNU Voting Records · Harvard Dataverse', role: 'alignment_west · 13 resoluciones 2022-2025 (G22 fix · añadidas votaciones 2025)' },
         { name: 'OpenSanctions · estimación cualitativa', role: 'sanctions_count_estimate · detalle on-demand por país' },
       ],
       cache_ttl_seconds: 3600,
-      note: 'Mapa con dataset estático seed · OpenSanctions full counts vía /pais/[iso3]/sanciones (TODO)',
+      alignment_thresholds: { western: '>= +50', eastern: '<= -50', non_aligned: '|x| < 50' },
+      note: 'G22 · alignment_west calculado con western_position por resolución (no suma cruda) · rango efectivo USA ~+75, RUS -100.',
     },
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=10800' },
