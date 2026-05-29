@@ -15,6 +15,8 @@ import { COUNTRY_COORDS } from '@/lib/geopolitica/country-coords'
 import { getSipriEntry } from '@/lib/geopolitica/sipri-data'
 import { getIissCapability, getCapabilityScore } from '@/lib/geopolitica/iiss-capabilities'
 import { getAlliancesForCountry } from '@/lib/geopolitica/alliances'
+import { getArmsTransfers } from '@/lib/geopolitica/sipri-arms-transfers'
+import { getDefenseIndustry } from '@/lib/geopolitica/defense-industry-seed'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -32,6 +34,9 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   const iiss = getIissCapability(iso3)
   const capScore = getCapabilityScore(iso3)
   const alliances = getAlliancesForCountry(iso3)
+  // G22 fix · datos curados SIPRI Arms Transfers + Defense Industry
+  const armsTransfers = getArmsTransfers(iso3)
+  const defenseIndustry = getDefenseIndustry(iso3)
 
   // Posicion OTAN 2% PIB (si miembro)
   const isNato = alliances.some((a) => a.alliance.id === 'nato' && a.status === 'member')
@@ -60,10 +65,19 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
       capability_score: capScore,
     } : null,
     capacidades_pending: !iiss,
-    transferencias: {
+    transferencias: armsTransfers ? {
+      available: true,
+      pending: false,
+      exports: armsTransfers.exports,
+      imports: armsTransfers.imports,
+      world_rank_exporter: armsTransfers.world_rank_exporter,
+      world_rank_importer: armsTransfers.world_rank_importer,
+      notes: armsTransfers.notes,
+      source: 'SIPRI Arms Transfers Database 2024 · ventana 2019-2023 (TIV millones USD)',
+    } : {
       available: false,
       pending: true,
-      note: 'SIPRI Arms Transfers Database · imports/exports últimos 10 años · pendiente · datos manuales en sipri.org/databases/armstransfers',
+      note: 'SIPRI Arms Transfers · disponible solo para top 25 exportadores/importadores · este país queda pendiente seed.',
     },
     alianzas: {
       memberships: alliances.map((a) => ({
@@ -80,15 +94,33 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
       })),
       count: alliances.length,
     },
-    industria: {
+    industria: defenseIndustry ? {
+      available: true,
+      pending: false,
+      companies: defenseIndustry.companies,
+      total_arms_sales_2022_usd_bn: defenseIndustry.total_arms_sales_2022_usd_bn,
+      share_top100_global: defenseIndustry.share_top100_global,
+      notes: defenseIndustry.notes,
+      source: 'SIPRI Arms Industry Database (AIDB) 2023 · ventas armas 2022',
+    } : {
       available: false,
       pending: true,
-      note: 'Empresas defensa domésticas (SIPRI AIDB) + cotización Finnhub si cotizan · pendiente · ver Sub-tab Exposición España (Tab 3) para ver empresas españolas con contratos defensa',
+      note: 'SIPRI AIDB · disponible solo para top 14 industrias defensa · este país queda pendiente seed.',
     },
     fetched_at: startedAt,
     _meta: {
-      sources: ['SIPRI MILEX 2024', 'IISS Military Balance 2024', 'Datasets curados alianzas'],
-      pending: ['SIPRI Arms Transfers', 'SIPRI AIDB empresas defensa', 'NATO breakdown presupuesto'],
+      sources: [
+        'SIPRI MILEX 2024',
+        'IISS Military Balance 2024',
+        'Datasets curados alianzas',
+        armsTransfers ? 'SIPRI Arms Transfers Database 2024' : null,
+        defenseIndustry ? 'SIPRI Arms Industry Database (AIDB) 2023' : null,
+      ].filter(Boolean) as string[],
+      pending: [
+        !armsTransfers ? 'SIPRI Arms Transfers (seed solo top 25)' : null,
+        !defenseIndustry ? 'SIPRI AIDB empresas defensa (seed solo top 14)' : null,
+        'NATO breakdown presupuesto',
+      ].filter(Boolean) as string[],
       cache_ttl_seconds: 86400,
     },
   }, {

@@ -15,6 +15,25 @@ import { useEffect, useState, type ReactNode } from 'react'
 
 type SubTab = 'presupuesto' | 'capacidades' | 'transferencias' | 'alianzas' | 'industria'
 
+interface ArmsTransferEntry {
+  tiv_5y_usd_m: number
+  share_pct: number
+  change_pct: number | null
+  top_partners: Array<{ iso3: string; share_pct: number }>
+  dominant_categories: string[]
+}
+
+interface DefenseCompany {
+  name: string
+  ticker: string | null
+  sipri_rank: number | null
+  arms_sales_usd_m: number
+  arms_share_pct: number
+  employees: number | null
+  segments: string[]
+  notes: string
+}
+
 interface MilitaryDetail {
   ok: boolean
   iso3: string
@@ -26,12 +45,33 @@ interface MilitaryDetail {
   }
   capacidades: any
   capacidades_pending: boolean
-  transferencias: { available: boolean; pending: boolean; note: string }
+  /** G22 fix · SIPRI Arms Transfers data */
+  transferencias: {
+    available: boolean
+    pending: boolean
+    note?: string
+    exports?: ArmsTransferEntry | null
+    imports?: ArmsTransferEntry | null
+    world_rank_exporter?: number | null
+    world_rank_importer?: number | null
+    notes?: string
+    source?: string
+  }
   alianzas: {
     memberships: Array<{ id: string; name: string; short_name: string; category: string; color: string; founded_year: number; status: 'member' | 'affiliate'; members_count: number; affiliates_count: number; description: string }>
     count: number
   }
-  industria: { available: boolean; pending: boolean; note: string }
+  /** G22 fix · SIPRI AIDB defense industry data */
+  industria: {
+    available: boolean
+    pending: boolean
+    note?: string
+    companies?: DefenseCompany[]
+    total_arms_sales_2022_usd_bn?: number
+    share_top100_global?: number
+    notes?: string
+    source?: string
+  }
 }
 
 interface Props {
@@ -126,9 +166,9 @@ export function GeoMilitaryDrawer({ iso3, onClose }: Props) {
 
           {!loading && data && sub === 'presupuesto' && <SubPresupuesto d={data} />}
           {!loading && data && sub === 'capacidades' && <SubCapacidades d={data} />}
-          {!loading && data && sub === 'transferencias' && <PendingBlock data={data.transferencias} title="Transferencias de armamento" />}
+          {!loading && data && sub === 'transferencias' && <SubTransferencias d={data} />}
           {!loading && data && sub === 'alianzas' && <SubAlianzas d={data} />}
-          {!loading && data && sub === 'industria' && <PendingBlock data={data.industria} title="Industria de defensa" />}
+          {!loading && data && sub === 'industria' && <SubIndustria d={data} />}
         </div>
       </aside>
     </>
@@ -246,7 +286,7 @@ function SubAlianzas({ d }: { d: MilitaryDetail }) {
   )
 }
 
-function PendingBlock({ data, title, small = false }: { data: { available: boolean; pending: boolean; note: string }; title: string; small?: boolean }) {
+function PendingBlock({ data, title, small = false }: { data: { available: boolean; pending: boolean; note?: string }; title: string; small?: boolean }) {
   if (!data.pending) return null
   return (
     <div style={{
@@ -255,7 +295,175 @@ function PendingBlock({ data, title, small = false }: { data: { available: boole
       padding: '10px 12px', borderRadius: 6, fontSize: 11, color: '#92400e',
     }}>
       <strong>{title} · Próximamente</strong>
-      <p style={{ margin: '4px 0 0' }}>{data.note}</p>
+      <p style={{ margin: '4px 0 0' }}>{data.note ?? ''}</p>
+    </div>
+  )
+}
+
+// G22 fix · SIPRI Arms Transfers (sub-tab C)
+function SubTransferencias({ d }: { d: MilitaryDetail }) {
+  const t = d.transferencias
+  if (!t.available) {
+    return <PendingBlock data={t} title="Transferencias de armamento" />
+  }
+  return (
+    <div>
+      <header style={{ marginBottom: 12 }}>
+        <h4 style={{ margin: 0, fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+          SIPRI Arms Transfers 2024 · ventana 2019-2023
+        </h4>
+        <p style={{ margin: '4px 0 0', fontSize: 10, color: '#64748b' }}>{t.notes}</p>
+      </header>
+
+      {/* Rankings globales */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+        {t.world_rank_exporter !== null && t.world_rank_exporter !== undefined && (
+          <span style={{ padding: '4px 10px', background: '#dcfce7', color: '#15803d', borderRadius: 4, fontSize: 10, fontWeight: 700 }}>
+            #{t.world_rank_exporter} EXPORTADOR
+          </span>
+        )}
+        {t.world_rank_importer !== null && t.world_rank_importer !== undefined && (
+          <span style={{ padding: '4px 10px', background: '#fef3c7', color: '#92400e', borderRadius: 4, fontSize: 10, fontWeight: 700 }}>
+            #{t.world_rank_importer} IMPORTADOR
+          </span>
+        )}
+      </div>
+
+      {/* Exports block */}
+      {t.exports && (
+        <div style={{ marginBottom: 14, padding: '12px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8 }}>
+          <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#15803d', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            ⬆ Exportaciones armas
+          </h5>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 8 }}>
+            <Chip label="TIV 5y (USD m)" value={`$${(t.exports.tiv_5y_usd_m / 1000).toFixed(1)}bn`} accent="#15803d" />
+            <Chip label="Share mundial" value={`${t.exports.share_pct.toFixed(1)}%`} accent="#16a34a" />
+            {t.exports.change_pct !== null && (
+              <Chip
+                label="vs 2014-18"
+                value={`${t.exports.change_pct > 0 ? '+' : ''}${t.exports.change_pct.toFixed(0)}%`}
+                accent={t.exports.change_pct >= 0 ? '#16a34a' : '#dc2626'}
+              />
+            )}
+          </div>
+          <p style={{ margin: '6px 0 4px', fontSize: 10, fontWeight: 600, color: '#15803d' }}>Top 3 receptores</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {t.exports.top_partners.map((p) => (
+              <div key={p.iso3} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, padding: '3px 0' }}>
+                <span style={{ color: '#475569' }}>{p.iso3}</span>
+                <span style={{ fontFamily: 'ui-monospace, monospace', fontWeight: 700, color: '#15803d' }}>{p.share_pct.toFixed(1)}%</span>
+              </div>
+            ))}
+          </div>
+          <p style={{ margin: '6px 0 0', fontSize: 9, color: '#475569' }}>
+            Categorías: {t.exports.dominant_categories.join(' · ')}
+          </p>
+        </div>
+      )}
+
+      {/* Imports block */}
+      {t.imports && (
+        <div style={{ marginBottom: 14, padding: '12px 14px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8 }}>
+          <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#7f1d1d', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+            ⬇ Importaciones armas
+          </h5>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 8 }}>
+            <Chip label="TIV 5y (USD m)" value={`$${(t.imports.tiv_5y_usd_m / 1000).toFixed(1)}bn`} accent="#7f1d1d" />
+            <Chip label="Share mundial" value={`${t.imports.share_pct.toFixed(1)}%`} accent="#dc2626" />
+            {t.imports.change_pct !== null && (
+              <Chip
+                label="vs 2014-18"
+                value={`${t.imports.change_pct > 0 ? '+' : ''}${t.imports.change_pct.toFixed(0)}%`}
+                accent={t.imports.change_pct >= 0 ? '#dc2626' : '#16a34a'}
+              />
+            )}
+          </div>
+          <p style={{ margin: '6px 0 4px', fontSize: 10, fontWeight: 600, color: '#7f1d1d' }}>Top 3 proveedores</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+            {t.imports.top_partners.map((p) => (
+              <div key={p.iso3} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, padding: '3px 0' }}>
+                <span style={{ color: '#475569' }}>{p.iso3}</span>
+                <span style={{ fontFamily: 'ui-monospace, monospace', fontWeight: 700, color: '#7f1d1d' }}>{p.share_pct.toFixed(1)}%</span>
+              </div>
+            ))}
+          </div>
+          <p style={{ margin: '6px 0 0', fontSize: 9, color: '#475569' }}>
+            Categorías: {t.imports.dominant_categories.join(' · ')}
+          </p>
+        </div>
+      )}
+
+      {t.source && (
+        <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '8px 0 0' }}>{t.source}</p>
+      )}
+    </div>
+  )
+}
+
+// G22 fix · SIPRI AIDB Defense Industry (sub-tab E)
+function SubIndustria({ d }: { d: MilitaryDetail }) {
+  const i = d.industria
+  if (!i.available) {
+    return <PendingBlock data={i} title="Industria de defensa" />
+  }
+  return (
+    <div>
+      <header style={{ marginBottom: 12 }}>
+        <h4 style={{ margin: 0, fontSize: 11, fontWeight: 600, color: '#0f172a', textTransform: 'uppercase', letterSpacing: 0.3 }}>
+          SIPRI Arms Industry Database 2023 · ventas armas 2022
+        </h4>
+        <p style={{ margin: '4px 0 0', fontSize: 10, color: '#64748b' }}>{i.notes}</p>
+      </header>
+
+      {/* Top metrics */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 6, marginBottom: 14 }}>
+        {i.total_arms_sales_2022_usd_bn !== undefined && (
+          <Chip label="Ventas armas 2022" value={`$${i.total_arms_sales_2022_usd_bn} bn`} accent="#dc2626" />
+        )}
+        {i.share_top100_global !== undefined && (
+          <Chip label="Share top 100 mundial" value={`${i.share_top100_global.toFixed(1)}%`} accent="#7c3aed" />
+        )}
+      </div>
+
+      {/* Companies list */}
+      <h5 style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 600, color: '#0f172a' }}>
+        Empresas defensa principales
+      </h5>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {(i.companies ?? []).map((c) => (
+          <div key={c.name} style={{
+            padding: '10px 12px', background: '#fff', borderRadius: 6,
+            borderLeft: '3px solid #dc2626', border: '1px solid #f1f5f9',
+          }}>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'baseline', marginBottom: 4 }}>
+              <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>{c.name}</span>
+              {c.ticker && (
+                <span style={{ padding: '1px 6px', background: '#f1f5f9', borderRadius: 3, fontSize: 9, color: '#475569', fontFamily: 'ui-monospace, monospace' }}>
+                  {c.ticker}
+                </span>
+              )}
+              {c.sipri_rank && (
+                <span style={{ marginLeft: 'auto', padding: '1px 6px', background: '#fef2f2', color: '#7f1d1d', borderRadius: 3, fontSize: 9, fontWeight: 700 }}>
+                  SIPRI #{c.sipri_rank}
+                </span>
+              )}
+            </div>
+            <div style={{ display: 'flex', gap: 10, fontSize: 10, color: '#475569', marginBottom: 4 }}>
+              <span>Ventas armas: <strong style={{ fontFamily: 'ui-monospace, monospace', color: '#7f1d1d' }}>${(c.arms_sales_usd_m / 1000).toFixed(1)}bn</strong></span>
+              <span>Share armas: <strong>{c.arms_share_pct}%</strong></span>
+              {c.employees && <span>Empleados: <strong>{fmtNum(c.employees)}</strong></span>}
+            </div>
+            <p style={{ margin: '2px 0 4px', fontSize: 10, color: '#475569' }}>
+              Segmentos: {c.segments.join(' · ')}
+            </p>
+            <p style={{ margin: 0, fontSize: 10, color: '#0f172a', fontStyle: 'italic' }}>{c.notes}</p>
+          </div>
+        ))}
+      </div>
+
+      {i.source && (
+        <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '8px 0 0' }}>{i.source}</p>
+      )}
     </div>
   )
 }

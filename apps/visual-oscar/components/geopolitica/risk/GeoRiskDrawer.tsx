@@ -363,7 +363,7 @@ function SubSenales({ ews }: { ews: EwsResp['ews'] | null }) {
           </>
         ) : (
           <p style={{ fontSize: 11, color: '#92400e', background: '#fef3c7', padding: '8px 10px', borderRadius: 6, margin: 0 }}>
-            Snapshot macro curado solo para top 20 economías. Este país queda pendiente seed (fase G23).
+            Snapshot macro curado solo para top 50 economías. Este país queda pendiente seed (fase G23).
           </p>
         )}
       </SignalBlock>
@@ -431,7 +431,7 @@ function SubSenales({ ews }: { ews: EwsResp['ews'] | null }) {
           </>
         ) : (
           <p style={{ fontSize: 11, color: '#92400e', background: '#fef3c7', padding: '8px 10px', borderRadius: 6, margin: 0 }}>
-            Datos UN Comtrade disponibles solo para top 20 economías · este país queda pendiente seed.
+            Datos UN Comtrade disponibles solo para top 50 economías · este país queda pendiente seed.
           </p>
         )}
       </SignalBlock>

@@ -124,7 +124,7 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   }
 
   // ──────── Bloque 3 · Mercados financieros ────────
-  // G22 fix · enriquecido con datos curados seed país por país (top 20 economías).
+  // G22 fix · enriquecido con datos curados seed país por país (top 50 economías).
   // Reemplaza el placeholder "Próximamente" anterior.
   const macro = getCountryMacro(iso3)
   const marketsBlock = macro ? {
@@ -143,7 +143,7 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   } : {
     available: false,
     pending: true,
-    note: 'Snapshot macro disponible solo para top 20 economías · este país pendiente seed.',
+    note: 'Snapshot macro disponible solo para top 50 economías · este país pendiente seed.',
     fx_per_usd: null,
     fx_currency: null,
     bond_10y_yield_pct: null,
@@ -169,7 +169,7 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
   } : {
     available: false,
     pending: true,
-    note: 'Datos UN Comtrade disponibles solo para top 20 economías · este país pendiente seed. Ver también /api/geopolitica/pais/[iso3]/comercio.',
+    note: 'Datos UN Comtrade disponibles solo para top 50 economías · este país pendiente seed. Ver también /api/geopolitica/pais/[iso3]/comercio.',
   }
 
   // ──────── Bloque 5 · Desplazamiento UNHCR ────────
@@ -213,7 +213,7 @@ export async function GET(_req: NextRequest, { params }: { params: { iso3: strin
         macro ? 'Country macro seed Q1 2026 (ECB/OECD/IMF SDDS/UN Comtrade 2023)' : null,
       ].filter(Boolean) as string[],
       country_macro_in_seed: !!macro,
-      pending_sources: macro ? [] : ['Country macro snapshot (seed top 20 economías solo)'],
+      pending_sources: macro ? [] : ['Country macro snapshot (seed top 50 economías solo)'],
       cache_ttl_seconds: 1800,
     },
   }, {
