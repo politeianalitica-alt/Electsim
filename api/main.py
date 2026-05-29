@@ -96,14 +96,6 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup_checks() -> None:
-    # Economy Sprint 0 · registrar 16 fuentes económicas en INTEGRATION_REGISTRY
-    try:
-        from integrations.economy_registry_patch import patch_registry
-        patch_registry()
-        logger.info("economy_registry_patch aplicado · 16 fuentes registradas")
-    except Exception as e:
-        logger.warning("economy_registry_patch falló: %s", e)
-
     max_retries = 10
     for attempt in range(max_retries):
         try:
