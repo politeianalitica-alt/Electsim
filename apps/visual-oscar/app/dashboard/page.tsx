@@ -180,6 +180,16 @@ function sanitizeParties(raw: unknown): string {
   return ''
 }
 
+// Flecha decorativa reutilizable; aria-hidden para que los lectores de pantalla
+// no la lean (el botón ya tiene texto visible).
+function ArrowIcon({ size = 11 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  )
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
@@ -319,6 +329,20 @@ export default function DashboardPage() {
  <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={60} onRefresh={refresh}/>
  </div>
 
+          {homeQ.isError && !data && (
+ <div role="alert" style={{
+              background: '#FEF2F2', border: '1px solid #FECACA', color: '#B91C1C',
+              borderRadius: 10, padding: '10px 14px', marginBottom: 12, fontSize: 13,
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+            }}>
+ <span>No se pudieron cargar los datos del panel.</span>
+ <button onClick={() => refresh()} style={{
+                background: '#B91C1C', color: '#fff', border: 'none', borderRadius: 999,
+                padding: '5px 14px', fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              }}>Reintentar</button>
+ </div>
+          )}
+
           {/* Row 1: Risk hero (left) + KPIs grid 2x2 (right) */}
  <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 2fr', gap: 12, marginBottom: 12 }}>
 
@@ -330,7 +354,11 @@ export default function DashboardPage() {
               const semColor = semaforo === 'rojo' ? '#DC2626' : semaforo === 'ambar' || semaforo === 'amarillo' ? '#D97706' : '#16A34A'
               const semLabel = semaforo === 'rojo' ? 'Rojo' : semaforo === 'ambar' || semaforo === 'amarillo' ? 'Ámbar' : 'Verde'
               return (
- <div onClick={() => router.push('/riesgo')} style={{
+ <div onClick={() => router.push('/riesgo')}
+                  role="button" tabIndex={0}
+                  aria-label={`Índice de riesgo político: ${semLabel}. Abrir detalle`}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); router.push('/riesgo') } }}
+                  style={{
                   background: '#fff', borderRadius: 12, padding: '16px 18px',
                   border: '1px solid #ECECEF', borderLeft: `4px solid ${semColor}`,
                   cursor: 'pointer', transition: 'box-shadow 150ms, transform 150ms',
@@ -499,7 +527,7 @@ export default function DashboardPage() {
                     onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
                     onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}>
                       Ver las {richAlerts.length} alertas
- <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ <ArrowIcon size={11}/>
  </button>
                   )}
  </div>
@@ -794,7 +822,7 @@ export default function DashboardPage() {
                 display: 'inline-flex', alignItems: 'center', gap: 4,
               }}>
                 Ver todo
- <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+ <ArrowIcon size={10}/>
  </button>
  </div>
 
