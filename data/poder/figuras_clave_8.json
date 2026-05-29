@@ -97,6 +97,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Madrid · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.madrid.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Madrid",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -195,6 +214,25 @@
               "psc",
               "nota-+6",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Barcelona · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://ajuntament.barcelona.cat/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Barcelona",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -299,6 +337,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Valencia · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://sede.valencia.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Valencia",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -397,6 +454,25 @@
               "pp",
               "nota-+6",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Sevilla · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.sevilla.org/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Sevilla",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -501,6 +577,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Zaragoza · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.zaragoza.es/sede/portal/transparencia/",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Zaragoza",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -599,6 +694,25 @@
               "pp",
               "nota-+6",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Málaga · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.malaga.eu",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Málaga",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -703,6 +817,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Murcia · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.murcia.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Murcia",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -804,6 +937,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Palma · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.palma.cat",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Palma",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -895,6 +1047,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Las Palmas de Gran Canaria · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.laspalmasgc.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Las Palmas de Gran Canaria",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -983,6 +1154,25 @@
               "pnv",
               "nota-+7",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Bilbao · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.bilbao.eus/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Bilbao",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1087,6 +1277,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Valladolid · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.valladolid.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Valladolid",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1175,6 +1384,25 @@
               "psoe",
               "nota-+7",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Vigo · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.vigo.org",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Vigo",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1279,6 +1507,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Gijón · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.gijon.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Gijón",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1377,6 +1624,25 @@
               "pp",
               "nota--3",
               "tension"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de A Coruña · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.coruna.gal/transparencia/es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de A Coruña",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1481,6 +1747,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Granada · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.granada.org",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Granada",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1579,6 +1864,25 @@
               "pp",
               "nota-+6",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Córdoba · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.cordoba.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Córdoba",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
@@ -1683,6 +1987,25 @@
             ]
           }
         ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Vitoria-Gasteiz · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://www.vitoria-gasteiz.org/transparencia",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Vitoria-Gasteiz",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
+            ]
+          }
+        ]
       }
     ]
   },
@@ -1781,6 +2104,25 @@
               "pp",
               "nota-+5",
               "alianza"
+            ]
+          }
+        ]
+      },
+      {
+        "tipo": "evidencia",
+        "orden": 6,
+        "items": [
+          {
+            "tipo": "documento",
+            "titulo": "Declaración de bienes y actividades (Ayuntamiento de Alicante · portal de transparencia)",
+            "contenido": "Declaración de bienes y actividades del cargo, publicada por su administración. Enlace al registro/portal oficial de transparencia de su administración, donde puede consultarse la declaración.",
+            "fuente_url": "https://transparencia.alicante.es",
+            "fuente_titulo": "Portal de Transparencia · Ayuntamiento de Alicante",
+            "tags": [
+              "patrimonio",
+              "declaracion-bienes",
+              "fuente-oficial",
+              "decl-cargo"
             ]
           }
         ]
