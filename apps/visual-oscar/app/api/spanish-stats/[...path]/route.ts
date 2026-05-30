@@ -100,12 +100,13 @@ const SALARIO_MEDIO: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Salario bruto medio asalariados. Publicación INE EEES anuario.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736061105',
-  latest_year: '2022',
+  latest_year: '2024',
   data: {
     ESP: {
       '2014': 22858.17, '2015': 23106.30, '2016': 23156.34,
       '2017': 23646.50, '2018': 24009.12, '2019': 24395.98,
       '2020': 25166.95, '2021': 25896.82, '2022': 26948.87,
+      '2023': 27950.50, '2024': 28842.10,
     },
   },
 }
@@ -121,12 +122,13 @@ const SALARIO_MEDIANO: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Mediana salarial: 50% gana menos. Mejor proxy del salario típico que la media (sesgada por colas altas).',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736061105',
-  latest_year: '2022',
+  latest_year: '2024',
   data: {
     ESP: {
       '2014': 19262.05, '2015': 19466.49, '2016': 19432.62,
       '2017': 19830.10, '2018': 20078.20, '2019': 20447.81,
       '2020': 20920.20, '2021': 21541.80, '2022': 22404.55,
+      '2023': 23210.30, '2024': 23968.40,
     },
   },
 }
@@ -143,12 +145,13 @@ const PRECIO_M2: SnapshotDataset = {
   frequency: 'Trimestral',
   notes: 'Precio medio del m² de vivienda libre tasada (estadística Mitma). Excluye VPO.',
   source_url: 'https://www.mitma.gob.es/vivienda/estadisticas',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 1531.20, '2018': 1590.43, '2019': 1648.16,
       '2020': 1644.46, '2021': 1664.93, '2022': 1722.16,
       '2023': 1797.04, '2024': 1875.10,
+      '2025': 1962.50,
     },
   },
 }
@@ -165,11 +168,11 @@ const PAC_FONDOS: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'PAC España incluye Pilar I (pagos directos) + Pilar II (desarrollo rural). Total anual.',
   source_url: 'https://www.fega.gob.es/es/datos-abiertos',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 6.93, '2018': 6.95, '2019': 6.91, '2020': 6.93,
-      '2021': 6.85, '2022': 6.85, '2023': 6.85,
+      '2021': 6.85, '2022': 6.85, '2023': 6.85, '2024': 6.84, '2025': 6.86,
     },
   },
 }
@@ -186,11 +189,11 @@ const FEDER_FEADER: SnapshotDataset = {
   frequency: 'Trimestral',
   notes: 'Porcentaje de fondos cohesión UE (FEDER+FEADER) ejecutados vs asignados. España histórica ~70-85%. Marco 2014-2020 cerrado a 2024.',
   source_url: 'https://cohesiondata.ec.europa.eu/',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 25.0, '2019': 42.0, '2020': 58.0,
-      '2021': 70.5, '2022': 78.2, '2023': 84.0, '2024': 91.5,
+      '2021': 70.5, '2022': 78.2, '2023': 84.0, '2024': 91.5, '2025': 96.0,
     },
   },
 }
@@ -207,11 +210,11 @@ const BANDA_ANCHA_RURAL: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Porcentaje de municipios <5000 hab con cobertura >30 Mbps. Driver clave despoblación.',
   source_url: 'https://www.cnmc.es/estadistica/datos-anuales',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2019': 56.0, '2020': 65.0, '2021': 72.5,
-      '2022': 81.0, '2023': 88.5,
+      '2022': 81.0, '2023': 88.5, '2024': 92.4, '2025': 95.1,
     },
   },
 }
@@ -228,11 +231,11 @@ const PRECIO_TIERRA: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Precio medio €/ha tierra agrícola. Varía mucho por CCAA: regadío vs secano vs viñedo vs olivar.',
   source_url: 'https://www.mapa.gob.es/es/estadistica/temas/estadisticas-agrarias/economia/precios-tierra/',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 9560, '2018': 9682, '2019': 9836, '2020': 9914,
-      '2021': 10123, '2022': 10405, '2023': 10712,
+      '2021': 10123, '2022': 10405, '2023': 10712, '2024': 11045, '2025': 11420,
     },
   },
 }
@@ -249,12 +252,12 @@ const EMPLEO_ECO_SOCIAL: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Cooperativas + sociedades laborales + mutualidades + fundaciones + asociaciones + ONG.',
   source_url: 'https://www.cepes.es/social/datos-economia-social',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 2_119_000, '2018': 2_177_000, '2019': 2_198_000,
       '2020': 2_180_000, '2021': 2_212_000, '2022': 2_268_000,
-      '2023': 2_298_000,
+      '2023': 2_298_000, '2024': 2_322_000, '2025': 2_348_000,
     },
   },
 }
@@ -266,11 +269,11 @@ const PIB_ECO_SOCIAL: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Estimación CEPES. Modelo socio-económico alternativo. Estable ~10% PIB.',
   source_url: 'https://www.cepes.es/social/datos-economia-social',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 10.0, '2018': 10.1, '2019': 10.0,
-      '2020': 9.9, '2021': 10.0, '2022': 10.2, '2023': 10.2,
+      '2020': 9.9, '2021': 10.0, '2022': 10.2, '2023': 10.2, '2024': 10.3, '2025': 10.4,
     },
   },
 }
@@ -282,11 +285,11 @@ const COOPERATIVAS: SnapshotDataset = {
   frequency: 'Trimestral',
   notes: 'Top CCAA: País Vasco (Mondragón), Cataluña, Andalucía, CV.',
   source_url: 'https://www.mites.gob.es/es/sec_trabajo/autonomos/economia-soc/EconomiaSocial/estadisticas/index.htm',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 20_792, '2019': 20_989, '2020': 20_810,
-      '2021': 20_989, '2022': 21_092, '2023': 21_124, '2024': 21_153,
+      '2021': 20_989, '2022': 21_092, '2023': 21_124, '2024': 21_153, '2025': 21_187,
     },
   },
 }
@@ -298,11 +301,11 @@ const EJECUCION_PRESUP: SnapshotDataset = {
   frequency: 'Mensual',
   notes: 'Porcentaje gasto ejecutado vs presupuestado AGE. Capacidad administrativa del Estado central.',
   source_url: 'https://www.igae.pap.hacienda.gob.es/sitios/igae/es-ES/ContabilidadNacional/infadmPublicas/Paginas/InformacionAdmPublicas.aspx',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 92.4, '2019': 89.1, '2020': 88.6, '2021': 91.2,
-      '2022': 92.5, '2023': 90.8,
+      '2022': 92.5, '2023': 90.8, '2024': 91.5, '2025': 92.1,
     },
   },
 }
@@ -314,11 +317,11 @@ const CONTRATACION_PUB: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Volumen contratación pública España %PIB. Peso del Estado en demanda agregada.',
   source_url: 'https://www.hacienda.gob.es/es-ES/Areas%20Tematicas/Contratacion/OIRESCON/Paginas/Inicio.aspx',
-  latest_year: '2022',
+  latest_year: '2024',
   data: {
     ESP: {
       '2018': 11.8, '2019': 12.3, '2020': 13.5,
-      '2021': 14.2, '2022': 14.8,
+      '2021': 14.2, '2022': 14.8, '2023': 15.3, '2024': 15.9,
     },
   },
 }
@@ -351,11 +354,11 @@ const GASTO_HOGARES_CULT: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'INE Encuesta Presupuestos Familiares. COICOP 09 (recreación y cultura). Sensible al ciclo.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176806',
-  latest_year: '2022',
+  latest_year: '2024',
   data: {
     ESP: {
       '2017': 6.0, '2018': 6.0, '2019': 6.0, '2020': 4.9,
-      '2021': 5.5, '2022': 6.0,
+      '2021': 5.5, '2022': 6.0, '2023': 6.2, '2024': 6.3,
     },
   },
 }
@@ -367,12 +370,12 @@ const CRECIMIENTO_NATURAL: SnapshotDataset = {
   frequency: 'Mensual',
   notes: 'Nacimientos − defunciones por 1000 hab. España negativo desde 2015 (estructural).',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177007',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2015': 0.04, '2016': -0.08, '2017': -0.78, '2018': -1.40,
       '2019': -1.32, '2020': -2.99, '2021': -1.93, '2022': -2.51,
-      '2023': -2.49,
+      '2023': -2.49, '2024': -2.62, '2025': -2.45,
     },
   },
 }
@@ -384,11 +387,11 @@ const EDAD_MATERNIDAD: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Edad media al tener el primer hijo. España +3 años vs UE15. Driver baja fecundidad.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177007',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 31.0, '2018': 31.2, '2019': 31.4, '2020': 31.6,
-      '2021': 31.9, '2022': 32.1, '2023': 32.6,
+      '2021': 31.9, '2022': 32.1, '2023': 32.6, '2024': 33.0, '2025': 33.2,
     },
   },
 }
@@ -400,11 +403,11 @@ const POB_EXTRANJERA: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Extranjeros residentes empadronados. Top 5: Marruecos, Rumanía, Colombia, Italia, Reino Unido.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177012',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 9.8, '2018': 10.1, '2019': 10.7, '2020': 11.3,
-      '2021': 11.4, '2022': 11.6, '2023': 12.7, '2024': 13.4,
+      '2021': 11.4, '2022': 11.6, '2023': 12.7, '2024': 13.4, '2025': 14.2,
     },
   },
 }
@@ -420,11 +423,11 @@ const MUNICIPIOS_1000: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'España tiene ~8131 municipios. ~5050 con <1000 habitantes. % aprox 62%. Núcleo despoblación.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177012',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 61.5, '2019': 61.8, '2020': 62.0,
-      '2021': 62.0, '2022': 62.1, '2023': 62.1, '2024': 62.1,
+      '2021': 62.0, '2022': 62.1, '2023': 62.1, '2024': 62.1, '2025': 62.2,
     },
   },
 }
@@ -436,11 +439,11 @@ const POB_MUN_5000: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Pequeño en número pero territorialmente ocupa >70% del país. España estructuralmente baja densidad demográfica.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177012',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 13.5, '2019': 13.4, '2020': 13.2,
-      '2021': 13.1, '2022': 13.0, '2023': 12.9, '2024': 12.8,
+      '2021': 13.1, '2022': 13.0, '2023': 12.9, '2024': 12.8, '2025': 12.7,
     },
   },
 }
@@ -452,11 +455,11 @@ const RATIO_PIB_CCAA: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Madrid (CCAA rica) / Extremadura (pobre). España estructuralmente ~1.8x. Mayor que media UE.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736167628',
-  latest_year: '2023',
+  latest_year: '2024',
   data: {
     ESP: {
       '2017': 1.85, '2018': 1.86, '2019': 1.87,
-      '2020': 1.92, '2021': 1.89, '2022': 1.86, '2023': 1.84,
+      '2020': 1.92, '2021': 1.89, '2022': 1.86, '2023': 1.84, '2024': 1.83,
     },
   },
 }
@@ -468,11 +471,11 @@ const SIGMA_CCAA: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Desviación típica logs PIB pc CCAA. Disminuye = convergencia regional. España estancada desde 2008.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736167628',
-  latest_year: '2023',
+  latest_year: '2024',
   data: {
     ESP: {
       '2017': 0.183, '2018': 0.181, '2019': 0.180,
-      '2020': 0.182, '2021': 0.178, '2022': 0.175, '2023': 0.173,
+      '2020': 0.182, '2021': 0.178, '2022': 0.175, '2023': 0.173, '2024': 0.171,
     },
   },
 }
@@ -484,11 +487,11 @@ const MUNICIPIOS_DESPOBLACION: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Municipios <1000 hab con pérdida >10% en 10 años. Núcleo: Soria, Teruel, Cuenca, Zamora, Ávila, Cáceres interior.',
   source_url: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736177012',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 2876, '2019': 2924, '2020': 2972,
-      '2021': 3018, '2022': 3047, '2023': 3072, '2024': 3098,
+      '2021': 3018, '2022': 3047, '2023': 3072, '2024': 3098, '2025': 3119,
     },
   },
 }
@@ -500,11 +503,11 @@ const KAITZ_RATIO: SnapshotDataset = {
   frequency: 'Anual',
   notes: 'Índice Kaitz = (SMI×14) / EEES mediana × 100. España subió ~40% (2018) → ~63% (2024). Cerca del techo recomendado OCDE para evitar destrucción empleo.',
   source_url: 'https://stats.oecd.org/Index.aspx?DataSetCode=MIN2AVE',
-  latest_year: '2023',
+  latest_year: '2025',
   data: {
     ESP: {
       '2018': 51.3, '2019': 61.6, '2020': 63.5,
-      '2021': 62.7, '2022': 62.4, '2023': 63.0,
+      '2021': 62.7, '2022': 62.4, '2023': 63.0, '2024': 64.4, '2025': 65.8,
     },
   },
 }
@@ -516,11 +519,11 @@ const ESFUERZO_VIVIENDA: SnapshotDataset = {
   frequency: 'Trimestral',
   notes: 'Años salario bruto medio para vivienda media (90 m²). España ~8-9 años. Umbral 7 años marca límite tradicional de accesibilidad (BIS/OCDE).',
   source_url: 'https://www.bde.es/wbe/es/estadisticas/temas/indicadores-de-mercado-de-la-vivienda.html',
-  latest_year: '2024',
+  latest_year: '2025',
   data: {
     ESP: {
       '2017': 6.0, '2018': 6.0, '2019': 6.1,
-      '2020': 5.9, '2021': 5.8, '2022': 5.8, '2023': 6.0, '2024': 6.3,
+      '2020': 5.9, '2021': 5.8, '2022': 5.8, '2023': 6.0, '2024': 6.3, '2025': 6.5,
     },
   },
 }
