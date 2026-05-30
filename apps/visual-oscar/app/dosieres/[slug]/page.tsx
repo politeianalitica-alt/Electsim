@@ -16,6 +16,8 @@ import { findDossier } from '@/lib/dosieres-link'
 import REDES_OVERLAY from '@/data/redes-overlay.json'
 // Sprint G14 cierre · panel OSINT externo · solo PEPs · audit obligatorio
 import { DossierOSINTPanel } from '@/components/dossier/DossierOSINTPanel'
+// Sprint Cuaderno N2-wire · widget que muestra notas del Cuaderno sobre esta figura
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -309,6 +311,17 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
             Fuente principal: {dossier.fuente_principal}
  </p>
         )}
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre esta figura · widget defensivo:
+            si el dosier-slug no matchea el registry-slug (e.g. "psanchez" vs "pedro-sanchez"),
+            el widget intenta resolver por nombre completo. */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget
+            slug={dossier.slug}
+            name={dossier.nombre_completo}
+            accentColor={partidoColor}
+          />
+        </div>
  </main>
  </div>
   )

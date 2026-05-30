@@ -18,6 +18,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+// Sprint Cuaderno N2-wire · notas que mencionan "Agroalimentario"
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import {
   EMPRESAS_AGRO, REGULADORES_AGRO, AREAS_AGRO, PROGRAMAS_AGRO,
 } from '@/lib/sources/sectorial-data'
@@ -215,6 +217,11 @@ export default function SectorAgroPage() {
         />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos World Bank…</div>}
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre Agro */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="agroalimentario" name="Sector Agroalimentario" accentColor="#16A34A" />
+        </div>
       </main>
     </div>
   )

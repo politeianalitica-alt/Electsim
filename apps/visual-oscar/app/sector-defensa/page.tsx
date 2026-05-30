@@ -12,6 +12,8 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
+// Sprint Cuaderno N2-wire · notas que mencionan "Defensa"
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import { EMPRESAS_DEFENSA, REGULADORES_DEFENSA, PROGRAMAS_DEFENSA } from '@/lib/sources/worldbank'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
@@ -277,6 +279,11 @@ export default function SectorDefensaPage() {
       />
 
       {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos…</div>}
+
+      {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre Defensa */}
+      <div style={{ marginTop: 18 }}>
+        <CuadernoEntityWidget slug="defensa" name="Sector Defensa" accentColor="#1F4E8C" />
+      </div>
     </div>
   )
 }
