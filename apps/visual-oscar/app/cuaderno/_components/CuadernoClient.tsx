@@ -35,6 +35,8 @@ import { DATA_REGISTRY } from '@/lib/cuaderno/data-registry'
 import { EntitiesPanel } from './EntitiesPanel'
 // Sprint Cuaderno N3 · editor CodeMirror 6 con autocomplete inline + ref imperativa
 import type { MarkdownEditorHandle } from './MarkdownEditor'
+// Sprint Cuaderno N7 · asistente IA contextual sobre la nota activa
+import { CuadernoAIPanel } from './CuadernoAIPanel'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   buildHybridGraph,
@@ -77,6 +79,8 @@ export default function CuadernoClient() {
   const [view, setView]         = useState<View>('today')
   // Sprint Cuaderno N1 · picker mode (entity | data | null=closed) + preview ref para hidratación
   const [pickerMode, setPickerMode] = useState<'entity' | 'data' | null>(null)
+  // Sprint Cuaderno N7 · asistente IA sobre la nota activa
+  const [aiOpen, setAiOpen] = useState(false)
   const previewRef = useRef<HTMLDivElement | null>(null)
   useDataEmbeds(previewRef.current)
   // Sprint Cuaderno N3 · editor ref imperativa · permite picker.insertAtCursor()
@@ -405,6 +409,15 @@ export default function CuadernoClient() {
               >
                 ⌖ Dato
               </button>
+              {/* Sprint Cuaderno N7 · asistente IA · resume, sugiere, critica sobre la nota */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => setAiOpen(true)}
+                title="Asistente IA sobre esta nota (contexto + entidades + backlinks)"
+                style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3', fontWeight: 600 }}
+              >
+                🧠 IA
+              </button>
               <button className={styles.toolbarBtn} onClick={handlePin}>
                 {active.pinned ? 'Fijada' : '☆ Fijar'}
               </button>
@@ -553,6 +566,16 @@ export default function CuadernoClient() {
             const n = createNote({ title, folder: 'Notas', content: `# ${title}\n\n` })
             refresh(); setActiveId(n.id); setSwitcher(false); setView('notes')
           }}
+        />
+      )}
+
+      {/* Sprint Cuaderno N7 · asistente IA contextual sobre la nota activa */}
+      {aiOpen && active && (
+        <CuadernoAIPanel
+          note={active}
+          backlinks={back.map((b) => ({ id: b.id, title: b.title }))}
+          editorRef={editorRef}
+          onClose={() => setAiOpen(false)}
         />
       )}
 
