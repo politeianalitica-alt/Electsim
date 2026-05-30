@@ -21,12 +21,39 @@ function escape(s: string): string {
     .replace(/"/g, '&quot;')
 }
 
+// Sprint Cuaderno N1 · resolver entidades del registry · lazy require evita ciclos
+let _resolveEntity: ((s: string) => any) | null = null
+let _kindColors: Record<string, { bg: string; fg: string; border: string; glyph: string }> | null = null
+function _loadEntityRegistry() {
+  if (_resolveEntity) return
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const m = require('./entity-registry')
+    _resolveEntity = m.resolveEntity
+    _kindColors = m.KIND_COLORS
+  } catch {
+    _resolveEntity = () => null
+    _kindColors = {}
+  }
+}
+
 function renderInline(line: string): string {
   let out = escape(line)
-  // wikilinks [[slug]] o [[slug|texto]]
+  // Sprint Cuaderno N1 · embed placeholders {source:key} → span placeholder hidratado por DataEmbed
+  out = out.replace(/\{(macro|cis|stats|gov|wb|undp):([a-zA-Z0-9_.-]+)\}/g, (_, source, key) =>
+    `<span class="cuad-embed" data-source="${escape(source)}" data-key="${escape(key)}" style="display:inline-block; min-width:120px; padding:6px 10px; margin:0 2px; border-radius:6px; border:1px dashed #cbd5e1; background:#f8fafc; vertical-align:middle; font-size:11px; color:#64748b;">⊡ ${escape(source)}:${escape(key)}…</span>`
+  )
+  // wikilinks [[slug]] o [[slug|texto]] · Sprint N1: si resuelve a entidad, badge coloreado con enlace al dashboard
   out = out.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, slug, text) => {
     const safe = String(slug).trim()
     const display = text ? String(text).trim() : safe
+    _loadEntityRegistry()
+    const entity = _resolveEntity?.(safe)
+    if (entity && _kindColors) {
+      const c = _kindColors[entity.kind]
+      const tooltip = entity.role ? ` title="${escape(entity.role)}"` : ''
+      return `<a href="${escape(entity.link)}" class="cuad-entity-badge" data-kind="${escape(entity.kind)}" data-slug="${escape(entity.slug)}"${tooltip} style="display:inline-flex; align-items:center; gap:4px; padding:1px 6px; margin:0 1px; border-radius:4px; background:${c.bg}; color:${c.fg}; border:1px solid ${c.border}; font-size:0.92em; font-weight:600; text-decoration:none;"><span style="font-size:0.85em;">${c.glyph}</span>${escape(display)}</a>`
+    }
     return `<a href="#" class="cuad-wikilink" data-slug="${escape(safe)}">${escape(display)}</a>`
   })
   // markdown link [texto](url)

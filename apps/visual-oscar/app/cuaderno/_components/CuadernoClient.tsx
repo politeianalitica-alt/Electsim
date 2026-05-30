@@ -22,9 +22,14 @@
  * YAML, tags, tareas con metadata.
  */
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import styles from './Cuaderno.module.css'
+// Sprint Cuaderno N1 · picker (entidades / data embeds) + hidratación de embeds
+import { CuadernoPicker } from './CuadernoPicker'
+import { useDataEmbeds } from './DataEmbed'
+import { totalEntities } from '@/lib/cuaderno/entity-registry'
+import { DATA_REGISTRY } from '@/lib/cuaderno/data-registry'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
@@ -48,6 +53,10 @@ export default function CuadernoClient() {
   const [query, setQuery]       = useState('')
   const [mode, setMode]         = useState<Mode>('split')
   const [view, setView]         = useState<View>('today')
+  // Sprint Cuaderno N1 · picker mode (entity | data | null=closed) + preview ref para hidratación
+  const [pickerMode, setPickerMode] = useState<'entity' | 'data' | null>(null)
+  const previewRef = useRef<HTMLDivElement | null>(null)
+  useDataEmbeds(previewRef.current)
   const [tplOpen, setTplOpen]   = useState(false)
   const [switcher, setSwitcher] = useState(false)
   const [outlineOpen, setOutlineOpen] = useState(true)
@@ -346,6 +355,21 @@ export default function CuadernoClient() {
               <button className={styles.toolbarBtn} onClick={() => setOutlineOpen(o => !o)} title="Mostrar/ocultar índice">
                 {outlineOpen ? '▣ Índice' : '□ Índice'}
               </button>
+              {/* Sprint Cuaderno N1 · pickers de entidad y dato */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => setPickerMode('entity')}
+                title={`Insertar entidad (${totalEntities()} disponibles)`}
+              >
+                ◉ Entidad
+              </button>
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => setPickerMode('data')}
+                title={`Insertar dato (${DATA_REGISTRY.length} disponibles)`}
+              >
+                ⌖ Dato
+              </button>
               <button className={styles.toolbarBtn} onClick={handlePin}>
                 {active.pinned ? 'Fijada' : '☆ Fijar'}
               </button>
@@ -391,6 +415,7 @@ export default function CuadernoClient() {
               )}
               {(mode === 'read' || mode === 'split') && (
                 <div
+                  ref={previewRef}
                   className={styles.preview}
                   dangerouslySetInnerHTML={{ __html: renderMarkdown(fm?.body ?? active.content) }}
                 />
@@ -481,6 +506,20 @@ export default function CuadernoClient() {
           onCreateNew={(title) => {
             const n = createNote({ title, folder: 'Notas', content: `# ${title}\n\n` })
             refresh(); setActiveId(n.id); setSwitcher(false); setView('notes')
+          }}
+        />
+      )}
+
+      {/* Sprint Cuaderno N1 · picker para insertar entidades o data embeds */}
+      {pickerMode && (
+        <CuadernoPicker
+          mode={pickerMode}
+          onClose={() => setPickerMode(null)}
+          onPick={(insert) => {
+            if (active) {
+              handleEdit({ content: active.content + insert })
+            }
+            setPickerMode(null)
           }}
         />
       )}
