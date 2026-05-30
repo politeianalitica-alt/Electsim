@@ -38,7 +38,36 @@ interface DerivationEurostatDelta {
   description: string
 }
 
-type Derivation = DerivationEurostatDelta
+/**
+ * Sprint C11 · numerator / denominator × multiplier sobre Eurostat.
+ *
+ * Útil para ratios estructurales como índice de envejecimiento (>65 / <15)
+ * o intensidad energética (consumo / PIB).
+ */
+interface DerivationEurostatRatio {
+  type: 'eurostat_ratio'
+  numerator: { code: string; filters: Record<string, string> }
+  denominator: { code: string; filters: Record<string, string> }
+  multiplier?: number  // default 1
+  unit: string
+  description: string
+}
+
+/**
+ * Sprint C11 · year-on-year % change sobre una serie Eurostat única.
+ *
+ * Útil para variaciones interanuales que el catálogo expone como derivados
+ * (variación poblacional, tasa creación neta, etc.).
+ */
+interface DerivationEurostatYoY {
+  type: 'eurostat_yoy'
+  code: string
+  filters: Record<string, string>
+  unit: string
+  description: string
+}
+
+type Derivation = DerivationEurostatDelta | DerivationEurostatRatio | DerivationEurostatYoY
 
 /**
  * Catálogo de derivaciones registradas.
@@ -79,6 +108,31 @@ const DERIVATIONS: Record<string, Derivation> = {
     unit: 'pp',
     description:
       'Diferencia España − UE27 en empleo cultural %total ocupados. Eurostat cult_emp_n2.',
+  },
+  // Sprint C11 · dt-indice-envejecimiento (>65 / <15 × 100)
+  envejecimiento_idx: {
+    type: 'eurostat_ratio',
+    numerator: {
+      code: 'demo_pjan',
+      filters: { geo: 'ES', sex: 'T', age: 'Y_GE65' },
+    },
+    denominator: {
+      code: 'demo_pjan',
+      filters: { geo: 'ES', sex: 'T', age: 'Y_LT15' },
+    },
+    multiplier: 100,
+    unit: '%',
+    description:
+      'Índice de envejecimiento España = población ≥65 / población <15 × 100. Eurostat demo_pjan agrupos Y_GE65 e Y_LT15. España ~135% (más mayores que menores).',
+  },
+  // Sprint C11 · dt-variacion-poblacional (YoY % Padrón vía Eurostat agregado)
+  poblacion_yoy: {
+    type: 'eurostat_yoy',
+    code: 'demo_pjan',
+    filters: { geo: 'ES', sex: 'T', age: 'TOTAL' },
+    unit: '%',
+    description:
+      'Variación interanual población total España. Eurostat demo_pjan total (proxy Padrón cifra oficial). YoY del último año disponible vs anterior.',
   },
 }
 
@@ -198,8 +252,118 @@ export async function GET(
     return NextResponse.json({ ...result, derived_id: id })
   }
 
+  if (d.type === 'eurostat_ratio') {
+    const result = await computeEurostatRatio(d)
+    return NextResponse.json({ ...result, derived_id: id })
+  }
+
+  if (d.type === 'eurostat_yoy') {
+    const result = await computeEurostatYoY(d)
+    return NextResponse.json({ ...result, derived_id: id })
+  }
+
   return NextResponse.json(
     { ok: false, error: 'unsupported derivation type' },
     { status: 500 },
   )
+}
+
+async function computeEurostatRatio(d: DerivationEurostatRatio): Promise<any> {
+  const [numData, denData] = await Promise.all([
+    eurostatFetch(d.numerator.code, d.numerator.filters),
+    eurostatFetch(d.denominator.code, d.denominator.filters),
+  ])
+
+  if (numData.error || denData.error) {
+    return {
+      ok: false,
+      data_quality: quality(
+        'missing',
+        'Eurostat · ratio',
+        `num=${numData.error || 'ok'} · den=${denData.error || 'ok'}`,
+      ),
+    }
+  }
+
+  const numPoints = parseJsonStat(numData).filter((p) => p.value != null)
+  const denPoints = parseJsonStat(denData).filter((p) => p.value != null)
+
+  const denMap = new Map<string, number>()
+  for (const p of denPoints) {
+    if (p.value != null && p.time) denMap.set(String(p.time), Number(p.value))
+  }
+
+  const m = d.multiplier ?? 1
+  const series = numPoints
+    .filter((p) => p.value != null && p.time && denMap.has(String(p.time)))
+    .map((p) => {
+      const den = denMap.get(String(p.time)) || 1
+      return {
+        time: String(p.time),
+        value: (Number(p.value) / den) * m,
+      }
+    })
+
+  if (series.length === 0) {
+    return {
+      ok: false,
+      data_quality: quality('missing', 'Eurostat · ratio', 'no_common_periods'),
+    }
+  }
+
+  const last = series[series.length - 1]
+  return {
+    ok: true,
+    description: d.description,
+    unit: d.unit,
+    data_quality: quality(
+      'live',
+      `Eurostat · derived ratio · ${d.numerator.code}/${d.denominator.code}`,
+    ),
+    last: { value: last.value, time: last.time },
+    n_points: series.length,
+    series: series.slice(-20),
+  }
+}
+
+async function computeEurostatYoY(d: DerivationEurostatYoY): Promise<any> {
+  const data = await eurostatFetch(d.code, d.filters)
+  if (data.error) {
+    return {
+      ok: false,
+      data_quality: quality('missing', 'Eurostat · yoy', data.error),
+    }
+  }
+
+  const points = parseJsonStat(data)
+    .filter((p) => p.value != null && p.time)
+    .map((p) => ({ time: String(p.time), value: Number(p.value) }))
+    .sort((a, b) => a.time.localeCompare(b.time))
+
+  if (points.length < 2) {
+    return {
+      ok: false,
+      data_quality: quality('missing', 'Eurostat · yoy', 'insufficient_points'),
+    }
+  }
+
+  const series = points.slice(1).map((p, i) => {
+    const prev = points[i].value
+    const curr = p.value
+    return {
+      time: p.time,
+      value: prev === 0 ? 0 : ((curr - prev) / prev) * 100,
+    }
+  })
+  const last = series[series.length - 1]
+
+  return {
+    ok: true,
+    description: d.description,
+    unit: d.unit,
+    data_quality: quality('live', `Eurostat · derived yoy · ${d.code}`),
+    last: { value: last.value, time: last.time },
+    n_points: series.length,
+    series: series.slice(-20),
+  }
 }

@@ -247,13 +247,13 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Población residente total en España (Padrón continuo, 1 ene). Marco de referencia para per cápita, dependencia y proyecciones.",
-    endpoint: "/api/_todo_ine_padron?series=total",
-    parser: "ine-ipc",
+    endpoint: "/api/eurostat/dataset?code=demo_pjan&filters=geo=ES;sex=T;age=TOTAL",
+    parser: "eurostat-simple",
     accent: "#0F766E",
     methodologyNote:
-      "TODO · endpoint INE Padrón. Cifra oficial a 1 de enero, publicada en abril del año T. Incluye extranjeros empadronados.",
-    releaseSchedule: "Anual · INE abril año T",
-    confidenceLevel: "low",
+      "Eurostat demo_pjan TOTAL para España (proxy Padrón continuo INE, mismas cifras). 1 enero año T. Incluye extranjeros empadronados. Endpoint Eurostat público directo, sin scraper INE adicional.",
+    releaseSchedule: "Anual · Eurostat T+9 meses",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["dt-variacion-poblacional", "dt-pob-extranjera"],
   },
   {
@@ -268,14 +268,14 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Crecimiento anual de población total (natural + migratorio). Positivo desde 2016, sostenido por migración (saldo natural negativo).",
-    endpoint: "/api/_todo_derived_pob_yoy",
-    parser: "ine-ipc",
+    endpoint: "/api/macro/derived/poblacion_yoy",
+    parser: "eurostat-simple",
     threshold: { amber: 0.1, red: -0.2, goodAbove: true },
     accent: "#16a34a",
     methodologyNote:
-      "Variación cifra Padrón año a año. Descompone en crecimiento vegetativo (negativo desde 2015) + saldo migratorio (positivo).",
+      "Derivación server-side · `/api/macro/derived/poblacion_yoy` calcula YoY% sobre Eurostat demo_pjan TOTAL (proxy Padrón). Descompone en crecimiento vegetativo (negativo desde 2015) + saldo migratorio (positivo).",
     releaseSchedule: "Anual · derivado",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["dt-poblacion-total", "dt-migracion-saldo"],
   },
   {
@@ -333,14 +333,14 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Población ≥65 / población <16. España ~135% (2024) — hay 1.35 mayores por cada menor. Indicador estructura demográfica más expresivo que dependencia.",
-    endpoint: "/api/_todo_derived_envejecimiento",
-    parser: "ine-ipc",
+    endpoint: "/api/macro/derived/envejecimiento_idx",
+    parser: "eurostat-simple",
     threshold: { amber: 130, red: 150, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "Cociente Padrón. Por encima de 100 = sociedad envejecida. España subió de 96% (2000) a 135% (2024). CCAA con mayores ratios: Galicia, Asturias, Castilla y León.",
+      "Derivación server-side · `/api/macro/derived/envejecimiento_idx` computa pop ≥65 / pop <15 × 100 vía Eurostat demo_pjan (proxy Padrón). Por encima de 100 = sociedad envejecida. España subió de 96% (2000) a 135% (2024). CCAA con mayores ratios: Galicia, Asturias, Castilla y León.",
     releaseSchedule: "Anual · derivado",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["dt-ratio-dependencia", "dt-poblacion-mayores"],
   },
   {
