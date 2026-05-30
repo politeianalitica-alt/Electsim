@@ -32,10 +32,18 @@ from datetime import date as _date
 from typing import Any, Literal, Optional
 
 import psycopg
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 
+from api.auth import require_role
+
 router = APIRouter(prefix="/api/dosieres", tags=["dosieres"])
+
+# Los dossiers son datos de referencia compartidos. Las LECTURAS quedan abiertas
+# (el frontend las consume vía proxy), pero crear/editar/borrar exige un rol de
+# escritura autenticado (CLIENT_VIEW queda excluido). En ELECTSIM_DEV_MODE=true
+# el usuario de desarrollo es ORG_ADMIN y pasa.
+_WRITE = require_role(["SUPERADMIN", "ORG_ADMIN", "ANALYST_SENIOR", "ANALYST_JUNIOR"])
 
 
 TIPO_APARTADO = Literal[
@@ -271,7 +279,7 @@ def get_dossier(slug: str):
 # POST · crear dossier completo (con apartados e items en una llamada)
 # ────────────────────────────────────────────────────────────────────────────
 
-@router.post("", response_model=DossierCompleto, status_code=201)
+@router.post("", response_model=DossierCompleto, status_code=201, dependencies=[Depends(_WRITE)])
 def create_dossier(body: DossierIn):
     import json
     slug = body.slug or _slug_from(body.nombre_completo)
@@ -323,7 +331,7 @@ def create_dossier(body: DossierIn):
 # PUT · actualizar campos del dossier (sin tocar apartados)
 # ────────────────────────────────────────────────────────────────────────────
 
-@router.put("/{slug}", response_model=DossierCompleto)
+@router.put("/{slug}", response_model=DossierCompleto, dependencies=[Depends(_WRITE)])
 def update_dossier(slug: str, body: DossierIn):
     import json
     with _conn() as cn, cn.cursor() as cur:
@@ -354,7 +362,7 @@ def update_dossier(slug: str, body: DossierIn):
 # DELETE · cascada
 # ────────────────────────────────────────────────────────────────────────────
 
-@router.delete("/{slug}", status_code=204)
+@router.delete("/{slug}", status_code=204, dependencies=[Depends(_WRITE)])
 def delete_dossier(slug: str):
     with _conn() as cn, cn.cursor() as cur:
         cur.execute("DELETE FROM dosieres WHERE slug = %s", (slug,))
@@ -368,7 +376,7 @@ def delete_dossier(slug: str):
 # POST · upsert un apartado (junto con sus items)
 # ────────────────────────────────────────────────────────────────────────────
 
-@router.post("/{slug}/apartados", response_model=ApartadoOut)
+@router.post("/{slug}/apartados", response_model=ApartadoOut, dependencies=[Depends(_WRITE)])
 def upsert_apartado(slug: str, body: ApartadoIn):
     import json
     with _conn() as cn, cn.cursor() as cur:
@@ -424,7 +432,7 @@ def upsert_apartado(slug: str, body: ApartadoIn):
 # DELETE · apartado
 # ────────────────────────────────────────────────────────────────────────────
 
-@router.delete("/{slug}/apartados/{tipo}", status_code=204)
+@router.delete("/{slug}/apartados/{tipo}", status_code=204, dependencies=[Depends(_WRITE)])
 def delete_apartado(slug: str, tipo: TIPO_APARTADO):
     with _conn() as cn, cn.cursor() as cur:
         cur.execute("""
@@ -442,7 +450,7 @@ def delete_apartado(slug: str, tipo: TIPO_APARTADO):
 # POST · añadir UN item a un apartado
 # ────────────────────────────────────────────────────────────────────────────
 
-@router.post("/{slug}/apartados/{tipo}/items", response_model=ItemOut, status_code=201)
+@router.post("/{slug}/apartados/{tipo}/items", response_model=ItemOut, status_code=201, dependencies=[Depends(_WRITE)])
 def add_item(slug: str, tipo: TIPO_APARTADO, body: ItemIn):
     import json
     with _conn() as cn, cn.cursor() as cur:
@@ -488,7 +496,7 @@ def add_item(slug: str, tipo: TIPO_APARTADO, body: ItemIn):
     )
 
 
-@router.delete("/items/{item_id}", status_code=204)
+@router.delete("/items/{item_id}", status_code=204, dependencies=[Depends(_WRITE)])
 def delete_item(item_id: str):
     with _conn() as cn, cn.cursor() as cur:
         cur.execute("DELETE FROM dossier_items WHERE id = %s::uuid", (item_id,))

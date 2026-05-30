@@ -25,13 +25,26 @@ from datetime import datetime
 from typing import Any, Optional
 
 import psycopg
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from psycopg.rows import dict_row
 from pydantic import BaseModel, Field
 
+from api.auth import get_current_user
 from config.settings import get_settings
 
-router = APIRouter(prefix="/api/intelligence", tags=["intelligence-workspace"])
+# Estos endpoints exponen artefactos de workspace (notebooks, evidencias,
+# drafts…). Antes estaban TOTALMENTE abiertos. Como mínimo exigimos un usuario
+# autenticado a nivel de router (en ELECTSIM_DEV_MODE=true pasa el dev-user).
+#
+# PENDIENTE (requiere tests antes de tocar): el `workspace_id` sigue llegando
+# por query con default 'default', y _select_one/_delete_one buscan por id SIN
+# filtrar por workspace → IDOR entre workspaces. El fix correcto es derivar el
+# workspace_id del usuario autenticado y filtrar cada lookup por ese workspace.
+router = APIRouter(
+    prefix="/api/intelligence",
+    tags=["intelligence-workspace"],
+    dependencies=[Depends(get_current_user)],
+)
 _settings = get_settings()
 
 

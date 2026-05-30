@@ -20,11 +20,17 @@ import logging
 import time
 from typing import Any
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
+
+from api.auth import require_role
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/v1/admin", tags=["admin"])
+
+# Estas operaciones crean tablas (DDL) y vuelcan catálogos: solo administradores.
+# En ELECTSIM_DEV_MODE=true el usuario de desarrollo es ORG_ADMIN y pasa.
+_ADMIN = require_role(["SUPERADMIN", "ORG_ADMIN"])
 
 
 class InitWorkspaceResponse(BaseModel):
@@ -36,7 +42,7 @@ class InitWorkspaceResponse(BaseModel):
     notes: list[str] = Field(default_factory=list)
 
 
-@router.post("/init_workspace", response_model=InitWorkspaceResponse)
+@router.post("/init_workspace", response_model=InitWorkspaceResponse, dependencies=[Depends(_ADMIN)])
 def init_workspace(
     skip_backfill: bool = Query(default=False, description="Si true, solo crea tablas sin volcar catálogos"),
 ) -> InitWorkspaceResponse:
@@ -121,7 +127,7 @@ def init_workspace(
     )
 
 
-@router.post("/reset_workspace_init_flags")
+@router.post("/reset_workspace_init_flags", dependencies=[Depends(_ADMIN)])
 def reset_flags() -> dict[str, Any]:
     """Resetea los flags de init para forzar re-creación en próxima llamada.
 
