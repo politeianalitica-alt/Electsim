@@ -676,6 +676,73 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     confidenceLevel: "high",
     relatedIndicatorIds: ["hev-ahorro-hogares", "hev-deuda-hogares-pib"],
   },
+  // ─── Sprint AUDIT · CIS perception layer (mensual, refresca con cada barómetro) ────
+  {
+    id: "hev-cis-vivienda-pct",
+    family: "sentimiento",
+    label: "Vivienda como problema · CIS",
+    shortLabel: "CIS vivienda",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetros mensuales",
+    sourceCode: "CIS_PROBLEMAS_VIVIENDA",
+    frequency: "monthly",
+    description:
+      "% que cita vivienda como problema importante. Ascenso estructural desde 2024 (~22% → 36%). Driver malestar joven y movilizaciones urbanas.",
+    endpoint: "/api/cis-snapshot/problemas-vivienda",
+    parser: "ine-ipc",
+    threshold: { amber: 25, red: 35, goodAbove: false },
+    accent: "#dc2626",
+    methodologyNote:
+      "Snapshot manual de Avances Resultados CIS (no hay API). Update mensual primer día hábil tras publicación del barómetro. Pregunta multirespuesta, suma >100.",
+    releaseSchedule: "Mensual · CIS primer día hábil",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-cis-paro-pct", "hev-precio-m2-vivienda"],
+  },
+  {
+    id: "hev-cis-paro-pct",
+    family: "sentimiento",
+    label: "Paro como problema · CIS",
+    shortLabel: "CIS paro",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetros",
+    sourceCode: "CIS_PROBLEMAS_PARO",
+    frequency: "monthly",
+    description:
+      "% que cita paro como problema importante. Tendencia descendente desde pico crisis 2013 (~80%). Ahora ~22-30%.",
+    endpoint: "/api/cis-snapshot/problemas-paro",
+    parser: "ine-ipc",
+    threshold: { amber: 30, red: 50, goodAbove: false },
+    accent: "#f59e0b",
+    methodologyNote:
+      "Snapshot CIS. Correlaciona con tasa de paro EPA pero con lag.",
+    releaseSchedule: "Mensual · CIS",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-paro-epa-general", "hev-cis-vivienda-pct"],
+  },
+  {
+    id: "hev-cis-precios-pct",
+    family: "sentimiento",
+    label: "Precios/inflación como problema · CIS",
+    shortLabel: "CIS precios",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetros",
+    sourceCode: "CIS_PROBLEMAS_PRECIOS",
+    frequency: "monthly",
+    description:
+      "% cita precios/inflación como problema. Pico ~35% 2022-23 con shock inflacionario. Bajando con desinflación.",
+    endpoint: "/api/cis-snapshot/problemas-precios",
+    parser: "ine-ipc",
+    threshold: { amber: 20, red: 30, goodAbove: false },
+    accent: "#f59e0b",
+    methodologyNote:
+      "Snapshot CIS. Correlaciona con IPC subyacente pero con lag.",
+    releaseSchedule: "Mensual · CIS",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["hev-ipc-anual"],
+  },
 ];
 
 export const HOGARES_EMPLEO_VIVIENDA_META = {

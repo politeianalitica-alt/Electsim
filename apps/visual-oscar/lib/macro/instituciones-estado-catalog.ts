@@ -517,6 +517,73 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     confidenceLevel: "low",
     relatedIndicatorIds: ["ie-deuda-publica-pib", "ie-cpi-transparency"],
   },
+  // ─── Sprint AUDIT · CIS confianza institucional (mensual/trimestral) ────
+  {
+    id: "ie-cis-confianza-gob",
+    family: "sentimiento",
+    label: "Confianza en el Gobierno · CIS",
+    shortLabel: "CIS Gob",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetros",
+    sourceCode: "CIS_CONFIANZA_GOBIERNO",
+    frequency: "quarterly",
+    description:
+      "% que dice tener mucha o bastante confianza en el Gobierno. Trimestral aproximado. España estructuralmente baja confianza (~25%).",
+    endpoint: "/api/cis-snapshot/confianza-gobierno",
+    parser: "ine-ipc",
+    threshold: { amber: 25, red: 15, goodAbove: true },
+    accent: "#dc2626",
+    methodologyNote:
+      "Snapshot CIS · pregunta confianza instituciones. No en todos los barómetros (~4-5 al año). Update tras publicación.",
+    releaseSchedule: "Trimestral · CIS",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["ie-cpi-transparency", "ie-wjp-rule-of-law"],
+  },
+  {
+    id: "ie-cis-confianza-congreso",
+    family: "sentimiento",
+    label: "Confianza Congreso · CIS",
+    shortLabel: "CIS Cong",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetros",
+    sourceCode: "CIS_CONFIANZA_CONGRESO",
+    frequency: "quarterly",
+    description:
+      "% confía mucho o bastante en el Congreso. Tradicionalmente bajo (~30%).",
+    endpoint: "/api/cis-snapshot/confianza-congreso",
+    parser: "ine-ipc",
+    threshold: { amber: 30, red: 20, goodAbove: true },
+    accent: "#dc2626",
+    methodologyNote:
+      "Snapshot CIS. Históricamente la institución pública con menor confianza junto a partidos.",
+    releaseSchedule: "Trimestral · CIS",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["ie-cis-confianza-gob"],
+  },
+  {
+    id: "ie-cis-confianza-tribunales",
+    family: "sentimiento",
+    label: "Confianza Tribunales · CIS",
+    shortLabel: "CIS Trib",
+    unit: "%",
+    decimals: 1,
+    source: "CIS Barómetros",
+    sourceCode: "CIS_CONFIANZA_TRIBUNALES",
+    frequency: "quarterly",
+    description:
+      "% confía en los Tribunales. España estructuralmente baja confianza judicial vs UE.",
+    endpoint: "/api/cis-snapshot/confianza-tribunales",
+    parser: "ine-ipc",
+    threshold: { amber: 35, red: 25, goodAbove: true },
+    accent: "#f59e0b",
+    methodologyNote:
+      "Snapshot CIS. Correlaciona inversamente con WJP Rule of Law España.",
+    releaseSchedule: "Trimestral · CIS",
+    confidenceLevel: "medium",
+    relatedIndicatorIds: ["ie-wjp-rule-of-law"],
+  },
 ];
 
 export const INSTITUCIONES_ESTADO_META = {
