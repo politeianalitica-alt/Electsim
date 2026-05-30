@@ -72,6 +72,41 @@ const PERSONS: CuadEntity[] = [
   { slug: 'nadia-calvino', name: 'Nadia Calviño', kind: 'person', role: 'Presidenta BEI · ex-VP economía', aliases: ['Calviño'], link: '/figuras/nadia-calvino', born: 1968 },
   { slug: 'pablo-iglesias', name: 'Pablo Iglesias', kind: 'person', role: 'Exvicepresidente · ex-Podemos', aliases: ['Iglesias', 'Pablo'], link: '/figuras/pablo-iglesias', born: 1978 },
   { slug: 'ione-belarra', name: 'Ione Belarra', kind: 'person', role: 'Secretaria General Podemos', aliases: ['Belarra'], link: '/figuras/ione-belarra', born: 1987 },
+  // ── Sprint N12 · expansión de actores políticos clave ────────────────
+  // Ministros y altos cargos del Gobierno actual (XV legislatura · enero 2024-)
+  { slug: 'sira-rego', name: 'Sira Rego', kind: 'person', role: 'Ministra Juventud · Sumar IU', aliases: ['Rego'], link: '/figuras/sira-rego', born: 1973 },
+  { slug: 'pablo-bustinduy', name: 'Pablo Bustinduy', kind: 'person', role: 'Ministro Derechos Sociales · Sumar', aliases: ['Bustinduy'], link: '/figuras/pablo-bustinduy', born: 1983 },
+  { slug: 'ana-redondo', name: 'Ana Redondo', kind: 'person', role: 'Ministra Igualdad · PSOE', aliases: ['Redondo'], link: '/figuras/ana-redondo', born: 1962 },
+  { slug: 'diana-morant', name: 'Diana Morant', kind: 'person', role: 'Ministra Ciencia · PSOE-PV', aliases: ['Morant'], link: '/figuras/diana-morant', born: 1980 },
+  { slug: 'jordi-hereu', name: 'Jordi Hereu', kind: 'person', role: 'Ministro Industria y Turismo · PSC', aliases: ['Hereu'], link: '/figuras/jordi-hereu', born: 1965 },
+  { slug: 'pilar-alegria', name: 'Pilar Alegría', kind: 'person', role: 'Ministra Educación · portavoz Gobierno', aliases: ['Alegría'], link: '/figuras/pilar-alegria', born: 1977 },
+  { slug: 'luis-planas', name: 'Luis Planas', kind: 'person', role: 'Ministro Agricultura · PSOE', aliases: ['Planas'], link: '/figuras/luis-planas', born: 1952 },
+  { slug: 'jose-manuel-albares', name: 'José Manuel Albares', kind: 'person', role: 'Ministro Exteriores · PSOE', aliases: ['Albares'], link: '/figuras/jose-manuel-albares', born: 1972 },
+  { slug: 'jose-manuel-uribes', name: 'Ernest Urtasun', kind: 'person', role: 'Ministro Cultura · Sumar/Comunes', aliases: ['Urtasun'], link: '/figuras/ernest-urtasun', born: 1982 },
+  { slug: 'elma-saiz', name: 'Elma Saiz', kind: 'person', role: 'Ministra Inclusión y Seguridad Social · PSOE Navarra', aliases: ['Saiz'], link: '/figuras/elma-saiz', born: 1976 },
+  // Líderes territoriales clave
+  { slug: 'maria-chivite', name: 'María Chivite', kind: 'person', role: 'Presidenta Navarra · PSN', aliases: ['Chivite'], link: '/figuras/maria-chivite', born: 1978 },
+  { slug: 'maria-guardiola', name: 'María Guardiola', kind: 'person', role: 'Presidenta Junta Extremadura · PP', aliases: ['Guardiola'], link: '/figuras/maria-guardiola', born: 1978 },
+  { slug: 'fernando-clavijo', name: 'Fernando Clavijo', kind: 'person', role: 'Presidente Canarias · Coalición Canaria', aliases: ['Clavijo'], link: '/figuras/fernando-clavijo', born: 1971 },
+  { slug: 'maria-jose-saenz-de-buruaga', name: 'María José Sáenz de Buruaga', kind: 'person', role: 'Presidenta Cantabria · PP', aliases: ['Sáenz de Buruaga', 'Buruaga'], link: '/figuras/maria-jose-saenz-de-buruaga', born: 1965 },
+  { slug: 'gonzalo-capellan', name: 'Gonzalo Capellán', kind: 'person', role: 'Presidente La Rioja · PP', aliases: ['Capellán'], link: '/figuras/gonzalo-capellan', born: 1965 },
+  // Oposición y figuras parlamentarias
+  { slug: 'miriam-nogueras', name: 'Miriam Nogueras', kind: 'person', role: 'Portavoz Junts Congreso', aliases: ['Nogueras'], link: '/figuras/miriam-nogueras', born: 1978 },
+  { slug: 'mertxe-aizpurua', name: 'Mertxe Aizpurua', kind: 'person', role: 'Portavoz EH Bildu Congreso', aliases: ['Aizpurua'], link: '/figuras/mertxe-aizpurua', born: 1962 },
+  { slug: 'gabriel-rufian', name: 'Gabriel Rufián', kind: 'person', role: 'Portavoz ERC Congreso', aliases: ['Rufián'], link: '/figuras/gabriel-rufian', born: 1982 },
+  { slug: 'aitor-esteban', name: 'Aitor Esteban', kind: 'person', role: 'Portavoz PNV Congreso', aliases: ['Esteban'], link: '/figuras/aitor-esteban', born: 1962 },
+  { slug: 'patxi-lopez', name: 'Patxi López', kind: 'person', role: 'Portavoz PSOE Congreso', aliases: ['López'], link: '/figuras/patxi-lopez', born: 1959 },
+  // Jueces y altos cargos judiciales relevantes
+  { slug: 'pilar-llop', name: 'Pilar Llop', kind: 'person', role: 'Ex-ministra Justicia · senadora PSOE', aliases: ['Llop'], link: '/figuras/pilar-llop', born: 1973 },
+  { slug: 'manuel-marchena', name: 'Manuel Marchena', kind: 'person', role: 'Presidente Sala 2ª Supremo', aliases: ['Marchena'], link: '/figuras/manuel-marchena', born: 1959 },
+  { slug: 'antonio-garcia-castellon', name: 'Antonio García-Castellón', kind: 'person', role: 'Juez instructor caso Tsunami · AN', aliases: ['García-Castellón', 'García Castellón'], link: '/figuras/antonio-garcia-castellon', born: 1956 },
+  { slug: 'manuel-garcia-castellon', name: 'Cándido Conde-Pumpido', kind: 'person', role: 'Presidente Tribunal Constitucional', aliases: ['Conde-Pumpido', 'Conde Pumpido'], link: '/figuras/candido-conde-pumpido', born: 1949 },
+  // Empresarios y CEOs IBEX-35
+  { slug: 'ana-botin', name: 'Ana Botín', kind: 'person', role: 'Presidenta Santander', aliases: ['Botín'], link: '/figuras/ana-botin', born: 1960 },
+  { slug: 'jose-ignacio-galan', name: 'Ignacio Sánchez Galán', kind: 'person', role: 'Presidente Iberdrola', aliases: ['Sánchez Galán', 'Galán'], link: '/figuras/ignacio-sanchez-galan', born: 1950 },
+  { slug: 'antonio-huertas', name: 'Antonio Huertas', kind: 'person', role: 'Presidente MAPFRE', aliases: ['Huertas'], link: '/figuras/antonio-huertas', born: 1964 },
+  { slug: 'florentino-perez', name: 'Florentino Pérez', kind: 'person', role: 'Presidente ACS · Real Madrid', aliases: ['Florentino', 'Pérez'], link: '/figuras/florentino-perez', born: 1947 },
+  { slug: 'amancio-ortega', name: 'Amancio Ortega', kind: 'person', role: 'Fundador Inditex', aliases: ['Ortega'], link: '/figuras/amancio-ortega', born: 1936 },
 ]
 
 // ────────────────────────────────────────────────────────────────────────
@@ -145,6 +180,19 @@ const INSTITUTIONS: CuadEntity[] = [
   { slug: 'otan', name: 'OTAN', kind: 'institution', aliases: ['NATO'], role: 'Alianza Atlántica', link: '/sector-defensa' },
   { slug: 'onu', name: 'ONU', kind: 'institution', aliases: ['UN', 'Naciones Unidas'], role: 'Organización mundial', link: '/geopolitica' },
   { slug: 'fmi', name: 'FMI', kind: 'institution', aliases: ['IMF', 'Fondo Monetario'], role: 'Estabilidad financiera global', link: '/geopolitica' },
+  // ── Sprint N12 · instituciones adicionales ────────────────────────────
+  { slug: 'casa-real', name: 'Casa Real', kind: 'institution', aliases: ['Zarzuela'], role: 'Jefatura del Estado', link: '/instituciones' },
+  { slug: 'consejo-estado', name: 'Consejo de Estado', kind: 'institution', aliases: [], role: 'Órgano consultivo supremo', link: '/instituciones' },
+  { slug: 'consejo-ministros', name: 'Consejo de Ministros', kind: 'institution', aliases: ['CM'], role: 'Reunión semanal del Gobierno', link: '/instituciones' },
+  { slug: 'cgae', name: 'CGAE', kind: 'institution', aliases: ['Consejo General Abogacía'], role: 'Profesión jurídica', link: '/instituciones' },
+  { slug: 'cni', name: 'CNI', kind: 'institution', aliases: ['Centro Nacional Inteligencia'], role: 'Servicios de inteligencia', link: '/instituciones' },
+  { slug: 'fiscalia-general', name: 'Fiscalía General del Estado', kind: 'institution', aliases: ['Fiscalía'], role: 'Ministerio Fiscal', link: '/instituciones' },
+  { slug: 'audiencia-nacional', name: 'Audiencia Nacional', kind: 'institution', aliases: ['AN'], role: 'Jurisdicción especializada nacional', link: '/instituciones' },
+  { slug: 'defensor-pueblo', name: 'Defensor del Pueblo', kind: 'institution', aliases: [], role: 'Comisionado parlamentario de garantías', link: '/instituciones' },
+  { slug: 'tribunal-cuentas', name: 'Tribunal de Cuentas', kind: 'institution', aliases: [], role: 'Control externo gasto público', link: '/instituciones' },
+  { slug: 'parlamento-europeo', name: 'Parlamento Europeo', kind: 'institution', aliases: ['PE', 'EuroParliament'], role: 'Legislativo UE', link: '/geopolitica' },
+  { slug: 'eurogrupo', name: 'Eurogrupo', kind: 'institution', aliases: [], role: 'Ministros Economía eurozona', link: '/geopolitica' },
+  { slug: 'omc', name: 'OMC', kind: 'institution', aliases: ['WTO'], role: 'Organización Mundial Comercio', link: '/geopolitica' },
 ]
 
 // ────────────────────────────────────────────────────────────────────────
