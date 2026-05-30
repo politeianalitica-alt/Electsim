@@ -29,8 +29,8 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from psycopg.rows import dict_row
 from pydantic import BaseModel, Field
 
-from config.settings import get_settings
 from api.auth import get_current_user
+from config.settings import get_settings
 
 # Estos endpoints exponen artefactos de workspace (notebooks, evidencias,
 # drafts…). Antes estaban TOTALMENTE abiertos. Como mínimo exigimos un usuario
