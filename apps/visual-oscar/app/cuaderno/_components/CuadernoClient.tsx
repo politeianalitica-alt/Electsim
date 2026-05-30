@@ -41,6 +41,8 @@ import { CuadernoAIPanel } from './CuadernoAIPanel'
 import { CuadernoOmniSearch } from './CuadernoOmniSearch'
 // Sprint Cuaderno N8 · sincronización cloud (Vercel Blob)
 import { CuadernoSyncPanel } from './CuadernoSyncPanel'
+// Sprint Cuaderno N11 · insights dashboard meta sobre el propio cuaderno
+import { CuadernoInsights } from './CuadernoInsights'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   buildHybridGraph,
@@ -71,7 +73,7 @@ const MarkdownEditor = dynamic(
 )
 
 type Mode = 'edit' | 'read' | 'split'
-type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph'
+type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph' | 'insights'
 
 export default function CuadernoClient() {
   // Sprint Cuaderno N5 · navegación a entity.link cuando se click en un nodo de entidad del grafo
@@ -296,6 +298,7 @@ export default function CuadernoClient() {
         <RailBtn label="Calendario" glyph="▣"  v="calendar"  view={view} set={setView} subtitle="Cmd+1" />
         <RailBtn label="Tags"       glyph="#"  v="tags"      view={view} set={setView} subtitle={`${tags.length}`} />
         <RailBtn label="Grafo"      glyph=""  v="graph"     view={view} set={setView} subtitle="Cmd+G" />
+        <RailBtn label="Insights"   glyph="◐"  v="insights"  view={view} set={setView} subtitle="meta" />
         <RailBtn label="Plantillas" glyph="✎"  v="templates" view={view} set={setView} subtitle={`${TEMPLATES.length}`} />
         <div style={{ flex: 1 }} />
         <button className={styles.railSwitcher} onClick={() => setSwitcher(true)} title="Cmd+K">
@@ -384,6 +387,9 @@ export default function CuadernoClient() {
       )}
 
       {view === 'tasks' && <TasksView tasks={tasks} summary={taskSummary} onOpen={id => { setActiveId(id); setView('notes') }} onToggle={(id,line) => { toggleTask(id,line); refresh() }} />}
+
+      {/* Sprint Cuaderno N11 · insights meta · top entidades, tags, huérfanas, lagunas, heatmap */}
+      {view === 'insights' && <CuadernoInsights onOpenNote={(id) => { setActiveId(id); setView('notes') }} />}
       {view === 'calendar' && <CalendarView onOpen={id => { setActiveId(id); setView('notes') }} onCreateDaily={handleOpenToday} />}
       {view === 'tags' && <TagsView tags={tags} onOpen={id => { setActiveId(id); setView('notes') }} />}
       {view === 'templates' && <TemplatesView onPick={handleNewFromTemplate} />}
