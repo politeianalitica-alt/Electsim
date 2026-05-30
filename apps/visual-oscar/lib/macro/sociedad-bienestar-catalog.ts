@@ -488,7 +488,7 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% personas que confían en los demás. ES ~45% — bajo en UE (media 55%, Norte ~70%).",
-    endpoint: "/api/_todo_eurostat_scp?filters=trust",
+    endpoint: "/api/eurostat/dataset?code=ilc_scp&filters=geo=ES",
     parser: "eurostat-simple",
     threshold: { amber: 45, red: 35, goodAbove: true },
     accent: "#f59e0b",

@@ -67,7 +67,34 @@ interface DerivationEurostatYoY {
   description: string
 }
 
-type Derivation = DerivationEurostatDelta | DerivationEurostatRatio | DerivationEurostatYoY
+/**
+ * Sprint C13 · composite index sobre múltiples endpoints heterogéneos.
+ *
+ * Cada componente se normaliza al rango [0,1] vía minMax + invert opcional,
+ * y se promedia con pesos. Falla cerrado: si un componente no responde,
+ * se omite del cálculo (siempre que queden ≥2 componentes).
+ */
+interface DerivationMultiSourceIndex {
+  type: 'multi_source_index'
+  components: Array<{
+    /** URL relativa al endpoint que devuelve { last: { value } } o { points: [] } */
+    endpoint: string
+    /** Rango usado para normalizar al [0,1] (valor menor → 0, mayor → 1). */
+    minMax: [number, number]
+    /** Si true: invertir 1-x (para riesgos donde mayor=peor). */
+    invert?: boolean
+    /** Peso relativo (default 1). */
+    weight?: number
+    /** Label para diagnóstico. */
+    label: string
+  }>
+  /** Escala del output: 1 = [0,1], 100 = [0,100] (default 100). */
+  scale?: number
+  unit: string
+  description: string
+}
+
+type Derivation = DerivationEurostatDelta | DerivationEurostatRatio | DerivationEurostatYoY | DerivationMultiSourceIndex
 
 /**
  * Catálogo de derivaciones registradas.
@@ -133,6 +160,113 @@ const DERIVATIONS: Record<string, Derivation> = {
     unit: '%',
     description:
       'Variación interanual población total España. Eurostat demo_pjan total (proxy Padrón cifra oficial). YoY del último año disponible vs anterior.',
+  },
+  // Sprint C13 · ie-capacidad-estado-compuesto · 5 dimensiones del Estado
+  capacidad_estado: {
+    type: 'multi_source_index',
+    components: [
+      {
+        endpoint: '/api/fred/series?id=GGGDTAESA188N',
+        minMax: [60, 130],
+        invert: true,
+        weight: 1,
+        label: 'Deuda %PIB (menos = mejor)',
+      },
+      {
+        endpoint: '/api/eurostat/dataset?code=gov_10dd_edpt1&filters=geo=ES;sector=S13;na_item=B9;unit=PC_GDP',
+        minMax: [-8, 2],
+        invert: false,
+        weight: 1,
+        label: 'Saldo %PIB (más = mejor)',
+      },
+      {
+        endpoint: '/api/governance-indices/cpi?country=ESP',
+        minMax: [40, 90],
+        invert: false,
+        weight: 1.5,
+        label: 'TI CPI (más = mejor)',
+      },
+      {
+        endpoint: '/api/worldbank/indicator/CC.PER.RNK?country=ES&per_page=5',
+        minMax: [50, 95],
+        invert: false,
+        weight: 1.5,
+        label: 'WGI Control Corrupción (más = mejor)',
+      },
+      {
+        endpoint: '/api/spanish-stats/ejecucion-presup?country=ESP',
+        minMax: [75, 95],
+        invert: false,
+        weight: 1,
+        label: 'Ejecución presupuestaria (más = mejor)',
+      },
+    ],
+    scale: 100,
+    unit: 'puntos',
+    description:
+      'Capacidad del Estado compuesto · deuda+déficit+CPI+WGI+ejecución, normalizado 0-100. Pesos: CPI y WGI x1.5 por relevancia institucional.',
+  },
+  // Sprint C13 · mr-indice-cohesion-terr · cohesión territorial compuesta
+  cohesion_territorial: {
+    type: 'multi_source_index',
+    components: [
+      {
+        endpoint: '/api/eurostat/dataset?code=lfsi_emp_a&filters=geo=ES;sex=T;age=Y20-64;unit=PC',
+        minMax: [60, 80],
+        invert: false,
+        weight: 1,
+        label: 'Tasa empleo (más = mejor)',
+      },
+      {
+        endpoint: '/api/spanish-stats/banda-ancha-rural?country=ESP',
+        minMax: [50, 95],
+        invert: false,
+        weight: 1.5,
+        label: 'Banda ancha rural (más = mejor)',
+      },
+      {
+        endpoint: '/api/spanish-stats/feder-feader?country=ESP',
+        minMax: [40, 95],
+        invert: false,
+        weight: 1,
+        label: 'FEDER+FEADER ejecución (más = mejor)',
+      },
+    ],
+    scale: 100,
+    unit: 'puntos',
+    description:
+      'Cohesión territorial compuesto · empleo + banda ancha rural + ejecución fondos UE territoriales, normalizado 0-100.',
+  },
+  // Sprint C13 · riesgo político agregado · ahora con fuentes reales
+  riesgo_politico_agregado: {
+    type: 'multi_source_index',
+    components: [
+      {
+        endpoint: '/api/governance-indices/cpi?country=ESP',
+        minMax: [40, 90],
+        invert: true,
+        weight: 1,
+        label: 'TI CPI invertido (menos CPI = más riesgo)',
+      },
+      {
+        endpoint: '/api/worldbank/indicator/CC.PER.RNK?country=ES&per_page=5',
+        minMax: [50, 95],
+        invert: true,
+        weight: 1,
+        label: 'WGI invertido (menos = más riesgo)',
+      },
+      {
+        endpoint: '/api/governance-indices/wjp?country=ESP',
+        minMax: [0.5, 0.95],
+        invert: true,
+        weight: 1,
+        label: 'WJP Rule of Law invertido (menos = más riesgo)',
+      },
+    ],
+    scale: 100,
+    unit: 'puntos riesgo',
+    description:
+      'Riesgo político agregado · CPI+WGI+WJP normalizados e invertidos. 100=máximo riesgo, 0=mínimo.',
   },
 }
 
@@ -262,10 +396,85 @@ export async function GET(
     return NextResponse.json({ ...result, derived_id: id })
   }
 
+  if (d.type === 'multi_source_index') {
+    const result = await computeMultiSourceIndex(d, req)
+    return NextResponse.json({ ...result, derived_id: id })
+  }
+
   return NextResponse.json(
     { ok: false, error: 'unsupported derivation type' },
     { status: 500 },
   )
+}
+
+async function computeMultiSourceIndex(d: DerivationMultiSourceIndex, req: Request): Promise<any> {
+  const origin = new URL(req.url).origin
+  const scale = d.scale ?? 100
+  const results: Array<{ label: string; raw: number | null; normalized: number | null; weight: number }> = []
+
+  await Promise.all(
+    d.components.map(async (comp) => {
+      try {
+        const url = origin + comp.endpoint
+        const r = await fetch(url, {
+          next: { revalidate: 86400 },
+        } as RequestInit)
+        if (!r.ok) {
+          results.push({ label: comp.label, raw: null, normalized: null, weight: comp.weight ?? 1 })
+          return
+        }
+        const json = await r.json()
+        // Aceptar varios shapes: { last: { value } }, { points: [...] }, { data: { value } }
+        let raw: number | null = null
+        if (typeof json?.last?.value === 'number') raw = json.last.value
+        else if (typeof json?.data?.value === 'number') raw = json.data.value
+        else if (Array.isArray(json?.points) && json.points.length > 0) {
+          const lastPoint = json.points[json.points.length - 1]
+          if (typeof lastPoint?.value === 'number') raw = lastPoint.value
+        }
+        // Worldbank devuelve el último valor también
+        if (raw === null && typeof json?.last?.value === 'number') raw = json.last.value
+
+        if (raw === null) {
+          results.push({ label: comp.label, raw: null, normalized: null, weight: comp.weight ?? 1 })
+          return
+        }
+        const [minVal, maxVal] = comp.minMax
+        let normalized = (raw - minVal) / (maxVal - minVal)
+        normalized = Math.max(0, Math.min(1, normalized))
+        if (comp.invert) normalized = 1 - normalized
+        results.push({ label: comp.label, raw, normalized, weight: comp.weight ?? 1 })
+      } catch {
+        results.push({ label: comp.label, raw: null, normalized: null, weight: comp.weight ?? 1 })
+      }
+    }),
+  )
+
+  // Promedio ponderado de los componentes con dato disponible
+  const valid = results.filter((r) => r.normalized != null)
+  if (valid.length < 2) {
+    return {
+      ok: false,
+      data_quality: quality(
+        'missing',
+        'derived · multi_source_index',
+        `insufficient_components_${valid.length}/${d.components.length}`,
+      ),
+      components: results,
+    }
+  }
+  const totalWeight = valid.reduce((sum, r) => sum + r.weight, 0)
+  const weighted = valid.reduce((sum, r) => sum + (r.normalized as number) * r.weight, 0)
+  const score = (weighted / totalWeight) * scale
+
+  return {
+    ok: true,
+    description: d.description,
+    unit: d.unit,
+    data_quality: quality('live', `derived · multi_source_index · ${valid.length}/${d.components.length} components`),
+    last: { value: score, time: new Date().toISOString().slice(0, 10) },
+    components: results,
+  }
 }
 
 async function computeEurostatRatio(d: DerivationEurostatRatio): Promise<any> {

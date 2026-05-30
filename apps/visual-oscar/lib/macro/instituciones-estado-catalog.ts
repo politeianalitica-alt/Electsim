@@ -399,7 +399,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Corruption Perceptions Index España ~60 (0=alto, 100=bajo). Ranking ~34/180 países. Indicador clave gobernanza.",
-    endpoint: "/api/_todo_ti_cpi",
+    endpoint: "/api/governance-indices/cpi?country=ESP",
     parser: "eurostat-simple",
     threshold: { amber: 60, red: 50, goodAbove: true },
     accent: "#dc2626",
@@ -421,7 +421,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Rule of Law Index España ~0.69 (sobre 1). Top 25 mundial. Combina 8 factores: derechos, justicia, gobierno abierto.",
-    endpoint: "/api/_todo_wjp_rol",
+    endpoint: "/api/governance-indices/wjp?country=ESP",
     parser: "eurostat-simple",
     threshold: { amber: 0.7, red: 0.6, goodAbove: true },
     accent: "#dc2626",
@@ -465,7 +465,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "monthly",
     description:
       "% gasto ejecutado vs presupuestado AGE. ~85-95% según año. Indicador capacidad administrativa del Estado central.",
-    endpoint: "/api/_todo_igae_ejecucion",
+    endpoint: "/api/spanish-stats/ejecucion-presup?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 85, red: 75, goodAbove: true },
     accent: "#16a34a",
@@ -487,7 +487,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Volumen contratación pública España %PIB. ~12-15%. Indicador peso del Estado en demanda agregada + transparencia.",
-    endpoint: "/api/_todo_oirescon",
+    endpoint: "/api/spanish-stats/contratacion-pub?country=ESP",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:
@@ -508,7 +508,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Compuesto Politeia: deuda+déficit (fiscalidad) + CPI+WGI (gobernanza) + ejecución (administrativa). Permite ranking diacrónico.",
-    endpoint: "/api/_todo_derived_cap_estado",
+    endpoint: "/api/macro/derived/capacidad_estado",
     parser: "ine-ipc",
     accent: "#0F766E",
     methodologyNote:

@@ -539,7 +539,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% municipios con menos de 1000 habitantes sobre total (8131 municipios). España ~62% — núcleo de la 'España vaciada'.",
-    endpoint: "/api/_todo_derived_mun_1000",
+    endpoint: "/api/spanish-stats/municipios-1000?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 55, red: 65, goodAbove: false },
     accent: "#dc2626",
@@ -561,7 +561,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% población española residente en municipios <5000 hab. ~13%. Pequeño pero territorialmente ocupa >70% del país. Brecha territorial.",
-    endpoint: "/api/_todo_derived_pob_5000",
+    endpoint: "/api/spanish-stats/pob-mun-5000?country=ESP",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:
@@ -582,7 +582,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Cociente PIB per cápita CCAA más rica (Madrid) / CCAA más pobre (Extremadura). España ~1.8x. Mayor que media UE.",
-    endpoint: "/api/_todo_derived_ratio_pib_ccaa",
+    endpoint: "/api/spanish-stats/ratio-pib-ccaa?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 1.7, red: 2, goodAbove: false },
     accent: "#dc2626",
@@ -604,7 +604,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Desviación típica logaritmos PIB pc CCAA. Disminuye = convergencia regional. España estancada desde 2008.",
-    endpoint: "/api/_todo_derived_sigma_ccaa",
+    endpoint: "/api/spanish-stats/sigma-ccaa?country=ESP",
     parser: "ine-ipc",
     accent: "#f59e0b",
     methodologyNote:
@@ -625,7 +625,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "PAC España ~7 €bn/año. Driver renta agraria + cohesión territorial rural. Ayudas directas + desarrollo rural.",
-    endpoint: "/api/_todo_fega_pac",
+    endpoint: "/api/spanish-stats/pac-fondos?country=ESP",
     parser: "ine-ipc",
     accent: "#16a34a",
     methodologyNote:
@@ -646,7 +646,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% fondos cohesión UE (FEDER+FEADER) ejecutados vs asignados. Indicador clave capacidad administrativa territorial.",
-    endpoint: "/api/_todo_ec_cohesion?country=ES",
+    endpoint: "/api/spanish-stats/feder-feader?country=ESP",
     parser: "eurostat-simple",
     threshold: { amber: 60, red: 40, goodAbove: true },
     accent: "#0F766E",
@@ -668,7 +668,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% municipios <5000 hab. con cobertura >30 Mbps. Driver despoblación: cobertura insuficiente acelera éxodo rural.",
-    endpoint: "/api/_todo_cnmc_cobertura_rural",
+    endpoint: "/api/spanish-stats/banda-ancha-rural?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 80, red: 60, goodAbove: true },
     accent: "#7C3AED",
@@ -690,7 +690,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Precio medio €/ha tierra agrícola. España ~10.000 €/ha. Indicador rentabilidad agraria y especulación territorial.",
-    endpoint: "/api/_todo_mapa_precio_tierra",
+    endpoint: "/api/spanish-stats/precio-tierra?country=ESP",
     parser: "ine-ipc",
     accent: "#16a34a",
     methodologyNote:
@@ -711,7 +711,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "daily",
     description:
       "% mix eléctrico Spain proveniente de renovables. ~50% (2024). Generación concentrada en CCAA rurales (Castilla y León, Aragón, Extremadura).",
-    endpoint: "/api/_todo_esios_mix_renovable",
+    endpoint: "/api/esios/mix-renovable?n=12",
     parser: "ine-ipc",
     threshold: { amber: 50, red: 40, goodAbove: true },
     accent: "#16a34a",
@@ -733,7 +733,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Compuesto cuatro dimensiones territoriales (PIB pc, paro, densidad, servicios públicos pc). Permite ranking CCAA.",
-    endpoint: "/api/_todo_derived_cohesion_terr",
+    endpoint: "/api/macro/derived/cohesion_territorial",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:

@@ -537,7 +537,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Salario medio bruto anual asalariados. España ~26k€ (último dato), brecha persistente con UE15. Driver poder adquisitivo y consumo.",
-    endpoint: "/api/_todo_ine_eees?series=medio",
+    endpoint: "/api/spanish-stats/salario-medio?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 24000, red: 22000, goodAbove: true },
     accent: "#7C3AED",
@@ -559,7 +559,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Mediana salarial: 50% de asalariados gana menos. Mejor proxy del 'salario típico' que la media (sesgada por colas altas).",
-    endpoint: "/api/_todo_ine_eees?series=mediana",
+    endpoint: "/api/spanish-stats/salario-mediano?country=ESP",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:
@@ -580,7 +580,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Salario Mínimo Interprofesional mensual. 2025: 1.184 €/mes × 14 pagas = 16.576 €/año. Política clave: marca suelo legal.",
-    endpoint: "/api/_todo_boe_smi",
+    endpoint: "/api/spanish-stats/smi?country=ESP",
     parser: "ine-ipc",
     accent: "#dc2626",
     methodologyNote:
@@ -601,7 +601,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Índice Kaitz = SMI / mediana. España ~60% (alto históricamente). >50% indica SMI mordedora; >60% comprime cola baja de la distribución.",
-    endpoint: "/api/_todo_derived_kaitz",
+    endpoint: "/api/spanish-stats/kaitz-ratio?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 60, red: 65, goodAbove: false },
     accent: "#f59e0b",
@@ -623,7 +623,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "quarterly",
     description:
       "Precio medio del m² de vivienda libre tasada (estadística Mitma). 2025 ~1.900 €/m². Driver esfuerzo de compra (años de salario).",
-    endpoint: "/api/_todo_mitma_precio_m2",
+    endpoint: "/api/spanish-stats/precio-m2-vivienda?country=ESP",
     parser: "ine-ipc",
     accent: "#dc2626",
     methodologyNote:
@@ -644,7 +644,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "quarterly",
     description:
       "Años de salario bruto medio necesarios para una vivienda media (~90 m²). España ~8-9 años. Umbral 7 años marca límite tradicional de accesibilidad.",
-    endpoint: "/api/_todo_derived_esfuerzo",
+    endpoint: "/api/spanish-stats/esfuerzo-vivienda?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 7, red: 9, goodAbove: false },
     accent: "#dc2626",

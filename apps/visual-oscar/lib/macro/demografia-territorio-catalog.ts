@@ -290,7 +290,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "monthly",
     description:
       "Nacimientos − defunciones por 1000 habitantes. España negativo desde 2015 (estructural). Mide vegetativo puro, sin migración.",
-    endpoint: "/api/_todo_ine_mnp?series=crec_natural",
+    endpoint: "/api/spanish-stats/crecimiento-natural?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 0, red: -2, goodAbove: true },
     accent: "#dc2626",
@@ -312,7 +312,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Población extranjera residente como % del total. España ~13% (2024). Driver del crecimiento poblacional y del mercado laboral.",
-    endpoint: "/api/_todo_ine_padron?series=extranjera_pct",
+    endpoint: "/api/spanish-stats/pob-extranjera?country=ESP",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:
@@ -376,7 +376,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Municipios <1000 hab. con pérdida >10% en 10 años. España vaciada núcleo duro. ~3.000+ municipios afectados.",
-    endpoint: "/api/_todo_derived_despoblacion",
+    endpoint: "/api/spanish-stats/municipios-despoblacion?country=ESP",
     parser: "ine-ipc",
     accent: "#dc2626",
     methodologyNote:
@@ -397,7 +397,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Proyección INE escenario central. España alcanzaría ~50 M hab. en 2035 y ~52 M en 2050 con saldo migratorio positivo sostenido.",
-    endpoint: "/api/_todo_ine_proyecciones",
+    endpoint: "/api/spanish-stats/proyeccion-pob?country=ESP",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:
@@ -440,7 +440,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Edad media al tener el primer hijo. España ~32.6 años (líder UE en aplazamiento). Driver estructural de baja fecundidad.",
-    endpoint: "/api/_todo_ine_mnp?series=edad_maternidad",
+    endpoint: "/api/spanish-stats/edad-maternidad?country=ESP",
     parser: "ine-ipc",
     threshold: { amber: 32, red: 34, goodAbove: false },
     accent: "#7C3AED",

@@ -308,7 +308,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% renta disponible hogares destinada a recreación y cultura (EPF función 09). España ~6%. Indicador bienestar y discrecionalidad.",
-    endpoint: "/api/_todo_ine_epf?funcion=09",
+    endpoint: "/api/spanish-stats/gasto-hogares-cult?country=ESP",
     parser: "ine-ipc",
     accent: "#16a34a",
     methodologyNote:
@@ -329,7 +329,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Empleo cooperativas + sociedades laborales + mutualidades + fundaciones España. ~2.2M ocupados (~10% empleo total).",
-    endpoint: "/api/_todo_cepes_empleo",
+    endpoint: "/api/spanish-stats/empleo-eco-social?country=ESP",
     parser: "ine-ipc",
     accent: "#16a34a",
     methodologyNote:
@@ -350,7 +350,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Cooperativas activas España ~21.000. Modelo alternativo de organización empresarial con supervivencia superior a mercantiles a 5 años.",
-    endpoint: "/api/_todo_mtes_coops",
+    endpoint: "/api/spanish-stats/cooperativas?country=ESP",
     parser: "ine-ipc",
     accent: "#7C3AED",
     methodologyNote:
@@ -371,7 +371,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Estimación CEPES: economía social ~10% PIB España. Indicador modelo socio-económico alternativo + impacto en empleo y cohesión.",
-    endpoint: "/api/_todo_cepes_pib",
+    endpoint: "/api/spanish-stats/pib-eco-social?country=ESP",
     parser: "ine-ipc",
     accent: "#16a34a",
     methodologyNote:
@@ -392,7 +392,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% población >16 que participó en voluntariado en último año. España ~10% — bajo en UE (media 14%). Capital social rezagado.",
-    endpoint: "/api/_todo_eurostat_scp08",
+    endpoint: "/api/eurostat/dataset?code=ilc_scp08&filters=geo=ES",
     parser: "eurostat-simple",
     threshold: { amber: 10, red: 7, goodAbove: true },
     accent: "#f59e0b",
