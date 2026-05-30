@@ -314,13 +314,13 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Índice Gini renta disponible comparado con núcleo OCDE. España ~33 (alto en UE15). Permite contextualizar la desigualdad española.",
-    endpoint: "/api/_todo_oecd_idd?indicator=GINI",
+    endpoint: "/api/oecd/metric?name=gini&country=ESP",
     parser: "eurostat-simple",
     accent: "#dc2626",
     methodologyNote:
-      "OECD Income Distribution Database. Definición unificada por OCDE. España estructuralmente entre los 5 países UE con Gini más alto.",
+      "OECD Income Distribution Database (IDD) vía /api/oecd/metric SDMX proxy. Definición unificada OCDE. España entre top-5 UE con Gini más alto. Si el endpoint devuelve missing, verificar SDMX path en sdmx.oecd.org (DSD_WISE_IDD).",
     releaseSchedule: "Anual · OECD T+18 meses",
-    confidenceLevel: "low",
+    confidenceLevel: "medium",
     relatedIndicatorIds: ["sb-gini-eurostat", "sb-s80-s20"],
   },
   {
@@ -357,13 +357,13 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Gasto social total %PIB comparado con OCDE. España ~26%, media OCDE ~21%. Modelo social mediterráneo.",
-    endpoint: "/api/_todo_oecd_socx",
+    endpoint: "/api/oecd/metric?name=social_spending&country=ESP",
     parser: "eurostat-simple",
     accent: "#7C3AED",
     methodologyNote:
-      "OECD Social Expenditure Database. España alto por peso pensiones.",
+      "OECD Social Expenditure Database (SOCX_AGG) vía /api/oecd/metric. Public + mandatory private %PIB. España alto por peso pensiones.",
     releaseSchedule: "Anual · OECD",
-    confidenceLevel: "low",
+    confidenceLevel: "medium",
     relatedIndicatorIds: ["sb-gasto-social-pib"],
   },
   {
@@ -444,14 +444,14 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Elasticidad renta padre-hijo (0=movilidad perfecta). ES ~0.4 — alta persistencia.",
-    endpoint: "/api/_todo_oecd_family",
+    endpoint: "/api/oecd/metric?name=intergen_mobility&country=ESP",
     parser: "eurostat-simple",
     threshold: { amber: 0.4, red: 0.5, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "Great Gatsby Curve. España + Italia + UK en grupo de baja movilidad.",
+      "OECD A Family Affair (DSD_FAMILY) vía /api/oecd/metric. Great Gatsby Curve. España + Italia + UK en grupo de baja movilidad. Series irregulares; si endpoint devuelve missing usar last available.",
     releaseSchedule: "Anual · OECD irregular",
-    confidenceLevel: "low",
+    confidenceLevel: "medium",
     relatedIndicatorIds: ["sb-arope-eurostat", "sb-abandono-escolar"],
   },
   {

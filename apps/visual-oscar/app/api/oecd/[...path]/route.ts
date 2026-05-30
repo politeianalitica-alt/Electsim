@@ -50,6 +50,33 @@ const METRIC_DATASETS = {
     key_template: 'A.{country}.GGFLM.....',
     label: 'Gov gross debt (% GDP)',
   },
+  // Sprint Backend C2 (2026-05-30): 4 métricas nuevas para Hero KPIs Tab10-15
+  gini: {
+    // OECD Income Distribution Database · Gini coefficient disposable income
+    // Verificar SDMX path en https://stats.oecd.org si falla en runtime.
+    path: 'OECD.WISE.INE,DSD_WISE_IDD@DF_IDD,1.0',
+    key_template: 'A.{country}.INC_DISP_GINI._T._T._T._T..',
+    label: 'Gini coefficient disposable income',
+  },
+  social_spending: {
+    // OECD Social Expenditure (SOCX) · public + mandatory private %GDP
+    path: 'OECD.ELS.SPD,DSD_SOCX@DF_SOCX_AGG,1.0',
+    key_template: 'A.{country}.PUB._T._T.PC_GDP.V',
+    label: 'Public social spending (% GDP)',
+  },
+  intergen_mobility: {
+    // OECD A Family Affair · Intergenerational earnings elasticity (parent-child)
+    // Series irregulares; verificar disponibilidad por país.
+    path: 'OECD.ELS.SPD,DSD_FAMILY@DF_FAMILY,1.0',
+    key_template: 'A.{country}.INTERG_EARN_ELAS....',
+    label: 'Intergenerational earnings elasticity',
+  },
+  dep_ratio_2050: {
+    // OECD Pension at a Glance · Old-age dependency ratio projection
+    path: 'OECD.ELS.SAE,DSD_PENSION@DF_PENSION,1.0',
+    key_template: 'A.{country}.DEP_RATIO_OLD....',
+    label: 'Old-age dependency ratio (projected)',
+  },
 }
 
 async function oecdFetch(path: string, params: Record<string, string> = {}): Promise<any> {

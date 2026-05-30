@@ -418,14 +418,14 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Ratio dependencia vejez proyectada a 2050. España pasaría de 32% (2024) a ~60% según OECD Pension Outlook. Crisis estructural del modelo.",
-    endpoint: "/api/_todo_oecd_pension?series=dep_2050",
+    endpoint: "/api/oecd/metric?name=dep_ratio_2050&country=ESP",
     parser: "eurostat-simple",
     threshold: { amber: 55, red: 65, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "OECD Pension Outlook + Ageing Report CE. España entre los 5 países con mayor incremento UE. Implica reforma pensiones inevitable.",
+      "OECD Pension at a Glance (DSD_PENSION) vía /api/oecd/metric. España entre los 5 países UE con mayor incremento proyectado dep. ratio. Implica reforma pensiones inevitable.",
     releaseSchedule: "Trienal · OECD/CE",
-    confidenceLevel: "low",
+    confidenceLevel: "medium",
     relatedIndicatorIds: ["dt-ratio-dependencia", "dt-pob65-vs-paises"],
   },
   {
