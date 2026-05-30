@@ -15,6 +15,8 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_VIVIENDA, REGULADORES_VIVIENDA, PROGRAMAS_VIVIENDA } from '@/lib/sources/ine'
+// Sprint Cuaderno N2-wire · notas que mencionan "Vivienda" (registry slug 'vivienda')
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 
@@ -198,6 +200,11 @@ export default function SectorViviendaPage() {
         <SectorIntelPanel sector="vivienda" />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos INE…</div>}
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Vivienda */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="vivienda" name="Sector Vivienda" accentColor="#DC2626" />
+        </div>
       </main>
     </div>
   )

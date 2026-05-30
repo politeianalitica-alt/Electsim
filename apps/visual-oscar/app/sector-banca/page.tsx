@@ -16,6 +16,8 @@ import { isAuthenticated } from '@/lib/auth'
 import {
   EMPRESAS_BANCA, REGULADORES_BANCA, AREAS_BANCA, PROGRAMAS_BANCA,
 } from '@/lib/sources/sectorial-data'
+// Sprint Cuaderno N2-wire · notas que mencionan "Banca" (registry slug 'banca')
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import { MarketSnapshot } from '@/components/markets/MarketSnapshot'
 import { BisBankingPanel } from '@/components/macro/BisBankingPanel'
 import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
@@ -234,6 +236,11 @@ export default function SectorBancaPage() {
         <SectorIntelPanel sector="banca" accent={ACCENT} />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos ECB + WB…</div>}
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Banca */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="banca" name="Sector Banca" accentColor="#1F4E8C" />
+        </div>
  </main>
  </div>
   )

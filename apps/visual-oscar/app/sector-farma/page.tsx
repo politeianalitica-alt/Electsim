@@ -17,6 +17,8 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_FARMA, REGULADORES_FARMA } from '@/lib/sources/aemps'
+// Sprint Cuaderno N2-wire · notas que mencionan "Farmacéutico" (registry slug 'farma')
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import PillSelect, { PillInput } from '@/components/PillSelect'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
@@ -211,6 +213,11 @@ export default function SectorFarmaPage() {
         <SectorIntelPanel sector="farma" />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos AEMPS…</div>}
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Farma */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="farma" name="Sector Farmacéutico" accentColor="#EC4899" />
+        </div>
  </main>
  </div>
   )

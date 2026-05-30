@@ -24,6 +24,8 @@ import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
 import { EsiosTabsSection } from '@/components/energy/EsiosTabsSection'
 import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
+// Sprint Cuaderno N2-wire · notas que mencionan al sector energía (registry slug 'energia')
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 
 // ─── Tipos de respuesta ──────────────────────────────────
 interface ResumenResp {
@@ -293,6 +295,11 @@ export default function SectorEnergiaPage() {
             Cargando datos REE…
  </div>
         )}
+
+        {/* Sprint Cuaderno N2-wire · widget que muestra notas del Cuaderno mencionando "Energía" */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="energia" name="Sector Energía" accentColor="#F59E0B" />
+        </div>
  </main>
  </div>
   )
