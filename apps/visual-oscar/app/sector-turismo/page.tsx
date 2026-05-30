@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+// Sprint Cuaderno N2-wire · notas que mencionan "Turismo"
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import {
   EMPRESAS_TURISMO, REGULADORES_TURISMO, AREAS_TURISMO, PROGRAMAS_TURISMO,
 } from '@/lib/sources/sectorial-data'
@@ -117,6 +119,11 @@ export default function SectorTurismoPage() {
 
         {/* Politeia intel · tourism_destinations + AENA + cruceros */}
         <SectorIntelPanel sector="turismo" accent={ACCENT} />
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Turismo */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="turismo" name="Sector Turismo" accentColor="#06B6D4" />
+        </div>
       </main>
     </div>
   )

@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+// Sprint Cuaderno N2-wire · notas que mencionan "Infraestructuras"
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import {
   EMPRESAS_INFRA, REGULADORES_INFRA, AREAS_INFRA, PROGRAMAS_INFRA,
 } from '@/lib/sources/sectorial-data'
@@ -110,6 +112,11 @@ export default function SectorInfraestructurasPage() {
 
         {/* Politeia intel · infra_projects + TED + PLACE */}
         <SectorIntelPanel sector="infraestructuras" accent={ACCENT} />
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Infraestructuras */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="infraestructuras" name="Sector Infraestructuras" accentColor="#475569" />
+        </div>
       </main>
     </div>
   )

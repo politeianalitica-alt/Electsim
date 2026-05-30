@@ -17,6 +17,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+// Sprint Cuaderno N2-wire · notas que mencionan "Tercer sector"
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 
 const ACCENT = '#16a34a' // verde tercer sector
 const ACCENT_DARK = '#15803d'
@@ -253,6 +255,11 @@ export default function SectorTercerSectorPage() {
             <ShortcutLink href="/instituciones" label="→ Ministerio Derechos Sociales" />
           </div>
         </Panel>
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre Tercer Sector */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="tercer-sector" name="Tercer Sector" accentColor="#16A34A" />
+        </div>
       </main>
     </div>
   )

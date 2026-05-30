@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+// Sprint Cuaderno N2-wire · notas que mencionan "Telecomunicaciones"
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import {
   EMPRESAS_TELECOM, REGULADORES_TELECOM, AREAS_TELECOM, PROGRAMAS_TELECOM,
 } from '@/lib/sources/sectorial-data'
@@ -104,6 +106,11 @@ export default function SectorTelecomPage() {
 
         {/* Politeia intel · telecom_operators + CNMC + BEREC + espectro */}
         <SectorIntelPanel sector="telecom" accent={ACCENT} />
+
+        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Telecomunicaciones */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug="telecomunicaciones" name="Sector Telecomunicaciones" accentColor="#0EA5E9" />
+        </div>
       </main>
     </div>
   )
