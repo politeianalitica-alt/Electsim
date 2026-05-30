@@ -62,6 +62,52 @@ export function extractLinks(content: string): string[] {
   return Array.from(out)
 }
 
+/**
+ * Sprint Cuaderno N2 · extrae menciones de entidades reconocidas en el
+ * entity-registry · descarta wikilinks que apunten a notas internas.
+ *
+ * Devuelve los slugs canónicos del registry (resueltos por nombre/alias).
+ */
+export function extractEntityMentions(content: string): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { resolveEntity } = require('./entity-registry')
+  const out = new Set<string>()
+  const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(content)) !== null) {
+    const entity = resolveEntity(m[1].trim())
+    if (entity) out.add(entity.slug)
+  }
+  return Array.from(out)
+}
+
+/**
+ * Sprint Cuaderno N2 · todas las notas que mencionan una entidad concreta.
+ * Útil para el panel "Otras notas con esta entidad" en el sidebar.
+ */
+export function notesByEntitySlug(entitySlug: string): CuadernoNote[] {
+  if (!entitySlug) return []
+  return loadAll().filter((n) => {
+    const ents = extractEntityMentions(n.content)
+    return ents.includes(entitySlug)
+  })
+}
+
+/**
+ * Sprint Cuaderno N2 · mapa global · entidad → notas que la mencionan.
+ * Útil para mostrar contadores en el grafo o estadísticas globales.
+ */
+export function entityMentionCounts(): Record<string, number> {
+  const counts: Record<string, number> = {}
+  for (const n of loadAll()) {
+    const ents = extractEntityMentions(n.content)
+    for (const e of ents) {
+      counts[e] = (counts[e] ?? 0) + 1
+    }
+  }
+  return counts
+}
+
 /** Extrae tags `#palabra` (no dentro de código). */
 export function extractTags(content: string): string[] {
   const out = new Set<string>()

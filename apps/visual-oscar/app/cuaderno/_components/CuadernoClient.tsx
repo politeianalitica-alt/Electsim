@@ -30,6 +30,8 @@ import { CuadernoPicker } from './CuadernoPicker'
 import { useDataEmbeds } from './DataEmbed'
 import { totalEntities } from '@/lib/cuaderno/entity-registry'
 import { DATA_REGISTRY } from '@/lib/cuaderno/data-registry'
+// Sprint Cuaderno N2 · panel de entidades con cross-references
+import { EntitiesPanel } from './EntitiesPanel'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
@@ -447,6 +449,15 @@ export default function CuadernoClient() {
                 </div>
               </div>
             )}
+
+            {/* Sprint Cuaderno N2 · Panel de entidades + cross-references */}
+            <div style={{ marginTop: 12 }}>
+              <EntitiesPanel
+                content={active.content}
+                activeNoteId={active.id}
+                onOpenNote={setActiveId}
+              />
+            </div>
           </div>
         ) : (
           <div className={styles.empty}>
