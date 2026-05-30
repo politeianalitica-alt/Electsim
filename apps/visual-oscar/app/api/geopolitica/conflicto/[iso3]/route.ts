@@ -18,6 +18,22 @@ import { getVdemEntry } from '@/lib/geopolitica/vdem-data'
 import { getSipriEntry } from '@/lib/geopolitica/sipri-data'
 // FIX-B3 · UCDP seed fallback para top_themes cuando GDELT 429s
 import { getUcdpConflictByIso } from '@/lib/geopolitica/ucdp-active-conflicts'
+// Sprint OC · top empresas del país vía OpenCorporates
+import { topCompaniesByCountry, hasApiKey as ocHasKey } from '@/lib/opencorporates/client'
+
+// Mapeo ISO3 → ISO2 (OpenCorporates usa ISO 3166-1 alpha-2 lowercase para country_code)
+const ISO3_TO_ISO2: Record<string, string> = {
+  USA: 'us', RUS: 'ru', CHN: 'cn', GBR: 'gb', DEU: 'de', FRA: 'fr', ITA: 'it', ESP: 'es',
+  UKR: 'ua', POL: 'pl', NLD: 'nl', BEL: 'be', PRT: 'pt', AUT: 'at', CHE: 'ch', SWE: 'se',
+  NOR: 'no', DNK: 'dk', FIN: 'fi', IRL: 'ie', GRC: 'gr', TUR: 'tr', SYR: 'sy', IRN: 'ir',
+  IRQ: 'iq', SAU: 'sa', ISR: 'il', EGY: 'eg', MAR: 'ma', DZA: 'dz', TUN: 'tn', LBY: 'ly',
+  IND: 'in', PAK: 'pk', JPN: 'jp', KOR: 'kr', PRK: 'kp', VNM: 'vn', THA: 'th', IDN: 'id',
+  PHL: 'ph', AUS: 'au', NZL: 'nz', CAN: 'ca', MEX: 'mx', BRA: 'br', ARG: 'ar', COL: 'co',
+  CHL: 'cl', PER: 'pe', VEN: 've', CUB: 'cu', YEM: 'ye', AFG: 'af', SDN: 'sd', ETH: 'et',
+  KEN: 'ke', NGA: 'ng', ZAF: 'za', BLR: 'by', GEO: 'ge', AZE: 'az', ARM: 'am', KAZ: 'kz',
+  UZB: 'uz', LBN: 'lb', JOR: 'jo', PSE: 'ps', QAT: 'qa', ARE: 'ae', BHR: 'bh', KWT: 'kw',
+  OMN: 'om',
+}
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -57,8 +73,23 @@ interface ConflictDetail {
   }
   // Actores corporativos
   corporate: {
-    pending: true                              // OpenCorporates/Comtrade no integrados
+    /** Si false, hay datos reales en `companies`. Si true, sigue siendo placeholder. */
+    pending: boolean
+    /** Top empresas activas en el país (OpenCorporates). Vacío si no hay key o el país no tiene cobertura. */
+    companies: Array<{
+      name: string
+      jurisdiction_code: string
+      company_number: string
+      current_status: string | null
+      incorporation_date: string | null
+      opencorporates_url: string
+    }>
+    /** Total disponible en OpenCorporates para el país (estimación). */
+    total_count: number | null
+    /** Aviso · 'no_api_key', 'no_match', 'rate_limited', etc. */
     note: string
+    /** Si la consulta falló, mensaje técnico. */
+    error?: string
   }
   fetched_at: string
   _meta?: { source: string; cache_ttl_seconds: number }
@@ -245,6 +276,67 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
   const sipri = getSipriEntry(iso3)
   const milexChange = sipri?.change_vs_2022_pct ?? null
 
+  // Sprint OC · top empresas del país (OpenCorporates)
+  // Si no hay key se devuelve `pending: true` con note explicativa.
+  // El bloque se construye fuera del Promise.all GDELT para no bloquear el
+  // resto del response si OC tarda.
+  let corporateBlock: ConflictDetail['corporate']
+  const iso2OC = ISO3_TO_ISO2[iso3.toUpperCase()]
+  if (!iso2OC) {
+    corporateBlock = {
+      pending: true,
+      companies: [],
+      total_count: null,
+      note: `País ${iso3} sin mapeo ISO3→ISO2 para OpenCorporates. Añadir entrada al mapa ISO3_TO_ISO2 en route.ts para activar.`,
+    }
+  } else if (!ocHasKey()) {
+    corporateBlock = {
+      pending: true,
+      companies: [],
+      total_count: null,
+      note: 'OPENCORPORATES_API_KEY no configurada en entorno · consultar manualmente en opencorporates.com filtrando por país.',
+    }
+  } else {
+    try {
+      const ocRes = await topCompaniesByCountry(iso2OC, 15)
+      if (ocRes.ok && ocRes.data.length > 0) {
+        corporateBlock = {
+          pending: false,
+          companies: ocRes.data.map((c) => ({
+            name: c.name,
+            jurisdiction_code: c.jurisdiction_code,
+            company_number: c.company_number,
+            current_status: c.current_status,
+            incorporation_date: c.incorporation_date,
+            opencorporates_url: c.opencorporates_url,
+          })),
+          total_count: ocRes.total_count ?? null,
+          note: `Top ${ocRes.data.length} empresas registradas en OpenCorporates (jurisdicción ${iso2OC}).`,
+        }
+      } else {
+        corporateBlock = {
+          pending: true,
+          companies: [],
+          total_count: ocRes.total_count ?? null,
+          note: ocRes.error === 'rate_limited'
+            ? 'OpenCorporates rate-limited · reintentar en unos minutos.'
+            : ocRes.error === 'auth_failed'
+            ? 'OpenCorporates API key inválida · verificar OPENCORPORATES_API_KEY.'
+            : 'OpenCorporates sin resultados para este país.',
+          error: ocRes.error,
+        }
+      }
+    } catch (e) {
+      corporateBlock = {
+        pending: true,
+        companies: [],
+        total_count: null,
+        note: 'Error de red consultando OpenCorporates.',
+        error: String(e instanceof Error ? e.message : e).slice(0, 120),
+      }
+    }
+  }
+
   const detail: ConflictDetail = {
     iso3,
     name_es: coord.name_es,
@@ -273,10 +365,7 @@ export async function GET(req: NextRequest, { params }: { params: { iso3: string
       sipri_rank: sipri?.world_rank ?? null,
       pending_blocks: ['commodities (Alpha Vantage/FRED)', 'iati (ayuda humanitaria)', 'ports (rutas marítimas)'],
     },
-    corporate: {
-      pending: true,
-      note: 'OpenCorporates + UN Comtrade no integrados en este sprint. Consultar manualmente en opencorporates.com y comtradeplus.un.org filtrando por país.',
-    },
+    corporate: corporateBlock,
     fetched_at: startedAt,
     _meta: {
       source: 'GDELT DOC v2 + V-Dem v15 + SIPRI 2024',

@@ -51,7 +51,20 @@ interface Detail {
     sipri_rank: number | null
     pending_blocks: string[]
   }
-  corporate: { pending: true; note: string }
+  corporate: {
+    pending: boolean
+    companies: Array<{
+      name: string
+      jurisdiction_code: string
+      company_number: string
+      current_status: string | null
+      incorporation_date: string | null
+      opencorporates_url: string
+    }>
+    total_count: number | null
+    note: string
+    error?: string
+  }
 }
 interface Response { ok: boolean; detail?: Detail; error?: string }
 
@@ -487,15 +500,44 @@ function SubImpacto({ d }: { d: Detail }) {
 }
 
 function SubCorporativo({ d }: { d: Detail }) {
+  // Sprint OC · si pending=false hay datos reales de OpenCorporates
+  const hasRealData = !d.corporate.pending && d.corporate.companies.length > 0
   return (
     <div>
-      <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', borderRadius: 6, padding: '10px 12px', fontSize: 11, color: '#92400e', marginBottom: 14 }}>
-        <p style={{ margin: 0, fontWeight: 700 }}>Sección en construcción</p>
-        <p style={{ margin: '4px 0 0' }}>{d.corporate.note}</p>
-      </div>
+      {hasRealData ? (
+        <>
+          <div style={{ background: '#ecfdf5', border: '1px solid #a7f3d0', borderLeft: '3px solid #10b981', borderRadius: 6, padding: '10px 12px', fontSize: 11, color: '#065f46', marginBottom: 14 }}>
+            <p style={{ margin: 0, fontWeight: 700 }}>OpenCorporates · {d.corporate.companies.length} empresas activas</p>
+            <p style={{ margin: '4px 0 0' }}>{d.corporate.note}{d.corporate.total_count ? ` · ${d.corporate.total_count.toLocaleString('es-ES')} en total para la jurisdicción.` : ''}</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 14 }}>
+            {d.corporate.companies.map((c, i) => (
+              <a key={`${c.jurisdiction_code}-${c.company_number}-${i}`}
+                 href={c.opencorporates_url || `https://opencorporates.com/companies/${c.jurisdiction_code}/${c.company_number}`}
+                 target="_blank" rel="noopener noreferrer"
+                 style={{
+                   padding: '8px 10px', background: '#fff', borderRadius: 6,
+                   border: '1px solid #e2e8f0', textDecoration: 'none',
+                   display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
+                   gap: 12,
+                 }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#0f172a' }}>{c.name}</span>
+                <span style={{ fontSize: 9, color: '#64748b', textTransform: 'uppercase', letterSpacing: 0.3, fontFamily: 'ui-monospace, monospace', whiteSpace: 'nowrap' }}>
+                  {c.jurisdiction_code} · {c.company_number}{c.current_status ? ` · ${c.current_status}` : ''}{c.incorporation_date ? ` · ${c.incorporation_date.slice(0,4)}` : ''}
+                </span>
+              </a>
+            ))}
+          </div>
+        </>
+      ) : (
+        <div style={{ background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b', borderRadius: 6, padding: '10px 12px', fontSize: 11, color: '#92400e', marginBottom: 14 }}>
+          <p style={{ margin: 0, fontWeight: 700 }}>{d.corporate.error === 'auth_failed' ? 'Configurar OPENCORPORATES_API_KEY' : d.corporate.error === 'rate_limited' ? 'OpenCorporates rate-limited' : 'OpenCorporates · sin datos directos'}</p>
+          <p style={{ margin: '4px 0 0' }}>{d.corporate.note}</p>
+        </div>
+      )}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         <a href={`https://opencorporates.com/companies?q=${encodeURIComponent(d.name_en)}&utf8=%E2%9C%93`} target="_blank" rel="noopener noreferrer" style={ExtLinkStyle}>
-          OpenCorporates · empresas en {d.name_es} →
+          OpenCorporates · búsqueda libre →
         </a>
         <a href={`https://comtradeplus.un.org/`} target="_blank" rel="noopener noreferrer" style={ExtLinkStyle}>
           UN Comtrade · flujos comerciales →

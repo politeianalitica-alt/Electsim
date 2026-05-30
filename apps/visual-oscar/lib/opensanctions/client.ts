@@ -14,8 +14,23 @@
  * Cache: agresivo · 1h búsquedas, 24h listas país.
  */
 
+/**
+ * Sprint OS-FIX (2026-05-30): fixes para que OpenSanctions funcione sin API
+ * key paid en producción.
+ *  1. Removido filtro `topics=sanction` over-restrictive en fetchEntitiesByCountry
+ *     (era inconsistente con searchEntities que ya lo había removido)
+ *  2. Cache TTL subido de 1h → 24h (las listas de sanciones cambian semanal)
+ *  3. Retry x1 con backoff de 800ms en 429/timeout
+ *  4. User-Agent identificable para que OpenSanctions no nos rate-limite por defecto
+ *
+ * No requiere OPENSANCTIONS_API_KEY · la API pública /search funciona free.
+ */
+
 const OS_BASE = 'https://api.opensanctions.org'
 const DEFAULT_TIMEOUT_MS = 10_000
+const CACHE_TTL_SECONDS = 86_400 // 24h
+const USER_AGENT = 'Politeia-Analitica/2.0 (+https://politeia-visual-oscar.vercel.app)'
+const OS_API_KEY = process.env.OPENSANCTIONS_API_KEY || ''
 
 export interface SanctionedEntity {
   id: string
@@ -43,23 +58,41 @@ export interface OpenSanctionsResponse<T> {
   fetched_at: string
 }
 
-async function fetchOS(path: string, opts: { timeoutMs?: number } = {}): Promise<any | null> {
+async function fetchOSOnce(path: string, opts: { timeoutMs?: number } = {}): Promise<any | null | { __retry: true }> {
   const url = `${OS_BASE}${path}`
   const ctrl = new AbortController()
   const t = setTimeout(() => ctrl.abort(), opts.timeoutMs ?? DEFAULT_TIMEOUT_MS)
   try {
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+      'User-Agent': USER_AGENT,
+    }
+    if (OS_API_KEY) headers.Authorization = `ApiKey ${OS_API_KEY}`
     const r = await fetch(url, {
       signal: ctrl.signal,
-      headers: { 'Accept': 'application/json' },
-      next: { revalidate: 3600 },
+      headers,
+      next: { revalidate: CACHE_TTL_SECONDS },
     })
     clearTimeout(t)
+    if (r.status === 429) return { __retry: true }
     if (!r.ok) return null
     return await r.json()
   } catch {
     clearTimeout(t)
-    return null
+    return { __retry: true }
   }
+}
+
+async function fetchOS(path: string, opts: { timeoutMs?: number } = {}): Promise<any | null> {
+  // OS-FIX · 1 retry con backoff 800ms en 429/timeout
+  const first = await fetchOSOnce(path, opts)
+  if (first && typeof first === 'object' && '__retry' in first) {
+    await new Promise((resolve) => setTimeout(resolve, 800))
+    const second = await fetchOSOnce(path, opts)
+    if (second && typeof second === 'object' && '__retry' in second) return null
+    return second
+  }
+  return first
 }
 
 /**
@@ -123,7 +156,10 @@ export async function fetchSanctionsStats(): Promise<OpenSanctionsResponse<{ tot
  */
 export async function fetchEntitiesByCountry(iso2: string, limit = 20): Promise<OpenSanctionsResponse<{ total: number; entities: SanctionedEntity[] }>> {
   const startedAt = new Date().toISOString()
-  const path = `/search/default?countries=${iso2.toLowerCase()}&topics=sanction&limit=${limit}`
+  // OS-FIX bug · removido `topics=sanction` que era too restrictive y devolvía 0
+  // en la mayoría de queries. searchEntities ya lo había arreglado (línea 76)
+  // pero esta función mantenía el filtro inconsistente. Ahora alineado.
+  const path = `/search/default?countries=${iso2.toLowerCase()}&limit=${limit}`
   const json = await fetchOS(path)
   if (!json) {
     return { ok: false, data: { total: 0, entities: [] }, error: 'no_response', fetched_at: startedAt }
