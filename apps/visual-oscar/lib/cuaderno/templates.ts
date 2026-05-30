@@ -52,7 +52,7 @@ const DAILY_NOTE: Template = {
   id:          'daily',
   name:        'Diario · Bitácora del día',
   folder:      'Bitácora',
-  description: 'Tu registro diario: prioridades, decisiones, hallazgos, próximos pasos',
+  description: 'Tu registro diario: pulso macro+social en vivo + prioridades, decisiones, hallazgos',
   glyph:       '◷',
   tags:        ['#diario'],
   body: c => `---
@@ -64,6 +64,14 @@ estado: en-curso
 # Bitácora · ${c.date}
 
 > ${c.weekday}, ${c.day} de ${c.month} de ${c.year}
+
+## Pulso de hoy · macro + social
+
+**Economía**  {macro:ipc-anual}  {macro:paro-epa}  {stats:salario-medio}
+
+**Opinión pública**  {cis:problemas-paro}  {cis:problemas-vivienda}  {cis:valoracion-presidente}  {cis:confianza-gobierno}
+
+> Sprint N6 · estos embeds se hidratan al ver la nota · valor + Δ YoY si está disponible
 
 ## Prioridades de hoy
 
@@ -95,6 +103,8 @@ estado: en-curso
 
 Enlaza aquí los actores, temas o expedientes tocados hoy:
 
+- [[Pedro Sánchez]]
+- [[Alberto Núñez Feijóo]]
 - [[]]
 
 ---
@@ -406,7 +416,7 @@ const BRIEFING: Template = {
   id:          'briefing',
   name:        'Briefing',
   folder:      'Briefings',
-  description: 'Resumen ejecutivo para mando: situación, riesgo, recomendación',
+  description: 'Resumen ejecutivo con KPI vivos: situación, riesgo, recomendación',
   glyph:       '⊟',
   tags:        ['#briefing'],
   body: c => `---
@@ -421,6 +431,16 @@ clasificacion: interno
 ## Bottom Line Up Front (BLUF)
 
 > Una frase. La conclusión primero.
+
+## Indicadores de cabecera
+
+| Eje | Valor actual | Δ |
+|---|---|---|
+| Inflación | {macro:ipc-anual} | — |
+| Paro EPA  | {macro:paro-epa}  | — |
+| Confianza Gobierno (CIS) | {cis:confianza-gobierno} | — |
+| Valoración Presidente | {cis:valoracion-presidente} | — |
+| Valoración Oposición  | {cis:valoracion-oposicion}  | — |
 
 ## Situación
 
@@ -446,6 +466,11 @@ clasificacion: interno
 ## Recomendación
 
 > Acción concreta. Quien tiene que actuar. Para cuándo.
+
+## Conexiones
+
+- Actores: [[Pedro Sánchez]] · [[Alberto Núñez Feijóo]] · [[]]
+- Partidos: [[PSOE]] · [[PP]] · [[]]
 
 ## Fuentes
 
@@ -498,16 +523,161 @@ confianza: 50
 `,
 }
 
+// ── Sprint Cuaderno N6 · Plantillas nuevas con live data ──────────────────
+
+const PULSO_MACRO: Template = {
+  id:          'pulso-macro',
+  name:        'Pulso macro · España hoy',
+  folder:      'Análisis',
+  description: 'Snapshot rápido del estado España · 10 embeds vivos + ranking de actores',
+  glyph:       '◐',
+  tags:        ['#pulso', '#macro'],
+  body: c => `---
+tipo: pulso
+fecha: ${c.date}
+ambito: nacional-es
+estado: borrador
+---
+
+# Pulso España · ${c.date}
+
+> ${c.weekday}, ${c.day} de ${c.month} de ${c.year}
+
+## Economía
+
+{macro:ipc-anual} · {macro:paro-epa} · {stats:salario-medio} · {stats:salario-mediano}
+
+**Precios y vivienda**
+{stats:precio-m2-vivienda} · {stats:esfuerzo-vivienda} · {stats:kaitz-ratio}
+
+## Estado y gobernanza
+
+{gov:cpi} · {wb:CC.PER.RNK} · {wb:GE.PER.RNK} · {wb:RL.PER.RNK}
+
+## Opinión pública (CIS)
+
+**Top problemas**
+{cis:problemas-paro} · {cis:problemas-vivienda} · {cis:problemas-precios}
+
+**Confianza institucional**
+{cis:confianza-gobierno} · {cis:confianza-congreso} · {cis:confianza-tribunales}
+
+**Liderazgos**
+{cis:valoracion-presidente} · {cis:valoracion-oposicion}
+
+**Expectativas**
+{cis:situacion-economica} · {cis:sit-economica-futura}
+
+## Lectura del analista
+
+- **Hipótesis dominante**:
+- **Señales que la confirman**:
+- **Señales que la rompen**:
+
+## Actores en el radar
+
+### Gobierno y oposición
+- [[Pedro Sánchez]] ·
+- [[Alberto Núñez Feijóo]] ·
+- [[Yolanda Díaz]] ·
+
+### Partidos
+- [[PSOE]] · [[PP]] · [[VOX]] · [[Sumar]]
+
+## Próxima revisión
+
+\`${c.date}\` + N días · qué métrica me hace volver antes
+`,
+}
+
+const BRIEFING_SECTORIAL: Template = {
+  id:          'briefing-sectorial',
+  name:        'Briefing sectorial',
+  folder:      'Briefings',
+  description: 'Análisis sectorial con embeds + actores político-empresariales',
+  glyph:       '⊞',
+  tags:        ['#briefing', '#sectorial'],
+  body: c => `---
+tipo: briefing-sectorial
+fecha: ${c.date}
+sector: ${''}
+estado: borrador
+---
+
+# Briefing sectorial · ${c.title ?? '(elige sector)'}
+
+## Bottom Line Up Front
+
+> Una frase. Lo más importante primero.
+
+## Contexto macro de fondo
+
+| Indicador | Valor | Implicación |
+|---|---|---|
+| IPC anual | {macro:ipc-anual} |  |
+| Paro EPA | {macro:paro-epa} |  |
+| Salario medio | {stats:salario-medio} |  |
+| Confianza Gobierno (CIS) | {cis:confianza-gobierno} |  |
+
+## Sector · indicadores propios
+
+(Sustituye los embeds según el sector elegido)
+
+**Energía**: {stats:contratacion-pub}
+**Vivienda**: {stats:precio-m2-vivienda} · {stats:esfuerzo-vivienda}
+**Agro**: {stats:pac-fondos} · {stats:precio-tierra}
+**Estado**: {stats:ejecucion-presup} · {stats:contratacion-pub}
+
+## Actores clave
+
+### Reguladores
+- [[CNMC]] · [[CNMV]] · [[Banco de España]]
+
+### Empresas
+- [[]] · [[]] · [[]]
+
+### Políticos
+- [[]] (gobierno) · [[]] (oposición)
+
+## Movimientos de última semana
+
+-
+
+## Riesgos / Watchlist
+
+-
+
+## Posicionamiento partidos
+
+| Partido | Posición declarada | Coherencia con el voto |
+|---|---|---|
+| [[PSOE]] |  |  |
+| [[PP]] |  |  |
+| [[VOX]] |  |  |
+| [[Sumar]] |  |  |
+
+## Recomendación
+
+> Acción · responsable · plazo.
+
+## Fuentes
+
+- [[]]
+`,
+}
+
 // ── Registry ────────────────────────────────────────────────────────────────
 
 export const TEMPLATES: Template[] = [
   DAILY_NOTE,
+  PULSO_MACRO,         // Sprint N6 · nueva
   REUNION,
   ANALISIS,
   ACTOR,
   FUENTE,
   DECISION,
   BRIEFING,
+  BRIEFING_SECTORIAL,  // Sprint N6 · nueva
   HIPOTESIS,
 ]
 
