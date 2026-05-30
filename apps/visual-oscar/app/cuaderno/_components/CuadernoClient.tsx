@@ -39,6 +39,8 @@ import type { MarkdownEditorHandle } from './MarkdownEditor'
 import { CuadernoAIPanel } from './CuadernoAIPanel'
 // Sprint Cuaderno N9 · búsqueda unificada Cmd+K · notas + entidades + datos
 import { CuadernoOmniSearch } from './CuadernoOmniSearch'
+// Sprint Cuaderno N8 · sincronización cloud (Vercel Blob)
+import { CuadernoSyncPanel } from './CuadernoSyncPanel'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   buildHybridGraph,
@@ -83,6 +85,8 @@ export default function CuadernoClient() {
   const [pickerMode, setPickerMode] = useState<'entity' | 'data' | null>(null)
   // Sprint Cuaderno N7 · asistente IA sobre la nota activa
   const [aiOpen, setAiOpen] = useState(false)
+  // Sprint Cuaderno N8 · panel de sincronización cloud
+  const [syncOpen, setSyncOpen] = useState(false)
   const previewRef = useRef<HTMLDivElement | null>(null)
   useDataEmbeds(previewRef.current)
   // Sprint Cuaderno N3 · editor ref imperativa · permite picker.insertAtCursor()
@@ -434,6 +438,14 @@ export default function CuadernoClient() {
               >
                 ↓ Export
               </button>
+              {/* Sprint Cuaderno N8 · sincronización cloud · Vercel Blob */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => setSyncOpen(true)}
+                title="Sincronizar notas con el cloud (Vercel Blob)"
+              >
+                ↑↓ Sync
+              </button>
               <button className={styles.toolbarBtn} onClick={handlePin}>
                 {active.pinned ? 'Fijada' : '☆ Fijar'}
               </button>
@@ -606,6 +618,11 @@ export default function CuadernoClient() {
           editorRef={editorRef}
           onClose={() => setAiOpen(false)}
         />
+      )}
+
+      {/* Sprint Cuaderno N8 · sincronización cloud */}
+      {syncOpen && (
+        <CuadernoSyncPanel onClose={() => { setSyncOpen(false); refresh() }} />
       )}
 
       {/* Sprint Cuaderno N1+N3 · picker para insertar entidades o data embeds */}

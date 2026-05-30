@@ -20,6 +20,10 @@ const nextConfig = {
       '@upstash/qstash',
       'drizzle-orm',
       'postgres',
+      // Sprint Cuaderno N8 · @vercel/blob trae undici con private class fields
+      // que webpack de Next 14.2 no procesa. Externalizado → require() nativo
+      // en runtime nodejs.
+      '@vercel/blob',
     ],
   },
 
