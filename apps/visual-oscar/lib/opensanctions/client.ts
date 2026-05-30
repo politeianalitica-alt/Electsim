@@ -23,8 +23,18 @@
  *  3. Retry x1 con backoff de 800ms en 429/timeout
  *  4. User-Agent identificable para que OpenSanctions no nos rate-limite por defecto
  *
- * No requiere OPENSANCTIONS_API_KEY · la API pública /search funciona free.
+ * Sprint OS-BULK (2026-05-30): primary source ahora es el bulk download (CSV de
+ * 65MB de data.opensanctions.org, gratis y sin auth, el mismo que distribuye el
+ * repo opensanctions/opensanctions en GitHub). Cache 24h en memoria por
+ * instancia Vercel. El API público queda como fallback si el bulk falla.
+ *
+ * No requiere OPENSANCTIONS_API_KEY.
  */
+import {
+  getBulkByCountry as bulkByCountry,
+  searchBulkByName as bulkByName,
+  getBulkStats as bulkStats,
+} from './bulk-loader'
 
 const OS_BASE = 'https://api.opensanctions.org'
 const DEFAULT_TIMEOUT_MS = 10_000
@@ -104,6 +114,30 @@ export async function searchEntities(query: string, limit = 10): Promise<OpenSan
   if (!query || query.length < 2) {
     return { ok: false, data: [], error: 'query_too_short', fetched_at: startedAt }
   }
+  // OS-BULK · primero el bulk snapshot (siempre · sin rate limit · 24h cache)
+  try {
+    const bulk = await bulkByName(query, limit)
+    if (bulk.length > 0) {
+      const entities: SanctionedEntity[] = bulk.map((e) => ({
+        id: e.id,
+        caption: e.caption,
+        schema: e.schema as SanctionedEntity['schema'],
+        countries: e.countries,
+        topics: e.topics,
+        datasets: e.datasets,
+        aliases: e.aliases,
+        sanctions_programs: e.programs,
+        first_seen: e.first_seen,
+        last_seen: e.last_seen,
+      }))
+      return { ok: true, data: entities, fetched_at: startedAt }
+    }
+  } catch {
+    // Cae al fallback API
+  }
+
+  // Fallback · API público (rate limited pero útil para entidades nuevas
+  // que aún no están en el bulk daily snapshot)
   // G19 item 14 · removido filtro topics=sanction (era demasiado restrictivo
   // · OpenSanctions tags entidades como sanction.linked, ofac.sdn, etc.). Ahora
   // devolvemos todo el match · UI filtra en cliente si necesita.
@@ -138,11 +172,27 @@ export async function searchEntities(query: string, limit = 10): Promise<OpenSan
  */
 export async function fetchSanctionsStats(): Promise<OpenSanctionsResponse<{ total_entities: number; datasets_count: number; recent_designations_7d: number | null }>> {
   const startedAt = new Date().toISOString()
-  // Endpoint stats no disponible en free tier · placeholder
+  // OS-BULK · stats reales del snapshot bulk en lugar de placeholder
+  try {
+    const stats = await bulkStats()
+    if (!stats.has_error && stats.total > 0) {
+      return {
+        ok: true,
+        data: {
+          total_entities: stats.total,
+          datasets_count: stats.datasets_count,
+          recent_designations_7d: null, // requiere comparar snapshots, no calculable single-shot
+        },
+        fetched_at: stats.fetched_at,
+      }
+    }
+  } catch {
+    // Fallback al placeholder
+  }
   return {
     ok: true,
     data: {
-      total_entities: 60000,    // aprox · documentado por OpenSanctions
+      total_entities: 100_000,  // estimación · bulk típicamente 100k+
       datasets_count: 333,
       recent_designations_7d: null,
     },
@@ -156,6 +206,36 @@ export async function fetchSanctionsStats(): Promise<OpenSanctionsResponse<{ tot
  */
 export async function fetchEntitiesByCountry(iso2: string, limit = 20): Promise<OpenSanctionsResponse<{ total: number; entities: SanctionedEntity[] }>> {
   const startedAt = new Date().toISOString()
+  // OS-BULK · primero bulk snapshot (memoria, sin rate limit, conoce TOTAL exacto)
+  try {
+    const bulk = await bulkByCountry(iso2, limit)
+    const allByCountry = await import('./bulk-loader').then((m) =>
+      m.getBulkCountByCountry(iso2),
+    )
+    if (bulk.length > 0) {
+      const entities: SanctionedEntity[] = bulk.map((e) => ({
+        id: e.id,
+        caption: e.caption,
+        schema: e.schema as SanctionedEntity['schema'],
+        countries: e.countries,
+        topics: e.topics,
+        datasets: e.datasets,
+        aliases: e.aliases,
+        sanctions_programs: e.programs,
+        first_seen: e.first_seen,
+        last_seen: e.last_seen,
+      }))
+      return {
+        ok: true,
+        data: { total: allByCountry, entities },
+        fetched_at: startedAt,
+      }
+    }
+  } catch {
+    // Cae al fallback API
+  }
+
+  // Fallback API
   // OS-FIX bug · removido `topics=sanction` que era too restrictive y devolvía 0
   // en la mayoría de queries. searchEntities ya lo había arreglado (línea 76)
   // pero esta función mantenía el filtro inconsistente. Ahora alineado.
