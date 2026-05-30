@@ -24,6 +24,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
 import styles from './Cuaderno.module.css'
 // Sprint Cuaderno N1 · picker (entidades / data embeds) + hidratación de embeds
 import { CuadernoPicker } from './CuadernoPicker'
@@ -36,6 +37,7 @@ import { EntitiesPanel } from './EntitiesPanel'
 import type { MarkdownEditorHandle } from './MarkdownEditor'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
+  buildHybridGraph,
   seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
   type CuadernoNote,
 } from '@/lib/cuaderno/store'
@@ -47,6 +49,8 @@ import { TEMPLATES } from '@/lib/cuaderno/templates'
 import { renderMarkdown } from '@/lib/cuaderno/markdown'
 
 const GraphView = dynamic(() => import('./GraphView'), { ssr: false })
+// Sprint Cuaderno N5 · grafo híbrido (notas + entidades del registry)
+const HybridGraphView = dynamic(() => import('./HybridGraphView'), { ssr: false })
 // Sprint Cuaderno N3 · CodeMirror necesita DOM, así que ssr:false
 const MarkdownEditor = dynamic(
   () => import('./MarkdownEditor').then((m) => m.MarkdownEditor),
@@ -64,6 +68,8 @@ type Mode = 'edit' | 'read' | 'split'
 type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph'
 
 export default function CuadernoClient() {
+  // Sprint Cuaderno N5 · navegación a entity.link cuando se click en un nodo de entidad del grafo
+  const router = useRouter()
   const [notes, setNotes]       = useState<CuadernoNote[]>([])
   const [activeId, setActiveId] = useState<string | null>(null)
   const [query, setQuery]       = useState('')
@@ -248,7 +254,8 @@ export default function CuadernoClient() {
   }, [handleSelectSlug, active])
 
   const back     = useMemo(() => active ? backlinks(active.slug) : [], [active, notes])
-  const graphData = useMemo(() => buildGraph(), [notes])
+  // Sprint Cuaderno N5 · grafo híbrido con entidades del registry como nodos
+  const graphData = useMemo(() => buildHybridGraph(), [notes])
   const fm        = useMemo(() => active ? parseFrontmatter(active.content) : null, [active])
   const outline   = useMemo(() => active ? outlineOf(fm?.body ?? active.content) : [], [active, fm])
 
@@ -339,14 +346,22 @@ export default function CuadernoClient() {
       {/* ── Área principal ────────────────────────────────────────────── */}
       {view === 'graph' && (
         <div className={styles.graphWrap}>
-          <GraphView data={graphData} onSelect={handleSelectSlug} activeSlug={active?.slug} />
+          <HybridGraphView
+            data={graphData}
+            onSelectNote={handleSelectSlug}
+            onSelectEntity={(_slug, link) => router.push(link)}
+            activeNoteSlug={active?.slug}
+          />
+          {/* Sprint Cuaderno N5 · legend de carpetas (HybridGraphView ya muestra el panel de filtros por kind) */}
           <div className={styles.graphLegend}>
-            <div style={{ fontWeight: 700, marginBottom: 6 }}>Grafo de notas</div>
+            <div style={{ fontWeight: 700, marginBottom: 6 }}>Notas · color por carpeta</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#0071e3' }} /> Inicio</div>
-            <div className={styles.row}><span className={styles.swatch} style={{ background: '#7C3AED' }} /> Análisis · Investigación</div>
-            <div className={styles.row}><span className={styles.swatch} style={{ background: '#B45309' }} /> Actores · Fuentes</div>
-            <div className={styles.row}><span className={styles.swatch} style={{ background: '#2d8a39' }} /> Bitácora · Reuniones</div>
+            <div className={styles.row}><span className={styles.swatch} style={{ background: '#7C3AED' }} /> Investigación</div>
+            <div className={styles.row}><span className={styles.swatch} style={{ background: '#2d8a39' }} /> Bitácora</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#525258' }} /> Notas</div>
+            <div style={{ marginTop: 6, fontSize: 10, color: '#9ca3af' }}>
+              Entidades del Cuaderno aparecen con su glyph y color (◆◯⊕…). Click entidad → abre su panel en el dashboard.
+            </div>
           </div>
           <div className={styles.graphHelp}>Click nodo · arrastra para mover · Cmd+G volver</div>
         </div>

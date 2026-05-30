@@ -245,6 +245,119 @@ export function buildGraph(): GraphData {
   return { nodes, edges }
 }
 
+/**
+ * Sprint Cuaderno N5 · grafo HÍBRIDO con entidades como nodos de primera clase.
+ *
+ * Nodos:
+ *   - kind="note"  · nota del usuario
+ *   - kind="person|party|ccaa|sector|company|institution|country"
+ *                  · entidad del registry mencionada en ≥1 nota
+ *
+ * Aristas:
+ *   - kind="note-note"   · wikilink interno entre notas
+ *   - kind="note-entity" · mención de entidad en una nota
+ *
+ * Esto permite ver el cuerpo del Cuaderno como una "constelación" de qué
+ * personas/partidos/sectores ha mirado el analista, con qué notas, y cómo
+ * se conectan entre ellos. Equivalente al grafo de Obsidian pero enriquecido
+ * con el dominio político español.
+ */
+export type HybridNodeKind =
+  | 'note'
+  | 'person'
+  | 'party'
+  | 'ccaa'
+  | 'sector'
+  | 'company'
+  | 'institution'
+  | 'country'
+
+export interface HybridGraphNode {
+  id:           string // 'note:<slug>' | 'ent:<slug>'
+  kind:         HybridNodeKind
+  label:        string
+  degree:       number
+  // Solo notas
+  folder?:      string
+  source?:      'manual' | 'auto'
+  // Solo entidades
+  entitySlug?:  string
+  entityLink?:  string
+  entityRole?:  string
+}
+
+export interface HybridGraphEdge {
+  from:   string
+  to:     string
+  kind:   'note-note' | 'note-entity'
+}
+
+export interface HybridGraphData {
+  nodes: HybridGraphNode[]
+  edges: HybridGraphEdge[]
+}
+
+export function buildHybridGraph(): HybridGraphData {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { resolveEntity } = require('./entity-registry') as typeof import('./entity-registry')
+
+  const notes = loadAll()
+  const bySlug = new Map(notes.map((n) => [n.slug, n]))
+  const degree = new Map<string, number>()
+  const edges: HybridGraphEdge[] = []
+  const seenEntities = new Set<string>() // slugs
+
+  // 1) Aristas note → note (wikilinks que apuntan a otra nota existente)
+  for (const n of notes) {
+    for (const link of n.links) {
+      if (!bySlug.has(link)) continue
+      edges.push({ from: 'note:' + n.slug, to: 'note:' + link, kind: 'note-note' })
+      degree.set('note:' + n.slug, (degree.get('note:' + n.slug) ?? 0) + 1)
+      degree.set('note:' + link, (degree.get('note:' + link) ?? 0) + 1)
+    }
+  }
+
+  // 2) Aristas note → entity (menciones de entidades del registry)
+  for (const n of notes) {
+    const ents = extractEntityMentions(n.content)
+    for (const slug of ents) {
+      seenEntities.add(slug)
+      const id = 'ent:' + slug
+      edges.push({ from: 'note:' + n.slug, to: id, kind: 'note-entity' })
+      degree.set('note:' + n.slug, (degree.get('note:' + n.slug) ?? 0) + 1)
+      degree.set(id, (degree.get(id) ?? 0) + 1)
+    }
+  }
+
+  // 3) Construir nodos: notas + entidades únicas vistas
+  const nodes: HybridGraphNode[] = []
+  for (const n of notes) {
+    nodes.push({
+      id: 'note:' + n.slug,
+      kind: 'note',
+      label: n.title,
+      folder: n.folder,
+      source: n.source,
+      degree: degree.get('note:' + n.slug) ?? 0,
+    })
+  }
+  for (const slug of seenEntities) {
+    const e = resolveEntity(slug)
+    if (!e) continue
+    nodes.push({
+      id: 'ent:' + slug,
+      kind: e.kind,
+      label: e.name,
+      entitySlug: e.slug,
+      entityLink: e.link,
+      entityRole: e.role,
+      degree: degree.get('ent:' + slug) ?? 0,
+    })
+  }
+
+  return { nodes, edges }
+}
+
 // ── Bitácora (acciones del analista) ─────────────────────────────────────────
 
 /**
