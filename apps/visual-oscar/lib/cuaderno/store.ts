@@ -36,6 +36,9 @@ export interface CuadernoNote {
   updatedAt: number
   pinned:    boolean
   source:    'manual' | 'auto'
+  /** Sprint N13 · soft-delete · si true la nota se oculta de listados normales
+   *  pero se conserva. Visible en la sub-vista "Archivadas" del rail Notas. */
+  archived?: boolean
 }
 
 const STORAGE_KEY = 'politeia.cuaderno.v1'
@@ -87,7 +90,9 @@ export function extractEntityMentions(content: string): string[] {
  */
 export function notesByEntitySlug(entitySlug: string): CuadernoNote[] {
   if (!entitySlug) return []
+  // Sprint N13 · excluye archivadas · evita ruido en backlinks y widget externo
   return loadAll().filter((n) => {
+    if (n.archived) return false
     const ents = extractEntityMentions(n.content)
     return ents.includes(entitySlug)
   })
@@ -98,8 +103,10 @@ export function notesByEntitySlug(entitySlug: string): CuadernoNote[] {
  * Útil para mostrar contadores en el grafo o estadísticas globales.
  */
 export function entityMentionCounts(): Record<string, number> {
+  // Sprint N13 · excluye archivadas para que counts reflejen actividad real
   const counts: Record<string, number> = {}
   for (const n of loadAll()) {
+    if (n.archived) continue
     const ents = extractEntityMentions(n.content)
     for (const e of ents) {
       counts[e] = (counts[e] ?? 0) + 1
@@ -211,13 +218,131 @@ export function deleteNote(id: string): void {
   saveAll(loadAll().filter(n => n.id !== id))
 }
 
+// Sprint N13 · archive (soft-delete) ────────────────────────────────────────
+
+/** Marca una nota como archivada. Se conserva pero se oculta del listado normal. */
+export function archiveNote(id: string): CuadernoNote | null {
+  return updateNote(id, { archived: true, pinned: false })
+}
+
+/** Restaura una nota archivada al listado normal. */
+export function unarchiveNote(id: string): CuadernoNote | null {
+  return updateNote(id, { archived: false })
+}
+
+/** Sólo notas no archivadas. Usar en listados normales · grafo · backlinks. */
+export function loadActive(): CuadernoNote[] {
+  return loadAll().filter(n => !n.archived)
+}
+
+/** Sólo notas archivadas. Usar en la sub-vista "Archivadas". */
+export function loadArchived(): CuadernoNote[] {
+  return loadAll().filter(n => !!n.archived)
+}
+
+// Sprint N13 · rename con cascade · reescribe backlinks ──────────────────────
+
+/**
+ * Cambia el título de una nota Y propaga el cambio:
+ *   - Recalcula el slug (vía slugify del nuevo título)
+ *   - Reescribe TODAS las wikilinks `[[old-slug]]` o `[[Old Title]]` en otras
+ *     notas del Cuaderno · evita backlinks rotos
+ *
+ * Retorna `{ note, updatedRefs }` con el nº de notas que se reescribieron.
+ */
+export function renameNote(id: string, newTitle: string): {
+  note: CuadernoNote | null
+  updatedRefs: number
+} {
+  const notes = loadAll()
+  const idx = notes.findIndex(n => n.id === id)
+  if (idx === -1) return { note: null, updatedRefs: 0 }
+  const prev = notes[idx]
+  const newSlug = uniqSlug(notes, slugify(newTitle), id)
+  if (newSlug === prev.slug && newTitle.trim() === prev.title) {
+    return { note: prev, updatedRefs: 0 }
+  }
+
+  // Reescribe wikilinks que apuntan al slug viejo o al título viejo
+  let updatedRefs = 0
+  const oldSlug = prev.slug
+  const oldTitle = prev.title
+  const next = notes.map((n, i) => {
+    if (i === idx) {
+      return {
+        ...n,
+        title: newTitle.trim() || 'Sin título',
+        slug: newSlug,
+        updatedAt: Date.now(),
+      }
+    }
+    if (!n.content.includes('[[')) return n
+    const before = n.content
+    // Caso 1: [[old-slug]] o [[old-slug|alias]] · sustituir el slug
+    const re1 = new RegExp(`\\[\\[${escapeRegex(oldSlug)}(\\||\\])`, 'g')
+    let content = before.replace(re1, `[[${newSlug}$1`)
+    // Caso 2: [[Old Title]] (sin alias) · sustituir literal
+    const re2 = new RegExp(`\\[\\[${escapeRegex(oldTitle)}\\]\\]`, 'g')
+    content = content.replace(re2, `[[${newTitle.trim()}]]`)
+    if (content !== before) {
+      updatedRefs++
+      return {
+        ...n,
+        content,
+        links: extractLinks(content),
+        updatedAt: Date.now(),
+      }
+    }
+    return n
+  })
+  saveAll(next)
+  return { note: next[idx], updatedRefs }
+}
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 export function findBySlug(slug: string): CuadernoNote | null {
   return loadAll().find(n => n.slug === slug) ?? null
 }
 
 /** Backlinks: notas cuyo content enlaza al slug dado. */
 export function backlinks(slug: string): CuadernoNote[] {
-  return loadAll().filter(n => n.links.includes(slug))
+  // Sprint N13 · excluye archivadas
+  return loadAll().filter(n => !n.archived && n.links.includes(slug))
+}
+
+/**
+ * Sprint N13 · backlinks con contexto · para cada nota que apunta a `slug`,
+ * extrae la línea (o las 80 chars adyacentes) donde se cita el wikilink.
+ * Permite mostrar "[[Esta-nota]] → ... porque Sánchez dijo X" en el panel.
+ */
+export interface BacklinkWithContext {
+  note:    CuadernoNote
+  context: string  // snippet ~120 chars con el wikilink al inicio
+}
+export function backlinksWithContext(slug: string): BacklinkWithContext[] {
+  const lower = slug.toLowerCase()
+  return backlinks(slug).map((n) => {
+    // Busca la primera línea que contenga el wikilink
+    const lines = n.content.split(/\r?\n/)
+    const re = /\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g
+    let snippet = ''
+    for (const line of lines) {
+      let m: RegExpExecArray | null
+      re.lastIndex = 0
+      while ((m = re.exec(line)) !== null) {
+        if (slugify(m[1].trim()) === slug || m[1].trim().toLowerCase() === lower) {
+          // Toma la línea entera, recortada a ~140 chars
+          snippet = line.trim().slice(0, 140) + (line.length > 140 ? '…' : '')
+          break
+        }
+      }
+      if (snippet) break
+    }
+    return { note: n, context: snippet || '(sin contexto · cita sin línea)' }
+  })
 }
 
 /** Grafo: nodos = notas, aristas = wikilinks. */

@@ -46,9 +46,10 @@ import { startAutoSync, isAutoSyncEnabled } from '@/lib/cuaderno/cloud-sync'
 import { CuadernoInsights } from './CuadernoInsights'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
-  buildHybridGraph,
+  buildHybridGraph, backlinksWithContext,
+  archiveNote, unarchiveNote, renameNote,
   seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
-  type CuadernoNote,
+  type CuadernoNote, type BacklinkWithContext,
 } from '@/lib/cuaderno/store'
 import {
   parseFrontmatter, allTasks, summarizeTasks, toggleTask,
@@ -92,6 +93,13 @@ export default function CuadernoClient() {
   const [syncOpen, setSyncOpen] = useState(false)
   // Sprint Cuaderno N8 polish · status del auto-sync (idle/syncing/ok/error)
   const [autoSyncStatus, setAutoSyncStatus] = useState<'idle' | 'syncing' | 'ok' | 'error'>('idle')
+  // Sprint Cuaderno N13 · save indicator visible · feedback del guardado en localStorage
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle')
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  // Sprint Cuaderno N13 · focus mode (Cmd+\) · oculta rail + outline + backlinks
+  const [focusMode, setFocusMode] = useState(false)
+  // Sprint Cuaderno N13 · vista archivadas (subset de notes view)
+  const [showArchived, setShowArchived] = useState(false)
   const previewRef = useRef<HTMLDivElement | null>(null)
   useDataEmbeds(previewRef.current)
   // Sprint Cuaderno N3 · editor ref imperativa · permite picker.insertAtCursor()
@@ -183,8 +191,43 @@ export default function CuadernoClient() {
 
   const handleEdit = useCallback((patch: Partial<CuadernoNote>) => {
     if (!active) return
+    // Sprint N13 · indicator "Guardando…" → "Guardado · hace Xs"
+    setSaveStatus('saving')
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current)
     const next = updateNote(active.id, patch)
     if (next) refresh()
+    // Pequeño delay para evitar flicker · 350ms se ve como saving brevemente
+    saveTimerRef.current = setTimeout(() => {
+      setSaveStatus('saved')
+      // Reset a idle tras 4s (la pill ya no muestra nada)
+      setTimeout(() => setSaveStatus('idle'), 4000)
+    }, 350)
+  }, [active])
+
+  // Sprint Cuaderno N13 · archive / unarchive
+  const handleArchive = useCallback(() => {
+    if (!active) return
+    if (active.archived) {
+      unarchiveNote(active.id)
+    } else {
+      archiveNote(active.id)
+    }
+    refresh()
+  }, [active])
+
+  // Sprint Cuaderno N13 · rename con cascade · reescribe backlinks
+  // Sólo se dispara cuando el usuario confirma con Enter o blur del input título
+  const handleRename = useCallback((newTitle: string) => {
+    if (!active) return
+    if (newTitle.trim() === active.title) return
+    const r = renameNote(active.id, newTitle)
+    if (r.note) {
+      refresh()
+      if (r.updatedRefs > 0) {
+        // Feedback silencioso · podríamos usar un toast en el futuro
+        console.log(`Cuaderno: rename "${active.title}" → "${newTitle}" · ${r.updatedRefs} backlinks reescritos`)
+      }
+    }
   }, [active])
 
   const handleDelete = useCallback(() => {
@@ -227,6 +270,8 @@ export default function CuadernoClient() {
       if (mod && k === 'j')   { e.preventDefault(); if (active) setAiOpen(true) }
       // Sprint Cuaderno N10 · Cmd+E exporta la nota activa como .md
       if (mod && k === 'e')   { e.preventDefault(); if (active) downloadNoteAsMarkdown(active) }
+      // Sprint Cuaderno N13 · Cmd+\ toggle focus mode (oculta rail + outline + backlinks)
+      if (mod && e.key === '\\') { e.preventDefault(); setFocusMode((f) => !f) }
       if (e.key === 'Escape') {
         if (aiOpen) setAiOpen(false)
         else if (switcher) setSwitcher(false)
@@ -241,13 +286,18 @@ export default function CuadernoClient() {
   // ── Filtrado / Agrupado ───────────────────────────────────────────────────
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    if (!q) return notes
-    return notes.filter(n =>
+    // Sprint Cuaderno N13 · archive · sub-vista "Archivadas" muestra solo las
+    // archived=true · vista normal las OCULTA. Toggle controlado por showArchived.
+    const base = showArchived
+      ? notes.filter(n => !!n.archived)
+      : notes.filter(n => !n.archived)
+    if (!q) return base
+    return base.filter(n =>
       n.title.toLowerCase().includes(q) ||
       n.content.toLowerCase().includes(q) ||
       n.tags.some(t => t.includes(q))
     )
-  }, [notes, query])
+  }, [notes, query, showArchived])
 
   const grouped = useMemo(() => {
     const pinned = filtered.filter(n => n.pinned)
@@ -293,6 +343,11 @@ export default function CuadernoClient() {
   }, [handleSelectSlug, active])
 
   const back     = useMemo(() => active ? backlinks(active.slug) : [], [active, notes])
+  // Sprint Cuaderno N13 · backlinks con contexto · 1 línea snippet por nota
+  const backCtx  = useMemo<BacklinkWithContext[]>(
+    () => active ? backlinksWithContext(active.slug) : [],
+    [active, notes],
+  )
   // Sprint Cuaderno N5 · grafo híbrido con entidades del registry como nodos
   const graphData = useMemo(() => buildHybridGraph(), [notes])
   const fm        = useMemo(() => active ? parseFrontmatter(active.content) : null, [active])
@@ -308,10 +363,12 @@ export default function CuadernoClient() {
   const tagList = useMemo(() => tags.map((t) => t.tag), [tags])
 
   // ── Render ────────────────────────────────────────────────────────────────
-  const hasSidebar = view === 'notes' || view === 'today' || view === 'graph'
+  // Sprint Cuaderno N13 · focus mode oculta toda la chrome (rail + sidebar + outline + backlinks)
+  const hasSidebar = !focusMode && (view === 'notes' || view === 'today' || view === 'graph')
   return (
     <div className={`${styles.shell} ${!hasSidebar ? styles.shellNoSidebar : ''}`}>
-      {/* ── Rail izquierdo: vistas ────────────────────────────────────── */}
+      {/* ── Rail izquierdo: vistas · oculto en focus mode (Cmd+\) ─────── */}
+      {!focusMode && (
       <nav className={styles.viewRail}>
         <RailBtn label="Hoy"        glyph="◷"  v="today"     view={view} set={setView} subtitle="Cmd+D" onClick={handleOpenToday} />
         <RailBtn label="Notas"      glyph=""  v="notes"     view={view} set={setView} subtitle={`${notes.length}`} />
@@ -326,6 +383,7 @@ export default function CuadernoClient() {
           <span>⌕</span><span>Buscar</span>
         </button>
       </nav>
+      )}
 
       {/* ── Sidebar de listado (cuando aplica) ────────────────────────── */}
       {(view === 'notes' || view === 'today' || view === 'graph') && (
@@ -345,6 +403,26 @@ export default function CuadernoClient() {
               value={query}
               onChange={e => setQuery(e.target.value)}
             />
+            {/* Sprint Cuaderno N13 · toggle sub-vista archivadas · útil para limpiar inbox */}
+            <button
+              onClick={() => setShowArchived((v) => !v)}
+              style={{
+                marginTop: 4, padding: '4px 8px', fontSize: 11, borderRadius: 6,
+                border: '1px solid #e5e7eb',
+                background: showArchived ? 'rgba(245,158,11,0.10)' : '#fff',
+                color: showArchived ? '#92400E' : '#64748b',
+                fontWeight: 600, cursor: 'pointer', textAlign: 'left',
+                display: 'flex', alignItems: 'center', gap: 4,
+              }}
+            >
+              <span style={{ fontSize: 10 }}>{showArchived ? '⊟' : '⊞'}</span>
+              {showArchived ? 'Ver activas' : 'Ver archivadas'}
+              <span style={{ marginLeft: 'auto', fontSize: 10, color: '#9ca3af' }}>
+                {showArchived
+                  ? notes.filter((n) => !!n.archived).length
+                  : notes.filter((n) => !n.archived).length}
+              </span>
+            </button>
             <div style={{ display: 'flex', gap: 6 }}>
               <button className={styles.newBtn} onClick={openTemplateMenu} title="Cmd+N">
                 <span>+</span> Nueva nota
@@ -419,10 +497,20 @@ export default function CuadernoClient() {
         active ? (
           <div className={styles.editor}>
             <div className={styles.editorBar}>
+              {/* Sprint Cuaderno N13 · onChange edita en memoria local · al Blur dispara
+                  renameNote que reescribe backlinks en cascada · evita reescritura por keystroke. */}
               <input
                 className={styles.titleInput}
                 value={active.title}
-                onChange={e => handleEdit({ title: e.target.value, slug: slugify(e.target.value) })}
+                onChange={e => handleEdit({ title: e.target.value })}
+                onBlur={e => handleRename(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    handleRename(e.currentTarget.value)
+                    e.currentTarget.blur()
+                  }
+                }}
                 placeholder="Título de la nota"
               />
               <div className={styles.modeSwitch}>
@@ -465,6 +553,24 @@ export default function CuadernoClient() {
               >
                 ↓ Export
               </button>
+              {/* Sprint Cuaderno N13 · focus mode (Cmd+\) · oculta rail + sidebar + outline + backlinks */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => setFocusMode((f) => !f)}
+                title={focusMode ? 'Salir de modo foco (Cmd+\\)' : 'Modo foco · sólo editor (Cmd+\\)'}
+                style={focusMode ? { background: 'rgba(124,58,237,0.10)', color: '#7C3AED', fontWeight: 600 } : undefined}
+              >
+                {focusMode ? '✦ Foco' : '◐ Foco'}
+              </button>
+              {/* Sprint Cuaderno N13 · archive · soft-delete que se restaura desde la sub-vista */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={handleArchive}
+                title={active.archived ? 'Restaurar nota desde archivadas' : 'Archivar nota (soft-delete · se conserva)'}
+                style={active.archived ? { background: 'rgba(245,158,11,0.10)', color: '#92400E', fontWeight: 600 } : undefined}
+              >
+                {active.archived ? '↗ Restaurar' : '⊞ Archivar'}
+              </button>
               {/* Sprint Cuaderno N8 · sincronización cloud · Vercel Blob · status indicator */}
               <button
                 className={styles.toolbarBtn}
@@ -503,6 +609,23 @@ export default function CuadernoClient() {
             <div className={styles.meta}>
               <span className={styles.pill}>⊟ {active.folder}</span>
               <span className={styles.pill}>↻ {new Date(active.updatedAt).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+              {/* Sprint Cuaderno N13 · save indicator visible · feedback de persistencia */}
+              {saveStatus === 'saving' && (
+                <span className={styles.pill} style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3', fontWeight: 600 }}>
+                  ↻ Guardando…
+                </span>
+              )}
+              {saveStatus === 'saved' && (
+                <span className={styles.pill} style={{ background: 'rgba(34,197,94,0.10)', color: '#16a34a', fontWeight: 600 }}>
+                  ✓ Guardado
+                </span>
+              )}
+              {/* Sprint Cuaderno N13 · pill ARCHIVADA cuando la nota lo está */}
+              {active.archived && (
+                <span className={styles.pill} style={{ background: 'rgba(245,158,11,0.15)', color: '#92400E', fontWeight: 700 }}>
+                  ⊞ ARCHIVADA
+                </span>
+              )}
               {fm?.frontmatter.tipo && (
                 <span className={styles.pill} style={{ background: 'rgba(124,58,237,0.10)', color: '#7C3AED' }}>
                   tipo: {String(fm.frontmatter.tipo)}
@@ -560,14 +683,19 @@ export default function CuadernoClient() {
               )}
             </div>
 
-            {back.length > 0 && (
+            {/* Sprint Cuaderno N13 · backlinks ahora con SNIPPET de contexto · 1 línea ~140 chars
+                                       donde la otra nota cita esta. focus mode lo oculta. */}
+            {!focusMode && back.length > 0 && (
               <div className={styles.backlinksBox}>
                 <h3 className={styles.backlinksTitle}>← {back.length} nota{back.length === 1 ? '' : 's'} apunta{back.length === 1 ? '' : 'n'} aquí</h3>
                 <div className={styles.backlinkRow}>
-                  {back.map(b => (
-                    <div key={b.id} className={styles.backlinkItem} onClick={() => setActiveId(b.id)}>
-                      <strong>{b.title}</strong>
-                      <span style={{ color: 'var(--ink-4,#9ca3af)', marginLeft: 8, fontSize: 11.5 }}>{b.folder}</span>
+                  {backCtx.map(b => (
+                    <div key={b.note.id} className={styles.backlinkItem} onClick={() => setActiveId(b.note.id)}>
+                      <strong>{b.note.title}</strong>
+                      <span style={{ color: 'var(--ink-4,#9ca3af)', marginLeft: 8, fontSize: 11.5 }}>{b.note.folder}</span>
+                      <div style={{ fontSize: 11, color: '#64748b', marginTop: 2, fontStyle: b.context.startsWith('(') ? 'italic' : 'normal' }}>
+                        {b.context}
+                      </div>
                     </div>
                   ))}
                 </div>

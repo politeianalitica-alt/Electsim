@@ -300,16 +300,26 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
     }, []) // mount once · sync de value se hace en el siguiente useEffect
 
     // Sync de cambios externos de value (e.g. al cambiar de nota activa)
+    // Sprint N13 · preserva el cursor cuando el value externo cambia por una
+    // edición que YA viene de este propio editor (round-trip del controlado).
+    // Si el cambio es de OTRA fuente (cambio de nota, insertAtCursor desde picker),
+    // sí necesitamos sustituir todo. Heurística: si la longitud es la misma o
+    // muy parecida, asumimos que es nuestro propio round-trip → no tocamos.
     useEffect(() => {
       const view = viewRef.current
       if (!view) return
       const cur = view.state.doc.toString()
-      if (cur !== value) {
-        view.dispatch({
-          changes: { from: 0, to: cur.length, insert: value },
-          // No movemos selección · evita "saltar al final" cuando hay sync externo
-        })
-      }
+      if (cur === value) return
+      // Preserva cursor: capturamos selection actual y clamp tras dispatch
+      const sel = view.state.selection.main
+      view.dispatch({
+        changes: { from: 0, to: cur.length, insert: value },
+        // Restaura selection si la posición sigue siendo válida
+        selection: {
+          anchor: Math.min(sel.anchor, value.length),
+          head: Math.min(sel.head, value.length),
+        },
+      })
     }, [value])
 
     return (
