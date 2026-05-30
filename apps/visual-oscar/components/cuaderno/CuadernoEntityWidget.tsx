@@ -20,8 +20,9 @@
  *   /investigations/[id]       · cuando el id matchea entidad
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { notesByEntitySlug, type CuadernoNote } from '@/lib/cuaderno/store'
+import { resolveEntity } from '@/lib/cuaderno/entity-registry'
 
 interface Props {
   /** Slug canónico del registry (e.g. 'pedro-sanchez') */
@@ -43,18 +44,26 @@ export function CuadernoEntityWidget({
   const [notes, setNotes] = useState<CuadernoNote[]>([])
   const [mounted, setMounted] = useState(false)
 
+  // Resuelve el slug canónico del registry · acepta tanto slug URL como nombre display
+  // Esto permite usar el widget en páginas cuya URL slug no matchea (e.g. /partidos/socialista
+  // vs registry "psoe") · si la resolución falla, usa el slug tal cual
+  const canonicalSlug = useMemo(() => {
+    const e = resolveEntity(slug) || resolveEntity(name)
+    return e?.slug ?? slug
+  }, [slug, name])
+
   useEffect(() => {
     setMounted(true)
     // Lee notas en cliente · localStorage solo accesible client-side
-    setNotes(notesByEntitySlug(slug))
+    setNotes(notesByEntitySlug(canonicalSlug))
 
     // Si el Cuaderno emite cambios, refrescamos
     function handler() {
-      setNotes(notesByEntitySlug(slug))
+      setNotes(notesByEntitySlug(canonicalSlug))
     }
     window.addEventListener('cuaderno:change', handler)
     return () => window.removeEventListener('cuaderno:change', handler)
-  }, [slug])
+  }, [canonicalSlug])
 
   // No render durante SSR o si no hay notas (evita ruido visual)
   if (!mounted) return null
@@ -77,7 +86,7 @@ export function CuadernoEntityWidget({
           Aún no has escrito ninguna nota mencionando a <strong>{name}</strong>.{' '}
           {showOpenButton && (
             <a
-              href={`/cuaderno?mention=${encodeURIComponent(slug)}`}
+              href={`/cuaderno?mention=${encodeURIComponent(canonicalSlug)}`}
               style={{ color: accentColor, fontWeight: 600 }}
             >
               Crear nueva nota →
@@ -150,7 +159,7 @@ export function CuadernoEntityWidget({
         ))}
         {notes.length > 6 && (
           <a
-            href={`/cuaderno?mention=${encodeURIComponent(slug)}`}
+            href={`/cuaderno?mention=${encodeURIComponent(canonicalSlug)}`}
             style={{
               fontSize: 11,
               color: accentColor,

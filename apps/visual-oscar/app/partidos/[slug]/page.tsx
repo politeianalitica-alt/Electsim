@@ -13,6 +13,8 @@ import {
   MEDIOS_ANTI_GOB,
 } from '@/lib/partidos-data'
 import { PARTIDO_EXTRA } from '@/data/partidos-extra'
+// Sprint Cuaderno N2 wire-up · widget que muestra notas del Cuaderno mencionando este partido
+import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 
 const wrap: React.CSSProperties = { maxWidth: 1080, margin: '0 auto', padding: '0 20px 60px' }
 const card: React.CSSProperties = { background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 20, marginTop: 18 }
@@ -198,6 +200,11 @@ export default function PartidoDetalle() {
             {p.debilidades.map((d) => <div key={d} style={{ fontSize: 13, color: '#3a3a3d', lineHeight: 1.5, marginBottom: 6 }}><span style={{ color: '#B45309', fontWeight: 700 }}>− </span>{d}</div>)}
           </div>
         </section>
+
+        {/* Sprint Cuaderno N2 wire-up · notas del Cuaderno que mencionan este partido */}
+        <div style={{ marginTop: 18 }}>
+          <CuadernoEntityWidget slug={slug ?? ''} name={p.nombre} accentColor={p.color} />
+        </div>
 
         <p style={{ marginTop: 18, textAlign: 'center', fontSize: 11, color: '#86868b' }}>
           {p.web} · {p.twitter} · Resultados electorales: Ministerio del Interior · Financiación: Tribunal de Cuentas
