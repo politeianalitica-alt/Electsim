@@ -335,14 +335,14 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Diferencia España − UE-27 en tasa AROPE. España ~+4-5pp por encima media UE estructuralmente.",
-    endpoint: "/api/_todo_derived_arope_gap",
+    endpoint: "/api/macro/derived/arope_gap",
     parser: "eurostat-simple",
     threshold: { amber: 3, red: 5, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "Derivado de Eurostat ilc_peps01. España mejoró tras 2014 pero el gap se mantiene.",
+      "Derivación server-side · `/api/macro/derived/arope_gap` ejecuta dos queries a Eurostat ilc_peps01 (ES y EU27_2020) y calcula la diferencia ES − UE27 sobre el último año común. España mejoró tras 2014 pero el gap se mantiene en ~4-5pp.",
     releaseSchedule: "Anual · derivado",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["sb-arope-eurostat"],
   },
   {
@@ -400,14 +400,14 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Diferencia ES − UE abandono escolar. ES ~13% vs UE ~9%.",
-    endpoint: "/api/_todo_derived_abandono_gap",
+    endpoint: "/api/macro/derived/abandono_gap",
     parser: "eurostat-simple",
     threshold: { amber: 3, red: 5, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "Eurostat edat_lfse_14 multi-país. España cumplió UE2020 (15%) pero líder negativo.",
+      "Derivación server-side · `/api/macro/derived/abandono_gap` computa España − UE27 sobre Eurostat edat_lfse_14 (abandono escolar temprano 18-24). España cumplió UE2020 (15%) pero sigue líder negativo con gap ~+4pp.",
     releaseSchedule: "Anual · derivado",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["sb-abandono-escolar"],
   },
   {

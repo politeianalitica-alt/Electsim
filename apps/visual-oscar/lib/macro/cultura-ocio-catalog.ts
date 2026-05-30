@@ -265,13 +265,13 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Comparativa industrias culturales %PIB ES vs DE/FR/UE. España estructuralmente -1pp vs UE15 — espacio política industrial cultural.",
-    endpoint: "/api/_todo_eurostat_cult_multi",
+    endpoint: "/api/macro/derived/pib_cultural_ue_gap",
     parser: "eurostat-simple",
     accent: "#7C3AED",
     methodologyNote:
-      "Eurostat multi-país. España por debajo media UE.",
+      "Derivación server-side · `/api/macro/derived/pib_cultural_ue_gap` computa España − UE27 sobre Eurostat cult_emp_n2. España estructuralmente por debajo media UE15 en peso del empleo cultural.",
     releaseSchedule: "Anual",
-    confidenceLevel: "low",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["co-pib-cultural-pib"],
   },
   {
