@@ -86,8 +86,11 @@ app.add_middleware(
         os.getenv("FRONTEND_URL", "http://localhost:3000"),
         "https://politeia-visual-oscar.vercel.app",
     ],
-    # Regex para Vercel preview deployments (URLs dinámicas) + dominios propios
-    allow_origin_regex=r"^https://(.*\.vercel\.app|.*\.railway\.app|.*\.politeia-?(analitica|app)?\.com)$",
+    # Solo previews de ESTE proyecto en Vercel (prefijo politeia-…) y dominios
+    # propios. Antes se aceptaba CUALQUIER *.vercel.app / *.railway.app, lo que
+    # con allow_credentials=True permitía a sitios de terceros alojados en esos
+    # hosts hacer peticiones autenticadas en nombre del usuario.
+    allow_origin_regex=r"^https://(politeia[a-z0-9-]*\.vercel\.app|.*\.politeia-?(analitica|app)?\.com)$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
