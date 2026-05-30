@@ -23,6 +23,8 @@ import {
   push,
   pull,
   sync,
+  isAutoSyncEnabled,
+  setAutoSyncEnabled,
   type SyncResult,
 } from '@/lib/cuaderno/cloud-sync'
 import { loadAll } from '@/lib/cuaderno/store'
@@ -40,12 +42,23 @@ export function CuadernoSyncPanel({ onClose }: Props) {
   const [copied, setCopied] = useState(false)
   const [confirmPull, setConfirmPull] = useState(false)
   const [noteCount, setNoteCount] = useState(0)
+  const [autoSync, setAutoSync] = useState(false)
 
   useEffect(() => {
     setClient(getClientId())
     setLastSync(getLastSyncAt())
     setNoteCount(loadAll().length)
+    setAutoSync(isAutoSyncEnabled())
   }, [])
+
+  function toggleAutoSync() {
+    const next = !autoSync
+    setAutoSync(next)
+    setAutoSyncEnabled(next)
+    // Para que el listener se enganche o se desenganche debe haber un re-mount
+    // de CuadernoClient o equivalente. Se recarga al cerrar el modal (ver
+    // CuadernoClient · refresh() y la regeneración del hook auto-sync mount).
+  }
 
   async function runSync() {
     setBusy('sync')
@@ -249,6 +262,37 @@ export function CuadernoSyncPanel({ onClose }: Props) {
               ) : (
                 <>✗ Error: {result.error}</>
               )}
+            </div>
+          )}
+        </div>
+
+        {/* Auto-sync · toggle opcional */}
+        <div style={{ padding: '10px 16px', borderBottom: '1px solid #f1f5f9' }}>
+          <label style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            cursor: 'pointer', fontSize: 12,
+          }}>
+            <input
+              type="checkbox"
+              checked={autoSync}
+              onChange={toggleAutoSync}
+              style={{ width: 14, height: 14 }}
+            />
+            <span style={{ fontWeight: 600, color: '#0f172a' }}>
+              Auto-sync silencioso
+            </span>
+            <span style={{ fontSize: 10, color: '#94a3b8', marginLeft: 'auto' }}>
+              cada cambio · debounce 30s
+            </span>
+          </label>
+          {autoSync && (
+            <div style={{
+              marginTop: 8, padding: 8, borderRadius: 4,
+              background: '#f0f9ff', border: '1px solid #bae6fd',
+              fontSize: 10, color: '#075985',
+            }}>
+              Auto-sync activo · cada edición dispara un sync tras 30s sin cambios.
+              Reinicia /cuaderno para que el listener se enganche.
             </div>
           )}
         </div>

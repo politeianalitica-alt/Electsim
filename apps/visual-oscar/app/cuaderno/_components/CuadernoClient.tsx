@@ -41,6 +41,7 @@ import { CuadernoAIPanel } from './CuadernoAIPanel'
 import { CuadernoOmniSearch } from './CuadernoOmniSearch'
 // Sprint Cuaderno N8 · sincronización cloud (Vercel Blob)
 import { CuadernoSyncPanel } from './CuadernoSyncPanel'
+import { startAutoSync, isAutoSyncEnabled } from '@/lib/cuaderno/cloud-sync'
 // Sprint Cuaderno N11 · insights dashboard meta sobre el propio cuaderno
 import { CuadernoInsights } from './CuadernoInsights'
 import {
@@ -89,6 +90,8 @@ export default function CuadernoClient() {
   const [aiOpen, setAiOpen] = useState(false)
   // Sprint Cuaderno N8 · panel de sincronización cloud
   const [syncOpen, setSyncOpen] = useState(false)
+  // Sprint Cuaderno N8 polish · status del auto-sync (idle/syncing/ok/error)
+  const [autoSyncStatus, setAutoSyncStatus] = useState<'idle' | 'syncing' | 'ok' | 'error'>('idle')
   const previewRef = useRef<HTMLDivElement | null>(null)
   useDataEmbeds(previewRef.current)
   // Sprint Cuaderno N3 · editor ref imperativa · permite picker.insertAtCursor()
@@ -112,6 +115,24 @@ export default function CuadernoClient() {
     window.addEventListener('cuaderno:change', handler)
     return () => window.removeEventListener('cuaderno:change', handler)
   }, [])
+
+  // Sprint Cuaderno N8 polish · auto-sync opcional (toggle desde SyncPanel)
+  // Se activa en mount si el usuario lo ha habilitado en localStorage.
+  // El status indicator en toolbar muestra "↑↓ syncing…" mientras corre.
+  useEffect(() => {
+    if (!isAutoSyncEnabled()) return
+    const teardown = startAutoSync({
+      delay: 30_000,
+      onStatus: (s) => {
+        setAutoSyncStatus(s)
+        if (s === 'ok' || s === 'error') {
+          // Vuelve a idle tras 3s para no "sticky" el badge
+          setTimeout(() => setAutoSyncStatus('idle'), 3000)
+        }
+      },
+    })
+    return teardown
+  }, [syncOpen])  // re-engancha cuando se cierra el SyncPanel (toggle puede haber cambiado)
 
   function refresh() { setNotes(loadAll()) }
 
@@ -444,13 +465,34 @@ export default function CuadernoClient() {
               >
                 ↓ Export
               </button>
-              {/* Sprint Cuaderno N8 · sincronización cloud · Vercel Blob */}
+              {/* Sprint Cuaderno N8 · sincronización cloud · Vercel Blob · status indicator */}
               <button
                 className={styles.toolbarBtn}
                 onClick={() => setSyncOpen(true)}
-                title="Sincronizar notas con el cloud (Vercel Blob)"
+                title={
+                  autoSyncStatus === 'syncing' ? 'Auto-sync en curso…' :
+                  autoSyncStatus === 'ok' ? 'Auto-sync completado' :
+                  autoSyncStatus === 'error' ? 'Auto-sync falló · click para detalles' :
+                  'Sincronizar notas con el cloud (Vercel Blob)'
+                }
+                style={{
+                  background:
+                    autoSyncStatus === 'syncing' ? 'rgba(0,113,227,0.10)' :
+                    autoSyncStatus === 'ok' ? 'rgba(34,197,94,0.15)' :
+                    autoSyncStatus === 'error' ? 'rgba(220,38,38,0.15)' :
+                    undefined,
+                  color:
+                    autoSyncStatus === 'syncing' ? '#0071e3' :
+                    autoSyncStatus === 'ok' ? '#16a34a' :
+                    autoSyncStatus === 'error' ? '#dc2626' :
+                    undefined,
+                  fontWeight: autoSyncStatus !== 'idle' ? 700 : undefined,
+                }}
               >
-                ↑↓ Sync
+                {autoSyncStatus === 'syncing' ? '↻ Sync…' :
+                 autoSyncStatus === 'ok' ? '✓ Sync' :
+                 autoSyncStatus === 'error' ? '✗ Sync' :
+                 '↑↓ Sync'}
               </button>
               <button className={styles.toolbarBtn} onClick={handlePin}>
                 {active.pinned ? 'Fijada' : '☆ Fijar'}

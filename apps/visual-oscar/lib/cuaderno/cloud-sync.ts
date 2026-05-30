@@ -21,6 +21,7 @@ import { loadAll, saveAll, type CuadernoNote } from './store'
 
 const CLIENT_ID_KEY = 'cuaderno_client_id'
 const LAST_SYNC_KEY = 'cuaderno_last_sync'
+const AUTO_SYNC_KEY = 'cuaderno_auto_sync'
 const ENDPOINT = '/api/cuaderno/sync'
 
 /** Genera un UUID v4 robusto sin deps · usa crypto.randomUUID si disponible. */
@@ -187,6 +188,58 @@ export async function sync(): Promise<SyncResult> {
     }
   } catch (err: unknown) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) }
+  }
+}
+
+// ── Auto-sync (N8 polish) ─────────────────────────────────────────────────
+
+/** ¿Auto-sync activado? · controla por toggle desde SyncPanel. */
+export function isAutoSyncEnabled(): boolean {
+  if (typeof window === 'undefined') return false
+  return localStorage.getItem(AUTO_SYNC_KEY) === '1'
+}
+
+export function setAutoSyncEnabled(enabled: boolean) {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(AUTO_SYNC_KEY, enabled ? '1' : '0')
+}
+
+/**
+ * Activa auto-sync · escucha cuaderno:change y dispara sync() tras `delay`ms
+ * de inactividad. Devuelve función teardown para detener listeners.
+ *
+ * Si auto-sync está OFF en localStorage, no engancha nada y devuelve noop.
+ *
+ * Usar desde CuadernoClient en useEffect mount.
+ */
+export function startAutoSync(opts: {
+  delay?: number
+  onStatus?: (status: 'idle' | 'syncing' | 'ok' | 'error', error?: string) => void
+} = {}): () => void {
+  if (typeof window === 'undefined') return () => undefined
+  if (!isAutoSyncEnabled()) return () => undefined
+
+  const delay = opts.delay ?? 30_000
+  const onStatus = opts.onStatus ?? (() => undefined)
+  let timer: ReturnType<typeof setTimeout> | null = null
+  let inFlight = false
+
+  function trigger() {
+    if (timer) clearTimeout(timer)
+    timer = setTimeout(async () => {
+      if (inFlight) return
+      inFlight = true
+      onStatus('syncing')
+      const r = await sync()
+      inFlight = false
+      onStatus(r.ok ? 'ok' : 'error', r.error)
+    }, delay)
+  }
+
+  window.addEventListener('cuaderno:change', trigger)
+  return () => {
+    window.removeEventListener('cuaderno:change', trigger)
+    if (timer) clearTimeout(timer)
   }
 }
 
