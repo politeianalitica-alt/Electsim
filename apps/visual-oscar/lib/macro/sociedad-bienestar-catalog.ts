@@ -466,14 +466,14 @@ export const SOCIEDAD_BIENESTAR_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "IDH España ~0.911 (Top 27 mundial). Compuesto educación + salud + renta.",
-    endpoint: "/api/_todo_undp_hdi",
+    endpoint: "/api/undp/hdi?country=ESP",
     parser: "eurostat-simple",
     threshold: { amber: 0.9, red: 0.85, goodAbove: true },
     accent: "#16a34a",
     methodologyNote:
-      "UNDP HDR. Estable arriba; IHDI (inequality-adjusted) baja por desigualdad interna.",
-    releaseSchedule: "Anual · UNDP septiembre",
-    confidenceLevel: "low",
+      "Snapshot UNDP HDR 2023-2024 Statistical Annex Table 1 vía `/api/undp/hdi`. España HDI 0.911 (2022, Top 27 mundial). Estable arriba; IHDI (inequality-adjusted) baja por desigualdad interna. Update manual del snapshot tras nuevo HDR (marzo año T+1).",
+    releaseSchedule: "Anual · UNDP marzo",
+    confidenceLevel: "high",
     relatedIndicatorIds: ["sb-gini-eurostat", "sb-esperanza-vida-saludable"],
   },
   {
