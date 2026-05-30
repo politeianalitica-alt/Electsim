@@ -37,6 +37,8 @@ import { EntitiesPanel } from './EntitiesPanel'
 import type { MarkdownEditorHandle } from './MarkdownEditor'
 // Sprint Cuaderno N7 · asistente IA contextual sobre la nota activa
 import { CuadernoAIPanel } from './CuadernoAIPanel'
+// Sprint Cuaderno N9 · búsqueda unificada Cmd+K · notas + entidades + datos
+import { CuadernoOmniSearch } from './CuadernoOmniSearch'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   buildHybridGraph,
@@ -194,14 +196,20 @@ export default function CuadernoClient() {
       if (mod && k === '1')   { e.preventDefault(); setView('calendar') }
       if (mod && k === 'k')   { e.preventDefault(); setSwitcher(true) }
       if (mod && k === 'o')   { e.preventDefault(); setSwitcher(true) }
+      // Sprint Cuaderno N10 · Cmd+J abre asistente IA sobre la nota activa
+      if (mod && k === 'j')   { e.preventDefault(); if (active) setAiOpen(true) }
+      // Sprint Cuaderno N10 · Cmd+E exporta la nota activa como .md
+      if (mod && k === 'e')   { e.preventDefault(); if (active) downloadNoteAsMarkdown(active) }
       if (e.key === 'Escape') {
-        if (switcher) setSwitcher(false)
+        if (aiOpen) setAiOpen(false)
+        else if (switcher) setSwitcher(false)
         else if (tplOpen) setTplOpen(false)
       }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen, aiOpen, active?.id])
 
   // ── Filtrado / Agrupado ───────────────────────────────────────────────────
   const filtered = useMemo(() => {
@@ -413,10 +421,18 @@ export default function CuadernoClient() {
               <button
                 className={styles.toolbarBtn}
                 onClick={() => setAiOpen(true)}
-                title="Asistente IA sobre esta nota (contexto + entidades + backlinks)"
+                title="Asistente IA sobre esta nota · Cmd+J (contexto + entidades + backlinks)"
                 style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3', fontWeight: 600 }}
               >
                 🧠 IA
+              </button>
+              {/* Sprint Cuaderno N10 · export markdown · descarga .md con frontmatter */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => downloadNoteAsMarkdown(active)}
+                title="Descargar la nota como Markdown · Cmd+E"
+              >
+                ↓ Export
               </button>
               <button className={styles.toolbarBtn} onClick={handlePin}>
                 {active.pinned ? 'Fijada' : '☆ Fijar'}
@@ -556,16 +572,29 @@ export default function CuadernoClient() {
         </div>
       )}
 
-      {/* ── Quick Switcher (Cmd+K / Cmd+O) ────────────────────────────── */}
+      {/* ── Sprint Cuaderno N9 · OmniSearch (Cmd+K / Cmd+O) ──────────── */}
+      {/* Búsqueda unificada cruzada · notas + entidades del registry + datos */}
       {switcher && (
-        <QuickSwitcher
+        <CuadernoOmniSearch
           notes={notes}
-          onSelect={id => { setActiveId(id); setSwitcher(false); setView('notes') }}
-          onClose={() => setSwitcher(false)}
+          onSelectNote={(id) => {
+            setActiveId(id)
+            setSwitcher(false)
+            setView('notes')
+          }}
           onCreateNew={(title) => {
             const n = createNote({ title, folder: 'Notas', content: `# ${title}\n\n` })
-            refresh(); setActiveId(n.id); setSwitcher(false); setView('notes')
+            refresh()
+            setActiveId(n.id)
+            setSwitcher(false)
+            setView('notes')
           }}
+          onInsertEmbed={(text) => {
+            // Inserta en cursor del editor activo (Sprint N3 API imperativa)
+            if (editorRef.current) editorRef.current.insertAtCursor(text)
+            setSwitcher(false)
+          }}
+          onClose={() => setSwitcher(false)}
         />
       )}
 
@@ -599,6 +628,40 @@ export default function CuadernoClient() {
       )}
     </div>
   )
+}
+
+// ── Sprint Cuaderno N10 · Export ────────────────────────────────────────────
+
+/**
+ * Descarga la nota activa como archivo .md en el dispositivo del usuario.
+ * Formato: frontmatter YAML con metadata + cuerpo markdown.
+ */
+function downloadNoteAsMarkdown(note: CuadernoNote) {
+  const fm = [
+    '---',
+    `title: ${JSON.stringify(note.title)}`,
+    `folder: ${note.folder}`,
+    `created: ${new Date(note.createdAt).toISOString()}`,
+    `updated: ${new Date(note.updatedAt).toISOString()}`,
+    note.tags.length > 0 ? `tags: [${note.tags.map((t) => JSON.stringify(t)).join(', ')}]` : '',
+    note.pinned ? 'pinned: true' : '',
+    `source: ${note.source}`,
+    '---',
+    '',
+  ].filter(Boolean).join('\n')
+  // Si la nota ya empieza con frontmatter, no la duplicamos
+  const body = note.content.startsWith('---\n') ? note.content : fm + note.content
+  const blob = new Blob([body], { type: 'text/markdown;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${note.slug || 'nota'}.md`
+  document.body.appendChild(a)
+  a.click()
+  setTimeout(() => {
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, 100)
 }
 
 // ── Subcomponentes ────────────────────────────────────────────────────────
