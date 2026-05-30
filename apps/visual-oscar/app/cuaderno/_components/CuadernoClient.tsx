@@ -32,6 +32,8 @@ import { totalEntities } from '@/lib/cuaderno/entity-registry'
 import { DATA_REGISTRY } from '@/lib/cuaderno/data-registry'
 // Sprint Cuaderno N2 · panel de entidades con cross-references
 import { EntitiesPanel } from './EntitiesPanel'
+// Sprint Cuaderno N3 · editor CodeMirror 6 con autocomplete inline + ref imperativa
+import type { MarkdownEditorHandle } from './MarkdownEditor'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
@@ -45,6 +47,18 @@ import { TEMPLATES } from '@/lib/cuaderno/templates'
 import { renderMarkdown } from '@/lib/cuaderno/markdown'
 
 const GraphView = dynamic(() => import('./GraphView'), { ssr: false })
+// Sprint Cuaderno N3 · CodeMirror necesita DOM, así que ssr:false
+const MarkdownEditor = dynamic(
+  () => import('./MarkdownEditor').then((m) => m.MarkdownEditor),
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{ height: '100%', background: '#fafafa', padding: 16, color: '#9ca3af', fontSize: 12 }}>
+        Cargando editor…
+      </div>
+    ),
+  },
+)
 
 type Mode = 'edit' | 'read' | 'split'
 type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph'
@@ -59,6 +73,8 @@ export default function CuadernoClient() {
   const [pickerMode, setPickerMode] = useState<'entity' | 'data' | null>(null)
   const previewRef = useRef<HTMLDivElement | null>(null)
   useDataEmbeds(previewRef.current)
+  // Sprint Cuaderno N3 · editor ref imperativa · permite picker.insertAtCursor()
+  const editorRef = useRef<MarkdownEditorHandle | null>(null)
   const [tplOpen, setTplOpen]   = useState(false)
   const [switcher, setSwitcher] = useState(false)
   const [outlineOpen, setOutlineOpen] = useState(true)
@@ -242,6 +258,8 @@ export default function CuadernoClient() {
 
   // ── Tags data ────────────────────────────────────────────────────────────
   const tags = useMemo(() => allTags(), [notes])
+  // Sprint Cuaderno N3 · lista plana de tags para autocomplete inline (#) del editor
+  const tagList = useMemo(() => tags.map((t) => t.tag), [tags])
 
   // ── Render ────────────────────────────────────────────────────────────────
   const hasSidebar = view === 'notes' || view === 'today' || view === 'graph'
@@ -407,13 +425,15 @@ export default function CuadernoClient() {
 
             <div style={{ display: 'grid', gridTemplateColumns: `${mode === 'split' ? '1fr 1fr' : '1fr'} ${outlineOpen ? '220px' : '0px'}`, flex: 1, overflow: 'hidden' }}>
               {(mode === 'edit' || mode === 'split') && (
-                <textarea
-                  className={styles.editArea}
-                  value={active.content}
-                  onChange={e => handleEdit({ content: e.target.value })}
-                  placeholder="Escribe en Markdown. Usa [[wikilinks]], #tags, - [ ] tareas y --- frontmatter."
-                  spellCheck={false}
-                />
+                <div className={styles.editArea} style={{ padding: 0, overflow: 'hidden' }}>
+                  <MarkdownEditor
+                    ref={editorRef}
+                    value={active.content}
+                    onChange={(v) => handleEdit({ content: v })}
+                    tagList={tagList}
+                    placeholder="Escribe en Markdown. Usa [[wikilinks]], #tags, - [ ] tareas y --- frontmatter."
+                  />
+                </div>
               )}
               {(mode === 'read' || mode === 'split') && (
                 <div
@@ -521,13 +541,18 @@ export default function CuadernoClient() {
         />
       )}
 
-      {/* Sprint Cuaderno N1 · picker para insertar entidades o data embeds */}
+      {/* Sprint Cuaderno N1+N3 · picker para insertar entidades o data embeds */}
       {pickerMode && (
         <CuadernoPicker
           mode={pickerMode}
           onClose={() => setPickerMode(null)}
           onPick={(insert) => {
-            if (active) {
+            // Sprint N3 · inserta en posición del cursor (no al final)
+            // Si el editor está montado, usa la API imperativa de CodeMirror.
+            // Fallback: append al final si por algún motivo no hay editor (modo read).
+            if (editorRef.current) {
+              editorRef.current.insertAtCursor(insert)
+            } else if (active) {
               handleEdit({ content: active.content + insert })
             }
             setPickerMode(null)
