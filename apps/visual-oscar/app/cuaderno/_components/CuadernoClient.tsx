@@ -100,6 +100,10 @@ export default function CuadernoClient() {
   const [focusMode, setFocusMode] = useState(false)
   // Sprint Cuaderno N13 · vista archivadas (subset de notes view)
   const [showArchived, setShowArchived] = useState(false)
+  // Sprint Cuaderno N13 · history navegación · Alt+← retrocede · Alt+→ avanza
+  const navHistoryRef = useRef<string[]>([])
+  const navIndexRef = useRef<number>(-1)
+  const navInternalRef = useRef<boolean>(false)  // evita push cuando es la propia nav la que cambia activeId
   const previewRef = useRef<HTMLDivElement | null>(null)
   useDataEmbeds(previewRef.current)
   // Sprint Cuaderno N3 · editor ref imperativa · permite picker.insertAtCursor()
@@ -122,6 +126,47 @@ export default function CuadernoClient() {
     function handler() { refresh() }
     window.addEventListener('cuaderno:change', handler)
     return () => window.removeEventListener('cuaderno:change', handler)
+  }, [])
+
+  // Sprint Cuaderno N13 · push activeId al history nav (excepto si es la nav la que cambia)
+  useEffect(() => {
+    if (!activeId) return
+    if (navInternalRef.current) {
+      navInternalRef.current = false
+      return
+    }
+    // Drop forward stack al hacer nueva navegación
+    if (navIndexRef.current < navHistoryRef.current.length - 1) {
+      navHistoryRef.current = navHistoryRef.current.slice(0, navIndexRef.current + 1)
+    }
+    // No duplicar si ya estamos en este id
+    if (navHistoryRef.current[navHistoryRef.current.length - 1] !== activeId) {
+      navHistoryRef.current.push(activeId)
+      navIndexRef.current = navHistoryRef.current.length - 1
+      // Cap a 50 entradas para no comer memoria
+      if (navHistoryRef.current.length > 50) {
+        navHistoryRef.current.shift()
+        navIndexRef.current--
+      }
+    }
+  }, [activeId])
+
+  const navBack = useCallback(() => {
+    if (navIndexRef.current <= 0) return
+    navIndexRef.current--
+    const targetId = navHistoryRef.current[navIndexRef.current]
+    navInternalRef.current = true
+    setActiveId(targetId)
+    setView('notes')
+  }, [])
+
+  const navForward = useCallback(() => {
+    if (navIndexRef.current >= navHistoryRef.current.length - 1) return
+    navIndexRef.current++
+    const targetId = navHistoryRef.current[navIndexRef.current]
+    navInternalRef.current = true
+    setActiveId(targetId)
+    setView('notes')
   }, [])
 
   // Sprint Cuaderno N8 polish · auto-sync opcional (toggle desde SyncPanel)
@@ -272,6 +317,9 @@ export default function CuadernoClient() {
       if (mod && k === 'e')   { e.preventDefault(); if (active) downloadNoteAsMarkdown(active) }
       // Sprint Cuaderno N13 · Cmd+\ toggle focus mode (oculta rail + outline + backlinks)
       if (mod && e.key === '\\') { e.preventDefault(); setFocusMode((f) => !f) }
+      // Sprint Cuaderno N13 · Alt+← retrocede en history nav · Alt+→ avanza
+      if (e.altKey && e.key === 'ArrowLeft')  { e.preventDefault(); navBack() }
+      if (e.altKey && e.key === 'ArrowRight') { e.preventDefault(); navForward() }
       if (e.key === 'Escape') {
         if (aiOpen) setAiOpen(false)
         else if (switcher) setSwitcher(false)
@@ -281,7 +329,7 @@ export default function CuadernoClient() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen, aiOpen, active?.id])
+  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen, aiOpen, active?.id, navBack, navForward])
 
   // ── Filtrado / Agrupado ───────────────────────────────────────────────────
   const filtered = useMemo(() => {

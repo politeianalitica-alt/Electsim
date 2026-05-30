@@ -114,16 +114,20 @@ export async function pull(): Promise<SyncResult & { snapshot?: { notes: Cuadern
     if (!resp.ok) {
       return { ok: false, error: data.error ?? `HTTP ${resp.status}` }
     }
-    const snap = data.snapshot as { notes?: CuadernoNote[] } | null
+    const snap = data.snapshot as { notes?: unknown } | null
     if (snap && Array.isArray(snap.notes)) {
-      saveAll(snap.notes)
+      // Sprint N13 · valida shape antes de overwrite local · evita basura
+      const validated = validateAndNormalizeNotes(snap.notes)
+      const dropped = snap.notes.length - validated.length
+      saveAll(validated)
       setLastSyncAt(data.uploaded_at ?? new Date().toISOString())
       window.dispatchEvent(new Event('cuaderno:change'))
       return {
         ok: true,
-        pulled: snap.notes.length,
+        pulled: validated.length,
         uploaded_at: data.uploaded_at,
-        snapshot: { notes: snap.notes },
+        snapshot: { notes: validated },
+        ...(dropped > 0 ? { error: `${dropped} notas con shape inválido descartadas` } : {}),
       }
     }
     return { ok: true, pulled: 0, snapshot: null }
@@ -143,7 +147,7 @@ export async function pull(): Promise<SyncResult & { snapshot?: { notes: Cuadern
  */
 export async function sync(): Promise<SyncResult> {
   const clientId = getClientId()
-  // Pull remoto
+  // Pull remoto + validación shape
   let remoteNotes: CuadernoNote[] = []
   try {
     const resp = await fetch(ENDPOINT, {
@@ -152,8 +156,8 @@ export async function sync(): Promise<SyncResult> {
     })
     const data = await resp.json().catch(() => ({}))
     if (!resp.ok) return { ok: false, error: data.error ?? `HTTP ${resp.status}` }
-    const snap = data.snapshot as { notes?: CuadernoNote[] } | null
-    remoteNotes = snap?.notes ?? []
+    const snap = data.snapshot as { notes?: unknown } | null
+    remoteNotes = validateAndNormalizeNotes(snap?.notes ?? [])
   } catch (err: unknown) {
     return { ok: false, error: err instanceof Error ? err.message : String(err) }
   }
@@ -241,6 +245,42 @@ export function startAutoSync(opts: {
     window.removeEventListener('cuaderno:change', trigger)
     if (timer) clearTimeout(timer)
   }
+}
+
+/**
+ * Sprint Cuaderno N13 · valida shape mínimo de notas que vienen del cloud
+ * para evitar que un snapshot corrupto sobreescriba el local con basura.
+ *
+ * Una nota es válida si tiene id (string), slug (string), title (string),
+ * content (string) y updatedAt (number). El resto se rellena con defaults
+ * si faltan. Las que no pasen el filtro se descartan silenciosamente.
+ */
+function validateAndNormalizeNotes(input: unknown): CuadernoNote[] {
+  if (!Array.isArray(input)) return []
+  const out: CuadernoNote[] = []
+  for (const raw of input) {
+    if (!raw || typeof raw !== 'object') continue
+    const r = raw as Record<string, unknown>
+    if (typeof r.id !== 'string' || !r.id) continue
+    if (typeof r.slug !== 'string' || !r.slug) continue
+    if (typeof r.title !== 'string') continue
+    if (typeof r.content !== 'string') continue
+    out.push({
+      id:        r.id,
+      slug:      r.slug,
+      title:     r.title,
+      folder:    typeof r.folder === 'string' ? r.folder : 'Notas',
+      content:   r.content,
+      tags:      Array.isArray(r.tags) ? (r.tags.filter(t => typeof t === 'string') as string[]) : [],
+      links:     Array.isArray(r.links) ? (r.links.filter(l => typeof l === 'string') as string[]) : [],
+      createdAt: typeof r.createdAt === 'number' ? r.createdAt : Date.now(),
+      updatedAt: typeof r.updatedAt === 'number' ? r.updatedAt : Date.now(),
+      pinned:    typeof r.pinned === 'boolean' ? r.pinned : false,
+      source:    r.source === 'auto' ? 'auto' : 'manual',
+      archived:  typeof r.archived === 'boolean' ? r.archived : false,
+    })
+  }
+  return out
 }
 
 /** Merge: last-write-wins por updatedAt · preserva notas únicas en cada lado. */
