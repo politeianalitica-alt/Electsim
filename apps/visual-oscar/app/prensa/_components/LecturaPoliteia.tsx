@@ -85,8 +85,9 @@ export function LecturaPoliteia({ tabId, query, accent = '#7C3AED', context }: P
       {lectura && (
         <div style={{ marginTop: 12, padding: 12, background: '#fff', borderRadius: 6 }}>
           <pre style={{ fontFamily: 'inherit', fontSize: 13, color: '#0f172a', lineHeight: 1.6, whiteSpace: 'pre-wrap', margin: 0 }}>{lectura}</pre>
+          {/* Sprint Q-C.1 · "CLAUDE.md A2" era una referencia interna que se filtraba al usuario. */}
           <p style={{ fontSize: 9, color: '#94a3b8', margin: '12px 0 0', fontStyle: 'italic' }}>
-            Generado por IA · revisar antes de citar · CLAUDE.md A2 disclaimer
+            Análisis generado por IA. Revisar antes de citar.
           </p>
         </div>
       )}

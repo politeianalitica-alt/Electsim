@@ -224,12 +224,13 @@ export function NarrativesFramingWorkbench({
       {/* Señales emergentes · sección separada */}
       {emergingSignals && emergingSignals.length > 0 && (
         <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px dashed #cbd5e1' }}>
+          {/* Sprint Q-C.1 · "masa crítica" → criterio explícito (3 artículos / 2 medios). */}
           <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, letterSpacing: 0.5, color: '#F59E0B', textTransform: 'uppercase' }}>
-            ⚐ Señales emergentes · {emergingSignals.length} clusters sin masa crítica
+            ⚐ Señales emergentes · {emergingSignals.length} no llegan aún al mínimo (3 artículos en 2+ medios)
           </p>
           <p style={{ margin: '0 0 10px', fontSize: 10, color: '#94a3b8', lineHeight: 1.5 }}>
-            Clusters más débiles (≤2 artículos o sin señal fuerte). NO son narrativas establecidas · pueden ser early warning o ruido.
-            Cada uno lleva el motivo de por qué quedó fuera.
+            Pre-narrativa: 2 o menos artículos o sin señal fuerte. NO son narrativas establecidas; pueden consolidarse o disolverse en las próximas horas.
+            Cada una indica por qué quedó fuera.
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {emergingSignals.slice(0, 8).map((s) => (
@@ -405,13 +406,16 @@ function NarrativeCard({ n, expanded, onToggle, onAudit, onCreateDossier }: {
             </Block>
           )}
 
-          {/* Tendencia detallada */}
+          {/* Tendencia detallada
+              Sprint Q-C.1 · "conf velocity" y "accel" eran abreviaturas sin glosario.
+              Ahora label completo: "confianza" no se abrevia y "velocidad/aceleración"
+              se distinguen sin abreviar. */}
           {n.trend && (
             <Block label="TENDENCIA">
               <p style={{ margin: 0, fontSize: 11, color: '#334155' }}>
                 Velocidad <strong>{n.trend.velocity_score.toFixed(2)}</strong> arts/h · aceleración <strong>{n.trend.acceleration_score.toFixed(2)}</strong>
                 <span style={{ marginLeft: 8, fontSize: 10, color: '#94a3b8' }}>
-                  (conf velocity {Math.round(n.trend.velocity_confidence * 100)}% · accel {Math.round(n.trend.acceleration_confidence * 100)}%)
+                  (confianza velocidad {Math.round(n.trend.velocity_confidence * 100)}% · confianza aceleración {Math.round(n.trend.acceleration_confidence * 100)}%)
                 </span>
               </p>
             </Block>
