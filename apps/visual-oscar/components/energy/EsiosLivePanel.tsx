@@ -123,27 +123,39 @@ export function EsiosLivePanel({ variant = 'dashboard', subset }: Props) {
         <p style={{ margin: 0, fontSize: 11, color: '#94a3b8' }}>Cargando indicadores ESIOS…</p>
       )}
 
-      {/* Empty state · no_key */}
+      {/* Sprint Quality-Q-A.3 · empty state limpio.
+         ANTES filtraba al usuario: el path interno (`/api/esios/snapshot`), el
+         nombre de variable de entorno (`ESIOS_API_KEY`) y la ruta de Vercel
+         Project Settings. Eso es info para sysadmin, no para analista.
+         AHORA: mensaje neutro que orienta al visor oficial. La causa (no_key
+         vs otro error) se sigue distinguiendo internamente para telemetría,
+         pero el usuario ve el mismo mensaje útil. */}
       {!loading && data && !data.ok && data.error === 'no_key' && (
         <div style={{
           background: '#fef3c7', border: '1px solid #fde68a', borderLeft: '3px solid #f59e0b',
           borderRadius: 8, padding: '10px 12px', fontSize: 11.5, color: '#92400e',
         }}>
-          <strong>! Configuración pendiente</strong> · El endpoint
-          <code style={{ background: '#fffbeb', padding: '0 4px', borderRadius: 2, margin: '0 4px', fontSize: 10 }}>/api/esios/snapshot</code>
-          está listo pero <strong>ESIOS_API_KEY</strong> no está en variables de entorno de Vercel.
-          Una vez añadida (Project Settings → Environment Variables → Production), aparecerán los 6
-          indicadores en directo (PVPC horario, spot OMIE, demanda, % renovable, CO2 g/kWh, EUA).
+          <strong>Datos en directo no disponibles temporalmente.</strong>{' '}
+          Estamos reactivando la conexión con ESIOS (REE). Vuelve en unos minutos
+          o consulta el visor oficial:{' '}
+          <a
+            href="https://www.esios.ree.es"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#b45309', fontWeight: 600, textDecoration: 'none' }}
+          >
+            esios.ree.es →
+          </a>
         </div>
       )}
 
-      {/* Empty state · otro error */}
+      {/* Empty state · otro error (red / parsing / rate-limit) */}
       {!loading && data && !data.ok && data.error && data.error !== 'no_key' && (
         <div style={{
           background: '#fef2f2', border: '1px solid #fecaca', borderLeft: '3px solid #dc2626',
           borderRadius: 8, padding: '10px 12px', fontSize: 11.5, color: '#991b1b',
         }}>
-          ▲ ESIOS snapshot no disponible: <code>{data.error}</code>
+          ▲ No hemos podido obtener los datos en directo. Reintentando en breve.
         </div>
       )}
 

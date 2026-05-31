@@ -70,7 +70,7 @@ export default function HealthClient() {
  <div className={styles.root}>
  <div className={styles.header}>
  <div>
- {/* Sprint Quality-Q-A.2 · §0.5 · "Estudio" en UI · ES en lugar de "System Health" */}
+ {/* Sprint Quality-Q-A.2 (CLAUDE.md 0.5) Estudio en UI (antes System Health). */}
  <h1 className={styles.title}>Estado del sistema</h1>
  <p className={styles.subtitle}>Estado en tiempo real de los servicios del Estudio.</p>
  </div>
@@ -90,7 +90,7 @@ export default function HealthClient() {
       {isLoading ? (
  <Skeleton style={{ height: 80, borderRadius: 12, marginBottom: '1.25rem' }} />
       ) : error ? (
- {/* Sprint Quality-Q-A.2 · mensaje para analista, no para sysadmin */}
+ // Sprint Quality-Q-A.2: mensaje para analista, no para sysadmin.
  <div className={styles.errorBanner}>
           × No hemos podido conectar con los servicios del Estudio. Intenta de nuevo en un minuto.
  </div>
@@ -132,8 +132,8 @@ export default function HealthClient() {
         }
  </div>
 
- {/* Sprint Quality-Q-A.2 · §0.5 · sin "Domo" y sin jerga de release (Sprint 1..8).
-     Reemplaza la tabla "Sprint Coverage" por un índice neutro de módulos. */}
+ {/* Sprint Quality-Q-A.2 (CLAUDE.md 0.5): sin Domo y sin jerga de release.
+     Reemplaza la tabla Sprint Coverage por un indice neutro de modulos. */}
  <div className={styles.sprintsSection}>
  <h2 className={styles.sprintsTitle}>Cobertura por módulo</h2>
  <div className={styles.sprintsTable}>

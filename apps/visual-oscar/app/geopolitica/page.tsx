@@ -998,13 +998,27 @@ export default function GeopoliticaPage() {
               background: 'linear-gradient(135deg, #7c2d12 0%, #92400e 100%)',
               borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
             }}>
+              {/* Sprint Quality-Q-A.5 · atenuar claim de compliance.
+                 ANTES: "¿con quién puede tratar España sin riesgo legal?" —
+                 sugiere que esta vista responde a la pregunta de compliance,
+                 cuando OFAC SDN solo aplica a US-touched persons/entities y
+                 mezclarlo con EU FSF / UNSC / UK OFSI sin matizar induce a
+                 error grave en KYC.
+                 AHORA: descripción funcional + disclaimer explícito de que
+                 NO sustituye dictamen jurídico ni due diligence. */}
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
-                Diplomacia & Sanciones · ¿con quién puede tratar España sin riesgo legal?
+                Diplomacia y sanciones · screening de contraparte
               </h2>
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fed7aa', lineHeight: 1.5 }}>
-                Mapa global 2 capas (sanciones por país + polarización AGNU) ·
-                screening fuzzy 333+ fuentes OpenSanctions (OFAC SDN + EU FSF + UNSC + UK OFSI) ·
-                radar movimientos diplomáticos 7d · heatmap votaciones AGNU 50 países × 10 resoluciones clave.
+                Cruza listas EU (FSF), ONU (UNSC), EE.UU. (OFAC SDN) y UK (OFSI)
+                sobre 333+ datasets de OpenSanctions, junto a movimientos
+                diplomáticos de los últimos 7 días y votaciones AGNU en 10
+                resoluciones clave (50 países).
+              </p>
+              <p style={{ margin: '6px 0 0', fontSize: 10, color: '#fee2c4', lineHeight: 1.4, fontStyle: 'italic' }}>
+                Importante: este screening NO sustituye dictamen jurídico ni due
+                diligence KYC. Un resultado positivo requiere validación legal
+                antes de cualquier decisión comercial.
               </p>
             </div>
             <div style={{ marginBottom: 14 }}>

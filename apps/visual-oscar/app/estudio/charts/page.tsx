@@ -2,10 +2,10 @@ import ComingSoon from '../_components/ComingSoon'
 
 export default function DomoChartsPage() {
   return (
+    // Sprint Quality-Q-A.4 · "Charts/embeber" → "gráficos/reutilizar"
  <ComingSoon
-      title="Biblioteca de Charts"
-      subtitle="Charts reutilizables (línea, barras, mapas, hemiciclo) que se pueden embeber en cualquier dashboard"
-      sprint="Sprint 6+"
+      title="Biblioteca de gráficos"
+      subtitle="Plantillas de gráficos (líneas, barras, mapas, hemiciclo) que podrás reutilizar en cualquier panel."
     />
   )
 }

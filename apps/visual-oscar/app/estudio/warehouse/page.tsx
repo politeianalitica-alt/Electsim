@@ -2,10 +2,11 @@ import ComingSoon from '../_components/ComingSoon'
 
 export default function DomoWarehousePage() {
   return (
+    // Sprint Quality-Q-A.4 · sin sprint visible · subtitle en lenguaje analista
+    // (no devops). Antes: "PostgreSQL, Parquet en object store, caché columnar".
  <ComingSoon
-      title="Warehouse"
-      subtitle="Capa unificada de almacenamiento (PostgreSQL, Parquet en object store, caché columnar)"
-      sprint="Sprint 6+"
+      title="Almacén histórico"
+      subtitle="Aquí guardaremos tus tablas históricas para que puedas consultarlas a años vista."
     />
   )
 }
