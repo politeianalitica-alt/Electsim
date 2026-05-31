@@ -161,7 +161,10 @@ export default function SectorEnergiaPage() {
  <HeroKPI label="Demanda peninsular" value={resumen?.kpis.demanda_actual_mw} unit="MW" accent="#86EFAC"
               sub={resumen?.kpis.demanda_datetime ? new Date(resumen.kpis.demanda_datetime).toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' }) : ''}/>
  <HeroKPI label="Mix renovable" value={resumen?.kpis.mix_renovable_pct} unit="%" accent="#7DD3FC"/>
- <HeroKPI label="PVPC" value={resumen?.kpis.precio_pvpc_eur} unit="€/MWh" accent="#FCD34D"/>
+ {/* Sprint Quality-Q-B.4 · PVPC nunca se explicaba al usuario (auditoría P0).
+                          Ahora hover sobre la etiqueta abre tooltip con definición
+                          (tarifa regulada para hogares ≤10 kW · publicada por REE). */}
+ <HeroKPI label="PVPC · tarifa regulada hogar" glosaTerm="PVPC" value={resumen?.kpis.precio_pvpc_eur} unit="€/MWh" accent="#FCD34D"/>
  <HeroKPI label="Emisiones" value={resumen?.kpis.emisiones_co2_g} unit="g/kWh" accent="#FCA5A5"/>
  </div>
  </section>
@@ -307,15 +310,40 @@ export default function SectorEnergiaPage() {
 
 // ─── Componentes de visualización ──────────────────────────
 
-function HeroKPI({ label, value, unit, accent, sub }: { label: string; value: number | null | undefined; unit: string; accent: string; sub?: string }) {
+import Glosa from '@/components/Glosa'
+
+/**
+ * HeroKPI · KPI estrella del hero del sector.
+ *
+ * Sprint Quality-Q-B.4 · `label` ahora acepta ReactNode para poder embeber
+ * <Glosa term="PVPC" />. Opcionalmente se puede pasar `glosaTerm` como
+ * shortcut y el componente envuelve el label automáticamente.
+ */
+function HeroKPI({
+  label,
+  value,
+  unit,
+  accent,
+  sub,
+  glosaTerm,
+}: {
+  label: React.ReactNode
+  value: number | null | undefined
+  unit: string
+  accent: string
+  sub?: string
+  /** Si se pasa, el label se envuelve en <Glosa> para tooltip-on-hover. */
+  glosaTerm?: string
+}) {
   const display = value == null ? '—' : value.toLocaleString('es-ES', { maximumFractionDigits: 2 })
+  const labelNode = glosaTerm ? <Glosa term={glosaTerm} variant="kpi">{label}</Glosa> : label
   return (
  <div style={{
       background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)',
       borderRadius:12, padding:'12px 14px',
     }}>
  <div style={{ fontSize:9, fontWeight:800, letterSpacing:'0.1em', textTransform:'uppercase', opacity:0.72, marginBottom:4 }}>
-        {label}
+        {labelNode}
  </div>
  <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, letterSpacing:'-0.02em', color: accent }}>
         {display}<span style={{ fontSize:11, fontWeight:600, marginLeft:5, opacity:0.85 }}>{unit}</span>

@@ -49,8 +49,15 @@ export default function BottomAgenteBar() {
 
   if (hidden) return null
 
+  // Sprint Quality-Q-B.3 · ahora la barra inferior aloja DOS accesos:
+  //   1. AGENTE IA (centrado · primary) — sin cambios respecto a v1
+  //   2. GLOSARIO (alineado a la derecha · secundario) — siempre visible para
+  //      consultar acrónimos sin perder contexto.
+  // Antes era un `<Link>` envolvente único; al añadir un segundo enlace
+  // pasamos a un wrapper `<nav>` con flex-row + space-between. Resultado:
+  // mismo visual centrado para "AGENTE IA" + glosario accesible al borde.
   return (
- <Link href="/agente-ia" aria-label="Abrir el Agente IA" style={{
+ <nav aria-label="Barra inferior" style={{
       position: 'fixed',
       bottom: 0,
       left: 0,
@@ -58,28 +65,64 @@ export default function BottomAgenteBar() {
       zIndex: 90,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      gap: 7,
       height: BAR_HEIGHT,
       background: '#1F4E8C',
       color: '#fff',
       fontSize: 11.5,
-      fontWeight: 600,
-      letterSpacing: '0.04em',
-      textDecoration: 'none',
       fontFamily: 'inherit',
-      transition: 'background 160ms',
-      cursor: 'pointer',
       boxShadow: '0 -2px 8px rgba(0,0,0,0.10)',
-    }}
-      onMouseEnter={(e) => { e.currentTarget.style.background = '#0F2A4F' }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = '#1F4E8C' }}
-    >
+      // padding lateral para que el link de glosario no toque el borde
+      padding: '0 14px',
+    }}>
+ {/* Glosario (izquierda · secundario · siempre visible) */}
+ <Link
+        href="/glosario"
+        aria-label="Abrir el glosario de términos del dashboard"
+        style={{
+          color: '#fff',
+          opacity: 0.7,
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: '0.02em',
+          textDecoration: 'none',
+          transition: 'opacity 160ms',
+          flexShrink: 0,
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = '1' }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.7' }}
+      >
+        Glosario
+ </Link>
+ {/* Agente IA (centrado · primary) */}
+ <Link
+        href="/agente-ia"
+        aria-label="Abrir el Agente IA"
+        style={{
+          flex: 1,
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 7,
+          color: '#fff',
+          fontWeight: 600,
+          letterSpacing: '0.04em',
+          textDecoration: 'none',
+          cursor: 'pointer',
+          transition: 'opacity 160ms',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
+        onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
+      >
  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 16 16" fill="currentColor" style={{ flexShrink: 0 }}>
  <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
  </svg>
-      AGENTE IA
+        AGENTE IA
  <span style={{ opacity: 0.7, fontWeight: 400, marginLeft: 2 }}>· pregúntame sobre los datos</span>
  </Link>
+ {/* Spacer para equilibrar visualmente al "Glosario" izquierdo · ancho fijo
+     que aproxima el ancho del label "Glosario" para que el AGENTE IA quede
+     ópticamente centrado. */}
+ <span aria-hidden="true" style={{ width: 56, flexShrink: 0 }} />
+ </nav>
   )
 }
