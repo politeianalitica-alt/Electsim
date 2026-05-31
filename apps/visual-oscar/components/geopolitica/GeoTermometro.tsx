@@ -170,7 +170,7 @@ export function GeoTermometro() {
       {/* Sprint G13 FASE 5 · warning double counting */}
       {data.double_counting_warning && (
         <p style={{ margin: '0 0 12px', padding: '8px 12px', background: '#451a03', border: '1px solid #92400e', borderRadius: 4, fontSize: 11, color: '#fcd34d', lineHeight: 1.5 }}>
-          <strong>⚠ Posible double counting:</strong> {data.double_counting_warning}
+          <strong>▲ Posible double counting:</strong> {data.double_counting_warning}
         </p>
       )}
 
@@ -202,7 +202,7 @@ export function GeoTermometro() {
             if (c.source_mode) tipParts.push(`Modo: ${c.source_mode}`)
             if (c.layer) tipParts.push(`Capa: ${c.layer}`)
             if (typeof c.confidence === 'number') tipParts.push(`Conf: ${Math.round(c.confidence * 100)}%`)
-            if (c.caveat) tipParts.push(`⚠ ${c.caveat}`)
+            if (c.caveat) tipParts.push(`▲ ${c.caveat}`)
             if (c.possible_double_counting && c.possible_double_counting.length > 0) tipParts.push(`Solapa con: ${c.possible_double_counting.join(', ')}`)
             if (c.interpretation) tipParts.push(`Interpretación: ${c.interpretation}`)
             const tooltip = tipParts.join(' · ')

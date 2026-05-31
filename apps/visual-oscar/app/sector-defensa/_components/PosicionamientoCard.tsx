@@ -60,7 +60,7 @@ export function PosicionamientoCard({ pos }: { pos: PosicionamientoDefensa }) {
       {/* Brechas + Oportunidades + Riesgos */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
         <div style={{ padding: 10, background: 'rgba(220,38,38,0.05)', borderRadius: 8, borderLeft: '3px solid #DC2626' }}>
-          <p style={{ margin: 0, fontSize: 10, color: '#DC2626', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>⚠ BRECHAS CLAVE</p>
+          <p style={{ margin: 0, fontSize: 10, color: '#DC2626', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>▲ BRECHAS CLAVE</p>
           <ul style={{ margin: '5px 0 0', paddingLeft: 16, fontSize: 11, color: '#1d1d1f', lineHeight: 1.5 }}>
             {pos.brechasClave.map((b, i) => <li key={i}>{b}</li>)}
           </ul>

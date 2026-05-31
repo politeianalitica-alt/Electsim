@@ -364,7 +364,7 @@ function PdfMineRow({ url, label, forum }: { url: string; label: string; forum: 
   return (
     <div style={{ padding: '8px 10px', borderRadius: 8, background: '#FAFAFB', border: '1px solid #ECECEF' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span style={{ fontSize: 11, color: '#0F766E', fontWeight: 700 }}>📄</span>
+        <span style={{ fontSize: 11, color: '#0F766E', fontWeight: 700 }}>▤</span>
         <span style={{ flex: 1, fontSize: 11.5, color: '#1d1d1f' }}>{label}</span>
         <span style={{ fontSize: 10, color: '#6e6e73' }}>{forum}</span>
         <a href={url} target="_blank" rel="noopener noreferrer" style={{

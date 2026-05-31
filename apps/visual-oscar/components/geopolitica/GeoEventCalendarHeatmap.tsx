@@ -233,7 +233,7 @@ export function GeoEventCalendarHeatmap({ days = 90 }: { days?: number }) {
           </div>
           {hover.day.critical_count > 0 && (
             <div style={{ color: '#fca5a5', fontWeight: 600, marginBottom: 3 }}>
-              ⚠ {hover.day.critical_count} críticos
+              ▲ {hover.day.critical_count} críticos
             </div>
           )}
           <div style={{ borderTop: '1px solid #1e293b', paddingTop: 4 }}>

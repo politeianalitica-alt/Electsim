@@ -433,7 +433,7 @@ export default function RuleBuilderPage() {
                   cursor: !canSave || busy ? 'not-allowed' : 'pointer',
                 }}
               >
-                {busy ? 'Guardando…' : '💾 Crear regla'}
+                {busy ? 'Guardando…' : '⊟ Crear regla'}
               </button>
               <Link
                 href="/commodities/alerts"
@@ -452,7 +452,7 @@ export default function RuleBuilderPage() {
               </Link>
             </div>
             {error ? (
-              <p style={{ fontSize: 12, color: '#dc2626', marginTop: 10 }}>⚠ {error}</p>
+              <p style={{ fontSize: 12, color: '#dc2626', marginTop: 10 }}>▲ {error}</p>
             ) : null}
             {success ? (
               <p style={{ fontSize: 12, color: '#16a34a', marginTop: 10 }}>✓ {success}</p>

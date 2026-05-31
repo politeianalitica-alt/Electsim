@@ -81,7 +81,7 @@ export function DesinformacionLive() {
 
       {error && (
         <section style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14 }}>
-          <p style={{ fontSize: 12, color: '#991b1b', margin: 0, fontWeight: 600 }}>⚠ {error}</p>
+          <p style={{ fontSize: 12, color: '#991b1b', margin: 0, fontWeight: 600 }}>▲ {error}</p>
           {error === 'no_api_key' && (
             <div style={{ marginTop: 10, padding: 10, background: '#fff', borderRadius: 6, fontSize: 11, color: '#64748b' }}>
               <p style={{ margin: 0 }}>

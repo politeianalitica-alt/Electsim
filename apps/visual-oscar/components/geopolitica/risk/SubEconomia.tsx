@@ -80,7 +80,7 @@ export function SubEconomia({ iso3 }: { iso3: string }) {
     <div>
       {data.alerts.length > 0 && (
         <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderLeft: '3px solid #dc2626', padding: '10px 12px', borderRadius: 6, marginBottom: 12 }}>
-          <strong style={{ color: '#7f1d1d', fontSize: 11 }}>⚠ Alertas macro activas</strong>
+          <strong style={{ color: '#7f1d1d', fontSize: 11 }}>▲ Alertas macro activas</strong>
           <ul style={{ margin: '4px 0 0', paddingLeft: 16, fontSize: 11, color: '#991b1b' }}>
             {data.alerts.map((a, i) => <li key={i}>{a}</li>)}
           </ul>

@@ -79,7 +79,7 @@ export function LecturaPoliteia({ tabId, query, accent = '#7C3AED', context }: P
       )}
       {error && (
         <div style={{ marginTop: 12, padding: 10, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6 }}>
-          <p style={{ fontSize: 11, color: '#991b1b', margin: 0 }}>⚠ {error}</p>
+          <p style={{ fontSize: 11, color: '#991b1b', margin: 0 }}>▲ {error}</p>
         </div>
       )}
       {lectura && (

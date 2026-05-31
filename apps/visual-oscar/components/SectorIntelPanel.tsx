@@ -216,7 +216,7 @@ export function SectorIntelPanel({
       {data.alerts.length > 0 ? (
         <div style={{ marginBottom: 14 }}>
           <h3 style={{ fontSize: 13, fontWeight: 700, color: '#111827', margin: '0 0 8px' }}>
-            ⚠ Alertas activas
+            ▲ Alertas activas
           </h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {data.alerts.map((a, i) => {

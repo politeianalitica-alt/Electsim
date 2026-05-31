@@ -198,7 +198,7 @@ export function GeoAuditDrawer({ open, onClose, payload }: GeoAuditDrawerProps) 
 
           {/* Double counting warning */}
           {payload.double_counting_warning && (
-            <Section title="⚠ Double counting detectado">
+            <Section title="▲ Double counting detectado">
               <p style={{ margin: 0, fontSize: 11, color: '#92400e', lineHeight: 1.5 }}>{payload.double_counting_warning}</p>
             </Section>
           )}
@@ -239,7 +239,7 @@ export function GeoAuditDrawer({ open, onClose, payload }: GeoAuditDrawerProps) 
                     )}
                     {c.caveat && (
                       <p style={{ margin: '4px 0 0', fontSize: 10, color: '#92400e', fontStyle: 'italic' }}>
-                        ⚠ {c.caveat}
+                        ▲ {c.caveat}
                       </p>
                     )}
                     {c.interpretation && (
@@ -310,7 +310,7 @@ export function GeoAuditDrawer({ open, onClose, payload }: GeoAuditDrawerProps) 
               )}
               {payload.confidence.warnings && payload.confidence.warnings.length > 0 && (
                 <div style={{ marginTop: 6, padding: 6, background: '#fef3c7', borderRadius: 3 }}>
-                  <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#92400e', letterSpacing: 0.3, textTransform: 'uppercase' }}>⚠ Advertencias</p>
+                  <p style={{ margin: 0, fontSize: 9, fontWeight: 700, color: '#92400e', letterSpacing: 0.3, textTransform: 'uppercase' }}>▲ Advertencias</p>
                   <ul style={{ margin: '4px 0 0 16px', padding: 0, fontSize: 10, color: '#92400e', lineHeight: 1.5 }}>
                     {payload.confidence.warnings.map((w, i) => <li key={i}>{w}</li>)}
                   </ul>

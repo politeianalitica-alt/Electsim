@@ -204,7 +204,7 @@ export default function VesselDetailPage() {
                       fontWeight: 700,
                     }}
                   >
-                    ⚠ FLAG-OF-CONVENIENCE RISK · {flagHistory.length} cambios
+                    ▲ FLAG-OF-CONVENIENCE RISK · {flagHistory.length} cambios
                   </div>
                 )}
               </Card>

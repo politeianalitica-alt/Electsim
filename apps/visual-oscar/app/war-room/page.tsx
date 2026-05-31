@@ -52,7 +52,7 @@ type SectionId =
 const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: string }> = [
   { id: 'dashboard',     label: 'Dashboard general',     group: 'Comando',           icon: '' },
   { id: 'decisiones',    label: 'Cola de decisiones',    group: 'Comando',           icon: '◆' },
-  { id: 'crisis',        label: 'Crisis radar',          group: 'Comando',           icon: '⚠' },
+  { id: 'crisis',        label: 'Crisis radar',          group: 'Comando',           icon: '▲' },
   { id: 'wargames',      label: 'War games',             group: 'Comando',           icon: '⊠' },
   { id: 'snapshot',      label: 'Snapshot electoral',    group: 'Electoral',         icon: '⌘' },
   { id: 'encuestas',     label: 'Encuestas tracker',     group: 'Electoral',         icon: '' },

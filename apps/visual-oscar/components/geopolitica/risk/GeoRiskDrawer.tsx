@@ -386,7 +386,7 @@ function SubSenales({ ews }: { ews: EwsResp['ews'] | null }) {
             </div>
             {ews.markets.alert && (
               <p style={{ fontSize: 10, color: '#7f1d1d', fontWeight: 600, margin: '4px 0 0' }}>
-                ⚠ Estrés financiero: CDS &gt; 200 bps · o bono &gt; 10% · o reservas &lt; 1.5m imports
+                ▲ Estrés financiero: CDS &gt; 200 bps · o bono &gt; 10% · o reservas &lt; 1.5m imports
               </p>
             )}
             <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>
@@ -442,19 +442,19 @@ function SubSenales({ ews }: { ews: EwsResp['ews'] | null }) {
               {ews.trade.export_hhi !== null && ews.trade.export_hhi !== undefined && (
                 <DataChip
                   label="HHI exports"
-                  value={`${ews.trade.export_hhi.toFixed(0)}${ews.trade.export_hhi > 2500 ? ' ⚠' : ''}`}
+                  value={`${ews.trade.export_hhi.toFixed(0)}${ews.trade.export_hhi > 2500 ? ' ▲' : ''}`}
                 />
               )}
               {ews.trade.dual_use_share_pct !== null && ews.trade.dual_use_share_pct !== undefined && (
                 <DataChip
                   label="Doble uso HS93"
-                  value={`${ews.trade.dual_use_share_pct.toFixed(1)}%${ews.trade.dual_use_share_pct > 5 ? ' ⚠' : ''}`}
+                  value={`${ews.trade.dual_use_share_pct.toFixed(1)}%${ews.trade.dual_use_share_pct > 5 ? ' ▲' : ''}`}
                 />
               )}
             </div>
             {ews.trade.alert && (
               <p style={{ fontSize: 10, color: '#7f1d1d', fontWeight: 600, margin: '4px 0 0' }}>
-                ⚠ Concentración export &gt; 3000 HHI · o doble uso &gt; 5% (riesgo armas)
+                ▲ Concentración export &gt; 3000 HHI · o doble uso &gt; 5% (riesgo armas)
               </p>
             )}
             <p style={{ fontSize: 9, color: '#94a3b8', fontStyle: 'italic', margin: '6px 0 0' }}>
@@ -482,7 +482,7 @@ function SubSenales({ ews }: { ews: EwsResp['ews'] | null }) {
             </div>
             {ews.displacement.alert && (
               <p style={{ fontSize: 10, color: '#7f1d1d', fontWeight: 600, margin: 0 }}>
-                ⚠ &gt;500K desplazados originados · crisis humanitaria significativa
+                ▲ &gt;500K desplazados originados · crisis humanitaria significativa
               </p>
             )}
           </>
@@ -529,7 +529,7 @@ function SubRegimen({ c }: { c: Country }) {
     <div>
       {isEpisode && (
         <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderLeft: '4px solid #dc2626', padding: '10px 12px', borderRadius: 6, marginBottom: 12 }}>
-          <strong style={{ color: '#7f1d1d', fontSize: 12 }}>⚠ Episodio de autocratización activo</strong>
+          <strong style={{ color: '#7f1d1d', fontSize: 12 }}>▲ Episodio de autocratización activo</strong>
           <p style={{ margin: '4px 0 0', fontSize: 11, color: '#991b1b' }}>
             V-Dem registra {trend === 'regresion_severa' ? 'regresión democrática SEVERA' : 'regresión democrática'} en los últimos 5 años · revisar derechos civiles + libertad de prensa.
           </p>

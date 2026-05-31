@@ -205,7 +205,7 @@ export default function RecipeCostPage() {
                   background: '#fff',
                 }}
               >
-                <option value="">📂 Cargar receta del seed…</option>
+                <option value="">⊞ Cargar receta del seed…</option>
                 {savedRecipes.map((r) => (
                   <option key={r.slug} value={r.slug}>
                     {r.name}
@@ -314,7 +314,7 @@ export default function RecipeCostPage() {
                   cursor: busy ? 'wait' : 'pointer',
                 }}
               >
-                {busy ? 'Calculando…' : '💰 Calcular coste'}
+                {busy ? 'Calculando…' : '$ Calcular coste'}
               </button>
             </div>
           </div>
@@ -330,7 +330,7 @@ export default function RecipeCostPage() {
                   </p>
                   {costResult.missing_prices.length ? (
                     <p style={{ fontSize: 11, color: '#dc2626', marginTop: 6 }}>
-                      ⚠ Sin precio para: {costResult.missing_prices.join(', ')}
+                      ▲ Sin precio para: {costResult.missing_prices.join(', ')}
                     </p>
                   ) : null}
                   <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0 0 0', fontSize: 11 }}>

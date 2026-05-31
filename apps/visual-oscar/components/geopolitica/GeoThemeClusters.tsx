@@ -145,7 +145,7 @@ export function GeoThemeClusters() {
             )}
             {data.what_it_does_not_mean && (
               <p style={{ margin: '4px 0 0', fontSize: 10, color: '#fbbf24', lineHeight: 1.5, fontStyle: 'italic' }}>
-                <strong style={{ color: '#fcd34d' }}>⚠ NO ES FUENTE FACTUAL:</strong> {data.what_it_does_not_mean}
+                <strong style={{ color: '#fcd34d' }}>▲ NO ES FUENTE FACTUAL:</strong> {data.what_it_does_not_mean}
               </p>
             )}
           </div>
@@ -217,7 +217,7 @@ export function GeoThemeClusters() {
                             fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 3,
                             background: '#1f2937', color: '#fee2e2', border: '1px solid #991b1b', letterSpacing: 0.4,
                             textTransform: 'uppercase', whiteSpace: 'nowrap',
-                          }}>⚠ FUENTES RÉGIMEN AUTORITARIO {Math.round((t.authoritarian_source_share || 0) * 100)}%</span>
+                          }}>▲ FUENTES RÉGIMEN AUTORITARIO {Math.round((t.authoritarian_source_share || 0) * 100)}%</span>
                         )}
                       </div>
                       <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
@@ -256,7 +256,7 @@ export function GeoThemeClusters() {
                     {t.limitations && t.limitations.length > 0 && (
                       <details style={{ marginBottom: 8 }}>
                         <summary style={{ fontSize: 9, color: '#f0abfc', cursor: 'pointer', letterSpacing: 0.4, textTransform: 'uppercase', fontWeight: 700 }}>
-                          ⚠ {t.limitations.length} limitaciones del cluster IA
+                          ▲ {t.limitations.length} limitaciones del cluster IA
                         </summary>
                         <ul style={{ margin: '4px 0 0 14px', padding: 0, fontSize: 9, color: '#cbd5e1', lineHeight: 1.4 }}>
                           {t.limitations.map((l, i) => <li key={i}>{l}</li>)}
@@ -299,7 +299,7 @@ export function GeoThemeClusters() {
                                 border: mb.regime === 'authoritarian' ? '1px solid #991b1b' : 'none',
                               }}
                             >
-                              {mb.regime === 'authoritarian' ? '⚠ ' : ''}{mb.country.slice(0, 8)}
+                              {mb.regime === 'authoritarian' ? '▲ ' : ''}{mb.country.slice(0, 8)}
                             </span>
                           ) : null
                           return (

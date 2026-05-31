@@ -182,7 +182,7 @@ function ServiceCard({ svc }: { svc: AjusteService }) {
       </div>
       {svc.tension_level && svc.tension_level !== 'normal' && (
         <p style={{ margin: '4px 0 0', fontSize: 9, color: accent, fontWeight: 600 }}>
-          ⚠ {TENSION_LABEL[svc.tension_level]}
+          ▲ {TENSION_LABEL[svc.tension_level]}
         </p>
       )}
       <p style={{ margin: '2px 0 0', fontSize: 9, color: '#cbd5e1' }}>

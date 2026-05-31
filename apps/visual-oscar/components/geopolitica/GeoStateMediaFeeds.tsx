@@ -120,7 +120,7 @@ export function GeoStateMediaFeeds() {
     }}>
       <header style={{ marginBottom: 12 }}>
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#fca5a5', textTransform: 'uppercase' }}>
-          ⚠ Cobertura medios estatales · régimen autoritario
+          ▲ Cobertura medios estatales · régimen autoritario
         </p>
         <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5 }}>
           Lo que publican Moscú · Pekín · Teherán · Doha · Ankara · La Habana · Caracas sobre el mundo, AHORA.
@@ -330,7 +330,7 @@ export function GeoStateMediaFeeds() {
       {data?._meta?.warnings && data._meta.warnings.length > 0 && (
         <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #1e293b' }}>
           {data._meta.warnings.map((w, i) => (
-            <p key={i} style={{ margin: 0, fontSize: 9, color: '#fde68a', lineHeight: 1.4 }}>⚠ {w}</p>
+            <p key={i} style={{ margin: 0, fontSize: 9, color: '#fde68a', lineHeight: 1.4 }}>▲ {w}</p>
           ))}
         </div>
       )}

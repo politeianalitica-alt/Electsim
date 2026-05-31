@@ -66,8 +66,8 @@ function TechRow({ slug }: { slug: string }) {
       <td style={td}>{last ? last.toLocaleString('es-ES', { maximumFractionDigits: 3 }) : '—'}</td>
       <td style={{ ...td, color: rsi == null ? '#9ca3af' : rsi >= 70 ? '#dc2626' : rsi <= 30 ? '#16a34a' : '#374151' }}>
         {rsi != null ? rsi.toFixed(1) : '—'}
-        {rsi != null && rsi >= 70 ? ' ⚠ sobrecomprado' : null}
-        {rsi != null && rsi <= 30 ? ' ⚠ sobrevendido' : null}
+        {rsi != null && rsi >= 70 ? ' ▲ sobrecomprado' : null}
+        {rsi != null && rsi <= 30 ? ' ▲ sobrevendido' : null}
       </td>
       <td style={{ ...td, color: macd == null ? '#9ca3af' : macd > 0 ? '#16a34a' : '#dc2626' }}>
         {macd != null ? macd.toFixed(3) : '—'}

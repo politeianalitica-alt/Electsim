@@ -104,7 +104,7 @@ export function EntsoeSpainPanel() {
             <li>Cuando lleguen el token, pegar en Vercel env <code>ENTSOE_API_KEY</code> · este panel pasa a LIVE automáticamente</li>
           </ol>
           <details style={{ marginTop: 8 }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, color: ACCENT }}>📧 Ver plantilla de email para solicitar el token</summary>
+            <summary style={{ cursor: 'pointer', fontWeight: 600, color: ACCENT }}>✉ Ver plantilla de email para solicitar el token</summary>
             <pre style={{ background: '#fff', padding: 10, borderRadius: 4, marginTop: 8, fontSize: 10, whiteSpace: 'pre-wrap', fontFamily: 'monospace', color: '#1f2937' }}>
 {`To: transparency@entsoe.eu
 Subject: Web API security token request

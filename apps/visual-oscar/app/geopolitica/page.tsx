@@ -131,7 +131,7 @@ const ISO_TO_FLAG: Record<string, string> = {
   ZAF: '🇿🇦', NGA: '🇳🇬',
 }
 function flagFromIso(iso: string): string {
-  return ISO_TO_FLAG[iso] || '🌐'
+  return ISO_TO_FLAG[iso] || '⊕'
 }
 
 // CountryBadge — bandera + código ISO en círculo coloreado por categoría

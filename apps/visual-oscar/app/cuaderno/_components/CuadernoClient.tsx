@@ -591,7 +591,8 @@ export default function CuadernoClient() {
                 title="Asistente IA sobre esta nota · Cmd+J (contexto + entidades + backlinks)"
                 style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3', fontWeight: 600 }}
               >
-                🧠 IA
+                {/* Sprint Quality-4 · sin emojis · "◈" (U+25C8) glifo geométrico Unicode permitido */}
+                ◈ IA
               </button>
               {/* Sprint Cuaderno N10 · export markdown · descarga .md con frontmatter */}
               <button

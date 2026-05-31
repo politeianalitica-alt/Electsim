@@ -108,7 +108,7 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
         </div>
         <Interpretation>
           {deuda != null && saldo != null
-            ? `Deuda ${deuda.toFixed(1)}% PIB con saldo ${saldo >= 0 ? '+' : ''}${saldo.toFixed(2)}%. ${deuda > 120 ? '⚠️ Espacio fiscal limitado, sostenibilidad bajo presión si suben tipos.' : deuda > 100 ? 'Espacio fiscal estrecho; vigilar prima de riesgo y refinanciación.' : 'Posición fiscal razonable dentro del rango Maastricht.'}`
+            ? `Deuda ${deuda.toFixed(1)}% PIB con saldo ${saldo >= 0 ? '+' : ''}${saldo.toFixed(2)}%. ${deuda > 120 ? '▲ Espacio fiscal limitado, sostenibilidad bajo presión si suben tipos.' : deuda > 100 ? 'Espacio fiscal estrecho; vigilar prima de riesgo y refinanciación.' : 'Posición fiscal razonable dentro del rango Maastricht.'}`
             : 'Margen fiscal español · cruzar deuda + saldo + intereses para evaluar sostenibilidad.'}
         </Interpretation>
       </DomainPanel>
@@ -131,7 +131,7 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
         </div>
         <Interpretation>
           {apertura != null && energia != null
-            ? `Apertura comercial ${apertura.toFixed(1)}% PIB · dependencia energética ${energia.toFixed(1)}%. ${energia > 70 ? '⚠️ Alta vulnerabilidad energética: shock precios = transferencia inmediata al IPC y déficit corriente.' : 'Estructura comercio: 60% intra-EA, turismo motor del superávit servicios.'}`
+            ? `Apertura comercial ${apertura.toFixed(1)}% PIB · dependencia energética ${energia.toFixed(1)}%. ${energia > 70 ? '▲ Alta vulnerabilidad energética: shock precios = transferencia inmediata al IPC y déficit corriente.' : 'Estructura comercio: 60% intra-EA, turismo motor del superávit servicios.'}`
             : 'Estructura del comercio exterior español · cruzar apertura, partners y dependencia energética para evaluar vulnerabilidad sectorial.'}
         </Interpretation>
       </DomainPanel>
@@ -156,7 +156,7 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
         </div>
         <Interpretation>
           {yieldES != null && hpi != null
-            ? `Estrés sistémico · 10Y ES ${yieldES.toFixed(2)}% · HPI ${hpi.toFixed(1)}% YoY · crédito ${credito?.toFixed(1) ?? '?'}%. ${yieldES > 5 || hpi > 12 || (credito != null && credito < 0) ? '⚠️ Al menos un estresor crítico activo · revisar exposición.' : 'Estresores financieros contenidos · monitorizar contagio italiano y dinámica inmobiliaria.'}`
+            ? `Estrés sistémico · 10Y ES ${yieldES.toFixed(2)}% · HPI ${hpi.toFixed(1)}% YoY · crédito ${credito?.toFixed(1) ?? '?'}%. ${yieldES > 5 || hpi > 12 || (credito != null && credito < 0) ? '▲ Al menos un estresor crítico activo · revisar exposición.' : 'Estresores financieros contenidos · monitorizar contagio italiano y dinámica inmobiliaria.'}`
             : 'Termómetro de estrés sistémico · yields soberanos, inmobiliario, crédito y empleo estructural.'}
         </Interpretation>
       </DomainPanel>
@@ -181,7 +181,7 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
         </div>
         <Interpretation>
           {yieldES != null && yieldDE != null
-            ? `Spread ES-DE ${((yieldES - yieldDE) * 100).toFixed(0)}pb. ${(yieldES - yieldDE) > 1.5 ? '⚠️ Prima de riesgo elevada · activos ES descuentan stress.' : 'Prima riesgo contenida vs Bund · entorno benigno para equity y deuda corporativa ES.'}`
+            ? `Spread ES-DE ${((yieldES - yieldDE) * 100).toFixed(0)}pb. ${(yieldES - yieldDE) > 1.5 ? '▲ Prima de riesgo elevada · activos ES descuentan stress.' : 'Prima riesgo contenida vs Bund · entorno benigno para equity y deuda corporativa ES.'}`
             : 'Lectura macro-financiera España · yields, FX, agregados monetarios. Debajo: panel enriquecido con IBEX live, sector breakdown, FX matrix y commodity heatmap.'}
         </Interpretation>
       </DomainPanel>
@@ -235,7 +235,7 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
         </div>
         <Interpretation>
           {idGdp != null && berd != null
-            ? `I+D ${idGdp.toFixed(2)}% PIB · BERD empresarial ${berd.toFixed(2)}% PIB. ${berd < 1 ? '⚠️ Gap esencial en I+D PRIVADA · refleja modelo productivo poco intensivo en tecnología.' : 'Esfuerzo en I+D empresarial mejorando.'} La competitividad se juega en cerrar el gap BERD vs UE.`
+            ? `I+D ${idGdp.toFixed(2)}% PIB · BERD empresarial ${berd.toFixed(2)}% PIB. ${berd < 1 ? '▲ Gap esencial en I+D PRIVADA · refleja modelo productivo poco intensivo en tecnología.' : 'Esfuerzo en I+D empresarial mejorando.'} La competitividad se juega en cerrar el gap BERD vs UE.`
             : 'Drivers estructurales · cruzar productividad/hora, ULC, BERD y REER para evaluar competitividad sostenible.'}
         </Interpretation>
       </DomainPanel>
@@ -308,7 +308,7 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
           <BigMetric label="PIB pc" value={pibPc} unit=" USD" decimals={0} color="#0F766E" caption="renta media por habitante" period={findPeriod(byId, 'dt-pib-percapita')} />
         </div>
         <Interpretation>
-          {fertilidad != null && fertilidad < 1.3 ? '⚠️ Fertilidad por debajo de 1.3 — España en cola UE. Combinado con envejecimiento y emigración juvenil, la pirámide no se sostiene sin saldo migratorio neto positivo.' : 'Pirámide demográfica con riesgo estructural. Vigilar fertilidad y saldo migratorio para entender presión sobre pensiones y mercado laboral.'}
+          {fertilidad != null && fertilidad < 1.3 ? '▲ Fertilidad por debajo de 1.3 — España en cola UE. Combinado con envejecimiento y emigración juvenil, la pirámide no se sostiene sin saldo migratorio neto positivo.' : 'Pirámide demográfica con riesgo estructural. Vigilar fertilidad y saldo migratorio para entender presión sobre pensiones y mercado laboral.'}
         </Interpretation>
       </DomainPanel>
     )

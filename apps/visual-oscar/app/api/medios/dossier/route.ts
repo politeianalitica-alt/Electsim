@@ -131,7 +131,7 @@ function buildMarkdown(req: DossierRequest): string {
     lines.push('')
     for (const a of (r.articles || []).slice(0, 30)) {
       const date = new Date(a.published).toLocaleDateString('es-ES')
-      const senTag = a.sentiment_score > 0.1 ? ' 🟢' : a.sentiment_score < -0.1 ? ' 🔴' : ''
+      const senTag = a.sentiment_score > 0.1 ? ' ●' : a.sentiment_score < -0.1 ? ' ●' : ''
       lines.push(`- **[${a.title}](${a.url})** · ${a.source} · ${date}${senTag}`)
       if (a.description) {
         lines.push(`  > ${a.description.slice(0, 200)}${a.description.length > 200 ? '…' : ''}`)

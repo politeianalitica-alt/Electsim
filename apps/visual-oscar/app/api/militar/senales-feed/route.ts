@@ -3,11 +3,11 @@
  *
  * Feed de señales de reconfiguración estratégica detectadas algorítmicamente.
  * Tipos de señal según spec:
- *   🔀 acercamiento_no_convencional · 2 países alianzas opuestas con cooperación CAMEO 03x/06x
+ *   ⇄ acercamiento_no_convencional · 2 países alianzas opuestas con cooperación CAMEO 03x/06x
  *   ⚡ friccion_intra_alianza · 2 aliados con caída Goldstein >3 en 14d
- *   💰 spike_armamento · país +50% imports HS 93 (placeholder · necesita Comtrade)
- *   📰 narrativa_ejercicio · spike "military exercise" + "joint drill" GDELT
- *   🗳️ cambio_gobierno_aliado · GOV_LEADERSHIP_CHANGE en miembro alianza clave
+ *   $ spike_armamento · país +50% imports HS 93 (placeholder · necesita Comtrade)
+ *   ▤ narrativa_ejercicio · spike "military exercise" + "joint drill" GDELT
+ *   ▢ cambio_gobierno_aliado · GOV_LEADERSHIP_CHANGE en miembro alianza clave
  *
  * Implementación MVP: usa GDELT themes para 2 tipos primarios.
  * Cache: s-maxage=900 (15 min).

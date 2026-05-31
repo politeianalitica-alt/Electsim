@@ -143,7 +143,7 @@ export function EsiosLivePanel({ variant = 'dashboard', subset }: Props) {
           background: '#fef2f2', border: '1px solid #fecaca', borderLeft: '3px solid #dc2626',
           borderRadius: 8, padding: '10px 12px', fontSize: 11.5, color: '#991b1b',
         }}>
-          ⚠ ESIOS snapshot no disponible: <code>{data.error}</code>
+          ▲ ESIOS snapshot no disponible: <code>{data.error}</code>
         </div>
       )}
 

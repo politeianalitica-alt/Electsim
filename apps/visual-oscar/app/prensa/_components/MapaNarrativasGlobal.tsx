@@ -234,7 +234,7 @@ export function MapaNarrativasGlobal() {
             Cargando eventos globales (GDELT + crisis humanitaria)…
           </div>
         ) : error ? (
-          <div style={{ padding: 24, color: '#fca5a5' }}>⚠ {error}</div>
+          <div style={{ padding: 24, color: '#fca5a5' }}>▲ {error}</div>
         ) : (
           <ComposableMap
             projectionConfig={{ scale: 145 }}
