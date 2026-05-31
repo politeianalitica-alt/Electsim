@@ -31,6 +31,8 @@
 import { useEffect } from 'react'
 import type { GeoEndpointMode, GeoLayer, GeoTemporalScope } from '@/lib/geopolitica/geo-methodology'
 import { GeoSourceBadge } from './GeoSourceBadge'
+// Sprint Q-C.3 · G3 · humanizer para snake_case que se filtraba a UI.
+import { humanizeTemporalScope, humanizeSourceMode } from '@/lib/geopolitica/label-mappings'
 
 export interface GeoAuditPayload {
   // Identificación
@@ -157,11 +159,13 @@ export function GeoAuditDrawer({ open, onClose, payload }: GeoAuditDrawerProps) 
                 <GeoSourceBadge mode={payload.source_mode} layer={payload.geo_layer} confidence={payload.confidence?.overall} />
               )}
               {payload.temporal_scope && (
+                // Sprint Q-C.3 · G3 · ANTES renderizaba el slug crudo (`last_30d`,
+                // `annual`, `realtime`) en el badge UI. AHORA pasa por humanizer.
                 <span style={{
                   fontSize: 9, padding: '2px 7px', borderRadius: 999, fontWeight: 700, letterSpacing: 0.3, textTransform: 'uppercase',
                   background: payload.temporal_scope === 'annual' || payload.temporal_scope === 'historical' ? '#f3e8ff' : payload.temporal_scope === 'last_30d' ? '#dbeafe' : payload.temporal_scope === 'realtime' ? '#dcfce7' : '#f1f5f9',
                   color: payload.temporal_scope === 'annual' || payload.temporal_scope === 'historical' ? '#6b21a8' : payload.temporal_scope === 'last_30d' ? '#1e40af' : payload.temporal_scope === 'realtime' ? '#166534' : '#475569',
-                }}>{payload.temporal_scope}</span>
+                }}>{humanizeTemporalScope(payload.temporal_scope)}</span>
               )}
               {payload.fallback_used && (
                 <span style={{ fontSize: 9, padding: '2px 7px', borderRadius: 999, fontWeight: 700, background: '#fee2e2', color: '#991b1b', letterSpacing: 0.3, textTransform: 'uppercase' }}>
@@ -230,9 +234,11 @@ export function GeoAuditDrawer({ open, onClose, payload }: GeoAuditDrawerProps) 
                       </span>
                     </div>
                     {c.source && (
+                      // Sprint Q-C.3 · G3 · source_mode pasaba por uppercase pero
+                      // mantenía el slug crudo · ahora se humaniza primero.
                       <p style={{ margin: '2px 0 0', fontSize: 9, color: '#64748b' }}>
                         <strong>Fuente:</strong> {c.source}
-                        {c.source_mode && <> · <span style={{ textTransform: 'uppercase' }}>{c.source_mode}</span></>}
+                        {c.source_mode && <> · <span>{humanizeSourceMode(c.source_mode)}</span></>}
                         {c.layer && <> · {c.layer}</>}
                         {typeof c.confidence === 'number' && <> · conf {Math.round(c.confidence * 100)}%</>}
                       </p>

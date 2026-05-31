@@ -1063,20 +1063,24 @@ export default function GeopoliticaPage() {
         {/* TAB 5 — Presencia España · cuadro de mando proyección exterior
             Sprint GEO-ES · mapa 4 dimensiones + KPIs + comercio + inversión.
             Reemplaza/precede la vista legacy (watchlist + spain official). */}
+        {/* Sprint Q-C.3 · G2 · ANTES rojo-sangre `#aa0000 → #d50000` para una sección
+            que cubre socios comerciales, FDI y misiones diplomáticas — visualmente
+            sugería "países hostiles" y confundía el scope amigable. AHORA azul
+            institucional `#1F4E8C → #0c4a6e` (color corporativo) + hero copy
+            descriptivo en lenguaje analista. */}
         {tab === 5 && (
           <div style={{ marginBottom: 18 }}>
             <div style={{
-              background: 'linear-gradient(135deg, #aa0000 0%, #d50000 100%)',
+              background: 'linear-gradient(135deg, #1F4E8C 0%, #0c4a6e 100%)',
               borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
             }}>
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
                 Presencia España · proyección exterior con pulso en tiempo real
               </h2>
-              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fecaca', lineHeight: 1.5 }}>
-                <strong>¿Dónde está España realmente y qué está pasando en esos lugares?</strong>{' '}
-                Mapa 4 dimensiones (FDI / IBEX / Diplomática / Exports) ·
-                Comercio exterior con 8 dependencias críticas · Inversión con análisis HHI + exposición V-Dem.
-                Datasets curados DataInvex 2023 + DataComex 2024 + MAEC + Cervantes.
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#bfdbfe', lineHeight: 1.5 }}>
+                <strong>Mapa operativo de proyección exterior española: comercio, inversión, diplomacia y exposición consular.</strong>{' '}
+                Cuatro capas (inversión directa extranjera · IBEX · red diplomática · exportaciones), 8 dependencias críticas de comercio, análisis de concentración (HHI) e indicadores de exposición V-Dem.
+                Fuentes: DataInvex 2023, DataComex 2024, MAEC e Instituto Cervantes.
               </p>
             </div>
             <div style={{ marginBottom: 14 }}>
