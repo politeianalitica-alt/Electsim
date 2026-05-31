@@ -131,8 +131,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0002",
@@ -254,8 +254,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0003",
@@ -359,8 +359,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0004",
@@ -427,6 +427,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0004-ap-01-it-00",
             "apartado_id": "sen-0004-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Nerea Ahedo Ceza (n. 1966, Bilbao) — político. Afiliación política: Partido Nacionalista Vasco. Cargos públicos registrados: senador de España (desde 2023) · senador de España (2019–2023) · senador de España (2019–2019) · senador de España (2016–2019) · senador de España (2015–2016) · Diputado de las Juntas Generales de Vizcaya (2011–2015) · Diputado de las Juntas Generales de Vizcaya (2007–2011) · Diputado de las Juntas Generales de Vizcaya (2003–2007). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28872549.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Nerea_Ahedo_Ceza",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0004-ap-01-it-01",
+            "apartado_id": "sen-0004-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -434,7 +451,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=258&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -482,8 +499,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0005",
@@ -550,6 +567,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0005-ap-01-it-00",
             "apartado_id": "sen-0005-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Rosa María Aldea Gómez (n. 1970, Palencia) — político. Afiliación política: Partido Socialista Obrero Español. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28872627.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q28872627",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0005-ap-01-it-01",
+            "apartado_id": "sen-0005-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -557,7 +591,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=109&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -605,8 +639,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0006",
@@ -673,6 +707,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0006-ap-01-it-00",
             "apartado_id": "sen-0006-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Agustín Almodóbar Barceló (n. 1977, Benidorm) — político. Afiliación política: Partido Popular. Cargos públicos registrados: senador de España (2008–2019) · diputado de España (2019–2023) · senador de España (desde 2023). Relevos en el cargo: en «senador de España» sucedió a Miguel Barceló Pérez. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q21001076.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Agust%C3%ADn_Almod%C3%B3bar_Barcel%C3%B3",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0006-ap-01-it-01",
+            "apartado_id": "sen-0006-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -680,7 +731,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=060&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -728,8 +779,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0007",
@@ -796,6 +847,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0007-ap-01-it-00",
             "apartado_id": "sen-0007-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Ángel Alonso Pérez (n. 1993, Villalón de Campos) — político, jurista. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (desde 2019) · alcalde de Villalón de Campos (desde 2015) · senador de España (2019–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q106523293.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_%C3%81ngel_Alonso_P%C3%A9rez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0007-ap-01-it-01",
+            "apartado_id": "sen-0007-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -803,7 +871,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=218&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -851,8 +919,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0008",
@@ -956,8 +1024,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0009",
@@ -1024,6 +1092,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0009-ap-01-it-00",
             "apartado_id": "sen-0009-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Jesús Álvarez González (n. 1962, Peñaullán) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: presidente de la Junta General del Principado de Asturias. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q6003994.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Jes%C3%BAs_%C3%81lvarez_Gonz%C3%A1lez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0009-ap-01-it-01",
+            "apartado_id": "sen-0009-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -1031,7 +1116,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=300&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -1079,8 +1164,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0010",
@@ -1147,6 +1232,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0010-ap-01-it-00",
             "apartado_id": "sen-0010-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Ramón Amores García (n. 1977, Albacete) — profesor, político. Afiliación política: PSOE Castilla-La Mancha. Formación: Universidad Complutense de Madrid, Real Federación Española de Natación. Cargos públicos registrados: alcalde (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q119823439.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q119823439",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0010-ap-01-it-01",
+            "apartado_id": "sen-0010-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -1154,7 +1256,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=262&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -1202,8 +1304,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0011",
@@ -1325,8 +1427,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0012",
@@ -1393,6 +1495,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0012-ap-01-it-00",
             "apartado_id": "sen-0012-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Javier Antón Cacho (n. 1972, Soria) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: diputado de España (2016–2016) · diputado de España (2016–2019) · diputado de España (2019–2019) · diputado de España (2019–2023) · concejal (2003–2007) · concejal (2007–2011) · concejal del Ayuntamiento de Soria (2011–2015) · senador de España (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27999091.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Javier_Ant%C3%B3n_Cacho",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0012-ap-01-it-01",
+            "apartado_id": "sen-0012-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -1400,7 +1519,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=187&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -1448,8 +1567,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0013",
@@ -1571,8 +1690,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0014",
@@ -1694,8 +1813,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0015",
@@ -1762,6 +1881,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0015-ap-01-it-00",
             "apartado_id": "sen-0015-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Javier Arenas Bocanegra (n. 1957, Sevilla) — político, funcionario, abogado. Afiliación política: Partido Popular, Unión de Centro Democrático, Partido Demócrata Popular. Formación: Universidad de Sevilla. Cargos públicos registrados: diputado de España (1989–1993) · diputado de España (1993–1994) · diputado de España (2000–2004) · diputado de España (2004–2008) · secretario general del Partido Popular (1999–2003) · ministro de Trabajo y Asuntos Sociales (1996–1999) · ministro de Administraciones Públicas (2002–2003) · vicepresidente segundo del Gobierno de España (2003–2004) · ministro de la Presidencia de España (2003–2004) · senador de España (1994–1996) · senador de España (1996–1996) · senador de España (2008–2011) · senador de España (2015–2016) · senador de España (2016–2019). Relevos en el cargo: en «secretario general del Partido Popular» sucedió a Francisco Álvarez-Cascos; en «secretario general del Partido Popular» fue sucedido por Mariano Rajoy; en «ministro de Trabajo y Asuntos Sociales» sucedió a José Antonio Griñán; en «ministro de Trabajo y Asuntos Sociales» fue sucedido por Manuel Pimentel; en «ministro de Administraciones Públicas» sucedió a Jesús Posada Moreno; en «ministro de Administraciones Públicas» fue sucedido por Julia García-Valdecasas. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q2089386.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Javier_Arenas_Bocanegra",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0015-ap-01-it-01",
+            "apartado_id": "sen-0015-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -1769,7 +1905,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=015&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -1817,8 +1953,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0016",
@@ -1885,6 +2021,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0016-ap-01-it-00",
             "apartado_id": "sen-0016-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Nidia María Arévalo Gómez (n. 1975, Vigo) — político. Cargos públicos registrados: alcalde de Mos (desde 2008). Relevos en el cargo: en «alcalde de Mos» sucedió a María Jesús Escudero Lago. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q12393910.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Nidia_Ar%C3%A9valo",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0016-ap-01-it-01",
+            "apartado_id": "sen-0016-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -1892,7 +2045,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=064&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -1940,8 +2093,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0017",
@@ -2063,8 +2216,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0018",
@@ -2131,6 +2284,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0018-ap-01-it-00",
             "apartado_id": "sen-0018-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Alberto Armijo Navas (n. 1960, Nerja) — político. Afiliación política: Partido Popular. Formación: Universidad de Granada. Cargos públicos registrados: alcalde de Nerja (1995–2015) · alcalde de Nerja (desde 2019) · senador de España (desde 2023) · diputado en el Parlamento de Andalucía (2000–2004) · diputado en el Parlamento de Andalucía (2004–2008) · diputado provincial de Málaga (2007–2011) · diputado provincial de Málaga (2011–2015) · diputado provincial de Málaga (2015–2019) · concejal (1987–1995) · concejal (2015–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14089395.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Alberto_Armijo_Navas",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0018-ap-01-it-01",
+            "apartado_id": "sen-0018-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -2138,7 +2308,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=043&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -2186,8 +2356,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0019",
@@ -2309,8 +2479,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0020",
@@ -2377,6 +2547,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0020-ap-01-it-00",
             "apartado_id": "sen-0020-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Bienvenido De Arriba Sánchez (n. 1973, Valladolid) — gerente, político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2016–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27755830.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Bienvenido_de_Arriba",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0020-ap-01-it-01",
+            "apartado_id": "sen-0020-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -2384,7 +2571,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=183&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -2432,8 +2619,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0021",
@@ -2500,6 +2687,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0021-ap-01-it-00",
             "apartado_id": "sen-0021-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Manuel Ávila Gutiérrez (n. 1960) — político. Afiliación política: Partido Popular. Cargos públicos registrados: senador de España (desde 2023) · alcalde de Carmona (desde 2011) · diputado provincial de Sevilla (2011–2015). Relevos en el cargo: en «alcalde de Carmona» sucedió a Antonio Cano Luis. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14117877.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14117877",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0021-ap-01-it-01",
+            "apartado_id": "sen-0021-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -2507,7 +2711,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=031&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -2555,8 +2759,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0022",
@@ -2678,8 +2882,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0023",
@@ -2801,8 +3005,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0024",
@@ -2869,6 +3073,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0024-ap-01-it-00",
             "apartado_id": "sen-0024-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Sara Bailac Ardanuy (n. 1986, Tárrega) — politólogo, poeta, escritor. Afiliación política: Esquerra Republicana de Catalunya. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q16173566.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Sara_Bailac",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0024-ap-01-it-01",
+            "apartado_id": "sen-0024-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -2876,7 +3097,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=175&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -2924,8 +3145,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0025",
@@ -3047,8 +3268,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0026",
@@ -3115,6 +3336,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0026-ap-01-it-00",
             "apartado_id": "sen-0026-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Manuel Balseiro Orol (n. 1962, Ferreira) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado en el Parlamento de Galicia (2024–2024) · senador de España (desde 2024) · concejal (1999–2003) · concejal (2007–2016) · concejal (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5941993.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Manuel_Balseiro_Orol",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0026-ap-01-it-01",
+            "apartado_id": "sen-0026-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -3122,7 +3360,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=278&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -3170,8 +3408,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0027",
@@ -3238,6 +3476,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0027-ap-01-it-00",
             "apartado_id": "sen-0027-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Manuel Baltar Blanco (n. 1967, Orense) — político. Formación: Universidad de Santiago de Compostela. Cargos públicos registrados: presidente de la Diputación Provincial de Orense (2012–2023) · senador de España (desde 2023). Relevos en el cargo: en «presidente de la Diputación Provincial de Orense» sucedió a José Luis Baltar; en «presidente de la Diputación Provincial de Orense» fue sucedido por Luís Menor. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q20534268.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Manuel_Baltar",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0027-ap-01-it-01",
+            "apartado_id": "sen-0027-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -3245,7 +3500,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=051&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -3293,8 +3548,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0028",
@@ -3416,8 +3671,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0029",
@@ -3484,6 +3739,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0029-ap-01-it-00",
             "apartado_id": "sen-0029-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Manuel Barreiro Fernández (n. 1957, Lugo) — político. Afiliación política: Partido Popular. Formación: Universidad de Santiago de Compostela. Cargos públicos registrados: senador de España · representante de la Asamblea Parlamentaria del Consejo de Europa (desde 2012). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q11705405.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Manuel_Barreiro",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0029-ap-01-it-01",
+            "apartado_id": "sen-0029-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -3491,7 +3763,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=190&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -3539,8 +3811,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0030",
@@ -3607,6 +3879,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0030-ap-01-it-00",
             "apartado_id": "sen-0030-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José María Barrios Tejero (n. 1962, Zamora) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2015–2016) · diputado de España (2016–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14142463.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Mar%C3%ADa_Barrios",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0030-ap-01-it-01",
+            "apartado_id": "sen-0030-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -3614,7 +3903,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=065&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -3662,8 +3951,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0031",
@@ -3785,8 +4074,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0032",
@@ -3853,6 +4142,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0032-ap-01-it-00",
             "apartado_id": "sen-0032-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Estefanía Beltrán De Heredia Arroniz (n. 1960, Ullívarri-Arana) — político. Afiliación política: Partido Nacionalista Vasco. Formación: Universidad de Navarra. Cargos públicos registrados: Consejero de Seguridad del Gobierno Vasco (2012–2020) · diputado del Parlamento Vasco (1998–2007) · diputado del Parlamento Vasco (2016–2016) · diputado del Parlamento Vasco (2012–2012) · diputado del Parlamento Vasco (2005–2007) · diputado del Parlamento Vasco (1998–2001) · senador de España (desde 2020). Relevos en el cargo: en «Consejero de Seguridad del Gobierno Vasco» sucedió a Idoia Mendia Cueva; en «Consejero de Seguridad del Gobierno Vasco» fue sucedido por Josu Erkoreka Gervasio; en «diputado del Parlamento Vasco» fue sucedido por Estibaliz Larrauri Aranguren; en «diputado del Parlamento Vasco» fue sucedido por Peio Iparragirre Etxeberria; en «diputado del Parlamento Vasco» sucedió a Javier Carro Iglesias. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5849224.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Estefan%C3%ADa_Beltr%C3%A1n_de_Heredia",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0032-ap-01-it-01",
+            "apartado_id": "sen-0032-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -3860,7 +4166,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=291&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -3908,8 +4214,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0033",
@@ -4031,8 +4337,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0034",
@@ -4099,6 +4405,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0034-ap-01-it-00",
             "apartado_id": "sen-0034-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Javier Bermúdez Carrillo (n. 1972) — político. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14085267.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14085267",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0034-ap-01-it-01",
+            "apartado_id": "sen-0034-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -4106,7 +4429,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=093&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -4154,8 +4477,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0035",
@@ -4222,6 +4545,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0035-ap-01-it-00",
             "apartado_id": "sen-0035-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Martín Bernabé Pérez (n. 1970, La Unión) — abogado, político. Afiliación política: Partido Popular. Formación: Universidad de Murcia. Cargos públicos registrados: alcalde de La Unión (hasta 2014) · diputado de España (2016–2017) · delegado del Gobierno en la Región de Murcia (2017–2018). Relevos en el cargo: en «diputado de España» fue sucedido por María Dolores Bolarín Sánchez; en «delegado del Gobierno en la Región de Murcia» sucedió a Antonio Sánchez-Solís; en «delegado del Gobierno en la Región de Murcia» fue sucedido por Diego Conesa. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14089760.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Francisco_Bernab%C3%A9",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0035-ap-01-it-01",
+            "apartado_id": "sen-0035-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -4229,7 +4569,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=135&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -4277,8 +4617,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0036",
@@ -4345,6 +4685,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0036-ap-01-it-00",
             "apartado_id": "sen-0036-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Idurre Bideguren Gabantxo (n. 1979, Bermeo) — político, economista. Formación: Universidad del País Vasco. Cargos públicos registrados: alcalde de Bermeo (2011–2019) · senador de España (desde 2024) · senador de España (2019–2019) · senador de España (2020–2023) · concejal del Ayuntamiento de Bermeo (2007–2011) · concejal del Ayuntamiento de Bermeo (2011–2015) · concejal del Ayuntamiento de Bermeo (2015–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14132008.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Idurre_Bideguren",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0036-ap-01-it-01",
+            "apartado_id": "sen-0036-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -4352,7 +4709,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=292&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -4400,8 +4757,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0037",
@@ -4523,8 +4880,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0038",
@@ -4646,8 +5003,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0039",
@@ -4769,8 +5126,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0040",
@@ -4837,6 +5194,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0040-ap-01-it-00",
             "apartado_id": "sen-0040-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Jesús Bonilla Domínguez (n. 1964, Madrid) — abogado, político. Afiliación política: Partido Popular. Formación: Universidad Autónoma de Madrid. Cargos públicos registrados: diputado de España (2008–2011) · diputado de España (2011–2016) · diputado de España (2015–2016) · diputado de España (2016–2019) · alcalde de Tarancón (2011–2015) · diputado de España (2019–2019). Relevos en el cargo: en «diputado de España» sucedió a Rafael Catalá Polo. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27755777.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Jes%C3%BAs_Bonilla_Dom%C3%ADnguez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0040-ap-01-it-01",
+            "apartado_id": "sen-0040-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -4844,7 +5218,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=179&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -4892,8 +5266,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0041",
@@ -5015,8 +5389,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0042",
@@ -5083,6 +5457,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0042-ap-01-it-00",
             "apartado_id": "sen-0042-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Esther Basilia Del Brío González (n. 1969) — político. Afiliación política: Partido Popular. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28804284.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q28804284",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0042-ap-01-it-01",
+            "apartado_id": "sen-0042-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -5090,7 +5481,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=152&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -5138,8 +5529,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0043",
@@ -5261,8 +5652,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0044",
@@ -5329,6 +5720,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0044-ap-01-it-00",
             "apartado_id": "sen-0044-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Eva Patricia Bueno Campanario (n. 1971, Sevilla) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q66663385.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q66663385",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0044-ap-01-it-01",
+            "apartado_id": "sen-0044-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -5336,7 +5744,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=228&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -5384,8 +5792,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0045",
@@ -5452,6 +5860,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0045-ap-01-it-00",
             "apartado_id": "sen-0045-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Simón Valentín Bueno Vargas (n. 1964, Villarrobledo) — político. Afiliación política: Partido Popular. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14019436.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14019436",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0045-ap-01-it-01",
+            "apartado_id": "sen-0045-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -5459,7 +5884,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=136&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -5507,8 +5932,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0046",
@@ -5630,8 +6055,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0047",
@@ -5752,8 +6177,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0048",
@@ -5820,6 +6245,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0048-ap-01-it-00",
             "apartado_id": "sen-0048-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jesús Caicedo Bernabé — político. Cargos públicos registrados: diputado de España (2011–2015). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14024903.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14024903",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0048-ap-01-it-01",
+            "apartado_id": "sen-0048-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -5827,7 +6269,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=029&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -5875,8 +6317,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0049",
@@ -5943,6 +6385,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0049-ap-01-it-00",
             "apartado_id": "sen-0049-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Joaquín Camacho Borrego (n. 1983) — político. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14078925.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14078925",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0049-ap-01-it-01",
+            "apartado_id": "sen-0049-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -5950,7 +6409,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=182&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -5998,8 +6457,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0050",
@@ -6121,8 +6580,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0051",
@@ -6189,6 +6648,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0051-ap-01-it-00",
             "apartado_id": "sen-0051-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Gerardo Camps Devesa (n. 1963, Barcelona) — político. Afiliación política: Partido Popular. Formación: Universidad de Valencia. Cargos públicos registrados: senador de España (2011–2011) · diputado en las Cortes Valencianas (2007–2011) · diputado de España (1993–2000) · diputado de España (2011–2019) · Vicepresidente Segundo del Consejo i Consejero de Vivienda i Arquitectura Bioclimatica (2007–2011). Relevos en el cargo: en «diputado en las Cortes Valencianas» fue sucedido por Antonio Lorenzo Paredes; en «el cargo» sucedió a Vicente Rambla; en «el cargo» fue sucedido por Enrique José Verdeguer Puig; en «diputado de España» fue sucedido por Miguel Ramon Albiach Chisbert. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q4892699.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Gerardo_Camps",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0051-ap-01-it-01",
+            "apartado_id": "sen-0051-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -6196,7 +6672,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=100&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -6244,8 +6720,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0052",
@@ -6312,6 +6788,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0052-ap-01-it-00",
             "apartado_id": "sen-0052-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Consol Cantenys Arbolí (n. 1962, Figueras) — político, funcionario. Afiliación política: Partido de los Socialistas de Cataluña. Formación: Universidad de Gerona. Cargos públicos registrados: alcalde de Vilafant (2009–2023) · diputado provincial de Gerona (2011–2019) · presidente del consejo comarcal del Alto Ampurdán (2009–2011). Relevos en el cargo: en «alcalde de Vilafant» sucedió a Pepi Comalada Ayats; en «alcalde de Vilafant» fue sucedido por Montserrat de La Llave Alegri. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14077081.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14077081",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0052-ap-01-it-01",
+            "apartado_id": "sen-0052-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -6319,7 +6812,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=134&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -6367,8 +6860,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0053",
@@ -6489,8 +6982,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0054",
@@ -6557,6 +7050,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0054-ap-01-it-00",
             "apartado_id": "sen-0054-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jesús Julio Carnero García (n. 1964, Aspariegos) — político. Afiliación política: Partido Popular. Formación: Universidad de Valladolid. Cargos públicos registrados: concejal del Ayuntamiento de Valladolid (2011–2019) · procurador en las Cortes de Castilla y León (2019–2023) · alcalde de Valladolid (desde 2023) · senador de España (desde 2023) · consejero de la Presidencia de la Junta de Castilla y León (2022–2023) · consejero de Agricultura y Ganadería de la Junta de Castilla y León (2019–2022) · presidente de la Diputación Provincial de Valladolid (2011–2019). Relevos en el cargo: en «alcalde de Valladolid» sucedió a Óscar Puente; en «consejero de la Presidencia de la Junta de Castilla y León» sucedió a Ángel Ibáñez Hernando; en «consejero de la Presidencia de la Junta de Castilla y León» fue sucedido por Luis Miguel González Gago; en «consejero de Agricultura y Ganadería de la Junta de Castilla y León» sucedió a Milagros Marcos Ortega; en «presidente de la Diputación Provincial de Valladolid» sucedió a Ramiro Ruiz Medrano; en «presidente de la Diputación Provincial de Valladolid» fue sucedido por Conrado Íscar Ordóñez. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q6452315.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jes%C3%BAs_Julio_Carnero",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0054-ap-01-it-01",
+            "apartado_id": "sen-0054-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -6564,7 +7074,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=178&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -6612,8 +7122,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0055",
@@ -6680,6 +7190,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0055-ap-01-it-00",
             "apartado_id": "sen-0055-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jesús Caro Adanero (n. 1959) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: alcalde de Pajares de Adaja · diputado provincial de Ávila. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14030309.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14030309",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0055-ap-01-it-01",
+            "apartado_id": "sen-0055-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -6687,7 +7214,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=081&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -6735,8 +7262,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0056",
@@ -6803,6 +7330,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0056-ap-01-it-00",
             "apartado_id": "sen-0056-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Verónica María Casal Míguez (n. 1975, Ferrol) — político. Afiliación política: Partido Popular de Galicia. Formación: Universidad de Santiago de Compostela. Cargos públicos registrados: senador de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q109249565.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q109249565",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0056-ap-01-it-01",
+            "apartado_id": "sen-0056-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -6810,7 +7354,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=034&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -6858,8 +7402,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0057",
@@ -6981,8 +7525,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0058",
@@ -7104,8 +7648,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0059",
@@ -7172,6 +7716,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0059-ap-01-it-00",
             "apartado_id": "sen-0059-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Laura Castel Fort (n. 1970, Lérida) — político, funcionario. Afiliación política: Esquerra Republicana de Catalunya. Cargos públicos registrados: senador de España (2016–2019) · senador de España (2019–2019) · senador de España (2019–2023) · senador de España (desde 2024). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q26159887.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q26159887",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0059-ap-01-it-01",
+            "apartado_id": "sen-0059-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -7179,7 +7740,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=282&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -7227,8 +7788,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0060",
@@ -7295,6 +7856,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0060-ap-01-it-00",
             "apartado_id": "sen-0060-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Miguel Ángel Castellón Rubio (n. 1979, Almería) — político. Cargos públicos registrados: diputado de España (2019–2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q79428679.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Miguel_%C3%81ngel_Castell%C3%B3n_Rubio",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0060-ap-01-it-01",
+            "apartado_id": "sen-0060-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -7302,7 +7880,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=145&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -7350,8 +7928,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0061",
@@ -7418,6 +7996,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0061-ap-01-it-00",
             "apartado_id": "sen-0061-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Elena Castillo López — político. Cargos públicos registrados: diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q81765009.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q81765009",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0061-ap-01-it-01",
+            "apartado_id": "sen-0061-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -7425,7 +8020,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=139&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -7473,8 +8068,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0062",
@@ -7596,8 +8191,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0063",
@@ -7719,8 +8314,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0064",
@@ -7787,6 +8382,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0064-ap-01-it-00",
             "apartado_id": "sen-0064-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Josep Lluís Cleries I Gonzàlez (n. 1956, Barcelona) — político, ingeniero industrial. Afiliación política: Convergència Democràtica de Catalunya, Junts per Catalunya, Partit Demòcrata Europeu Català. Formación: Esade. Cargos públicos registrados: diputado en el Parlamento de Cataluña (2003–2011) · senador de España (2013–2016) · senador de España (2016–2016) · senador de España (2016–2018) · senador de España (desde 2018). Relevos en el cargo: en «diputado en el Parlamento de Cataluña» fue sucedido por Benet Maimí i Pou; en «el cargo» sucedió a Carme Capdevila i Palau; en «el cargo» fue sucedido por Neus Munté. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q16188807.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q16188807",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0064-ap-01-it-01",
+            "apartado_id": "sen-0064-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -7794,7 +8406,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=019&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -7824,8 +8436,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0065",
@@ -7892,6 +8504,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0065-ap-01-it-00",
             "apartado_id": "sen-0065-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Gabriel Colomé García (n. 1955, Barcelona) — politólogo, profesor titular, político. Formación: Universidad Autónoma de Barcelona. Cargos públicos registrados: director (2005–2011) · concejal del Ayuntamiento de Barcelona (2011–2015). Relevos en el cargo: en «director» fue sucedido por Jordi Argelaguet i Argemí. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q53552016.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q53552016",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0065-ap-01-it-01",
+            "apartado_id": "sen-0065-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -7899,7 +8528,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=118&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -7947,8 +8576,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0066",
@@ -8015,6 +8644,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0066-ap-01-it-00",
             "apartado_id": "sen-0066-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Mar Cotelo Balmaseda (n. 1973, Logroño) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2016–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27756170.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar_Cotelo_Balmaseda",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0066-ap-01-it-01",
+            "apartado_id": "sen-0066-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -8022,7 +8668,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=270&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -8070,8 +8716,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0067",
@@ -8138,6 +8784,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0067-ap-01-it-00",
             "apartado_id": "sen-0067-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Crespo Iglesias (n. 1959, O Souto) — político. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Lalín (1990–2015) · presidente (2003–2007) · alcalde de Lalín (desde 2019). Relevos en el cargo: en «alcalde de Lalín» sucedió a Xosé Cuíña; en «alcalde de Lalín» fue sucedido por Rafael Cuíña; en «presidente» sucedió a Manuel Cabezas; en «presidente» fue sucedido por Carlos Fernández Castro; en «alcalde de Lalín» sucedió a Rafael Cuíña. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q9013780.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Crespo",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0067-ap-01-it-01",
+            "apartado_id": "sen-0067-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -8145,7 +8808,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=203&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -8193,8 +8856,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0068",
@@ -8261,6 +8924,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0068-ap-01-it-00",
             "apartado_id": "sen-0068-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Manuel Cruz Rodríguez (n. 1951, Barcelona) — filósofo, político, profesor universitario. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Barcelona. Cargos públicos registrados: diputado de España (2016–2019) · presidente de Federalistes d'Esquerres (2013–2016) · presidente del Senado de España (2019–2019) · senador de España (desde 2019). Relevos en el cargo: en «presidente de Federalistes d'Esquerres» fue sucedido por Joan Botella Corral; en «presidente del Senado de España» sucedió a Pío García-Escudero; en «presidente del Senado de España» fue sucedido por Pilar Llop. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5992712.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Manuel_Cruz",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0068-ap-01-it-01",
+            "apartado_id": "sen-0068-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -8268,7 +8948,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=235&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -8316,8 +8996,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0069",
@@ -8439,8 +9119,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0070",
@@ -8562,8 +9242,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0071",
@@ -8630,6 +9310,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0071-ap-01-it-00",
             "apartado_id": "sen-0071-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Estela Del Carmen Darocas Marín (n. 2000) — político. Cargos públicos registrados: alcalde. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14137856.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14137856",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0071-ap-01-it-01",
+            "apartado_id": "sen-0071-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -8637,7 +9334,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=095&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -8685,8 +9382,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0072",
@@ -8808,8 +9505,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0073",
@@ -8876,6 +9573,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0073-ap-01-it-00",
             "apartado_id": "sen-0073-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Cristina Díaz Moreno (n. 1971, Madrid) — arquitecto. Formación: Universidad Politécnica de Madrid. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5791449.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Cristina_D%C3%ADaz_Moreno",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0073-ap-01-it-01",
+            "apartado_id": "sen-0073-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -8883,7 +9597,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=167&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -8931,8 +9645,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0074",
@@ -8999,6 +9713,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0074-ap-01-it-00",
             "apartado_id": "sen-0074-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Díaz Muñoz (n. 1992). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137212797.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q137212797",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0074-ap-01-it-01",
+            "apartado_id": "sen-0074-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -9006,7 +9737,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=017&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -9036,8 +9767,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0075",
@@ -9104,6 +9835,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0075-ap-01-it-00",
             "apartado_id": "sen-0075-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Susana Díaz Pacheco (n. 1971, Sevilla) — político, abogado. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Sevilla, Fundación San Telmo. Cargos públicos registrados: diputado en el Parlamento de Andalucía (2008–2021) · presidente de la Junta de Andalucía (2013–2019) · consejero de Presidencia e Igualdad de la Junta de Andalucía (2012–2013) · senador de España (2011–2012) · concejal del Ayuntamiento de Sevilla (1999–2004) · diputado de España (2004–2008). Relevos en el cargo: en «presidente de la Junta de Andalucía» sucedió a José Antonio Griñán; en «presidente de la Junta de Andalucía» fue sucedido por Juan Manuel Moreno Bonilla; en «consejero de Presidencia e Igualdad de la Junta de Andalucía» sucedió a Mar Moreno; en «consejero de Presidencia e Igualdad de la Junta de Andalucía» fue sucedido por Manuel Jiménez Barrios. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q6136317.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Susana_D%C3%ADaz",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0075-ap-01-it-01",
+            "apartado_id": "sen-0075-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -9111,7 +9859,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=010&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -9159,8 +9907,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0076",
@@ -9227,6 +9975,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0076-ap-01-it-00",
             "apartado_id": "sen-0076-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Elena Diego Castellanos — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (2003–2007). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q111542102.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q111542102",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0076-ap-01-it-01",
+            "apartado_id": "sen-0076-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -9234,7 +9999,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=239&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -9264,8 +10029,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0077",
@@ -9387,8 +10152,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0078",
@@ -9510,8 +10275,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0079",
@@ -9633,8 +10398,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0080",
@@ -9756,8 +10521,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0081",
@@ -9824,6 +10589,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0081-ap-01-it-00",
             "apartado_id": "sen-0081-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Entrena Ávila (n. 1961, Villanueva Mesía) — político, profesor, escritor. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Granada. Cargos públicos registrados: senador de España (desde 2023) · Presidente de la Diputación Provincial de Granada (2015–2023) · alcalde de Villanueva Mesía (1993–2009). Relevos en el cargo: en «Presidente de la Diputación Provincial de Granada» sucedió a Sebastián Pérez Ortiz; en «Presidente de la Diputación Provincial de Granada» fue sucedido por Francisco Pedro Rodríguez Guerrero. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q136656626.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Entrena_%C3%81vila",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0081-ap-01-it-01",
+            "apartado_id": "sen-0081-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -9831,7 +10613,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=090&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -9879,8 +10661,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0082",
@@ -9947,6 +10729,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0082-ap-01-it-00",
             "apartado_id": "sen-0082-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Adelina Escandell Grases (n. 1954, Barcelona) — profesor, político. Afiliación política: Partit dels i les Comunistes de Catalunya, Esquerra Unida i Alternativa, Comunistes de Catalunya. Cargos públicos registrados: senador de España (2019–2023). Relevos en el cargo: en «senador de España» sucedió a Mirella Cortès; en «senador de España» fue sucedido por Hector Sánchez Mira. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q63118397.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Adelina_Escandell",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0082-ap-01-it-01",
+            "apartado_id": "sen-0082-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -9954,7 +10753,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=174&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -9984,8 +10783,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0083",
@@ -10052,6 +10851,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0083-ap-01-it-00",
             "apartado_id": "sen-0083-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Espadas Cejas (n. 1966, Sevilla) — político, abogado. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Sevilla, Universidad Carlos III de Madrid. Cargos públicos registrados: alcalde de Sevilla (2015–2026) · senador de España (2010–2013) · Consejería de Vivienda y Ordenación del Territorio de la Junta de Andalucía (2008–2010) · concejal del Ayuntamiento de Sevilla (desde 2011). Relevos en el cargo: en «alcalde de Sevilla» sucedió a Juan Ignacio Zoido; en «alcalde de Sevilla» fue sucedido por Antonio Muñoz Martínez; en «Consejería de Vivienda y Ordenación del Territorio de la Junta de Andalucía» sucedió a Luis García Garrido; en «Consejería de Vivienda y Ordenación del Territorio de la Junta de Andalucía» fue sucedido por Rosa Aguilar. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5949284.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Juan_Espadas",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0083-ap-01-it-01",
+            "apartado_id": "sen-0083-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -10059,7 +10875,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=013&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -10107,8 +10923,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0084",
@@ -10175,6 +10991,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0084-ap-01-it-00",
             "apartado_id": "sen-0084-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Josu Estarrona Elizondo (n. 1981, Vitoria) — político, profesor de música, músico. Afiliación política: Euskal Herria Bildu, Álava. Formación: Conservatorio Superior de Música de Navarra, Universidad del País Vasco. Cargos públicos registrados: diputado del Parlamento Vasco (desde 2016) · diputado del Parlamento Vasco (2016–2020) · diputado del Parlamento Vasco (2016–2016) · senador de España (desde 2023). Relevos en el cargo: en «diputado del Parlamento Vasco» sucedió a Hasier Arraiz. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q97623555.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q97623555",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0084-ap-01-it-01",
+            "apartado_id": "sen-0084-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -10182,7 +11015,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=244&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -10230,8 +11063,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0085",
@@ -10353,8 +11186,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0086",
@@ -10421,6 +11254,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0086-ap-01-it-00",
             "apartado_id": "sen-0086-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Dolores Etxano Varela (n. 1968, Ondárroa) — político. Afiliación política: Partido Nacionalista Vasco. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28840794.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Dolores_Etxano_Varela",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0086-ap-01-it-01",
+            "apartado_id": "sen-0086-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -10428,7 +11278,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=251&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -10476,8 +11326,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0087",
@@ -10599,8 +11449,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0088",
@@ -10667,6 +11517,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0088-ap-01-it-00",
             "apartado_id": "sen-0088-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Fernández Álvarez (n. 1971, Langreo) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: alcalde. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14026672.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14026672",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0088-ap-01-it-01",
+            "apartado_id": "sen-0088-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -10674,7 +11541,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=048&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -10722,8 +11589,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0089",
@@ -10790,6 +11657,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0089-ap-01-it-00",
             "apartado_id": "sen-0089-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Fernández Blanco (n. 1956, Puebla de Sanabria) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: senador de España. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5939654.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Fern%C3%A1ndez_Blanco",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0089-ap-01-it-01",
+            "apartado_id": "sen-0089-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -10797,7 +11681,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=186&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -10845,8 +11729,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0090",
@@ -10968,8 +11852,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0091",
@@ -11091,8 +11975,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0092",
@@ -11196,8 +12080,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0093",
@@ -11264,6 +12148,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0093-ap-01-it-00",
             "apartado_id": "sen-0093-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco José Fernández Pérez (n. 1959, Louredo) — farmacéutico, político. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Leiro (desde 1995). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q12388933.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q12388933",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0093-ap-01-it-01",
+            "apartado_id": "sen-0093-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -11271,7 +12172,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=260&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -11319,8 +12220,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0094",
@@ -11424,8 +12325,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0095",
@@ -11492,6 +12393,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0095-ap-01-it-00",
             "apartado_id": "sen-0095-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Guillermo Fernández Vara (n. 1958, Olivenza) — político, profesor universitario, médico forense. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Córdoba, Universidad de Extremadura. Cargos públicos registrados: diputado en la Asamblea de Extremadura (2003–2024) · Presidente de la Junta de Extremadura (2015–2023) · Presidente de la Junta de Extremadura (2007–2011) · senador de España (2023–2025). Relevos en el cargo: en «Presidente de la Junta de Extremadura» sucedió a José Antonio Monago; en «Presidente de la Junta de Extremadura» fue sucedido por María Guardiola; en «Presidente de la Junta de Extremadura» sucedió a Juan Carlos Rodríguez Ibarra; en «Presidente de la Junta de Extremadura» fue sucedido por José Antonio Monago. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q3055366.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Guillermo_Fern%C3%A1ndez_Vara",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0095-ap-01-it-01",
+            "apartado_id": "sen-0095-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -11499,7 +12417,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=020&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -11529,8 +12447,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0096",
@@ -11652,8 +12570,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0097",
@@ -11775,8 +12693,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0098",
@@ -11898,8 +12816,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0099",
@@ -11966,6 +12884,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0099-ap-01-it-00",
             "apartado_id": "sen-0099-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Manuel Franco Pardo (n. 1957, Puebla del Brollón) — funcionario, político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: diputado en la Asamblea de Madrid (1995–1999) · diputado en la Asamblea de Madrid (1999–2003) · diputado en la Asamblea de Madrid (2003–2003) · diputado en la Asamblea de Madrid (2003–2007) · diputado en la Asamblea de Madrid (2007–2011) · diputado en la Asamblea de Madrid (2011–2015) · diputado en la Asamblea de Madrid (2015–2019) · secretario general del PSOE de la Comunidad de Madrid (2017–2021) · concejal del Ayuntamiento de Monforte de Lemos (1984–1986) · diputado de España (2019–2019) · diputado de España (2019–2020) · delegado del Gobierno en la Comunidad de Madrid (desde 2020). Relevos en el cargo: en «secretario general del PSOE de la Comunidad de Madrid» sucedió a Sara Hernández; en «diputado de España» fue sucedido por Rafael José Vélez; en «delegado del Gobierno en la Comunidad de Madrid» sucedió a María Paz García Vera. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q41710587.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Manuel_Franco",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0099-ap-01-it-01",
+            "apartado_id": "sen-0099-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -11973,7 +12908,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=221&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -12021,8 +12956,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0100",
@@ -12089,6 +13024,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0100-ap-01-it-00",
             "apartado_id": "sen-0100-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Pau Furriol Fornells (n. 1962, Barcelona) — político, empresario, abogado. Afiliación política: Esquerra Republicana de Catalunya. Formación: Universidad Autónoma de Barcelona. Cargos públicos registrados: senador de España (desde 2021). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q107289538.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q107289538",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0100-ap-01-it-01",
+            "apartado_id": "sen-0100-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -12096,7 +13048,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=256&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -12126,8 +13078,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0101",
@@ -12194,6 +13146,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0101-ap-01-it-00",
             "apartado_id": "sen-0101-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Vidal Galicia Jaramillo (n. 1965) — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (2007–2011) · alcalde de Arévalo (desde 2003) · diputado provincial de Ávila (2003–2007) · procurador en las Cortes de Castilla y León (2011–2015) · procurador en las Cortes de Castilla y León (desde 2015) · concejal del Ayuntamiento de Arévalo (desde 1999) · procurador en las Cortes de Castilla y León (2015–2019) · procurador en las Cortes de Castilla y León (2019–2022). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14027675.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14027675",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0101-ap-01-it-01",
+            "apartado_id": "sen-0101-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -12201,7 +13170,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=003&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -12249,8 +13218,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0102",
@@ -12372,8 +13341,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0103",
@@ -12495,8 +13464,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0104",
@@ -12563,6 +13532,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0104-ap-01-it-00",
             "apartado_id": "sen-0104-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Ángeles García Herrero (n. 1974) — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (desde 2022) · procurador en las Cortes de Castilla y León (2015–2019) · procurador en las Cortes de Castilla y León (2019–2022). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14114618.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14114618",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0104-ap-01-it-01",
+            "apartado_id": "sen-0104-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -12570,7 +13556,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=104&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -12618,8 +13604,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0105",
@@ -12686,6 +13672,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0105-ap-01-it-00",
             "apartado_id": "sen-0105-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Miriam García Navarro (n. 1992) — político. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q138186207.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q138186207",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0105-ap-01-it-01",
+            "apartado_id": "sen-0105-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -12693,7 +13696,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=148&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -12741,8 +13744,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0106",
@@ -12864,8 +13867,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0107",
@@ -12932,6 +13935,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0107-ap-01-it-00",
             "apartado_id": "sen-0107-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Alicia García Rodríguez (n. 1970, Ávila) — político. Afiliación política: Partido Popular. Formación: Universidad Complutense de Madrid. Cargos públicos registrados: consejero de Cultura y Turismo de la Junta de Castilla y León (2011–2015) · concejal del Ayuntamiento de Ávila · diputado de España (2019–2019) · diputado de España (2019–2023) · procurador en las Cortes de Castilla y León (2007–2007) · procurador en las Cortes de Castilla y León (2011–2015) · procurador en las Cortes de Castilla y León (2015–2019). Relevos en el cargo: en «consejero de Cultura y Turismo de la Junta de Castilla y León» sucedió a María José Salgueiro Cortiñas; en «consejero de Cultura y Turismo de la Junta de Castilla y León» fue sucedido por Josefa García Cirac. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q22999280.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Alicia_Garc%C3%ADa_Rodr%C3%ADguez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0107-ap-01-it-01",
+            "apartado_id": "sen-0107-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -12939,7 +13959,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=091&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -12987,8 +14007,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0108",
@@ -13055,6 +14075,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0108-ap-01-it-00",
             "apartado_id": "sen-0108-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jorge García Vega (n. 1976, Ponferrada) — entrenador de balonmano, árbitro de balonmano, balonmanista. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5935164.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jorge_Garc%C3%ADa_Vega",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0108-ap-01-it-01",
+            "apartado_id": "sen-0108-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -13062,7 +14099,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=079&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -13110,8 +14147,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0109",
@@ -13178,6 +14215,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0109-ap-01-it-00",
             "apartado_id": "sen-0109-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Pío García-escudero Márquez (n. 1952, Madrid) — arquitecto, político. Afiliación política: Partido Popular. Formación: Escuela Técnica Superior de Arquitectura de Madrid. Cargos públicos registrados: concejal del Ayuntamiento de Madrid (2003–2004) · diputado en la Asamblea de Madrid (1991–1995) · presidente del Senado de España (2011–2019) · presidente del Partido Popular de la Comunidad de Madrid (1993–2004) · diputado en la Asamblea de Madrid (1995–1999) · diputado en la Asamblea de Madrid (1999–2003) · presidente del Partido Popular de la Comunidad de Madrid (2018–2022) · senador de España (1995–1996) · senador de España (1999–2000) · senador de España (2000–2003) · senador de España (2004–2008) · senador de España (2008–2011) · senador de España (2011–2016) · senador de España (2016–2016). Relevos en el cargo: en «presidente del Senado de España» sucedió a Javier Rojo; en «presidente del Senado de España» fue sucedido por Manuel Cruz; en «presidente del Partido Popular de la Comunidad de Madrid» sucedió a Luis Eduardo Cortés; en «presidente del Partido Popular de la Comunidad de Madrid» fue sucedido por Esperanza Aguirre; en «presidente del Partido Popular de la Comunidad de Madrid» sucedió a María Cristina Cifuentes Cuencas; en «presidente del Partido Popular de la Comunidad de Madrid» fue sucedido por Isabel Díaz Ayuso. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q3412142.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/P%C3%ADo_Garc%C3%ADa-Escudero",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0109-ap-01-it-01",
+            "apartado_id": "sen-0109-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -13185,7 +14239,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=204&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -13233,8 +14287,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0110",
@@ -13301,6 +14355,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0110-ap-01-it-00",
             "apartado_id": "sen-0110-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María José García-pelayo Jurado (n. 1968, Jerez de la Frontera) — político. Afiliación política: Partido Popular. Formación: Universidad de Cádiz, Colegio Nuestra Señora del Pilar. Cargos públicos registrados: senador de España · diputado de España (2015–2016) · diputado de España (2016–2019) · diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5687854.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Jos%C3%A9_Garc%C3%ADa-Pelayo",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0110-ap-01-it-01",
+            "apartado_id": "sen-0110-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -13308,7 +14379,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=180&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -13356,8 +14427,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0111",
@@ -13424,6 +14495,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0111-ap-01-it-00",
             "apartado_id": "sen-0111-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Abigail Garrido Tinta (n. 1961, San Pedro de Ribas) — político, profesor. Afiliación política: Partido de los Socialistas de Cataluña. Formación: Universidad Autónoma de Barcelona. Cargos públicos registrados: alcalde de San Pedro de Ribas (2015–2024) · Concejal de Sant Pere de Ribes (1999–2015) · presidente del Consejo Comarcal del Garraf (2019–2021) · diputado provincial de Barcelona (2021–2023) · senador de España (desde 2024) · diputado provincial de Barcelona (2023–2024). Relevos en el cargo: en «alcalde de San Pedro de Ribas» sucedió a Lluís Giralt i Vidal; en «alcalde de San Pedro de Ribas» fue sucedido por Ana Herrera Bordallo; en «diputado provincial de Barcelona» sucedió a Juan Luis Ruiz López; en «diputado provincial de Barcelona» fue sucedido por Ana Herrera Bordallo. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q50990503.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q50990503",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0111-ap-01-it-01",
+            "apartado_id": "sen-0111-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -13431,7 +14519,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=293&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -13479,8 +14567,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0112",
@@ -13547,6 +14635,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0112-ap-01-it-00",
             "apartado_id": "sen-0112-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jordi Gaseni Blanch — político. Afiliación política: Esquerra Republicana de Catalunya. Cargos públicos registrados: alcalde de La Ametlla de Mar (desde 2015) · presidente de la Asociación de Municipios por la Independencia (2018–2018) · vicepresidente (desde 2016). Relevos en el cargo: en «alcalde de La Ametlla de Mar» sucedió a Andreu Martí García; en «presidente de la Asociación de Municipios por la Independencia» sucedió a Neus Lloveras; en «presidente de la Asociación de Municipios por la Independencia» fue sucedido por Josep Maria Cervera Pinart. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q48000269.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q48000269",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0112-ap-01-it-01",
+            "apartado_id": "sen-0112-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -13554,7 +14659,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=156&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -13602,8 +14707,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0113",
@@ -13670,6 +14775,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0113-ap-01-it-00",
             "apartado_id": "sen-0113-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Ander Gil García (n. 1974, Baracaldo) — político, maestro. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Burgos. Cargos públicos registrados: senador de España (2011–2015) · senador de España (2016–2019) · senador de España (2015–2016) · presidente del Senado de España (2021–2023) · senador de España (2019–2019) · senador de España (2019–2023) · senador de España (2023–2025) · concejal del Ayuntamiento de Valle de Mena (1995–1999) · concejal del Ayuntamiento de Valle de Mena (1999–2003) · concejal del Ayuntamiento de Valle de Mena (2003–2007) · concejal del Ayuntamiento de Valle de Mena (2007–2011). Relevos en el cargo: en «presidente del Senado de España» sucedió a Pilar Llop; en «presidente del Senado de España» fue sucedido por Pedro Rollán. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28872654.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Ander_Gil",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0113-ap-01-it-01",
+            "apartado_id": "sen-0113-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -13677,7 +14799,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=185&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -13707,8 +14829,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0114",
@@ -13830,8 +14952,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0115",
@@ -13952,8 +15074,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0116",
@@ -14020,6 +15142,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0116-ap-01-it-00",
             "apartado_id": "sen-0116-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María José Gómez Rodríguez (n. 1976, Guntín) — político, profesor de educación secundaria, filólogo. Cargos públicos registrados: alcalde de Guntín (2019–2024) · consejero de la Junta de Galicia (desde 2024) · senador de España (2023–2024). Relevos en el cargo: en «alcalde de Guntín» sucedió a Jesús Carreira Ferreiro; en «alcalde de Guntín» fue sucedido por Ángel Pérez Rodríguez. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q109924478.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Jos%C3%A9_G%C3%B3mez_Rodr%C3%ADguez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0116-ap-01-it-01",
+            "apartado_id": "sen-0116-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14027,7 +15166,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=154&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14057,8 +15196,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0117",
@@ -14125,6 +15264,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0117-ap-01-it-00",
             "apartado_id": "sen-0117-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Raquel González Benito (n. 1969, Aranda de Duero) — político. Cargos públicos registrados: alcalde de Aranda de Duero (2011–2023) · senador de España (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q6100468.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Raquel_Gonz%C3%A1lez_Benito",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0117-ap-01-it-01",
+            "apartado_id": "sen-0117-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14132,7 +15288,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=209&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14180,8 +15336,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0118",
@@ -14248,6 +15404,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0118-ap-01-it-00",
             "apartado_id": "sen-0118-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Manuel González Camacho (n. 1961, Lepe) — político, funcionario. Afiliación política: Partido Popular. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q101474007.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Juan_Manuel_Gonz%C3%A1lez_Camacho",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0118-ap-01-it-01",
+            "apartado_id": "sen-0118-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14255,7 +15428,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=057&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14303,8 +15476,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0119",
@@ -14371,6 +15544,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0119-ap-01-it-00",
             "apartado_id": "sen-0119-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Víctor González Fernández (n. 1970). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q48923347.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/V%C3%ADctor_Gonz%C3%A1lez_Fern%C3%A1ndez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0119-ap-01-it-01",
+            "apartado_id": "sen-0119-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14378,7 +15568,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=025&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14426,8 +15616,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0120",
@@ -14549,8 +15739,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0121",
@@ -14617,6 +15807,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0121-ap-01-it-00",
             "apartado_id": "sen-0121-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Ángel Luis González Muñoz (n. 1979, Antequera) — político. Afiliación política: Partido Popular. Formación: Universidad de Granada. Cargos públicos registrados: diputado de España (2008–2011) · diputado de España (2011–2016) · diputado de España (2016–2016) · diputado de España (2016–2019) · diputado de España (desde 2022). Relevos en el cargo: en «diputado de España» sucedió a Pablo Montesinos Aguayo. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27755573.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/%C3%81ngel_Gonz%C3%A1lez_Mu%C3%B1oz",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0121-ap-01-it-01",
+            "apartado_id": "sen-0121-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14624,7 +15831,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=217&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14672,8 +15879,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0122",
@@ -14739,6 +15946,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0122-ap-01-it-00",
             "apartado_id": "sen-0122-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Ángel Pelayo Gordillo Moreno (n. 1962) — político. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q126940959.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q126940959",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0122-ap-01-it-01",
+            "apartado_id": "sen-0122-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14746,7 +15970,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=024&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14776,8 +16000,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0123",
@@ -14844,6 +16068,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0123-ap-01-it-00",
             "apartado_id": "sen-0123-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Miguel Gracia Ferrer (n. 1953, Arén) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: Presidente de la Diputación Provincial de Huesca (desde 2015) · alcalde de Arén (desde 1997) · senador de España (desde 2024) · concejal (desde 1983). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14084347.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14084347",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0123-ap-01-it-01",
+            "apartado_id": "sen-0123-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14851,7 +16092,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=280&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -14899,8 +16140,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0124",
@@ -14967,6 +16208,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0124-ap-01-it-00",
             "apartado_id": "sen-0124-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Mónica Grados Caro (n. 1980). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137608530.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q137608530",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0124-ap-01-it-01",
+            "apartado_id": "sen-0124-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -14974,7 +16232,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=194&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -15022,8 +16280,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0125",
@@ -15127,8 +16385,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0126",
@@ -15250,8 +16508,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0127",
@@ -15373,8 +16631,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0128",
@@ -15441,6 +16699,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0128-ap-01-it-00",
             "apartado_id": "sen-0128-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Fernando Adolfo Gutiérrez Díaz De Otazu (n. 1957, Bilbao) — político, oficial militar. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q64784895.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Fernando_Adolfo_Guti%C3%A9rrez_D%C3%ADaz_de_Otazu",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0128-ap-01-it-01",
+            "apartado_id": "sen-0128-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -15448,7 +16723,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=033&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -15496,8 +16771,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0129",
@@ -15564,6 +16839,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0129-ap-01-it-00",
             "apartado_id": "sen-0129-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Antonio Gutiérrez Limones (n. 1963, Alcalá de Guadaíra) — político, abogado. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Sevilla. Cargos públicos registrados: senador de España · diputado de España (2016–2016) · diputado de España (2016–2019) · alcalde de Alcalá de Guadaíra (1995–2016). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q8201260.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Antonio_Guti%C3%A9rrez_Limones",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0129-ap-01-it-01",
+            "apartado_id": "sen-0129-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -15571,7 +16863,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=041&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -15619,8 +16911,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0130",
@@ -15742,8 +17034,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0131",
@@ -15810,6 +17102,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0131-ap-01-it-00",
             "apartado_id": "sen-0131-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Inmaculada Hernández Rodríguez (n. 1976) — político, alcalde. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137786075.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q137786075",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0131-ap-01-it-01",
+            "apartado_id": "sen-0131-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -15817,7 +17126,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=059&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -15865,8 +17174,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0132",
@@ -15988,8 +17297,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0133",
@@ -16111,8 +17420,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0134",
@@ -16179,6 +17488,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0134-ap-01-it-00",
             "apartado_id": "sen-0134-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Amaro Huelva Betanzos (n. 1973, Huelva) — político. Afiliación política: Partido Socialista Obrero Español. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14084201.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Amaro_Huelva_Betanzos",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0134-ap-01-it-01",
+            "apartado_id": "sen-0134-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -16186,7 +17512,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=142&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -16234,8 +17560,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0135",
@@ -16302,6 +17628,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0135-ap-01-it-00",
             "apartado_id": "sen-0135-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Yolanda Ibarrola De La Fuente (n. 1964, Madrid) — abogado, político. Afiliación política: Partido Popular. Formación: Universidad Complutense de Madrid. Cargos públicos registrados: diputado en la Asamblea de Madrid (desde 2019) · diputado en la Asamblea de Madrid (desde 2021). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q54972842.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Yolanda_Ibarrola",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0135-ap-01-it-01",
+            "apartado_id": "sen-0135-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -16309,7 +17652,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=005&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -16357,8 +17700,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0136",
@@ -16425,6 +17768,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0136-ap-01-it-00",
             "apartado_id": "sen-0136-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Javier Izquierdo Roncero (n. 1970, Mieres) — político, arquitecto. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Valladolid. Cargos públicos registrados: diputado de España (desde 2019) · diputado de España (2019–2020) · procurador en las Cortes de Castilla y León (2015–2018). Relevos en el cargo: en «diputado de España» fue sucedido por Julio del Valle de Íscar. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q66663437.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Javier_Izquierdo_Roncero",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0136-ap-01-it-01",
+            "apartado_id": "sen-0136-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -16432,7 +17792,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=082&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -16462,8 +17822,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0137",
@@ -16585,8 +17945,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0138",
@@ -16708,8 +18068,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0139",
@@ -16776,6 +18136,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0139-ap-01-it-00",
             "apartado_id": "sen-0139-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Javier Lacalle Lacalle (n. 1969, Burgos) — político. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Burgos. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5927879.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Javier_Lacalle",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0139-ap-01-it-01",
+            "apartado_id": "sen-0139-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -16783,7 +18160,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=144&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -16831,8 +18208,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0140",
@@ -16899,6 +18276,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0140-ap-01-it-00",
             "apartado_id": "sen-0140-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Javier Lambán Montañés (n. 1957, Ejea de los Caballeros) — político. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Barcelona, Universidad de Zaragoza. Cargos públicos registrados: alcalde de Ejea de los Caballeros (2007–2014) · diputado en las Cortes de Aragón (2011–2015) · Presidente del Gobierno de Aragón (2015–2023) · presidente de la Diputación Provincial de Zaragoza (1999–2011) · diputado en las Cortes de Aragón (2015–2023) · senador de España (2023–2025). Relevos en el cargo: en «alcalde de Ejea de los Caballeros» fue sucedido por Teresa Ladrero; en «Presidente del Gobierno de Aragón» sucedió a Luisa Fernanda Rudi; en «Presidente del Gobierno de Aragón» fue sucedido por Jorge Azcón Navarro; en «presidente de la Diputación Provincial de Zaragoza» sucedió a José Ignacio Senao Gómez; en «presidente de la Diputación Provincial de Zaragoza» fue sucedido por Luis María Beamonte. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5927882.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Javier_Lamb%C3%A1n",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0140-ap-01-it-01",
+            "apartado_id": "sen-0140-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -16906,7 +18300,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=271&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -16936,8 +18330,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0141",
@@ -17004,6 +18398,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0141-ap-01-it-00",
             "apartado_id": "sen-0141-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Ignacio Landaluce Calleja (n. 1908, Logroño) — cirujano. Afiliación política: Partido Popular. Formación: Universidad de Granada. Cargos públicos registrados: diputado de España (2000–2004) · diputado de España (2008–2011) · diputado de España (2011–2015). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5940537.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Ignacio_Landaluce",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0141-ap-01-it-01",
+            "apartado_id": "sen-0141-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -17011,7 +18422,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=085&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -17059,8 +18470,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0142",
@@ -17182,8 +18593,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0143",
@@ -17305,8 +18716,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0144",
@@ -17428,8 +18839,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0145",
@@ -17496,6 +18907,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0145-ap-01-it-00",
             "apartado_id": "sen-0145-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Del Carmen Leyte Coello (n. 1953, Vigo) — político, médico. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Cartelle (1991–2017) · representante de la Asamblea Parlamentaria del Consejo de Europa (desde 2018). Relevos en el cargo: en «alcalde de Cartelle» sucedió a Aurelio López Fernández; en «alcalde de Cartelle» fue sucedido por Jaime Sousa. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q12385390.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Carmen_Leyte",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0145-ap-01-it-01",
+            "apartado_id": "sen-0145-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -17503,7 +18931,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=076&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -17551,8 +18979,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0146",
@@ -17674,8 +19102,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0147",
@@ -17797,8 +19225,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0148",
@@ -17920,8 +19348,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0149",
@@ -17988,6 +19416,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0149-ap-01-it-00",
             "apartado_id": "sen-0149-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Lobato Gandarias (n. 1984, Madrid) — político. Cargos públicos registrados: alcalde de Soto del Real (desde 2015) · diputado en la Asamblea de Madrid (2015–2019) · diputado en la Asamblea de Madrid (desde 2021). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q24068429.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Juan_Lobato",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0149-ap-01-it-01",
+            "apartado_id": "sen-0149-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -17995,7 +19440,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=006&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -18043,8 +19488,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0150",
@@ -18166,8 +19611,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0151",
@@ -18289,8 +19734,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0152",
@@ -18357,6 +19802,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0152-ap-01-it-00",
             "apartado_id": "sen-0152-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Carmen Belén López Zapata (n. 1978) — político. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q124691144.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q124691144",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0152-ap-01-it-01",
+            "apartado_id": "sen-0152-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -18364,7 +19826,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=198&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -18412,8 +19874,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0153",
@@ -18535,8 +19997,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0154",
@@ -18658,8 +20120,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0155",
@@ -18726,6 +20188,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0155-ap-01-it-00",
             "apartado_id": "sen-0155-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Teresa Macías Mateos (n. 1975, Calamonte) — político. Cargos públicos registrados: diputado en la Asamblea de Extremadura (desde 2015). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q51695325.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q51695325",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0155-ap-01-it-01",
+            "apartado_id": "sen-0155-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -18733,7 +20212,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=036&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -18781,8 +20260,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0156",
@@ -18849,6 +20328,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0156-ap-01-it-00",
             "apartado_id": "sen-0156-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Antonio Magdaleno Alegría (n. 1976, Pamplona) — político. Afiliación política: Partido Socialista Obrero Español. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q66384897.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Antonio_Magdaleno_Alegr%C3%ADa",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0156-ap-01-it-01",
+            "apartado_id": "sen-0156-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -18856,7 +20352,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=111&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -18904,8 +20400,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0157",
@@ -18972,6 +20468,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0157-ap-01-it-00",
             "apartado_id": "sen-0157-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Teresa Mallada De Castro (n. 1973, Aller) — político, ingeniero de minas. Afiliación política: Partido Popular. Formación: Universidad de Oviedo. Cargos públicos registrados: Concejal en el Ayuntamiento de Aller (1999–2011) · Presidenta del Partido Popular de Aller (2000–2011) · diputado de la Junta General del Principado de Asturias (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q50379623.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Teresa_Mallada",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0157-ap-01-it-01",
+            "apartado_id": "sen-0157-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -18979,7 +20492,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=055&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19027,8 +20540,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0158",
@@ -19095,6 +20608,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0158-ap-01-it-00",
             "apartado_id": "sen-0158-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Amparo Marco Gual (n. 1968, Castellón de la Plana) — político, economista, profesor. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad Jaume I, Universidad de Valencia. Cargos públicos registrados: alcalde de Castellón de la Plana (2015–2023) · diputado en las Cortes Valencianas (2003–2011) · concejal del Ayuntamiento de Castellón de la Plana (2011–2023) · diputado provincial de Castellón (2011–2015) · senador de España (desde 2023). Relevos en el cargo: en «alcalde de Castellón de la Plana» sucedió a Alfonso Bataller; en «alcalde de Castellón de la Plana» fue sucedido por Begoña Carrasco García. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q20994748.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Amparo_Marco",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0158-ap-01-it-01",
+            "apartado_id": "sen-0158-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19102,7 +20632,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=219&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19150,8 +20680,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0159",
@@ -19218,6 +20748,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0159-ap-01-it-00",
             "apartado_id": "sen-0159-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Dolores Marcos Moyano (n. 1957) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2015–2016) · diputado de España (2016–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27756026.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Dolores_Marcos_Moyano",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0159-ap-01-it-01",
+            "apartado_id": "sen-0159-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19225,7 +20772,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=089&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19273,8 +20820,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0160",
@@ -19341,6 +20888,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0160-ap-01-it-00",
             "apartado_id": "sen-0160-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Núria Marín Martínez (n. 1963, Hospitalet de Llobregat) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: alcalde de Hospitalet de Llobregat (2008–2024) · concejal del Ayuntamiento de Hospitalet de Llobregat (1995–2024) · presidente de la Diputación Provincial de Barcelona (2019–2023) · diputado provincial de Barcelona (2011–2014) · Presidente del PSC (2019–2021) · diputado provincial de Barcelona (2015–2019) · diputado provincial de Barcelona (2019–2023) · senador de España (2023–2024) · senador de España (2024–2024) · delegado del Gobierno de la Generalitat en Madrid (desde 2024). Relevos en el cargo: en «alcalde de Hospitalet de Llobregat» sucedió a Celestino Corbacho; en «alcalde de Hospitalet de Llobregat» fue sucedido por David Quirós Brito; en «presidente de la Diputación Provincial de Barcelona» sucedió a Marc Castells i Berzosa; en «presidente de la Diputación Provincial de Barcelona» fue sucedido por Lluïsa Moret; en «Presidente del PSC» sucedió a Àngel Ros; en «Presidente del PSC» fue sucedido por Miquel Iceta. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q2329526.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/N%C3%BAria_Mar%C3%ADn_Mart%C3%ADnez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0160-ap-01-it-01",
+            "apartado_id": "sen-0160-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19348,7 +20912,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=289&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19378,8 +20942,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0161",
@@ -19446,6 +21010,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0161-ap-01-it-00",
             "apartado_id": "sen-0161-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Javier Ignacio Maroto Aranzábal (n. 1972, Vitoria) — político, economista. Afiliación política: Partido Popular. Formación: Universidad de Deusto, Universidad de Navarra. Cargos públicos registrados: alcalde de Vitoria (2011–2015) · diputado de España (2016–2019) · diputado del Parlamento Vasco (2012–2015) · concejal del Ayuntamiento de Vitoria (1999–2016). Relevos en el cargo: en «alcalde de Vitoria» sucedió a Patxi Lazcoz; en «alcalde de Vitoria» fue sucedido por Gorka Urtaran; en «diputado de España» sucedió a Alfonso Alonso; en «diputado del Parlamento Vasco» fue sucedido por Javier Ruiz de Arbulo Cerio. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q636917.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Javier_Maroto",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0161-ap-01-it-01",
+            "apartado_id": "sen-0161-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19453,7 +21034,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=004&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19501,8 +21082,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0162",
@@ -19569,6 +21150,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0162-ap-01-it-00",
             "apartado_id": "sen-0162-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Susana Marqués Escoín (n. 2000) — político. Cargos públicos registrados: alcalde. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14063303.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14063303",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0162-ap-01-it-01",
+            "apartado_id": "sen-0162-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19576,7 +21174,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=094&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19624,8 +21222,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0163",
@@ -19692,6 +21290,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0163-ap-01-it-00",
             "apartado_id": "sen-0163-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Cristóbal Marqués Palliser (n. 1984, Mahón) — político. Afiliación política: Partido Popular. Formación: Universidad de Barcelona. Cargos públicos registrados: concejal en el Ayuntamiento de Alayor (2015–2023) · senador de España (desde 2020). Relevos en el cargo: en «senador de España» sucedió a Jorge López Ravanals. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q119998578.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Crist%C3%B3bal_Marqu%C3%A9s_Palliser",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0163-ap-01-it-01",
+            "apartado_id": "sen-0163-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19699,7 +21314,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=166&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19747,8 +21362,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0164",
@@ -19815,6 +21430,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0164-ap-01-it-00",
             "apartado_id": "sen-0164-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Francisco Javier Márquez Sánchez (n. 1971, Jaén) — político, abogado. Afiliación política: Partido Popular. Formación: Universidad de Jaén. Cargos públicos registrados: alcalde de Jaén (desde 2015). Relevos en el cargo: en «alcalde de Jaén» sucedió a José Enrique Fernández de Moya Romero. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q21403355.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Francisco_Javier_M%C3%A1rquez_S%C3%A1nchez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0164-ap-01-it-01",
+            "apartado_id": "sen-0164-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19822,7 +21454,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=222&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19870,8 +21502,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0165",
@@ -19938,6 +21570,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0165-ap-01-it-00",
             "apartado_id": "sen-0165-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Pedro Manuel Martín Domínguez (n. 1965, Guía de Isora) — político. Afiliación política: Partido Socialista Obrero Español. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14108851.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Pedro_Mart%C3%ADn",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0165-ap-01-it-01",
+            "apartado_id": "sen-0165-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -19945,7 +21594,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=147&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -19993,8 +21642,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0166",
@@ -20116,8 +21765,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0167",
@@ -20184,6 +21833,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0167-ap-01-it-00",
             "apartado_id": "sen-0167-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Pablo Martín Martín (n. 1977) — político. Cargos públicos registrados: alcalde de Sotillo de la Adrada · diputado provincial de Ávila. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14031578.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14031578",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0167-ap-01-it-01",
+            "apartado_id": "sen-0167-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -20191,7 +21857,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=165&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -20239,8 +21905,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0168",
@@ -20307,6 +21973,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0168-ap-01-it-00",
             "apartado_id": "sen-0168-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Paloma Martín Martín (n. 1970, Madrid) — político, abogado, asesor político. Formación: Universidad Complutense de Madrid, Universidad Rey Juan Carlos. Cargos públicos registrados: diputado en la Asamblea de Madrid (2003–2003) · consejero de Medio Ambiente, Ordenación del Territorio y Sostenibilidad de la Comunidad de Madrid (desde 2019) · diputado en la Asamblea de Madrid (2003–2007) · diputado en la Asamblea de Madrid (2007–2007) · diputado en la Asamblea de Madrid (desde 2021). Relevos en el cargo: en «consejero de Medio Ambiente, Ordenación del Territorio y Sostenibilidad de la Comunidad de Madrid» sucedió a Carlos Izquierdo Torres; en «diputado en la Asamblea de Madrid» fue sucedido por Alicia Delibes Liniers. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q77329353.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q77329353",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0168-ap-01-it-01",
+            "apartado_id": "sen-0168-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -20314,7 +21997,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=259&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -20362,8 +22045,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0169",
@@ -20485,8 +22168,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0170",
@@ -20553,6 +22236,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0170-ap-01-it-00",
             "apartado_id": "sen-0170-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jorge Domingo Martínez Antolín (n. 1961) — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (2012–2015) · procurador en las Cortes de Castilla y León (2015–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14098655.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14098655",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0170-ap-01-it-01",
+            "apartado_id": "sen-0170-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -20560,7 +22260,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=177&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -20608,8 +22308,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0171",
@@ -20676,6 +22376,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0171-ap-01-it-00",
             "apartado_id": "sen-0171-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Araceli Martínez Esteban (n. 1974, Guadalajara) — político. Cargos públicos registrados: concejal del Ayuntamiento de Guadalajara (2003–2007) · diputado en las Cortes de Castilla-La Mancha (2007–2011) · diputado en las Cortes de Castilla-La Mancha (2015–2015) · concejal del Ayuntamiento de Guadalajara (2011–2015). Relevos en el cargo: en «diputado en las Cortes de Castilla-La Mancha» fue sucedido por José Luis Escudero. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q58619654.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Araceli_Mart%C3%ADnez_Esteban",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0171-ap-01-it-01",
+            "apartado_id": "sen-0171-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -20683,7 +22400,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=229&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -20731,8 +22448,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0172",
@@ -20799,6 +22516,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0172-ap-01-it-00",
             "apartado_id": "sen-0172-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Vicente Martínez Mus (n. 1970, Chilches) — político, abogado. Afiliación política: Partido Popular de la Comunidad Valenciana. Formación: Universidad de Valencia, Universidad CEU San Pablo. Cargos públicos registrados: alcalde de Chilches (2011–2015) · senador de España (2019–2023). Relevos en el cargo: en «senador de España» fue sucedido por Carmina Ballester Feliu; en «el cargo» sucedió a Salomé Pradas Ten; en «el cargo» fue sucedido por Vicente Martínez Mus; en «el cargo» sucedió a Vicente Martínez Mus; en «el cargo» sucedió a Francisco José Gan Pampols. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14063878.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14063878",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0172-ap-01-it-01",
+            "apartado_id": "sen-0172-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -20806,7 +22540,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=088&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -20836,8 +22570,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0173",
@@ -20904,6 +22638,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0173-ap-01-it-00",
             "apartado_id": "sen-0173-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Antonio Martínez Rodríguez (n. 1916, Galicia) — médico, político. Cargos públicos registrados: alcalde de Monforte de Lemos (1970–1977). Relevos en el cargo: en «alcalde de Monforte de Lemos» sucedió a Guillermo Fernández Otero. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q53865324.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q53865324",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0173-ap-01-it-01",
+            "apartado_id": "sen-0173-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -20911,7 +22662,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=068&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -20959,8 +22710,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0174",
@@ -21027,6 +22778,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0174-ap-01-it-00",
             "apartado_id": "sen-0174-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Ana Martínez Zaragoza (n. 1981). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q138080669.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q138080669",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0174-ap-01-it-01",
+            "apartado_id": "sen-0174-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -21034,7 +22802,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=199&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -21082,8 +22850,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0175",
@@ -21150,6 +22918,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0175-ap-01-it-00",
             "apartado_id": "sen-0175-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Fernando Martínez-maíllo Toribio (n. 1969, Zamora) — político, abogado. Afiliación política: Partido Popular. Formación: Universidad de Salamanca, Universidad Nacional de Educación a Distancia. Cargos públicos registrados: diputado de España (2000–2004) · diputado de España (2016–2016) · diputado de España (2016–2019) · presidente de la Diputación Provincial de Zamora (2003–2015). Relevos en el cargo: en «diputado de España» sucedió a José Folgado. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5859866.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Fernando_Mart%C3%ADnez-Ma%C3%ADllo",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0175-ap-01-it-01",
+            "apartado_id": "sen-0175-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -21157,7 +22942,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=233&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -21205,8 +22990,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0176",
@@ -21273,6 +23058,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0176-ap-01-it-00",
             "apartado_id": "sen-0176-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Luis Martínez-portillo Subero (n. 1960, Calahorra) — político. Cargos públicos registrados: diputado en el Parlamento de La Rioja (1995–1999) · diputado en el Parlamento de La Rioja (1999–2003) · diputado en el Parlamento de La Rioja (2011–2015). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q115043406.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q115043406",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0176-ap-01-it-01",
+            "apartado_id": "sen-0176-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -21280,7 +23082,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=188&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -21328,8 +23130,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0177",
@@ -21396,6 +23198,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0177-ap-01-it-00",
             "apartado_id": "sen-0177-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan José Matarí Sáez (n. 1959, Almería) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2000–2004) · diputado de España (2004–2008) · diputado de España (2008–2011) · diputado de España (2011–2016) · diputado de España (2016–2016) · diputado de España (2016–2019) · diputado de España (desde 2019) · representante de la Asamblea Parlamentaria del Consejo de Europa (desde 2017). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27755511.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Juan_Jos%C3%A9_Matar%C3%AD",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0177-ap-01-it-01",
+            "apartado_id": "sen-0177-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -21403,7 +23222,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=213&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -21451,8 +23270,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0178",
@@ -21574,8 +23393,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0179",
@@ -21697,8 +23516,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0180",
@@ -21765,6 +23584,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0180-ap-01-it-00",
             "apartado_id": "sen-0180-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Nuria Medina Santos (n. 1978) — político. Afiliación política: Partido Socialista de Navarra-PSOE. Cargos públicos registrados: miembro del Parlamento de Navarra (2019–2023) · miembro del Parlamento de Navarra (2015–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q117804738.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q117804738",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0180-ap-01-it-01",
+            "apartado_id": "sen-0180-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -21772,7 +23608,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=107&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -21820,8 +23656,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0181",
@@ -21888,6 +23724,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0181-ap-01-it-00",
             "apartado_id": "sen-0181-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Luis Menor Pérez (n. 1964, Pereiro de Aguiar) — político, funcionario. Afiliación política: Partido Popular. Formación: Universidad de Santiago de Compostela, Universidad Nacional de Educación a Distancia. Cargos públicos registrados: alcalde de Pereiro de Aguiar (desde 2019) · senador de España (2023–2023) · diputado provincial · presidente de la Diputación Provincial de Orense (desde 2023). Relevos en el cargo: en «alcalde de Pereiro de Aguiar» sucedió a Eliseo Fernández Gómez; en «presidente de la Diputación Provincial de Orense» sucedió a José Manuel Baltar Blanco. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q59260460.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Luis_Menor",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0181-ap-01-it-01",
+            "apartado_id": "sen-0181-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -21895,7 +23748,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=161&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -21925,8 +23778,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0182",
@@ -22048,8 +23901,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0183",
@@ -22116,6 +23969,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0183-ap-01-it-00",
             "apartado_id": "sen-0183-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Manuel Mirás Franqueira (n. 1956, Órdenes) — empresario, político. Afiliación política: Partido Socialista Obrero Español, Centro Democrático y Social. Cargos públicos registrados: alcalde de Oroso (1991–1993) · alcalde de Oroso (2002–2021) · senador de España (2021–2023). Relevos en el cargo: en «alcalde de Oroso» fue sucedido por Luís Rey Villaverde. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q12392781.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q12392781",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0183-ap-01-it-01",
+            "apartado_id": "sen-0183-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -22123,7 +23993,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=298&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -22171,8 +24041,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0184",
@@ -22294,8 +24164,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0185",
@@ -22362,6 +24232,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0185-ap-01-it-00",
             "apartado_id": "sen-0185-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Antonio Monago Terraza (n. 1966, Quintana de la Serena) — político, bombero, abogado. Afiliación política: Partido Popular. Formación: Universidad de Cádiz, Universidad de Salamanca, Universidad de Extremadura. Cargos públicos registrados: senador de España · diputado en la Asamblea de Extremadura · Presidente de la Junta de Extremadura. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q3070742.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Antonio_Monago",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0185-ap-01-it-01",
+            "apartado_id": "sen-0185-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -22369,7 +24256,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=157&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -22417,8 +24304,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0186",
@@ -22485,6 +24372,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0186-ap-01-it-00",
             "apartado_id": "sen-0186-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jaime Morales García (n. 1961, Las Palmas de Gran Canaria) — político, docente. Formación: Universidad de Las Palmas de Gran Canaria. Cargos públicos registrados: senador de España (desde 2024). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q131382423.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q131382423",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0186-ap-01-it-01",
+            "apartado_id": "sen-0186-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -22492,7 +24396,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=294&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -22540,8 +24444,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0187",
@@ -22663,8 +24567,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0188",
@@ -22731,6 +24635,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0188-ap-01-it-00",
             "apartado_id": "sen-0188-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Isabel Moreno Duque (n. 1970) — político. Cargos públicos registrados: diputado en la Asamblea de Extremadura. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q47512040.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q47512040",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0188-ap-01-it-01",
+            "apartado_id": "sen-0188-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -22738,7 +24659,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=128&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -22786,8 +24707,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0189",
@@ -22854,6 +24775,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0189-ap-01-it-00",
             "apartado_id": "sen-0189-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Cristina Moreno Fernández (n. 1963, Valencia) — sindicalista, político. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Valencia. Cargos públicos registrados: diputado en las Cortes Valencianas (1999–2015) · senador de España (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q11916119.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q11916119",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0189-ap-01-it-01",
+            "apartado_id": "sen-0189-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -22861,7 +24799,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=129&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -22909,8 +24847,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0190",
@@ -22977,6 +24915,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0190-ap-01-it-00",
             "apartado_id": "sen-0190-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Isabel María Moreno Mohamed (n. 1984, Melilla) — político, abogado. Afiliación política: Partido Popular. Formación: Universidad de Granada. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137794437.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Isabel_Mar%C3%ADa_Moreno_Mohamed",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0190-ap-01-it-01",
+            "apartado_id": "sen-0190-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -22984,7 +24939,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=067&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -23032,8 +24987,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0191",
@@ -23155,8 +25110,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0192",
@@ -23223,6 +25178,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0192-ap-01-it-00",
             "apartado_id": "sen-0192-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Alfonso Carlos Moscoso González (n. 1972, Villaluenga del Rosario) — político. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Cádiz. Cargos públicos registrados: alcalde de Villaluenga del Rosario (desde 1999). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14085457.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Alfonso_Moscoso_Gonz%C3%A1lez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0192-ap-01-it-01",
+            "apartado_id": "sen-0192-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -23230,7 +25202,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=212&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -23278,8 +25250,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0193",
@@ -23346,6 +25318,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0193-ap-01-it-00",
             "apartado_id": "sen-0193-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Antonio Muñoz Martínez (n. 1959, La Rinconada) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: alcalde de Sevilla (2022–2023). Relevos en el cargo: en «alcalde de Sevilla» sucedió a Juan Espadas Cejas; en «alcalde de Sevilla» fue sucedido por José Luis Sanz Ruiz. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q111424756.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Antonio_Mu%C3%B1oz_Mart%C3%ADnez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0193-ap-01-it-01",
+            "apartado_id": "sen-0193-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -23353,7 +25342,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=253&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -23401,8 +25390,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0194",
@@ -23524,8 +25513,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0195",
@@ -23592,6 +25581,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0195-ap-01-it-00",
             "apartado_id": "sen-0195-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Miguel Ángel Nacarino Muriel (n. 1978). Cargos públicos registrados: senador de España. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137995379.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q137995379",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0195-ap-01-it-01",
+            "apartado_id": "sen-0195-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -23599,7 +25605,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=231&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -23647,8 +25653,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0196",
@@ -23770,8 +25776,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0197",
@@ -23838,6 +25844,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0197-ap-01-it-00",
             "apartado_id": "sen-0197-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Australia Navarro De Paz (n. 1961, Las Palmas de Gran Canaria) — político, abogado. Afiliación política: Partido Popular. Formación: Universidad Nacional de Educación a Distancia, Universidad de Las Palmas de Gran Canaria. Cargos públicos registrados: senador de España (2000–2003) · senador de España (2023–2024) · diputado en el Parlamento de Canarias (2003–2003) · diputado en el Parlamento de Canarias (2007–2011) · diputado en el Parlamento de Canarias (2011–2015) · diputado en el Parlamento de Canarias (2015–2019) · diputado en el Parlamento de Canarias (2019–2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q20016417.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Australia_Navarro",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0197-ap-01-it-01",
+            "apartado_id": "sen-0197-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -23845,7 +25868,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=021&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -23875,8 +25898,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0198",
@@ -23998,8 +26021,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0199",
@@ -24121,8 +26144,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0200",
@@ -24189,6 +26212,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0200-ap-01-it-00",
             "apartado_id": "sen-0200-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Dionís Oña Martín — político. Cargos públicos registrados: alcalde de Montornés de Segarra (desde 2019). Relevos en el cargo: en «alcalde de Montornés de Segarra» sucedió a Laura Cortada Cortada. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q86083324.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q86083324",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0200-ap-01-it-01",
+            "apartado_id": "sen-0200-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -24196,7 +26236,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=115&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -24244,8 +26284,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0201",
@@ -24312,6 +26352,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0201-ap-01-it-00",
             "apartado_id": "sen-0201-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María José Ortega Gómez (n. 1965) — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (desde 2022) · procurador en las Cortes de Castilla y León (2019–2022). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14095187.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14095187",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0201-ap-01-it-01",
+            "apartado_id": "sen-0201-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -24319,7 +26376,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=114&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -24367,8 +26424,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0202",
@@ -24435,6 +26492,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0202-ap-01-it-00",
             "apartado_id": "sen-0202-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Eva Ortiz Vilella (n. 1975, Orihuela) — político. Afiliación política: Partido Popular de la Comunidad Valenciana. Cargos públicos registrados: diputado en las Cortes Valencianas (2011–2011) · eurodiputado (2011–2014) · diputado en las Cortes Valencianas (2015–2023) · síndic del Grupo Popular en las Cortes Valencianas (2021–2021) · concejal del Ayuntamiento de Orihuela (2003–2011) · senador de España (desde 2023). Relevos en el cargo: en «diputado en las Cortes Valencianas» fue sucedido por María Pilar Sol Cortés; en «síndic del Grupo Popular en las Cortes Valencianas» sucedió a Isabel Bonig Trigueros; en «síndic del Grupo Popular en las Cortes Valencianas» fue sucedido por María José Català; en «el cargo» sucedió a Isabel Bonig Trigueros; en «el cargo» fue sucedido por María José Català. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q9256481.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Eva_Ortiz_Vilella",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0202-ap-01-it-01",
+            "apartado_id": "sen-0202-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -24442,7 +26516,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=097&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -24490,8 +26564,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0203",
@@ -24613,8 +26687,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0204",
@@ -24681,6 +26755,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0204-ap-01-it-00",
             "apartado_id": "sen-0204-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Maria Teresa Pallarès Piqué (n. 1964, Marsá) — político, profesor, psicopedagogo. Afiliación política: Partido de los Socialistas de Cataluña, Junts per Catalunya. Formación: Universidad de Barcelona. Cargos públicos registrados: concejal del Ayuntamiento de Reus (2003–2008) · diputado en el Parlamento de Cataluña (2018–2020) · subdelegado del Gobierno en Tarragona (2008–2011) · concejal del Ayuntamiento de Reus (2011–2012) · diputado en el Parlamento de Cataluña (2021–2021) · delegado territorial del gobierno en Tarragona (2021–2022) · concejal del Ayuntamiento de Reus (desde 2019) · profesor asociado · senador de España (desde 2024). Relevos en el cargo: en «subdelegado del Gobierno en Tarragona» sucedió a Joan Maria Abelló i Alfonso; en «subdelegado del Gobierno en Tarragona» fue sucedido por Ramón Inglés Queralt; en «diputado en el Parlamento de Cataluña» fue sucedido por Irene Negre Estorach; en «delegado territorial del gobierno en Tarragona» sucedió a Òscar Peris i Ròdenas; en «delegado territorial del gobierno en Tarragona» fue sucedido por Ángel Xifré Arroyo. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q43371415.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q43371415",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0204-ap-01-it-01",
+            "apartado_id": "sen-0204-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -24688,7 +26779,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=288&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -24736,8 +26827,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0205",
@@ -24804,6 +26895,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0205-ap-01-it-00",
             "apartado_id": "sen-0205-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María José Pardo Pumar (n. 1977, Santiago de Compostela) — abogado, político. Afiliación política: Partido Popular de Galicia. Formación: Universidad CEU San Pablo. Cargos públicos registrados: senador de España (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q120886670.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q120886670",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0205-ap-01-it-01",
+            "apartado_id": "sen-0205-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -24811,7 +26919,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=080&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -24859,8 +26967,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0206",
@@ -24982,8 +27090,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0207",
@@ -25050,6 +27158,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0207-ap-01-it-00",
             "apartado_id": "sen-0207-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Del Carmen Pérez Becerra (n. 1982, Sanlúcar de Barrameda) — político. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q124685645.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q124685645",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0207-ap-01-it-01",
+            "apartado_id": "sen-0207-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -25057,7 +27182,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=191&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -25105,8 +27230,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0208",
@@ -25173,6 +27298,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0208-ap-01-it-00",
             "apartado_id": "sen-0208-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Teresa Pérez Esteban (n. 1972, Teruel) — político. Cargos públicos registrados: senador de España (desde 2025). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q70869936.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mayte_P%C3%A9rez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0208-ap-01-it-01",
+            "apartado_id": "sen-0208-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -25180,7 +27322,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=295&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -25210,8 +27352,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0209",
@@ -25333,8 +27475,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0210",
@@ -25456,8 +27598,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0211",
@@ -25579,8 +27721,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0212",
@@ -25647,6 +27789,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0212-ap-01-it-00",
             "apartado_id": "sen-0212-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Jan Pomés López (n. 1996, Cervera) — político. Afiliación política: Partido de los Socialistas de Cataluña. Cargos públicos registrados: alcalde de Cervera (desde 2023) · senador de España (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q119713710.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q119713710",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0212-ap-01-it-01",
+            "apartado_id": "sen-0212-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -25654,7 +27813,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=117&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -25702,8 +27861,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0213",
@@ -25770,6 +27929,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0213-ap-01-it-00",
             "apartado_id": "sen-0213-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Pere Joan Pons Sampietro (n. 1970, Palma de Mallorca) — político, periodista. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad Autónoma de Barcelona, Universidad de Barcelona, Universidad de París-Sur. Cargos públicos registrados: diputado de España (desde 2016) · diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q24050483.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Pere_Joan_Pons",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0213-ap-01-it-01",
+            "apartado_id": "sen-0213-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -25777,7 +27953,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=206&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -25825,8 +28001,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0214",
@@ -25948,8 +28124,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0215",
@@ -26016,6 +28192,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0215-ap-01-it-00",
             "apartado_id": "sen-0215-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Fernando Priego Chacón (n. 1981, Málaga) — político. Afiliación política: Partido Popular. Formación: Universidad de Granada. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5860085.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Fernando_Priego_Chac%C3%B3n",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0215-ap-01-it-01",
+            "apartado_id": "sen-0215-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -26023,7 +28216,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=040&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -26071,8 +28264,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0216",
@@ -26139,6 +28332,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0216-ap-01-it-00",
             "apartado_id": "sen-0216-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Benjamín Prieto Valencia (n. 1975, Cuenca) — político. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Fuentelespino de Haro (desde 1999) · presidente de la Diputación Provincial de Cuenca (desde 2011) · diputado en las Cortes de Castilla-La Mancha (2015–2015). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14071502.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14071502",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0216-ap-01-it-01",
+            "apartado_id": "sen-0216-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -26146,7 +28356,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=131&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -26194,8 +28404,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0217",
@@ -26299,8 +28509,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0218",
@@ -26422,8 +28632,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0219",
@@ -26490,6 +28700,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0219-ap-01-it-00",
             "apartado_id": "sen-0219-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Joan Josep Queralt Jiménez (n. 1951) — jurista, profesor universitario, publicista. Formación: Universidad de Barcelona, Universidad Autónoma de Barcelona. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q82973540.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Joan_Queralt",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0219-ap-01-it-01",
+            "apartado_id": "sen-0219-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -26497,7 +28724,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=225&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -26545,8 +28772,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0220",
@@ -26613,6 +28840,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0220-ap-01-it-00",
             "apartado_id": "sen-0220-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Sergio Ramos Acosta — político, periodista de opinión. Cargos públicos registrados: senador de España (2019–2019) · senador de España (2019–2023) · senador de España (2023–2024). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q131338797.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q131338797",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0220-ap-01-it-01",
+            "apartado_id": "sen-0220-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -26620,7 +28864,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=171&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -26650,8 +28894,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0221",
@@ -26773,8 +29017,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0222",
@@ -26841,6 +29085,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0222-ap-01-it-00",
             "apartado_id": "sen-0222-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Javier Remírez Apesteguía (n. 1975, Pamplona) — abogado, político. Afiliación política: Partido Socialista de Navarra-PSOE. Formación: Universidad de Navarra. Cargos públicos registrados: Vicepresidente del Gobierno de Navarra (2019–2023) · Vicepresidente del Gobierno de Navarra (desde 2026). Relevos en el cargo: en «Vicepresidente del Gobierno de Navarra» sucedió a Manuel Ayerdi Olaizola; en «Vicepresidente del Gobierno de Navarra» fue sucedido por Félix Taberna; en «Vicepresidente del Gobierno de Navarra» sucedió a Félix Taberna. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q5928151.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Javier_Rem%C3%ADrez_Apestegu%C3%ADa",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0222-ap-01-it-01",
+            "apartado_id": "sen-0222-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -26848,7 +29109,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=181&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -26878,8 +29139,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0223",
@@ -26983,8 +29244,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0224",
@@ -27051,6 +29312,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0224-ap-01-it-00",
             "apartado_id": "sen-0224-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Manuel Rey Varela (n. 1975, Ferrol) — político. Afiliación política: Partido Popular. Formación: Universidad de Santiago de Compostela. Cargos públicos registrados: alcalde de Ferrol (2011–2015) · presidente (2011–2015) · consejero de la Junta de Galicia (2015–2018) · alcalde de Ferrol (desde 2023). Relevos en el cargo: en «alcalde de Ferrol» sucedió a Vicente Luis Irisarri Castro; en «alcalde de Ferrol» fue sucedido por Jorge Juan Suárez Fernández; en «presidente» sucedió a Carlos Fernández Castro; en «presidente» fue sucedido por Alfredo Laudelino García Rodríguez; en «consejero de la Junta de Galicia» sucedió a Rocío Mosquera; en «consejero de la Junta de Galicia» fue sucedido por Fabiola García. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q3329568.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Jos%C3%A9_Manuel_Rey_Varela",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0224-ap-01-it-01",
+            "apartado_id": "sen-0224-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -27058,7 +29336,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=195&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -27106,8 +29384,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0225",
@@ -27174,6 +29452,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0225-ap-01-it-00",
             "apartado_id": "sen-0225-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Carmen Riolobos Regadera (n. 1953, El Torno) — político. Afiliación política: Partido Popular. Cargos públicos registrados: concejal del Ayuntamiento de Talavera de la Reina · diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28502373.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Carmen_Riolobos_Regadera",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0225-ap-01-it-01",
+            "apartado_id": "sen-0225-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -27181,7 +29476,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=027&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -27229,8 +29524,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0226",
@@ -27352,8 +29647,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0227",
@@ -27420,6 +29715,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0227-ap-01-it-00",
             "apartado_id": "sen-0227-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Gonzalo Jesús Robles Orozco (n. 1959, Madrid) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (1986–1989) · diputado de España (1989–1993) · diputado de España (1993–1996) · diputado de España (1996–1996) · diputado de España (2000–2000) · diputado de España (2004–2008) · diputado de España (2008–2011) · diputado de España (2011–2012). Relevos en el cargo: en «diputado de España» fue sucedido por Francisco Javier Iglesias García; en «diputado de España» fue sucedido por María Teresa Cobaleda Hernández. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q30117955.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Gonzalo_Robles_Orozco",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0227-ap-01-it-01",
+            "apartado_id": "sen-0227-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -27427,7 +29739,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=158&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -27475,8 +29787,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0228",
@@ -27543,6 +29855,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0228-ap-01-it-00",
             "apartado_id": "sen-0228-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Manuel Rodríguez González. Cargos públicos registrados: senador de España. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137995290.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q137995290",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0228-ap-01-it-01",
+            "apartado_id": "sen-0228-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -27550,7 +29879,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=269&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -27598,8 +29927,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0229",
@@ -27666,6 +29995,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0229-ap-01-it-00",
             "apartado_id": "sen-0229-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Rafael Rodríguez Villarino (n. 1965, Orense) — político, psicólogo, escritor. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: alcalde de Amoeiro (2007–2019). Relevos en el cargo: en «alcalde de Amoeiro» fue sucedido por José Luis González López. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14093046.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14093046",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0229-ap-01-it-01",
+            "apartado_id": "sen-0229-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -27673,7 +30019,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=130&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -27721,8 +30067,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0230",
@@ -27789,6 +30135,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0230-ap-01-it-00",
             "apartado_id": "sen-0230-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Luis Rogelio Rodríguez-comendador Pérez (n. 1959, Madrid) — político. Afiliación política: Partido Popular. Formación: Universidad de Granada. Cargos públicos registrados: diputado en el Parlamento de Andalucía · senador de España. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q2223499.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Luis_Rogelio_Rodr%C3%ADguez-Comendador",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0230-ap-01-it-01",
+            "apartado_id": "sen-0230-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -27796,7 +30159,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=192&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -27844,8 +30207,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0231",
@@ -27967,8 +30330,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0232",
@@ -28035,6 +30398,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0232-ap-01-it-00",
             "apartado_id": "sen-0232-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Lorena Roldán Suárez (n. 1981, Tarragona) — político, abogado. Afiliación política: Ciudadanos, Partido Popular. Formación: Universidad Rovira i Virgili. Cargos públicos registrados: diputado en el Parlamento de Cataluña (2015–2017) · concejal del Ayuntamiento de Tarragona (2015–2016) · diputado en el Parlamento de Cataluña (2018–2021) · senador de España (2018–2021) · senador de España (2019–2019) · senador de España (2016–2019) · diputado en el Parlamento de Cataluña (desde 2021) · senador de España (2024–2025). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q20725437.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Lorena_Rold%C3%A1n",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0232-ap-01-it-01",
+            "apartado_id": "sen-0232-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -28042,7 +30422,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=285&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -28072,8 +30452,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0233",
@@ -28195,8 +30575,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0234",
@@ -28318,8 +30698,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0235",
@@ -28386,6 +30766,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0235-ap-01-it-00",
             "apartado_id": "sen-0235-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Carmelo Romero Hernández (n. 1958, Palos de la Frontera) — político. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2011–2015) · diputado de España (2016–2016) · diputado de España (desde 2016) · diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14084185.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Carmelo_Romero",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0235-ap-01-it-01",
+            "apartado_id": "sen-0235-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -28393,7 +30790,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=058&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -28441,8 +30838,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0236",
@@ -28564,8 +30961,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0237",
@@ -28632,6 +31029,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0237-ap-01-it-00",
             "apartado_id": "sen-0237-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Miguel Ángel De La Rosa Martín — político. Cargos públicos registrados: diputado de España (2007–2008). Relevos en el cargo: en «diputado de España» sucedió a Vicente Tirado Ochoa. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q44588340.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q44588340",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0237-ap-01-it-01",
+            "apartado_id": "sen-0237-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -28639,7 +31053,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=264&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -28687,8 +31101,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0238",
@@ -28810,8 +31224,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0239",
@@ -28933,8 +31347,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0240",
@@ -29001,6 +31415,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0240-ap-01-it-00",
             "apartado_id": "sen-0240-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Luisa Fernanda Rudi Úbeda (n. 1950, Sevilla) — político. Afiliación política: Partido Popular, Alianza Popular. Formación: Universidad de Zaragoza. Cargos públicos registrados: Presidente del Gobierno de Aragón (2011–2015) · diputado en las Cortes de Aragón (1983–1986) · senador de España (2015–2023) · alcalde de Zaragoza (1995–2000) · diputado de España (1989–1993) · diputado de España (1993–1996) · diputado de España (1986–1989) · diputado de España (2000–2004) · diputado de España (2004–2004) · diputado de España (2008–2011) · concejal del Ayuntamiento de Zaragoza (1995–2000) · eurodiputado (2004–2008) · presidente del Congreso de los Diputados (2000–2004) · diputado en las Cortes de Aragón (2011–2015). Relevos en el cargo: en «Presidente del Gobierno de Aragón» sucedió a Marcelino Iglesias Ricou; en «Presidente del Gobierno de Aragón» fue sucedido por Javier Lambán; en «alcalde de Zaragoza» fue sucedido por José Atarés; en «diputado de España» fue sucedido por Verónica Lope Fontagne; en «diputado de España» fue sucedido por Alejandro de la Mata Menéndez; en «presidente del Congreso de los Diputados» sucedió a Federico Trillo. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q2746850.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Luisa_Fernanda_Rudi",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0240-ap-01-it-01",
+            "apartado_id": "sen-0240-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -29008,7 +31439,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=032&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -29056,8 +31487,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0241",
@@ -29124,6 +31555,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0241-ap-01-it-00",
             "apartado_id": "sen-0241-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Enrique Ruiz Escudero (n. 1967, Madrid) — Medico, político. Afiliación política: Partido Demócrata Español, Partido Popular. Formación: Universidad Complutense de Madrid. Cargos públicos registrados: consejero de Sanidad de la Comunidad de Madrid (desde 2017) · diputado en la Asamblea de Madrid (2007–2011) · diputado en la Asamblea de Madrid (2011–2015) · viceconsejero de Presidencia y Justicia de la Comunidad de Madrid (2015–2017) · diputado en la Asamblea de Madrid (desde 2021). Relevos en el cargo: en «consejero de Sanidad de la Comunidad de Madrid» sucedió a Jesús Sánchez Martos; en «viceconsejero de Presidencia y Justicia de la Comunidad de Madrid» fue sucedido por Isabel Díaz Ayuso. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q48033764.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Enrique_Ruiz_Escudero",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0241-ap-01-it-01",
+            "apartado_id": "sen-0241-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -29131,7 +31579,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=001&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -29179,8 +31627,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0242",
@@ -29247,6 +31695,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0242-ap-01-it-00",
             "apartado_id": "sen-0242-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Manuel Santos Ruiz Rivas (n. 1957, Ribeira) — político. Cargos públicos registrados: alcalde de Ribeira (2011–2023) · senador de España (desde 2023). Relevos en el cargo: en «alcalde de Ribeira» sucedió a José Luis Torres Colomer; en «alcalde de Ribeira» fue sucedido por Luís Pérez Barral. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q12392824.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q12392824",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0242-ap-01-it-01",
+            "apartado_id": "sen-0242-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -29254,7 +31719,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=061&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -29302,8 +31767,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0243",
@@ -29425,8 +31890,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0244",
@@ -29548,8 +32013,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0245",
@@ -29671,8 +32136,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0246",
@@ -29739,6 +32204,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0246-ap-01-it-00",
             "apartado_id": "sen-0246-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Salom Coll (n. 1967, Inca) — político. Afiliación política: Partido Popular. Formación: Universidad de las Islas Baleares, Fundació Universitat-Empresa de les Illes Balears. Cargos públicos registrados: diputado de España (2004–2008) · diputado de España (2008–2011) · delegado del Gobierno en las Islas Baleares (2016–2018) · Presidente del Consejo Insular de Mallorca (2011–2015) · presidente (1992–1995) · concejal del Ayuntamiento de Inca (2003–2007) · diputado del Parlamento de las Islas Baleares (1991–2004) · diputado del Parlamento de las Islas Baleares (2011–2016) · secretario (1995–1999) · vicepresidente (2012–2017) · Vicepresidente segundo del Parlamento de las Islas Baleares (2015–2016) · senador de España (desde 2019). Relevos en el cargo: en «diputado de España» fue sucedido por Carme Feliu Álvarez de Sotomayor; en «delegado del Gobierno en las Islas Baleares» sucedió a Teresa Palmer Tous; en «delegado del Gobierno en las Islas Baleares» fue sucedido por Rosario Sánchez Garau; en «Presidente del Consejo Insular de Mallorca» sucedió a Francina Armengol; en «Presidente del Consejo Insular de Mallorca» fue sucedido por Miquel Ensenyat Riutort; en «diputado del Parlamento de las Islas Baleares» fue sucedido por Eduardo Puche Castillejo. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q9028882.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Mar%C3%ADa_Salom",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0246-ap-01-it-01",
+            "apartado_id": "sen-0246-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -29746,7 +32228,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=133&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -29794,8 +32276,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0247",
@@ -29917,8 +32399,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0248",
@@ -30022,8 +32504,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0249",
@@ -30145,8 +32627,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0250",
@@ -30268,8 +32750,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0251",
@@ -30336,6 +32818,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0251-ap-01-it-00",
             "apartado_id": "sen-0251-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Héctor Sánchez Mira (n. 1978) — político. Formación: Universidad de Gerona. Cargos públicos registrados: secretario general (desde 2020) · coordinador (desde 2019) · senador de España (desde 2023). Relevos en el cargo: en «senador de España» sucedió a Adelina Escandell Grases. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q100697789.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q100697789",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0251-ap-01-it-01",
+            "apartado_id": "sen-0251-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -30343,7 +32842,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=265&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -30373,8 +32872,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0252",
@@ -30478,8 +32977,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0253",
@@ -30546,6 +33045,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0253-ap-01-it-00",
             "apartado_id": "sen-0253-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Inmaculada Sánchez Roca (n. 1986). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q138611142.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q138611142",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0253-ap-01-it-01",
+            "apartado_id": "sen-0253-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -30553,7 +33069,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=247&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -30601,8 +33117,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0254",
@@ -30669,6 +33185,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0254-ap-01-it-00",
             "apartado_id": "sen-0254-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Kilian Sánchez San Juan (n. 1991). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q138542056.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q138542056",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0254-ap-01-it-01",
+            "apartado_id": "sen-0254-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -30676,7 +33209,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=202&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -30724,8 +33257,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0255",
@@ -30791,6 +33324,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0255-ap-01-it-00",
             "apartado_id": "sen-0255-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Clemente Sánchez-garnica Gómez (n. 1958, Madrid) — abogado, político. Afiliación política: Partido Aragonés. Formación: Universidad de Zaragoza. Cargos públicos registrados: Partido Aragonés (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q117193959.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Clemente_S%C3%A1nchez-Garnica",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0255-ap-01-it-01",
+            "apartado_id": "sen-0255-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -30798,7 +33348,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=249&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -30828,8 +33378,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0256",
@@ -30951,8 +33501,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0257",
@@ -31074,8 +33624,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0258",
@@ -31197,8 +33747,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0259",
@@ -31265,6 +33815,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0259-ap-01-it-00",
             "apartado_id": "sen-0259-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Paloma Inés Sanz Jerónimo (n. 1960, Segovia) — político. Afiliación política: Partido Popular. Cargos públicos registrados: procurador en las Cortes de Castilla y León (2003–2007) · procurador en las Cortes de Castilla y León (2007–2011) · procurador en las Cortes de Castilla y León (2011–2011). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q28952251.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q28952251",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0259-ap-01-it-01",
+            "apartado_id": "sen-0259-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -31272,7 +33839,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=103&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -31320,8 +33887,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0260",
@@ -31388,6 +33955,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0260-ap-01-it-00",
             "apartado_id": "sen-0260-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan José Sanz Vitorio — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (2000–2003) · procurador en las Cortes de Castilla y León (2003–2007) · procurador en las Cortes de Castilla y León (2007–2011) · procurador en las Cortes de Castilla y León (2011–2015) · procurador en las Cortes de Castilla y León (2015–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q111542051.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q111542051",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0260-ap-01-it-01",
+            "apartado_id": "sen-0260-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -31395,7 +33979,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=046&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -31443,8 +34027,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0261",
@@ -31511,6 +34095,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0261-ap-01-it-00",
             "apartado_id": "sen-0261-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Arenales Serrano Argüello (n. 1963, provincia de Valladolid) — político. Afiliación política: Partido Popular. Formación: Universidad de Valladolid. Cargos públicos registrados: diputado de España (2011–2015) · procurador en las Cortes de Castilla y León (1999–2003) · procurador en las Cortes de Castilla y León (2003–2007) · procurador en las Cortes de Castilla y León (2007–2011). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q24561714.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Arenales_Serrano",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0261-ap-01-it-01",
+            "apartado_id": "sen-0261-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -31518,7 +34119,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=083&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -31566,8 +34167,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0262",
@@ -31634,6 +34235,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0262-ap-01-it-00",
             "apartado_id": "sen-0262-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Juan Carlos Serrano López (n. 1965, Puertomarín) — político, empresario. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Puertomarín (2011–2021) · senador de España (2021–2022). Relevos en el cargo: en «alcalde de Puertomarín» sucedió a Silvia Rodríguez Díaz; en «alcalde de Puertomarín» fue sucedido por Pablo Rivas Folgueira. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q12391217.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q12391217",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0262-ap-01-it-01",
+            "apartado_id": "sen-0262-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -31641,7 +34259,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=153&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -31689,8 +34307,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0263",
@@ -31812,8 +34430,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0264",
@@ -31880,6 +34498,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0264-ap-01-it-00",
             "apartado_id": "sen-0264-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Rosa María Serrano Sierra (n. 1969, Zaragoza) — político. Afiliación política: Partido Socialista Obrero Español. Cargos públicos registrados: Delegado del Gobierno en la Comunidad Autónoma de Aragón (2021–2023) · concejal del Ayuntamiento de Huesca (2019–2021) · senador de España (2019–2021) · senador de España (2023–2024) · senador de España (2019–2019) · eurodiputado (desde 2024). Relevos en el cargo: en «Delegado del Gobierno en la Comunidad Autónoma de Aragón» sucedió a Pilar Alegría Continente; en «Delegado del Gobierno en la Comunidad Autónoma de Aragón» fue sucedido por Fernando Ángel Beltrán Blázquez. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q111353622.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q111353622",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0264-ap-01-it-01",
+            "apartado_id": "sen-0264-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -31887,7 +34522,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=163&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -31917,8 +34552,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0265",
@@ -31985,6 +34620,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0265-ap-01-it-00",
             "apartado_id": "sen-0265-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Leopoldo Jerónimo Sierra Gallardo (n. 1965) — político. Afiliación política: Partido Popular. Cargos públicos registrados: alcalde de Daimiel (desde 2011) · alcalde de Daimiel (desde 1999) · diputado provincial de Ciudad Real (desde 2105). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14068208.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14068208",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0265-ap-01-it-01",
+            "apartado_id": "sen-0265-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -31992,7 +34644,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=101&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -32040,8 +34692,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0266",
@@ -32163,8 +34815,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0267",
@@ -32286,8 +34938,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0268",
@@ -32354,6 +35006,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0268-ap-01-it-00",
             "apartado_id": "sen-0268-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Antonio Silván Rodríguez — político. Cargos públicos registrados: procurador en las Cortes de Castilla y León (2007–2011) · procurador en las Cortes de Castilla y León (2011–2015) · procurador en las Cortes de Castilla y León (2015–2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q111542458.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q111542458",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0268-ap-01-it-01",
+            "apartado_id": "sen-0268-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -32361,7 +35030,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=042&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -32409,8 +35078,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0269",
@@ -32532,8 +35201,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0270",
@@ -32655,8 +35324,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0271",
@@ -32723,6 +35392,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0271-ap-01-it-00",
             "apartado_id": "sen-0271-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Eloy Suárez Lamata (n. 1962, Tudela) — político. Afiliación política: Partido Popular de Aragón, Partido Popular. Formación: Universidad de Zaragoza. Cargos públicos registrados: diputado en las Cortes de Aragón · diputado de España (2011–2015) · diputado de España (2015–2016) · diputado de España (desde 2016) · concejal del Ayuntamiento de Zaragoza · diputado de España (desde 2019). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q27755620.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Eloy_Su%C3%A1rez",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0271-ap-01-it-01",
+            "apartado_id": "sen-0271-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -32730,7 +35416,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=267&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -32760,8 +35446,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0272",
@@ -32865,8 +35551,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0273",
@@ -32988,8 +35674,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0274",
@@ -33056,6 +35742,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0274-ap-01-it-00",
             "apartado_id": "sen-0274-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Vicente Tirado Ochoa (n. 1963, Miguel Esteban) — político, abogado. Afiliación política: Partido Popular. Cargos públicos registrados: diputado de España (2006–2007) · presidente de las Cortes de Castilla-La Mancha (2011–2015) · senador de España (2000–2004) · diputado en las Cortes de Castilla-La Mancha (desde 2015) · diputado en las Cortes de Castilla-La Mancha (2007–2011) · diputado en las Cortes de Castilla-La Mancha (2011–2015) · diputado provincial de Toledo · concejal del Ayuntamiento de Villafranca de los Caballeros · diputado de España (desde 2019). Relevos en el cargo: en «diputado de España» sucedió a Ana Palacio; en «diputado de España» fue sucedido por Miguel Ángel de la Rosa Martín; en «presidente de las Cortes de Castilla-La Mancha» sucedió a Francisco Pardo Piqueras; en «presidente de las Cortes de Castilla-La Mancha» fue sucedido por Gregorio Jesús Fernández Vaquero. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q44589138.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Vicente_Tirado",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0274-ap-01-it-01",
+            "apartado_id": "sen-0274-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -33063,7 +35766,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=028&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -33111,8 +35814,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0275",
@@ -33234,8 +35937,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0276",
@@ -33302,6 +36005,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0276-ap-01-it-00",
             "apartado_id": "sen-0276-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Carmen Torralba Valiente — político. Cargos públicos registrados: alcalde de Sotorribas · diputado en las Cortes de Castilla-La Mancha (desde 2015). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q14073076.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q14073076",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0276-ap-01-it-01",
+            "apartado_id": "sen-0276-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -33309,7 +36029,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=049&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -33357,8 +36077,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0277",
@@ -33480,8 +36200,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0278",
@@ -33603,8 +36323,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0279",
@@ -33671,6 +36391,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0279-ap-01-it-00",
             "apartado_id": "sen-0279-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Luis Tudanca Fernández (n. 1978, Burgos) — político, jurista. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Burgos. Cargos públicos registrados: diputado de España (2008–2011) · diputado de España (2011–2015) · secretario general del Partido Socialista Obrero Español de Castilla y León (desde 2014) · procurador en las Cortes de Castilla y León (2022–2025) · procurador en las Cortes de Castilla y León (2015–2019) · procurador en las Cortes de Castilla y León (2019–2022) · senador de España (desde 2025). Relevos en el cargo: en «secretario general del Partido Socialista Obrero Español de Castilla y León» sucedió a Julio Villarrubia. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q17987578.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Luis_Tudanca",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0279-ap-01-it-01",
+            "apartado_id": "sen-0279-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -33678,7 +36415,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=297&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -33726,8 +36463,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0280",
@@ -33849,8 +36586,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0281",
@@ -33972,8 +36709,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0282",
@@ -34040,6 +36777,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0282-ap-01-it-00",
             "apartado_id": "sen-0282-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "José Antonio Valbuena Alonso (n. 1973). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q137261991.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q137261991",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0282-ap-01-it-01",
+            "apartado_id": "sen-0282-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -34047,7 +36801,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=022&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -34095,8 +36849,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0283",
@@ -34218,8 +36972,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0284",
@@ -34341,8 +37095,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0285",
@@ -34464,8 +37218,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0286",
@@ -34532,6 +37286,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0286-ap-01-it-00",
             "apartado_id": "sen-0286-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Rosa Faustina Viera Fernández (n. 1966, Las Palmas de Gran Canaria). Afiliación política: Partido Popular. Cargos públicos registrados: senador de España (desde 2024) · Concejal del Ayuntamiento de Las Palmas de Gran Canaria · diputado en el Parlamento de Canarias (2023–2024). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q126721577.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q126721577",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0286-ap-01-it-01",
+            "apartado_id": "sen-0286-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -34539,7 +37310,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=279&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -34587,8 +37358,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0287",
@@ -34710,8 +37481,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0288",
@@ -34833,8 +37604,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0289",
@@ -34956,8 +37727,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0290",
@@ -35079,8 +37850,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0291",
@@ -35147,6 +37918,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0291-ap-01-it-00",
             "apartado_id": "sen-0291-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "María Del Pilar Zamora Bastante (n. 1971, Ciudad Real) — portavoz, político. Afiliación política: Partido Socialista Obrero Español. Formación: Universidad de Castilla-La Mancha. Cargos públicos registrados: alcalde de Ciudad Real. · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q20667931.",
+            "fecha": null,
+            "fuente_url": "https://es.wikipedia.org/wiki/Pilar_Zamora",
+            "fuente_titulo": "Wikipedia (es) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0291-ap-01-it-01",
+            "apartado_id": "sen-0291-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -35154,7 +37942,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=263&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -35202,8 +37990,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   },
   {
     "id": "sen-0292",
@@ -35270,6 +38058,23 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
           {
             "id": "sen-0292-ap-01-it-00",
             "apartado_id": "sen-0292-ap-01",
+            "tipo": "evento",
+            "titulo": "Trayectoria y cargos públicos (datos abiertos)",
+            "contenido": "Mario Zubiaga Garate (n. 1963, Tolosa) — profesor universitario, politólogo. Formación: Universidad del País Vasco. Cargos públicos registrados: senador de España (desde 2023). · Fuente de datos estructurados: Wikidata (CC0). Ficha: https://www.wikidata.org/wiki/Q56507700.",
+            "fecha": null,
+            "fuente_url": "https://www.wikidata.org/wiki/Q56507700",
+            "fuente_titulo": "Wikidata (CC0) · datos públicos verificables",
+            "tags": [
+              "trayectoria",
+              "datos-publicos",
+              "fuente-oficial",
+              "wikidata-enrich"
+            ],
+            "orden": 0
+          },
+          {
+            "id": "sen-0292-ap-01-it-01",
+            "apartado_id": "sen-0292-ap-01",
             "tipo": "dato",
             "titulo": "Biografía (ficha oficial del Senado)",
             "contenido": "Reseña biográfica y trayectoria parlamentaria completas en la ficha oficial del Senado (el Senado no publica la biografía como dato abierto).",
@@ -35277,7 +38082,7 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
             "fuente_url": "https://www.senado.es/web/composicionorganizacion/senadores/composicionsenado/fichasenador/index.html?id1=243&legis=15",
             "fuente_titulo": "Ficha oficial del Senado",
             "tags": [],
-            "orden": 0
+            "orden": 1
           }
         ]
       },
@@ -35325,8 +38130,8 @@ export const SENADO_FIXTURE: DossierCompleto[] = [
         ]
       }
     ],
-    "created_at": "2026-05-29T15:59:23.571095Z",
-    "updated_at": "2026-05-29T15:59:23.571095Z"
+    "created_at": "2026-05-31T08:34:31.338715Z",
+    "updated_at": "2026-05-31T08:34:31.338715Z"
   }
 ]
 

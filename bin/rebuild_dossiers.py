@@ -31,11 +31,13 @@ STEPS: dict[str, list[list[str]]] = {
         ["python3", "bin/gen_congreso.py", "--force"],        # base desde opendata (hornea decls)
         ["python3", "scripts/lideres_nacionales.py"],         # re-aplica bios manuales (p.ej. Feijóo)
         ["python3", "bin/patch_decl_links_congreso.py"],      # decls (idempotente, por si acaso)
+        ["python3", "bin/patch_wikidata_enrich.py", "--source", "congreso"],  # trayectoria/cargos (Wikidata)
         ["python3", "bin/gen_subfixture.py", "--source", "congreso"],
     ],
     "senado": [
         ["python3", "bin/decl_links_senado.py"],              # refresca cache de declaraciones + parchea
         ["python3", "bin/gen_senado.py", "--force"],          # regenera base horneando la cache fresca
+        ["python3", "bin/patch_wikidata_enrich.py", "--source", "senado"],    # trayectoria/cargos (Wikidata)
         ["python3", "bin/gen_subfixture.py", "--source", "senado"],
     ],
 }
