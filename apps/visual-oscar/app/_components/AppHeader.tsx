@@ -12,7 +12,9 @@ export default function AppHeader() {
   return (
  <>
       {/* ── Barra de navegación ── */}
- <nav style={{
+ <nav
+        aria-label="Navegación principal"
+        style={{
         position:'sticky',top:0,zIndex:50,height:44,
         background:'rgba(251,251,253,0.85)',
         backdropFilter:'saturate(180%) blur(20px)',
@@ -22,12 +24,14 @@ export default function AppHeader() {
  <div style={{
           maxWidth:1600,margin:'0 auto',padding:'0 20px',
           display:'flex',alignItems:'center',height:'100%',
-          fontFamily:'var(--font-body,-apple-system,system-ui)',
+          fontFamily:'var(--font-text,-apple-system,system-ui)',
           fontSize:12,
         }}>
  <Link href="/dashboard" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
-            {/* Icono Politeia Analítica — capitel jónico + barras */}
- <svg width="20" height="18" viewBox="0 0 120 110" fill="currentColor">
+            {/* Icono Politeia Analítica — capitel jónico + barras · decorativo,
+                aria-hidden porque el texto adyacente "POLITEIA ANALÍTICA" ya
+                etiqueta el link · WCAG 1.1.1 */}
+ <svg aria-hidden="true" width="20" height="18" viewBox="0 0 120 110" fill="currentColor">
  <rect x="8" y="6" width="104" height="6" rx="1"/>
  <path d="M 8 14 Q 8 22, 18 22 Q 28 22, 28 14 L 28 24 L 92 24 L 92 14 Q 92 22, 102 22 Q 112 22, 112 14 Z"/>
  <circle cx="18" cy="18" r="3.5" fill="#fff"/>
@@ -54,7 +58,7 @@ export default function AppHeader() {
                   color:active?'#1F4E8C':'#424245',
                   borderBottom:active?'2px solid #1F4E8C':'2px solid transparent',
                   textDecoration:'none',transition:'color 150ms',
-                  fontFamily:'var(--font-body,-apple-system,system-ui)',
+                  fontFamily:'var(--font-text,-apple-system,system-ui)',
                 }}>
                   {m.label}
  </Link>
@@ -84,8 +88,8 @@ export default function AppHeader() {
               boxShadow:'0 1px 2px rgba(31,78,140,0.25)',
               transition:'all 160ms',
             }}>
- <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
-                {/* Icono grid 2x2 = workspace */}
+ <svg aria-hidden="true" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
+                {/* Icono grid 2x2 = workspace · decorativo · texto adyacente etiqueta */}
  <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1"/>
  <rect x="9" y="1.5" width="5.5" height="5.5" rx="1"/>
  <rect x="1.5" y="9" width="5.5" height="5.5" rx="1"/>
@@ -100,7 +104,9 @@ export default function AppHeader() {
 
       {/* ── Subnav del módulo activo · solo si tiene 2+ items visibles ── */}
       {activeModule && activeModule.items.filter(it => !it.hidden).length > 1 && (
- <div style={{
+ <nav
+          aria-label={`Subnavegación de ${activeModule.label}`}
+          style={{
           position:'sticky',top:44,zIndex:49,height:38,
           background:'#fff',
           borderBottom:'1px solid rgba(0,0,0,0.06)',
@@ -108,7 +114,7 @@ export default function AppHeader() {
  <div style={{
             maxWidth:1600,margin:'0 auto',padding:'0 20px',
             display:'flex',alignItems:'center',height:'100%',gap:18,
-            fontFamily:'var(--font-body,-apple-system,system-ui)',
+            fontFamily:'var(--font-text,-apple-system,system-ui)',
           }}>
  <span style={{fontSize:11,fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',color:'#6e6e73',flexShrink:0}}>
               {activeModule.label}
@@ -129,7 +135,7 @@ export default function AppHeader() {
               })}
  </div>
  </div>
- </div>
+ </nav>
       )}
 
       {/* ── Banner-hero del item (solo si la subpágina lo declara) ── */}

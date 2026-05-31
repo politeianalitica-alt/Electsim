@@ -50,7 +50,7 @@ export default function BottomAgenteBar() {
   if (hidden) return null
 
   return (
- <Link href="/agente-ia" style={{
+ <Link href="/agente-ia" aria-label="Abrir el Agente IA" style={{
       position: 'fixed',
       bottom: 0,
       left: 0,
@@ -75,7 +75,7 @@ export default function BottomAgenteBar() {
       onMouseEnter={(e) => { e.currentTarget.style.background = '#0F2A4F' }}
       onMouseLeave={(e) => { e.currentTarget.style.background = '#1F4E8C' }}
     >
- <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor" style={{ flexShrink: 0 }}>
+ <svg aria-hidden="true" width="11" height="11" viewBox="0 0 16 16" fill="currentColor" style={{ flexShrink: 0 }}>
  <path d="M8 1l1.7 4.3L14 7l-4.3 1.7L8 13l-1.7-4.3L2 7l4.3-1.7L8 1z"/>
  </svg>
       AGENTE IA
