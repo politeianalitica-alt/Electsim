@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import FuentesClient from './_components/FuentesClient'
 
 export const metadata: Metadata = {
-  title: 'Fuentes de Datos · Domo | Politeia',
+  title: 'Fuentes · Estudio | Politeia Analítica',
 }
 
 export default function FuentesPage() {

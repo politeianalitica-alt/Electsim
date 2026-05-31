@@ -70,8 +70,9 @@ export default function HealthClient() {
  <div className={styles.root}>
  <div className={styles.header}>
  <div>
- <h1 className={styles.title}>System Health</h1>
- <p className={styles.subtitle}>Estado en tiempo real de todos los servicios del módulo Domo</p>
+ {/* Sprint Quality-Q-A.2 · §0.5 · "Estudio" en UI · ES en lugar de "System Health" */}
+ <h1 className={styles.title}>Estado del sistema</h1>
+ <p className={styles.subtitle}>Estado en tiempo real de los servicios del Estudio.</p>
  </div>
  <div className={styles.headerRight}>
           {dataUpdatedAt > 0 && (
@@ -89,8 +90,9 @@ export default function HealthClient() {
       {isLoading ? (
  <Skeleton style={{ height: 80, borderRadius: 12, marginBottom: '1.25rem' }} />
       ) : error ? (
+ {/* Sprint Quality-Q-A.2 · mensaje para analista, no para sysadmin */}
  <div className={styles.errorBanner}>
-          × No se puede conectar al backend. Verifica que el servidor esté activo.
+          × No hemos podido conectar con los servicios del Estudio. Intenta de nuevo en un minuto.
  </div>
       ) : overallMeta && data ? (
  <div className={styles.overallBanner} style={{ borderColor: `${overallMeta.color}40`, background: `${overallMeta.color}08` }}>
@@ -130,24 +132,25 @@ export default function HealthClient() {
         }
  </div>
 
+ {/* Sprint Quality-Q-A.2 · §0.5 · sin "Domo" y sin jerga de release (Sprint 1..8).
+     Reemplaza la tabla "Sprint Coverage" por un índice neutro de módulos. */}
  <div className={styles.sprintsSection}>
- <h2 className={styles.sprintsTitle}>Módulos Domo — Sprint Coverage</h2>
+ <h2 className={styles.sprintsTitle}>Cobertura por módulo</h2>
  <div className={styles.sprintsTable}>
           {[
-            { sprint: 1, module: 'Foundation + Sidebar',         route: '/estudio' },
-            { sprint: 2, module: 'Fuentes de datos',             route: '/estudio/fuentes' },
-            { sprint: 3, module: 'Pipelines ETL',                route: '/estudio/pipeline' },
-            { sprint: 4, module: 'Datasets',                     route: '/estudio/dataset' },
-            { sprint: 5, module: 'Dashboards constructor',       route: '/estudio/dashboard' },
-            { sprint: 6, module: 'Alertas + Notif + Sharing',    route: '/estudio/alertas' },
-            { sprint: 7, module: 'Gobernanza + AI Query',        route: '/estudio/gobernanza' },
-            { sprint: 8, module: 'Health + Cmd-K + Anotaciones', route: '/estudio/health' },
+            { module: 'Inicio',                          route: '/estudio' },
+            { module: 'Fuentes de datos',                route: '/estudio/fuentes' },
+            { module: 'Limpieza y cruces',               route: '/estudio/pipeline' },
+            { module: 'Mis tablas',                      route: '/estudio/dataset' },
+            { module: 'Mis paneles',                     route: '/estudio/dashboard' },
+            { module: 'Alertas y notificaciones',        route: '/estudio/alertas' },
+            { module: 'Equipo y permisos',               route: '/estudio/gobernanza' },
+            { module: 'Estado del sistema',              route: '/estudio/health' },
           ].map(row => (
- <div key={row.sprint} className={styles.sprintRow}>
- <span className={styles.sprintNum}>Sprint {row.sprint}</span>
+ <div key={row.route} className={styles.sprintRow}>
  <span className={styles.sprintModule}>{row.module}</span>
  <code className={styles.sprintRoute}>{row.route}</code>
- <span className={styles.sprintStatus} style={{ color: '#22c55e' }}> Completado</span>
+ <span className={styles.sprintStatus} style={{ color: '#22c55e' }}> Operativo</span>
  </div>
           ))}
  </div>
