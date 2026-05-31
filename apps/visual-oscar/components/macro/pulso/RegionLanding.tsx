@@ -226,9 +226,10 @@ export function RegionLanding({ subtabSlug, ccaaId }: Props) {
           <p style={{ margin: 0, fontSize: 10, fontWeight: 700, letterSpacing: 0.7, color: '#7c3aed', textTransform: 'uppercase' }}>
             ✦ Lectura IA · {config.label} en {ccaa.label}
           </p>
+          {/* Sprint Q-C.2 · ANTES "Groq está sintetizando..." exponía el proveedor LLM. */}
           {aiState === 'loading' && (
             <p style={{ margin: '8px 0 0', fontSize: 12, color: '#64748b' }}>
-              Groq está sintetizando un diagnóstico regional usando contexto de población ({(ccaa.population / 1000000).toFixed(2)}M) y peso económico ({ccaa.gdpShare.toFixed(1)}% PIB)…
+              Sintetizando un diagnóstico regional usando contexto de población ({(ccaa.population / 1000000).toFixed(2)} M) y peso económico ({ccaa.gdpShare.toFixed(1)}% PIB)…
             </p>
           )}
           {aiState === 'success' && ai && (

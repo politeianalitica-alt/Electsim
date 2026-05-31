@@ -101,7 +101,13 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
     return (
       <DomainPanel accent={accent} title="Margen fiscal · espacio para actuar del Estado" subtitle="Stock de deuda, saldo total, saldo primario y deuda neta — métricas Maastricht + AIReF">
         <div style={gridStyle}>
-          <BigMetric label="Deuda %PIB" value={deuda} unit="%" decimals={1} color={colorForValue(deuda, 'low', 100, 120)} caption="Maastricht criterion" period={findPeriod(byId, 'mf-deuda-imf')} />
+          {/* Sprint Q-C.2 · M1+M2 · contradicción Maastricht
+             ANTES caption "Maastricht criterion" sugería que 60% PIB era el umbral
+             aplicable, pero la interpretación condicional usaba 100/120% como
+             umbrales reales. AHORA caption explica los dos referenciales:
+             Maastricht (60% norma UE) vs AIReF/CE (100% banda de presión, 120%
+             zona crítica) para que el lector no vea el panel inconsistente. */}
+          <BigMetric label="Deuda %PIB" value={deuda} unit="%" decimals={1} color={colorForValue(deuda, 'low', 100, 120)} caption="Maastricht ≤60% · AIReF/CE: 100% presión, 120% crítico" period={findPeriod(byId, 'mf-deuda-imf')} />
           <BigMetric label="Saldo total" value={saldo} unit="%" decimals={2} color={colorForValue(saldo, 'high', -3, -6)} caption="déficit/superávit AAPP" period={findPeriod(byId, 'mf-saldo-total')} />
           <BigMetric label="Saldo primario" value={primario} unit="%" decimals={2} color={colorForValue(primario, 'high', 0, -2)} caption="ex-intereses" period={findPeriod(byId, 'mf-saldo-primario')} />
           <BigMetric label="Deuda neta" value={deudaNeta} unit="%" decimals={1} color={colorForValue(deudaNeta, 'low', 90, 110)} caption="bruta menos activos" period={findPeriod(byId, 'mf-deuda-neta-eurostat') || findPeriod(byId, 'mf-deuda-neta-imf')} />
@@ -175,14 +181,20 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
         <div style={gridStyle}>
           <BigMetric label="10Y ES" value={yieldES} unit="%" decimals={2} color={colorForValue(yieldES, 'low', 3.5, 5)} caption="benchmark coste capital" period={findPeriod(byId, 'ma-yield-10y-es')} />
           <BigMetric label="10Y DE" value={yieldDE} unit="%" decimals={2} color="#94a3b8" caption="risk-free eurozona" period={findPeriod(byId, 'ma-yield-10y-de')} />
-          <BigMetric label="Spread ES-DE" value={slope} unit="pb" decimals={0} color={colorForValue(slope, 'low', 1.0, 1.5)} caption="prima riesgo país" period={findPeriod(byId, 'ma-yield-10y-es')} />
-          <BigMetric label="EUR/USD" value={eurusd} unit="" decimals={4} color="#0891b2" caption="cross divisas" period={findPeriod(byId, 'ma-eurusd')} />
-          <BigMetric label="REER ES" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption="competitividad" period={findPeriod(byId, 'ma-reer-bis')} />
+          {/* Sprint Q-C.2 · M3 · ANTES el KPI usaba `slope` en % (orden 0-2) etiquetado
+              como "pb", mientras la interpretación usaba `slope*100` (orden 0-200pb)
+              también etiquetado pb. Inconsistencia: dos números distintos para la
+              misma métrica. AHORA ambos en pb y caption explica la unidad. */}
+          <BigMetric label="Spread ES-DE" value={slope != null ? slope * 100 : null} unit="pb" decimals={0} color={colorForValue(slope, 'low', 1.0, 1.5)} caption="prima riesgo vs Bund · pb = puntos básicos (100 pb = 1 pp)" period={findPeriod(byId, 'ma-yield-10y-es')} />
+          <BigMetric label="EUR/USD" value={eurusd} unit="" decimals={4} color="#0891b2" caption="tipo de cambio nominal" period={findPeriod(byId, 'ma-eurusd')} />
+          {/* Sprint Q-C.2 · M4 · REER caption unificado · 4 versiones distintas en el
+              archivo se reemplazan por una sola que define base 100 y >100/<100. */}
+          <BigMetric label="REER ES" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption="tipo de cambio efectivo real (base 100) · >100 = encarecimiento" period={findPeriod(byId, 'ma-reer-bis')} />
         </div>
         <Interpretation>
           {yieldES != null && yieldDE != null
-            ? `Spread ES-DE ${((yieldES - yieldDE) * 100).toFixed(0)}pb. ${(yieldES - yieldDE) > 1.5 ? '▲ Prima de riesgo elevada · activos ES descuentan stress.' : 'Prima riesgo contenida vs Bund · entorno benigno para equity y deuda corporativa ES.'}`
-            : 'Lectura macro-financiera España · yields, FX, agregados monetarios. Debajo: panel enriquecido con IBEX live, sector breakdown, FX matrix y commodity heatmap.'}
+            ? `Spread ES-DE ${((yieldES - yieldDE) * 100).toFixed(0)} pb. ${(yieldES - yieldDE) > 1.5 ? '▲ Prima de riesgo elevada · activos ES descuentan estrés.' : 'Prima de riesgo contenida frente al bono alemán; entorno benigno para renta variable y deuda corporativa ES.'}`
+            : 'Lectura macro-financiera España · tipos de interés, divisas, agregados monetarios. Más abajo: IBEX en vivo, ruptura por sector, matriz de divisas y mapa de calor de materias primas.'}
         </Interpretation>
       </DomainPanel>
     )
@@ -225,18 +237,23 @@ export function DomainHero({ subtabSlug, byId, accent }: Props) {
     const berd = findValue(byId, 'pc-id-empresarial')
     const reer = findValue(byId, 'pc-reer-bis')
     return (
-      <DomainPanel accent={accent} title="Productividad & competitividad · drivers estructurales" subtitle="Productividad por hora, ULC, I+D total y empresarial (BERD), REER · gap UE-27">
+      <DomainPanel accent={accent} title="Productividad y competitividad · drivers estructurales" subtitle="Productividad por hora, coste laboral unitario, I+D total y empresarial, tipo de cambio efectivo real · brecha vs UE-27">
         <div style={gridStyle}>
           <BigMetric label="Prod/hora" value={prodHora} unit="" decimals={1} color={colorForValue(prodHora, 'high', 100, 90)} caption="UE-27=100" period={findPeriod(byId, 'pc-productividad-hora')} />
-          <BigMetric label="ULC YoY" value={ulc} unit="%" decimals={1} color={colorForValue(ulc, 'low', 2, 4)} caption="costes laborales unit." period={findPeriod(byId, 'pc-ulc')} />
-          <BigMetric label="I+D %PIB" value={idGdp} unit="%" decimals={2} color={colorForValue(idGdp, 'high', 2, 1.5)} caption="vs UE-27 ~2.3%" period={findPeriod(byId, 'pc-id-pib-eurostat')} />
-          <BigMetric label="BERD %PIB" value={berd} unit="%" decimals={2} color={colorForValue(berd, 'high', 1.2, 0.8)} caption="I+D empresarial" period={findPeriod(byId, 'pc-id-empresarial')} />
-          <BigMetric label="REER" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption=">100 = pérdida comp." period={findPeriod(byId, 'pc-reer-bis')} />
+          <BigMetric label="ULC YoY" value={ulc} unit="%" decimals={1} color={colorForValue(ulc, 'low', 2, 4)} caption="coste laboral unitario" period={findPeriod(byId, 'pc-ulc')} />
+          <BigMetric label="I+D %PIB" value={idGdp} unit="%" decimals={2} color={colorForValue(idGdp, 'high', 2, 1.5)} caption="vs UE-27 ~2,3%" period={findPeriod(byId, 'pc-id-pib-eurostat')} />
+          {/* Sprint Q-C.2 · M5 · "BERD" definido en caption · ya está en glosario para tooltip futuro */}
+          <BigMetric label="BERD %PIB" value={berd} unit="%" decimals={2} color={colorForValue(berd, 'high', 1.2, 0.8)} caption="I+D privada empresarial" period={findPeriod(byId, 'pc-id-empresarial')} />
+          {/* Sprint Q-C.2 · M4 · REER caption unificado en todos los lugares */}
+          <BigMetric label="REER" value={reer} unit="" decimals={1} color={colorForValue(reer, 'low', 105, 115)} caption="tipo de cambio efectivo real (base 100) · >100 = encarecimiento" period={findPeriod(byId, 'pc-reer-bis')} />
         </div>
+        {/* Sprint Q-C.2 · M5 · ANTES claim normativo ("modelo productivo poco intensivo
+            en tecnología") sin marco económico declarado · AHORA dato + comparación
+            con UE-27 + matiz académico (la asociación BERD↔productividad es debatida). */}
         <Interpretation>
           {idGdp != null && berd != null
-            ? `I+D ${idGdp.toFixed(2)}% PIB · BERD empresarial ${berd.toFixed(2)}% PIB. ${berd < 1 ? '▲ Gap esencial en I+D PRIVADA · refleja modelo productivo poco intensivo en tecnología.' : 'Esfuerzo en I+D empresarial mejorando.'} La competitividad se juega en cerrar el gap BERD vs UE.`
-            : 'Drivers estructurales · cruzar productividad/hora, ULC, BERD y REER para evaluar competitividad sostenible.'}
+            ? `I+D ${idGdp.toFixed(2)}% PIB · BERD (gasto privado en I+D) ${berd.toFixed(2)}% PIB · por debajo de la media UE-27 (~1,5%). La literatura económica asocia BERD bajo con menor productividad total de los factores, aunque la magnitud y la causalidad son debatidas.`
+            : 'Drivers estructurales · cruzar productividad por hora, coste laboral unitario, BERD y tipo de cambio efectivo real para evaluar competitividad sostenible.'}
         </Interpretation>
       </DomainPanel>
     )
