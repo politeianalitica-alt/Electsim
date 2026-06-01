@@ -537,7 +537,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% que dice tener mucha o bastante confianza en el Gobierno. Trimestral aproximado. España estructuralmente baja confianza (~25%).",
     endpoint: "/api/cis-snapshot/confianza-gobierno",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 25, red: 15, goodAbove: true },
     accent: "#dc2626",
     methodologyNote:
@@ -559,7 +559,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% confía mucho o bastante en el Congreso. Tradicionalmente bajo (~30%).",
     endpoint: "/api/cis-snapshot/confianza-congreso",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 30, red: 20, goodAbove: true },
     accent: "#dc2626",
     methodologyNote:
@@ -581,7 +581,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% confía en los Tribunales. España estructuralmente baja confianza judicial vs UE.",
     endpoint: "/api/cis-snapshot/confianza-tribunales",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 35, red: 25, goodAbove: true },
     accent: "#f59e0b",
     methodologyNote:

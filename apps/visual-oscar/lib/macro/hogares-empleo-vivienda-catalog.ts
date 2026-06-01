@@ -690,7 +690,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% que cita vivienda como problema importante. Ascenso estructural desde 2024 (~22% → 36%). Driver malestar joven y movilizaciones urbanas.",
     endpoint: "/api/cis-snapshot/problemas-vivienda",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 25, red: 35, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
@@ -712,7 +712,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% que cita paro como problema importante. Tendencia descendente desde pico crisis 2013 (~80%). Ahora ~22-30%.",
     endpoint: "/api/cis-snapshot/problemas-paro",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 30, red: 50, goodAbove: false },
     accent: "#f59e0b",
     methodologyNote:
@@ -734,7 +734,7 @@ export const HOGARES_EMPLEO_VIVIENDA_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% cita precios/inflación como problema. Pico ~35% 2022-23 con shock inflacionario. Bajando con desinflación.",
     endpoint: "/api/cis-snapshot/problemas-precios",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 20, red: 30, goodAbove: false },
     accent: "#f59e0b",
     methodologyNote:

@@ -1,12 +1,12 @@
 # Macro freshness report · 2026-06-01
 
-Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
+Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores: 277.
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 145 | 52.3% |
+| fresh | 155 | 56.0% |
 | stale | 30 | 10.8% |
-| empty | 100 | 36.1% |
+| empty | 90 | 32.5% |
 | error | 2 | 0.7% |
 
 ## Por catálogo
@@ -18,11 +18,11 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | dependencias-externas | 6 | 2 | 6 | 0 | 14 |
 | empresas-beneficios | 2 | 1 | 10 | 0 | 13 |
 | flujos-capital | 2 | 0 | 8 | 1 | 11 |
-| hogares-empleo-vivienda | 11 | 11 | 10 | 0 | 32 |
-| instituciones-estado | 18 | 1 | 7 | 0 | 26 |
+| hogares-empleo-vivienda | 14 | 11 | 7 | 0 | 32 |
+| instituciones-estado | 21 | 1 | 4 | 0 | 26 |
 | margen-fiscal | 10 | 3 | 3 | 0 | 16 |
 | medio-rural | 18 | 0 | 17 | 1 | 36 |
-| mercados-activos | 6 | 0 | 10 | 0 | 16 |
+| mercados-activos | 10 | 0 | 6 | 0 | 16 |
 | productividad-competitividad | 9 | 0 | 2 | 0 | 11 |
 | pulso-macro | 7 | 9 | 4 | 0 | 20 |
 | regimen-monetario | 9 | 0 | 1 | 0 | 10 |
@@ -36,7 +36,7 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | flujos-capital | `fc-bis-claims` | `/api/bis/bis-exposures?country=ES` | HTTP 404 |
 | medio-rural | `mr-renovables-mix` | `/api/esios/mix-renovable?n=12` | HTTP 404 |
 
-## EMPTY (100)
+## EMPTY (90)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -77,9 +77,6 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | flujos-capital | `fc-rentas-primarias` | `/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=` | sin puntos |
 | hogares-empleo-vivienda | `hev-actividad-16plus` | `/api/ine/epa?n=24` | sin puntos |
 | hogares-empleo-vivienda | `hev-ahorro-hogares` | `/api/eurostat/dataset?code=nasq_10_ki&filters=geo=ES;sector=` | sin puntos |
-| hogares-empleo-vivienda | `hev-cis-paro-pct` | `/api/cis-snapshot/problemas-paro` | sin puntos |
-| hogares-empleo-vivienda | `hev-cis-precios-pct` | `/api/cis-snapshot/problemas-precios` | sin puntos |
-| hogares-empleo-vivienda | `hev-cis-vivienda-pct` | `/api/cis-snapshot/problemas-vivienda` | sin puntos |
 | hogares-empleo-vivienda | `hev-empleo-20-64` | `/api/eurostat/dataset?code=lfsi_emp_a&filters=geo=ES;sex=T;a` | sin puntos |
 | hogares-empleo-vivienda | `hev-euribor-12m` | `/api/bde/series/TI_1_1.6?n=36` | sin puntos |
 | hogares-empleo-vivienda | `hev-paro-largo-plazo` | `/api/eurostat/dataset?code=lfsi_long_q&filters=geo=ES;sex=T;` | sin puntos |
@@ -87,9 +84,6 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | hogares-empleo-vivienda | `hev-tipo-hipoteca` | `/api/bde/series/TI_1_1240?n=24` | sin puntos |
 | instituciones-estado | `ie-altas-empresas-eurostat` | `/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_s` | sin puntos |
 | instituciones-estado | `ie-capacidad-estado-compuesto` | `/api/macro/derived/capacidad_estado` | sin puntos |
-| instituciones-estado | `ie-cis-confianza-congreso` | `/api/cis-snapshot/confianza-congreso` | sin puntos |
-| instituciones-estado | `ie-cis-confianza-gob` | `/api/cis-snapshot/confianza-gobierno` | sin puntos |
-| instituciones-estado | `ie-cis-confianza-tribunales` | `/api/cis-snapshot/confianza-tribunales` | sin puntos |
 | instituciones-estado | `ie-fbcf-capital-aapp` | `/api/eurostat/dataset?code=gov_10dd_edpt2&filters=geo=ES;na_` | sin puntos |
 | instituciones-estado | `ie-wgi-corruption` | `/api/worldbank/indicator/CC.PER.RNK?country=ES&per_page=30` | sin puntos |
 | margen-fiscal | `mf-deuda-bruta-eurostat` | `/api/eurostat/dataset?code=gov_10dd_ggdebt&filters=geo=ES;se` | sin puntos |
@@ -113,15 +107,11 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | medio-rural | `mr-sau-eurostat` | `/api/eurostat/dataset?code=ef_lus_main&filters=geo=ES;crops=` | sin puntos |
 | medio-rural | `mr-temperatura-mad` | `/api/aemet/precipitacion-ccaa?ccaa=MAD` | sin puntos |
 | mercados-activos | `ma-aena-mc` | `/api/finnhub/quote/AENA.MC` | sin puntos |
-| mercados-activos | `ma-bbva-adr` | `/api/finnhub/quote/BBVA` | sin puntos |
-| mercados-activos | `ma-iberdrola-adr` | `/api/finnhub/quote/IBDRY` | sin puntos |
 | mercados-activos | `ma-inditex-adr` | `/api/finnhub/quote/IBKRY` | sin puntos |
 | mercados-activos | `ma-m3-growth-ea` | `/api/eurostat/dataset?code=ei_mfm3_m&filters=geo=EA` | sin puntos |
 | mercados-activos | `ma-reer-bis` | `/api/bis/fx-effective` | sin puntos |
-| mercados-activos | `ma-santander-adr` | `/api/finnhub/quote/SAN` | sin puntos |
 | mercados-activos | `ma-spread-credit-ig` | `/api/eurostat/dataset?code=irt_h_eurcrd_d&filters=fcat=CORP_` | sin puntos |
 | mercados-activos | `ma-stocks-financial-ea` | `/api/eurostat/dataset?code=ei_bsfi_m&filters=geo=EA` | sin puntos |
-| mercados-activos | `ma-telefonica-adr` | `/api/finnhub/quote/TEF` | sin puntos |
 | productividad-competitividad | `pc-desi-digital` | `/api/eurostat/dataset?code=isoc_e_dii&filters=geo=ES;indic_i` | sin puntos |
 | productividad-competitividad | `pc-empleo-knowledge` | `/api/eurostat/dataset?code=htec_emp_nat2&filters=geo=ES;nace` | sin puntos |
 | pulso-macro | `pulso-construccion` | `/api/eurostat/dataset?code=sts_copr_m&filters=geo=ES;nace_r2` | sin puntos |
