@@ -1,3 +1,52 @@
+# Sprint W · CIERRE · 2026-06-01
+
+> **Estado final tras 14 commits a main**: fresh=169, stale=30, empty=76, error=2
+>
+> | Métrica | Inicio | Cierre | Δ |
+> |---|---:|---:|---:|
+> | **fresh** | 118 | **169** | **+51 (+18.4% absoluto)** |
+> | stale | 33 | 30 | −3 |
+> | empty | 124 | 76 | −48 |
+> | **error** | **63** | **2** | **−61 (97%)** |
+>
+> **Probe usable en runtime**: nuevo endpoint
+> `GET /api/health/macro-freshness?format=summary` devuelve healthcheck
+> agregado (status semáforo + counts) para monitoreo continuo. Formato
+> `json` (default) incluye breakdown by_family + by_catalog + lista de
+> resultados.
+>
+> Lo que queda sin atacar (76 empty + 30 stale + 2 error · 39% del catálogo):
+>
+> | Bucket | n | Tipo de bloqueo |
+> |---|--:|---|
+> | 8 confidence ECFIN (`ei_bs*_m` Eurostat) | 8 | Datasets deprecated · requiere migración a FRED/INE |
+> | BoP bilaterales US/DE/CN + FDI/IIP/PI/OI/IN | ~7 | Eurostat no publica esos cortes · cambiar a BdE/IMF |
+> | EPA INE códigos descatalogados | 5 | Mapeo manual contra INE WSTempus actual |
+> | Saldo primario/estructural | 2 | Cálculo derivado (B9+D41PAY) en handler |
+> | BIS exposures + ESIOS mix | 2 | Custom parsers SDMX 2.0 / esios histórico |
+> | Demografía/empleo Eurostat (filtros caducos) | ~10 | Investigación case-by-case (~5-10 min cada uno) |
+> | BdE/IMF/OECD/WorldBank series IDs | ~10 | Series IDs case-by-case |
+> | INE stale (EPA armonizada) | ~22 | Códigos descatalogados · puede ser viejo legítimo en el origen |
+>
+> ## Commits log Sprint W
+
+| # | Commit | Sub-sprint | Δ fresh |
+|---|--------|-----------|--------:|
+| 1 | `4cb1ca6c` | W.1 · middleware whitelist + URL precedence | 0 (−61 err) |
+| 2 | `9e220fc0` | W.2.4 · parser spanish-stats-points | +20 |
+| 3 | `5a8f3c83` | W.2.2 · triage docs | 0 |
+| 4 | `3448c38c` | W.3.2 · pickLast bug (orden inverso INE) | +7 |
+| 5 | `f2f4b76d` | W.3.5 · CIS-snapshot parser | +6 |
+| 6 | `a063aca3` | W.3.3 · AEMET aniofin dinámico | (prod) |
+| 7 | `b52aaa0b` | W.3.1a · Eurostat top4 (HICP/IPI/retail/constr) | +4 |
+| 8 | `76b9e50e` | W.3.1b · gov_10dd_ggdebt → gov_10q_ggdebt | +1 |
+| 9 | `1a1c14d0` | W.3.1b · eb-prod-industrial | +1 |
+| 10 | `9b1cbd0c` | W.3.1c · ESI → Consumer CI + doc deprecation | +1 |
+| 11 | `5e76078e` | W.3.1d · KIA→KIS + DII v4 + gas IMP | +3 |
+| 12 | `8a7b0a11` | W.3.1e · fc-cuenta-financiera bop_c6_q full filters | +1 |
+| 13 | `d5e55c00` | W.3.1f · demo_pjanind códigos indic_de corregidos | +3 |
+| 14 | (este) | W.5 · /api/health/macro-freshness + cierre docs | 0 |
+
 # Sprint W.2 · Triage de indicadores macro · 2026-06-01
 
 > Análisis estructurado de los 139 indicadores non-fresh tras Sprint W.1
