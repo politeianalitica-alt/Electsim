@@ -135,7 +135,8 @@ export default function SectorEnergiaPage() {
         }}>
  <div>
  <p style={{ fontSize:10.5, fontWeight:700, letterSpacing:'0.16em', opacity:0.8, textTransform:'uppercase', margin:'0 0 8px' }}>
-              SECTORIAL · ENERGÍA & UTILITIES · DATOS REE EN VIVO
+              {/* Sprint Q-C.5 · "Utilities" anglicismo · "Suministros" es el equivalente ES estándar. */}
+              SECTORIAL · ENERGÍA Y SUMINISTROS · DATOS REE EN VIVO
  </p>
  <h1 style={{ fontFamily:'var(--font-display)', fontSize:34, fontWeight:700, letterSpacing:'-0.024em', margin:'0 0 10px', lineHeight:1.05 }}>
               Sistema eléctrico español <em style={{ fontWeight:300, fontStyle:'italic', opacity:0.75 }}>en tiempo real</em>

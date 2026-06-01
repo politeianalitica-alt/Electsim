@@ -53,11 +53,12 @@ export function EsiosPrediccionesPanel() {
           fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600,
           letterSpacing: '-0.01em', margin: 0, color: '#1d1d1f',
         }}>
-          Predicciones REE D+1 · eólica, solar, renovable, demanda
+          {/* Sprint Q-C.5 · S4 · acrónimos REE/D+1 explicados + MAPE/bias con regla interpretativa. */}
+          Predicciones del operador del sistema (REE) para el día siguiente · eólica, solar, renovable, demanda
         </h2>
         <p style={{ margin: '2px 0 0', fontSize: 11, color: '#6e6e73' }}>
-          Forecasts oficiales del operador con comparativa real-vs-prevista.
-          MAPE = error medio % · bias = sesgo (positivo = sobreestima).
+          Previsiones oficiales del operador con comparativa real frente a previsto.
+          Error medio (MAPE): &lt;5% excelente, 5-15% razonable, &gt;15% mal. Sesgo: diferencia media predicción − real (positivo = sobreestima sistemáticamente).
         </p>
       </header>
 
