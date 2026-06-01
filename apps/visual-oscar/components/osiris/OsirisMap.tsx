@@ -119,7 +119,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
@@ -199,6 +199,17 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       // GDELT
       map.addLayer({ id: 'gdelt-dots', type: 'circle', source: 'gdelt', paint: {
         'circle-radius': 4, 'circle-color': '#FF3D3D', 'circle-opacity': 0.5, 'circle-stroke-width': 1, 'circle-stroke-color': '#FF3D3D', 'circle-stroke-opacity': 0.3,
+      }});
+
+      // Incidencias de tráfico DGT (color por tipo)
+      map.addLayer({ id: 'traffic-dots', type: 'circle', source: 'traffic-incidents', paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 4, 3, 10, 6],
+        'circle-color': ['match', ['get', 'kind'],
+          'Accidente', '#E53935',
+          'Retención', '#FB8C00',
+          'Obstrucción', '#FB8C00',
+          '#FFB300'],
+        'circle-opacity': 0.85, 'circle-stroke-width': 1, 'circle-stroke-color': '#1d1d1f', 'circle-stroke-opacity': 0.35,
       }});
 
       // GPS Jamming
@@ -596,6 +607,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
+    // ── Incidencias de tráfico DGT ──
+    map.on('click', 'traffic-dots', e => {
+      if (!e.features?.length) return;
+      const p = e.features[0].properties as any;
+      const coords = (e.features[0].geometry as any).coordinates;
+      const kindColor = p.kind === 'Accidente' ? '#E53935' : (p.kind === 'Retención' || p.kind === 'Obstrucción') ? '#FB8C00' : '#FFB300';
+      popup(coords, `<div style="${pStyle}border:1px solid ${kindColor}55;">
+        <div style="color:${kindColor};font-size:12px;font-weight:700;margin-bottom:4px;">${(p.kind||'Incidencia').toUpperCase()}</div>
+        <div style="font-size:10px;color:#E8E6E0;margin-bottom:8px;line-height:1.4;">${p.road ? `Vía ${p.road}` : 'Carretera estatal'} · DGT España</div>
+        <div style="display:flex;gap:6px;">
+          <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},14z" target="_blank" style="${linkStyle}color:#448AFF;border:1px solid rgba(68,138,255,0.4);background:rgba(68,138,255,0.1);">MAPA</a>
+          <a href="https://infocar.dgt.es/etraffic/" target="_blank" style="${linkStyle}color:${kindColor};border:1px solid ${kindColor}66;background:${kindColor}1a;">PORTAL DGT</a>
+        </div>
+      </div>`);
+    });
+
     // ── Global Event / Conflict Markers ──
     map.on('click', 'conflict-icons', e => {
       if (!e.features?.length) return;
@@ -648,7 +675,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -922,6 +949,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     if (!mapReady) return;
     setGeo('gdelt', activeLayers.global_incidents && data.gdelt ? data.gdelt.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { name: e.name } })) : []);
   }, [mapReady, data.gdelt, activeLayers.global_incidents, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('traffic-incidents', activeLayers.traffic_incidents && data.traffic_incidents ? data.traffic_incidents.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { kind: t.kind, road: t.road } })) : []);
+  }, [mapReady, data.traffic_incidents, activeLayers.traffic_incidents, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1283,6 +1315,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['eq-circles','eq-label'], activeLayers.earthquakes);
     setVis(['sat-dots'], activeLayers.satellites);
     setVis(['gdelt-dots'], activeLayers.global_incidents);
+    setVis(['traffic-dots'], activeLayers.traffic_incidents);
     setVis(['jam-fill','jam-label'], activeLayers.gps_jamming);
     setVis(['day-night-fill'], activeLayers.day_night);
     setVis(['fl-commercial'], activeLayers.flights);

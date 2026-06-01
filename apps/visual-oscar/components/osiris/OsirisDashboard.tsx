@@ -128,6 +128,7 @@ export default function Dashboard() {
     radiation: false,
     infrastructure: false,
     global_incidents: true,
+    traffic_incidents: true,
     war_alerts: false,
     gps_jamming: false,
     day_night: true,
@@ -365,6 +366,11 @@ export default function Dashboard() {
     if (activeLayers.global_incidents && !layerFetchedRef.current.has('gdelt')) {
       fetchEndpoint('/api/osiris/gdelt', d => ({ gdelt: d.events }));
       layerFetchedRef.current.add('gdelt');
+    }
+    // Incidencias de tráfico (DGT — DATEX II)
+    if (activeLayers.traffic_incidents && !layerFetchedRef.current.has('traffic_incidents')) {
+      fetchEndpoint('/api/osiris/traffic-incidents', d => ({ traffic_incidents: d.incidents }));
+      layerFetchedRef.current.add('traffic_incidents');
     }
 
   }, [activeLayers]);

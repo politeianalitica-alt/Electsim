@@ -16,7 +16,6 @@ import { fetchFranceCameras } from './france';
 import { fetchSpainCameras } from './spain';
 import { fetchPolandCameras } from './poland';
 import { fetchJapanCameras } from './japan';
-import { fetchDgtCameras } from './dgt';
 import { fetchFinlandCameras } from './finland';
 import { fetchHongKongCameras } from './hongkong';
 
@@ -309,7 +308,6 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'spain': fetchSpainCameras,
   'poland': fetchPolandCameras,
   'japan': fetchJapanCameras,
-  'dgt': fetchDgtCameras,
   'finland': fetchFinlandCameras,
   'hongkong': fetchHongKongCameras,
 };
@@ -360,7 +358,6 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (inGermany) regions.push('germany');
   if (inFrance) regions.push('france');
   if (inSpain) regions.push('spain');
-  if (inSpain) regions.push('dgt');
   if (inPoland) regions.push('poland');
   if (inFinland) regions.push('finland');
 
