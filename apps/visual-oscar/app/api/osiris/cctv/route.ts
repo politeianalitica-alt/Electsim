@@ -16,6 +16,7 @@ import { fetchFranceCameras } from './france';
 import { fetchSpainCameras } from './spain';
 import { fetchPolandCameras } from './poland';
 import { fetchJapanCameras } from './japan';
+import { fetchDgtCameras } from './dgt';
 
 /**
  * Politeia — Worldwide CCTV Camera API v2
@@ -306,6 +307,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'spain': fetchSpainCameras,
   'poland': fetchPolandCameras,
   'japan': fetchJapanCameras,
+  'dgt': fetchDgtCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -353,6 +355,7 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (inGermany) regions.push('germany');
   if (inFrance) regions.push('france');
   if (inSpain) regions.push('spain');
+  if (inSpain) regions.push('dgt');
   if (inPoland) regions.push('poland');
 
   // Japan
