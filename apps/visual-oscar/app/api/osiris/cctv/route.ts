@@ -21,6 +21,7 @@ import { fetchHongKongCameras } from './hongkong';
 import { fetchMexicoCameras } from './mexico';
 import { fetchBritishColumbiaCameras } from './britishcolumbia';
 import { fetchOregonCameras, fetchIowaCameras, fetchAustinCameras, fetchYorkCameras } from './arcgis';
+import { fetchTaiwanCameras } from './taiwan';
 
 /**
  * Politeia — Worldwide CCTV Camera API v2
@@ -319,6 +320,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'iowa': fetchIowaCameras,
   'austin': fetchAustinCameras,
   'york': fetchYorkCameras,
+  'taiwan': fetchTaiwanCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -384,6 +386,8 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
 
   // Japan
   if (lat > 24 && lat < 46 && lng > 122 && lng < 154) regions.push('japan');
+  // Taiwán
+  if (lat > 21.8 && lat < 25.4 && lng > 119.3 && lng < 122.1) regions.push('taiwan');
 
   // Hong Kong
   if (lat > 22 && lat < 22.7 && lng > 113.8 && lng < 114.5) regions.push('hongkong');
