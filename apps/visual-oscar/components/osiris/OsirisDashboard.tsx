@@ -483,7 +483,7 @@ export default function Dashboard() {
 
 
   return (
-    <main className="osiris-root fixed inset-x-0 bottom-0 top-[44px] bg-[var(--bg-void)] overflow-hidden">
+    <main className="osiris-root fixed inset-x-0 bottom-0 top-[44px] bg-[var(--bg-void)] overflow-hidden" style={{ position: 'fixed', top: 44, left: 0, right: 0, bottom: 0 }}>
 
       {/* ── SPLASH ── */}
       <AnimatePresence>
@@ -581,7 +581,7 @@ export default function Dashboard() {
 
             {/* ── OSIRIS title — letter-by-letter stagger ── */}
             <div className="flex items-center gap-[2px] mb-3 z-[2]">
-              {'OSIRIS'.split('').map((letter, i) => (
+              {'POLITEIA'.split('').map((letter, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
@@ -604,7 +604,7 @@ export default function Dashboard() {
                 className="overflow-hidden whitespace-nowrap"
               >
                 <p className="text-[10px] md:text-[11px] font-mono tracking-[0.5em] text-[var(--gold-primary)]" style={{ opacity: 0.8 }}>
-                  GLOBAL INTELLIGENCE PLATFORM
+                  INTELIGENCIA POLITEIA
                 </p>
               </motion.div>
             </div>
@@ -755,13 +755,13 @@ export default function Dashboard() {
         <div className="hidden md:block absolute top-1/2 left-[52px] w-[200px] h-[1px] bg-gradient-to-r from-[var(--gold-primary)]/40 via-[var(--gold-primary)]/15 to-transparent" />
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <h1 className="text-base md:text-xl font-bold tracking-[0.4em] md:tracking-[0.5em] text-[var(--text-heading)] font-mono">OSIRIS</h1>
+            <h1 className="text-sm md:text-lg font-bold tracking-[0.12em] md:tracking-[0.2em] text-[var(--text-heading)] font-mono">INTELIGENCIA POLITEIA</h1>
             <span className="hidden md:inline-flex items-center gap-1 px-1.5 py-[1px] rounded-sm border border-[var(--cyan-primary)]/40 bg-[var(--cyan-primary)]/10 text-[7px] font-mono font-bold tracking-[0.15em] text-[var(--cyan-primary)] uppercase" style={{ lineHeight: '1.4' }}>
               <Globe className="w-2.5 h-2.5" />
               OPEN SOURCE
             </span>
           </div>
-          <span className="text-[8px] md:text-[9px] text-[var(--gold-primary)] font-mono tracking-[0.2em] md:tracking-[0.3em] opacity-80">GLOBAL INTELLIGENCE COMMAND</span>
+          <span className="text-[8px] md:text-[9px] text-[var(--gold-primary)] font-mono tracking-[0.2em] md:tracking-[0.3em] opacity-80">MAPA DE INTELIGENCIA EN TIEMPO REAL</span>
         </div>
       </motion.div>
 

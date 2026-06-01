@@ -74,9 +74,9 @@
 /* ── Base ── */
 
 .osiris-root {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  /* El layout (position/tamaño) lo aporta el <main fixed top-[44px]>.
+     Antes esto era html,body con position:relative + height:100%, que anulaba
+     el `fixed` del main y colapsaba su altura a 0 → el mapa quedaba invisible. */
   background: var(--bg-void);
   color: var(--text-primary);
   font-family: var(--font-body);
