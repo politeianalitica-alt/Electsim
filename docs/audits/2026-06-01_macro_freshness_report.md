@@ -4,10 +4,10 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 161 | 58.1% |
-| stale | 30 | 10.8% |
-| empty | 84 | 30.3% |
-| error | 2 | 0.7% |
+| fresh | 162 | 58.5% |
+| stale | 29 | 10.5% |
+| empty | 83 | 30.0% |
+| error | 3 | 1.1% |
 
 ## Por catálogo
 
@@ -24,19 +24,20 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | medio-rural | 18 | 0 | 17 | 1 | 36 |
 | mercados-activos | 10 | 0 | 6 | 0 | 16 |
 | productividad-competitividad | 9 | 0 | 2 | 0 | 11 |
-| pulso-macro | 10 | 9 | 1 | 0 | 20 |
+| pulso-macro | 11 | 8 | 0 | 1 | 20 |
 | regimen-monetario | 10 | 0 | 0 | 0 | 10 |
 | riesgo-sistemico | 7 | 0 | 4 | 0 | 11 |
 | sociedad-bienestar | 15 | 0 | 7 | 0 | 22 |
 
-## ERROR (2)
+## ERROR (3)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
 | flujos-capital | `fc-bis-claims` | `/api/bis/bis-exposures?country=ES` | HTTP 404 |
 | medio-rural | `mr-renovables-mix` | `/api/esios/mix-renovable?n=12` | HTTP 404 |
+| pulso-macro | `inversion-fbcf-yoy` | `/api/ine/cnt-desglose?n=24` | Unexpected end of JSON input |
 
-## EMPTY (84)
+## EMPTY (83)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -112,7 +113,6 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | mercados-activos | `ma-stocks-financial-ea` | `/api/eurostat/dataset?code=ei_bsfi_m&filters=geo=EA` | sin puntos |
 | productividad-competitividad | `pc-desi-digital` | `/api/eurostat/dataset?code=isoc_e_dii&filters=geo=ES;indic_i` | sin puntos |
 | productividad-competitividad | `pc-empleo-knowledge` | `/api/eurostat/dataset?code=htec_emp_nat2&filters=geo=ES;nace` | sin puntos |
-| pulso-macro | `pulso-esi-sentiment` | `/api/eurostat/dataset?code=ei_bsei_m&filters=geo=ES;indic=BS` | sin puntos |
 | riesgo-sistemico | `rs-credito-pib-es` | `/api/eurostat/dataset?code=ei_bsbo_m&filters=geo=ES` | sin puntos |
 | riesgo-sistemico | `rs-npl-banca` | `/api/bde/series/BE_4_18?n=36` | sin puntos |
 | riesgo-sistemico | `rs-paro-larga-duracion` | `/api/eurostat/dataset?code=lfsq_upgan&filters=geo=ES` | sin puntos |
@@ -125,7 +125,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | sociedad-bienestar | `sb-gini-vs-ocde` | `/api/oecd/metric?name=gini&country=ESP` | sin puntos |
 | sociedad-bienestar | `sb-movilidad-intergen` | `/api/oecd/metric?name=intergen_mobility&country=ESP` | sin puntos |
 
-## STALE (30)
+## STALE (29)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -155,7 +155,6 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | pulso-macro | `exports-yoy` | `/api/ine/cnt-extra?n=24` | last=2025-Q4 (155d > 150d) |
 | pulso-macro | `exterior-pp` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |
 | pulso-macro | `imports-yoy` | `/api/ine/cnt-extra?n=24` | last=2025-Q4 (155d > 150d) |
-| pulso-macro | `inversion-fbcf-yoy` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |
 | pulso-macro | `paro-epa-general` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
 | pulso-macro | `paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
 | pulso-macro | `pib-yoy` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |

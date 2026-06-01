@@ -5,6 +5,34 @@
 >
 > Estado final del probe (`scripts/data-probe-output.json`):
 > **fresh=138 · stale=37 · empty=100 · error=2** (277 totales)
+>
+> ## Actualización Sprint W.3.1c · Eurostat ei_*_m deprecation masiva
+>
+> Eurostat retiró del catálogo de diseminación TODA la familia `ei_bs*_m`
+> (Business Surveys monthly) entre 2024-2025. Datasets confirmados como
+> "is not available for dissemination":
+>
+> | Dataset deprecated | Uso anterior |
+> |---|---|
+> | `ei_bsei_m` | ESI Economic Sentiment Indicator (pulso-esi-sentiment) |
+> | `ei_bsin_m` | Industrial Confidence (eb-confianza-empresarial) |
+> | `ei_bssi_m` | Services Confidence (eb-confianza-servicios) |
+> | `ei_bsbo_m` | Construction Confidence (rs-credito-pib-es) |
+> | `ei_bsfi_m` | Financial Stocks EA (ma-stocks-financial-ea) |
+> | `ei_bsbo_m` | Construction Output (referido) |
+> | `ei_isfb_n` | Structural Balance AMECO (mf-saldo-estructural) |
+> | `ei_mfm3_m` | M3 Growth EA (ma-m3-growth-ea) |
+> | `sts_intvi_m` | Industrial Turnover (eb-volumen-negocios) |
+> | `gov_10dd_ggdebt` | Annual Govt Debt (mf-deuda-bruta-eurostat) |
+>
+> Solo sobrevive `ei_bsco_m` (Consumer Surveys), de donde se extrae el
+> Consumer Confidence Indicator (BS-CSMCI) como sustituto pragmático del
+> ESI compuesto (W.3.1c, commit pendiente).
+>
+> Los reemplazos correctos para los demás requieren consulta a la nueva
+> nomenclatura de DG ECFIN — la API SDMX 2.1 de Eurostat no lista bien
+> los dataflows nuevos. Plan: contactar ECFIN directly o usar FRED como
+> fuente alternativa (FRED expone BCS-ES.CIBR / BCS-ES.CSBR, etc.).
 
 ## 1 · Resumen ejecutivo
 
