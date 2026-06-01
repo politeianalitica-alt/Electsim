@@ -95,6 +95,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
     map.on('load', () => {
       mapRef.current = map;
+      // Etiquetas del basemap vectorial (ciudades, países, mares) en español,
+      // con respaldo al nombre latino y al local si no hay traducción.
+      try {
+        for (const layer of map.getStyle().layers) {
+          if (layer.type === 'symbol' && (layer.layout as any)?.['text-field']) {
+            map.setLayoutProperty(layer.id, 'text-field',
+              ['coalesce', ['get', 'name:es'], ['get', 'name:latin'], ['get', 'name']] as any);
+          }
+        }
+      } catch (e) { console.warn('[OSIRIS] labels es:', e); }
       // Create icons
       createIcon(map, 'plane-cyan', '#00E5FF', 24);
       createIcon(map, 'plane-green', '#00E676', 24);
