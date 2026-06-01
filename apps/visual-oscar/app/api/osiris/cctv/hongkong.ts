@@ -8,10 +8,10 @@ import type { CctvCamera } from './types';
  * Ubicaciones (CSV): https://static.data.gov.hk/td/traffic-snapshot-images/code/Traffic_Camera_Locations_En.csv
  * Imagen de cada cámara: https://tdcctv.data.one.gov.hk/{KEY}.JPG
  *
- * Columnas: key,region,district,description,easting,northing,latitude,longitude,url
- * Las 5 últimas columnas (easting, northing, latitude, longitude, url) tienen
- * posición fija al final, así que el parseo es robusto aunque «description»
- * contenga comas.
+ * Columnas (separadas por TAB): key, region, district, description,
+ * easting, northing, latitude, longitude, url. El fichero viene codificado
+ * en UTF-16 LE (con BOM), por eso se decodifica con TextDecoder('utf-16le').
+ * Las 5 últimas columnas tienen posición fija al final.
  */
 const HK_CSV =
   'https://static.data.gov.hk/td/traffic-snapshot-images/code/Traffic_Camera_Locations_En.csv';
@@ -20,11 +20,12 @@ export async function fetchHongKongCameras(): Promise<CctvCamera[]> {
   try {
     const res = await fetch(HK_CSV, { signal: AbortSignal.timeout(12000) });
     if (!res.ok) return [];
-    const text = await res.text();
+    const buf = await res.arrayBuffer();
+    const text = new TextDecoder('utf-16le').decode(buf);
     const lines = text.split(/\r?\n/).filter((l) => l.trim().length > 0);
     const out: CctvCamera[] = [];
     for (let i = 1; i < lines.length; i++) {
-      const parts = lines[i].split(',');
+      const parts = lines[i].split('\t');
       if (parts.length < 9) continue;
       const url = parts[parts.length - 1].trim();
       const lng = parseFloat(parts[parts.length - 2]);
@@ -34,13 +35,11 @@ export async function fetchHongKongCameras(): Promise<CctvCamera[]> {
       const key = parts[0].trim();
       const region = (parts[1] || '').trim();
       const district = (parts[2] || '').trim();
-      // description puede contener comas → todo lo que queda entre la col 3 y las 5 finales
       const description = parts
         .slice(3, parts.length - 5)
-        .join(',')
+        .join(' ')
         .trim()
         .replace(/\s*\[[^\]]*\]\s*$/, '') // quita el sufijo "[KEY]"
-        .replace(/^"|"$/g, '')
         .trim();
       out.push({
         id: `hk-${key || `${lat},${lng}`}`,
