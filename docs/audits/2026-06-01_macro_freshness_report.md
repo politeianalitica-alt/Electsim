@@ -4,9 +4,9 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 160 | 57.8% |
+| fresh | 161 | 58.1% |
 | stale | 30 | 10.8% |
-| empty | 85 | 30.7% |
+| empty | 84 | 30.3% |
 | error | 2 | 0.7% |
 
 ## Por catálogo
@@ -16,7 +16,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | cultura-ocio | 13 | 1 | 5 | 0 | 19 |
 | demografia-territorio | 12 | 2 | 6 | 0 | 20 |
 | dependencias-externas | 6 | 2 | 6 | 0 | 14 |
-| empresas-beneficios | 2 | 1 | 10 | 0 | 13 |
+| empresas-beneficios | 3 | 1 | 9 | 0 | 13 |
 | flujos-capital | 2 | 0 | 8 | 1 | 11 |
 | hogares-empleo-vivienda | 14 | 11 | 7 | 0 | 32 |
 | instituciones-estado | 21 | 1 | 4 | 0 | 26 |
@@ -36,7 +36,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | flujos-capital | `fc-bis-claims` | `/api/bis/bis-exposures?country=ES` | HTTP 404 |
 | medio-rural | `mr-renovables-mix` | `/api/esios/mix-renovable?n=12` | HTTP 404 |
 
-## EMPTY (85)
+## EMPTY (84)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -62,7 +62,6 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | empresas-beneficios | `eb-confianza-servicios` | `/api/eurostat/dataset?code=ei_bssi_m&filters=geo=ES;indic=BS` | sin puntos |
 | empresas-beneficios | `eb-demografia-empresas-eurostat` | `/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_s` | sin puntos |
 | empresas-beneficios | `eb-inventarios-industria` | `/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS` | sin puntos |
-| empresas-beneficios | `eb-prod-industrial` | `/api/eurostat/dataset?code=sts_inpr_m&filters=geo=ES;nace_r2` | sin puntos |
 | empresas-beneficios | `eb-stock-capital` | `/api/eurostat/dataset?code=nama_10_nfa_st&filters=geo=ES;ass` | sin puntos |
 | empresas-beneficios | `eb-supervivencia-empresas` | `/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_s` | sin puntos |
 | empresas-beneficios | `eb-tasa-creacion-empresas` | `/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_s` | sin puntos |

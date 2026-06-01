@@ -25,12 +25,12 @@ export const EMPRESAS_BENEFICIOS_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "monthly",
     description:
       "Índice de Producción Industrial (IPI) variación interanual. Mide la actividad fabril real. Lead indicator del PIB industria (~20% PIB ES). Caídas <0% YoY = recesión sector.",
-    endpoint: "/api/eurostat/dataset?code=sts_inpr_m&filters=geo=ES;nace_r2=B-D;unit=I15_A",
+    endpoint: "/api/eurostat/dataset?code=sts_inpr_m&filters=geo=ES;nace_r2=B-D;indic_bt=PRD;unit=I21;s_adj=SCA",
     parser: "eurostat-simple",
     threshold: { amber: 0, red: -3, goodAbove: true },
     accent: "#0F766E",
     methodologyNote:
-      "Cobertura B-D NACE (minería + manufactura + energía). Base 2015 desestacionalizado. Lead indicator del PIB industria. Para volumen real (no índice) usar IPI INE.",
+      "Cobertura B-D NACE (minería + manufactura + energía). PRD = production index, base 2021=100, desestacionalizado + calendario corregido (Sprint W.3.1b: I15_A → I21+SCA tras migración base Eurostat). Lead indicator del PIB industria. Para volumen real (no índice) usar IPI INE.",
     releaseSchedule: "Mensual · T+45 días",
     confidenceLevel: "high",
     relatedIndicatorIds: ["eb-volumen-negocios", "eb-capacidad-utilizada", "pulso-ipi-manufactura"],
