@@ -5,14 +5,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Keyboard, X } from 'lucide-react';
 
 const SHORTCUTS = [
-  { key: 'F', desc: 'Toggle fullscreen' },
-  { key: 'S', desc: 'Share current view' },
-  { key: 'L', desc: 'Toggle layer panel' },
-  { key: 'M', desc: 'Toggle markets panel' },
-  { key: 'I', desc: 'Toggle intel feed' },
-  { key: 'R', desc: 'Reset to global view' },
-  { key: '?', desc: 'Show this help' },
-  { key: 'ESC', desc: 'Close panels / popups' },
+  { key: 'F', desc: 'Alternar pantalla completa' },
+  { key: 'S', desc: 'Compartir vista actual' },
+  { key: 'L', desc: 'Alternar panel de capas' },
+  { key: 'M', desc: 'Alternar panel de mercados' },
+  { key: 'I', desc: 'Alternar canal de inteligencia' },
+  { key: 'R', desc: 'Restablecer vista global' },
+  { key: '?', desc: 'Mostrar esta ayuda' },
+  { key: 'ESC', desc: 'Cerrar paneles / ventanas' },
 ];
 
 export default function KeyboardShortcuts() {
@@ -46,7 +46,7 @@ export default function KeyboardShortcuts() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <Keyboard className="w-4 h-4 text-[var(--gold-primary)]" />
-                <span className="text-sm font-mono font-bold text-[var(--text-heading)] tracking-wider">SHORTCUTS</span>
+                <span className="text-sm font-mono font-bold text-[var(--text-heading)] tracking-wider">ATAJOS</span>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-[var(--text-muted)] hover:text-[var(--text-primary)]">
                 <X className="w-4 h-4" />
@@ -63,7 +63,7 @@ export default function KeyboardShortcuts() {
               ))}
             </div>
             <div className="mt-4 text-center text-[7px] font-mono text-[var(--text-muted)] tracking-widest">
-              PRESS [?] OR [ESC] TO CLOSE
+              PULSA [?] O [ESC] PARA CERRAR
             </div>
           </motion.div>
         </motion.div>

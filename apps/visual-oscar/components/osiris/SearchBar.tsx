@@ -68,7 +68,7 @@ export default function SearchBar({ onLocate }: SearchBarProps) {
         className="flex items-center gap-1.5 glass-panel-sm px-3 py-2 text-[9px] font-mono tracking-[0.15em] text-[var(--text-muted)] hover:text-[var(--gold-primary)] hover:border-[var(--border-active)] transition-all hover:shadow-[0_0_12px_rgba(212,175,55,0.08)]"
       >
         <Search className="w-3 h-3" />
-        CMD: LOCATE
+        LOCALIZAR
       </button>
     );
   }
@@ -85,7 +85,7 @@ export default function SearchBar({ onLocate }: SearchBarProps) {
             if (e.key === 'Escape') { setOpen(false); setValue(''); setResults([]); }
             if (e.key === 'Enter' && results.length > 0) handleSelect(results[0]);
           }}
-          placeholder="ENTER COORDINATES OR TARGET NAME..."
+          placeholder="Coordenadas o nombre de lugar…"
           className="flex-1 bg-transparent text-[10px] text-[var(--text-primary)] font-mono tracking-wider outline-none placeholder:text-[var(--text-muted)]"
         />
         {loading && <div className="w-3 h-3 border border-[var(--gold-primary)] border-t-transparent rounded-full animate-spin" />}
