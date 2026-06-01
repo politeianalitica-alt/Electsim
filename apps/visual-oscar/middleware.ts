@@ -38,6 +38,22 @@ const PUBLIC_PREFIXES = [
   '/api/wto/',
   '/api/global-intel/',
   '/api/macro-finance/',
+  // Sprint W.1 · proxies que faltaban en el whitelist · cuando un route
+  // handler hacía fetch server-to-server contra estos paths (sin cookie),
+  // el middleware redirigía a /login → HTML → JSON.parse fallaba en el
+  // caller. Identificado por el probe data-probe.ts contra 277 indicadores:
+  // 63 fallos clasificados como `error` con preview "<!DOCTYPE html>" eran
+  // por esta causa raíz (no por endpoint inexistente).
+  '/api/spanish-stats/',
+  '/api/cis-snapshot/',
+  '/api/governance-indices/',
+  '/api/aemet/',
+  '/api/macro/derived/',
+  '/api/tesoro/',
+  '/api/bde/',
+  '/api/undp/',
+  '/api/esios/',
+  '/api/worldbank/',
 ]
 
 export function middleware(req: NextRequest) {

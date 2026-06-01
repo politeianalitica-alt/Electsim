@@ -59,9 +59,17 @@ function pickLast(series: PulsoPoint[]): PulsoPoint | null {
  */
 function absoluteUrl(path: string, baseUrl: string | undefined): string {
   if (path.startsWith("http")) return path;
-  const base = baseUrl || process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  // Sprint W.1 · BUG corregido: la precedencia anterior era
+  //   `baseUrl || process.env.VERCEL_URL ? ... : ...`
+  // que evaluaba la disyunción ANTES de la ternaria. Si pasabas baseUrl
+  // pero VERCEL_URL no estaba (caso local + script), el resultado era
+  // `https://undefined` → fetch fallaba con "fetch failed" en TODOS los
+  // 277 indicadores cuando se llamaba desde scripts/data-probe.ts.
+  // AHORA: precedencia explícita y orden correcto baseUrl > VERCEL_URL > localhost.
+  let base: string;
+  if (baseUrl) base = baseUrl;
+  else if (process.env.VERCEL_URL) base = `https://${process.env.VERCEL_URL}`;
+  else base = "http://localhost:3000";
   return `${base}${path}`;
 }
 
