@@ -11,6 +11,14 @@ import { NextResponse } from 'next/server';
  */
 
 const LIVE_FEEDS = [
+  // ── España (noticias 24h + cámaras en directo) ──
+  { id: 'rtve24h',        name: 'RTVE Canal 24 Horas',      city: 'Madrid',   country: 'ES', lat: 40.451,  lng: -3.690,  url: 'https://www.youtube.com/embed/live_stream?channel=UC7QZIf0dta-XPXsp9Hv4dTw&autoplay=1&mute=1', embed_allowed: false, category: 'mainstream', language: 'es' },
+  { id: 'lasexta24h',     name: 'laSexta Noticias',         city: 'Madrid',   country: 'ES', lat: 40.435,  lng: -3.685,  url: 'https://www.youtube.com/embed/live_stream?channel=UCCJs5mITIqxqJGeFjt9N1Mg&autoplay=1&mute=1', embed_allowed: false, category: 'mainstream', language: 'es' },
+  { id: 'euronewses',     name: 'euronews (Español)',       city: 'Madrid',   country: 'ES', lat: 40.417,  lng: -3.703,  url: 'https://www.youtube.com/embed/live_stream?channel=UCyoGb3SMlTlB8CLGVH4c8Rw&autoplay=1&mute=1', embed_allowed: true,  category: 'mainstream', language: 'es' },
+  { id: 'cam_madrid_sol', name: 'Cámara · Puerta del Sol',  city: 'Madrid',   country: 'ES', lat: 40.4169, lng: -3.7035, url: 'https://www.youtube.com/embed/-WbUCUDkMQM?autoplay=1&mute=1', embed_allowed: true, category: 'webcam', language: 'es' },
+  { id: 'cam_valencia',   name: 'Cámara · Pl. Ayuntamiento', city: 'Valencia', country: 'ES', lat: 39.4699, lng: -0.3774, url: 'https://www.youtube.com/embed/dVAtjVi7bUQ?autoplay=1&mute=1', embed_allowed: true, category: 'webcam', language: 'es' },
+  { id: 'cam_mallorca',   name: 'Cámara · Santa Ponsa',     city: 'Mallorca', country: 'ES', lat: 39.5095, lng: 2.4795,  url: 'https://www.youtube.com/embed/X0kNa7mAnnI?autoplay=1&mute=1', embed_allowed: true, category: 'webcam', language: 'es' },
+
   // ── North America (external only — open in YouTube) ──
   { id: 'nbcnews',   name: 'NBC News NOW',  city: 'New York',      country: 'US', lat: 40.759, lng: -73.980, url: 'https://www.youtube.com/channel/UCeY0bbntWzzVIaj2z3QigXg/live', embed_allowed: false, category: 'mainstream', language: 'en' },
   { id: 'cbsnews',   name: 'CBS News 24/7', city: 'New York',      country: 'US', lat: 40.764, lng: -73.973, url: 'https://www.youtube.com/channel/UC8p1vwvWtl6T73JiExfWs1g/live', embed_allowed: false, category: 'mainstream', language: 'en' },
@@ -42,7 +50,7 @@ export async function GET() {
   return NextResponse.json({
     feeds: LIVE_FEEDS,
     total: LIVE_FEEDS.length,
-    categories: ['mainstream', 'government', 'finance', 'conflict', 'state'],
+    categories: ['mainstream', 'webcam', 'government', 'finance', 'conflict', 'state'],
     timestamp: new Date().toISOString(),
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=172800' },
