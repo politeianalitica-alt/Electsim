@@ -4,9 +4,9 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 166 | 59.9% |
+| fresh | 169 | 61.0% |
 | stale | 30 | 10.8% |
-| empty | 79 | 28.5% |
+| empty | 76 | 27.4% |
 | error | 2 | 0.7% |
 
 ## Por catálogo
@@ -14,7 +14,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | Catálogo | fresh | stale | empty | error | total |
 |---|---:|---:|---:|---:|---:|
 | cultura-ocio | 13 | 1 | 5 | 0 | 19 |
-| demografia-territorio | 12 | 2 | 6 | 0 | 20 |
+| demografia-territorio | 15 | 2 | 3 | 0 | 20 |
 | dependencias-externas | 7 | 2 | 5 | 0 | 14 |
 | empresas-beneficios | 3 | 1 | 9 | 0 | 13 |
 | flujos-capital | 3 | 0 | 7 | 1 | 11 |
@@ -36,7 +36,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | flujos-capital | `fc-bis-claims` | `/api/bis/bis-exposures?country=ES` | HTTP 404 |
 | medio-rural | `mr-renovables-mix` | `/api/esios/mix-renovable?n=12` | HTTP 404 |
 
-## EMPTY (79)
+## EMPTY (76)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -46,11 +46,8 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | cultura-ocio | `co-pib-cultural-ue` | `/api/macro/derived/pib_cultural_ue_gap` | sin puntos |
 | cultura-ocio | `co-tourism-nights-eurostat` | `/api/eurostat/dataset?code=tour_occ_nin&filters=geo=ES;c_res` | sin puntos |
 | demografia-territorio | `dt-indice-envejecimiento` | `/api/macro/derived/envejecimiento_idx` | sin puntos |
-| demografia-territorio | `dt-poblacion-eurostat` | `/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic` | sin puntos |
-| demografia-territorio | `dt-poblacion-mayores` | `/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic` | sin puntos |
 | demografia-territorio | `dt-poblacion-rural` | `/api/eurostat/dataset?code=urt_pjanaggr3&filters=geo=ES;deg_` | sin puntos |
 | demografia-territorio | `dt-proyeccion-dependencia-2050` | `/api/oecd/metric?name=dep_ratio_2050&country=ESP` | sin puntos |
-| demografia-territorio | `dt-ratio-dependencia` | `/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic` | sin puntos |
 | dependencias-externas | `de-bop-chn` | `/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=C` | sin puntos |
 | dependencias-externas | `de-bop-deu` | `/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=D` | sin puntos |
 | dependencias-externas | `de-bop-usa` | `/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=U` | sin puntos |

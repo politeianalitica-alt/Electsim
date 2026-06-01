@@ -71,7 +71,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Población ≥65 / población activa (15-64) · %. España ~32% y subiendo. Determina sostenibilidad pensiones y presión fiscal estructural.",
-    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=OLDDEP",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=OLDDEP1",
     parser: "eurostat-simple",
     threshold: { amber: 30, red: 40, goodAbove: false },
     accent: "#dc2626",
@@ -114,7 +114,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Edad media de la población residente. Indicador de envejecimiento estructural — España es uno de los países más envejecidos de la UE.",
-    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=AGEMEDPOP",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=MEDAGEPOP",
     parser: "eurostat-simple",
     threshold: { amber: 45, red: 50, goodAbove: false },
     accent: "#0EA5E9",
@@ -158,7 +158,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% personas ≥65 años sobre total. España ~20% · sube +0.3pp/año. Driver del gasto pensiones+sanidad. UE 2050 proyecta 30%.",
-    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=PC_Y_GE65",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=PC_Y65_MAX",
     parser: "eurostat-simple",
     threshold: { amber: 22, red: 28, goodAbove: false },
     accent: "#f59e0b",
