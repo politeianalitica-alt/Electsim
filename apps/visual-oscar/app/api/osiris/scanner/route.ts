@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { validateHost, isRateLimited, getClientIp } from '@/lib/osiris/ssrf-guard';
 
 /**
- * OSIRIS — Scanner Proxy (Hardened)
+ * Politeia — Scanner Proxy (Hardened)
  * Rate-limited, target-validated, scope-restricted
  */
 

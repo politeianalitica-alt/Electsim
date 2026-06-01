@@ -236,7 +236,7 @@ export default function Dashboard() {
           setLocationLabel(label);
           lastGeocodedPos.current = coords;
         }
-      } catch (e) { console.warn('[OSIRIS] Suppressed error:', e instanceof Error ? e.message : e); }
+      } catch (e) { console.warn('[Politeia] Suppressed error:', e instanceof Error ? e.message : e); }
     }, 3000); // 3s debounce (was 1.5s)
   }, []);
 
@@ -246,7 +246,7 @@ export default function Dashboard() {
     try {
       const res = await fetch(`/api/osiris/region-dossier?lat=${coords.lat}&lng=${coords.lng}`);
       if (res.ok) setRegionDossier(await res.json());
-    } catch (e) { console.warn('[OSIRIS] Suppressed error:', e instanceof Error ? e.message : e); } finally { setDossierLoading(false); }
+    } catch (e) { console.warn('[Politeia] Suppressed error:', e instanceof Error ? e.message : e); } finally { setDossierLoading(false); }
   }, []);
 
   // Entity click handler (hoisted from JSX to comply with Rules of Hooks — Fixes #113)
@@ -272,7 +272,7 @@ export default function Dashboard() {
         setBackendStatus('connected');
       }
     } catch (e) {
-      console.warn('[OSIRIS] Suppressed error:', e instanceof Error ? e.message : e);
+      console.warn('[Politeia] Suppressed error:', e instanceof Error ? e.message : e);
       setBackendStatus('error');
     }
   }, []);
@@ -289,7 +289,7 @@ export default function Dashboard() {
       try {
         const r = await fetch('/api/osiris/space-weather');
         if (r.ok) setSpaceWeather(await r.json());
-      } catch (e) { console.warn('[OSIRIS] Suppressed error:', e instanceof Error ? e.message : e); }
+      } catch (e) { console.warn('[Politeia] Suppressed error:', e instanceof Error ? e.message : e); }
     }, 5000);
 
     // Polling — OPTIMIZED intervals to minimize edge requests
@@ -392,7 +392,7 @@ export default function Dashboard() {
 
   // Reactive layer fetch: handled by layerFetchedRef above (no duplicate)
 
-  // ── OSIRIS SDK — Intelligence Fusion Layer ──
+  // ── Politeia SDK — Capa de fusión de inteligencia ──
   // Produces node coordinates for the SDK network mesh visualization.
   // Does NOT duplicate existing layer visuals — SDK layer is LINES ONLY.
   // Cameras are excluded — they have their own dedicated layer.
@@ -572,7 +572,7 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* ── OSIRIS title — letter-by-letter stagger ── */}
+            {/* ── Título Politeia — animación letra a letra ── */}
             <div className="flex items-center gap-[2px] mb-3 z-[2]">
               {'POLITEIA'.split('').map((letter, i) => (
                 <motion.span
@@ -786,6 +786,11 @@ export default function Dashboard() {
 
       {/* ── LEFT HUD (desktop): Capas + Stats + Intel + Reconocimiento + Alertas ── */}
       <div className="desktop-panel absolute left-5 top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-none overflow-y-auto styled-scrollbar pr-1">
+        {/* Localizador — arriba de la columna */}
+        <div className="flex gap-2 items-start pointer-events-auto">
+          <div className="flex-1"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
+          <div className="relative"><SharePanel mapView={mapView} activeLayers={activeLayers} mouseCoords={null} /></div>
+        </div>
         {showLayers && (
           <>
             <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
@@ -801,11 +806,7 @@ export default function Dashboard() {
           </>
         )}
         {showIntel && <IntelFeed data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} />}
-        {/* Búsqueda + Reconocimiento + Alertas — debajo, en la misma columna izquierda */}
-        <div className="flex gap-2 items-start pointer-events-auto">
-          <div className="flex-1"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
-          <div className="relative"><SharePanel mapView={mapView} activeLayers={activeLayers} mouseCoords={null} /></div>
-        </div>
+        {/* Reconocimiento + Alertas — debajo, en la misma columna */}
         <div className="pointer-events-auto"><OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
           setScanTargets(prev => {
             const existing = prev.filter(t => t.id !== target);

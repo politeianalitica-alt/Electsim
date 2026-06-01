@@ -21,7 +21,7 @@ import {
 import type { IntelligenceContext } from '@/lib/osiris/ai-engine';
 
 /* ═══════════════════════════════════════════════════════════════
-   OSIRIS — AI Intelligence Analyst Panel
+   Politeia — AI Intelligence Analyst Panel
    Premium glass-panel chat interface for real-time intelligence
    analysis powered by Gemini 2.0 Flash
    ═══════════════════════════════════════════════════════════════ */

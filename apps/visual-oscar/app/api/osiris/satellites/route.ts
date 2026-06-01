@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import { stealthFetch } from '@/lib/osiris/stealthFetch';
 
 /**
- * OSIRIS — Satellite Tracking API
+ * Politeia — Satellite Tracking API
  * Fetches TLE data from multiple sources with fallbacks
  * Computes real-time positions using simplified SGP4
  */
