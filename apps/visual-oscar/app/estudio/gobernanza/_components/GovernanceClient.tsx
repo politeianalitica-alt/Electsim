@@ -10,12 +10,14 @@ import styles from './Governance.module.css'
 
 type Tab = 'members' | 'audit' | 'apikeys'
 
+// Sprint Q-C.4 · ANTES roles mezclaban EN/ES (Owner, Admin, Viewer, API Only)
+// con un solo rol traducido (Analista). AHORA todo en español consistente.
 const ROLE_META: Record<OrgRole, { label: string; color: string }> = {
-  owner:    { label: 'Owner',     color: '#8b5cf6' },
-  admin:    { label: 'Admin',     color: '#3b82f6' },
-  analyst:  { label: 'Analista',  color: '#22c55e' },
-  viewer:   { label: 'Viewer',    color: '#9ca3af' },
-  api_only: { label: 'API Only',  color: '#f59e0b' },
+  owner:    { label: 'Propietario',    color: '#8b5cf6' },
+  admin:    { label: 'Administrador',  color: '#3b82f6' },
+  analyst:  { label: 'Analista',       color: '#22c55e' },
+  viewer:   { label: 'Lector',         color: '#9ca3af' },
+  api_only: { label: 'Solo API',       color: '#f59e0b' },
 }
 
 const AUDIT_GLYPH: Record<string, string> = {
@@ -107,8 +109,9 @@ export default function GovernanceClient() {
     <div className={styles.root}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Gobernanza</h1>
-          <p className={styles.subtitle}>Control de acceso, roles y trazabilidad de la organización</p>
+          {/* Sprint Q-C.4 · alinear con hub · "Equipo y permisos" */}
+          <h1 className={styles.title}>Equipo y permisos</h1>
+          <p className={styles.subtitle}>Quién accede a qué y qué ha cambiado.</p>
         </div>
       </div>
 
@@ -227,7 +230,8 @@ export default function GovernanceClient() {
         <div className={styles.section}>
           {createdKey && (
             <div className={styles.createdKeyAlert}>
-              <strong>! Guarda esta clave ahora — no volverá a mostrarse</strong>
+              {/* Sprint Q-C.4 · "! Guarda" sin palabra parecía glitch · ahora con etiqueta. */}
+              <strong>Importante: guarda esta clave ahora. No volverá a mostrarse.</strong>
               <code className={styles.createdKeyCode}>{createdKey}</code>
               <button onClick={() => { navigator.clipboard.writeText(createdKey) }} className={styles.copyBtn}>⎘ Copiar</button>
               <button onClick={() => setCreatedKey(null)} className={styles.dismissBtn}>✕</button>
@@ -237,7 +241,7 @@ export default function GovernanceClient() {
           <div className={styles.keyForm}>
             <span className={styles.keyFormTitle}>Nueva API Key</span>
             <input
-              placeholder="Nombre descriptivo (ej: CI/CD pipeline)"
+              placeholder="Nombre descriptivo (ej: Integración con Excel)"
               value={newKeyName} onChange={e => setNewKeyName(e.target.value)}
               className={styles.input}
             />

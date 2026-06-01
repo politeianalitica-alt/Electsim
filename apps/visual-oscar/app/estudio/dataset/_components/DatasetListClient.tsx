@@ -78,11 +78,12 @@ export default function DatasetListClient() {
     <div className={styles.root}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Datasets</h1>
-          <p className={styles.subtitle}>Almacenes de datos procesados listos para análisis y visualización</p>
+          {/* Sprint Q-C.4 · alinear con nav/hub · "Mis tablas" */}
+          <h1 className={styles.title}>Mis tablas</h1>
+          <p className={styles.subtitle}>Tablas procesadas listas para analizar y visualizar.</p>
         </div>
         <Link href="/estudio/dataset/nuevo" className={styles.btnPrimary}>
-          + Nuevo dataset
+          + Nueva tabla
         </Link>
       </div>
 
