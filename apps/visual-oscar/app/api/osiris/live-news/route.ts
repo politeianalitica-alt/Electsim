@@ -76,6 +76,44 @@ const LIVE_FEEDS = [
   { id: 'cam_huelva',      name: 'Cámara · Playa de Matalascañas',     city: 'Huelva',        country: 'ES', lat: 37.261, lng: -6.945, url: 'https://www.skylinewebcams.com/es/webcam/espana/andalucia/huelva/playa-de-matalascanas.html', embed_allowed: false, category: 'webcam', language: 'es' },
   { id: 'cam_cordoba',     name: 'Cámara · Córdoba (Ciudad Jardín)',   city: 'Córdoba',       country: 'ES', lat: 37.889, lng: -4.779, url: 'https://www.windy.com/webcams/1402727910', embed_allowed: false, category: 'webcam', language: 'es' },
 
+  // ── África (cámaras en directo — ciudades, costas y safari; abren en la web de la webcam) ──
+  // — Sudáfrica (ZA) —
+  { id: 'cam_capetown_tablemountain', name: 'Cámara · Table Mountain', city: 'Cape Town', country: 'ZA', lat: -33.9249, lng: 18.4241, url: 'https://www.skylinewebcams.com/en/webcam/south-africa/western-cape/cape-town/table-mountain.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_capetown_clifton', name: 'Cámara · Clifton Beach', city: 'Cape Town', country: 'ZA', lat: -33.9408, lng: 18.3760, url: 'https://www.skylinewebcams.com/en/webcam/south-africa/western-cape/cape-town/cape-town-clifton-beach.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_za_penguins_stonypoint', name: 'Cámara · Pingüinos Stony Point', city: 'Betty\'s Bay', country: 'ZA', lat: -34.3736, lng: 18.8946, url: 'https://africam.com/lodge/penguins/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_za_nkorho', name: 'Cámara · Nkorho Bush Lodge (Sabi Sand)', city: 'Sabi Sand', country: 'ZA', lat: -24.7900, lng: 31.4400, url: 'https://africam.com/lodge/nkorho-bush-lodge/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_za_tembe', name: 'Cámara · Tembe Elephant Park', city: 'Maputaland', country: 'ZA', lat: -27.0333, lng: 32.4167, url: 'https://africam.com/lodge/tembe-elephant-park/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_za_ulusaba', name: 'Cámara · Ulusaba (Sabi Sand)', city: 'Sabi Sand', country: 'ZA', lat: -24.8000, lng: 31.3500, url: 'https://africam.com/lodge/ulusaba/', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Kenia (KE) —
+  { id: 'cam_ke_mpala_wateringhole', name: 'Cámara · Mpala Watering Hole', city: 'Laikipia', country: 'KE', lat: 0.2900, lng: 36.9000, url: 'https://www.mpalalive.org/live_cam/wateringhole', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_ke_mpala_river', name: 'Cámara · Mpala River (Explore.org)', city: 'Laikipia', country: 'KE', lat: 0.2900, lng: 36.9000, url: 'https://explore.org/livecams/mpala/african-river-wildlife-camera', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_ke_wateringhole_explore', name: 'Cámara · African Watering Hole (Explore.org)', city: 'Laikipia', country: 'KE', lat: 0.2900, lng: 36.9000, url: 'https://explore.org/livecams/african-wildlife/african-watering-hole-animal-camera', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_ke_mara_river', name: 'Cámara · Mara River (Mara Triangle)', city: 'Maasai Mara', country: 'KE', lat: -1.4060, lng: 35.0080, url: 'https://africam.com/lodge/marariver/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_ke_mahali_mzuri', name: 'Cámara · Mahali Mzuri (Maasai Mara)', city: 'Maasai Mara', country: 'KE', lat: -1.2670, lng: 35.1830, url: 'https://africam.com/lodge/mahali-mzuri/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_ke_finch_hattons', name: 'Cámara · Finch Hattons (Tsavo West)', city: 'Tsavo West', country: 'KE', lat: -2.7500, lng: 38.1500, url: 'https://africam.com/lodge/finch-hattons/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_ke_ol_donyo', name: 'Cámara · ol Donyo Lodge (Chyulu Hills)', city: 'Chyulu Hills', country: 'KE', lat: -2.6800, lng: 37.8800, url: 'https://africam.com/lodge/ol-donyo-lodge/', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Tanzania (TZ) —
+  { id: 'cam_tz_serengeti', name: 'Cámara · Serengeti (Elewana Explorer)', city: 'Serengeti', country: 'TZ', lat: -2.3333, lng: 34.8333, url: 'https://africam.com/lodge/serengeti/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_tz_zanzibar_nungwi', name: 'Cámara · Nungwi Beach (Zanzíbar)', city: 'Nungwi', country: 'TZ', lat: -5.7270, lng: 39.2960, url: 'https://www.skylinewebcams.com/en/webcam/zanzibar/zanzibar-north/nungwi/nungwi-beach.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_tz_zanzibar_stonetown', name: 'Cámara · Stone Town (Zanzíbar)', city: 'Zanzibar City', country: 'TZ', lat: -6.1630, lng: 39.1890, url: 'https://www.skylinewebcams.com/en/webcam/zanzibar/zanzibar-urban-west-region/zanzibar-city/stone-town.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Egipto (EG) —
+  { id: 'cam_eg_giza_pyramid', name: 'Cámara · Gran Pirámide de Guiza', city: 'El Cairo', country: 'EG', lat: 29.9792, lng: 31.1342, url: 'https://www.skylinewebcams.com/en/webcam/egypt/cairo/cairo/great-pyramid-of-giza.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_eg_giza_sphinx', name: 'Cámara · Pirámides de Guiza y la Esfinge', city: 'El Cairo', country: 'EG', lat: 29.9753, lng: 31.1376, url: 'https://www.skylinewebcams.com/en/webcam/egypt/cairo/cairo/pyramids-giza-sphinx.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Marruecos (MA) —
+  { id: 'cam_ma_marrakech', name: 'Cámara · Marrakech (Koutoubia)', city: 'Marrakech', country: 'MA', lat: 31.6258, lng: -7.9891, url: 'https://www.skylinewebcams.com/en/webcam/morocco/marrakech-tensift-el-haouz/marrakesh/marrakesh.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Namibia (NA) —
+  { id: 'cam_na_okaukuejo', name: 'Cámara · Okaukuejo Waterhole (Etosha)', city: 'Etosha', country: 'NA', lat: -19.1820, lng: 15.9120, url: 'https://www.skylinewebcams.com/en/webcam/namibia/oshana-region/okaukuejo/etosha-national-park-wildlife-waterhole.html', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_na_onguma', name: 'Cámara · Onguma The Fort (Etosha)', city: 'Etosha', country: 'NA', lat: -18.7500, lng: 17.0500, url: 'https://africam.com/lodge/onguma-the-fort-live-stream-africam-live-camera-bordering-etosha-namibia/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_na_safarihoek', name: 'Cámara · Safarihoek (Etosha Heights)', city: 'Etosha Heights', country: 'NA', lat: -19.3000, lng: 15.4000, url: 'https://africam.com/lodge/safarihoek/', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Zimbabue (ZW) —
+  { id: 'cam_zw_the_hide', name: 'Cámara · The Hide (Hwange)', city: 'Hwange', country: 'ZW', lat: -18.6290, lng: 26.9870, url: 'https://africam.com/lodge/the-hide/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_zw_linkwasha', name: 'Cámara · Wilderness Linkwasha (Hwange)', city: 'Hwange', country: 'ZW', lat: -18.9500, lng: 27.0000, url: 'https://africam.com/lodge/linkwasha/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_zw_victoria_falls', name: 'Cámara · Victoria Falls Safari Lodge', city: 'Victoria Falls', country: 'ZW', lat: -17.9244, lng: 25.8267, url: 'https://africam.com/lodge/victoria-falls-safari-lodge/', embed_allowed: false, category: 'webcam', language: 'en' },
+  // — Botsuana (BW) —
+  { id: 'cam_bw_jacks_camp', name: 'Cámara · Jack\'s Camp (Makgadikgadi)', city: 'Makgadikgadi Pans', country: 'BW', lat: -20.5000, lng: 25.2000, url: 'https://africam.com/lodge/jackscamp/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_bw_kalahari_saltpan', name: 'Cámara · Kalahari Salt Pan (Makgadikgadi)', city: 'Makgadikgadi Pans', country: 'BW', lat: -20.7000, lng: 25.5000, url: 'https://africam.com/lodge/kalahari/', embed_allowed: false, category: 'webcam', language: 'en' },
+  { id: 'cam_bw_elephant_pan', name: 'Cámara · Elephant Pan (Khwai)', city: 'Khwai', country: 'BW', lat: -19.1500, lng: 23.7500, url: 'https://africam.com/lodge/elephant-pan/', embed_allowed: false, category: 'webcam', language: 'en' },
+
   // ── North America (external only — open in YouTube) ──
   { id: 'nbcnews',   name: 'NBC News NOW',  city: 'New York',      country: 'US', lat: 40.759, lng: -73.980, url: 'https://www.youtube.com/channel/UCeY0bbntWzzVIaj2z3QigXg/live', embed_allowed: false, category: 'mainstream', language: 'en' },
   { id: 'cbsnews',   name: 'CBS News 24/7', city: 'New York',      country: 'US', lat: 40.764, lng: -73.973, url: 'https://www.youtube.com/channel/UC8p1vwvWtl6T73JiExfWs1g/live', embed_allowed: false, category: 'mainstream', language: 'en' },
