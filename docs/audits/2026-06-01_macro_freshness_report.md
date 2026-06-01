@@ -4,9 +4,9 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 165 | 59.6% |
+| fresh | 166 | 59.9% |
 | stale | 30 | 10.8% |
-| empty | 80 | 28.9% |
+| empty | 79 | 28.5% |
 | error | 2 | 0.7% |
 
 ## Por catálogo
@@ -17,7 +17,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | demografia-territorio | 12 | 2 | 6 | 0 | 20 |
 | dependencias-externas | 7 | 2 | 5 | 0 | 14 |
 | empresas-beneficios | 3 | 1 | 9 | 0 | 13 |
-| flujos-capital | 2 | 0 | 8 | 1 | 11 |
+| flujos-capital | 3 | 0 | 7 | 1 | 11 |
 | hogares-empleo-vivienda | 14 | 11 | 7 | 0 | 32 |
 | instituciones-estado | 21 | 1 | 4 | 0 | 26 |
 | margen-fiscal | 11 | 3 | 2 | 0 | 16 |
@@ -36,7 +36,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | flujos-capital | `fc-bis-claims` | `/api/bis/bis-exposures?country=ES` | HTTP 404 |
 | medio-rural | `mr-renovables-mix` | `/api/esios/mix-renovable?n=12` | HTTP 404 |
 
-## EMPTY (80)
+## EMPTY (79)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -65,7 +65,6 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | empresas-beneficios | `eb-supervivencia-empresas` | `/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_s` | sin puntos |
 | empresas-beneficios | `eb-tasa-creacion-empresas` | `/api/eurostat/dataset?code=bd_size_r3&filters=geo=ES;indic_s` | sin puntos |
 | empresas-beneficios | `eb-volumen-negocios` | `/api/eurostat/dataset?code=sts_intvi_m&filters=geo=ES;nace_r` | sin puntos |
-| flujos-capital | `fc-cuenta-financiera` | `/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=` | sin puntos |
 | flujos-capital | `fc-ied-inbound` | `/api/eurostat/dataset?code=bop_fdi6_q&filters=geo=ES;bop_ite` | sin puntos |
 | flujos-capital | `fc-ied-outbound` | `/api/eurostat/dataset?code=bop_fdi6_q&filters=geo=ES;bop_ite` | sin puntos |
 | flujos-capital | `fc-iip-neta` | `/api/eurostat/dataset?code=bop_iip6_q&filters=geo=ES;sector=` | sin puntos |
