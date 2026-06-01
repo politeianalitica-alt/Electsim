@@ -803,8 +803,8 @@ export default function Dashboard() {
         {showIntel && <IntelFeed data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} />}
       </div>
 
-      {/* ── RIGHT HUD (desktop): Search + RECON + Live Alerts ── */}
-      <div className="desktop-panel absolute right-5 top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-auto overflow-y-auto styled-scrollbar pr-1">
+      {/* ── LEFT HUD · 2ª columna (desktop): Búsqueda + Reconocimiento + Alertas ── */}
+      <div className="desktop-panel absolute left-[20rem] top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-auto overflow-y-auto styled-scrollbar pr-1">
         <div className="flex gap-2 items-start">
           <div className="flex-1"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
           <div className="relative"><SharePanel mapView={mapView} activeLayers={activeLayers} mouseCoords={null} /></div>
