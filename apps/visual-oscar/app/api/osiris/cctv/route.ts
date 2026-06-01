@@ -19,6 +19,7 @@ import { fetchJapanCameras } from './japan';
 import { fetchFinlandCameras } from './finland';
 import { fetchHongKongCameras } from './hongkong';
 import { fetchMexicoCameras } from './mexico';
+import { fetchBritishColumbiaCameras } from './britishcolumbia';
 
 /**
  * Politeia — Worldwide CCTV Camera API v2
@@ -312,6 +313,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'finland': fetchFinlandCameras,
   'hongkong': fetchHongKongCameras,
   'mexico': fetchMexicoCameras,
+  'britishcolumbia': fetchBritishColumbiaCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -329,6 +331,8 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (lat > 24 && lat < 49 && lng > -105 && lng < -80) regions.push('us-central');
   // Canada
   if (lat > 42 && lat < 70 && lng > -141 && lng < -52) regions.push('canada');
+  // British Columbia (DriveBC)
+  if (lat > 47.5 && lat < 60.5 && lng > -139.5 && lng < -113.5) regions.push('britishcolumbia');
   // Europe
   const inBulgaria = lat > 41 && lat < 44.5 && lng > 22 && lng < 29.5;
   const inGreece = lat > 34.5 && lat < 41.8 && lng > 19 && lng < 30;
