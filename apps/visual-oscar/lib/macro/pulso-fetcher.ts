@@ -228,6 +228,20 @@ export async function fetchPulsoIndicator(
           .filter((p: PulsoPoint) => p.period && p.value != null);
         break;
       }
+      case "spanish-stats-points": {
+        // Sprint W.2 · /api/spanish-stats/<key> devuelve snapshots ministeriales:
+        //   { ok, points: [{ time: '2024', value: 28842.10 }], last: {...}, n_points }
+        // El campo del periodo es `time` (no `period`). 24 indicadores estaban
+        // mapeados a `ine-ipc` por error → ninguno parseaba.
+        const pts = Array.isArray(json?.points) ? json.points : [];
+        series = pts
+          .map((p: any) => ({
+            period: String(p.time ?? p.period ?? ''),
+            value: typeof p.value === 'number' ? p.value : null,
+          }) as PulsoPoint)
+          .filter((p: PulsoPoint) => p.period && p.value != null);
+        break;
+      }
       case "tesoro-snapshot": {
         // Sprint N15 · /api/tesoro/snapshot devuelve un objeto puntual con
         // métricas estáticas del último boletín. Convertimos a serie de 1 punto.

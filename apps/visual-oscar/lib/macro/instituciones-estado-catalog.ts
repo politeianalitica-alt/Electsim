@@ -472,7 +472,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% gasto ejecutado vs presupuestado AGE. ~85-95% según año. Indicador capacidad administrativa del Estado central.",
     endpoint: "/api/spanish-stats/ejecucion-presup?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 85, red: 75, goodAbove: true },
     accent: "#16a34a",
     methodologyNote:
@@ -494,7 +494,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Volumen contratación pública España %PIB. ~12-15%. Indicador peso del Estado en demanda agregada + transparencia.",
     endpoint: "/api/spanish-stats/contratacion-pub?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#7C3AED",
     methodologyNote:
       "Oficina Independiente de Regulación y Supervisión de la Contratación. Por tipo: obras + suministros + servicios. % procedimiento negociado sin publicidad como red flag.",

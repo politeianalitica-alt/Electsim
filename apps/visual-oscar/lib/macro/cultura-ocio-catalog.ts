@@ -309,7 +309,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% renta disponible hogares destinada a recreación y cultura (EPF función 09). España ~6%. Indicador bienestar y discrecionalidad.",
     endpoint: "/api/spanish-stats/gasto-hogares-cult?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#16a34a",
     methodologyNote:
       "INE Encuesta Presupuestos Familiares anual. Función COICOP 09 (recreación y cultura). Sensible al ciclo.",
@@ -330,7 +330,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Empleo cooperativas + sociedades laborales + mutualidades + fundaciones España. ~2.2M ocupados (~10% empleo total).",
     endpoint: "/api/spanish-stats/empleo-eco-social?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#16a34a",
     methodologyNote:
       "CEPES Confederación Empresarial Economía Social. Top CCAA: País Vasco (Mondragón), Cataluña, Andalucía, Comunidad Valenciana.",
@@ -351,7 +351,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Cooperativas activas España ~21.000. Modelo alternativo de organización empresarial con supervivencia superior a mercantiles a 5 años.",
     endpoint: "/api/spanish-stats/cooperativas?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#7C3AED",
     methodologyNote:
       "MTES estadísticas trimestrales. Sectores principales: trabajo asociado, agro, servicios, enseñanza, vivienda.",
@@ -372,7 +372,7 @@ export const CULTURA_OCIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Estimación CEPES: economía social ~10% PIB España. Indicador modelo socio-económico alternativo + impacto en empleo y cohesión.",
     endpoint: "/api/spanish-stats/pib-eco-social?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#16a34a",
     methodologyNote:
       "CEPES Informe Economía Social España. Incluye cooperativas + soc. laborales + mutualidades + fundaciones + asociaciones + ONG.",

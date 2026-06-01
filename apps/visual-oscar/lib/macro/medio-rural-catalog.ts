@@ -540,7 +540,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% municipios con menos de 1000 habitantes sobre total (8131 municipios). España ~62% — núcleo de la 'España vaciada'.",
     endpoint: "/api/spanish-stats/municipios-1000?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 55, red: 65, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
@@ -562,7 +562,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% población española residente en municipios <5000 hab. ~13%. Pequeño pero territorialmente ocupa >70% del país. Brecha territorial.",
     endpoint: "/api/spanish-stats/pob-mun-5000?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#7C3AED",
     methodologyNote:
       "Inverso de metropolización. Países UE15 con concentración urbana media: ~10-15% rural. España estructuralmente baja densidad demográfica.",
@@ -583,7 +583,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Cociente PIB per cápita CCAA más rica (Madrid) / CCAA más pobre (Extremadura). España ~1.8x. Mayor que media UE.",
     endpoint: "/api/spanish-stats/ratio-pib-ccaa?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 1.7, red: 2, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
@@ -605,7 +605,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Desviación típica logaritmos PIB pc CCAA. Disminuye = convergencia regional. España estancada desde 2008.",
     endpoint: "/api/spanish-stats/sigma-ccaa?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#f59e0b",
     methodologyNote:
       "Indicador estándar literatura crecimiento regional (Barro-Sala-i-Martin). Convergencia σ vs convergencia β.",
@@ -626,7 +626,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "PAC España ~7 €bn/año. Driver renta agraria + cohesión territorial rural. Ayudas directas + desarrollo rural.",
     endpoint: "/api/spanish-stats/pac-fondos?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#16a34a",
     methodologyNote:
       "FEGA datos abiertos. Distribución muy concentrada (top 20% beneficiarios → 80% fondos). Política UE en revisión post-2027.",
@@ -647,7 +647,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% fondos cohesión UE (FEDER+FEADER) ejecutados vs asignados. Indicador clave capacidad administrativa territorial.",
     endpoint: "/api/spanish-stats/feder-feader?country=ESP",
-    parser: "eurostat-simple",
+    parser: "spanish-stats-points",
     threshold: { amber: 60, red: 40, goodAbove: true },
     accent: "#0F766E",
     methodologyNote:
@@ -669,7 +669,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% municipios <5000 hab. con cobertura >30 Mbps. Driver despoblación: cobertura insuficiente acelera éxodo rural.",
     endpoint: "/api/spanish-stats/banda-ancha-rural?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 80, red: 60, goodAbove: true },
     accent: "#7C3AED",
     methodologyNote:
@@ -691,7 +691,7 @@ export const MEDIO_RURAL_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Precio medio €/ha tierra agrícola. España ~10.000 €/ha. Indicador rentabilidad agraria y especulación territorial.",
     endpoint: "/api/spanish-stats/precio-tierra?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#16a34a",
     methodologyNote:
       "MAPA Encuesta anual. Variación significativa por CCAA (regadío vs secano, viñedo, olivar).",

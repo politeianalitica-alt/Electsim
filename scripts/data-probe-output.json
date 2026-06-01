@@ -13,15 +13,15 @@
   },
   {
     "catalog": "pulso-macro",
-    "id": "pib-per-capita",
-    "endpoint": "/api/imf/country?iso=ESP&indicator=NGDPDPC",
-    "status": "fresh",
-    "n_points": 52,
-    "last_period": "2026",
-    "days_since_last": -213,
-    "expected_max_days": 540,
-    "source": "IMF DataMapper · WEO",
-    "frequency": "annual"
+    "id": "consumo-hogares-yoy",
+    "endpoint": "/api/ine/cnt-desglose?n=24",
+    "status": "stale",
+    "n_points": 24,
+    "last_period": "2020-Q1",
+    "days_since_last": 2256,
+    "expected_max_days": 150,
+    "source": "INE WSTempus · CNT",
+    "frequency": "quarterly"
   },
   {
     "catalog": "pulso-macro",
@@ -37,7 +37,31 @@
   },
   {
     "catalog": "pulso-macro",
-    "id": "consumo-hogares-yoy",
+    "id": "pib-per-capita",
+    "endpoint": "/api/imf/country?iso=ESP&indicator=NGDPDPC",
+    "status": "fresh",
+    "n_points": 52,
+    "last_period": "2026",
+    "days_since_last": -213,
+    "expected_max_days": 540,
+    "source": "IMF DataMapper · WEO",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "pulso-macro",
+    "id": "exports-yoy",
+    "endpoint": "/api/ine/cnt-extra?n=24",
+    "status": "stale",
+    "n_points": 24,
+    "last_period": "2020-Q1",
+    "days_since_last": 2256,
+    "expected_max_days": 150,
+    "source": "INE WSTempus · CNT",
+    "frequency": "quarterly"
+  },
+  {
+    "catalog": "pulso-macro",
+    "id": "exterior-pp",
     "endpoint": "/api/ine/cnt-desglose?n=24",
     "status": "stale",
     "n_points": 24,
@@ -63,30 +87,6 @@
     "catalog": "pulso-macro",
     "id": "inversion-fbcf-yoy",
     "endpoint": "/api/ine/cnt-desglose?n=24",
-    "status": "stale",
-    "n_points": 24,
-    "last_period": "2020-Q1",
-    "days_since_last": 2256,
-    "expected_max_days": 150,
-    "source": "INE WSTempus · CNT",
-    "frequency": "quarterly"
-  },
-  {
-    "catalog": "pulso-macro",
-    "id": "exterior-pp",
-    "endpoint": "/api/ine/cnt-desglose?n=24",
-    "status": "stale",
-    "n_points": 24,
-    "last_period": "2020-Q1",
-    "days_since_last": 2256,
-    "expected_max_days": 150,
-    "source": "INE WSTempus · CNT",
-    "frequency": "quarterly"
-  },
-  {
-    "catalog": "pulso-macro",
-    "id": "exports-yoy",
-    "endpoint": "/api/ine/cnt-extra?n=24",
     "status": "stale",
     "n_points": 24,
     "last_period": "2020-Q1",
@@ -145,18 +145,6 @@
   },
   {
     "catalog": "pulso-macro",
-    "id": "ipc-anual",
-    "endpoint": "/api/ine/ipc?n=36",
-    "status": "stale",
-    "n_points": 36,
-    "last_period": "2023-05",
-    "days_since_last": 1100,
-    "expected_max_days": 75,
-    "source": "INE WSTempus · IPC",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "pulso-macro",
     "id": "paro-imf-lur",
     "endpoint": "/api/imf/country?iso=ESP&indicator=LUR",
     "status": "fresh",
@@ -166,6 +154,30 @@
     "expected_max_days": 540,
     "source": "IMF DataMapper · WEO",
     "frequency": "annual"
+  },
+  {
+    "catalog": "pulso-macro",
+    "id": "ipc-imf",
+    "endpoint": "/api/imf/country?iso=ESP&indicator=PCPIPCH",
+    "status": "fresh",
+    "n_points": 52,
+    "last_period": "2026",
+    "days_since_last": -213,
+    "expected_max_days": 540,
+    "source": "IMF DataMapper · WEO",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "pulso-macro",
+    "id": "ipc-anual",
+    "endpoint": "/api/ine/ipc?n=36",
+    "status": "stale",
+    "n_points": 36,
+    "last_period": "2023-05",
+    "days_since_last": 1100,
+    "expected_max_days": 75,
+    "source": "INE WSTempus · IPC",
+    "frequency": "monthly"
   },
   {
     "catalog": "pulso-macro",
@@ -181,15 +193,15 @@
   },
   {
     "catalog": "pulso-macro",
-    "id": "ipc-imf",
-    "endpoint": "/api/imf/country?iso=ESP&indicator=PCPIPCH",
-    "status": "fresh",
-    "n_points": 52,
-    "last_period": "2026",
-    "days_since_last": -213,
-    "expected_max_days": 540,
-    "source": "IMF DataMapper · WEO",
-    "frequency": "annual"
+    "id": "pulso-construccion",
+    "endpoint": "/api/eurostat/dataset?code=sts_copr_m&filters=geo=ES;nace_r2=F;unit=I15_A",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 75,
+    "source": "Eurostat · sts_copr_m",
+    "frequency": "monthly"
   },
   {
     "catalog": "pulso-macro",
@@ -213,18 +225,6 @@
     "days_since_last": null,
     "expected_max_days": 75,
     "source": "Eurostat · sts_inpr_m",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "pulso-macro",
-    "id": "pulso-construccion",
-    "endpoint": "/api/eurostat/dataset?code=sts_copr_m&filters=geo=ES;nace_r2=F;unit=I15_A",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 75,
-    "source": "Eurostat · sts_copr_m",
     "frequency": "monthly"
   },
   {
@@ -313,6 +313,18 @@
   },
   {
     "catalog": "regimen-monetario",
+    "id": "rm-hicp-mom",
+    "endpoint": "/api/eurostat/dataset?code=prc_hicp_mmor&filters=geo=ES;coicop=CP00",
+    "status": "fresh",
+    "n_points": 359,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 75,
+    "source": "Eurostat · prc_hicp_mmor",
+    "frequency": "monthly"
+  },
+  {
+    "catalog": "regimen-monetario",
     "id": "rm-hicp-alimentos",
     "endpoint": "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=FOOD;unit=RCH_A",
     "status": "fresh",
@@ -333,18 +345,6 @@
     "days_since_last": null,
     "expected_max_days": 75,
     "source": "Eurostat · ei_bsei_m",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "regimen-monetario",
-    "id": "rm-hicp-mom",
-    "endpoint": "/api/eurostat/dataset?code=prc_hicp_mmor&filters=geo=ES;coicop=CP00",
-    "status": "fresh",
-    "n_points": 359,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 75,
-    "source": "Eurostat · prc_hicp_mmor",
     "frequency": "monthly"
   },
   {
@@ -373,18 +373,6 @@
   },
   {
     "catalog": "margen-fiscal",
-    "id": "mf-saldo-total",
-    "endpoint": "/api/imf/country?iso=ESP&indicator=GGXCNL_NGDP",
-    "status": "fresh",
-    "n_points": 52,
-    "last_period": "2026",
-    "days_since_last": -213,
-    "expected_max_days": 540,
-    "source": "IMF DataMapper · WEO",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "margen-fiscal",
     "id": "mf-intereses-pib",
     "endpoint": "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=D41PAY;sector=S13;unit=PC_GDP",
     "status": "fresh",
@@ -393,6 +381,18 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · gov_10a_main",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "margen-fiscal",
+    "id": "mf-saldo-total",
+    "endpoint": "/api/imf/country?iso=ESP&indicator=GGXCNL_NGDP",
+    "status": "fresh",
+    "n_points": 52,
+    "last_period": "2026",
+    "days_since_last": -213,
+    "expected_max_days": 540,
+    "source": "IMF DataMapper · WEO",
     "frequency": "annual"
   },
   {
@@ -433,30 +433,6 @@
   },
   {
     "catalog": "margen-fiscal",
-    "id": "mf-saldo-trim-edp",
-    "endpoint": "/api/eurostat/dataset?code=gov_10dd_edpt1&filters=geo=ES;na_item=B9;sector=S13;unit=PC_GDP",
-    "status": "fresh",
-    "n_points": 31,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "Eurostat · gov_10dd_edpt1",
-    "frequency": "quarterly"
-  },
-  {
-    "catalog": "margen-fiscal",
-    "id": "mf-deuda-trim",
-    "endpoint": "/api/eurostat/dataset?code=gov_10q_ggdebt&filters=geo=ES;sector=S13;unit=PC_GDP;na_item=GD",
-    "status": "fresh",
-    "n_points": 121,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "Eurostat · gov_10q_ggdebt",
-    "frequency": "quarterly"
-  },
-  {
-    "catalog": "margen-fiscal",
     "id": "mf-saldo-estructural",
     "endpoint": "/api/eurostat/dataset?code=ei_isfb_n&filters=geo=ES",
     "status": "empty",
@@ -466,6 +442,18 @@
     "expected_max_days": 540,
     "source": "Eurostat · ei_isfb_n",
     "frequency": "annual"
+  },
+  {
+    "catalog": "margen-fiscal",
+    "id": "mf-saldo-trim-edp",
+    "endpoint": "/api/eurostat/dataset?code=gov_10dd_edpt1&filters=geo=ES;na_item=B9;sector=S13;unit=PC_GDP",
+    "status": "fresh",
+    "n_points": 31,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 150,
+    "source": "Eurostat · gov_10dd_edpt1",
+    "frequency": "quarterly"
   },
   {
     "catalog": "margen-fiscal",
@@ -481,15 +469,15 @@
   },
   {
     "catalog": "margen-fiscal",
-    "id": "mf-recaudacion-d2",
-    "endpoint": "/api/eurostat/dataset?code=gov_10a_taxag&filters=geo=ES;na_item=D2;sector=S13;unit=PC_GDP",
+    "id": "mf-deuda-trim",
+    "endpoint": "/api/eurostat/dataset?code=gov_10q_ggdebt&filters=geo=ES;sector=S13;unit=PC_GDP;na_item=GD",
     "status": "fresh",
-    "n_points": 30,
+    "n_points": 121,
     "last_period": "",
     "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · gov_10a_taxag",
-    "frequency": "annual"
+    "expected_max_days": 150,
+    "source": "Eurostat · gov_10q_ggdebt",
+    "frequency": "quarterly"
   },
   {
     "catalog": "margen-fiscal",
@@ -501,6 +489,18 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · gov_10dd_ggdebt",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "margen-fiscal",
+    "id": "mf-recaudacion-d2",
+    "endpoint": "/api/eurostat/dataset?code=gov_10a_taxag&filters=geo=ES;na_item=D2;sector=S13;unit=PC_GDP",
+    "status": "fresh",
+    "n_points": 30,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · gov_10a_taxag",
     "frequency": "annual"
   },
   {
@@ -624,6 +624,18 @@
     "frequency": "annual"
   },
   {
+    "catalog": "margen-fiscal",
+    "id": "mf-vida-media-deuda",
+    "endpoint": "/api/tesoro/snapshot",
+    "status": "stale",
+    "n_points": 1,
+    "last_period": "2024-10",
+    "days_since_last": 581,
+    "expected_max_days": 75,
+    "source": "Tesoro Público · boletín mensual",
+    "frequency": "monthly"
+  },
+  {
     "catalog": "riesgo-sistemico",
     "id": "rs-npl-banca",
     "endpoint": "/api/bde/series/BE_4_18?n=36",
@@ -684,6 +696,30 @@
     "frequency": "quarterly"
   },
   {
+    "catalog": "margen-fiscal",
+    "id": "mf-coste-medio-emisiones",
+    "endpoint": "/api/tesoro/snapshot",
+    "status": "stale",
+    "n_points": 1,
+    "last_period": "2024-10",
+    "days_since_last": 581,
+    "expected_max_days": 75,
+    "source": "Tesoro Público · boletín mensual",
+    "frequency": "monthly"
+  },
+  {
+    "catalog": "margen-fiscal",
+    "id": "mf-no-residentes-deuda",
+    "endpoint": "/api/tesoro/snapshot",
+    "status": "stale",
+    "n_points": 1,
+    "last_period": "2024-10",
+    "days_since_last": 581,
+    "expected_max_days": 75,
+    "source": "Tesoro Público · boletín mensual",
+    "frequency": "monthly"
+  },
+  {
     "catalog": "dependencias-externas",
     "id": "de-bienes-export-mensual",
     "endpoint": "/api/ine/cnt-extra?n=36",
@@ -720,42 +756,6 @@
     "frequency": "monthly"
   },
   {
-    "catalog": "margen-fiscal",
-    "id": "mf-no-residentes-deuda",
-    "endpoint": "/api/tesoro/snapshot",
-    "status": "stale",
-    "n_points": 1,
-    "last_period": "2024-10",
-    "days_since_last": 581,
-    "expected_max_days": 75,
-    "source": "Tesoro Público · boletín mensual",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "margen-fiscal",
-    "id": "mf-vida-media-deuda",
-    "endpoint": "/api/tesoro/snapshot",
-    "status": "stale",
-    "n_points": 1,
-    "last_period": "2024-10",
-    "days_since_last": 581,
-    "expected_max_days": 75,
-    "source": "Tesoro Público · boletín mensual",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "margen-fiscal",
-    "id": "mf-coste-medio-emisiones",
-    "endpoint": "/api/tesoro/snapshot",
-    "status": "stale",
-    "n_points": 1,
-    "last_period": "2024-10",
-    "days_since_last": 581,
-    "expected_max_days": 75,
-    "source": "Tesoro Público · boletín mensual",
-    "frequency": "monthly"
-  },
-  {
     "catalog": "dependencias-externas",
     "id": "de-htec-trade",
     "endpoint": "/api/eurostat/dataset?code=htec_si_exp4&filters=geo=ES",
@@ -781,6 +781,18 @@
   },
   {
     "catalog": "dependencias-externas",
+    "id": "de-bop-deu",
+    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=DE;sector10=S1;bop_item=CA;unit=PC_GDP",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 150,
+    "source": "Eurostat · bop_c6_q",
+    "frequency": "quarterly"
+  },
+  {
+    "catalog": "dependencias-externas",
     "id": "de-import-gas",
     "endpoint": "/api/eurostat/dataset?code=nrg_cb_gasm&filters=geo=ES;nrg_bal=IMP_MAR_T",
     "status": "empty",
@@ -790,6 +802,18 @@
     "expected_max_days": 75,
     "source": "Eurostat · nrg_cb_gasm",
     "frequency": "monthly"
+  },
+  {
+    "catalog": "dependencias-externas",
+    "id": "de-bop-chn",
+    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=CN_X_HK;sector10=S1;bop_item=CA;unit=PC_GDP",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 150,
+    "source": "Eurostat · bop_c6_q",
+    "frequency": "quarterly"
   },
   {
     "catalog": "dependencias-externas",
@@ -816,18 +840,6 @@
     "frequency": "annual"
   },
   {
-    "catalog": "dependencias-externas",
-    "id": "de-bop-deu",
-    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=DE;sector10=S1;bop_item=CA;unit=PC_GDP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "Eurostat · bop_c6_q",
-    "frequency": "quarterly"
-  },
-  {
     "catalog": "mercados-activos",
     "id": "ma-yield-10y-es",
     "endpoint": "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=ES",
@@ -850,18 +862,6 @@
     "expected_max_days": 75,
     "source": "Eurostat · irt_lt_mcby_m",
     "frequency": "monthly"
-  },
-  {
-    "catalog": "dependencias-externas",
-    "id": "de-bop-chn",
-    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;partner=CN_X_HK;sector10=S1;bop_item=CA;unit=PC_GDP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "Eurostat · bop_c6_q",
-    "frequency": "quarterly"
   },
   {
     "catalog": "mercados-activos",
@@ -913,18 +913,6 @@
   },
   {
     "catalog": "mercados-activos",
-    "id": "ma-m3-growth-ea",
-    "endpoint": "/api/eurostat/dataset?code=ei_mfm3_m&filters=geo=EA",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 75,
-    "source": "Eurostat · ei_mfm3_m",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "mercados-activos",
     "id": "ma-yield-greece-10y",
     "endpoint": "/api/eurostat/dataset?code=irt_lt_mcby_m&filters=geo=EL",
     "status": "fresh",
@@ -945,6 +933,18 @@
     "days_since_last": null,
     "expected_max_days": 75,
     "source": "Eurostat · ei_bsfi_m",
+    "frequency": "monthly"
+  },
+  {
+    "catalog": "mercados-activos",
+    "id": "ma-m3-growth-ea",
+    "endpoint": "/api/eurostat/dataset?code=ei_mfm3_m&filters=geo=EA",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 75,
+    "source": "Eurostat · ei_mfm3_m",
     "frequency": "monthly"
   },
   {
@@ -1118,8 +1118,8 @@
   },
   {
     "catalog": "flujos-capital",
-    "id": "fc-portfolio-net",
-    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=PI;unit=PC_GDP",
+    "id": "fc-other-investment",
+    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=OI;unit=PC_GDP",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
@@ -1130,8 +1130,8 @@
   },
   {
     "catalog": "flujos-capital",
-    "id": "fc-other-investment",
-    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=OI;unit=PC_GDP",
+    "id": "fc-portfolio-net",
+    "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=PI;unit=PC_GDP",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
@@ -1201,6 +1201,18 @@
     "frequency": "annual"
   },
   {
+    "catalog": "productividad-competitividad",
+    "id": "pc-patentes-epo-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=pat_ep_ntot&filters=geo=ES;unit=P_MHAB",
+    "status": "fresh",
+    "n_points": 39,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · pat_ep_ntot",
+    "frequency": "annual"
+  },
+  {
     "catalog": "flujos-capital",
     "id": "fc-rentas-primarias",
     "endpoint": "/api/eurostat/dataset?code=bop_c6_q&filters=geo=ES;sector10=S1;bop_item=IN;unit=PC_GDP",
@@ -1214,14 +1226,14 @@
   },
   {
     "catalog": "productividad-competitividad",
-    "id": "pc-patentes-epo-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=pat_ep_ntot&filters=geo=ES;unit=P_MHAB",
+    "id": "pc-educacion-terciaria",
+    "endpoint": "/api/eurostat/dataset?code=edat_lfse_03&filters=geo=ES;sex=T;age=Y25-34;isced11=ED5-8",
     "status": "fresh",
-    "n_points": 39,
+    "n_points": 34,
     "last_period": "",
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Eurostat · pat_ep_ntot",
+    "source": "Eurostat · edat_lfse_03",
     "frequency": "annual"
   },
   {
@@ -1234,18 +1246,6 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · htec_emp_nat2",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "productividad-competitividad",
-    "id": "pc-educacion-terciaria",
-    "endpoint": "/api/eurostat/dataset?code=edat_lfse_03&filters=geo=ES;sex=T;age=Y25-34;isced11=ED5-8",
-    "status": "fresh",
-    "n_points": 34,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · edat_lfse_03",
     "frequency": "annual"
   },
   {
@@ -1322,6 +1322,18 @@
   },
   {
     "catalog": "empresas-beneficios",
+    "id": "eb-confianza-empresarial-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS-ICI;s_adj=SA;nace_r2=C",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 75,
+    "source": "Eurostat · ei_bsin_m",
+    "frequency": "monthly"
+  },
+  {
+    "catalog": "empresas-beneficios",
     "id": "eb-confianza-servicios",
     "endpoint": "/api/eurostat/dataset?code=ei_bssi_m&filters=geo=ES;indic=BS-SCI;s_adj=SA",
     "status": "empty",
@@ -1343,18 +1355,6 @@
     "expected_max_days": 540,
     "source": "Eurostat · bd_size_r3",
     "frequency": "annual"
-  },
-  {
-    "catalog": "empresas-beneficios",
-    "id": "eb-confianza-empresarial-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=ei_bsin_m&filters=geo=ES;indic=BS-ICI;s_adj=SA;nace_r2=C",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 75,
-    "source": "Eurostat · ei_bsin_m",
-    "frequency": "monthly"
   },
   {
     "catalog": "empresas-beneficios",
@@ -1597,6 +1597,18 @@
     "frequency": "quarterly"
   },
   {
+    "catalog": "empresas-beneficios",
+    "id": "eb-stock-capital",
+    "endpoint": "/api/eurostat/dataset?code=nama_10_nfa_st&filters=geo=ES;asset10=N11G;sector=TOTAL",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · nama_10_nfa_st",
+    "frequency": "annual"
+  },
+  {
     "catalog": "hogares-empleo-vivienda",
     "id": "hev-euribor-12m",
     "endpoint": "/api/bde/series/TI_1_1.6?n=36",
@@ -1622,44 +1634,20 @@
   },
   {
     "catalog": "hogares-empleo-vivienda",
-    "id": "hev-cis-vivienda-problema",
-    "endpoint": "/api/cis/serie?tema=vivienda",
-    "status": "stale",
-    "n_points": 19,
-    "last_period": "2025-04",
-    "days_since_last": 399,
-    "expected_max_days": 75,
-    "source": "CIS Barómetro mensual (curado PDF)",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "hogares-empleo-vivienda",
-    "id": "hev-cis-paro-problema",
-    "endpoint": "/api/cis/serie?tema=paro",
-    "status": "stale",
-    "n_points": 19,
-    "last_period": "2025-04",
-    "days_since_last": 399,
-    "expected_max_days": 75,
-    "source": "CIS Barómetro mensual (curado PDF)",
-    "frequency": "monthly"
-  },
-  {
-    "catalog": "empresas-beneficios",
-    "id": "eb-stock-capital",
-    "endpoint": "/api/eurostat/dataset?code=nama_10_nfa_st&filters=geo=ES;asset10=N11G;sector=TOTAL",
+    "id": "hev-paro-largo-plazo",
+    "endpoint": "/api/eurostat/dataset?code=lfsi_long_q&filters=geo=ES;sex=T;age=Y15-74;unit=PC_ACT",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · nama_10_nfa_st",
-    "frequency": "annual"
+    "expected_max_days": 150,
+    "source": "Eurostat · lfsi_long_q",
+    "frequency": "quarterly"
   },
   {
     "catalog": "hogares-empleo-vivienda",
-    "id": "hev-cis-precios-problema",
-    "endpoint": "/api/cis/serie?tema=precios",
+    "id": "hev-cis-vivienda-problema",
+    "endpoint": "/api/cis/serie?tema=vivienda",
     "status": "stale",
     "n_points": 19,
     "last_period": "2025-04",
@@ -1681,28 +1669,28 @@
     "frequency": "monthly"
   },
   {
-    "catalog": "dependencias-externas",
-    "id": "de-import-petroleo",
-    "endpoint": "/api/eurostat/dataset?code=nrg_te_oilm&filters=geo=ES",
-    "status": "fresh",
-    "n_points": 500,
-    "last_period": "",
-    "days_since_last": null,
+    "catalog": "hogares-empleo-vivienda",
+    "id": "hev-cis-precios-problema",
+    "endpoint": "/api/cis/serie?tema=precios",
+    "status": "stale",
+    "n_points": 19,
+    "last_period": "2025-04",
+    "days_since_last": 399,
     "expected_max_days": 75,
-    "source": "Eurostat · nrg_te_oilm",
+    "source": "CIS Barómetro mensual (curado PDF)",
     "frequency": "monthly"
   },
   {
     "catalog": "hogares-empleo-vivienda",
-    "id": "hev-paro-largo-plazo",
-    "endpoint": "/api/eurostat/dataset?code=lfsi_long_q&filters=geo=ES;sex=T;age=Y15-74;unit=PC_ACT",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "Eurostat · lfsi_long_q",
-    "frequency": "quarterly"
+    "id": "hev-cis-paro-problema",
+    "endpoint": "/api/cis/serie?tema=paro",
+    "status": "stale",
+    "n_points": 19,
+    "last_period": "2025-04",
+    "days_since_last": 399,
+    "expected_max_days": 75,
+    "source": "CIS Barómetro mensual (curado PDF)",
+    "frequency": "monthly"
   },
   {
     "catalog": "hogares-empleo-vivienda",
@@ -1730,12 +1718,24 @@
   },
   {
     "catalog": "hogares-empleo-vivienda",
+    "id": "hev-salario-medio",
+    "endpoint": "/api/spanish-stats/salario-medio?country=ESP",
+    "status": "fresh",
+    "n_points": 11,
+    "last_period": "2024",
+    "days_since_last": 517,
+    "expected_max_days": 540,
+    "source": "INE · Encuesta Estructura Salarial",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "hogares-empleo-vivienda",
     "id": "hev-salario-mediano",
     "endpoint": "/api/spanish-stats/salario-mediano?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 11,
+    "last_period": "2024",
+    "days_since_last": 517,
     "expected_max_days": 540,
     "source": "INE · EEES mediana",
     "frequency": "annual"
@@ -1744,10 +1744,10 @@
     "catalog": "hogares-empleo-vivienda",
     "id": "hev-smi",
     "endpoint": "/api/spanish-stats/smi?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "BOE · RD SMI vigente",
     "frequency": "annual"
@@ -1756,34 +1756,22 @@
     "catalog": "hogares-empleo-vivienda",
     "id": "hev-smi-mediano-ratio",
     "endpoint": "/api/spanish-stats/kaitz-ratio?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "Derivado · INE EEES + BOE SMI",
     "frequency": "annual"
   },
   {
     "catalog": "hogares-empleo-vivienda",
-    "id": "hev-salario-medio",
-    "endpoint": "/api/spanish-stats/salario-medio?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "INE · Encuesta Estructura Salarial",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "hogares-empleo-vivienda",
     "id": "hev-precio-m2-vivienda",
     "endpoint": "/api/spanish-stats/precio-m2-vivienda?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "stale",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 150,
     "source": "Mitma · Índice Precios Vivienda Libre",
     "frequency": "quarterly"
@@ -1792,10 +1780,10 @@
     "catalog": "hogares-empleo-vivienda",
     "id": "hev-esfuerzo-vivienda",
     "endpoint": "/api/spanish-stats/esfuerzo-vivienda?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "stale",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 150,
     "source": "Derivado · Mitma precio + INE EEES",
     "frequency": "quarterly"
@@ -1811,6 +1799,18 @@
     "expected_max_days": 540,
     "source": "Eurostat · nasa_10_ki",
     "frequency": "annual"
+  },
+  {
+    "catalog": "hogares-empleo-vivienda",
+    "id": "hev-cis-precios-pct",
+    "endpoint": "/api/cis-snapshot/problemas-precios",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 75,
+    "source": "CIS Barómetros",
+    "frequency": "monthly"
   },
   {
     "catalog": "hogares-empleo-vivienda",
@@ -1837,18 +1837,6 @@
     "frequency": "monthly"
   },
   {
-    "catalog": "hogares-empleo-vivienda",
-    "id": "hev-cis-precios-pct",
-    "endpoint": "/api/cis-snapshot/problemas-precios",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 75,
-    "source": "CIS Barómetros",
-    "frequency": "monthly"
-  },
-  {
     "catalog": "demografia-territorio",
     "id": "dt-paro-epa-jovenes",
     "endpoint": "/api/ine/epa?n=24",
@@ -1859,6 +1847,30 @@
     "expected_max_days": 150,
     "source": "INE WSTempus · EPA",
     "frequency": "quarterly"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-esperanza-vida",
+    "endpoint": "/api/eurostat/dataset?code=demo_mlexpec&filters=geo=ES;sex=T;age=Y_LT1",
+    "status": "fresh",
+    "n_points": 50,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · demo_mlexpec",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-ratio-dependencia",
+    "endpoint": "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=OLDDEP",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · demo_pjanind",
+    "frequency": "annual"
   },
   {
     "catalog": "demografia-territorio",
@@ -1882,30 +1894,6 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · demo_pjanind",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "demografia-territorio",
-    "id": "dt-ratio-dependencia",
-    "endpoint": "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=OLDDEP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · demo_pjanind",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "demografia-territorio",
-    "id": "dt-esperanza-vida",
-    "endpoint": "/api/eurostat/dataset?code=demo_mlexpec&filters=geo=ES;sex=T;age=Y_LT1",
-    "status": "fresh",
-    "n_points": 50,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · demo_mlexpec",
     "frequency": "annual"
   },
   {
@@ -1946,18 +1934,6 @@
   },
   {
     "catalog": "demografia-territorio",
-    "id": "dt-poblacion-total",
-    "endpoint": "/api/eurostat/dataset?code=demo_pjan&filters=geo=ES;sex=T;age=TOTAL",
-    "status": "fresh",
-    "n_points": 66,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "INE Padrón · cifras",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "demografia-territorio",
     "id": "dt-fertilidad-eurostat",
     "endpoint": "/api/eurostat/dataset?code=demo_find&filters=geo=ES;indic_de=TOTFERRT",
     "status": "fresh",
@@ -1970,12 +1946,48 @@
   },
   {
     "catalog": "demografia-territorio",
-    "id": "dt-pob-extranjera",
-    "endpoint": "/api/spanish-stats/pob-extranjera?country=ESP",
+    "id": "dt-poblacion-total",
+    "endpoint": "/api/eurostat/dataset?code=demo_pjan&filters=geo=ES;sex=T;age=TOTAL",
+    "status": "fresh",
+    "n_points": 66,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "INE Padrón · cifras",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "dependencias-externas",
+    "id": "de-import-petroleo",
+    "endpoint": "/api/eurostat/dataset?code=nrg_te_oilm&filters=geo=ES",
+    "status": "fresh",
+    "n_points": 500,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 75,
+    "source": "Eurostat · nrg_te_oilm",
+    "frequency": "monthly"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-poblacion-rural",
+    "endpoint": "/api/eurostat/dataset?code=urt_pjanaggr3&filters=geo=ES;deg_urb=DEG3",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · urt_pjanaggr3",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-pob-extranjera",
+    "endpoint": "/api/spanish-stats/pob-extranjera?country=ESP",
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "INE Padrón · nacionalidad",
     "frequency": "annual"
@@ -1984,13 +1996,37 @@
     "catalog": "demografia-territorio",
     "id": "dt-crecimiento-natural",
     "endpoint": "/api/spanish-stats/crecimiento-natural?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "stale",
+    "n_points": 11,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 75,
     "source": "INE · MNP",
     "frequency": "monthly"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-municipios-despoblacion",
+    "endpoint": "/api/spanish-stats/municipios-despoblacion?country=ESP",
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2025",
+    "days_since_last": 152,
+    "expected_max_days": 540,
+    "source": "Derivado · INE Padrón histórico",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-proyeccion-pob-2050",
+    "endpoint": "/api/spanish-stats/proyeccion-pob?country=ESP",
+    "status": "fresh",
+    "n_points": 5,
+    "last_period": "2050",
+    "days_since_last": -8979,
+    "expected_max_days": 540,
+    "source": "INE · Proyecciones Población",
+    "frequency": "annual"
   },
   {
     "catalog": "demografia-territorio",
@@ -2006,26 +2042,26 @@
   },
   {
     "catalog": "demografia-territorio",
-    "id": "dt-municipios-despoblacion",
-    "endpoint": "/api/spanish-stats/municipios-despoblacion?country=ESP",
+    "id": "dt-indice-envejecimiento",
+    "endpoint": "/api/macro/derived/envejecimiento_idx",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Derivado · INE Padrón histórico",
+    "source": "Derivado · INE Padrón",
     "frequency": "annual"
   },
   {
     "catalog": "demografia-territorio",
-    "id": "dt-proyeccion-pob-2050",
-    "endpoint": "/api/spanish-stats/proyeccion-pob?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "id": "dt-cohorte-mujer-edad-fertil",
+    "endpoint": "/api/spanish-stats/edad-maternidad?country=ESP",
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
-    "source": "INE · Proyecciones Población",
+    "source": "INE · MNP edad media maternidad",
     "frequency": "annual"
   },
   {
@@ -2038,18 +2074,6 @@
     "days_since_last": 517,
     "expected_max_days": 540,
     "source": "World Bank · SP.POP.65UP.TO.ZS",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "demografia-territorio",
-    "id": "dt-cohorte-mujer-edad-fertil",
-    "endpoint": "/api/spanish-stats/edad-maternidad?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "INE · MNP edad media maternidad",
     "frequency": "annual"
   },
   {
@@ -2101,27 +2125,15 @@
     "frequency": "annual"
   },
   {
-    "catalog": "demografia-territorio",
-    "id": "dt-proyeccion-dependencia-2050",
-    "endpoint": "/api/oecd/metric?name=dep_ratio_2050&country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "OECD · PENSION DEP_RATIO",
-    "frequency": "annual"
-  },
-  {
     "catalog": "sociedad-bienestar",
-    "id": "sb-gasto-social-pib",
-    "endpoint": "/api/eurostat/dataset?code=spr_exp_sum&filters=geo=ES",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
+    "id": "sb-gini-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=ilc_di12&filters=geo=ES",
+    "status": "fresh",
+    "n_points": 24,
+    "last_period": "",
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Eurostat · spr_exp_sum",
+    "source": "Eurostat · ilc_di12",
     "frequency": "annual"
   },
   {
@@ -2138,18 +2150,6 @@
   },
   {
     "catalog": "sociedad-bienestar",
-    "id": "sb-gini-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=ilc_di12&filters=geo=ES",
-    "status": "fresh",
-    "n_points": 24,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · ilc_di12",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "sociedad-bienestar",
     "id": "sb-pobreza-energetica",
     "endpoint": "/api/eurostat/dataset?code=ilc_mdes01&filters=geo=ES",
     "status": "fresh",
@@ -2162,6 +2162,18 @@
   },
   {
     "catalog": "sociedad-bienestar",
+    "id": "sb-gasto-social-pib",
+    "endpoint": "/api/eurostat/dataset?code=spr_exp_sum&filters=geo=ES",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · spr_exp_sum",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "sociedad-bienestar",
     "id": "sb-pension-pib",
     "endpoint": "/api/eurostat/dataset?code=spr_exp_pens&filters=geo=ES",
     "status": "fresh",
@@ -2170,6 +2182,18 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · spr_exp_pens",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "demografia-territorio",
+    "id": "dt-proyeccion-dependencia-2050",
+    "endpoint": "/api/oecd/metric?name=dep_ratio_2050&country=ESP",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "OECD · PENSION DEP_RATIO",
     "frequency": "annual"
   },
   {
@@ -2186,30 +2210,6 @@
   },
   {
     "catalog": "sociedad-bienestar",
-    "id": "sb-neet-15-29",
-    "endpoint": "/api/eurostat/dataset?code=edat_lfse_20&filters=geo=ES;age=Y15-29;sex=T",
-    "status": "fresh",
-    "n_points": 130,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · edat_lfse_20",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "demografia-territorio",
-    "id": "dt-poblacion-rural",
-    "endpoint": "/api/eurostat/dataset?code=urt_pjanaggr3&filters=geo=ES;deg_urb=DEG3",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · urt_pjanaggr3",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "sociedad-bienestar",
     "id": "sb-mortalidad-infantil",
     "endpoint": "/api/eurostat/dataset?code=demo_minfind&filters=geo=ES",
     "status": "fresh",
@@ -2222,6 +2222,18 @@
   },
   {
     "catalog": "sociedad-bienestar",
+    "id": "sb-neet-15-29",
+    "endpoint": "/api/eurostat/dataset?code=edat_lfse_20&filters=geo=ES;age=Y15-29;sex=T",
+    "status": "fresh",
+    "n_points": 130,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · edat_lfse_20",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "sociedad-bienestar",
     "id": "sb-gini-vs-ocde",
     "endpoint": "/api/oecd/metric?name=gini&country=ESP",
     "status": "empty",
@@ -2230,6 +2242,18 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "OECD · IDD GINI",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "sociedad-bienestar",
+    "id": "sb-arope-vs-ue",
+    "endpoint": "/api/macro/derived/arope_gap",
+    "status": "fresh",
+    "n_points": 11,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Derivado · Eurostat ilc_peps01",
     "frequency": "annual"
   },
   {
@@ -2258,30 +2282,6 @@
   },
   {
     "catalog": "sociedad-bienestar",
-    "id": "sb-arope-vs-ue",
-    "endpoint": "/api/macro/derived/arope_gap",
-    "status": "fresh",
-    "n_points": 11,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Derivado · Eurostat ilc_peps01",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "demografia-territorio",
-    "id": "dt-indice-envejecimiento",
-    "endpoint": "/api/macro/derived/envejecimiento_idx",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Derivado · INE Padrón",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "sociedad-bienestar",
     "id": "sb-abandono-vs-ue",
     "endpoint": "/api/macro/derived/abandono_gap",
     "status": "fresh",
@@ -2306,14 +2306,14 @@
   },
   {
     "catalog": "sociedad-bienestar",
-    "id": "sb-confianza-interpersonal",
-    "endpoint": "/api/eurostat/dataset?code=ilc_scp&filters=geo=ES",
+    "id": "sb-esperanza-vida-saludable",
+    "endpoint": "/api/eurostat/dataset?code=hlth_hlye&filters=geo=ES;age=Y65_GE;sex=F",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Eurostat · ilc_scp",
+    "source": "Eurostat · hlth_hlye",
     "frequency": "annual"
   },
   {
@@ -2342,14 +2342,26 @@
   },
   {
     "catalog": "sociedad-bienestar",
-    "id": "sb-idh-undp",
-    "endpoint": "/api/undp/hdi?country=ESP",
-    "status": "fresh",
-    "n_points": 11,
-    "last_period": "",
+    "id": "sb-confianza-interpersonal",
+    "endpoint": "/api/eurostat/dataset?code=ilc_scp&filters=geo=ES",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "UNDP · HDR",
+    "source": "Eurostat · ilc_scp",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "sociedad-bienestar",
+    "id": "sb-gasto-sanidad-publica",
+    "endpoint": "/api/eurostat/dataset?code=hlth_sha11_hf&filters=geo=ES;hf=HF1",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · hlth_sha11_hf",
     "frequency": "annual"
   },
   {
@@ -2378,26 +2390,14 @@
   },
   {
     "catalog": "sociedad-bienestar",
-    "id": "sb-esperanza-vida-saludable",
-    "endpoint": "/api/eurostat/dataset?code=hlth_hlye&filters=geo=ES;age=Y65_GE;sex=F",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
+    "id": "sb-idh-undp",
+    "endpoint": "/api/undp/hdi?country=ESP",
+    "status": "fresh",
+    "n_points": 11,
+    "last_period": "",
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Eurostat · hlth_hlye",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "sociedad-bienestar",
-    "id": "sb-gasto-sanidad-publica",
-    "endpoint": "/api/eurostat/dataset?code=hlth_sha11_hf&filters=geo=ES;hf=HF1",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · hlth_sha11_hf",
+    "source": "UNDP · HDR",
     "frequency": "annual"
   },
   {
@@ -2474,8 +2474,20 @@
   },
   {
     "catalog": "medio-rural",
-    "id": "mr-precipitacion-and",
-    "endpoint": "/api/aemet/precipitacion-ccaa?ccaa=AND",
+    "id": "mr-aei-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=aact_eaa04&filters=geo=ES;indic_ag=ENTREP_HOL_RY",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · aact_eaa04",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "medio-rural",
+    "id": "mr-precipitacion-cyl",
+    "endpoint": "/api/aemet/precipitacion-ccaa?ccaa=CYL",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
@@ -2486,8 +2498,8 @@
   },
   {
     "catalog": "medio-rural",
-    "id": "mr-precipitacion-cyl",
-    "endpoint": "/api/aemet/precipitacion-ccaa?ccaa=CYL",
+    "id": "mr-precipitacion-and",
+    "endpoint": "/api/aemet/precipitacion-ccaa?ccaa=AND",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
@@ -2606,30 +2618,6 @@
   },
   {
     "catalog": "medio-rural",
-    "id": "mr-aei-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=aact_eaa04&filters=geo=ES;indic_ag=ENTREP_HOL_RY",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · aact_eaa04",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "medio-rural",
-    "id": "mr-sau-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=ef_lus_main&filters=geo=ES;crops=UAA;agrarea=TOTAL",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · ef_lus_main",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "medio-rural",
     "id": "mr-precipitacion-ext",
     "endpoint": "/api/aemet/precipitacion-ccaa?ccaa=EXT",
     "status": "empty",
@@ -2666,36 +2654,36 @@
   },
   {
     "catalog": "medio-rural",
-    "id": "mr-pob-mun-5000",
-    "endpoint": "/api/spanish-stats/pob-mun-5000?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Derivado · INE Padrón",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "medio-rural",
     "id": "mr-municipios-1000",
     "endpoint": "/api/spanish-stats/municipios-1000?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "Derivado · INE Padrón municipal",
     "frequency": "annual"
   },
   {
     "catalog": "medio-rural",
+    "id": "mr-pob-mun-5000",
+    "endpoint": "/api/spanish-stats/pob-mun-5000?country=ESP",
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2025",
+    "days_since_last": 152,
+    "expected_max_days": 540,
+    "source": "Derivado · INE Padrón",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "medio-rural",
     "id": "mr-ratio-pib-ccaa",
     "endpoint": "/api/spanish-stats/ratio-pib-ccaa?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2024",
+    "days_since_last": 517,
     "expected_max_days": 540,
     "source": "Derivado · INE Contabilidad Regional",
     "frequency": "annual"
@@ -2704,12 +2692,24 @@
     "catalog": "medio-rural",
     "id": "mr-sigma-convergencia",
     "endpoint": "/api/spanish-stats/sigma-ccaa?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2024",
+    "days_since_last": 517,
     "expected_max_days": 540,
     "source": "Derivado · INE",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "medio-rural",
+    "id": "mr-pac-fondos",
+    "endpoint": "/api/spanish-stats/pac-fondos?country=ESP",
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
+    "expected_max_days": 540,
+    "source": "FEGA · pagos directos",
     "frequency": "annual"
   },
   {
@@ -2718,46 +2718,46 @@
     "endpoint": "/api/spanish-stats/feder-feader?country=ESP",
     "status": "fresh",
     "n_points": 8,
-    "last_period": "",
-    "days_since_last": null,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "CE cohesiondata",
     "frequency": "annual"
   },
   {
     "catalog": "medio-rural",
-    "id": "mr-pac-fondos",
-    "endpoint": "/api/spanish-stats/pac-fondos?country=ESP",
+    "id": "mr-banda-ancha-rural",
+    "endpoint": "/api/spanish-stats/banda-ancha-rural?country=ESP",
+    "status": "fresh",
+    "n_points": 7,
+    "last_period": "2025",
+    "days_since_last": 152,
+    "expected_max_days": 540,
+    "source": "CNMC · cobertura municipal",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "medio-rural",
+    "id": "mr-sau-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=ef_lus_main&filters=geo=ES;crops=UAA;agrarea=TOTAL",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "FEGA · pagos directos",
+    "source": "Eurostat · ef_lus_main",
     "frequency": "annual"
   },
   {
     "catalog": "medio-rural",
     "id": "mr-precio-tierra",
     "endpoint": "/api/spanish-stats/precio-tierra?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "MAPA · Encuesta precios tierra",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "medio-rural",
-    "id": "mr-banda-ancha-rural",
-    "endpoint": "/api/spanish-stats/banda-ancha-rural?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "CNMC · cobertura municipal",
     "frequency": "annual"
   },
   {
@@ -2775,6 +2775,18 @@
   },
   {
     "catalog": "cultura-ocio",
+    "id": "co-empleo-hosteleria",
+    "endpoint": "/api/eurostat/dataset?code=lfsq_egan2&filters=geo=ES;nace_r2=I",
+    "status": "fresh",
+    "n_points": 500,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 150,
+    "source": "Eurostat · lfsq_egan2",
+    "frequency": "quarterly"
+  },
+  {
+    "catalog": "cultura-ocio",
     "id": "co-tourism-services-export",
     "endpoint": "/api/eurostat/dataset?code=bop_its6_det&filters=geo=ES;bop_item=SC",
     "status": "fresh",
@@ -2786,16 +2798,16 @@
     "frequency": "quarterly"
   },
   {
-    "catalog": "cultura-ocio",
-    "id": "co-empleo-hosteleria",
-    "endpoint": "/api/eurostat/dataset?code=lfsq_egan2&filters=geo=ES;nace_r2=I",
-    "status": "fresh",
-    "n_points": 500,
-    "last_period": "",
+    "catalog": "medio-rural",
+    "id": "mr-indice-cohesion-terr",
+    "endpoint": "/api/macro/derived/cohesion_territorial",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
     "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "Eurostat · lfsq_egan2",
-    "frequency": "quarterly"
+    "expected_max_days": 540,
+    "source": "Derivado · PIB + paro + población + servicios CCAA",
+    "frequency": "annual"
   },
   {
     "catalog": "cultura-ocio",
@@ -2822,28 +2834,16 @@
     "frequency": "annual"
   },
   {
-    "catalog": "medio-rural",
-    "id": "mr-indice-cohesion-terr",
-    "endpoint": "/api/macro/derived/cohesion_territorial",
+    "catalog": "cultura-ocio",
+    "id": "co-tourism-nights-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=tour_occ_nin&filters=geo=ES;c_resid=TOTAL;nace_r2=I551-I553;unit=NR",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Derivado · PIB + paro + población + servicios CCAA",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "cultura-ocio",
-    "id": "co-establecimientos-tur",
-    "endpoint": "/api/eurostat/dataset?code=tour_cap_nat&filters=geo=ES;nace_r2=I551-I553",
-    "status": "fresh",
-    "n_points": 120,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · tour_cap_nat",
-    "frequency": "annual"
+    "expected_max_days": 75,
+    "source": "Eurostat · tour_occ_nin",
+    "frequency": "monthly"
   },
   {
     "catalog": "cultura-ocio",
@@ -2859,15 +2859,27 @@
   },
   {
     "catalog": "cultura-ocio",
-    "id": "co-tourism-nights-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=tour_occ_nin&filters=geo=ES;c_resid=TOTAL;nace_r2=I551-I553;unit=NR",
+    "id": "co-cult-trade",
+    "endpoint": "/api/eurostat/dataset?code=cult_trd1&filters=geo=ES",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
-    "expected_max_days": 75,
-    "source": "Eurostat · tour_occ_nin",
-    "frequency": "monthly"
+    "expected_max_days": 540,
+    "source": "Eurostat · cult_trd1",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "cultura-ocio",
+    "id": "co-establecimientos-tur",
+    "endpoint": "/api/eurostat/dataset?code=tour_cap_nat&filters=geo=ES;nace_r2=I551-I553",
+    "status": "fresh",
+    "n_points": 120,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · tour_cap_nat",
+    "frequency": "annual"
   },
   {
     "catalog": "cultura-ocio",
@@ -2895,14 +2907,14 @@
   },
   {
     "catalog": "cultura-ocio",
-    "id": "co-cult-trade",
-    "endpoint": "/api/eurostat/dataset?code=cult_trd1&filters=geo=ES",
+    "id": "co-pernoct-nuts2",
+    "endpoint": "/api/eurostat/dataset?code=tour_occ_arn&filters=geo=ES;c_resid=TOTAL;unit=NR;nace_r2=I551-I553",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Eurostat · cult_trd1",
+    "source": "Eurostat · tour_occ_arn",
     "frequency": "annual"
   },
   {
@@ -2921,34 +2933,22 @@
     "catalog": "cultura-ocio",
     "id": "co-gasto-hogares-cultura",
     "endpoint": "/api/spanish-stats/gasto-hogares-cult?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2024",
+    "days_since_last": 517,
     "expected_max_days": 540,
     "source": "INE EPF · función 09",
     "frequency": "annual"
   },
   {
     "catalog": "cultura-ocio",
-    "id": "co-pernoct-nuts2",
-    "endpoint": "/api/eurostat/dataset?code=tour_occ_arn&filters=geo=ES;c_resid=TOTAL;unit=NR;nace_r2=I551-I553",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · tour_occ_arn",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "cultura-ocio",
     "id": "co-empleo-economia-social",
     "endpoint": "/api/spanish-stats/empleo-eco-social?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "CEPES / MTES",
     "frequency": "annual"
@@ -2957,10 +2957,10 @@
     "catalog": "cultura-ocio",
     "id": "co-cooperativas-activas",
     "endpoint": "/api/spanish-stats/cooperativas?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 8,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "MTES · estadísticas cooperativas",
     "frequency": "annual"
@@ -2969,10 +2969,10 @@
     "catalog": "cultura-ocio",
     "id": "co-pib-economia-social",
     "endpoint": "/api/spanish-stats/pib-eco-social?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 9,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 540,
     "source": "CEPES · informe anual",
     "frequency": "annual"
@@ -3027,18 +3027,6 @@
   },
   {
     "catalog": "instituciones-estado",
-    "id": "ie-intereses-pib",
-    "endpoint": "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=D41PAY;sector=S13;unit=PC_GDP",
-    "status": "fresh",
-    "n_points": 31,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · gov_10a_main",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "instituciones-estado",
     "id": "ie-gasto-sanitario",
     "endpoint": "/api/eurostat/dataset?code=gov_10a_exp&filters=geo=ES;cofog99=GF07;sector=S13;unit=PC_GDP",
     "status": "fresh",
@@ -3047,6 +3035,18 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · gov_10a_exp",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "instituciones-estado",
+    "id": "ie-intereses-pib",
+    "endpoint": "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=D41PAY;sector=S13;unit=PC_GDP",
+    "status": "fresh",
+    "n_points": 31,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · gov_10a_main",
     "frequency": "annual"
   },
   {
@@ -3075,18 +3075,6 @@
   },
   {
     "catalog": "instituciones-estado",
-    "id": "ie-id-rd-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=rd_e_gerdtot&filters=geo=ES;sectperf=GOV;unit=PC_GDP",
-    "status": "fresh",
-    "n_points": 30,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · rd_e_gerdtot",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "instituciones-estado",
     "id": "ie-gasto-defensa",
     "endpoint": "/api/eurostat/dataset?code=gov_10a_exp&filters=geo=ES;cofog99=GF02;sector=S13;unit=PC_GDP",
     "status": "fresh",
@@ -3095,6 +3083,18 @@
     "days_since_last": null,
     "expected_max_days": 540,
     "source": "Eurostat · gov_10a_exp",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "instituciones-estado",
+    "id": "ie-id-rd-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=rd_e_gerdtot&filters=geo=ES;sectperf=GOV;unit=PC_GDP",
+    "status": "fresh",
+    "n_points": 30,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · rd_e_gerdtot",
     "frequency": "annual"
   },
   {
@@ -3147,18 +3147,6 @@
   },
   {
     "catalog": "instituciones-estado",
-    "id": "ie-inversion-publica-eurostat",
-    "endpoint": "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=P51G;sector=S13;unit=PC_GDP",
-    "status": "fresh",
-    "n_points": 31,
-    "last_period": "",
-    "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Eurostat · gov_10a_main",
-    "frequency": "annual"
-  },
-  {
-    "catalog": "instituciones-estado",
     "id": "ie-deuda-publica-pib",
     "endpoint": "/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP",
     "status": "fresh",
@@ -3167,6 +3155,18 @@
     "days_since_last": -213,
     "expected_max_days": 540,
     "source": "IMF DataMapper · WEO",
+    "frequency": "annual"
+  },
+  {
+    "catalog": "instituciones-estado",
+    "id": "ie-inversion-publica-eurostat",
+    "endpoint": "/api/eurostat/dataset?code=gov_10a_main&filters=geo=ES;na_item=P51G;sector=S13;unit=PC_GDP",
+    "status": "fresh",
+    "n_points": 31,
+    "last_period": "",
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · gov_10a_main",
     "frequency": "annual"
   },
   {
@@ -3206,6 +3206,18 @@
     "frequency": "annual"
   },
   {
+    "catalog": "cultura-ocio",
+    "id": "co-pib-cultural-ue",
+    "endpoint": "/api/macro/derived/pib_cultural_ue_gap",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
+    "days_since_last": null,
+    "expected_max_days": 540,
+    "source": "Eurostat · cult_emp_n2 multi",
+    "frequency": "annual"
+  },
+  {
     "catalog": "instituciones-estado",
     "id": "ie-wgi-corruption",
     "endpoint": "/api/worldbank/indicator/CC.PER.RNK?country=ES&per_page=30",
@@ -3221,10 +3233,10 @@
     "catalog": "instituciones-estado",
     "id": "ie-ejecucion-presup",
     "endpoint": "/api/spanish-stats/ejecucion-presup?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "stale",
+    "n_points": 8,
+    "last_period": "2025",
+    "days_since_last": 152,
     "expected_max_days": 75,
     "source": "IGAE · ejecución mensual",
     "frequency": "monthly"
@@ -3233,25 +3245,25 @@
     "catalog": "instituciones-estado",
     "id": "ie-contratacion-publica",
     "endpoint": "/api/spanish-stats/contratacion-pub?country=ESP",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
+    "status": "fresh",
+    "n_points": 7,
+    "last_period": "2024",
+    "days_since_last": 517,
     "expected_max_days": 540,
     "source": "OIRESCON",
     "frequency": "annual"
   },
   {
     "catalog": "instituciones-estado",
-    "id": "ie-cpi-transparency",
-    "endpoint": "/api/governance-indices/cpi?country=ESP",
-    "status": "fresh",
-    "n_points": 11,
-    "last_period": "",
+    "id": "ie-cis-confianza-gob",
+    "endpoint": "/api/cis-snapshot/confianza-gobierno",
+    "status": "empty",
+    "n_points": 0,
+    "last_period": null,
     "days_since_last": null,
-    "expected_max_days": 540,
-    "source": "Transparency International · CPI",
-    "frequency": "annual"
+    "expected_max_days": 150,
+    "source": "CIS Barómetros",
+    "frequency": "quarterly"
   },
   {
     "catalog": "instituciones-estado",
@@ -3266,15 +3278,15 @@
     "frequency": "annual"
   },
   {
-    "catalog": "cultura-ocio",
-    "id": "co-pib-cultural-ue",
-    "endpoint": "/api/macro/derived/pib_cultural_ue_gap",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
+    "catalog": "instituciones-estado",
+    "id": "ie-cpi-transparency",
+    "endpoint": "/api/governance-indices/cpi?country=ESP",
+    "status": "fresh",
+    "n_points": 11,
+    "last_period": "",
     "days_since_last": null,
     "expected_max_days": 540,
-    "source": "Eurostat · cult_emp_n2 multi",
+    "source": "Transparency International · CPI",
     "frequency": "annual"
   },
   {
@@ -3293,18 +3305,6 @@
     "catalog": "instituciones-estado",
     "id": "ie-cis-confianza-tribunales",
     "endpoint": "/api/cis-snapshot/confianza-tribunales",
-    "status": "empty",
-    "n_points": 0,
-    "last_period": null,
-    "days_since_last": null,
-    "expected_max_days": 150,
-    "source": "CIS Barómetros",
-    "frequency": "quarterly"
-  },
-  {
-    "catalog": "instituciones-estado",
-    "id": "ie-cis-confianza-gob",
-    "endpoint": "/api/cis-snapshot/confianza-gobierno",
     "status": "empty",
     "n_points": 0,
     "last_period": null,
