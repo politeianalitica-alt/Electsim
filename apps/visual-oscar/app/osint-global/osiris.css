@@ -211,6 +211,14 @@
   box-shadow: none;
 }
 
+/* ── Tipografía Politeia en todo el mapa (legibilidad + coherencia) ──
+   OSIRIS usaba fuente monoespaciada por todos lados; la unificamos con la
+   pila de sistema de Politeia. tabular-nums se conserva donde ya estaba. */
+.osiris-root,
+.osiris-root * {
+  font-family: -apple-system, "SF Pro Text", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", system-ui, sans-serif !important;
+}
+
 /* ── Scrollbar ── */
 .styled-scrollbar::-webkit-scrollbar { width: 3px; }
 .styled-scrollbar::-webkit-scrollbar-track { background: transparent; }

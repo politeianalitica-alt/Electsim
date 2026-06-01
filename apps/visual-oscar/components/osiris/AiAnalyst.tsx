@@ -264,7 +264,7 @@ export default function AiAnalyst({ data }: AiAnalystProps) {
       const errorMsg: ChatMessage = {
         id: generateId(),
         role: 'analyst',
-        content: `⚠ ERROR DE ANÁLISIS DE INTELIGENCIA\n\n${message}`,
+        content: `ERROR DE ANÁLISIS DE INTELIGENCIA\n\n${message}`,
         timestamp: new Date().toISOString(),
         isError: true,
       };
@@ -280,7 +280,7 @@ export default function AiAnalyst({ data }: AiAnalystProps) {
     const userMsg: ChatMessage = {
       id: generateId(),
       role: 'user',
-      content: '📋 Genera un informe de inteligencia completo a partir de los datos operativos actuales',
+      content: 'Genera un informe de inteligencia completo a partir de los datos operativos actuales',
       timestamp: new Date().toISOString(),
     };
     setMessages((prev) => [...prev, userMsg]);
@@ -315,7 +315,7 @@ export default function AiAnalyst({ data }: AiAnalystProps) {
       const errorMsg: ChatMessage = {
         id: generateId(),
         role: 'analyst',
-        content: `⚠ ERROR AL GENERAR EL INFORME\n\n${message}`,
+        content: `ERROR AL GENERAR EL INFORME\n\n${message}`,
         timestamp: new Date().toISOString(),
         isError: true,
       };
@@ -815,7 +815,7 @@ export default function AiAnalyst({ data }: AiAnalystProps) {
                 {/* Footer */}
                 <div className="flex items-center justify-between mt-1.5 px-1">
                   <span className="text-[7px] font-mono text-[var(--text-muted)] tracking-wider">
-                    {keySaved ? '🔑 CLAVE PROPIA' : '🔧 CLAVE DEL SERVIDOR'} • {messages.filter((m) => m.role === 'user').length} CONSULTAS
+                    {keySaved ? 'CLAVE PROPIA' : 'CLAVE DEL SERVIDOR'} • {messages.filter((m) => m.role === 'user').length} CONSULTAS
                   </span>
                   <span className="text-[7px] font-mono text-[var(--text-muted)] tracking-wider">
                     FUENTES: {(data.earthquakes?.length || 0) + (data.news?.length || 0) + (data.gdelt?.length || 0)} ELEMENTOS

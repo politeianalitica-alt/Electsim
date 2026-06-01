@@ -3,15 +3,12 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, BarChart3, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, ExternalLink, AlertTriangle, Activity, Database, Wifi } from 'lucide-react';
+import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
-import MarketsPanel from '@/components/osiris/MarketsPanel';
-import ScmPanel from '@/components/osiris/ScmPanel';
 import SearchBar from '@/components/osiris/SearchBar';
 import ScaleBar from '@/components/osiris/ScaleBar';
 import ErrorBoundary from '@/components/osiris/ErrorBoundary';
 import SharePanel from '@/components/osiris/SharePanel';
-import ViewPresets from '@/components/osiris/ViewPresets';
 import KeyboardShortcuts from '@/components/osiris/KeyboardShortcuts';
 import GlobalStatusBar from '@/components/osiris/GlobalStatusBar';
 import LiveAlerts from '@/components/osiris/LiveAlerts';
@@ -99,13 +96,11 @@ export default function Dashboard() {
   const [activeCamera, setActiveCamera] = useState<any>(null);
   const [spaceWeather, setSpaceWeather] = useState<any>(null);
   const [showLayers, setShowLayers] = useState(true);
-  const [showMarkets, setShowMarkets] = useState(true);
-  const [showScmPanel, setShowScmPanel] = useState(true);
   const [showIntel, setShowIntel] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
-  const [mapStyle, setMapStyle] = useState<'dark'|'satellite'>('dark');
+  const [mapStyle, setMapStyle] = useState<'dark'|'light'|'satellite'>('dark');
   const [sweepData, setSweepData] = useState<any>(null);
   const [scanTargets, setScanTargets] = useState<any[]>([]);
 
@@ -206,8 +201,6 @@ export default function Dashboard() {
         else document.documentElement.requestFullscreen();
       }
       if (e.key === 'l') setShowLayers(p => !p);
-      if (e.key === 'm') setShowMarkets(p => !p);
-      if (e.key === 'c') setShowScmPanel(p => !p);
       if (e.key === 'i') setShowIntel(p => !p);
       if (e.key === 'r') setFlyToLocation({ lat: 20, lng: 0, ts: Date.now() });
       if (e.key === 'g') setMapProjection(p => p === 'globe' ? 'mercator' : 'globe');
@@ -685,7 +678,7 @@ export default function Dashboard() {
           data={data} 
           activeLayers={activeLayers} 
           projection={mapProjection} 
-          mapStyle={mapStyle === 'satellite' ? 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}' : 'dark'} 
+          mapStyle={mapStyle}
           onEntityClick={handleEntityClick} 
           onMouseCoords={handleMouseCoords} 
           onRightClick={handleRightClick} 
@@ -720,17 +713,19 @@ export default function Dashboard() {
 
         {/* Map Style Toggle */}
         <button
-          onClick={() => setMapStyle(s => s === 'dark' ? 'satellite' : 'dark')}
+          onClick={() => setMapStyle(s => s === 'dark' ? 'light' : s === 'light' ? 'satellite' : 'dark')}
           className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title={mapStyle === 'dark' ? 'Satellite View' : 'Night View'}
+          title="Estilo del mapa"
         >
           {mapStyle === 'dark' ? (
-            <Satellite className="w-4 h-4 text-[var(--alert-green)] group-hover:scale-110 transition-transform" />
-          ) : (
             <Moon className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
+          ) : mapStyle === 'light' ? (
+            <Sun className="w-4 h-4 text-[#E8A33D] group-hover:scale-110 transition-transform" />
+          ) : (
+            <Satellite className="w-4 h-4 text-[var(--alert-green)] group-hover:scale-110 transition-transform" />
           )}
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapStyle === 'dark' ? 'SATELLITE' : 'NIGHT MODE'}
+            {mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}
           </span>
         </button>
       </motion.div>
@@ -803,11 +798,8 @@ export default function Dashboard() {
                 <div><div className="hud-label">NUCLEAR</div><div className="hud-value text-[10px]" style={{ color: 'var(--accent-nuclear)' }}>{globalStats ? globalStats.nuclear.toLocaleString() : '0'}</div></div>
               </div>
             </motion.div>
-            <ViewPresets onNavigate={(lat, lng, zoom) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMapView(v => ({ ...v, zoom })); }} />
           </>
         )}
-        {showScmPanel && <ScmPanel data={data} />}
-        {showMarkets && <MarketsPanel data={data} spaceWeather={spaceWeather} />}
         {showIntel && <IntelFeed data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} />}
       </div>
 
@@ -924,7 +916,6 @@ export default function Dashboard() {
             <div className="glass-panel mobile-nav-inner">
               {[
                 { id: 'layers' as const, icon: Layers, label: 'CAPAS' },
-                { id: 'markets' as const, icon: BarChart3, label: 'MERCADOS' },
                 { id: 'intel' as const, icon: Newspaper, label: 'INTEL' },
                 { id: 'recon' as const, icon: Radar, label: 'RECON' },
                 { id: 'search' as const, icon: Search, label: 'BUSCAR' },
@@ -967,12 +958,8 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
-                      <div className="mt-2">
-                        <ViewPresets onNavigate={(lat, lng, zoom) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMapView(v => ({ ...v, zoom })); setMobilePanel(null); }} />
-                      </div>
                     </>
                   )}
-                  {mobilePanel === 'markets' && <MarketsPanel data={data} spaceWeather={spaceWeather} />}
                   {mobilePanel === 'intel' && <IntelFeed data={data} onLocate={(lat, lng) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMobilePanel(null); }} />}
                   {mobilePanel === 'search' && (
                     <div className="space-y-2">
