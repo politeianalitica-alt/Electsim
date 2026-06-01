@@ -88,6 +88,28 @@ export async function fetchPulsoIndicator(
         error: `HTTP ${res.status}`,
       };
     }
+    // Sprint Quality-Data · ANTES `await res.json()` se ejecutaba sin
+    // comprobar content-type. Si la fuente responde 200 con HTML (sucede
+    // por ej. cuando IMF/Eurostat/INE devuelven una landing en lugar de
+    // datos por throttling, mantenimiento o User-Agent bloqueado), la
+    // promesa rechaza con "Unexpected token '<'" y el error baja por
+    // catch crudo, perdiendo trazabilidad.
+    // AHORA: verificamos content-type y, si no es JSON, devolvemos un
+    // error tipado que el frontend puede traducir a copy útil.
+    const contentType = (res.headers.get("content-type") || "").toLowerCase();
+    if (!contentType.includes("json")) {
+      const preview = (await res.text()).slice(0, 80);
+      return {
+        ok: false,
+        id: ind.id,
+        series: [],
+        last: null,
+        source: ind.source,
+        sourceCode: ind.sourceCode,
+        status: "missing",
+        error: `non_json_response (ct=${contentType || "unknown"}, preview="${preview.replace(/\s+/g, " ").trim()}")`,
+      };
+    }
     const json = await res.json();
 
     let series: PulsoPoint[] = [];
