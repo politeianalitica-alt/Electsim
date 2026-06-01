@@ -17,6 +17,7 @@ import { fetchSpainCameras } from './spain';
 import { fetchPolandCameras } from './poland';
 import { fetchJapanCameras } from './japan';
 import { fetchDgtCameras } from './dgt';
+import { fetchFinlandCameras } from './finland';
 
 /**
  * Politeia — Worldwide CCTV Camera API v2
@@ -308,6 +309,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'poland': fetchPolandCameras,
   'japan': fetchJapanCameras,
   'dgt': fetchDgtCameras,
+  'finland': fetchFinlandCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -337,8 +339,9 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   const inFrance = lat > 42.3 && lat < 51.1 && lng > -5 && lng < 8.3;
   const inSpain = lat > 27 && lat < 43.8 && lng > -18.2 && lng < 4.4;
   const inPoland = lat > 49.0 && lat < 54.8 && lng > 14.1 && lng < 24.1;
+  const inFinland = lat > 59 && lat < 70.5 && lng > 19 && lng < 32;
   const inBalkans = inBulgaria || inGreece || inSerbia || inMacedonia || inRomania || inTurkey;
-  const inWesternEurope = inItaly || inCzechia || inSlovakia || inGermany || inFrance || inSpain || inPoland;
+  const inWesternEurope = inItaly || inCzechia || inSlovakia || inGermany || inFrance || inSpain || inPoland || inFinland;
 
   if (lat > 35 && lat < 72 && lng > -11 && lng < 40 && !inBalkans && !inWesternEurope) {
     regions.push('europe');
@@ -357,6 +360,7 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (inSpain) regions.push('spain');
   if (inSpain) regions.push('dgt');
   if (inPoland) regions.push('poland');
+  if (inFinland) regions.push('finland');
 
   // Japan
   if (lat > 24 && lat < 46 && lng > 122 && lng < 154) regions.push('japan');
