@@ -20,6 +20,7 @@ import { fetchFinlandCameras } from './finland';
 import { fetchHongKongCameras } from './hongkong';
 import { fetchMexicoCameras } from './mexico';
 import { fetchBritishColumbiaCameras } from './britishcolumbia';
+import { fetchOregonCameras, fetchIowaCameras, fetchAustinCameras, fetchYorkCameras } from './arcgis';
 
 /**
  * Politeia — Worldwide CCTV Camera API v2
@@ -314,6 +315,10 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'hongkong': fetchHongKongCameras,
   'mexico': fetchMexicoCameras,
   'britishcolumbia': fetchBritishColumbiaCameras,
+  'oregon': fetchOregonCameras,
+  'iowa': fetchIowaCameras,
+  'austin': fetchAustinCameras,
+  'york': fetchYorkCameras,
 };
 
 // Determine which regions to fetch based on viewport bounds
@@ -333,6 +338,14 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (lat > 42 && lat < 70 && lng > -141 && lng < -52) regions.push('canada');
   // British Columbia (DriveBC)
   if (lat > 47.5 && lat < 60.5 && lng > -139.5 && lng < -113.5) regions.push('britishcolumbia');
+  // Oregon (TripCheck)
+  if (lat > 41.8 && lat < 46.4 && lng > -124.7 && lng < -116.3) regions.push('oregon');
+  // Iowa DOT
+  if (lat > 40.3 && lat < 43.6 && lng > -96.7 && lng < -90) regions.push('iowa');
+  // Texas / Austin
+  if (lat > 25.5 && lat < 36.6 && lng > -106.7 && lng < -93.5) regions.push('austin');
+  // York Region (Ontario)
+  if (lat > 43.7 && lat < 44.6 && lng > -79.9 && lng < -79) regions.push('york');
   // Europe
   const inBulgaria = lat > 41 && lat < 44.5 && lng > 22 && lng < 29.5;
   const inGreece = lat > 34.5 && lat < 41.8 && lng > 19 && lng < 30;
