@@ -6,13 +6,46 @@ import {
   Plane, Satellite, Activity, Globe, Radio, Eye,
   Shield, Sun, AlertTriangle, Camera, Flame, Target,
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
-  ChevronDown, ChevronUp, ToggleLeft, ToggleRight, Network,
+  ChevronDown, ChevronUp, Network,
 } from 'lucide-react';
 
 interface LayerPanelProps {
   data: any;
   activeLayers: any;
   setActiveLayers: React.Dispatch<React.SetStateAction<any>>;
+}
+
+// ── Paleta Politeia (alineada con tokens.css + AppHeader) ──
+const POL = {
+  font: '-apple-system, "SF Pro Text", BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif',
+  panelBg: 'rgba(255,255,255,0.92)',
+  surfaceRaised: '#f5f5f7',
+  hairline: '#d2d2d7',
+  hairlineSoft: '#e8e8ed',
+  ink: '#1d1d1f',
+  ink3: '#515154',
+  ink4: '#6e6e73',
+  ink5: '#aeaeb2',
+  accent: '#1F4E8C',
+  accentText: '#1F4E8C',
+  accentSubtle: 'rgba(31,78,140,0.08)',
+  accentBorder: 'rgba(31,78,140,0.22)',
+};
+
+function Toggle({ on }: { on: boolean }) {
+  return (
+    <div style={{
+      width: 30, height: 18, borderRadius: 999, flexShrink: 0,
+      background: on ? POL.accent : POL.hairline,
+      transition: 'background .2s ease', position: 'relative',
+    }}>
+      <div style={{
+        position: 'absolute', top: 2, left: on ? 14 : 2,
+        width: 14, height: 14, borderRadius: '50%', background: '#fff',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.25)', transition: 'left .2s ease',
+      }} />
+    </div>
+  );
 }
 
 const LAYER_GROUPS = [
@@ -122,27 +155,40 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     });
   };
 
+  const pill = (text: string, tone: 'accent' | 'muted'): React.CSSProperties => ({
+    fontSize: 9, fontWeight: 700, letterSpacing: '0.02em', lineHeight: 1.6,
+    padding: '1px 7px', borderRadius: 999, fontVariantNumeric: 'tabular-nums',
+    color: tone === 'accent' ? POL.accentText : POL.ink4,
+    background: tone === 'accent' ? POL.accentSubtle : POL.surfaceRaised,
+  });
+
   return (
-    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.6 }} className="glass-panel p-3 pointer-events-auto">
+    <motion.div
+      initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
+      className="pointer-events-auto"
+      style={{
+        width: 264, padding: 12, fontFamily: POL.font,
+        background: POL.panelBg,
+        backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+        border: `1px solid ${POL.hairline}`, borderRadius: 16,
+        boxShadow: '0 8px 30px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.08)',
+        color: POL.ink,
+      }}
+    >
       {/* Header */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <Eye className="w-3.5 h-3.5 stroke-[1.5] text-[var(--gold-primary)]" />
-            <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[var(--alert-green)] animate-osiris-pulse" />
-          </div>
-          <span className="hud-text text-[12px] text-[var(--text-primary)] tracking-widest">DATA LAYERS</span>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, paddingLeft: 2 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+          <Eye style={{ width: 14, height: 14, color: POL.accent }} strokeWidth={1.8} />
+          <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', color: POL.ink }}>CAPAS DE DATOS</span>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className={`gotham-tag ${activeCount > 10 ? 'gotham-tag--critical' : activeCount > 5 ? 'gotham-tag--high' : 'gotham-tag--low'}`} style={{ fontSize: '8px', padding: '1px 6px' }}>
-            {activeCount}/{ALL_LAYERS.length}
-          </span>
-          <span className="gotham-tag gotham-tag--info" style={{ fontSize: '7px', padding: '1px 5px' }}>{totalEntities.toLocaleString()} ENT</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+          <span style={pill(`${activeCount}/${ALL_LAYERS.length}`, 'accent')}>{activeCount}/{ALL_LAYERS.length}</span>
+          <span style={pill(`${totalEntities} ENT`, 'muted')}>{totalEntities.toLocaleString()}</span>
         </div>
       </div>
 
       {/* Groups */}
-      <div className="space-y-1">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {LAYER_GROUPS.map((group) => {
           const isExpanded = expandedGroups[group.label];
           const groupActiveCount = group.layers.filter(l => activeLayers[l.key]).length;
@@ -151,34 +197,32 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
 
           return (
             <div key={group.label}>
-              {/* Group Header */}
-              <div className="flex items-center gap-1.5">
+              {/* Group header */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <button
                   onClick={() => toggleGroup(group.label)}
-                  className="flex-1 flex items-center gap-2 px-2 py-1.5 rounded-md hover:bg-white/[0.03] transition-colors"
+                  style={{
+                    flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '6px 6px',
+                    borderRadius: 8, background: 'none', border: 0, cursor: 'pointer', textAlign: 'left',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = POL.surfaceRaised)}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'none')}
                 >
-                  <GroupIcon className="w-3 h-3 stroke-[1.5] flex-shrink-0" style={{ color: group.color }} />
-                  <span className="text-[9px] font-mono tracking-[0.15em] text-[var(--text-secondary)] font-bold flex-1 text-left">{group.label}</span>
-                  <span className="text-[8px] font-mono tabular-nums" style={{ color: groupActiveCount > 0 ? group.color : 'var(--text-muted)' }}>
+                  <GroupIcon style={{ width: 13, height: 13, color: group.color, flexShrink: 0 }} strokeWidth={2} />
+                  <span style={{ flex: 1, fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', color: POL.ink4, textTransform: 'uppercase' }}>{group.label}</span>
+                  <span style={{ fontSize: 9, fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: groupActiveCount > 0 ? POL.accentText : POL.ink5 }}>
                     {groupActiveCount}/{group.layers.length}
                   </span>
-                  {isExpanded ? (
-                    <ChevronUp className="w-3 h-3 stroke-[1.5] text-[var(--text-muted)]" />
-                  ) : (
-                    <ChevronDown className="w-3 h-3 stroke-[1.5] text-[var(--text-muted)]" />
-                  )}
+                  {isExpanded
+                    ? <ChevronUp style={{ width: 13, height: 13, color: POL.ink5 }} strokeWidth={2} />
+                    : <ChevronDown style={{ width: 13, height: 13, color: POL.ink5 }} strokeWidth={2} />}
                 </button>
-                {/* Toggle all in group */}
                 <button
                   onClick={() => toggleAllInGroup(group)}
-                  className="p-1 rounded hover:bg-white/[0.05] transition-colors"
-                  title={allActive ? 'Disable all' : 'Enable all'}
+                  title={allActive ? 'Desactivar todo' : 'Activar todo'}
+                  style={{ padding: 3, borderRadius: 6, background: 'none', border: 0, cursor: 'pointer', display: 'flex' }}
                 >
-                  {allActive ? (
-                    <ToggleRight className="w-3.5 h-3.5 stroke-[1.5]" style={{ color: group.color }} />
-                  ) : (
-                    <ToggleLeft className="w-3.5 h-3.5 stroke-[1.5] text-[var(--text-muted)]" />
-                  )}
+                  <Toggle on={allActive} />
                 </button>
               </div>
 
@@ -186,13 +230,10 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
               <AnimatePresence>
                 {isExpanded && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
+                    initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }} style={{ overflow: 'hidden' }}
                   >
-                    <div className="ml-2 pl-2 border-l border-[var(--border-secondary)]/40 space-y-px">
+                    <div style={{ marginLeft: 8, paddingLeft: 8, borderLeft: `1px solid ${POL.hairlineSoft}`, display: 'flex', flexDirection: 'column', gap: 1, paddingTop: 2, paddingBottom: 2 }}>
                       {group.layers.map((layer) => {
                         const Icon = layer.icon;
                         const isActive = activeLayers[layer.key];
@@ -201,39 +242,29 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                           <button
                             key={layer.key}
                             onClick={() => toggle(layer.key)}
-                            className={`w-full flex items-center gap-2.5 px-2 py-[5px] rounded-lg transition-all duration-200 group ${
-                              isActive
-                                ? 'bg-[var(--gold-primary)]/[0.10] border border-[var(--gold-primary)]/25'
-                                : 'border border-transparent hover:bg-white/[0.03]'
-                            }`}
+                            style={{
+                              width: '100%', display: 'flex', alignItems: 'center', gap: 9, padding: '6px 8px',
+                              borderRadius: 9, cursor: 'pointer', transition: 'background .15s ease',
+                              background: isActive ? POL.accentSubtle : 'transparent',
+                              border: isActive ? `1px solid ${POL.accentBorder}` : '1px solid transparent',
+                            }}
+                            onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = POL.surfaceRaised; }}
+                            onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent'; }}
                           >
-                            {/* Color dot indicator */}
-                            <div
-                              className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-all duration-300 ${isActive ? 'scale-100' : 'scale-50 opacity-30'}`}
-                              style={{
-                                backgroundColor: layer.color,
-                                boxShadow: isActive ? `0 0 6px ${layer.color}60` : 'none',
-                              }}
-                            />
-                            <Icon
-                              className="w-3.5 h-3.5 stroke-[1.5] flex-shrink-0 transition-colors duration-200"
-                              style={{ color: isActive ? layer.color : 'var(--text-muted)' }}
-                            />
-                            <span className={`text-[11px] font-mono tracking-wide flex-1 text-left transition-colors duration-200 ${
-                              isActive ? 'text-[var(--text-primary)]' : 'text-[var(--text-muted)] group-hover:text-[var(--text-secondary)]'
-                            }`}>
+                            <span style={{
+                              width: 6, height: 6, borderRadius: '50%', flexShrink: 0, background: layer.color,
+                              opacity: isActive ? 1 : 0.35, boxShadow: isActive ? `0 0 5px ${layer.color}88` : 'none',
+                            }} />
+                            <Icon style={{ width: 13, height: 13, flexShrink: 0, color: isActive ? layer.color : POL.ink5 }} strokeWidth={2} />
+                            <span style={{ flex: 1, textAlign: 'left', fontSize: 11.5, fontWeight: isActive ? 600 : 500, color: isActive ? POL.ink : POL.ink4 }}>
                               {layer.label}
                             </span>
                             {count !== null && (
-                              <span
-                                className="text-[9px] font-mono tabular-nums font-bold transition-colors duration-200"
-                                style={{ color: isActive ? layer.color : 'var(--text-muted)' }}
-                              >
+                              <span style={{ fontSize: 9.5, fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: isActive ? POL.accentText : POL.ink5 }}>
                                 {count.toLocaleString()}
                               </span>
                             )}
-                            {/* Toggle switch */}
-                            <div className={`layer-toggle ${isActive ? 'active' : ''}`} />
+                            <Toggle on={!!isActive} />
                           </button>
                         );
                       })}

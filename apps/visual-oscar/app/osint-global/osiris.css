@@ -138,55 +138,77 @@
   --scrollbar-thumb-hover: rgba(76, 141, 214, 0.42);
 }
 
-/* Panels: softer, rounder, Apple/Politeia-like depth */
-.osiris-root .glass-panel {
+/* ── PANELES en estilo claro Politeia (flotan sobre el mapa oscuro) ──
+   Redefinimos las variables de color LOCALMENTE dentro de cada panel:
+   los hijos que usan var(--text-*)/var(--gold-*)/etc. heredan la paleta
+   clara, sin afectar al mapa ni a la cabecera (que siguen oscuros). */
+.osiris-root .glass-panel,
+.osiris-root .glass-panel-sm {
+  --text-primary: #1d1d1f;
+  --text-secondary: #515154;
+  --text-muted: #6e6e73;
+  --text-heading: #1d1d1f;
+  --text-gold: #1F4E8C;
+  --gold-primary: #1F4E8C;
+  --gold-light: #3B6CB0;
+  --gold-dim: #8a8a8e;
+  --gold-glow: rgba(31, 78, 140, 0.16);
+  --cyan-primary: #0E7490;
+  --bg-void: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-tertiary: #f0f0f3;
+  --bg-panel: rgba(255, 255, 255, 0.92);
+  --border-primary: #d2d2d7;
+  --border-secondary: #e8e8ed;
+  --border-active: #1F4E8C;
+  --hover-accent: #f0f0f3;
+  --scrollbar-thumb: rgba(0, 0, 0, 0.18);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.30);
+
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  color: #1d1d1f;
+  border: 1px solid #d2d2d7;
   border-radius: 16px;
-  border-color: var(--border-primary);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.45),
-    0 0 0 0.5px rgba(76, 141, 214, 0.06) inset;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.16), 0 1px 2px rgba(0, 0, 0, 0.08);
 }
-.osiris-root .glass-panel:hover { border-color: var(--border-active); }
-.osiris-root .glass-panel-sm { border-radius: 12px; border-color: var(--border-secondary); }
+.osiris-root .glass-panel-sm { border-radius: 12px; }
+.osiris-root .glass-panel:hover,
+.osiris-root .glass-panel-sm:hover { border-color: #c7c7cc; }
 
-/* Gold-glow halos → Politeia blue */
-.osiris-root .osiris-glow {
-  box-shadow:
-    0 0 18px rgba(76, 141, 214, 0.14),
-    0 0 50px rgba(76, 141, 214, 0.06),
-    0 4px 30px rgba(0, 0, 0, 0.5);
-}
+/* Halos: suaves, sin glow oscuro */
+.osiris-root .glass-panel .osiris-glow,
+.osiris-root .osiris-glow { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); }
 
-/* Layer toggle switch → blue active state */
-.osiris-root .layer-toggle.active {
-  background: rgba(76, 141, 214, 0.25);
-  border-color: var(--gold-primary);
+/* Toggles (.layer-toggle / premium) sobre superficie clara */
+.osiris-root .layer-toggle {
+  background: #d2d2d7;
+  border-color: transparent;
 }
-.osiris-root .layer-toggle.active::after {
-  background: var(--gold-primary);
-  box-shadow: 0 0 8px rgba(76, 141, 214, 0.5);
-}
-
-/* Premium toggle (used in some panels) → blue */
+.osiris-root .layer-toggle.active,
 .osiris-root .layer-toggle-premium.active {
-  background: rgba(76, 141, 214, 0.20);
-  border-color: var(--gold-primary);
-  box-shadow: 0 0 16px rgba(76, 141, 214, 0.15);
+  background: #1F4E8C;
+  border-color: #1F4E8C;
+  box-shadow: none;
 }
+.osiris-root .layer-toggle.active::after,
 .osiris-root .layer-toggle-premium.active::after {
-  background: var(--gold-primary);
-  box-shadow: 0 0 10px rgba(76, 141, 214, 0.6), 0 0 25px rgba(76, 141, 214, 0.2);
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
-/* Tactical buttons → blue tint */
+/* Botones tácticos → estilo claro Politeia */
 .osiris-root .btn-tactical {
-  background: rgba(76, 141, 214, 0.08);
-  border-color: var(--border-primary);
+  background: #f5f5f7;
+  border-color: #d2d2d7;
+  color: #1d1d1f;
 }
 .osiris-root .btn-tactical:hover {
-  background: rgba(76, 141, 214, 0.14);
-  border-color: var(--border-active);
-  box-shadow: 0 0 20px rgba(76, 141, 214, 0.12), 0 0 50px rgba(76, 141, 214, 0.06);
+  background: #ececef;
+  border-color: #1F4E8C;
+  box-shadow: none;
 }
 
 /* ── Scrollbar ── */
