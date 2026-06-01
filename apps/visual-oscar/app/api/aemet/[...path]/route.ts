@@ -88,20 +88,44 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
     if (!provincia) {
       return NextResponse.json({ ok: false, error: `ccaa ${ccaa} sin mapeo provincial` })
     }
-    // climatologías mensuales últimos años (no requiere fecha en path)
-    // Sprint N19: ampliado rango 2010-2025 para serie ~15 años (era 2020-2024).
-    // AEMET tolera ventanas hasta 20 años; aceptamos delay de ~500ms extra
-    // a cambio de tendencias estructurales visibles (calentamiento + sequías históricas).
-    const data = await aemetFetch(
-      `/valores/climatologicos/mensualesanuales/datos/anioini/2010/aniofin/2025/provincia/${provincia}`
-    )
+    // Sprint W.3.3 · BUG corregido: AEMET devuelve HTTP 404 cuando
+    // `aniofin` apunta a un año todavía sin cierre de climatología
+    // mensual (típicamente el año en curso). Antes (Sprint N19) se
+    // hardcoded `2010/aniofin/2025` y al entrar en 2026 los 14
+    // indicadores de precipitación/temperatura por CCAA empezaron a
+    // fallar silenciosamente.
+    //
+    // Fix robusto: probar año actual, año-1 y año-2; usar el primero
+    // que devuelva datos. `anioini` se calcula como aniofin-15 para
+    // mantener una serie ~15 años útil para tendencias estructurales.
+    const currentYear = new Date().getFullYear()
+    let data: any = null
+    let usedYearRange: string | null = null
+    for (const offset of [0, 1, 2]) {
+      const aniofin = currentYear - offset
+      const anioini = aniofin - 15
+      const tryData = await aemetFetch(
+        `/valores/climatologicos/mensualesanuales/datos/anioini/${anioini}/aniofin/${aniofin}/provincia/${provincia}`
+      )
+      if (!tryData?.error && Array.isArray(tryData) && tryData.length > 0) {
+        data = tryData
+        usedYearRange = `${anioini}-${aniofin}`
+        break
+      }
+      // si último intento, devolver el último error para diagnóstico
+      if (offset === 2 && tryData?.error) {
+        data = tryData
+      }
+    }
     if (data?.error) {
       return NextResponse.json({
         ok: false,
         error: data.error,
         ccaa,
         provincia,
-        note: process.env.AEMET_API_KEY ? 'AEMET API error · ver fetch logs' : 'AEMET_API_KEY no configurada en Vercel',
+        note: process.env.AEMET_API_KEY
+          ? 'AEMET API error · probados aniofin ' + currentYear + '/' + (currentYear - 1) + '/' + (currentYear - 2)
+          : 'AEMET_API_KEY no configurada en Vercel',
       })
     }
     const items = Array.isArray(data) ? data : []
@@ -111,6 +135,7 @@ export async function GET(req: Request, { params }: { params: { path: string[] }
       provincia,
       n_items: items.length,
       items: items.slice(0, 60),
+      year_range: usedYearRange,
       source: 'AEMET OpenData · climatologías',
     })
   }
