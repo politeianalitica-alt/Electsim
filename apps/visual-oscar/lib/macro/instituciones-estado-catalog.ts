@@ -301,6 +301,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     relatedIndicatorIds: ["ie-fbcf-capital-aapp"],
   },
   // ─── Sprint Tab15-Hero · 10 indicadores nuevos del spec Tab 15.md ──────
+  // Sprint Quality-Data · ANTES apuntaba a `/api/fred/series?id=GGGDTAESA188N`,
+  // que NO tiene route handler · esto causaba el error JSON.parse al abrir el
+  // detalle (devolvía la página 404 HTML). AHORA usa IMF DataMapper, que
+  // (a) ya tiene endpoint operativo, (b) sirve serie histórica desde 1995 +
+  // forecast 5y, (c) Eurostat y FRED coinciden con IMF en este indicador.
   {
     id: "ie-deuda-publica-pib",
     family: "fiscalidad",
@@ -308,18 +313,19 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     shortLabel: "Deuda %PIB",
     unit: "%",
     decimals: 1,
-    source: "FRED · GGGDTAESA188N",
-    sourceCode: "GGGDTAESA188N",
-    frequency: "quarterly",
+    source: "IMF DataMapper · WEO",
+    sourceCode: "GGXWDG_NGDP",
+    frequency: "annual",
     description:
-      "Deuda pública AAPP %PIB. España ~106%. Por encima objetivo Maastricht 60%. Driver sostenibilidad fiscal.",
-    endpoint: "/api/fred/series?id=GGGDTAESA188N",
-    parser: "fred-series",
+      "Deuda pública AAPP %PIB. España ~106%. Por encima del referencial Maastricht 60%. Driver de sostenibilidad fiscal. Serie histórica + forecast IMF WEO +5y.",
+    endpoint: "/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP",
+    parser: "imf-country",
+    imfIndicator: "GGXWDG_NGDP",
     threshold: { amber: 90, red: 110, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "FRED + Eurostat consolidados. Definición Maastricht (PDE). Trimestral con revisiones.",
-    releaseSchedule: "Trimestral · T+4 meses",
+      "IMF WEO General Government Gross Debt (% GDP). Equivalente a la definición Maastricht/PDE de Eurostat (diferencias <0,3 pp). Revisiones 2x al año (abril, octubre).",
+    releaseSchedule: "Anual · publicaciones WEO en abril y octubre",
     confidenceLevel: "high",
     relatedIndicatorIds: ["ie-deficit-publico", "ie-intereses-pib"],
   },
