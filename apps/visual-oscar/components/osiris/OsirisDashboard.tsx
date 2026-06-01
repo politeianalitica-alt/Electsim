@@ -784,8 +784,8 @@ export default function Dashboard() {
         <UptimeClock />
       </motion.div>
 
-      {/* ── LEFT HUD (desktop): Layers + Stats + Markets + Intel ── */}
-      <div className="desktop-panel absolute left-5 top-20 bottom-24 w-72 flex flex-col gap-3 z-[200] pointer-events-none overflow-y-auto styled-scrollbar pr-1">
+      {/* ── LEFT HUD (desktop): Capas + Stats + Intel + Reconocimiento + Alertas ── */}
+      <div className="desktop-panel absolute left-5 top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-none overflow-y-auto styled-scrollbar pr-1">
         {showLayers && (
           <>
             <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
@@ -801,22 +801,19 @@ export default function Dashboard() {
           </>
         )}
         {showIntel && <IntelFeed data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} />}
-      </div>
-
-      {/* ── LEFT HUD · 2ª columna (desktop): Búsqueda + Reconocimiento + Alertas ── */}
-      <div className="desktop-panel absolute left-[20rem] top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-auto overflow-y-auto styled-scrollbar pr-1">
-        <div className="flex gap-2 items-start">
+        {/* Búsqueda + Reconocimiento + Alertas — debajo, en la misma columna izquierda */}
+        <div className="flex gap-2 items-start pointer-events-auto">
           <div className="flex-1"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
           <div className="relative"><SharePanel mapView={mapView} activeLayers={activeLayers} mouseCoords={null} /></div>
         </div>
-        <OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
+        <div className="pointer-events-auto"><OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
           setScanTargets(prev => {
             const existing = prev.filter(t => t.id !== target);
             return [{ id: target, timestamp: Date.now(), ...data }, ...existing].slice(0, 10);
           });
           setFlyToLocation({ lat: data.lat, lng: data.lng, ts: Date.now() });
-        }} />
-        <LiveAlerts data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} onWatchFeed={(url, name) => { setLiveFeedUrl(url); setLiveFeedName(name); }} />
+        }} /></div>
+        <div className="pointer-events-auto"><LiveAlerts data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} onWatchFeed={(url, name) => { setLiveFeedUrl(url); setLiveFeedName(name); }} /></div>
       </div>
 
       {/* ── LIVE FEED VIEWER OVERLAY ── */}
