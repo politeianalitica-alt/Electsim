@@ -21,6 +21,7 @@ interface ArcgisCamSource {
   imageField: string;
   nameField: string;
   cityDefault: string;
+  imagePrefix?: string; // si el campo de imagen es una ruta relativa, se antepone este host
 }
 
 export async function fetchArcgisCameras(o: ArcgisCamSource): Promise<CctvCamera[]> {
@@ -44,8 +45,13 @@ export async function fetchArcgisCameras(o: ArcgisCamSource): Promise<CctvCamera
         const lng = typeof g.x === 'number' ? g.x : parseFloat(a.longitude ?? a.LONGITUDE);
         if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
         let img = a[o.imageField];
-        if (typeof img !== 'string' || !img.startsWith('https://')) continue;
-        img = img.replace(/ /g, '%20');
+        if (o.imagePrefix) {
+          if (typeof img !== 'string' || !img) continue;
+          img = o.imagePrefix + String(img).trim();
+        } else {
+          if (typeof img !== 'string' || !img.startsWith('https://')) continue;
+          img = img.replace(/ /g, '%20');
+        }
         const oid =
           a.ObjectId ?? a.OBJECTID ?? a.FID ?? a.ESRI_OID ?? `${lat.toFixed(5)},${lng.toFixed(5)}`;
         const id = `${o.idPrefix}-${oid}`;
@@ -91,4 +97,13 @@ export const fetchYorkCameras = () =>
     url: 'https://ww8.yorkmaps.ca/arcgis/rest/services/OpenData/Traffic/MapServer/0',
     source: 'York Region', country: 'Canada', idPrefix: 'york',
     imageField: 'photo', nameField: 'cameralocation', cityDefault: 'York (ON)',
+  });
+
+// ── Estonia (Transpordiamet «Tark Tee») — image_path relativo ──
+export const fetchEstoniaCameras = () =>
+  fetchArcgisCameras({
+    url: 'https://tarktee.mnt.ee/tarktee/rest/services/road_cameras/MapServer/0',
+    source: 'Tark Tee (Estonia)', country: 'Estonia', idPrefix: 'ee',
+    imageField: 'image_path', nameField: 'site_name', cityDefault: 'Estonia',
+    imagePrefix: 'https://tarktee.mnt.ee/images/',
   });

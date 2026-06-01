@@ -20,7 +20,7 @@ import { fetchFinlandCameras } from './finland';
 import { fetchHongKongCameras } from './hongkong';
 import { fetchMexicoCameras } from './mexico';
 import { fetchBritishColumbiaCameras } from './britishcolumbia';
-import { fetchOregonCameras, fetchIowaCameras, fetchAustinCameras, fetchYorkCameras } from './arcgis';
+import { fetchOregonCameras, fetchIowaCameras, fetchAustinCameras, fetchYorkCameras, fetchEstoniaCameras } from './arcgis';
 import { fetchTaiwanCameras } from './taiwan';
 import { fetchWindyCameras } from './windy';
 
@@ -322,6 +322,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'austin': fetchAustinCameras,
   'york': fetchYorkCameras,
   'taiwan': fetchTaiwanCameras,
+  'estonia': fetchEstoniaCameras,
   'windy': fetchWindyCameras, // global; solo aporta si WINDY_API_KEY está definida
 };
 
@@ -385,6 +386,8 @@ function getRegionsForBounds(lat: number, lng: number, radius: number): string[]
   if (inSpain) regions.push('spain');
   if (inPoland) regions.push('poland');
   if (inFinland) regions.push('finland');
+  // Estonia (Tark Tee)
+  if (lat > 57.4 && lat < 59.8 && lng > 21.6 && lng < 28.3) regions.push('estonia');
 
   // Japan
   if (lat > 24 && lat < 46 && lng > 122 && lng < 154) regions.push('japan');
