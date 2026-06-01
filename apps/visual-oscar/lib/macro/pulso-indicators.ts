@@ -523,11 +523,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: 'monthly',
     description:
       'Variación interanual volumen ventas comercio minorista. Termómetro del consumo en tiempo real (mensual T+30 días). Lead indicator del C de la cuenta nacional.',
-    endpoint: '/api/eurostat/dataset?code=sts_trtu_m&filters=geo=ES;nace_r2=G47;indic_bt=TOVV',
+    endpoint: '/api/eurostat/dataset?code=sts_trtu_m&filters=geo=ES;nace_r2=G47;indic_bt=NETTUR;unit=I21;s_adj=SCA',
     parser: 'eurostat-simple',
     accent: '#16a34a',
     methodologyNote:
-      'NACE G47 = comercio minorista (excl. vehículos). TOVV = volumen total ventas. Sensibilidad alta a inflación: aunque ventas nominales suban, lectura real (volumen) puede caer si IPC sube más.',
+      'NACE G47 = comercio minorista (excl. vehículos). NETTUR = net turnover (cifra de negocios neta), base 2021=100, desestacionalizado + calendario corregido. Sensibilidad alta a inflación: aunque cifra nominal suba, lectura real (volumen) puede caer si IPC sube más.',
     releaseSchedule: 'Mensual · T+30 días',
     confidenceLevel: 'high',
     relatedIndicatorIds: ['consumo-hogares-yoy', 'pulso-esi-sentiment'],
@@ -544,12 +544,12 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: 'monthly',
     description:
       'Índice Producción Industrial manufacturera. Sector clave para empleo industrial y exports. Mensual T+45 días, más fresh que CNT trimestral.',
-    endpoint: '/api/eurostat/dataset?code=sts_inpr_m&filters=geo=ES;nace_r2=B-D;unit=I15_A',
+    endpoint: '/api/eurostat/dataset?code=sts_inpr_m&filters=geo=ES;nace_r2=B-D;indic_bt=PRD;unit=I21;s_adj=SCA',
     parser: 'eurostat-simple',
     threshold: { amber: 0, red: -3, goodAbove: true },
     accent: '#0F766E',
     methodologyNote:
-      'Cobertura B-D NACE (incluye minería + manufactura + energía). I15_A = índice base 2015 desestacionalizado. Lectura adelantada respecto a CNTR producción industrial trimestral.',
+      'Cobertura B-D NACE (minería + manufactura + energía). PRD = production index, base 2021=100, desestacionalizado + calendario corregido. Lectura adelantada respecto a CNTR producción industrial trimestral.',
     releaseSchedule: 'Mensual · T+45 días',
     confidenceLevel: 'high',
     relatedIndicatorIds: ['pib-yoy', 'pulso-construccion'],
@@ -566,11 +566,11 @@ export const PULSO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: 'monthly',
     description:
       'Producción sector construcción YoY. Sector cíclico crítico para empleo masculino + cadena valor (materiales, transporte). Recovery post-2008 aún por debajo.',
-    endpoint: '/api/eurostat/dataset?code=sts_copr_m&filters=geo=ES;nace_r2=F;unit=I15_A',
+    endpoint: '/api/eurostat/dataset?code=sts_copr_m&filters=geo=ES;nace_r2=F;indic_bt=PRD;unit=I21;s_adj=SCA',
     parser: 'eurostat-simple',
     accent: '#f59e0b',
     methodologyNote:
-      'NACE F = construcción. Base 2015. España recovery post-2008 aún por debajo del pico — sector estructuralmente más pequeño tras crash inmobiliario. Sensibilidad fuerte a tipos hipotecarios + crédito promotor.',
+      'NACE F = construcción. PRD = production index, base 2021=100, desestacionalizado + calendario corregido. España recovery post-2008 aún por debajo del pico — sector estructuralmente más pequeño tras crash inmobiliario. Sensibilidad fuerte a tipos hipotecarios + crédito promotor.',
     releaseSchedule: 'Mensual · T+45 días',
     confidenceLevel: 'high',
     relatedIndicatorIds: ['inversion-fbcf-yoy', 'pulso-ipi-manufactura', 'hev-tipo-hipoteca'],

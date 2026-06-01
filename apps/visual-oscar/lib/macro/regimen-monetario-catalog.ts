@@ -95,11 +95,11 @@ export const REGIMEN_MONETARIO_INDICATORS: PulsoIndicatorMeta[] = [
     unit: "%",
     decimals: 2,
     source: "Eurostat · prc_hicp_manr",
-    sourceCode: "prc_hicp_manr:CP00X:ES",
+    sourceCode: "prc_hicp_manr:TOT_X_NRG_FOOD:ES",
     frequency: "monthly",
     description:
       "Inflación subyacente (HICP all-items excluding energy and food). Variable que sigue BCE para política monetaria · más persistente que headline, menos ruido.",
-    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=CP00X;unit=RCH_A",
+    endpoint: "/api/eurostat/dataset?code=prc_hicp_manr&filters=geo=ES;coicop=TOT_X_NRG_FOOD;unit=RCH_A",
     parser: "eurostat-simple",
     threshold: { amber: 2.5, red: 4, goodAbove: false },
     accent: "#dc2626",
