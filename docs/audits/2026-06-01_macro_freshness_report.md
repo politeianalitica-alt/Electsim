@@ -4,9 +4,9 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 159 | 57.4% |
+| fresh | 160 | 57.8% |
 | stale | 30 | 10.8% |
-| empty | 86 | 31.0% |
+| empty | 85 | 30.7% |
 | error | 2 | 0.7% |
 
 ## Por catálogo
@@ -20,7 +20,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | flujos-capital | 2 | 0 | 8 | 1 | 11 |
 | hogares-empleo-vivienda | 14 | 11 | 7 | 0 | 32 |
 | instituciones-estado | 21 | 1 | 4 | 0 | 26 |
-| margen-fiscal | 10 | 3 | 3 | 0 | 16 |
+| margen-fiscal | 11 | 3 | 2 | 0 | 16 |
 | medio-rural | 18 | 0 | 17 | 1 | 36 |
 | mercados-activos | 10 | 0 | 6 | 0 | 16 |
 | productividad-competitividad | 9 | 0 | 2 | 0 | 11 |
@@ -36,7 +36,7 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | flujos-capital | `fc-bis-claims` | `/api/bis/bis-exposures?country=ES` | HTTP 404 |
 | medio-rural | `mr-renovables-mix` | `/api/esios/mix-renovable?n=12` | HTTP 404 |
 
-## EMPTY (86)
+## EMPTY (85)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
@@ -86,7 +86,6 @@ Probe vs `https://politeia-visual-oscar.vercel.app`. Catálogos: 15. Indicadores
 | instituciones-estado | `ie-capacidad-estado-compuesto` | `/api/macro/derived/capacidad_estado` | sin puntos |
 | instituciones-estado | `ie-fbcf-capital-aapp` | `/api/eurostat/dataset?code=gov_10dd_edpt2&filters=geo=ES;na_` | sin puntos |
 | instituciones-estado | `ie-wgi-corruption` | `/api/worldbank/indicator/CC.PER.RNK?country=ES&per_page=30` | sin puntos |
-| margen-fiscal | `mf-deuda-bruta-eurostat` | `/api/eurostat/dataset?code=gov_10dd_ggdebt&filters=geo=ES;se` | sin puntos |
 | margen-fiscal | `mf-saldo-estructural` | `/api/eurostat/dataset?code=ei_isfb_n&filters=geo=ES` | sin puntos |
 | margen-fiscal | `mf-saldo-primario` | `/api/eurostat/dataset?code=gov_10dd_edpt1&filters=geo=ES;na_` | sin puntos |
 | medio-rural | `mr-aei-eurostat` | `/api/eurostat/dataset?code=aact_eaa04&filters=geo=ES;indic_a` | sin puntos |
