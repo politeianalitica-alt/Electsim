@@ -5,6 +5,7 @@ import { gunzipSync } from 'zlib';
 // Cache-Control s-maxage. Sin esto, Next la prerenderiza en build y
 // congelaría las incidencias del momento del despliegue.
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60; // Alemania (Autobahn) itera ~110 autopistas
 
 /**
  * Incidencias de tráfico en tiempo real (accidentes, obras, retenciones,
@@ -19,7 +20,7 @@ export const dynamic = 'force-dynamic';
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
-type FeedFormat = 'datex' | 'geojson' | 'rss';
+type FeedFormat = 'datex' | 'geojson' | 'rss' | 'autobahn';
 
 interface IncidentFeed {
   country: string; // ISO-2
@@ -40,6 +41,7 @@ const FEEDS: IncidentFeed[] = [
     portal: 'https://liikennetilanne.fintraffic.fi/',
   },
   { country: 'GB', source: 'National Highways', format: 'rss', url: 'https://m.highwaysengland.co.uk/feeds/rss/UnplannedEvents.xml', portal: 'https://nationalhighways.co.uk/' },
+  { country: 'DE', source: 'Autobahn', format: 'autobahn', url: 'https://verkehr.autobahn.de/o/autobahn', portal: 'https://autobahn.de/' },
 ];
 
 type Incident = { id: string; lat: number; lng: number; kind: string; road: string; type: string; country: string; source: string };
@@ -122,10 +124,55 @@ function parseRss(xml: string, feed: IncidentFeed): Incident[] {
   return out;
 }
 
+// Alemania — API Autobahn (JSON propio): hay que iterar por autopista
+// (obras + avisos), con concurrencia limitada para no saturar.
+async function fetchAutobahn(feed: IncidentFeed): Promise<Incident[]> {
+  const base = feed.url.replace(/\/$/, '');
+  const out: Incident[] = [];
+  const seen = new Set<string>();
+  try {
+    const rRes = await fetch(`${base}/`, { headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(8000) });
+    if (!rRes.ok) return [];
+    const roads: string[] = ((await rRes.json()) || {}).roads || [];
+    const tasks: Array<() => Promise<void>> = [];
+    for (const road of roads) {
+      for (const svc of ['roadworks', 'warning'] as const) {
+        tasks.push(async () => {
+          try {
+            const res = await fetch(`${base}/${encodeURIComponent(road)}/services/${svc}`, {
+              headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(7000),
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            const items: any[] = data[svc] || [];
+            for (const it of items) {
+              const lat = parseFloat(it.coordinate?.lat);
+              const lng = parseFloat(it.coordinate?.long);
+              if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
+              const id = String(it.identifier || `${road}-${lat},${lng}`);
+              if (seen.has(id)) continue;
+              seen.add(id);
+              const blocked = it.isBlocked === true || it.isBlocked === 'true';
+              const kind = svc === 'roadworks' ? 'Obras' : blocked ? 'Obstrucción' : 'Incidencia';
+              out.push({ id: `de-inc-${id.slice(-32)}`, lat, lng, kind, road, type: String(it.display_type || svc), country: feed.country, source: feed.source });
+            }
+          } catch { /* una autopista que falle no tumba el resto */ }
+        });
+      }
+    }
+    const CONC = 40;
+    for (let i = 0; i < tasks.length; i += CONC) {
+      await Promise.allSettled(tasks.slice(i, i + CONC).map((t) => t()));
+    }
+  } catch { /* silent */ }
+  return out;
+}
+
 export async function GET() {
   try {
     const results = await Promise.allSettled(
       FEEDS.map(async (feed): Promise<Incident[]> => {
+        if (feed.format === 'autobahn') return fetchAutobahn(feed);
         const res = await fetch(feed.url, {
           headers: { 'User-Agent': UA, Accept: '*/*', ...(feed.headers || {}) },
           signal: AbortSignal.timeout(15000),
