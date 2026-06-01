@@ -4,8 +4,8 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 
 | Estado | Cuenta | % |
 |---|---:|---:|
-| fresh | 138 | 49.8% |
-| stale | 37 | 13.4% |
+| fresh | 145 | 52.3% |
+| stale | 30 | 10.8% |
 | empty | 100 | 36.1% |
 | error | 2 | 0.7% |
 
@@ -18,14 +18,14 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | dependencias-externas | 6 | 2 | 6 | 0 | 14 |
 | empresas-beneficios | 2 | 1 | 10 | 0 | 13 |
 | flujos-capital | 2 | 0 | 8 | 1 | 11 |
-| hogares-empleo-vivienda | 9 | 13 | 10 | 0 | 32 |
+| hogares-empleo-vivienda | 11 | 11 | 10 | 0 | 32 |
 | instituciones-estado | 18 | 1 | 7 | 0 | 26 |
 | margen-fiscal | 10 | 3 | 3 | 0 | 16 |
 | medio-rural | 18 | 0 | 17 | 1 | 36 |
 | mercados-activos | 6 | 0 | 10 | 0 | 16 |
 | productividad-competitividad | 9 | 0 | 2 | 0 | 11 |
-| pulso-macro | 5 | 11 | 4 | 0 | 20 |
-| regimen-monetario | 6 | 3 | 1 | 0 | 10 |
+| pulso-macro | 7 | 9 | 4 | 0 | 20 |
+| regimen-monetario | 9 | 0 | 1 | 0 | 10 |
 | riesgo-sistemico | 7 | 0 | 4 | 0 | 11 |
 | sociedad-bienestar | 15 | 0 | 7 | 0 | 22 |
 
@@ -141,14 +141,14 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | sociedad-bienestar | `sb-gini-vs-ocde` | `/api/oecd/metric?name=gini&country=ESP` | sin puntos |
 | sociedad-bienestar | `sb-movilidad-intergen` | `/api/oecd/metric?name=intergen_mobility&country=ESP` | sin puntos |
 
-## STALE (37)
+## STALE (30)
 
 | Catálogo | ID | Endpoint | Detalle |
 |---|---|---|---|
 | cultura-ocio | `co-frontur` | `/api/ine/frontur?n=24` | last=2024-Q4 (520d > 75d) |
 | demografia-territorio | `dt-crecimiento-natural` | `/api/spanish-stats/crecimiento-natural?country=ESP` | last=2025 (152d > 75d) |
-| demografia-territorio | `dt-paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2017-Q4 (3077d > 150d) |
-| dependencias-externas | `de-bienes-export-mensual` | `/api/ine/cnt-extra?n=36` | last=2017-Q1 (3352d > 75d) |
+| demografia-territorio | `dt-paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
+| dependencias-externas | `de-bienes-export-mensual` | `/api/ine/cnt-extra?n=36` | last=2025-Q4 (155d > 75d) |
 | dependencias-externas | `de-turistas-anual` | `/api/ine/frontur?n=36` | last=2024-Q4 (520d > 75d) |
 | empresas-beneficios | `eb-etcl-coste-laboral` | `/api/ine/etcl?n=24` | last=2025-Q3 (246d > 150d) |
 | hogares-empleo-vivienda | `hev-cis-paro-problema` | `/api/cis/serie?tema=paro` | last=2025-04 (399d > 75d) |
@@ -156,29 +156,22 @@ Probe vs `http://localhost:3001`. Catálogos: 15. Indicadores: 277.
 | hogares-empleo-vivienda | `hev-cis-vivienda-problema` | `/api/cis/serie?tema=vivienda` | last=2025-04 (399d > 75d) |
 | hogares-empleo-vivienda | `hev-esfuerzo-vivienda` | `/api/spanish-stats/esfuerzo-vivienda?country=ESP` | last=2025 (152d > 150d) |
 | hogares-empleo-vivienda | `hev-etcl-coste-laboral` | `/api/ine/etcl?n=24` | last=2025-Q3 (246d > 150d) |
-| hogares-empleo-vivienda | `hev-ipc-anual` | `/api/ine/ipc?n=36` | last=2023-05 (1100d > 75d) |
-| hogares-empleo-vivienda | `hev-ipc-mensual` | `/api/ine/ipc?n=36` | last=2023-05 (1100d > 75d) |
 | hogares-empleo-vivienda | `hev-ipv-general` | `/api/ine/ipv?n=24` | last=2025-Q3 (246d > 150d) |
 | hogares-empleo-vivienda | `hev-ipv-nueva` | `/api/ine/ipv?n=24` | last=2025-Q3 (246d > 150d) |
 | hogares-empleo-vivienda | `hev-ipv-segunda` | `/api/ine/ipv?n=24` | last=2025-Q3 (246d > 150d) |
-| hogares-empleo-vivienda | `hev-paro-epa-general` | `/api/ine/epa?n=24` | last=2017-Q4 (3077d > 150d) |
-| hogares-empleo-vivienda | `hev-paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2017-Q4 (3077d > 150d) |
+| hogares-empleo-vivienda | `hev-paro-epa-general` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
+| hogares-empleo-vivienda | `hev-paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
 | hogares-empleo-vivienda | `hev-precio-m2-vivienda` | `/api/spanish-stats/precio-m2-vivienda?country=ESP` | last=2025 (152d > 150d) |
 | instituciones-estado | `ie-ejecucion-presup` | `/api/spanish-stats/ejecucion-presup?country=ESP` | last=2025 (152d > 75d) |
 | margen-fiscal | `mf-coste-medio-emisiones` | `/api/tesoro/snapshot` | last=2024-10 (581d > 75d) |
 | margen-fiscal | `mf-no-residentes-deuda` | `/api/tesoro/snapshot` | last=2024-10 (581d > 75d) |
 | margen-fiscal | `mf-vida-media-deuda` | `/api/tesoro/snapshot` | last=2024-10 (581d > 75d) |
-| pulso-macro | `consumo-aapp-yoy` | `/api/ine/cnt-desglose?n=24` | last=2020-Q1 (2256d > 150d) |
-| pulso-macro | `consumo-hogares-yoy` | `/api/ine/cnt-desglose?n=24` | last=2020-Q1 (2256d > 150d) |
-| pulso-macro | `exports-yoy` | `/api/ine/cnt-extra?n=24` | last=2020-Q1 (2256d > 150d) |
-| pulso-macro | `exterior-pp` | `/api/ine/cnt-desglose?n=24` | last=2020-Q1 (2256d > 150d) |
-| pulso-macro | `imports-yoy` | `/api/ine/cnt-extra?n=24` | last=2020-Q1 (2256d > 150d) |
-| pulso-macro | `inversion-fbcf-yoy` | `/api/ine/cnt-desglose?n=24` | last=2020-Q1 (2256d > 150d) |
-| pulso-macro | `ipc-anual` | `/api/ine/ipc?n=36` | last=2023-05 (1100d > 75d) |
-| pulso-macro | `ipc-mensual` | `/api/ine/ipc?n=36` | last=2023-05 (1100d > 75d) |
-| pulso-macro | `paro-epa-general` | `/api/ine/epa?n=24` | last=2017-Q4 (3077d > 150d) |
-| pulso-macro | `paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2017-Q4 (3077d > 150d) |
-| pulso-macro | `pib-yoy` | `/api/ine/cnt-desglose?n=24` | last=2020-Q1 (2256d > 150d) |
-| regimen-monetario | `rm-ipc-acumulada` | `/api/ine/ipc?n=36` | last=2023-04 (1130d > 75d) |
-| regimen-monetario | `rm-ipc-anual` | `/api/ine/ipc?n=36` | last=2023-05 (1100d > 75d) |
-| regimen-monetario | `rm-ipc-mensual` | `/api/ine/ipc?n=36` | last=2023-05 (1100d > 75d) |
+| pulso-macro | `consumo-aapp-yoy` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |
+| pulso-macro | `consumo-hogares-yoy` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |
+| pulso-macro | `exports-yoy` | `/api/ine/cnt-extra?n=24` | last=2025-Q4 (155d > 150d) |
+| pulso-macro | `exterior-pp` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |
+| pulso-macro | `imports-yoy` | `/api/ine/cnt-extra?n=24` | last=2025-Q4 (155d > 150d) |
+| pulso-macro | `inversion-fbcf-yoy` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |
+| pulso-macro | `paro-epa-general` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
+| pulso-macro | `paro-epa-jovenes` | `/api/ine/epa?n=24` | last=2023-Q3 (977d > 150d) |
+| pulso-macro | `pib-yoy` | `/api/ine/cnt-desglose?n=24` | last=2025-Q4 (155d > 150d) |

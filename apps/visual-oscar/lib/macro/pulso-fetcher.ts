@@ -49,9 +49,21 @@ function splitImfSeries(series: any[] | undefined): PulsoPoint[] {
 }
 
 function pickLast(series: PulsoPoint[]): PulsoPoint | null {
-  // Para series con forecast, el "último observado" es el último no-forecast.
+  // Sprint W.3 · BUG corregido: antes asumía orden cronológico ascendente
+  // (series[length-1] = más reciente). Pero `reverseInePoints` invierte la
+  // serie INE → series[0] queda como la más reciente y series[length-1] como
+  // la más antigua. Resultado: pulso-macro reportaba last_period de 2017/2020
+  // cuando el INE WSTempus ya tenía datos hasta 2025/2026.
+  //
+  // Fix robusto: tomar el período máximo por comparación textual. Funciona
+  // para los formatos que emite el sistema: "YYYY", "YYYY-MM", "YYYY-QN".
+  // (Q > '0'-'9' en ASCII, así que YYYY-Q4 > YYYY-12 dentro del mismo año,
+  // pero los catálogos no mezclan periodicidad por serie así que no hay
+  // colisión semántica.)
+  if (series.length === 0) return null;
   const obs = series.filter((p) => !p.forecast && p.value != null);
-  return obs[obs.length - 1] || series[series.length - 1] || null;
+  if (obs.length === 0) return series[series.length - 1] || null;
+  return obs.reduce((max, p) => (p.period > max.period ? p : max), obs[0]);
 }
 
 /**
