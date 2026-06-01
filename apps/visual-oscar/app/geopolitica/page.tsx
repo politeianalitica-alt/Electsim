@@ -6,6 +6,8 @@ import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 import { useUrlState } from '@/lib/useUrlState'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+// Sprint Q-D.1 · Glosa para IRC, V-Dem, SIPRI, GDELT, OFAC, FSF, UNSC, OFSI.
+import Glosa from '@/components/Glosa'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
 import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 import { GeoKpiGrid } from '@/components/geopolitica/GeoKpiGrid'
@@ -584,9 +586,10 @@ export default function GeopoliticaPage() {
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
                 Radar Global de Crisis · vista ejecutiva
               </h2>
+              {/* Sprint Q-D.1 · IRC, V-Dem, SIPRI, GDELT con tooltip vía <Glosa>. */}
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5 }}>
-                Índice de Riesgo Compuesto (IRC) por país combinando 4 dimensiones:
-                <strong style={{ color: '#cbd5e1' }}> V-Dem democracia · SIPRI militarización · GDELT tono · GDELT volumen conflictos.</strong>{' '}
+                <Glosa term="IRC">Índice de Riesgo Compuesto (IRC)</Glosa> por país combinando 4 dimensiones:
+                <strong style={{ color: '#cbd5e1' }}> <Glosa term="V-Dem">V-Dem</Glosa> democracia · <Glosa term="SIPRI">SIPRI</Glosa> militarización · <Glosa term="GDELT">GDELT</Glosa> tono · GDELT volumen conflictos.</strong>{' '}
                 80 países cubiertos · click en cualquier punto del mapa para detalle.
               </p>
             </div>
@@ -1009,15 +1012,17 @@ export default function GeopoliticaPage() {
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
                 Diplomacia y sanciones · screening de contraparte
               </h2>
+              {/* Sprint Q-D.1 · FSF, UNSC, OFAC, OFSI, OpenSanctions, AGNU, KYC
+                  con tooltip vía glosario. */}
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fed7aa', lineHeight: 1.5 }}>
-                Cruza listas EU (FSF), ONU (UNSC), EE.UU. (OFAC SDN) y UK (OFSI)
-                sobre 333+ datasets de OpenSanctions, junto a movimientos
-                diplomáticos de los últimos 7 días y votaciones AGNU en 10
+                Cruza listas EU (<Glosa term="FSF">FSF</Glosa>), ONU (<Glosa term="UNSC">UNSC</Glosa>), EE. UU. (<Glosa term="OFAC">OFAC SDN</Glosa>) y UK (<Glosa term="OFSI">OFSI</Glosa>)
+                sobre 333+ datasets de <Glosa term="OpenSanctions">OpenSanctions</Glosa>, junto a movimientos
+                diplomáticos de los últimos 7 días y votaciones <Glosa term="AGNU">AGNU</Glosa> en 10
                 resoluciones clave (50 países).
               </p>
               <p style={{ margin: '6px 0 0', fontSize: 10, color: '#fee2c4', lineHeight: 1.4, fontStyle: 'italic' }}>
                 Importante: este screening NO sustituye dictamen jurídico ni due
-                diligence KYC. Un resultado positivo requiere validación legal
+                diligence <Glosa term="KYC">KYC</Glosa>. Un resultado positivo requiere validación legal
                 antes de cualquier decisión comercial.
               </p>
             </div>

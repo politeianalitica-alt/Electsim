@@ -6,14 +6,18 @@ import type { SystemHealth, ServiceStatus } from '@/types/domo'
 import Skeleton from '@/components/Skeleton'
 import styles from './Health.module.css'
 
-const SERVICE_LABELS: Record<string, { label: string; glyph: string }> = {
-  database:        { label: 'Base de datos',     glyph: '⊟' },
-  redis:           { label: 'Cache (Redis)',     glyph: '' },
-  pipeline_runner: { label: 'Pipeline Runner',   glyph: '⟶' },
-  ai_engine:       { label: 'Motor IA',          glyph: '' },
-  storage:         { label: 'Almacenamiento',    glyph: '◫' },
-  search_index:    { label: 'Índice búsqueda',   glyph: '⌕' },
-  message_queue:   { label: 'Cola de mensajes',  glyph: '⇉' },
+// Sprint Q-D.2 · etiquetas en español del analista + descripción en
+// `hint` para tooltip. Antes "Cache (Redis)", "Pipeline Runner", "Cola de
+// mensajes" eran nombres técnicos que el analista no necesita conocer · ahora
+// el nombre que ve es funcional y el hint explica para qué sirve.
+const SERVICE_LABELS: Record<string, { label: string; glyph: string; hint?: string }> = {
+  database:        { label: 'Base de datos',            glyph: '⊟', hint: 'Almacena tus tablas, paneles y configuración.' },
+  redis:           { label: 'Caché de respuestas',      glyph: '',  hint: 'Acelera las consultas más frecuentes para responder al instante.' },
+  pipeline_runner: { label: 'Procesador de cargas',     glyph: '⟶', hint: 'Ejecuta las cargas de datos, limpiezas y cruces que tienes programados.' },
+  ai_engine:       { label: 'Motor IA',                 glyph: '',  hint: 'Genera el análisis IA y traduce tus preguntas en español a consultas sobre tus tablas.' },
+  storage:         { label: 'Almacenamiento',           glyph: '◫', hint: 'Guarda los archivos que adjuntas (CSV, Excel, documentos).' },
+  search_index:    { label: 'Buscador interno',         glyph: '⌕', hint: 'Permite buscar al instante en tus tablas, paneles y entidades.' },
+  message_queue:   { label: 'Cola de tareas',           glyph: '⇉', hint: 'Coordina las tareas pesadas en segundo plano (cargas grandes, exportes).' },
 }
 
 const STATUS_META: Record<ServiceStatus, { label: string; color: string; dot: string }> = {
@@ -111,12 +115,15 @@ export default function HealthClient() {
           ? Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} style={{ height: 110, borderRadius: 12 }} />)
           : allServices.map(([key, service]) => {
               const meta  = STATUS_META[service.status ?? 'unknown']
-              const label = SERVICE_LABELS[key] ?? { label: key, glyph: '●' }
+              const label = SERVICE_LABELS[key] ?? { label: key, glyph: '●' as const, hint: undefined as string | undefined }
               return (
  <div
                   key={key}
                   className={styles.serviceCard}
-                  style={{ borderColor: `${meta.color}30` }}
+                  style={{ borderColor: `${meta.color}30`, cursor: label.hint ? 'help' : undefined }}
+                  // Sprint Q-D.2 · tooltip nativo del navegador con la descripción
+                  // del servicio en lenguaje analista (no devops).
+                  title={label.hint}
                 >
  <div className={styles.serviceHeader}>
  <span className={styles.serviceIcon}>{label.glyph}</span>
