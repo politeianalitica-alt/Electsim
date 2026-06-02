@@ -478,16 +478,21 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'line-dasharray': [2, 4],
       }});
 
-      // Maritime Ships (moving entities)
+      // Maritime Ships (moving entities) — color por tipo de buque (AIS shipType)
+      const shipColorExpr: any = ['match', ['get','type'],
+        'cargo','#00BCD4', 'tanker','#FF9500', 'passenger','#B388FF', 'fishing','#4DB6AC',
+        'tug','#A1887F', 'highspeed','#FF4081', 'military','#FF1744', /* other */ '#90A4AE'];
       map.addLayer({ id: 'ship-dots', type: 'circle', source: 'maritime-ships', paint: {
         'circle-radius': ['interpolate',['linear'],['zoom'], 1,2, 5,4, 10,6],
-        'circle-color': ['match', ['get','type'], 'military','#FF1744', 'tanker','#FF9500', 'cargo','#00BCD4', '#fff'],
-        'circle-opacity': 0.8,
+        'circle-color': shipColorExpr,
+        'circle-opacity': 0.85,
+        'circle-stroke-width': ['case', ['==', ['get','moored'], true], 1.2, 0],
+        'circle-stroke-color': 'rgba(255,255,255,0.55)',
       }});
-      map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 5, layout: {
+      map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 6, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
         'text-offset': [0, 1.2], 'text-allow-overlap': false,
-      }, paint: { 'text-color': ['match', ['get','type'], 'military','#FF1744', 'tanker','#FF9500', 'cargo','#00BCD4', '#fff'], 'text-halo-color': '#000', 'text-halo-width': 1 }});
+      }, paint: { 'text-color': shipColorExpr, 'text-halo-color': '#000', 'text-halo-width': 1 }});
 
       setMapReady(true);
     });
@@ -800,22 +805,33 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Maritime Ships ──
+    const SHIP_COLORS: Record<string, string> = { cargo:'#00BCD4', tanker:'#FF9500', passenger:'#B388FF', fishing:'#4DB6AC', tug:'#A1887F', highspeed:'#FF4081', military:'#FF1744', other:'#90A4AE' };
+    const SHIP_LABELS: Record<string, string> = { cargo:'Carga', tanker:'Petrolero / tanque', passenger:'Pasaje / ferry', fishing:'Pesca', tug:'Remolcador', highspeed:'Alta velocidad', military:'Militar', other:'Otro / servicio' };
     map.on('click', 'ship-dots', e => {
       if (!e.features?.length) return;
       const p = e.features[0].properties as any;
       const coords = (e.features[0].geometry as any).coordinates;
-      const color = p.type === 'military' ? '#FF1744' : p.type === 'tanker' ? '#FF9500' : '#00BCD4';
-      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-          <span style="color:${color};font-size:12px;font-weight:700;letter-spacing:0.1em;">${p.name}</span>
-          <span style="color:#aaa;font-size:9px;">${p.flag}</span>
+      const color = SHIP_COLORS[p.type] || '#90A4AE';
+      const courseTxt = (p.course !== undefined && p.course !== null && p.course !== '') ? `${Math.round(Number(p.course))}°` : (p.heading != null ? `${Math.round(Number(p.heading))}°` : '—');
+      const statusTxt = p.moored === true || p.moored === 'true' ? 'Atracado / fondeado' : 'En navegación';
+      const statusCol = (p.moored === true || p.moored === 'true') ? '#FFB300' : '#00E676';
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;min-width:210px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+          <span style="color:${color};font-size:12px;font-weight:700;letter-spacing:0.04em;">${p.name}</span>
+          ${p.flag ? `<span style="color:#aaa;font-size:9px;font-weight:600;border:1px solid #ffffff22;border-radius:3px;padding:0 4px;">${p.flag}</span>` : ''}
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:9px;">
-          <div><span style="color:#5C5A54;">TIPO</span><br/><span style="color:${color};">${p.type.toUpperCase()}</span></div>
-          <div><span style="color:#5C5A54;">VELOCIDAD</span><br/><span style="color:#E8E6E0;">${p.speed} nudos</span></div>
-          <div><span style="color:#5C5A54;">RUMBO</span><br/><span style="color:#E8E6E0;">${p.heading}°</span></div>
-          <div><span style="color:#5C5A54;">DESTINO</span><br/><span style="color:#E8E6E0;">${p.destination || 'DESCONOCIDO'}</span></div>
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${color};background:${color}1a;border:1px solid ${color}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">${SHIP_LABELS[p.type] || 'Buque'}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px 8px;font-size:9px;">
+          <div><span style="color:#5C5A54;">ESTADO</span><br/><span style="color:${statusCol};font-weight:600;">${statusTxt}</span></div>
+          <div><span style="color:#5C5A54;">VELOCIDAD</span><br/><span style="color:#E8E6E0;">${Number(p.speed || 0).toFixed(1)} nudos</span></div>
+          <div><span style="color:#5C5A54;">RUMBO</span><br/><span style="color:#E8E6E0;">${courseTxt}</span></div>
+          <div><span style="color:#5C5A54;">DESTINO</span><br/><span style="color:#E8E6E0;">${p.destination || 'Desconocido'}</span></div>
+          ${p.draught ? `<div><span style="color:#5C5A54;">CALADO</span><br/><span style="color:#E8E6E0;">${p.draught} m</span></div>` : ''}
+          ${p.imo ? `<div><span style="color:#5C5A54;">IMO</span><br/><span style="color:#E8E6E0;">${p.imo}</span></div>` : ''}
+          ${p.callsign ? `<div><span style="color:#5C5A54;">INDICATIVO</span><br/><span style="color:#E8E6E0;">${p.callsign}</span></div>` : ''}
+          ${p.mmsi ? `<div><span style="color:#5C5A54;">MMSI</span><br/><span style="color:#E8E6E0;">${p.mmsi}</span></div>` : ''}
         </div>
+        ${p.mmsi ? `<a href="https://www.marinetraffic.com/en/ais/details/ships/mmsi:${p.mmsi}" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">FICHA MARINETRAFFIC</a>` : ''}
       </div>`);
     });
 
@@ -897,24 +913,34 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       const p = e.features?.[0]?.properties;
       if (!p) return;
       const coords = (e.features![0].geometry as any).coordinates;
-      const typeColor = p.type === 'naval' ? '#FF3D3D' : p.type === 'energy' ? '#FF9500' : '#00BCD4';
-      const typeLabel = p.type === 'naval' ? 'BASE NAVAL' : p.type === 'energy' ? 'PUERTO ENERGÉTICO' : 'PUERTO DE CONTENEDORES';
-      
-      const congestionHtml = p.congestion ? `
+      const typeColor = p.type === 'naval' ? '#FF3D3D' : p.type === 'energy' ? '#FF9500' : p.type === 'container' ? '#00BCD4' : '#26A69A';
+      const typeLabel = p.type === 'naval' ? 'BASE NAVAL' : p.type === 'energy' ? 'TERMINAL ENERGÉTICA' : p.type === 'container' ? 'PUERTO DE CONTENEDORES' : 'PUERTO COMERCIAL';
+      const volLabel = p.type === 'energy' ? 'Volumen (crudo)' : p.type === 'container' ? 'Volumen de carga' : 'Volumen';
+      const congCol = p.congestion === 'SEVERA' ? '#FF1744' : p.congestion === 'CONGESTIONADO' ? '#FF9500' : '#00E676';
+
+      // Sección "en vivo" (solo puertos principales con cálculo de congestión)
+      const liveHtml = p.congestion ? `
         <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
-            <div><span style="color:#5C5A54;font-size:9px;">CONGESTIÓN</span><br/><span style="color:${p.congestion === 'SEVERE' ? '#FF1744' : p.congestion === 'CONGESTED' ? '#FF9500' : '#00E676'};font-weight:bold;font-size:10px;">${p.congestion}</span></div>
-            <div><span style="color:#5C5A54;font-size:9px;">T. ESPERA EST.</span><br/><span style="color:#E8E6E0;font-weight:bold;font-size:10px;">${p.dwell_time || 'Desconocido'}</span></div>
+          <div style="font-size:8px;letter-spacing:0.1em;color:#5C5A54;margin-bottom:4px;">EN VIVO (AIS)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+            <div><span style="color:#5C5A54;font-size:9px;">CONGESTIÓN</span><br/><span style="color:${congCol};font-weight:bold;font-size:10px;">${p.congestion}</span></div>
+            <div><span style="color:#5C5A54;font-size:9px;">ESPERA EST.</span><br/><span style="color:#E8E6E0;font-weight:bold;font-size:10px;">${p.dwell_time || '—'}</span></div>
+            <div><span style="color:#5C5A54;font-size:9px;">BUQUES CERCA</span><br/><span style="color:#E8E6E0;font-weight:bold;font-size:10px;">${p.live_nearby ?? 0}</span></div>
+            <div><span style="color:#5C5A54;font-size:9px;">EN ESPERA</span><br/><span style="color:#E8E6E0;font-weight:bold;font-size:10px;">${p.live_waiting ?? 0}</span></div>
           </div>
         </div>` : '';
 
-      popup(coords, `<div style="${pStyle}border:1px solid ${typeColor}40;">
-        <div style="color:${typeColor};font-weight:bold;font-size:11px;margin-bottom:4px;">${p.name}</div>
-        <div style="color:#999;font-size:9px;margin-bottom:6px;">${typeLabel} — ${p.country}</div>
-        ${p.volume ? `<div style="font-size:9px;color:#aaa;">Volumen: <span style="color:${typeColor};font-weight:bold;">${p.volume}</span></div>` : ''}
-        ${p.fleet ? `<div style="font-size:9px;color:#aaa;">Flota: <span style="color:${typeColor};font-weight:bold;">${p.fleet}</span></div>` : ''}
-        ${p.rank ? `<div style="font-size:9px;color:#aaa;">Ranking global: <span style="color:${typeColor};font-weight:bold;">#${p.rank}</span></div>` : ''}
-        ${congestionHtml}
+      popup(coords, `<div style="${pStyle}border:1px solid ${typeColor}40;min-width:210px;">
+        <div style="color:${typeColor};font-weight:bold;font-size:12px;margin-bottom:3px;">${p.name}</div>
+        <div style="color:#999;font-size:9px;margin-bottom:7px;">${typeLabel} · ${p.country || '—'}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          ${p.volume ? `<div>${volLabel}: <span style="color:${typeColor};font-weight:bold;">${p.volume}</span></div>` : ''}
+          ${p.rank ? `<div>Ranking mundial: <span style="color:${typeColor};font-weight:bold;">#${p.rank}</span></div>` : ''}
+          ${p.fleet ? `<div>Flota: <span style="color:${typeColor};font-weight:bold;">${p.fleet}</span></div>` : ''}
+          <div>Coordenadas: <span style="color:#E8E6E0;">${coords[1].toFixed(3)}°, ${coords[0].toFixed(3)}°</span></div>
+        </div>
+        ${liveHtml}
+        <a href="https://www.marinetraffic.com/en/ais/home/centerx:${coords[0].toFixed(2)}/centery:${coords[1].toFixed(2)}/zoom:11" target="_blank" style="${linkStyle}margin-top:8px;color:${typeColor};border:1px solid ${typeColor}66;background:${typeColor}1a;">TRÁFICO EN VIVO</a>
       </div>`);
     });
 
@@ -1063,10 +1089,18 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
   useEffect(() => {
     if (!mapReady) return;
-    setGeo('maritime', activeLayers.maritime && data.maritime_ports ? data.maritime_ports.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank } })) : []);
+    setGeo('maritime', activeLayers.maritime && data.maritime_ports ? data.maritime_ports.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank, congestion: p.congestion, dwell_time: p.dwell_time, live_nearby: p.live_nearby, live_waiting: p.live_waiting } })) : []);
     setGeo('maritime-choke', activeLayers.maritime && data.maritime_chokepoints ? data.maritime_chokepoints.map((c: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { name: c.name, traffic: c.traffic, risk: c.risk } })) : []);
-    setGeo('maritime-ships', activeLayers.maritime && data.maritime_ships ? data.maritime_ships.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name || s.mmsi?.toString(), type: s.type || 'cargo', speed: s.speed, heading: s.heading, destination: s.destination, flag: s.flag } })) : []);
-  }, [mapReady, data.maritime_ports, data.maritime_chokepoints, data.maritime_ships, activeLayers.maritime, setGeo]);
+    // Filtro por tipo de buque: si no hay ningún tipo activo, se muestran todos.
+    const shipTypeKeys = ['cargo','tanker','passenger','fishing','tug','highspeed','military','other'];
+    const activeShipTypes = shipTypeKeys.filter(k => activeLayers['ship_' + k]);
+    const shipFilter: Set<string> | null = activeShipTypes.length ? new Set(activeShipTypes) : null;
+    setGeo('maritime-ships', activeLayers.maritime && data.maritime_ships
+      ? data.maritime_ships
+          .filter((s: any) => !shipFilter || shipFilter.has(s.type || 'other'))
+          .map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name || s.mmsi?.toString(), type: s.type || 'other', speed: s.speed, heading: s.heading, course: s.course, destination: s.destination, draught: s.draught, flag: s.flag, mmsi: s.mmsi, callsign: s.callsign, imo: s.imo, moored: !!s.moored } }))
+      : []);
+  }, [mapReady, data.maritime_ports, data.maritime_chokepoints, data.maritime_ships, activeLayers.maritime, activeLayers.ship_cargo, activeLayers.ship_tanker, activeLayers.ship_passenger, activeLayers.ship_fishing, activeLayers.ship_tug, activeLayers.ship_highspeed, activeLayers.ship_military, activeLayers.ship_other, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;

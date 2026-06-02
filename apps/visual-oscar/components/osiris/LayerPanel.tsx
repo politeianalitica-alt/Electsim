@@ -78,6 +78,21 @@ const LAYER_GROUPS = [
     ],
   },
   {
+    label: 'BARCOS (por tipo)',
+    icon: Ship,
+    color: '#00BCD4',
+    layers: [
+      { key: 'ship_cargo', label: 'Carga', icon: Ship, color: '#00BCD4', dataKey: '' },
+      { key: 'ship_tanker', label: 'Petroleros / tanque', icon: Ship, color: '#FF9500', dataKey: '' },
+      { key: 'ship_passenger', label: 'Pasaje / ferry', icon: Ship, color: '#B388FF', dataKey: '' },
+      { key: 'ship_fishing', label: 'Pesca', icon: Ship, color: '#4DB6AC', dataKey: '' },
+      { key: 'ship_tug', label: 'Remolcadores', icon: Ship, color: '#A1887F', dataKey: '' },
+      { key: 'ship_highspeed', label: 'Alta velocidad', icon: Ship, color: '#FF4081', dataKey: '' },
+      { key: 'ship_military', label: 'Militar', icon: Shield, color: '#FF1744', dataKey: '' },
+      { key: 'ship_other', label: 'Otros (vela, servicio…)', icon: Ship, color: '#90A4AE', dataKey: '' },
+    ],
+  },
+  {
     label: 'VIGILANCIA',
     icon: Camera,
     color: '#39FF14',
@@ -157,6 +172,15 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     }
     return found ? total : null;
   };
+  // Conteo en vivo por tipo de barco (ship_cargo → categoría 'cargo')
+  const shipCount = (key: string): number | null => {
+    const ships = data?.maritime_ships;
+    if (!Array.isArray(ships)) return null;
+    const cat = key.slice(5); // quita "ship_"
+    return ships.reduce((n: number, s: any) => n + ((s?.type || 'other') === cat ? 1 : 0), 0);
+  };
+  const countFor = (layer: { key: string; dataKey: string }): number | null =>
+    layer.key.startsWith('ship_') ? shipCount(layer.key) : getCount(layer.dataKey);
   const totalEntities = ALL_LAYERS.reduce((s: number, l: any) => s + (getCount(l.dataKey) || 0), 0);
   const activeCount = Object.values(activeLayers).filter(Boolean).length;
 
@@ -255,7 +279,7 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                       {group.layers.map((layer) => {
                         const Icon = layer.icon;
                         const isActive = activeLayers[layer.key];
-                        const count = getCount(layer.dataKey);
+                        const count = countFor(layer);
                         return (
                           <button
                             key={layer.key}

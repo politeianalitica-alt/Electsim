@@ -6,15 +6,67 @@ export const dynamic = 'force-dynamic';
 /**
  * Politeia — Maritime Intelligence
  * - Barcos en vivo (AIS) vía Digitraffic / Fintraffic (REST abierto, sin key);
- *   cobertura del Báltico y mar del Norte. Antes se usaba un WebSocket de
- *   aisstream que no persiste en serverless (0 barcos) — sustituido.
- * - Puertos: 52 principales (con volumen/naval + congestión calculada en vivo)
- *   + ~1.586 puertos del mundo (dataset estático).
+ *   cobertura del Báltico y mar del Norte. Se unen DOS endpoints por MMSI:
+ *     · /locations → posición, rumbo, velocidad, estado de navegación.
+ *     · /vessels   → metadatos: nombre real, tipo de buque (AIS shipType),
+ *                    destino, calado, IMO, indicativo.
+ *   Esto permite clasificar cada barco por tipo (carga, petrolero, pasaje,
+ *   pesca, remolcador, alta velocidad, militar, otros) y filtrarlo en el mapa.
+ * - Puertos: 52 principales (con volumen de carga + congestión calculada en
+ *   vivo) + ~1.586 puertos del mundo (dataset estático).
  */
 const UA =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
-const AIS_URL = 'https://meri.digitraffic.fi/api/ais/v1/locations';
+const AIS_LOCATIONS_URL = 'https://meri.digitraffic.fi/api/ais/v1/locations';
+const AIS_VESSELS_URL = 'https://meri.digitraffic.fi/api/ais/v1/vessels';
 const MAX_SHIPS = 4000;
+const DT_HEADERS = { 'User-Agent': UA, 'Accept-Encoding': 'gzip', 'Digitraffic-User': 'PoliteiaOsintMap' };
+
+/**
+ * Clasifica un barco según el código AIS shipType (ITU-R M.1371).
+ * Devuelve una categoría legible y filtrable en el mapa.
+ */
+function shipCategory(code: number | null | undefined): string {
+  if (code == null || code <= 0) return 'other';
+  if (code === 30) return 'fishing';
+  if (code === 31 || code === 32 || code === 52) return 'tug';      // towing / tug
+  if (code === 35 || code === 55) return 'military';                // military / law enforcement
+  if ((code >= 20 && code <= 29) || (code >= 40 && code <= 49)) return 'highspeed'; // WIG / HSC
+  if (code >= 60 && code <= 69) return 'passenger';
+  if (code >= 70 && code <= 79) return 'cargo';
+  if (code >= 80 && code <= 89) return 'tanker';
+  // 33/34 dragado/buceo, 36 vela, 37 recreo, 50/51/53/54/58 servicio, 90-99 otros
+  return 'other';
+}
+
+/** MID (3 primeros dígitos del MMSI) → ISO país del pabellón. */
+const MID_TO_FLAG: Record<string, string> = {
+  '201': 'AL', '202': 'AD', '203': 'AT', '204': 'AZ', '205': 'BE', '206': 'BY', '207': 'BG',
+  '208': 'VA', '209': 'CY', '210': 'CY', '211': 'DE', '212': 'CY', '213': 'GE', '214': 'MD',
+  '215': 'MT', '218': 'DE', '219': 'DK', '220': 'DK', '224': 'ES', '225': 'ES', '226': 'FR',
+  '227': 'FR', '228': 'FR', '229': 'MT', '230': 'FI', '231': 'FO', '232': 'GB', '233': 'GB',
+  '234': 'GB', '235': 'GB', '236': 'GI', '237': 'GR', '238': 'HR', '239': 'GR', '240': 'GR',
+  '241': 'GR', '242': 'MA', '243': 'HU', '244': 'NL', '245': 'NL', '246': 'NL', '247': 'IT',
+  '248': 'MT', '249': 'MT', '250': 'IE', '251': 'IS', '252': 'LI', '253': 'LU', '254': 'MC',
+  '255': 'PT', '256': 'MT', '257': 'NO', '258': 'NO', '259': 'NO', '261': 'PL', '262': 'ME',
+  '263': 'PT', '264': 'RO', '265': 'SE', '266': 'SE', '267': 'SK', '268': 'SM', '269': 'CH',
+  '270': 'CZ', '271': 'TR', '272': 'UA', '273': 'RU', '274': 'MK', '275': 'LV', '276': 'EE',
+  '277': 'LT', '278': 'SI', '279': 'RS',
+  '301': 'AI', '303': 'US', '304': 'AG', '305': 'AG', '306': 'CW', '308': 'BS', '309': 'BS',
+  '311': 'BS', '312': 'BS', '316': 'CA', '319': 'KY', '338': 'US', '341': 'KN', '351': 'PA',
+  '352': 'PA', '353': 'PA', '354': 'PA', '355': 'PA', '356': 'PA', '357': 'PA', '370': 'PA',
+  '371': 'PA', '372': 'PA', '373': 'PA', '374': 'PA', '366': 'US', '367': 'US', '368': 'US',
+  '369': 'US', '375': 'VC', '376': 'VC', '377': 'VC',
+  '412': 'CN', '413': 'CN', '414': 'CN', '416': 'TW', '419': 'IN', '422': 'IR', '431': 'JP',
+  '432': 'JP', '440': 'KR', '441': 'KR', '445': 'KP', '450': 'LB', '457': 'MN', '470': 'AE',
+  '477': 'HK', '525': 'ID', '533': 'MY', '538': 'MH', '563': 'SG', '564': 'SG', '565': 'SG',
+  '566': 'SG', '574': 'VN', '636': 'LR', '637': 'LR', '710': 'BR', '720': 'BO', '725': 'CL',
+};
+
+function flagFromMmsi(mmsi: number | undefined): string {
+  if (!mmsi) return '';
+  return MID_TO_FLAG[String(mmsi).slice(0, 3)] || '';
+}
 
 const PORTS_MAJOR = [
   // ── Top Container Ports ──
@@ -78,14 +130,59 @@ const CHOKEPOINTS = [
   { name: 'Lombok Strait', lat: -8.47, lng: 115.72, traffic: 'Alt Malacca', risk: 'LOW' },
 ];
 
-async function fetchShips(): Promise<any[]> {
+interface VesselMeta {
+  name?: string;
+  shipType?: number;
+  destination?: string;
+  draught?: number;
+  callSign?: string;
+  imo?: number;
+}
+
+// Caché de metadatos en memoria: cambian poco y el endpoint se sondea cada 10s.
+let metaCache: Map<number, VesselMeta> | null = null;
+let metaCacheTime = 0;
+const META_TTL = 300000; // 5 min
+
+/** Descarga metadatos de buques y los indexa por MMSI (con caché de 5 min). */
+async function fetchVesselMeta(): Promise<Map<number, VesselMeta>> {
+  if (metaCache && Date.now() - metaCacheTime < META_TTL) return metaCache;
+  const map = new Map<number, VesselMeta>();
   try {
-    const res = await fetch(AIS_URL, {
-      headers: { 'User-Agent': UA, 'Accept-Encoding': 'gzip', 'Digitraffic-User': 'PoliteiaOsintMap' },
-      signal: AbortSignal.timeout(12000),
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
+    const res = await fetch(AIS_VESSELS_URL, { headers: DT_HEADERS, signal: AbortSignal.timeout(12000) });
+    if (!res.ok) return metaCache || map;
+    const arr: any[] = await res.json();
+    for (const v of arr) {
+      if (v.mmsi == null) continue;
+      map.set(v.mmsi, {
+        name: typeof v.name === 'string' ? v.name.trim() : undefined,
+        shipType: typeof v.shipType === 'number' ? v.shipType : undefined,
+        destination: typeof v.destination === 'string' ? v.destination.trim() : undefined,
+        draught: typeof v.draught === 'number' ? v.draught : undefined,
+        callSign: typeof v.callSign === 'string' ? v.callSign.trim() : undefined,
+        imo: typeof v.imo === 'number' && v.imo > 0 ? v.imo : undefined,
+      });
+    }
+    metaCache = map;
+    metaCacheTime = Date.now();
+  } catch {
+    /* sin metadatos: los barcos quedarán como 'other' */
+    return metaCache || map;
+  }
+  return map;
+}
+
+async function fetchShips(): Promise<{ ships: any[]; counts: Record<string, number> }> {
+  const counts: Record<string, number> = {
+    cargo: 0, tanker: 0, passenger: 0, fishing: 0, tug: 0, highspeed: 0, military: 0, other: 0,
+  };
+  try {
+    const [locRes, meta] = await Promise.all([
+      fetch(AIS_LOCATIONS_URL, { headers: DT_HEADERS, signal: AbortSignal.timeout(12000) }),
+      fetchVesselMeta(),
+    ]);
+    if (!locRes.ok) return { ships: [], counts };
+    const data = await locRes.json();
     const feats: any[] = data.features || [];
     const step = Math.max(1, Math.floor(feats.length / MAX_SHIPS));
     const ships: any[] = [];
@@ -96,20 +193,35 @@ async function fetchShips(): Promise<any[]> {
       const lng = c[0], lat = c[1];
       if (!Number.isFinite(lat) || !Number.isFinite(lng)) continue;
       const p = f.properties || {};
+      const mmsi = p.mmsi;
+      const m = mmsi != null ? meta.get(mmsi) : undefined;
+      const category = shipCategory(m?.shipType);
       const navStat = p.navStat;
-      ships.push({
-        id: p.mmsi, mmsi: p.mmsi, lat, lng,
+      const moored = navStat === 1 || navStat === 5; // 1 anclado, 5 amarrado
+      counts[category] = (counts[category] || 0) + 1;
+      const ship: any = {
+        id: mmsi,
+        mmsi,
+        lat: Math.round(lat * 100000) / 100000,
+        lng: Math.round(lng * 100000) / 100000,
         speed: typeof p.sog === 'number' ? p.sog : 0,
+        course: typeof p.cog === 'number' && p.cog !== 360 ? p.cog : null,
         heading: p.heading != null && p.heading !== 511 ? p.heading : (p.cog ?? 0),
-        type: navStat === 1 || navStat === 5 ? 'anchored' : 'cargo',
-        name: `MMSI ${p.mmsi}`,
-        source: 'Digitraffic AIS',
-      });
+        type: category,
+        name: m?.name || `MMSI ${mmsi}`,
+        flag: flagFromMmsi(mmsi),
+        moored,
+      };
+      if (m?.destination) ship.destination = m.destination;
+      if (m?.draught) ship.draught = Math.round(m.draught) / 10; // decímetros → metros
+      if (m?.callSign) ship.callsign = m.callSign;
+      if (m?.imo) ship.imo = m.imo;
+      ships.push(ship);
       if (ships.length >= MAX_SHIPS) break;
     }
-    return ships;
+    return { ships, counts };
   } catch {
-    return [];
+    return { ships: [], counts };
   }
 }
 
@@ -120,21 +232,21 @@ const getDistanceKm = (lat1: number, lng1: number, lat2: number, lng2: number) =
 };
 
 export async function GET() {
-  const ships = await fetchShips();
+  const { ships, counts } = await fetchShips();
 
   const majorPorts = PORTS_MAJOR.map((port) => {
     let nearby = 0, waiting = 0;
     for (const s of ships) {
       if (getDistanceKm(port.lat, port.lng, s.lat, s.lng) < 50) {
         nearby++;
-        if (s.speed < 0.5 && s.type !== 'military') waiting++;
+        if (s.speed < 0.5) waiting++;
       }
     }
     const ratio = nearby > 0 ? waiting / nearby : 0;
-    let congestion = 'NORMAL', dwell = '1-2 Days';
-    if (ratio > 0.6 || waiting > 30) { congestion = 'SEVERE'; dwell = '7+ Days'; }
-    else if (ratio > 0.4 || waiting > 15) { congestion = 'CONGESTED'; dwell = '3-5 Days'; }
-    return { ...port, congestion, dwell_time: dwell, live_nearby: nearby };
+    let congestion = 'NORMAL', dwell = '1-2 días';
+    if (ratio > 0.6 || waiting > 30) { congestion = 'SEVERA'; dwell = '7+ días'; }
+    else if (ratio > 0.4 || waiting > 15) { congestion = 'CONGESTIONADO'; dwell = '3-5 días'; }
+    return { ...port, congestion, dwell_time: dwell, live_nearby: nearby, live_waiting: waiting };
   });
 
   // Puertos del mundo (dataset estático) sin cálculo de congestión.
@@ -159,6 +271,8 @@ export async function GET() {
       ports,
       chokepoints,
       ships,
+      ship_type_counts: counts,
+      ships_source: 'Digitraffic / Fintraffic AIS',
       total_ports: ports.length,
       total_chokepoints: chokepoints.length,
       total_ships: ships.length,
