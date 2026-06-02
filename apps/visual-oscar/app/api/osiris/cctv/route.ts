@@ -23,6 +23,7 @@ import { fetchBritishColumbiaCameras } from './britishcolumbia';
 import { fetchOregonCameras, fetchIowaCameras, fetchAustinCameras, fetchYorkCameras, fetchEstoniaCameras } from './arcgis';
 import { fetchTaiwanCameras } from './taiwan';
 import { fetchWindyCameras } from './windy';
+import { fetchSkylineCameras } from './skyline';
 
 /**
  * Politeia — Worldwide CCTV Camera API v2
@@ -324,6 +325,7 @@ const REGION_FETCHERS: Record<string, () => Promise<any[]>> = {
   'taiwan': fetchTaiwanCameras,
   'estonia': fetchEstoniaCameras,
   'windy': fetchWindyCameras, // global; solo aporta si WINDY_API_KEY está definida
+  'skyline': fetchSkylineCameras, // webcams de SkylineWebcams (Europa) como enlace
 };
 
 // Determine which regions to fetch based on viewport bounds
