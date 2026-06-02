@@ -196,10 +196,10 @@ export const MODULES: NavModule[] = [
   // Tab único → sin subnav. Estilos OSIRIS aislados bajo .osiris-root.
   {
     id: 'osint-global',
-    label: 'OSINT Global',
-    full: 'OSINT Global · Mapa de inteligencia en tiempo real',
+    label: 'MAPA POLITEIA',
+    full: 'MAPA POLITEIA · Inteligencia en tiempo real',
     items: [
-      { label: 'Mapa Global', href: '/osint-global' },
+      { label: 'Mapa Politeia', href: '/osint-global' },
     ],
   },
 ]

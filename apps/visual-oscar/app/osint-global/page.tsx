@@ -28,7 +28,7 @@ const OsirisDashboard = dynamic(() => import('@/components/osiris/OsirisDashboar
         letterSpacing: '0.25em', fontSize: 12, textTransform: 'uppercase',
       }}
     >
-      Inicializando OSINT Global…
+      Inicializando Mapa Politeia…
     </div>
   ),
 })
