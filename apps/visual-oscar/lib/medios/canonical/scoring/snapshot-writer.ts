@@ -1,5 +1,5 @@
 /**
- * Sprint 2 C3 · cron job hourly · snapshot writer de
+ * Sprint 2 C3-C4 · cron job hourly · snapshot writer de
  * topic_prominence_history.
  *
  * Cada hora (registrado en maintenance/index.ts como
@@ -11,22 +11,34 @@
  *         hinchar la tabla con ruido).
  *      c) Lee histórico de 7 días desde `topic_prominence_history` y
  *         deriva `momentumScore` con `computeMomentum`.
- *      d) Calcula `volumeScore` (log normalizado).
- *      e) Insertar fila en `topic_prominence_history`.
+ *      d) Lee distribución por medio + entidades extraídas + catálogo de
+ *         medios_config y deriva sourceDiversityScore / tierWeightScore /
+ *         entityDensityScore.
+ *      e) Calcula `volumeScore` (log normalizado).
+ *      f) Agrega score = 0.30·V + 0.25·M + 0.20·D + 0.15·T + 0.10·E.
+ *      g) Insertar fila en `topic_prominence_history`.
  *
- * En C3 solo se llenan VolumeScore + MomentumScore con datos reales. Los
- * tres componentes restantes (diversity, tier, entity_density) quedan a 0
- * y state a 'STABLE' — los completan C4 y C5.
- *
- * Score parcial = 0.30 · volumeScore + 0.25 · momentumScore
+ * Sprint 2 C4: los 5 componentes son reales. State queda 'STABLE' hasta C5
+ * (donde se decide STRUCTURAL/EMERGENT/STABLE a partir de los scores y la
+ * persistencia temporal del topic).
  *
  * Test injection:
  *   `__withTestStore(stub, fn)` ejecuta `fn()` con `_storeOverride = stub`,
  *   restaurándolo al final. Patrón usado para evitar tocar DB real en CI
  *   (mismo principio que `generateJSON` inyectable en llm-classifier.ts).
  */
+import { aggregateProminenceScore } from './aggregate.ts'
+import { computeSourceDiversity } from './diversity.ts'
+import { computeEntityDensity } from './entity-density.ts'
 import { computeMomentum } from './momentum.ts'
+import { computeTierWeight } from './tier.ts'
 import {
+  readAllMediosConfig as _readAllMediosConfig,
+  type MedioConfig,
+} from '../stores/medios-config-store.ts'
+import {
+  readArticleDistributionByTopic as _readArticleDistributionByTopic,
+  readArticleEntitiesByTopic as _readArticleEntitiesByTopic,
   readArticleVolumeInWindow as _readArticleVolumeInWindow,
   readHistoryForTopic as _readHistoryForTopic,
   writeSnapshot as _writeSnapshot,
@@ -49,6 +61,17 @@ export interface TopicProminenceStore {
     windowSpec: '24h' | '7d' | '30d',
     since: Date,
   ) => Promise<HistorySnapshot[]>
+  readArticleDistributionByTopic: (
+    topicId: string,
+    from: Date,
+    to: Date,
+  ) => Promise<Array<{ source_id: string; count: number }>>
+  readArticleEntitiesByTopic: (
+    topicId: string,
+    from: Date,
+    to: Date,
+  ) => Promise<Array<{ entities: Array<{ type: string; id: string }> }>>
+  readAllMediosConfig: () => Promise<MedioConfig[]>
   writeSnapshot: (row: SnapshotInsertRow) => Promise<void>
 }
 
@@ -76,6 +99,9 @@ function currentStore(): TopicProminenceStore {
   return {
     readArticleVolumeInWindow: _readArticleVolumeInWindow,
     readHistoryForTopic: _readHistoryForTopic,
+    readArticleDistributionByTopic: _readArticleDistributionByTopic,
+    readArticleEntitiesByTopic: _readArticleEntitiesByTopic,
+    readAllMediosConfig: _readAllMediosConfig,
     writeSnapshot: _writeSnapshot,
   }
 }
@@ -99,6 +125,11 @@ export async function computeAndWriteSnapshot(
   let processed = 0
   let skipped = 0
   const errors: string[] = []
+
+  // medios_config se cachea internamente (5 min); leerlo una vez por
+  // ejecución del cron y reusar la misma snapshot para todos los topics.
+  const mediosConfig = await store.readAllMediosConfig()
+
   for (const topicId of topicIds) {
     try {
       const windowFrom = new Date(now - T24H)
@@ -126,11 +157,30 @@ export async function computeAndWriteSnapshot(
       // log10(101)/log10(100) ≈ 1.0022 → clamp a 1 con Math.min.
       const volumeScore = Math.min(Math.log(volume + 1) / Math.log(100), 1)
 
-      // C3 placeholders — C4 y C5 los rellenan con datos reales.
-      const sourceDiversityScore = 0
-      const tierWeightScore = 0
-      const entityDensityScore = 0
-      const score = clamp01(0.30 * volumeScore + 0.25 * momentumScore)
+      const distribution = await store.readArticleDistributionByTopic(
+        topicId,
+        windowFrom,
+        windowTo,
+      )
+      const articleEntities = await store.readArticleEntitiesByTopic(
+        topicId,
+        windowFrom,
+        windowTo,
+      )
+
+      const sourceDiversityScore = computeSourceDiversity(distribution)
+      const tierWeightScore = computeTierWeight(distribution, mediosConfig)
+      const entityDensityScore = computeEntityDensity(articleEntities)
+
+      const score = clamp01(
+        aggregateProminenceScore({
+          volume: volumeScore,
+          momentum: momentumScore,
+          sourceDiversity: sourceDiversityScore,
+          tierWeight: tierWeightScore,
+          entityDensity: entityDensityScore,
+        }),
+      )
       const state = 'STABLE' as const
 
       await store.writeSnapshot({

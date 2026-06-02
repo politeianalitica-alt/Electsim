@@ -50,13 +50,16 @@ function test(name: string, fn: () => void | Promise<void>) {
 
 // ─── Stub harness para el store ──────────────────────────────────────
 interface StoreCalls {
-  reads: Array<{ topicId: string; type: 'volume' | 'history' }>
+  reads: Array<{
+    topicId: string
+    type: 'volume' | 'history' | 'distribution' | 'entities'
+  }>
   writes: Array<Record<string, unknown>>
 }
 
 function makeStoreStub(
   volumes: Record<string, { volume: number; source_count: number }>,
-  history: Array<{ computed_at: Date; volume: number }> = [],
+  history: Array<{ computed_at: Date; volume: number; momentum_score: number }> = [],
 ): { store: TopicProminenceStore; calls: StoreCalls } {
   const calls: StoreCalls = { reads: [], writes: [] }
   const store: TopicProminenceStore = {
@@ -68,6 +71,18 @@ function makeStoreStub(
       calls.reads.push({ topicId, type: 'history' })
       return history
     },
+    // Sprint 2 C4: nuevas funciones del store usadas por scoring real.
+    // Stub vacío → diversity / tier / entity_density caen a 0, lo que
+    // satisface los asserts existentes (placeholders pre-C4 también 0).
+    readArticleDistributionByTopic: async (topicId, _from, _to) => {
+      calls.reads.push({ topicId, type: 'distribution' })
+      return []
+    },
+    readArticleEntitiesByTopic: async (topicId, _from, _to) => {
+      calls.reads.push({ topicId, type: 'entities' })
+      return []
+    },
+    readAllMediosConfig: async () => [],
     writeSnapshot: async (snapshot) => {
       calls.writes.push(snapshot as unknown as Record<string, unknown>)
     },

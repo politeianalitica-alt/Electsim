@@ -134,6 +134,77 @@ export async function readHistoryForTopic(
 }
 
 /**
+ * Sprint 2 C4 · distribución de artículos por medio (source_id) para un
+ * topic en una ventana. Necesaria para sourceDiversityScore y tierWeight.
+ *
+ * Devuelve `[{ source_id, count }]` o `[]` si DB no disponible o si no hay
+ * artículos en la ventana.
+ */
+export async function readArticleDistributionByTopic(
+  topicId: string,
+  from: Date,
+  to: Date,
+): Promise<Array<{ source_id: string; count: number }>> {
+  return withDb(
+    async (db) => {
+      const sql = getRawSql(db)
+      if (!sql) return [] as Array<{ source_id: string; count: number }>
+      const rows = (await sql`
+        SELECT source_id, COUNT(*)::int AS count
+        FROM article
+        WHERE COALESCE(is_noise, FALSE) = FALSE
+          AND categoria = ${topicId}
+          AND COALESCE(ingested_at, published_at) >= ${from.toISOString()}
+          AND COALESCE(ingested_at, published_at) <  ${to.toISOString()}
+        GROUP BY source_id
+      `) as Array<{ source_id: string; count: number | string }>
+      return rows.map((r) => ({
+        source_id: r.source_id,
+        count: Number(r.count) || 0,
+      }))
+    },
+    () => [],
+  )
+}
+
+/**
+ * Sprint 2 C4 · entidades extraídas (Layer 1 NER) de los artículos de un
+ * topic en una ventana. Necesaria para entityDensityScore.
+ *
+ * `article.entities` es JSONB con shape `[{ type, id, ... }, ...]`. Si la
+ * columna no existe o el valor no es array, normalizamos a [] para que
+ * computeEntityDensity no explote en datos legacy pre-Sprint 2.
+ *
+ * Devuelve `[{ entities: [...] }]` (una fila por artículo) o `[]`.
+ */
+export async function readArticleEntitiesByTopic(
+  topicId: string,
+  from: Date,
+  to: Date,
+): Promise<Array<{ entities: Array<{ type: string; id: string }> }>> {
+  return withDb(
+    async (db) => {
+      const sql = getRawSql(db)
+      if (!sql) return [] as Array<{ entities: Array<{ type: string; id: string }> }>
+      const rows = (await sql`
+        SELECT entities
+        FROM article
+        WHERE COALESCE(is_noise, FALSE) = FALSE
+          AND categoria = ${topicId}
+          AND COALESCE(ingested_at, published_at) >= ${from.toISOString()}
+          AND COALESCE(ingested_at, published_at) <  ${to.toISOString()}
+      `) as Array<{ entities: unknown }>
+      return rows.map((r) => ({
+        entities: Array.isArray(r.entities)
+          ? (r.entities as Array<{ type: string; id: string }>)
+          : [],
+      }))
+    },
+    () => [],
+  )
+}
+
+/**
  * Inserta un snapshot. La PK incluye `computed_at` (server default NOW()),
  * así que no proporcionamos timestamp explícito — Postgres asigna el momento
  * del INSERT.
