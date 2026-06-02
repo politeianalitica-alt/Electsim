@@ -26,6 +26,7 @@ import type {
   EnergyCompany,
   SubastaRenovable,
   PetroleoDependencia,
+  GnlEspana,
 } from './types'
 
 // ────────────────────────────────────────────────────────────────────
@@ -714,4 +715,106 @@ export const PETROLEO_DEPENDENCIA_ES: PetroleoDependencia = {
     'pero el grueso de los flujos atlánticos y mediterráneos depende de chokepoints como el ' +
     'estrecho de Ormuz (golfo Pérsico) y el canal de Suez. El embargo a Rusia (2022) elevó la ' +
     'cuota de EE. UU., Brasil, Nigeria y México.',
+}
+
+// ────────────────────────────────────────────────────────────────────
+// GNL DE ESPAÑA · plantas de regasificación + orígenes · Sprint Energía S8
+// ────────────────────────────────────────────────────────────────────
+// España es el país con MAYOR capacidad de regasificación de la Unión Europea
+// y uno de los mayores del mundo: 6 plantas en operación (Barcelona, Cartagena,
+// Huelva, Bilbao, Sagunto y Mugardos) más El Musel (Gijón), que tras años en
+// "hibernación" entró en proceso de puesta en marcha. Esta red, junto con las
+// conexiones por gasoducto con Argelia (Medgaz) y Europa (VIP Pirineos), hace
+// de España un hub gasista del suroeste europeo, aunque con poca capacidad de
+// interconexión hacia el centro de Europa.
+//
+// El gas natural llega a España en dos formas: por GASODUCTO (principalmente
+// Argelia vía Medgaz) y como GNL por barco metanero (regasificado en las
+// plantas). Tras la crisis de 2022 (guerra de Ucrania), el GNL ganó peso y se
+// diversificaron los orígenes; EE. UU. se convirtió en el primer proveedor de
+// GNL y Rusia, pese a las sanciones al gas por tubo, siguió aportando GNL.
+//
+// Capacidades de emisión (regasificación) en GWh/día: cifras de orden de
+// magnitud de la capacidad técnica nominal de cada planta según Enagás (el
+// sistema gasista español tiene en conjunto del orden de ~1.800-2.000 GWh/día
+// de capacidad de emisión de GNL). Los valores exactos varían según ampliaciones
+// y condiciones operativas.
+//
+// Las cuotas por país de origen son orden de magnitud de los últimos datos
+// anuales agregados; varían mes a mes con los contratos spot. Fuente: Enagás
+// (operador del sistema) + CORES (estadística de hidrocarburos · MITECO).
+export const GNL_ESPANA: GnlEspana = {
+  ano_ref: 2024,
+  plantas: [
+    {
+      nombre: 'Barcelona',
+      ubicacion: 'Barcelona (Cataluña)',
+      operador: 'Enagás',
+      emision_gwh_dia: 650,
+      estado: 'operativa',
+      nota: 'La mayor planta de regasificación de Europa por capacidad de emisión.',
+    },
+    {
+      nombre: 'Cartagena',
+      ubicacion: 'Cartagena (Murcia)',
+      operador: 'Enagás',
+      emision_gwh_dia: 450,
+      estado: 'operativa',
+    },
+    {
+      nombre: 'Huelva',
+      ubicacion: 'Palos de la Frontera (Huelva)',
+      operador: 'Enagás',
+      emision_gwh_dia: 450,
+      estado: 'operativa',
+    },
+    {
+      nombre: 'Bilbao',
+      ubicacion: 'Zierbena (Bizkaia)',
+      operador: 'Bahía de Bizkaia Gas (Enagás)',
+      emision_gwh_dia: 235,
+      estado: 'operativa',
+    },
+    {
+      nombre: 'Sagunto',
+      ubicacion: 'Sagunto (Valencia)',
+      operador: 'Saggas (Enagás)',
+      emision_gwh_dia: 300,
+      estado: 'operativa',
+    },
+    {
+      nombre: 'Mugardos',
+      ubicacion: 'Mugardos (A Coruña)',
+      operador: 'Reganosa',
+      emision_gwh_dia: 165,
+      estado: 'operativa',
+    },
+    {
+      nombre: 'El Musel',
+      ubicacion: 'Gijón (Asturias)',
+      operador: 'Enagás',
+      emision_gwh_dia: null,
+      estado: 'puesta en marcha',
+      nota: 'Construida en 2013, mantenida años en "hibernación"; reactivada como almacenamiento/' +
+        'logística de GNL y en proceso de habilitación para emisión a la red.',
+    },
+  ],
+  origenes: [
+    { pais: 'Estados Unidos', cuota_pct: 28 },
+    { pais: 'Argelia', cuota_pct: 24 },
+    { pais: 'Rusia (GNL)', cuota_pct: 14 },
+    { pais: 'Nigeria', cuota_pct: 12 },
+    { pais: 'Qatar', cuota_pct: 6 },
+    { pais: 'Trinidad y Tobago', cuota_pct: 4 },
+    { pais: 'Resto', cuota_pct: 12 },
+  ],
+  cuota_gnl_pct: 70,
+  fuente: 'Enagás (operador del sistema gasista) + CORES · estadística de hidrocarburos (MITECO).',
+  fuente_url: 'https://www.enagas.es/es/transporte-gas/gestion-tecnica-sistema/',
+  nota: 'España es el país con mayor capacidad de regasificación de GNL de la UE (6 plantas en ' +
+    'operación + El Musel reactivándose). El gas llega por gasoducto (Argelia vía Medgaz) y como ' +
+    'GNL por metanero; tras 2022 el GNL ganó peso y EE. UU. pasó a ser el primer proveedor. La ' +
+    'diversificación de orígenes es alta, pero el cuello de botella es la escasa interconexión ' +
+    'por gasoducto con el centro de Europa (VIP Pirineos), que limita el papel de España como ' +
+    'puerta de entrada de gas al continente. Las cuotas son orden de magnitud y varían mes a mes.',
 }

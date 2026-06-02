@@ -442,6 +442,147 @@ export interface EnergyCommodityResponse {
   fetched_at: string
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// AGSI gas storage (GIE) · Sprint Energía S8
+//
+// Tipos del cliente `lib/energia/agsi.ts`, que consume la API REST de GIE
+// AGSI+ (Aggregated Gas Storage Inventory · https://agsi.gie.eu/api). Se
+// mantienen planos para usarse en route handlers, componentes cliente y tests
+// Node (--experimental-strip-types).
+//
+// API real (confirmada vía WebFetch del endpoint + User Manual GIE v007 ·
+// 2026-06-02):
+//   - Base: https://agsi.gie.eu/api
+//   - Auth: header HTTP `x-key: <GIE_API_KEY>`. La key es GRATUITA pero
+//       OBLIGATORIA desde 2022 (registro en https://agsi.gie.eu/account).
+//       Sin key la API responde HTTP 401 con un envelope JSON:
+//       { last_page:0, total:0, dataset:"storage ERROR",
+//         error:"access denied", message:"Invalid or missing API key", data:[] }
+//   - Query: `country` (ISO-2, ej. "ES"), `type=eu` (agregado UE), `date`,
+//       `from`/`to` (YYYY-MM-DD), `size`, `page`.
+//   - Envelope OK: { last_page, total, data: [ {...registro diario} ] }.
+//   - Campos de cada registro (User Manual GIE):
+//       gasDayStart (fecha YYYY-MM-DD) · gasInStorage (TWh, 4 dec) ·
+//       full (% de llenado) · trend (variación diaria de `full`) ·
+//       injection (GWh/d) · withdrawal (GWh/d) ·
+//       workingGasVolume (TWh, capacidad técnica) ·
+//       injectionCapacity / withdrawalCapacity (GWh/d) ·
+//       consumption / consumptionFull · status · name · code · url.
+//   - Los valores numéricos llegan como STRING ("87.62") → el cliente los
+//       parsea con tolerancia a "-"/""/null (huecos de la fuente).
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Un punto diario de la serie de almacenamiento de gas (AGSI). */
+export interface GasStoragePoint {
+  /** Fecha del gas-day (ISO 'YYYY-MM-DD'). */
+  date: string
+  /** % de llenado del almacenamiento ese día (null si hueco). */
+  full_pct: number | null
+  /** Gas almacenado en TWh (null si hueco). */
+  gas_in_storage_twh: number | null
+  /** Inyección del día en GWh/d (null si hueco). */
+  injection_gwh: number | null
+  /** Extracción del día en GWh/d (null si hueco). */
+  withdrawal_gwh: number | null
+}
+
+/** Almacenamiento de gas de una zona (UE agregado o un país) · AGSI. */
+export interface GasStorage {
+  /** Ámbito: 'eu' (agregado UE) o ISO-2 del país (ej. "ES"). */
+  zone: string
+  /** Etiqueta legible (ej. "Unión Europea", "España"). */
+  zone_label: string
+  /** Fecha del último dato disponible (ISO 'YYYY-MM-DD'). */
+  latest_date: string | null
+  /** % de llenado más reciente (null si sin datos). */
+  full_pct: number | null
+  /** Gas almacenado más reciente en TWh (null si sin datos). */
+  gas_in_storage_twh: number | null
+  /** Capacidad técnica (working gas volume) en TWh (null si no disponible). */
+  working_gas_volume_twh: number | null
+  /** Inyección del último día en GWh/d (null si sin datos). */
+  injection_gwh: number | null
+  /** Extracción del último día en GWh/d (null si sin datos). */
+  withdrawal_gwh: number | null
+  /** Tendencia diaria de `full` (variación puntos % vs día anterior, null). */
+  trend: number | null
+  /** Fase neta dominante derivada de inyección/extracción del último día. */
+  fase: 'inyeccion' | 'extraccion' | 'equilibrio' | null
+  /** Serie histórica diaria ascendente (más antigua → más reciente). */
+  series: GasStoragePoint[]
+}
+
+/**
+ * Envoltura de degradación común al cliente AGSI.
+ * Patrón Politeia (ver `lib/ember/client.ts`, `lib/entsoe/client.ts`): nunca
+ * lanza; ante key ausente o fallo devuelve `{ ok:false, error, fetched_at }`.
+ */
+export interface GasStorageResponse {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: GasStorage
+  /** ISO timestamp del momento de la petición. */
+  fetched_at: string
+  /** URL pública de GIE AGSI para citar la fuente en la UI. */
+  source_url?: string
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// GNL España · plantas de regasificación + orígenes (catálogo) · S8
+//
+// Tipos del catálogo curado `GNL_ESPANA` en `lib/energia/catalog.ts`. España
+// es el país con mayor capacidad de regasificación de la UE (6 plantas en
+// operación + El Musel en Asturias en proceso de puesta en marcha). Fuentes:
+// Enagás (operador del sistema gasista) y CORES (estadística de hidrocarburos).
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Planta de regasificación de GNL en España (catálogo Enagás). */
+export interface GnlPlanta {
+  /** Nombre de la planta (ej. "Barcelona"). */
+  nombre: string
+  /** Ubicación (provincia / CCAA). */
+  ubicacion: string
+  /** Operador de la terminal. */
+  operador: string
+  /**
+   * Capacidad de emisión (regasificación) en GWh/día, orden de magnitud.
+   * Null para plantas sin emisión comercial plena (ej. en puesta en marcha).
+   */
+  emision_gwh_dia: number | null
+  /** Estado operativo. */
+  estado: 'operativa' | 'puesta en marcha' | 'planificada'
+  /** Nota de contexto. */
+  nota?: string
+}
+
+/** País de origen del GNL importado por España (catálogo CORES/Enagás). */
+export interface GnlOrigen {
+  /** País de origen del GNL. */
+  pais: string
+  /** Cuota aproximada sobre el total de GNL importado, en %. */
+  cuota_pct: number
+}
+
+/** Resumen del aprovisionamiento de GNL de España (catálogo Enagás/CORES). */
+export interface GnlEspana {
+  /** Año de referencia de los datos. */
+  ano_ref: number
+  /** Plantas de regasificación. */
+  plantas: GnlPlanta[]
+  /** Principales orígenes del GNL, ordenados por cuota descendente. */
+  origenes: GnlOrigen[]
+  /** % aproximado del gas natural consumido que llega como GNL (vs gasoducto). */
+  cuota_gnl_pct: number
+  /** Fuente citada. */
+  fuente: string
+  /** URL pública de la fuente. */
+  fuente_url: string
+  /** Notas de contexto (capacidad UE, dependencia, diversificación). */
+  nota: string
+}
+
 /** Empresa del sector energético (española o major global). */
 export interface EnergyCompany {
   /** Slug estable para rutas /sector-energia/empresas/[slug] (S9). */
