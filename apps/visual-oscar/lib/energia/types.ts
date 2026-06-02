@@ -82,6 +82,58 @@ export interface H2Project {
   horizonte: number
 }
 
+/**
+ * Subasta del European Hydrogen Bank (mecanismo de prima fija €/kg) · S9.
+ *
+ * El Banco Europeo del Hidrógeno subasta ayudas a la producción de H2 renovable
+ * con una prima fija (€/kg) durante 10 años a los proyectos que pujan más bajo.
+ * La 1ª subasta (piloto · IF24, resuelta abr-2024 tras cierre nov-2023) adjudicó
+ * 7 proyectos en un rango de ~0,37-0,48 €/kg. Estas cifras son el resultado
+ * público comunicado por la Comisión Europea / CINEA.
+ */
+export interface H2SubastaEU {
+  /** Identificador / ronda de la subasta (ej. "1ª subasta (piloto)"). */
+  ronda: string
+  /** Fecha del resultado (ISO 'YYYY-MM-DD' o mes 'YYYY-MM'). */
+  fecha: string
+  /** Precio mínimo adjudicado en €/kg (puja más baja). */
+  precio_min_eur_kg: number
+  /** Precio máximo adjudicado en €/kg (puja más alta seleccionada). */
+  precio_max_eur_kg: number
+  /** Nº de proyectos adjudicatarios. */
+  proyectos_adjudicados: number
+  /** Presupuesto / ayuda total movilizada (millones de euros). */
+  presupuesto_meur: number
+  /** Observación + fuente del dato. */
+  observacion: string
+}
+
+/**
+ * Proyecto de infraestructura troncal / corredor de hidrógeno (backbone) · S9.
+ *
+ * Incluye el corredor H2Med (interconexión submarina Barcelona-Marsella, un PCI
+ * europeo) y la futura Red Troncal Española de Hidrógeno que Enagás planifica
+ * dentro del European Hydrogen Backbone. Cifras de longitud/horizonte son
+ * objetivos de proyecto y pueden variar.
+ */
+export interface H2BackboneProject {
+  nombre: string
+  /** Tipo de infraestructura (ej. "Interconexión submarina", "Red troncal"). */
+  tipo: string
+  /** Promotores / TSOs implicados. */
+  promotores: string[]
+  /** Trazado / ámbito geográfico (ej. "Barcelona ↔ Marsella"). */
+  trazado: string
+  /** Longitud aproximada en km (null si no aplica / no fijada). */
+  longitud_km: number | null
+  /** Año horizonte de puesta en servicio objetivo. */
+  horizonte: number
+  /** Estado (ej. "planificado", "PCI europeo", "estudios"). */
+  estado: string
+  /** Observación + fuente. */
+  observacion: string
+}
+
 // ─────────────────────────────────────────────────────────────────────────
 // Ember (electricidad global) · Sprint Energía S2
 //
@@ -581,6 +633,85 @@ export interface GnlEspana {
   fuente_url: string
   /** Notas de contexto (capacidad UE, dependencia, diversificación). */
   nota: string
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Empresas energéticas enriquecidas (grid + ficha drill-down) · Sprint S9
+//
+// `lib/energia/companies.ts` enriquece el catálogo `EMPRESAS_ENERGIA` con:
+//   - cotización Finnhub (tiempo real, vía /api/finnhub o servidor)
+//   - estructura societaria OpenCorporates (jurisdicción, nº registro, estado,
+//     filiales/officers) en la ficha drill-down.
+// Degradación honesta (CLAUDE.md): si Finnhub/OpenCorporates fallan, se
+// devuelve lo del catálogo y los campos enriquecidos quedan null/[].
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Cotización compacta de una empresa (Finnhub). */
+export interface EnergyCompanyQuote {
+  /** Precio actual / último cierre. */
+  price: number | null
+  /** Variación absoluta del día. */
+  change: number | null
+  /** Variación porcentual del día. */
+  change_percent: number | null
+  /** Máximo del día. */
+  high: number | null
+  /** Mínimo del día. */
+  low: number | null
+  /** Apertura. */
+  open: number | null
+  /** Cierre anterior. */
+  previous_close: number | null
+  /** True si se obtuvo cotización en vivo; false si degradó. */
+  available: boolean
+}
+
+/** Empresa del catálogo + cotización (para el grid). */
+export interface EnergyCompanyListItem extends EnergyCompany {
+  /** Cotización Finnhub (null si privada o sin dato). */
+  quote: EnergyCompanyQuote | null
+}
+
+/** Officer / directivo de OpenCorporates (subset para la ficha). */
+export interface EnergyCompanyOfficer {
+  name: string
+  position: string | null
+}
+
+/** Estructura societaria de OpenCorporates para la ficha. */
+export interface EnergyCompanyStructure {
+  /** True si OpenCorporates devolvió datos. */
+  available: boolean
+  /** Nombre legal según OpenCorporates. */
+  legal_name: string | null
+  /** Jurisdicción (ej. "es"). */
+  jurisdiction: string | null
+  /** Número de registro. */
+  company_number: string | null
+  /** Estado (Active / Dissolved / ...). */
+  status: string | null
+  /** Fecha de constitución (YYYY-MM-DD). */
+  incorporation_date: string | null
+  /** Tipo legal (Sociedad Anónima, ...). */
+  company_type: string | null
+  /** Dirección registrada. */
+  registered_address: string | null
+  /** URL pública OpenCorporates de la empresa. */
+  opencorporates_url: string | null
+  /** Directivos/officers (subset, si disponibles). */
+  officers: EnergyCompanyOfficer[]
+  /** Otras empresas del grupo halladas en la misma jurisdicción (subset). */
+  related: Array<{ name: string; company_number: string; opencorporates_url: string }>
+  /** Motivo de degradación si `available === false` (ej. "no_key", "rate_limited"). */
+  note?: string
+}
+
+/** Ficha completa drill-down de una empresa energética. */
+export interface EnergyCompanyFichaData extends EnergyCompany {
+  /** Cotización Finnhub (null si privada o sin dato). */
+  quote: EnergyCompanyQuote | null
+  /** Estructura societaria OpenCorporates. */
+  structure: EnergyCompanyStructure
 }
 
 /** Empresa del sector energético (española o major global). */

@@ -425,6 +425,32 @@ function CotizacionStrip() {
       <QuoteRow titulo="Utilities y energéticas españolas" quotes={utils} />
       <div style={{ height: 14 }} />
       <QuoteRow titulo="Majors globales" quotes={majors} />
+
+      {/* CTA · módulo de empresas con fichas drill-down */}
+      <a
+        href="/sector-energia/empresas"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 8,
+          marginTop: 16,
+          padding: '12px 16px',
+          background: `${ACCENT}0D`,
+          border: `1px solid ${ACCENT}33`,
+          borderRadius: 10,
+          textDecoration: 'none',
+          color: ACCENT,
+        }}
+      >
+        <span style={{ fontSize: 12.5, fontWeight: 700 }}>
+          Ver todas las empresas energéticas
+          <span style={{ fontSize: 11, fontWeight: 500, color: '#6e6e73', marginLeft: 8 }}>
+            fichas drill-down · cotización + estructura societaria (OpenCorporates)
+          </span>
+        </span>
+        <span aria-hidden="true" style={{ fontSize: 15 }}>⟶</span>
+      </a>
     </section>
   )
 }

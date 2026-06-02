@@ -20,7 +20,7 @@
  *   - 'nuclear'    → <NuclearView /> (parque ES · cierre 2027-2035 · global · S6)
  *   - 'petroleo'   → <PetroleoView /> (Brent/WTI/OPEP · refino · dependencia · S7)
  *   - 'gas'        → <GasView /> (Henry Hub/TTF · almacenamiento AGSI · GNL · S8)
- *   - 'hidrogeno'  → <EnergiaComingSoon /> · empty-state "en construcción" (S9)
+ *   - 'hidrogeno'  → <HidrogenoView /> (PERTE H2 · EU Hydrogen Bank · H2Med · S9)
  *
  * Cero emojis (CLAUDE.md §0.5): se usan caracteres Unicode (◆ ◉ ⬡).
  */
@@ -35,6 +35,7 @@ import { RenovablesView } from './RenovablesView'
 import { NuclearView } from './NuclearView'
 import { PetroleoView } from './PetroleoView'
 import { GasView } from './GasView'
+import { HidrogenoView } from './HidrogenoView'
 import type { EnergiaTipo } from '@/lib/energia/types'
 
 const ACCENT = '#16A34A'
@@ -126,7 +127,9 @@ export default function EnergiaShell() {
                   ? <PetroleoView />
                   : activo.id === 'gas'
                     ? <GasView />
-                    : <EnergiaComingSoon tipo={activo} />}
+                    : activo.id === 'hidrogeno'
+                      ? <HidrogenoView />
+                      : <EnergiaComingSoon tipo={activo} />}
  </main>
  </div>
   )

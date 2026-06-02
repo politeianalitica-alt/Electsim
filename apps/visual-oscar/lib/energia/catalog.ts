@@ -23,6 +23,8 @@ import type {
   RenewableCapacity,
   PniecTarget,
   H2Project,
+  H2SubastaEU,
+  H2BackboneProject,
   EnergyCompany,
   SubastaRenovable,
   PetroleoDependencia,
@@ -411,6 +413,105 @@ export const H2_PROYECTOS_ES: H2Project[] = [
     capacidad_mw: 0,
     estado: 'planificado (infraestructura)',
     horizonte: 2030,
+  },
+]
+
+// ────────────────────────────────────────────────────────────────────
+// EUROPEAN HYDROGEN BANK · subastas de prima fija (€/kg) · Sprint S9
+// ────────────────────────────────────────────────────────────────────
+// El Banco Europeo del Hidrógeno (European Hydrogen Bank), instrumento de la
+// Comisión Europea financiado con el Fondo de Innovación (ETS), subasta ayudas
+// a la PRODUCCIÓN de hidrógeno renovable: una prima fija en €/kg durante 10
+// años a los proyectos que pujan más bajo (subasta a la baja, "pay-as-bid").
+//
+//   - 1ª subasta (piloto · IF24): cierre de pujas en NOV-2023, resultados
+//     comunicados en ABR-2024. Presupuesto ~720 M€. Se seleccionaron 7
+//     proyectos en un rango de precios adjudicados de ~0,37 a ~0,48 €/kg
+//     (el más bajo 0,37 €/kg; el más alto seleccionado 0,48 €/kg). Varios de
+//     los proyectos ganadores están en la Península Ibérica (España/Portugal).
+//     (Comisión Europea / CINEA · "European Hydrogen Bank auction results").
+//   - 2ª subasta: lanzada a finales de 2024 con presupuesto ampliado (~1.200
+//     M€) e incluyendo un cupo específico ("Auctions-as-a-Service"); los
+//     resultados detallados llegan después. Se incluye como contexto de pipeline
+//     sin fijar precio definitivo para no mostrar una cifra no consolidada.
+//
+// Fuente: Comisión Europea (DG CLIMA) / CINEA · European Hydrogen Bank.
+export const H2_SUBASTAS_EU: H2SubastaEU[] = [
+  {
+    ronda: '1ª subasta (piloto · IF24)',
+    fecha: '2024-04',
+    precio_min_eur_kg: 0.37,
+    precio_max_eur_kg: 0.48,
+    proyectos_adjudicados: 7,
+    presupuesto_meur: 720,
+    observacion:
+      'Primera subasta del European Hydrogen Bank (cierre nov-2023, resultados abr-2024). ' +
+      'Prima fija 10 años; 7 proyectos adjudicados ~0,37-0,48 €/kg. Comisión Europea / CINEA.',
+  },
+]
+
+// Nota de contexto de la 2ª subasta (sin precio consolidado): se expone como
+// texto en la UI, no como dato numérico cerrado.
+export const H2_SUBASTA_EU_NOTA_2A =
+  'La 2ª subasta del Banco Europeo del Hidrógeno (lanzada a finales de 2024) ' +
+  'amplió el presupuesto a ~1.200 M€ e introdujo el esquema "Auctions-as-a-Service" ' +
+  'para que los Estados miembros añadan fondos nacionales. Resultados detallados posteriores.'
+
+// ────────────────────────────────────────────────────────────────────
+// BACKBONE / CORREDORES DE HIDRÓGENO · H2Med + red troncal · Sprint S9
+// ────────────────────────────────────────────────────────────────────
+// La infraestructura troncal de transporte de H2 es la pieza que conecta los
+// polos de producción (electrolizadores) con la demanda industrial y con
+// Europa. Dos proyectos clave para España:
+//
+//   - H2Med (BarMar): interconexión submarina de hidrógeno entre Barcelona y
+//     Marsella, parte del "H2Med corridor". Es un Proyecto de Interés Común
+//     (PCI) de la UE, promovido por Enagás (ES), GRTgaz y Teréga (FR), REN (PT,
+//     vía la conexión CelZa Celorico-Zamora) y con OGE (DE) sumándose a la
+//     extensión hacia Alemania. Horizonte de puesta en servicio ~2030.
+//   - Red Troncal Española de Hidrógeno: la red interior de gasoductos de H2
+//     que Enagás planifica como parte del European Hydrogen Backbone, para
+//     vertebrar los valles del hidrógeno y conectar con H2Med. Miles de km a
+//     2030+.
+//
+// Las longitudes son aproximadas y los horizontes objetivos de proyecto.
+// Fuente: Enagás (European Hydrogen Backbone) + Comisión Europea (lista PCI).
+export const H2_BACKBONE: H2BackboneProject[] = [
+  {
+    nombre: 'H2Med (corredor BarMar)',
+    tipo: 'Interconexión submarina',
+    promotores: ['Enagás', 'GRTgaz', 'Teréga', 'REN'],
+    trazado: 'Barcelona ↔ Marsella',
+    longitud_km: 455,
+    horizonte: 2030,
+    estado: 'PCI europeo · planificado',
+    observacion:
+      'Interconexión submarina de hidrógeno Barcelona-Marsella, Proyecto de Interés Común (PCI) de la UE. ' +
+      'Eje del corredor H2Med con extensión planificada hacia Alemania (OGE). Fuente: Comisión Europea / Enagás.',
+  },
+  {
+    nombre: 'Conexión CelZa (Celorico ↔ Zamora)',
+    tipo: 'Interconexión terrestre ES-PT',
+    promotores: ['Enagás', 'REN'],
+    trazado: 'Zamora ↔ Celorico da Beira',
+    longitud_km: 248,
+    horizonte: 2030,
+    estado: 'PCI europeo · planificado',
+    observacion:
+      'Tramo terrestre del corredor H2Med que conecta Portugal con España (Celorico-Zamora). ' +
+      'Junto con BarMar forma el eje ibérico de exportación de H2 a Europa. Fuente: Enagás / REN.',
+  },
+  {
+    nombre: 'Red Troncal Española de Hidrógeno',
+    tipo: 'Red troncal nacional',
+    promotores: ['Enagás'],
+    trazado: 'Vertebración nacional (valles del hidrógeno → H2Med)',
+    longitud_km: 2600,
+    horizonte: 2030,
+    estado: 'planificado (estudios)',
+    observacion:
+      'Red interior de gasoductos de hidrógeno que Enagás planifica dentro del European Hydrogen Backbone, ' +
+      'para conectar los polos de producción y demanda con el corredor H2Med. Longitud aproximada a 2030+. Fuente: Enagás.',
   },
 ]
 
