@@ -23,6 +23,7 @@ import { detectNoise } from './noise-filter.ts'
 import { classifyByRssTags } from './classify-rss-tags.ts'
 import { classifyByHeuristic } from './classify-heuristic.ts'
 import {
+  createLlmClient,
   type LlmClassifierClient,
   semanticResultToTopicTag,
   StubLlmClient,
@@ -60,6 +61,15 @@ export interface ProcessOutcome {
   method?: 'RSS_TAG' | 'HEURISTIC' | 'SEMANTIC' | 'FALLBACK'
   confidence?: number
   hasEntities: boolean
+  /**
+   * I5 fix (2026-06-02): true cuando Layer 3 (SEMANTIC LLM) lanzó error
+   * (provider outage, circuit breaker open, network) y se capturó en el
+   * try/catch interno. Distingue de "L3 returned null" (no encajó topic),
+   * que también acaba en method=FALLBACK pero no es un fallo del LLM.
+   * Lo consume C9 (classifier-metrics cron) para reportar tasa de
+   * outages distinta de tasa de OTRO genuino.
+   */
+  semanticErrored?: boolean
 }
 
 const FALLBACK_SOURCE: Source = {
@@ -154,6 +164,13 @@ export async function processArticle(
     // 6. Clasificación en cascada
     let topicTag: TopicTag | null = null
     let method: 'RSS_TAG' | 'HEURISTIC' | 'SEMANTIC' | 'FALLBACK' = 'FALLBACK'
+    // I5 fix (2026-06-02): distinguir "L3 errored" (Gemini outage / circuit
+    // breaker open / network) de "L3 returned null" (clasificó pero ningún
+    // topic encajó). Ambos producían method=FALLBACK indistinguibles, lo
+    // que rompía C9 (classifier-metrics cron) al agregar
+    // classificationByMethod.FALLBACK. Ahora el outcome expone
+    // `semanticErrored: true` cuando el catch interno se dispara.
+    let semanticErrored = false
 
     topicTag = classifyByRssTags(raw.rawTags ?? [], source.id, catalogs.rssTagMap)
     if (topicTag) method = 'RSS_TAG'
@@ -161,16 +178,49 @@ export async function processArticle(
       topicTag = classifyByHeuristic(title, description, catalogs.topicRules)
       if (topicTag) method = 'HEURISTIC'
     }
-    if (!topicTag && options.semanticEnabled && options.semanticClient) {
-      const topicList = options.topicListForLlm ?? extractTopicIds(catalogs)
-      const llmResult = await options.semanticClient.classifyBatch(
-        [{ title, description }],
-        topicList,
-      )
-      const r = llmResult[0]
-      if (r) {
-        topicTag = semanticResultToTopicTag(r)
-        method = 'SEMANTIC'
+    // Layer 3: SEMANTIC LLM (Sprint 2 C2 · activación cascada completa).
+    // Reglas:
+    //  - Skip si `semanticEnabled === false` (preserva contratos existentes
+    //    de tests + callers que explícitamente lo deshabilitan).
+    //  - Si `semanticClient` no se inyecta, default a `createLlmClient()`
+    //    que resuelve el provider según FLAGS.MEDIOS_LLM_CLASSIFIER
+    //    (Gemini en producción Sprint 2, Ollama en dev, Stub si disabled).
+    //  - Si el cliente resuelto es StubLlmClient (flag disabled o env
+    //    sin API key), no llamamos: ahorra una invocación trivial.
+    //  - try/catch interno para que un fallo de LLM degrade a FALLBACK,
+    //    no a `status='failed'` en el outer catch (graceful degradation).
+    if (!topicTag && options.semanticEnabled !== false) {
+      const llmClient: LlmClassifierClient =
+        options.semanticClient ?? createLlmClient()
+      if (!(llmClient instanceof StubLlmClient)) {
+        try {
+          const topicList = options.topicListForLlm ?? extractTopicIds(catalogs)
+          const llmResult = await llmClient.classifyBatch(
+            [{ title, description }],
+            topicList,
+          )
+          const r = llmResult[0]
+          if (r) {
+            topicTag = semanticResultToTopicTag(r)
+            method = 'SEMANTIC'
+          }
+        } catch (llmErr: unknown) {
+          // I4 fix (2026-06-02): incluir articleId + source.id en el warn
+          // para que los logs de producción permitan reproducir el caso
+          // que rompió Gemini (sin esto solo se veía "LLM provider outage").
+          // I5 fix: marcar el flag para que C9 distinga error vs null.
+          semanticErrored = true
+          // eslint-disable-next-line no-console
+          console.warn(
+            '[medios.canonical.pipeline] Layer 3 SEMANTIC failed',
+            {
+              articleId: id,
+              source: source.id,
+              error: (llmErr as Error)?.message ?? String(llmErr),
+            },
+          )
+          // topicTag sigue siendo null → caemos a FALLBACK abajo.
+        }
       }
     }
     if (!topicTag) {
@@ -223,6 +273,7 @@ export async function processArticle(
       method,
       confidence: topicTag.confidence,
       hasEntities: extracted.length > 0,
+      semanticErrored,
     }
   } catch (e: unknown) {
     const err = e as { message?: string }

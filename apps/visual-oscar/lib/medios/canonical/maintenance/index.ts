@@ -27,6 +27,10 @@
 import { cleanupClusters } from './cleanup-clusters.ts'
 import { recomputeSourceScores } from './recompute-source-scores.ts'
 import { otroAlert } from './otro-alert.ts'
+import { unmappedTagsJob } from './unmapped-tags.ts'
+import { termsNotClassifiedJob } from './otro-cluster.ts'
+import { classifierMetricsJob } from './classifier-metrics.ts'
+import { computeAndWriteSnapshot } from '../scoring/snapshot-writer.ts'
 
 export interface JobResult {
   job: string
@@ -43,17 +47,76 @@ export interface Job {
   run: () => Promise<JobResult>
 }
 
+// Lista hardcodeada de topicIds para el snapshot de prominence (C3). Coincide
+// con `data/medios/topic-rules.json` salvo OTRO (placeholder ruidoso que no
+// merece snapshot horario). C5 puede sustituir esto por un loader del
+// catálogo si la taxonomía crece.
+const TOPIC_IDS_FOR_SNAPSHOT = [
+  'POLITICA_INSTITUCIONAL',
+  'PARLAMENTO',
+  'PARTIDOS',
+  'JUDICIAL',
+  'ECONOMIA',
+  'EMPLEO',
+  'VIVIENDA',
+  'ENERGIA',
+  'TERRITORIAL',
+  'INTERNACIONAL',
+  'UNION_EUROPEA',
+  'DEFENSA',
+  'SEGURIDAD',
+  'MIGRACION',
+  'SANIDAD',
+  'EDUCACION',
+  'MEDIO_AMBIENTE',
+  'TECNOLOGIA',
+  'COMUNICACION',
+  'SOCIEDAD',
+  'CRISIS',
+  'CORRUPCION',
+  'IBEREX_EMPRESAS',
+  'SINDICAL_PATRONAL',
+] as const
+
+async function topicProminenceSnapshot(): Promise<JobResult> {
+  const t0 = Date.now()
+  const errors: string[] = []
+  let processed = 0
+  try {
+    const result = await computeAndWriteSnapshot([...TOPIC_IDS_FOR_SNAPSHOT], '24h')
+    processed = result.processed
+    errors.push(...result.errors)
+  } catch (e: unknown) {
+    errors.push(String((e as Error)?.message ?? e))
+  }
+  return {
+    job: 'topic-prominence-snapshot',
+    durationMs: Date.now() - t0,
+    itemsProcessed: processed,
+    errors,
+  }
+}
+
 export const JOBS: Job[] = [
   { name: 'cleanup-clusters', schedule: 'hourly', run: cleanupClusters },
   { name: 'recompute-source-scores', schedule: 'daily', run: recomputeSourceScores },
   { name: 'otro-alert', schedule: '6hourly', run: otroAlert },
-  // SPRINT_2_REGISTER_HERE:
-  //   { name: 'unmapped-tags',         schedule: '6hourly',  run: unmappedTagsJob },
-  //   { name: 'terms-not-classified',  schedule: '12hourly', run: termsNotClassifiedJob },
-  //   { name: 'classifier-metrics',    schedule: 'daily',    run: classifierMetricsJob },
+  // Sprint 2 C3: snapshot horario de prominence por topic (vol + momentum).
+  // C4 añadirá diversity/tier/entity_density; C5 derivará TopicState real.
+  { name: 'topic-prominence-snapshot', schedule: 'hourly', run: topicProminenceSnapshot },
+  // Sprint 2 C7: cada 6h detecta RSS tags vistos en article.raw_tags que no
+  // están en data/medios/rss-tag-map.json. Output Top 50 → curación humana.
+  { name: 'unmapped-tags', schedule: '6hourly', run: unmappedTagsJob },
+  // Sprint 2 C8: cada 12h clusteriza artículos OTRO con TF-IDF + cosine
+  // (sin LLM, sin embeddings). Identifica subtemas recurrentes que podrían
+  // justificar nuevas reglas heurísticas o macrotemas en topic-rules.json.
+  { name: 'terms-not-classified', schedule: '12hourly', run: termsNotClassifiedJob },
+  // Sprint 2 C9: cada 24h agrega métricas pipeline (fetched/noise/clasificado/
+  // OTRO%) y persiste snapshot en pipeline_metrics. Serie temporal consumida
+  // por /medios/health y /api/medios/maintenance/metrics.
+  { name: 'classifier-metrics', schedule: 'daily', run: classifierMetricsJob },
   // SPRINT_4_REGISTER_HERE (requerirá extender Schedule con 'quarter-hourly' |
   // 'half-hourly' + cambiar el cron de Vercel a "*/15 * * * *"):
-  //   { name: 'topic-prominence',      schedule: 'quarter-hourly', run: topicProminenceJob },
   //   { name: 'narrative-detection',   schedule: 'half-hourly',    run: narrativeDetectionJob },
 ]
 

@@ -57,7 +57,25 @@ async function run() {
       'falta recompute-source-scores',
     )
     assert.ok(names.includes('otro-alert'), 'falta otro-alert')
-    assert.equal(JOBS.length, 3, `esperado 3 jobs, encontrado ${JOBS.length}`)
+    assert.ok(names.includes('unmapped-tags'), 'falta unmapped-tags (Sprint 2 C7)')
+    assert.ok(
+      names.includes('terms-not-classified'),
+      'falta terms-not-classified (Sprint 2 C8)',
+    )
+    assert.ok(
+      names.includes('classifier-metrics'),
+      'falta classifier-metrics (Sprint 2 C9)',
+    )
+    assert.equal(
+      JOBS.length,
+      7,
+      `esperado 7 jobs (3 base + topic-prominence-snapshot Sprint 2 C3 + unmapped-tags Sprint 2 C7 + terms-not-classified Sprint 2 C8 + classifier-metrics Sprint 2 C9), encontrado ${JOBS.length}`,
+    )
+  })
+
+  await test('JOBS · classifier-metrics tiene schedule daily (Sprint 2 C9)', () => {
+    const j = JOBS.find(j => j.name === 'classifier-metrics')!
+    assert.equal(j.schedule, 'daily')
   })
 
   await test('JOBS · cada entrada tiene shape Job (name + schedule + run)', () => {
@@ -83,6 +101,11 @@ async function run() {
 
   await test('JOBS · otro-alert tiene schedule 6hourly', () => {
     const j = JOBS.find(j => j.name === 'otro-alert')!
+    assert.equal(j.schedule, '6hourly')
+  })
+
+  await test('JOBS · unmapped-tags tiene schedule 6hourly (Sprint 2 C7)', () => {
+    const j = JOBS.find(j => j.name === 'unmapped-tags')!
     assert.equal(j.schedule, '6hourly')
   })
 

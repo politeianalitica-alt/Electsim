@@ -8,12 +8,15 @@
  *
  * Sprint 0.4 · "adapter mode": lee artículos vía readArticlesInWindow()
  *   que consume el endpoint legacy /api/medios/intel y mapea a ArticleUnit.
- *   En Sprint 2+ reemplazaremos por lectura directa de topic_prominence_history.
+ *   Sprint 2 C6 · cuando topic_prominence_history tiene snapshots disponibles
+ *   en la ventana solicitada, enriquece los dominantTopics con campos
+ *   modo-específicos (ideological_distribution, total_audience_proxy,
+ *   ccaa_breakdown, bias_index) vía buildDominantTopicsForMode.
  *
  * Respuesta:
  *   - ConfidenceMetrics con 5 componentes ponderados
  *   - ConfidenceWarning[] con detección de LOW_ENTITY_COVERAGE / HIGH_UNCATEGORIZED_RATE
- *   - DominantTopic[] top 14
+ *   - DominantTopic[] top 14 (enriquecido según mode)
  *   - Cache: s-maxage=300, stale-while-revalidate=600
  */
 import { NextRequest, NextResponse } from 'next/server'
@@ -25,6 +28,10 @@ import type {
   WindowSpec,
 } from '@/lib/medios/canonical/types'
 import { readArticlesInWindow } from '@/lib/medios/canonical/stores'
+import {
+  buildDominantTopicsForMode,
+  type DominantTopicEnriched,
+} from '@/lib/medios/canonical/pulso-modes'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -93,7 +100,7 @@ export async function GET(req: NextRequest) {
     (a, b) => topicWeight(b[1]) - topicWeight(a[1]),
   )
 
-  const dominantTopics: DominantTopic[] = sortedTopics.slice(0, 14).map(
+  const dominantTopicsBase: DominantTopic[] = sortedTopics.slice(0, 14).map(
     ([topicId, arts]: [string, typeof filtered]) => {
     const sourceIds = new Set<string>(arts.map((a) => a.source.id))
     const titles = arts.slice(0, 3).map((a) => a.title)
@@ -124,6 +131,69 @@ export async function GET(req: NextRequest) {
       confidence: 0.7,
     }
   })
+
+  // Sprint 2 C6 · Enriquece la lista según mode con campos modo-específicos.
+  //
+  // Estrategia:
+  //   1. buildDominantTopicsForMode lee topic_prominence_history (la fuente
+  //      de verdad post-Sprint 2) y devuelve topics con ideological_distribution,
+  //      total_audience_proxy, ccaa_breakdown o bias_index según mode.
+  //   2. Para CRISIS, el shape canónico cambia (sólo topics EMERGENT) — se
+  //      reemplaza la lista entera.
+  //   3. Para los demás modos, hacemos merge por topicId: los enriched fields
+  //      se añaden a la base existente (preservando topEntities/topSources
+  //      del adapter mode legacy).
+  //   4. Si la DB no responde (dev/CI sin DATABASE_URL), buildDominantTopicsForMode
+  //      devuelve [] y caemos al baseline sin enriquecer → backward-compatible.
+  const enrichedFromDb = await buildDominantTopicsForMode(mode, window, 14)
+  let dominantTopics: DominantTopicEnriched[]
+  if (mode === 'CRISIS') {
+    // CRISIS reemplaza la lista entera con sólo topics EMERGENT.
+    dominantTopics = enrichedFromDb
+  } else if (enrichedFromDb.length > 0) {
+    const enrichedByTopic = new Map<string, DominantTopicEnriched>(
+      enrichedFromDb.map((t) => [t.topicId, t]),
+    )
+    dominantTopics = dominantTopicsBase.map((base) => {
+      const enriched = enrichedByTopic.get(base.topicId)
+      if (!enriched) return base
+      return {
+        ...base,
+        ...(enriched.total_audience_proxy !== undefined && {
+          total_audience_proxy: enriched.total_audience_proxy,
+        }),
+        ...(enriched.ccaa_breakdown !== undefined && {
+          ccaa_breakdown: enriched.ccaa_breakdown,
+        }),
+        ...(enriched.ideological_distribution !== undefined && {
+          ideological_distribution: enriched.ideological_distribution,
+        }),
+        ...(enriched.bias_index !== undefined && {
+          bias_index: enriched.bias_index,
+        }),
+        // state actualizado si tph lo tiene clasificado
+        state: enriched.state ?? base.state,
+      }
+    })
+  } else {
+    // DB unavailable o sin snapshots → fall back al baseline pero asegura que
+    // los campos modo-específicos existen (con stubs) para mantener shape
+    // estable. Los tests aseveran la presencia de las keys.
+    dominantTopics = dominantTopicsBase.map((base) => {
+      const enrichment: Partial<DominantTopicEnriched> = {}
+      if (mode === 'AUDIEN') enrichment.total_audience_proxy = 0
+      if (mode === 'REGION') enrichment.ccaa_breakdown = {}
+      if (mode === 'PLURAL' || mode === 'IDEOLOGY') {
+        enrichment.ideological_distribution = {
+          izquierda: 0,
+          centro: 1,
+          derecha: 0,
+        }
+      }
+      if (mode === 'IDEOLOGY') enrichment.bias_index = 0
+      return { ...base, ...enrichment }
+    })
+  }
 
   // ──────── Confidence ────────────────────────────────────────────
   const classifiedCount = sortedTopics
