@@ -4,7 +4,7 @@ import worldPorts from './ports-world.json';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
-export const maxDuration = 25;
+export const maxDuration = 30;
 
 /**
  * Politeia — Maritime Intelligence
@@ -24,9 +24,9 @@ const UA =
 const AIS_LOCATIONS_URL = 'https://meri.digitraffic.fi/api/ais/v1/locations';
 const AIS_VESSELS_URL = 'https://meri.digitraffic.fi/api/ais/v1/vessels';
 const AISSTREAM_URL = 'wss://stream.aisstream.io/v0/stream';
-const MAX_SHIPS = 4000;       // tope del fallback Digitraffic
-const AIS_CAP = 5000;         // tope de barcos del stream global
-const AIS_COLLECT_MS = 9000;  // ventana de recogida del WS
+const MAX_SHIPS = 15000;      // tope del fallback Digitraffic (muestra casi todo el Báltico)
+const AIS_CAP = 15000;        // tope de barcos del stream global
+const AIS_COLLECT_MS = 12000; // ventana de recogida del WS
 const DT_HEADERS = { 'User-Agent': UA, 'Accept-Encoding': 'gzip', 'Digitraffic-User': 'PoliteiaOsintMap' };
 
 type ShipCounts = Record<string, number>;
