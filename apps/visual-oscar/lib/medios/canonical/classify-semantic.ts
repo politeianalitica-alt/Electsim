@@ -8,7 +8,9 @@
  *
  * Sprint 0+1 · Task 3 · 2026-06-02
  */
-import type { TopicTag, ClassificationMethod } from './types'
+import { FLAGS, type LlmClassifierProvider } from '../feature-flags.ts'
+import { GeminiProductionClient, GroqProductionClient } from './llm-classifier.ts'
+import type { TopicTag, ClassificationMethod } from './types.ts'
 
 export interface LlmClassifierClient {
   classifyBatch(
@@ -128,5 +130,65 @@ export function semanticResultToTopicTag(result: {
     confidence: Math.min(result.confidence, 0.75),
     method: 'SEMANTIC' as ClassificationMethod,
     assignedAt: new Date().toISOString(),
+  }
+}
+
+/**
+ * Factory · selecciona el cliente LLM en runtime según
+ * `FLAGS.MEDIOS_LLM_CLASSIFIER`. Sprint 2 C1 (2026-06-02).
+ *
+ * Esquema:
+ *  - 'gemini'   → GeminiProductionClient (lib/ai/gemini-client.ts) ·
+ *                 fallback a StubLlmClient si GEMINI_API_KEY no está.
+ *  - 'groq'     → GroqProductionClient · fallback Stub si GROQ_API_KEY no está.
+ *  - 'ollama'   → OllamaLlmClient (dev) · siempre disponible.
+ *  - 'disabled' → StubLlmClient.
+ *
+ * NOTA: este factory NO se llama desde processArticle(). El caller
+ * (endpoint o cron) construye su cliente y lo pasa via
+ * `ProcessOptions.semanticClient`. Esta función centraliza el cableado
+ * para que todas las llamadas usen el provider correcto.
+ *
+ * I2 fix (2026-06-02): usa `FLAGS.MEDIOS_LLM_CLASSIFIER` (validado vía
+ * `readClassifier()` en feature-flags.ts) en lugar de leer `process.env`
+ * directo. Switch exhaustivo: si se añade un provider al union
+ * `LlmClassifierProvider` y se olvida wirearlo aquí, TS lanza error en
+ * compile-time gracias a la asignación `_exhaustive: never`.
+ */
+export function createLlmClient(): LlmClassifierClient {
+  const provider: LlmClassifierProvider = FLAGS.MEDIOS_LLM_CLASSIFIER
+  switch (provider) {
+    case 'gemini': {
+      const key = process.env.GEMINI_API_KEY
+      if (!key) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[medios.canonical] GEMINI_API_KEY no configurada, fallback a Stub',
+        )
+        return new StubLlmClient()
+      }
+      return new GeminiProductionClient({ apiKey: key })
+    }
+    case 'groq': {
+      const key = process.env.GROQ_API_KEY
+      if (!key) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          '[medios.canonical] GROQ_API_KEY no configurada, fallback a Stub',
+        )
+        return new StubLlmClient()
+      }
+      return new GroqProductionClient(key)
+    }
+    case 'ollama':
+      return new OllamaLlmClient()
+    case 'disabled':
+      return new StubLlmClient()
+    default: {
+      // Exhaustiveness check: si se añade un provider nuevo al union
+      // y no se wirea arriba, TS lanza error aquí.
+      const _exhaustive: never = provider
+      return new StubLlmClient()
+    }
   }
 }
