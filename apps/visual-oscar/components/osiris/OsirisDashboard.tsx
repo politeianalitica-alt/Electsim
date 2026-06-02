@@ -127,7 +127,14 @@ export default function Dashboard() {
     weather: false,
     radiation: false,
     infrastructure: false,
-    power_plants: false,
+    power_solar: false,
+    power_wind: false,
+    power_hydro: false,
+    power_nuclear: false,
+    power_coal: false,
+    power_gas: false,
+    power_oil: false,
+    power_other: false,
     critical_infra: false,
     submarine_cables: false,
     global_incidents: true,
@@ -361,7 +368,7 @@ export default function Dashboard() {
       layerFetchedRef.current.add('weather');
     }
     // Infrastructure
-    if ((activeLayers.infrastructure || activeLayers.power_plants || activeLayers.critical_infra || activeLayers.submarine_cables) && !layerFetchedRef.current.has('infrastructure')) {
+    if ((activeLayers.infrastructure || activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other || activeLayers.critical_infra || activeLayers.submarine_cables) && !layerFetchedRef.current.has('infrastructure')) {
       fetchEndpoint('/api/osiris/infrastructure', d => ({ infrastructure: d.infrastructure, power_plants: d.power_plants, critical_infra: d.critical_infra, cables: d.cables }));
       layerFetchedRef.current.add('infrastructure');
     }

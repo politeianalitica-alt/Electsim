@@ -97,12 +97,26 @@ const LAYER_GROUPS = [
     ],
   },
   {
+    label: 'ENERGÍA (por fuente)',
+    icon: Zap,
+    color: '#FFD600',
+    layers: [
+      { key: 'power_solar', label: 'Solar', icon: Zap, color: '#FFD600', dataKey: '' },
+      { key: 'power_wind', label: 'Eólica', icon: Zap, color: '#4FC3F7', dataKey: '' },
+      { key: 'power_hydro', label: 'Hidroeléctrica', icon: Zap, color: '#2979FF', dataKey: '' },
+      { key: 'power_nuclear', label: 'Nuclear', icon: Zap, color: '#FF1744', dataKey: '' },
+      { key: 'power_coal', label: 'Carbón', icon: Zap, color: '#90A4AE', dataKey: '' },
+      { key: 'power_gas', label: 'Gas natural', icon: Zap, color: '#FF9100', dataKey: '' },
+      { key: 'power_oil', label: 'Petróleo', icon: Zap, color: '#A1887F', dataKey: '' },
+      { key: 'power_other', label: 'Otras (biomasa, geotérmica…)', icon: Zap, color: '#BDBDBD', dataKey: '' },
+    ],
+  },
+  {
     label: 'AMENAZAS E INFRAESTRUCTURA',
     icon: AlertTriangle,
     color: '#FF3D3D',
     layers: [
       { key: 'infrastructure', label: 'Instalaciones nucleares', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure' },
-      { key: 'power_plants', label: 'Centrales eléctricas (mundo)', icon: Zap, color: '#FFD600', dataKey: 'power_plants' },
       { key: 'critical_infra', label: 'Aeropuertos · refinerías · presas', icon: Building2, color: '#00E5FF', dataKey: 'critical_infra' },
       { key: 'submarine_cables', label: 'Cables submarinos', icon: Cable, color: '#00BCD4', dataKey: 'cables' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },

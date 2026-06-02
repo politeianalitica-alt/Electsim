@@ -1038,8 +1038,18 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
   useEffect(() => {
     if (!mapReady) return;
-    setGeo('power-plants', activeLayers.power_plants && data.power_plants ? data.power_plants.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, fuel: p.fuel, mw: p.mw } })) : []);
-  }, [mapReady, data.power_plants, activeLayers.power_plants, setGeo]);
+    const fuels = new Set<string>();
+    if (activeLayers.power_solar) fuels.add('Solar');
+    if (activeLayers.power_wind) fuels.add('Wind');
+    if (activeLayers.power_hydro) fuels.add('Hydro');
+    if (activeLayers.power_nuclear) fuels.add('Nuclear');
+    if (activeLayers.power_coal) fuels.add('Coal');
+    if (activeLayers.power_gas) fuels.add('Gas');
+    if (activeLayers.power_oil) fuels.add('Oil');
+    if (activeLayers.power_other) ['Biomass','Geothermal','Waste','Storage','Cogeneration','Petcoke','Wave and Tidal','Other'].forEach(f => fuels.add(f));
+    const pp = fuels.size && data.power_plants ? data.power_plants.filter((p: any) => fuels.has(p.fuel)) : [];
+    setGeo('power-plants', pp.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, fuel: p.fuel, mw: p.mw } })));
+  }, [mapReady, data.power_plants, activeLayers.power_solar, activeLayers.power_wind, activeLayers.power_hydro, activeLayers.power_nuclear, activeLayers.power_coal, activeLayers.power_gas, activeLayers.power_oil, activeLayers.power_other, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1397,7 +1407,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['fires-heat'], activeLayers.fires);
     setVis(['weather-glow','weather-dots','weather-label'], activeLayers.weather);
     setVis(['infra-glow','infra-dots','infra-label'], activeLayers.infrastructure);
-    setVis(['power-plants-dots'], activeLayers.power_plants);
+    setVis(['power-plants-dots'], activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other);
     setVis(['critical-infra-dots'], activeLayers.critical_infra);
     setVis(['cables-lines'], activeLayers.submarine_cables);
     setVis(['maritime-glow','maritime-dots','maritime-label'], activeLayers.maritime);
