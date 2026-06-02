@@ -13,22 +13,17 @@ export const maxDuration = 30;
  * Covers 6 global regions for maximum coverage
  */
 
-// adsb.lol devuelve TODOS los aviones del círculo (sin tope), así que conviene
-// pocos círculos GRANDES con buena clasificación; los huecos (océanos, etc.) los
-// rellena OpenSky. El dedupe por hex elimina los solapes.
+// IMPORTANTE: muchos círculos en paralelo desde la IP de Vercel hacen que
+// adsb.lol nos limite (timeouts → MENOS vuelos). Con pocos círculos GRANDES no
+// limita y, además, deja ancho de banda para que OpenSky (cobertura global)
+// rellene los huecos. El dedupe por hex elimina los solapes.
 const REGIONS = [
   { lat: 39.8, lon: -98.5, dist: 2200 },    // Norteamérica
-  { lat: 50.0, lon: 12.0, dist: 2000 },     // Europa
-  { lat: 35.0, lon: 105.0, dist: 2200 },    // Este de Asia
-  { lat: -25.0, lon: 133.0, dist: 2200 },   // Australia
-  { lat: 5.0, lon: 20.0, dist: 2400 },      // África
-  { lat: -15.0, lon: -58.0, dist: 2200 },   // Sudamérica
-  { lat: 26.0, lon: 50.0, dist: 1800 },     // Oriente Medio / Golfo
-  { lat: 20.0, lon: 80.0, dist: 1900 },     // India / sur de Asia
-  { lat: 37.0, lon: 138.0, dist: 1700 },    // Japón / Corea
-  { lat: 8.0, lon: 108.0, dist: 1800 },     // Sudeste Asiático
-  { lat: 45.0, lon: -40.0, dist: 2000 },    // Atlántico Norte (rutas oceánicas)
-  { lat: 15.0, lon: -88.0, dist: 1600 },    // Caribe / Centroamérica
+  { lat: 50.0, lon: 15.0, dist: 2200 },     // Europa
+  { lat: 35.0, lon: 105.0, dist: 2300 },    // Asia
+  { lat: -25.0, lon: 133.0, dist: 2200 },   // Australia / SE Asia
+  { lat: 5.0, lon: 22.0, dist: 2500 },      // África / Oriente Medio
+  { lat: -15.0, lon: -58.0, dist: 2300 },   // Sudamérica
 ];
 
 // Helicopter type codes
