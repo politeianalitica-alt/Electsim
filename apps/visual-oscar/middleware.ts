@@ -54,6 +54,19 @@ const PUBLIC_PREFIXES = [
   '/api/undp/',
   '/api/esios/',
   '/api/worldbank/',
+  // Sprint 0+1 Prensa · capa canónica · contratos públicos para frontend.
+  // Estos endpoints son "adaptadores" sobre /api/medios/intel (legacy, auth
+  // required). Server-side fetch desde estos handlers contra intel sin cookie
+  // se redirigía a /login → JSON.parse fallaba. Causa raíz idéntica a la
+  // del Sprint W.1. Mantenemos /api/medios/intel auth-required (legacy);
+  // sólo exponemos los nuevos endpoints canónicos (lectura de datos
+  // agregados públicos sobre catálogo y RSS).
+  '/api/medios/pulso',
+  '/api/medios/clusters',
+  '/api/medios/fuentes-status',
+  '/api/medios/pipeline-metrics',
+  '/api/medios/narrativas',
+  '/api/medios/actores/',
 ]
 
 export function middleware(req: NextRequest) {
