@@ -16,6 +16,10 @@
     {
       "path": "/api/cron/medios-mantenimiento",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/medios-probe",
+      "schedule": "0 6 * * *"
     }
   ]
 }

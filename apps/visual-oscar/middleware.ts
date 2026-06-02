@@ -67,6 +67,10 @@ const PUBLIC_PREFIXES = [
   '/api/medios/pipeline-metrics',
   '/api/medios/narrativas',
   '/api/medios/actores/',
+  // Sprint 1.5 · observabilidad pipeline canónica · agrega catálogos counts +
+  // pipeline-metrics + pulso en un único endpoint con semáforo de estado.
+  // Idéntico patrón a /api/health/macro-freshness (Sprint W macro).
+  '/api/medios/health',
 ]
 
 export function middleware(req: NextRequest) {
