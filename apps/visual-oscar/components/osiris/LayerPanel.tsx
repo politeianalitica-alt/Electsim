@@ -7,6 +7,7 @@ import {
   Shield, Sun, AlertTriangle, Camera, Flame, Target,
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
+  Mountain, Waves, Droplets,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -140,6 +141,17 @@ const LAYER_GROUPS = [
     ],
   },
   {
+    label: 'ACCIDENTES GEOGRÁFICOS',
+    icon: Mountain,
+    color: '#26A69A',
+    layers: [
+      { key: 'geo_rivers', label: 'Ríos', icon: Waves, color: '#29B6F6', dataKey: '' },
+      { key: 'geo_mountains', label: 'Montañas y cordilleras', icon: Mountain, color: '#8D6E63', dataKey: '' },
+      { key: 'geo_deserts', label: 'Desiertos', icon: Sun, color: '#E0A82E', dataKey: '' },
+      { key: 'geo_features', label: 'Otros (mesetas, cuencas, deltas…)', icon: Droplets, color: '#26A69A', dataKey: '' },
+    ],
+  },
+  {
     label: 'VISUALIZACIÓN',
     icon: Sun,
     color: '#448AFF',
@@ -179,8 +191,24 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     const cat = key.slice(5); // quita "ship_"
     return ships.reduce((n: number, s: any) => n + ((s?.type || 'other') === cat ? 1 : 0), 0);
   };
+  // Conteo por sub-capa de accidentes geográficos
+  const GEO_CATS: Record<string, string[]> = {
+    geo_mountains: ['peak', 'range'],
+    geo_deserts: ['desert'],
+    geo_features: ['basin', 'plateau', 'plain', 'delta', 'valley', 'waterfall', 'wetland', 'feature'],
+  };
+  const geoCount = (key: string): number | null => {
+    if (key === 'geo_rivers') return data?.geo_rivers_fc?.features?.length ?? null;
+    const pts = data?.geo_points;
+    if (!Array.isArray(pts)) return null;
+    const cats = GEO_CATS[key];
+    if (!cats) return null;
+    return pts.reduce((n: number, p: any) => n + (cats.includes(p?.cat) ? 1 : 0), 0);
+  };
   const countFor = (layer: { key: string; dataKey: string }): number | null =>
-    layer.key.startsWith('ship_') ? shipCount(layer.key) : getCount(layer.dataKey);
+    layer.key.startsWith('ship_') ? shipCount(layer.key)
+      : layer.key.startsWith('geo_') ? geoCount(layer.key)
+      : getCount(layer.dataKey);
   const totalEntities = ALL_LAYERS.reduce((s: number, l: any) => s + (getCount(l.dataKey) || 0), 0);
   const activeCount = Object.values(activeLayers).filter(Boolean).length;
 

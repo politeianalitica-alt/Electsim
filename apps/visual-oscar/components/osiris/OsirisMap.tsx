@@ -120,7 +120,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Ruta del vuelo seleccionado (al clicar un avión) ──
@@ -151,6 +151,40 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'flight-route-label', type: 'symbol', source: 'flight-route-pts', minzoom: 3,
         layout: { 'text-field': ['get','label'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.4], 'text-anchor': 'top', 'text-allow-overlap': false },
         paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Accidentes geográficos (ríos, montañas, desiertos, otros) ──
+      map.addLayer({ id: 'geo-rivers-line', type: 'line', source: 'geo-rivers', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: {
+        'line-color': '#29B6F6', 'line-opacity': 0.55,
+        'line-width': ['interpolate',['linear'],['zoom'], 2,0.5, 5,1.2, 9,2.4],
+      }});
+      map.addLayer({ id: 'geo-rivers-label', type: 'symbol', source: 'geo-rivers', minzoom: 5, layout: {
+        'symbol-placement': 'line', 'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Italic'], 'text-letter-spacing': 0.05,
+      }, paint: { 'text-color': '#4FC3F7', 'text-halo-color': '#001018', 'text-halo-width': 1.2 }});
+      // Puntos (montañas/cordilleras, desiertos, otros) — filtrados por categoría
+      const geoPeakFilter: any = ['in', ['get','cat'], ['literal', ['peak','range']]];
+      const geoDesertFilter: any = ['==', ['get','cat'], 'desert'];
+      const geoOtherFilter: any = ['in', ['get','cat'], ['literal', ['basin','plateau','plain','delta','valley','waterfall','wetland','feature']]];
+      map.addLayer({ id: 'geo-mountains', type: 'circle', source: 'geo-points', filter: geoPeakFilter, paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,2.2, 6,4, 10,6],
+        'circle-color': '#A1887F', 'circle-opacity': 0.85, 'circle-stroke-width': 1, 'circle-stroke-color': '#3E2723',
+      }});
+      map.addLayer({ id: 'geo-mountains-label', type: 'symbol', source: 'geo-points', filter: geoPeakFilter, minzoom: 4, layout: {
+        'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#D7CCC8', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
+      map.addLayer({ id: 'geo-deserts', type: 'circle', source: 'geo-points', filter: geoDesertFilter, paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,3, 6,6, 10,9],
+        'circle-color': '#E0A82E', 'circle-opacity': 0.5, 'circle-stroke-width': 1, 'circle-stroke-color': '#8C6D1F',
+      }});
+      map.addLayer({ id: 'geo-deserts-label', type: 'symbol', source: 'geo-points', filter: geoDesertFilter, minzoom: 3, layout: {
+        'text-field': ['get','name'], 'text-size': 11, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top',
+      }, paint: { 'text-color': '#F0C765', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
+      map.addLayer({ id: 'geo-features', type: 'circle', source: 'geo-points', filter: geoOtherFilter, paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,2.4, 6,4, 10,6],
+        'circle-color': '#26A69A', 'circle-opacity': 0.8, 'circle-stroke-width': 1, 'circle-stroke-color': '#10403B',
+      }});
+      map.addLayer({ id: 'geo-features-label', type: 'symbol', source: 'geo-points', filter: geoOtherFilter, minzoom: 4, layout: {
+        'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#80CBC4', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
       const createWarningIcon = (id: string, color: string) => {
@@ -617,10 +651,19 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       try { (map.getSource('flight-route') as any)?.setData(EMPTY_FC); (map.getSource('flight-route-pts') as any)?.setData(EMPTY_FC); } catch { /* noop */ }
     };
     let routeReq = 0;
+    // Actualiza el bloque de ruta dentro del popup del avión abierto.
+    const updateRoutePopup = (html: string) => {
+      try {
+        const el = popupRef.current?.getElement?.();
+        const slot = el?.querySelector('.pol-route') as HTMLElement | null;
+        if (slot) slot.innerHTML = html;
+      } catch { /* noop */ }
+    };
+    const apLabel = (a: any) => `${a.code ? a.code + ' · ' : ''}${a.city || a.name || ''}`.trim();
     const drawFlightRoute = async (callsign: string, plane: number[], category: string) => {
       clearFlightRoute();
       const cs = (callsign || '').trim();
-      if (!cs) return;
+      if (!cs) { updateRoutePopup('<span style="color:#9aa;">Sin indicativo</span>'); return; }
       const reqId = ++routeReq;
       let data: any = null;
       try {
@@ -628,7 +671,10 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         if (r.ok) data = await r.json();
       } catch { /* noop */ }
       if (reqId !== routeReq) return;          // otro avión clicado mientras tanto
-      if (!data || !data.origin) return;       // ruta no pública / sin origen → no dibuja
+      if (!data || !data.origin) {             // ruta no pública / sin origen → no dibuja
+        updateRoutePopup('<span style="color:#5C5A54;">RUTA</span> &nbsp;<span style="color:#9aa;">No pública (vuelo privado / militar)</span>');
+        return;
+      }
       const [vivid, faded] = FLIGHT_ROUTE_HEX[category] || FLIGHT_ROUTE_HEX.commercial; // de dónde salió (vívido) → a dónde va (apagado)
       const o = [data.origin.lng, data.origin.lat];
       const pts: any[] = [{ type: 'Feature', geometry: { type: 'Point', coordinates: o }, properties: { kind: 'origin', label: data.origin.code || data.origin.city || data.origin.name || 'Origen' } }];
@@ -646,6 +692,10 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         (map.getSource('flight-route') as any)?.setData({ type: 'FeatureCollection', features: lineFeats });
         (map.getSource('flight-route-pts') as any)?.setData({ type: 'FeatureCollection', features: pts });
       } catch { /* noop */ }
+      // Texto en el popup: ORIGEN ✈ DESTINO
+      updateRoutePopup(data.destination
+        ? `<span style="color:#5C5A54;">RUTA</span><br/><span style="color:${vivid};font-weight:700;">${apLabel(data.origin)}</span> &nbsp;<span style="color:#5C5A54;">✈</span>&nbsp; <span style="color:#90A4AE;">${apLabel(data.destination)}</span>`
+        : `<span style="color:#5C5A54;">ORIGEN</span><br/><span style="color:${vivid};font-weight:700;">${apLabel(data.origin)}</span>`);
     };
 
     // ── Flights (with FlightAware + ADS-B Exchange links) ──
@@ -670,7 +720,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
             <div><span style="color:#5C5A54;font-size:9px;">MATRÍCULA</span><br/><span style="color:#E8E6E0;">${p.registration||'—'}</span></div>
             <div><span style="color:#5C5A54;font-size:9px;">POSICIÓN</span><br/><span style="color:#E8E6E0;">${coords[1].toFixed(2)},${coords[0].toFixed(2)}</span></div>
           </div>
-          <div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap;">
+          <div class="pol-route" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);font-size:10px;color:#aaa;">◴ Buscando ruta…</div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
             <a href="https://www.flightaware.com/live/flight/${cs}" target="_blank" style="${linkStyle}color:#D4AF37;border:1px solid rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);">FLIGHTAWARE</a>
             <a href="https://globe.adsbexchange.com/?icao=${p.icao24||''}" target="_blank" style="${linkStyle}color:#00E5FF;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.1);">ADS-B</a>
             <a href="https://www.radarbox.com/data/flights/${cs}" target="_blank" style="${linkStyle}color:#FF69B4;border:1px solid rgba(255,105,180,0.4);background:rgba(255,105,180,0.1);">RADARBOX</a>
@@ -836,7 +887,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -971,6 +1022,27 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     };
     map.on('click', 'ship-dots', onShipClick);
     map.on('click', 'ship-arrows', onShipClick);
+
+    // ── Accidentes geográficos ──
+    const GEO_CAT_LABEL: Record<string, string> = { peak:'Pico / montaña', range:'Cordillera', desert:'Desierto', basin:'Cuenca', plateau:'Meseta', plain:'Llanura', delta:'Delta', valley:'Valle', waterfall:'Cascada', wetland:'Humedal', feature:'Accidente geográfico' };
+    const GEO_CAT_COLOR: Record<string, string> = { peak:'#A1887F', range:'#A1887F', desert:'#E0A82E', waterfall:'#29B6F6' };
+    const onGeoClick = (e: any) => {
+      if (!e.features?.length) return;
+      const p = e.features[0].properties as any;
+      const coords = (e.features[0].geometry as any).coordinates;
+      const color = GEO_CAT_COLOR[p.cat] || '#26A69A';
+      const elev = (p.elev !== undefined && p.elev !== null && p.elev !== '') ? Number(p.elev) : null;
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}55;min-width:180px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:3px;">${p.name || 'Accidente geográfico'}</div>
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${color};background:${color}1a;border:1px solid ${color}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">${GEO_CAT_LABEL[p.cat] || 'Accidente geográfico'}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          ${elev ? `<div>Altitud: <span style="color:#E8E6E0;font-weight:600;">${elev.toLocaleString('es')} m</span></div>` : ''}
+          <div>Coordenadas: <span style="color:#E8E6E0;">${coords[1].toFixed(2)}°, ${coords[0].toFixed(2)}°</span></div>
+        </div>
+        <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},9z/data=!3m1!1e3" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">VISTA SATÉLITE</a>
+      </div>`);
+    };
+    ['geo-mountains','geo-deserts','geo-features'].forEach(l => map.on('click', l, onGeoClick));
 
     // ── Weather Events (NASA EONET) ──
     map.on('click', 'weather-dots', e => {
@@ -1243,6 +1315,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     if (!mapReady) return;
     setGeo('balloons', activeLayers.balloons && data.balloons ? data.balloons.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { callsign: b.callsign, type: b.type, status: b.status, altitude: b.altitude, speed: b.speed, verticalRate: b.verticalRate, temperature: b.temperature, color: b.color } })) : []);
   }, [mapReady, data.balloons, activeLayers.balloons, setGeo]);
+
+  // ── Accidentes geográficos ──
+  useEffect(() => {
+    if (!mapReady) return;
+    const anyPoints = activeLayers.geo_mountains || activeLayers.geo_deserts || activeLayers.geo_features;
+    setGeo('geo-rivers', activeLayers.geo_rivers && data.geo_rivers_fc?.features ? data.geo_rivers_fc.features : []);
+    setGeo('geo-points', anyPoints && Array.isArray(data.geo_points)
+      ? data.geo_points.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, cat: p.cat, elev: p.elev ?? null } }))
+      : []);
+  }, [mapReady, data.geo_rivers_fc, data.geo_points, activeLayers.geo_rivers, activeLayers.geo_mountains, activeLayers.geo_deserts, activeLayers.geo_features, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1570,6 +1652,10 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['traffic-dots'], activeLayers.traffic_incidents);
     setVis(['jam-fill','jam-label'], activeLayers.gps_jamming);
     setVis(['day-night-fill'], activeLayers.day_night);
+    setVis(['geo-rivers-line','geo-rivers-label'], activeLayers.geo_rivers);
+    setVis(['geo-mountains','geo-mountains-label'], activeLayers.geo_mountains);
+    setVis(['geo-deserts','geo-deserts-label'], activeLayers.geo_deserts);
+    setVis(['geo-features','geo-features-label'], activeLayers.geo_features);
     setVis(['fl-commercial'], activeLayers.flights);
     setVis(['fl-private'], activeLayers.private);
     setVis(['fl-jets'], activeLayers.jets);

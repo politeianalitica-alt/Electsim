@@ -149,6 +149,10 @@ export default function Dashboard() {
     traffic_incidents: true,
     war_alerts: false,
     gps_jamming: false,
+    geo_rivers: false,
+    geo_mountains: false,
+    geo_deserts: false,
+    geo_features: false,
     day_night: true,
     sdk_stream: true,
   });
@@ -389,6 +393,11 @@ export default function Dashboard() {
     if (activeLayers.traffic_incidents && !layerFetchedRef.current.has('traffic_incidents')) {
       fetchEndpoint('/api/osiris/traffic-incidents', d => ({ traffic_incidents: d.incidents }));
       layerFetchedRef.current.add('traffic_incidents');
+    }
+    // Accidentes geográficos (Natural Earth) — ríos, montañas, desiertos…
+    if ((activeLayers.geo_rivers || activeLayers.geo_mountains || activeLayers.geo_deserts || activeLayers.geo_features) && !layerFetchedRef.current.has('geo_features')) {
+      fetchEndpoint('/api/osiris/geo-features', d => ({ geo_rivers_fc: d.rivers, geo_points: d.points }));
+      layerFetchedRef.current.add('geo_features');
     }
 
   }, [activeLayers]);
