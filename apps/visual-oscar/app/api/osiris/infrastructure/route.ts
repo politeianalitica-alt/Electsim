@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import powerPlants from './power-plants.json';
+import criticalInfra from './critical-infra.json';
+import cablesData from './cables-data.json';
 
 /**
  * Politeia — Global Infrastructure API
@@ -139,8 +141,11 @@ export async function GET() {
   return NextResponse.json({
     infrastructure: dynamicFacilities,
     power_plants: POWER_PLANTS,
+    critical_infra: criticalInfra,
+    cables: cablesData,
     total: dynamicFacilities.length,
     total_power_plants: POWER_PLANTS.length,
+    total_critical_infra: (criticalInfra as any[]).length,
     timestamp: new Date().toISOString(),
   }, {
     headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200' },

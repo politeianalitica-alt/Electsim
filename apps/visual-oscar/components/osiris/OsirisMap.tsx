@@ -119,7 +119,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
@@ -264,6 +264,18 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           'Coal','#455A64', 'Gas','#FF9100', 'Oil','#8D6E63', 'Biomass','#8BC34A',
           'Geothermal','#E91E63', 'Waste','#9E9E9E', 'Storage','#00E5FF', 'Cogeneration','#FFAB40',
           '#BDBDBD'],
+        'circle-opacity': 0.85, 'circle-stroke-width': 0.4, 'circle-stroke-color': '#000', 'circle-stroke-opacity': 0.3,
+      }});
+
+      // Cables submarinos (líneas)
+      map.addLayer({ id: 'cables-lines', type: 'line', source: 'submarine-cables', paint: {
+        'line-color': ['coalesce', ['get', 'color'], '#00BCD4'],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 1, 0.4, 6, 1.5], 'line-opacity': 0.5,
+      }});
+      // Infraestructura crítica (aeropuertos, refinerías, presas) — color por tipo
+      map.addLayer({ id: 'critical-infra-dots', type: 'circle', source: 'critical-infra', paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 2, 6, 4, 11, 7],
+        'circle-color': ['match', ['get', 'type'], 'airport', '#00E5FF', 'refinery', '#FF6D00', 'dam', '#2979FF', '#BDBDBD'],
         'circle-opacity': 0.85, 'circle-stroke-width': 0.4, 'circle-stroke-color': '#000', 'circle-stroke-opacity': 0.3,
       }});
 
@@ -686,7 +698,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -866,6 +878,20 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
+    // ── Infraestructura crítica (aeropuertos / refinerías / presas) ──
+    map.on('click', 'critical-infra-dots', e => {
+      if (!e.features?.length) return;
+      const p = e.features[0].properties as any;
+      const coords = (e.features[0].geometry as any).coordinates;
+      const tc = p.type === 'airport' ? '#00E5FF' : p.type === 'refinery' ? '#FF6D00' : p.type === 'dam' ? '#2979FF' : '#BDBDBD';
+      const tES = p.type === 'airport' ? 'Aeropuerto' : p.type === 'refinery' ? 'Refinería' : p.type === 'dam' ? 'Presa' : 'Infraestructura';
+      popup(coords, `<div style="${pStyle}border:1px solid ${tc}55;">
+        <div style="color:${tc};font-size:13px;font-weight:700;margin-bottom:4px;">${p.name || tES}</div>
+        <div style="font-size:10px;color:#E8E6E0;margin-bottom:8px;">${tES}${p.country ? ' · ' + p.country : ''}</div>
+        <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},14z/data=!3m1!1e3" target="_blank" style="${linkStyle}color:${tc};border:1px solid ${tc}66;background:${tc}1a;">VISTA SATÉLITE</a>
+      </div>`);
+    });
+
     // ── Maritime Ports & Naval Bases ──
     map.on('click', 'maritime-dots', e => {
       const p = e.features?.[0]?.properties;
@@ -1014,6 +1040,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     if (!mapReady) return;
     setGeo('power-plants', activeLayers.power_plants && data.power_plants ? data.power_plants.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, fuel: p.fuel, mw: p.mw } })) : []);
   }, [mapReady, data.power_plants, activeLayers.power_plants, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('critical-infra', activeLayers.critical_infra && data.critical_infra ? data.critical_infra.map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, type: i.type, country: i.country } })) : []);
+  }, [mapReady, data.critical_infra, activeLayers.critical_infra, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('submarine-cables', activeLayers.submarine_cables && data.cables ? (data.cables.features || []) : []);
+  }, [mapReady, data.cables, activeLayers.submarine_cables, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1362,6 +1398,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['weather-glow','weather-dots','weather-label'], activeLayers.weather);
     setVis(['infra-glow','infra-dots','infra-label'], activeLayers.infrastructure);
     setVis(['power-plants-dots'], activeLayers.power_plants);
+    setVis(['critical-infra-dots'], activeLayers.critical_infra);
+    setVis(['cables-lines'], activeLayers.submarine_cables);
     setVis(['maritime-glow','maritime-dots','maritime-label'], activeLayers.maritime);
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
     setVis(['ship-dots','ship-label'], activeLayers.maritime);
