@@ -49,11 +49,18 @@ git tag    backup-<descripcion>-$(date +%s) origin/main
 
 ### 0.4 Antes de desplegar a producción
 
+> **CRÍTICO — el deploy es MANUAL, no automático.** No hay auto-deploy desde
+> git: producción es, literalmente, lo último que alguien sube con
+> `vercel --prod` desde su working tree local. Si despliegas desde una rama que
+> no tiene los últimos commits de tu compañero, **borras su trabajo de
+> producción** (y al revés). Por eso el paso 2 (mergear `origin/main`) NO es
+> opcional: hazlo SIEMPRE antes de desplegar.
+
 ```bash
 # 1) Verifica que tu rama tiene todo lo de main
 git fetch origin && git log --oneline HEAD..origin/main
 
-# 2) Si hay commits que no tienes → mergea primero
+# 2) OBLIGATORIO: si hay commits que no tienes → mergea primero
 git merge origin/main
 
 # 3) Build local pasa
@@ -149,11 +156,26 @@ sesión". Cada commit → push.
 **Lo que NO hay que hacer:**
 - Trabajar sobre el worktree de `~/.claude/worktrees/...` sin pushear
   al remoto. Ese trabajo se evapora desde la perspectiva del socio y
-  de Vercel (que despliega de `origin/Visual_Oscar`).
+  del siguiente deploy (que sube a mano otra rama).
 - Acumular más de 3 commits sin push.
 - Esperar a "terminar todo" para pushear: hace los conflictos peores.
 
-**Por qué `Visual_Oscar` y no `main`:** Vercel despliega `politeia-visual-oscar.vercel.app` desde la rama `Visual_Oscar`. La regla 0.1 ("main = verdad") aplica al backend Python; para el frontend de Visual Oscar, **la rama canónica es `Visual_Oscar`** y eso es lo que el usuario ve cuando abre la web.
+**Rama única de verdad (actualizado 2 jun 2026).** `main` y `Visual_Oscar`
+deben contener SIEMPRE lo mismo y TODO (frontend de Visual Oscar incluido).
+Tras un incidente de pérdida de trabajo bidireccional —el socio desplegando
+desde `main` sin el mapa OSINT, y otra sesión desplegando desde una rama de
+feature sin el trabajo de medios— se consolidaron ambas ramas en un único
+commit con todo. Reglas para que no se repita:
+
+- **El deploy de `politeia-visual-oscar.vercel.app` es MANUAL** (`vercel --prod`
+  desde el working tree local). NO hay auto-deploy desde git: lo que se ve en la
+  web es lo último que alguien subió a mano. (La nota antigua decía que Vercel
+  desplegaba solo desde `origin/Visual_Oscar`; era incorrecta.)
+- **Antes de cualquier `vercel --prod`**: `git fetch origin && git merge
+  origin/main` (ver §0.4). Saltarse esto borra el trabajo del compañero.
+- **Tras mergear/consolidar, empuja a las DOS ramas** para que no vuelvan a
+  divergir: `git push origin HEAD:main && git push origin HEAD:Visual_Oscar`
+  (fast-forward, nunca `--force`).
 
 ---
 
