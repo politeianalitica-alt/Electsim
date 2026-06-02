@@ -116,6 +116,83 @@ export const REACTORES_ES: Reactor[] = [
 ]
 
 // ────────────────────────────────────────────────────────────────────
+// PRECIO DEL URANIO · referencia curada (sin dataset en vivo)
+// ────────────────────────────────────────────────────────────────────
+// No hay dataset de uranio en el catálogo Nasdaq Data Link configurado
+// (NASDAQ_CURATED solo cubre OPEP/oro/plata/FRED/BIS/MULTPL). El precio spot
+// del U3O8 (yellowcake) lo publica UxC / TradeTech como referencia semanal,
+// sin API pública gratuita. Mostramos una referencia curada honesta — NO un
+// dato en vivo — claramente marcada como tal, con su fecha y fuente. El campo
+// `precio_usd_lb` puede ser null si no se quiere fijar una cifra desactualizada.
+//
+// Contexto: tras el mínimo de ~18 $/lb (2016-2020), el U3O8 repuntó con fuerza
+// en 2023-2024 superando los 100 $/lb (máximo desde 2007) por el renovado
+// interés en nuclear (SMR, descarbonización) y restricciones de oferta.
+export interface UranioRef {
+  /** Referencia de precio spot U3O8 (yellowcake), en USD por libra. Null si no se fija. */
+  precio_usd_lb: number | null
+  /** Fecha aproximada de la referencia (ISO YYYY-MM o YYYY). */
+  fecha_ref: string
+  /** Tendencia cualitativa reciente. */
+  tendencia: string
+  /** Fuente + nota de la referencia. */
+  fuente: string
+  /** URL pública para citar / ampliar. */
+  source_url: string
+}
+
+export const URANIO_REF: UranioRef = {
+  precio_usd_lb: null,
+  fecha_ref: '2024',
+  tendencia: 'al alza desde 2021 · máximos plurianuales en 2024 (>100 $/lb spot)',
+  fuente:
+    'Precio spot U3O8 (yellowcake) · referencia UxC/TradeTech (publicación semanal, sin API pública gratuita). Cifra no fijada para no mostrar dato desactualizado.',
+  source_url: 'https://www.uxc.com/',
+}
+
+// ────────────────────────────────────────────────────────────────────
+// CONTEXTO NUCLEAR GLOBAL · nuevos reactores / SMR (catálogo curado)
+// ────────────────────────────────────────────────────────────────────
+// Contexto cualitativo para enmarcar el debate del cierre español frente a la
+// expansión nuclear mundial. Cifras aproximadas de organismos públicos (IAEA
+// PRIS · World Nuclear Association). No son datos en vivo.
+export interface NuclearContextNote {
+  /** Titular corto del hecho/contexto. */
+  titular: string
+  /** Detalle (1-2 frases). */
+  detalle: string
+  /** Fuente del dato. */
+  fuente: string
+}
+
+export const NUCLEAR_GLOBAL_CONTEXT: NuclearContextNote[] = [
+  {
+    titular: 'Parque mundial · ~440 reactores operativos',
+    detalle:
+      'En torno a 440 reactores en operación en ~30 países aportan cerca del 9-10 % de la electricidad mundial (≈25 % de la generación baja en carbono). EE. UU., Francia y China lideran por capacidad.',
+    fuente: 'IAEA PRIS · World Nuclear Association (aprox. 2024)',
+  },
+  {
+    titular: 'China lidera la nueva construcción',
+    detalle:
+      'China concentra la mayor parte de los reactores en construcción del mundo (decenas de unidades), con un programa de expansión sostenido; India y Rusia también construyen activamente.',
+    fuente: 'IAEA PRIS · construcción en curso (aprox. 2024)',
+  },
+  {
+    titular: 'SMR · reactores modulares pequeños',
+    detalle:
+      'Los SMR (Small Modular Reactors, <300 MWe) son la apuesta tecnológica emergente: diseños como NuScale, Rolls-Royce SMR o BWRX-300 buscan menor coste, fabricación en serie y despliegue flexible. Pocos están aún operativos.',
+    fuente: 'World Nuclear Association · IAEA (contexto tecnológico)',
+  },
+  {
+    titular: 'España · cierre escalonado a contracorriente',
+    detalle:
+      'Mientras buena parte del mundo extiende licencias o construye, España mantiene el calendario de cierre 2027-2035 pactado en 2019. El debate sobre una posible revisión sigue abierto.',
+    fuente: 'MITECO / Enresa · protocolo 2019',
+  },
+]
+
+// ────────────────────────────────────────────────────────────────────
 // CAPACIDAD RENOVABLE INSTALADA ES · por tecnología
 // ────────────────────────────────────────────────────────────────────
 // Fuente: REE / Red Eléctrica · potencia instalada del sistema eléctrico

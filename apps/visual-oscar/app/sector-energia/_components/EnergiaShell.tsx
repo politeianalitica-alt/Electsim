@@ -17,7 +17,8 @@
  *   - 'global'     → <VisionGlobalView /> (landing cross-energía · S4)
  *   - 'electrico'  → <ElectricoView /> (todo el contenido actual · ESIOS intacto)
  *   - 'renovables' → <RenovablesView /> (tecnologías · factor carga · PNIEC · S5)
- *   - los otros 4  → <EnergiaComingSoon /> · empty-state "en construcción"
+ *   - 'nuclear'    → <NuclearView /> (parque ES · cierre 2027-2035 · global · S6)
+ *   - los otros 3  → <EnergiaComingSoon /> · empty-state "en construcción"
  *
  * Cero emojis (CLAUDE.md §0.5): se usan caracteres Unicode (◆ ◉ ⬡).
  */
@@ -29,6 +30,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { ElectricoView } from './ElectricoView'
 import { VisionGlobalView } from './VisionGlobalView'
 import { RenovablesView } from './RenovablesView'
+import { NuclearView } from './NuclearView'
 import type { EnergiaTipo } from '@/lib/energia/types'
 
 const ACCENT = '#16A34A'
@@ -114,7 +116,9 @@ export default function EnergiaShell() {
             ? <ElectricoView />
             : activo.id === 'renovables'
               ? <RenovablesView />
-              : <EnergiaComingSoon tipo={activo} />}
+              : activo.id === 'nuclear'
+                ? <NuclearView />
+                : <EnergiaComingSoon tipo={activo} />}
  </main>
  </div>
   )
