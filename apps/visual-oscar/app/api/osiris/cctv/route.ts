@@ -25,6 +25,8 @@ import { fetchTaiwanCameras } from './taiwan';
 import { fetchWindyCameras } from './windy';
 import { fetchSkylineCameras } from './skyline';
 
+export const maxDuration = 45; // Windy pagina por continente en lotes paralelos
+
 /**
  * Politeia — Worldwide CCTV Camera API v2
  * Viewport-aware: pass ?region=xx to load cameras for specific regions
