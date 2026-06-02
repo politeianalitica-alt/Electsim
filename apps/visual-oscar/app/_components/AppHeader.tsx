@@ -45,7 +45,7 @@ export default function AppHeader() {
  </svg>
             POLITEIA <span style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
  </Link>
- <div style={{display:'flex',flex:1,height:'100%',justifyContent:'center'}}>
+ <div style={{display:'flex',flex:1,height:'100%',justifyContent:'center',overflowX:'auto',scrollbarWidth:'none',minWidth:0}}>
             {MODULES.filter(m => !m.hideFromTopBar).map(m=>{
               const active = activeModule?.id === m.id
               // Tomamos el primer item NO oculto como destino del tab

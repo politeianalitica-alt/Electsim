@@ -190,6 +190,18 @@ export const MODULES: NavModule[] = [
       { label: 'Sistema de Alertas',       href: '/alertas-config' },
     ],
   },
+
+  // ─── 11. OSINT Global ─────────────────────────────────────────────────
+  // Mapa táctico de inteligencia en tiempo real (MapLibre, todas las capas).
+  // Tab único → sin subnav. Estilos OSIRIS aislados bajo .osiris-root.
+  {
+    id: 'osint-global',
+    label: 'MAPA POLITEIA',
+    full: 'MAPA POLITEIA · Inteligencia en tiempo real',
+    items: [
+      { label: 'Mapa Politeia', href: '/osint-global' },
+    ],
+  },
 ]
 
 // Mapas auxiliares
