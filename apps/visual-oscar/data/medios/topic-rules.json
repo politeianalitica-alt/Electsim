@@ -1,0 +1,391 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-06-02",
+  "topics": [
+    {
+      "topicId": "POLITICA_INSTITUCIONAL",
+      "label": "Política institucional",
+      "rules": [
+        {
+          "id": "pol-inst-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["consejo de ministros", "decreto ley", "real decreto", "moncloa", "la presidencia", "el ejecutivo aprueba", "el gobierno anuncia", "presidente del gobierno", "vicepresidenta"],
+          "score": 0.9
+        },
+        {
+          "id": "pol-inst-02",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["ministr", "minister", "secretar de estado", "delegad del gobierno"],
+          "score": 0.75,
+          "note": "Prefijos truncados para capturar ministro/ministra/ministerio"
+        },
+        {
+          "id": "pol-inst-03",
+          "field": "description",
+          "type": "contains_any",
+          "terms": ["presidencia del gobierno", "gabinete", "portavoz del ejecutivo"],
+          "score": 0.65
+        }
+      ]
+    },
+    {
+      "topicId": "PARLAMENTO",
+      "label": "Parlamento",
+      "rules": [
+        {
+          "id": "parl-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["congreso de los diputados", "el congreso", "senado", "pleno", "comisión de", "tramita la ley", "rechaza la enmienda", "aprueba el dictamen"],
+          "score": 0.85
+        },
+        {
+          "id": "parl-02",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["sesión de control", "moción de censura", "cuestión de confianza", "investidura", "votación"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "PARTIDOS",
+      "label": "Partidos",
+      "rules": [
+        {
+          "id": "part-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["congreso del", "primarias", "fichaje", "ejecutiva del", "comité federal", "escisión", "dimite del partido"],
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "topicId": "JUDICIAL",
+      "label": "Judicial",
+      "rules": [
+        {
+          "id": "jud-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["tribunal supremo", "audiencia nacional", "tribunal constitucional", "juez", "fiscal", "sentencia", "condena", "absolución", "imputado", "investigado", "declarar ante", "orden de detención"],
+          "score": 0.9
+        },
+        {
+          "id": "jud-02",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["caso ", "operación ", "juzgado"],
+          "score": 0.6,
+          "note": "Requiere validación por entidades"
+        }
+      ]
+    },
+    {
+      "topicId": "ECONOMIA",
+      "label": "Economía",
+      "rules": [
+        {
+          "id": "eco-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["pib", "ipc", "inflación", "déficit", "deuda pública", "presupuestos generales", "política monetaria", "tipos de interés", "fiscalidad", "impuestos", "irpf", "iva"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "EMPLEO",
+      "label": "Empleo",
+      "rules": [
+        {
+          "id": "emp-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["mercado laboral", "paro", "desempleo", "epa", "afiliación seguridad social", "smi", "salario mínimo", "ertes", "reforma laboral", "negociación colectiva"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "VIVIENDA",
+      "label": "Vivienda",
+      "rules": [
+        {
+          "id": "viv-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["alquiler", "hipoteca", "vivienda pública", "vivienda protegida", "ley de vivienda", "okupación", "zonas tensionadas"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "ENERGIA",
+      "label": "Energía",
+      "rules": [
+        {
+          "id": "ene-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["precio de la luz", "factura eléctrica", "gas natural", "renovables", "nuclear", "transición energética", "ppa"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "TERRITORIAL",
+      "label": "Territorial",
+      "rules": [],
+      "subtopics": [
+        {
+          "subtopicId": "CATALUÑA",
+          "rules": [
+            {
+              "id": "terr-cat-01",
+              "field": "title",
+              "type": "contains_any",
+              "terms": ["generalitat", "govern", "independencia", "secessió", "cataluña", "catalá", "barcelon", "puigdemont", "junts", "erc"],
+              "score": 0.88
+            }
+          ]
+        },
+        {
+          "subtopicId": "PAIS_VASCO",
+          "rules": [
+            {
+              "id": "terr-pv-01",
+              "field": "title",
+              "type": "contains_any",
+              "terms": ["euskadi", "país vasco", "ikurriña", "lehendakari", "eusko jaurlaritza", "pnv", "bildu", "abertzale"],
+              "score": 0.90
+            }
+          ]
+        },
+        {
+          "subtopicId": "FINANCIACION_AUTONOMICA",
+          "rules": [
+            {
+              "id": "terr-fin-01",
+              "field": "title+description",
+              "type": "contains_any",
+              "terms": ["financiación autonómica", "concierto económico", "fla ", "fondo de liquidez autonómica", "sistema de financiación", "deuda autonómica"],
+              "score": 0.87
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "topicId": "INTERNACIONAL",
+      "label": "Internacional",
+      "rules": [
+        {
+          "id": "int-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["política exterior", "relaciones bilaterales", "embajada", "cumbre internacional", "diplomático"],
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "topicId": "UNION_EUROPEA",
+      "label": "Unión Europea",
+      "rules": [
+        {
+          "id": "ue-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["bruselas", "consejo europeo", "comisión europea", "parlamento europeo", "fondos europeos", "next generation", "von der leyen", "ursula"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "DEFENSA",
+      "label": "Defensa",
+      "rules": [
+        {
+          "id": "def-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["ministerio de defensa", "fuerzas armadas", "otan", "gasto militar", "presupuesto defensa"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "SEGURIDAD",
+      "label": "Seguridad",
+      "rules": [
+        {
+          "id": "seg-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["policía nacional", "guardia civil", "terrorismo", "crimen organizado", "narcotráfico", "ministerio del interior"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "MIGRACION",
+      "label": "Migración",
+      "rules": [
+        {
+          "id": "mig-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["migrantes", "menas", "frontex", "ceuta", "melilla frontera", "asilo", "refugiados", "regularización"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "SANIDAD",
+      "label": "Sanidad",
+      "rules": [
+        {
+          "id": "san-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["ministerio de sanidad", "sistema nacional de salud", "ucis", "listas de espera", "farmacéutico", "vacunas", "atención primaria"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "EDUCACION",
+      "label": "Educación",
+      "rules": [
+        {
+          "id": "edu-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["lomloe", "lomce", "ministerio de educación", "universidad pública", "becas", "selectividad", "profesores"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "MEDIO_AMBIENTE",
+      "label": "Medio ambiente",
+      "rules": [
+        {
+          "id": "amb-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["cambio climático", "biodiversidad", "emisiones", "ley de protección", "doñana"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "TECNOLOGIA",
+      "label": "Tecnología",
+      "rules": [
+        {
+          "id": "tec-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["regulación digital", "inteligencia artificial", "ciberseguridad", "telecomunicaciones", "5g", "datos personales"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "COMUNICACION",
+      "label": "Comunicación",
+      "rules": [
+        {
+          "id": "com-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["rtve", "ley de medios", "libertad de prensa", "consejo audiovisual", "regulación mediática"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "SOCIEDAD",
+      "label": "Sociedad",
+      "rules": [
+        {
+          "id": "soc-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["natalidad", "envejecimiento", "feminismo", "lgtb", "violencia de género"],
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "topicId": "CRISIS",
+      "label": "Crisis",
+      "rules": [
+        {
+          "id": "cri-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["pandemia", "estado de alarma", "estado de emergencia", "catástrofe natural", "dana"],
+          "score": 0.90
+        }
+      ]
+    },
+    {
+      "topicId": "CORRUPCION",
+      "label": "Corrupción",
+      "rules": [
+        {
+          "id": "corr-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["corrupción", "soborno", "cohecho", "malversación", "prevaricación", "trama", "financiación ilegal", "caja b", "comisiones ilegales", "enriquecimiento ilícito"],
+          "score": 0.92
+        },
+        {
+          "id": "corr-02",
+          "field": "title",
+          "type": "contains_all",
+          "terms": ["caso", "político"],
+          "score": 0.55,
+          "note": "Baja confianza — requiere validación por entidades"
+        }
+      ]
+    },
+    {
+      "topicId": "IBEREX_EMPRESAS",
+      "label": "IBEX y empresas",
+      "rules": [
+        {
+          "id": "ibex-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["ibex 35", "junta de accionistas", "consejero delegado", "beneficios récord", "ampliación de capital", "opa"],
+          "score": 0.85
+        }
+      ]
+    },
+    {
+      "topicId": "SINDICAL_PATRONAL",
+      "label": "Sindical y patronal",
+      "rules": [
+        {
+          "id": "sind-01",
+          "field": "title",
+          "type": "contains_any",
+          "terms": ["ccoo", "ugt", "ceoe", "patronal", "diálogo social", "mesa de negociación", "convenio colectivo"],
+          "score": 0.88
+        }
+      ]
+    },
+    {
+      "topicId": "OTRO",
+      "label": "Otro",
+      "rules": []
+    }
+  ]
+}

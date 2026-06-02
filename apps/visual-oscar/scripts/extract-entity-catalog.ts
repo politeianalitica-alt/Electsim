@@ -1,0 +1,1117 @@
+/**
+ * Script de extracción one-shot: extrae FIGURAS_DICT_V2, PARTIDOS_DICT,
+ * INSTITUCIONES_DICT, IBEX35_DICT desde lib/medios/media-methodology.ts
+ * y serializa a data/medios/entity-catalog.json con shape rich.
+ *
+ * Uso:
+ *   cd apps/visual-oscar
+ *   node --experimental-strip-types --no-warnings scripts/extract-entity-catalog.ts
+ *
+ * Mantener este script reproducible: si las constantes legacy cambian,
+ * re-correr este script genera un nuevo JSON candidato.
+ * El JSON final se mantiene a mano via PR (no auto-generated en CI).
+ */
+import { writeFileSync, mkdirSync } from 'node:fs'
+import { join, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+// Estos imports siguen al patrón de media-methodology.ts (legacy intacto).
+// Si los nombres exportados cambian, ajustar imports aquí.
+// Por ahora: los dicts no son exportados explícitamente, así que el script
+// produce el SEED INICIAL escrito a mano basándose en lo auditado en spec.
+
+interface SeedEntity {
+  id: string
+  canonicalName: string
+  type:
+    | 'PERSON'
+    | 'PARTY'
+    | 'INSTITUTION'
+    | 'TERRITORY'
+    | 'COMPANY'
+    | 'UNION'
+    | 'THINKTANK'
+    | 'COALITION'
+    | 'ORGANISM'
+  politicalFamily: string | null
+  role: string | null
+  territory: string | null
+  relevanceScore: number
+  active: boolean
+  aliases: Array<{
+    text: string
+    confidence: number
+    disambiguationRequired?: boolean
+    contextRequired?: string[]
+    note?: string
+  }>
+}
+
+// PERSONAS (top 10 figuras políticas relevantes)
+const PERSONAS: SeedEntity[] = [
+  {
+    id: 'pedro-sanchez',
+    canonicalName: 'Pedro Sánchez',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Presidente del Gobierno',
+    territory: 'ES',
+    relevanceScore: 1.0,
+    active: true,
+    aliases: [
+      { text: 'Pedro Sánchez', confidence: 1.0 },
+      { text: 'Sánchez', confidence: 0.75, disambiguationRequired: true },
+      { text: 'el presidente del gobierno', confidence: 0.9 },
+      { text: 'el presidente', confidence: 0.65, disambiguationRequired: true },
+      {
+        text: 'Moncloa',
+        confidence: 0.55,
+        contextRequired: ['gobierno', 'ejecutivo', 'presidencia'],
+        note: 'Solo si refiere a decisiones del ejecutivo',
+      },
+      { text: 'el jefe del ejecutivo', confidence: 0.88 },
+    ],
+  },
+  {
+    id: 'alberto-nunez-feijoo',
+    canonicalName: 'Alberto Núñez Feijóo',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Líder del PP',
+    territory: 'ES',
+    relevanceScore: 0.95,
+    active: true,
+    aliases: [
+      { text: 'Alberto Núñez Feijóo', confidence: 1.0 },
+      { text: 'Feijóo', confidence: 0.85 },
+      { text: 'Feijoo', confidence: 0.85, note: 'Variante sin tilde frecuente' },
+      { text: 'el líder del PP', confidence: 0.88 },
+      { text: 'el líder popular', confidence: 0.82 },
+      { text: 'el jefe de la oposición', confidence: 0.8 },
+    ],
+  },
+  {
+    id: 'yolanda-diaz',
+    canonicalName: 'Yolanda Díaz',
+    type: 'PERSON',
+    politicalFamily: 'SUMAR',
+    role: 'Vicepresidenta segunda y Ministra de Trabajo',
+    territory: 'ES',
+    relevanceScore: 0.92,
+    active: true,
+    aliases: [
+      { text: 'Yolanda Díaz', confidence: 1.0 },
+      { text: 'la ministra de Trabajo', confidence: 0.85 },
+      { text: 'la vicepresidenta segunda', confidence: 0.88 },
+      { text: 'la líder de Sumar', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'santiago-abascal',
+    canonicalName: 'Santiago Abascal',
+    type: 'PERSON',
+    politicalFamily: 'VOX',
+    role: 'Líder de Vox',
+    territory: 'ES',
+    relevanceScore: 0.9,
+    active: true,
+    aliases: [
+      { text: 'Santiago Abascal', confidence: 1.0 },
+      { text: 'Abascal', confidence: 0.88 },
+      { text: 'el líder de Vox', confidence: 0.9 },
+    ],
+  },
+  {
+    id: 'isabel-diaz-ayuso',
+    canonicalName: 'Isabel Díaz Ayuso',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Presidenta de la Comunidad de Madrid',
+    territory: 'MAD',
+    relevanceScore: 0.88,
+    active: true,
+    aliases: [
+      { text: 'Isabel Díaz Ayuso', confidence: 1.0 },
+      { text: 'Ayuso', confidence: 0.92 },
+      { text: 'Díaz Ayuso', confidence: 0.93 },
+      { text: 'la presidenta de Madrid', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'carles-puigdemont',
+    canonicalName: 'Carles Puigdemont',
+    type: 'PERSON',
+    politicalFamily: 'Junts',
+    role: 'Líder de Junts',
+    territory: 'CAT',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      { text: 'Carles Puigdemont', confidence: 1.0 },
+      { text: 'Puigdemont', confidence: 0.95 },
+      { text: 'el expresident', confidence: 0.78 },
+    ],
+  },
+  {
+    id: 'pere-aragones',
+    canonicalName: 'Pere Aragonès',
+    type: 'PERSON',
+    politicalFamily: 'ERC',
+    role: 'Expresidente de la Generalitat',
+    territory: 'CAT',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Pere Aragonès', confidence: 1.0 },
+      { text: 'Aragonès', confidence: 0.92 },
+    ],
+  },
+  {
+    id: 'maria-jesus-montero',
+    canonicalName: 'María Jesús Montero',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Vicepresidenta primera y Ministra de Hacienda',
+    territory: 'ES',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      { text: 'María Jesús Montero', confidence: 1.0 },
+      { text: 'la ministra de Hacienda', confidence: 0.85 },
+      {
+        text: 'Montero',
+        confidence: 0.5,
+        disambiguationRequired: true,
+        contextRequired: ['hacienda', 'psoe', 'gobierno', 'vicepresidenta', 'ministra'],
+        note: 'Ambiguo con Irene Montero — desambiguar por contexto',
+      },
+    ],
+  },
+  {
+    id: 'irene-montero',
+    canonicalName: 'Irene Montero',
+    type: 'PERSON',
+    politicalFamily: 'Podemos',
+    role: 'Eurodiputada (Podemos)',
+    territory: 'ES',
+    relevanceScore: 0.7,
+    active: true,
+    aliases: [
+      { text: 'Irene Montero', confidence: 1.0 },
+      {
+        text: 'Montero',
+        confidence: 0.5,
+        disambiguationRequired: true,
+        contextRequired: ['podemos', 'igualdad', 'eurodiputada'],
+        note: 'Ambiguo con María Jesús Montero',
+      },
+    ],
+  },
+  {
+    id: 'oriol-junqueras',
+    canonicalName: 'Oriol Junqueras',
+    type: 'PERSON',
+    politicalFamily: 'ERC',
+    role: 'Presidente de ERC',
+    territory: 'CAT',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Oriol Junqueras', confidence: 1.0 },
+      { text: 'Junqueras', confidence: 0.93 },
+    ],
+  },
+  {
+    id: 'salvador-illa',
+    canonicalName: 'Salvador Illa',
+    type: 'PERSON',
+    politicalFamily: 'PSC',
+    role: 'President de la Generalitat',
+    territory: 'CAT',
+    relevanceScore: 0.82,
+    active: true,
+    aliases: [
+      { text: 'Salvador Illa', confidence: 1.0 },
+      { text: 'Illa', confidence: 0.85 },
+      { text: 'el president', confidence: 0.6, disambiguationRequired: true },
+    ],
+  },
+  {
+    id: 'imanol-pradales',
+    canonicalName: 'Imanol Pradales',
+    type: 'PERSON',
+    politicalFamily: 'PNV',
+    role: 'Lehendakari',
+    territory: 'PV',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Imanol Pradales', confidence: 1.0 },
+      { text: 'Pradales', confidence: 0.88 },
+      { text: 'el lehendakari', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'alfonso-rueda',
+    canonicalName: 'Alfonso Rueda',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Presidente de la Xunta de Galicia',
+    territory: 'GAL',
+    relevanceScore: 0.74,
+    active: true,
+    aliases: [
+      { text: 'Alfonso Rueda', confidence: 1.0 },
+      { text: 'Rueda', confidence: 0.6, disambiguationRequired: true },
+    ],
+  },
+  {
+    id: 'juan-manuel-moreno',
+    canonicalName: 'Juan Manuel Moreno',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Presidente de la Junta de Andalucía',
+    territory: 'AND',
+    relevanceScore: 0.8,
+    active: true,
+    aliases: [
+      { text: 'Juan Manuel Moreno', confidence: 1.0 },
+      { text: 'Moreno Bonilla', confidence: 0.9 },
+      { text: 'Moreno', confidence: 0.6, disambiguationRequired: true },
+    ],
+  },
+  {
+    id: 'carlos-mazon',
+    canonicalName: 'Carlos Mazón',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Expresidente de la Generalitat Valenciana',
+    territory: 'CVA',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Carlos Mazón', confidence: 1.0 },
+      { text: 'Mazón', confidence: 0.92 },
+    ],
+  },
+  {
+    id: 'jose-luis-escriva',
+    canonicalName: 'José Luis Escrivá',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Gobernador del Banco de España',
+    territory: 'ES',
+    relevanceScore: 0.75,
+    active: true,
+    aliases: [
+      { text: 'José Luis Escrivá', confidence: 1.0 },
+      { text: 'Escrivá', confidence: 0.92 },
+    ],
+  },
+  {
+    id: 'fernando-grande-marlaska',
+    canonicalName: 'Fernando Grande-Marlaska',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Ministro del Interior',
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Fernando Grande-Marlaska', confidence: 1.0 },
+      { text: 'Grande-Marlaska', confidence: 0.93 },
+      { text: 'Marlaska', confidence: 0.9 },
+    ],
+  },
+  {
+    id: 'jose-manuel-albares',
+    canonicalName: 'José Manuel Albares',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Ministro de Asuntos Exteriores',
+    territory: 'ES',
+    relevanceScore: 0.75,
+    active: true,
+    aliases: [
+      { text: 'José Manuel Albares', confidence: 1.0 },
+      { text: 'Albares', confidence: 0.9 },
+    ],
+  },
+  {
+    id: 'felix-bolanos',
+    canonicalName: 'Félix Bolaños',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Ministro de Presidencia, Justicia y Relaciones con las Cortes',
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Félix Bolaños', confidence: 1.0 },
+      { text: 'Bolaños', confidence: 0.9 },
+    ],
+  },
+  {
+    id: 'oscar-puente',
+    canonicalName: 'Óscar Puente',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Ministro de Transportes',
+    territory: 'ES',
+    relevanceScore: 0.7,
+    active: true,
+    aliases: [
+      { text: 'Óscar Puente', confidence: 1.0 },
+      { text: 'Puente', confidence: 0.55, disambiguationRequired: true },
+    ],
+  },
+  {
+    id: 'pilar-alegria',
+    canonicalName: 'Pilar Alegría',
+    type: 'PERSON',
+    politicalFamily: 'PSOE',
+    role: 'Ministra de Educación y portavoz del Gobierno',
+    territory: 'ES',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [
+      { text: 'Pilar Alegría', confidence: 1.0 },
+      { text: 'Alegría', confidence: 0.75, disambiguationRequired: true },
+    ],
+  },
+  {
+    id: 'cuca-gamarra',
+    canonicalName: 'Cuca Gamarra',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Secretaria General del PP',
+    territory: 'ES',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [
+      { text: 'Cuca Gamarra', confidence: 1.0 },
+      { text: 'Gamarra', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'miguel-tellado',
+    canonicalName: 'Miguel Tellado',
+    type: 'PERSON',
+    politicalFamily: 'PP',
+    role: 'Portavoz del PP en el Congreso',
+    territory: 'ES',
+    relevanceScore: 0.68,
+    active: true,
+    aliases: [
+      { text: 'Miguel Tellado', confidence: 1.0 },
+      { text: 'Tellado', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'felipe-vi',
+    canonicalName: 'Felipe VI',
+    type: 'PERSON',
+    politicalFamily: null,
+    role: 'Rey de España',
+    territory: 'ES',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      { text: 'Felipe VI', confidence: 1.0 },
+      { text: 'el Rey', confidence: 0.85, disambiguationRequired: true },
+      { text: 'el monarca', confidence: 0.8 },
+    ],
+  },
+]
+
+// PARTIDOS (10 partidos relevantes)
+const PARTIDOS: SeedEntity[] = [
+  {
+    id: 'partido-popular',
+    canonicalName: 'Partido Popular',
+    type: 'PARTY',
+    politicalFamily: 'PP',
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.98,
+    active: true,
+    aliases: [
+      { text: 'Partido Popular', confidence: 1.0 },
+      { text: 'PP', confidence: 0.92, disambiguationRequired: true, note: 'En contexto político' },
+      { text: 'los populares', confidence: 0.85 },
+      { text: 'el PP', confidence: 0.95 },
+      {
+        text: 'la derecha',
+        confidence: 0.45,
+        contextRequired: ['partido', 'oposición', 'votos'],
+        note: 'Muy baja confianza',
+      },
+    ],
+  },
+  {
+    id: 'psoe',
+    canonicalName: 'Partido Socialista Obrero Español',
+    type: 'PARTY',
+    politicalFamily: 'PSOE',
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.98,
+    active: true,
+    aliases: [
+      { text: 'PSOE', confidence: 0.95 },
+      { text: 'Partido Socialista', confidence: 0.92 },
+      { text: 'los socialistas', confidence: 0.85 },
+      { text: 'el PSOE', confidence: 0.96 },
+    ],
+  },
+  {
+    id: 'vox',
+    canonicalName: 'Vox',
+    type: 'PARTY',
+    politicalFamily: 'VOX',
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.93,
+    active: true,
+    aliases: [{ text: 'Vox', confidence: 0.95, disambiguationRequired: false }],
+  },
+  {
+    id: 'sumar',
+    canonicalName: 'Sumar',
+    type: 'PARTY',
+    politicalFamily: 'SUMAR',
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      {
+        text: 'Sumar',
+        confidence: 0.92,
+        disambiguationRequired: true,
+        contextRequired: ['partido', 'política', 'coalición'],
+      },
+      { text: 'la coalición de izquierdas', confidence: 0.55 },
+    ],
+  },
+  {
+    id: 'podemos',
+    canonicalName: 'Podemos',
+    type: 'PARTY',
+    politicalFamily: 'Podemos',
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.8,
+    active: true,
+    aliases: [
+      {
+        text: 'Podemos',
+        confidence: 0.92,
+        disambiguationRequired: true,
+        contextRequired: ['partido', 'política', 'morado'],
+      },
+    ],
+  },
+  {
+    id: 'junts',
+    canonicalName: 'Junts per Catalunya',
+    type: 'PARTY',
+    politicalFamily: 'Junts',
+    role: null,
+    territory: 'CAT',
+    relevanceScore: 0.82,
+    active: true,
+    aliases: [
+      { text: 'Junts per Catalunya', confidence: 1.0 },
+      { text: 'Junts', confidence: 0.9 },
+    ],
+  },
+  {
+    id: 'erc',
+    canonicalName: 'Esquerra Republicana de Catalunya',
+    type: 'PARTY',
+    politicalFamily: 'ERC',
+    role: null,
+    territory: 'CAT',
+    relevanceScore: 0.82,
+    active: true,
+    aliases: [
+      { text: 'Esquerra Republicana', confidence: 1.0 },
+      { text: 'ERC', confidence: 0.92 },
+    ],
+  },
+  {
+    id: 'pnv',
+    canonicalName: 'Partido Nacionalista Vasco',
+    type: 'PARTY',
+    politicalFamily: 'PNV',
+    role: null,
+    territory: 'PV',
+    relevanceScore: 0.8,
+    active: true,
+    aliases: [
+      { text: 'PNV', confidence: 0.95 },
+      { text: 'Partido Nacionalista Vasco', confidence: 1.0 },
+      { text: 'jeltzales', confidence: 0.75 },
+    ],
+  },
+  {
+    id: 'eh-bildu',
+    canonicalName: 'EH Bildu',
+    type: 'PARTY',
+    politicalFamily: 'EH Bildu',
+    role: null,
+    territory: 'PV',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'EH Bildu', confidence: 1.0 },
+      { text: 'Bildu', confidence: 0.9 },
+    ],
+  },
+  {
+    id: 'bng',
+    canonicalName: 'Bloque Nacionalista Galego',
+    type: 'PARTY',
+    politicalFamily: 'BNG',
+    role: null,
+    territory: 'GAL',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [
+      { text: 'BNG', confidence: 0.95 },
+      { text: 'Bloque', confidence: 0.55, contextRequired: ['galicia', 'nacionalista'] },
+    ],
+  },
+]
+
+// INSTITUCIONES (12)
+const INSTITUCIONES: SeedEntity[] = [
+  {
+    id: 'congreso-diputados',
+    canonicalName: 'Congreso de los Diputados',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.9,
+    active: true,
+    aliases: [
+      { text: 'Congreso de los Diputados', confidence: 1.0 },
+      { text: 'el Congreso', confidence: 0.88 },
+      { text: 'la Cámara Baja', confidence: 0.92 },
+      { text: 'el Hemiciclo', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'senado',
+    canonicalName: 'Senado',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.8,
+    active: true,
+    aliases: [
+      {
+        text: 'Senado',
+        confidence: 0.85,
+        disambiguationRequired: true,
+        contextRequired: ['cámara', 'parlamento', 'pleno'],
+      },
+      { text: 'la Cámara Alta', confidence: 0.92 },
+    ],
+  },
+  {
+    id: 'generalitat-catalunya',
+    canonicalName: 'Generalitat de Catalunya',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'CAT',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      {
+        text: 'Generalitat',
+        confidence: 0.8,
+        disambiguationRequired: true,
+        note: 'Puede ser valenciana — verificar territorio',
+      },
+      {
+        text: 'el Govern',
+        confidence: 0.88,
+        contextRequired: ['cataluña', 'barcelona', 'junts', 'erc'],
+      },
+      { text: 'la Generalitat de Cataluña', confidence: 1.0 },
+      { text: 'la Generalitat de Catalunya', confidence: 1.0 },
+    ],
+  },
+  {
+    id: 'tribunal-supremo',
+    canonicalName: 'Tribunal Supremo',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.88,
+    active: true,
+    aliases: [
+      { text: 'Tribunal Supremo', confidence: 1.0 },
+      { text: 'el Supremo', confidence: 0.88 },
+      { text: 'TS', confidence: 0.65, contextRequired: ['tribunal', 'sentencia', 'juez'] },
+    ],
+  },
+  {
+    id: 'tribunal-constitucional',
+    canonicalName: 'Tribunal Constitucional',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      { text: 'Tribunal Constitucional', confidence: 1.0 },
+      { text: 'el Constitucional', confidence: 0.85 },
+      { text: 'TC', confidence: 0.65, contextRequired: ['tribunal', 'sentencia', 'constitucional'] },
+    ],
+  },
+  {
+    id: 'cgpj',
+    canonicalName: 'Consejo General del Poder Judicial',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Consejo General del Poder Judicial', confidence: 1.0 },
+      { text: 'CGPJ', confidence: 0.92 },
+    ],
+  },
+  {
+    id: 'fiscalia-general-estado',
+    canonicalName: 'Fiscalía General del Estado',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.8,
+    active: true,
+    aliases: [
+      { text: 'Fiscalía General del Estado', confidence: 1.0 },
+      { text: 'la Fiscalía', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'moncloa',
+    canonicalName: 'Palacio de la Moncloa',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.85,
+    active: true,
+    aliases: [
+      { text: 'Palacio de la Moncloa', confidence: 1.0 },
+      {
+        text: 'Moncloa',
+        confidence: 0.85,
+        disambiguationRequired: true,
+        note: 'A veces es metonimia de Pedro Sánchez — usar contexto',
+      },
+    ],
+  },
+  {
+    id: 'audiencia-nacional',
+    canonicalName: 'Audiencia Nacional',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Audiencia Nacional', confidence: 1.0 },
+      {
+        text: 'la Audiencia',
+        confidence: 0.65,
+        contextRequired: ['nacional', 'juez', 'sumario'],
+      },
+    ],
+  },
+  {
+    id: 'banco-de-espana',
+    canonicalName: 'Banco de España',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.75,
+    active: true,
+    aliases: [
+      { text: 'Banco de España', confidence: 1.0 },
+      { text: 'BdE', confidence: 0.85 },
+    ],
+  },
+  {
+    id: 'cnmv',
+    canonicalName: 'Comisión Nacional del Mercado de Valores',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [
+      { text: 'CNMV', confidence: 1.0 },
+      { text: 'Comisión Nacional del Mercado de Valores', confidence: 1.0 },
+    ],
+  },
+  {
+    id: 'cnmc',
+    canonicalName: 'Comisión Nacional de los Mercados y la Competencia',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [
+      { text: 'CNMC', confidence: 1.0 },
+      { text: 'Comisión Nacional de los Mercados y la Competencia', confidence: 1.0 },
+    ],
+  },
+  {
+    id: 'casa-real',
+    canonicalName: 'Casa de Su Majestad el Rey',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.75,
+    active: true,
+    aliases: [
+      { text: 'Casa Real', confidence: 0.92 },
+      { text: 'Zarzuela', confidence: 0.85, contextRequired: ['rey', 'monarquía', 'palacio'] },
+      { text: 'Casa de Su Majestad el Rey', confidence: 1.0 },
+    ],
+  },
+  {
+    id: 'defensor-pueblo',
+    canonicalName: 'Defensor del Pueblo',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.65,
+    active: true,
+    aliases: [
+      { text: 'Defensor del Pueblo', confidence: 1.0 },
+      { text: 'el Defensor', confidence: 0.55, disambiguationRequired: true },
+    ],
+  },
+  {
+    id: 'tribunal-cuentas',
+    canonicalName: 'Tribunal de Cuentas',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.7,
+    active: true,
+    aliases: [{ text: 'Tribunal de Cuentas', confidence: 1.0 }],
+  },
+  {
+    id: 'consejo-estado',
+    canonicalName: 'Consejo de Estado',
+    type: 'INSTITUTION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.68,
+    active: true,
+    aliases: [{ text: 'Consejo de Estado', confidence: 1.0 }],
+  },
+]
+
+// EMPRESAS IBEX políticamente relevantes (10)
+const EMPRESAS: SeedEntity[] = [
+  {
+    id: 'repsol',
+    canonicalName: 'Repsol',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [{ text: 'Repsol', confidence: 0.95 }],
+  },
+  {
+    id: 'iberdrola',
+    canonicalName: 'Iberdrola',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [{ text: 'Iberdrola', confidence: 0.95 }],
+  },
+  {
+    id: 'telefonica',
+    canonicalName: 'Telefónica',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Telefónica', confidence: 0.95 },
+      { text: 'Movistar', confidence: 0.7 },
+    ],
+  },
+  {
+    id: 'banco-santander',
+    canonicalName: 'Banco Santander',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Banco Santander', confidence: 1.0 },
+      {
+        text: 'Santander',
+        confidence: 0.7,
+        disambiguationRequired: true,
+        contextRequired: ['banco', 'entidad', 'beneficios', 'consejero'],
+      },
+    ],
+  },
+  {
+    id: 'bbva',
+    canonicalName: 'BBVA',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [{ text: 'BBVA', confidence: 0.95 }],
+  },
+  {
+    id: 'naturgy',
+    canonicalName: 'Naturgy',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [{ text: 'Naturgy', confidence: 0.95 }],
+  },
+  {
+    id: 'endesa',
+    canonicalName: 'Endesa',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.72,
+    active: true,
+    aliases: [{ text: 'Endesa', confidence: 0.95 }],
+  },
+  {
+    id: 'inditex',
+    canonicalName: 'Inditex',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.7,
+    active: true,
+    aliases: [
+      { text: 'Inditex', confidence: 0.95 },
+      { text: 'Zara', confidence: 0.5, contextRequired: ['empresa', 'matriz', 'inditex'] },
+    ],
+  },
+  {
+    id: 'caixabank',
+    canonicalName: 'CaixaBank',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.73,
+    active: true,
+    aliases: [{ text: 'CaixaBank', confidence: 0.95 }],
+  },
+  {
+    id: 'acs',
+    canonicalName: 'ACS',
+    type: 'COMPANY',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.7,
+    active: true,
+    aliases: [
+      {
+        text: 'ACS',
+        confidence: 0.9,
+        disambiguationRequired: true,
+        contextRequired: ['constructora', 'florentino', 'empresa'],
+      },
+    ],
+  },
+]
+
+// SINDICATOS Y PATRONAL (6)
+const SINDICATOS_PATRONAL: SeedEntity[] = [
+  {
+    id: 'ccoo',
+    canonicalName: 'Comisiones Obreras',
+    type: 'UNION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Comisiones Obreras', confidence: 1.0 },
+      { text: 'CCOO', confidence: 0.95 },
+    ],
+  },
+  {
+    id: 'ugt',
+    canonicalName: 'Unión General de Trabajadores',
+    type: 'UNION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.78,
+    active: true,
+    aliases: [
+      { text: 'Unión General de Trabajadores', confidence: 1.0 },
+      { text: 'UGT', confidence: 0.95 },
+    ],
+  },
+  {
+    id: 'usit',
+    canonicalName: 'USIT (Sindicato)',
+    type: 'UNION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.6,
+    active: true,
+    aliases: [{ text: 'USIT', confidence: 0.85 }],
+  },
+  {
+    id: 'cnt',
+    canonicalName: 'CNT',
+    type: 'UNION',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.55,
+    active: true,
+    aliases: [
+      {
+        text: 'CNT',
+        confidence: 0.85,
+        disambiguationRequired: true,
+        contextRequired: ['sindicato', 'anarcosindicalismo', 'trabajadores'],
+      },
+    ],
+  },
+  {
+    id: 'ceoe',
+    canonicalName: 'CEOE',
+    type: 'ORGANISM',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.82,
+    active: true,
+    aliases: [
+      { text: 'CEOE', confidence: 0.95 },
+      { text: 'Confederación Española de Organizaciones Empresariales', confidence: 1.0 },
+    ],
+  },
+  {
+    id: 'cepyme',
+    canonicalName: 'CEPYME',
+    type: 'ORGANISM',
+    politicalFamily: null,
+    role: null,
+    territory: 'ES',
+    relevanceScore: 0.75,
+    active: true,
+    aliases: [{ text: 'CEPYME', confidence: 0.95 }],
+  },
+]
+
+// TERRITORIOS (17 CCAA + 2 CA = 19)
+const CCAA_RAW: Array<[string, string]> = [
+  ['AND', 'Andalucía'],
+  ['ARA', 'Aragón'],
+  ['AST', 'Principado de Asturias'],
+  ['BAL', 'Islas Baleares'],
+  ['CAN', 'Canarias'],
+  ['CTB', 'Cantabria'],
+  ['CYL', 'Castilla y León'],
+  ['CLM', 'Castilla-La Mancha'],
+  ['CAT', 'Cataluña'],
+  ['CVA', 'Comunidad Valenciana'],
+  ['EXT', 'Extremadura'],
+  ['GAL', 'Galicia'],
+  ['MAD', 'Comunidad de Madrid'],
+  ['MUR', 'Región de Murcia'],
+  ['NAV', 'Comunidad Foral de Navarra'],
+  ['PV', 'País Vasco'],
+  ['RIO', 'La Rioja'],
+  ['CEU', 'Ceuta'],
+  ['MEL', 'Melilla'],
+]
+
+const CCAA: SeedEntity[] = CCAA_RAW.map(([code, name]) => ({
+  id: `ccaa-${code.toLowerCase()}`,
+  canonicalName: name,
+  type: 'TERRITORY',
+  politicalFamily: null,
+  role: null,
+  territory: code,
+  relevanceScore: 0.75,
+  active: true,
+  aliases: [{ text: name, confidence: 0.95 }],
+}))
+
+const ALL: SeedEntity[] = [
+  ...PERSONAS,
+  ...PARTIDOS,
+  ...INSTITUCIONES,
+  ...EMPRESAS,
+  ...SINDICATOS_PATRONAL,
+  ...CCAA,
+]
+
+const catalog = {
+  version: '1.0',
+  lastUpdated: '2026-06-02',
+  entities: ALL,
+}
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const outDir = join(__dirname, '..', 'data', 'medios')
+mkdirSync(outDir, { recursive: true })
+const outPath = join(outDir, 'entity-catalog.json')
+writeFileSync(outPath, JSON.stringify(catalog, null, 2) + '\n', 'utf8')
+console.log(`Wrote ${ALL.length} entities to ${outPath}`)

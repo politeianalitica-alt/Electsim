@@ -1,0 +1,164 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-06-02",
+  "_note": "Extensión de data/medios.json con tier, ideology enum, regions, audienceEstimate, qualityScore. Sprint 0+1 cura primeros 20 a mano; resto importado con tier=3 default.",
+  "sources": [
+    {
+      "id": "el-pais", "name": "El País", "domain": "elpais.com",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "CENTER_LEFT", "ideologyScore": -25, "tier": 1, "audienceEstimate": 16500000,
+      "rssFeeds": [
+        { "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada", "kind": "general", "active": true },
+        { "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/espana/portada", "kind": "politica", "active": true }
+      ],
+      "qualityScore": 0.85, "active": true
+    },
+    {
+      "id": "el-mundo", "name": "El Mundo", "domain": "elmundo.es",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "CENTER_RIGHT", "ideologyScore": 28, "tier": 1, "audienceEstimate": 12000000,
+      "rssFeeds": [
+        { "url": "https://e00-elmundo.uecdn.es/elmundo/rss/portada.xml", "kind": "general", "active": true }
+      ],
+      "qualityScore": 0.80, "active": true
+    },
+    {
+      "id": "abc", "name": "ABC", "domain": "abc.es",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "RIGHT", "ideologyScore": 50, "tier": 1, "audienceEstimate": 8000000,
+      "rssFeeds": [
+        { "url": "https://www.abc.es/rss/feeds/abc_espana.xml", "kind": "politica", "active": true }
+      ],
+      "qualityScore": 0.78, "active": true
+    },
+    {
+      "id": "la-vanguardia", "name": "La Vanguardia", "domain": "lavanguardia.com",
+      "type": "REGIONAL", "country": "ES", "regions": ["CAT","ES"], "language": "es",
+      "ideology": "CENTER", "ideologyScore": -8, "tier": 1, "audienceEstimate": 11000000,
+      "rssFeeds": [
+        { "url": "https://www.lavanguardia.com/rss/home.xml", "kind": "general", "active": true }
+      ],
+      "qualityScore": 0.82, "active": true
+    },
+    {
+      "id": "el-confidencial", "name": "El Confidencial", "domain": "elconfidencial.com",
+      "type": "DIGITAL_NATIVE", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "CENTER", "ideologyScore": 5, "tier": 1, "audienceEstimate": 12500000,
+      "rssFeeds": [
+        { "url": "https://rss.elconfidencial.com/espana/", "kind": "politica", "active": true }
+      ],
+      "qualityScore": 0.82, "active": true
+    },
+    {
+      "id": "eldiario-es", "name": "elDiario.es", "domain": "eldiario.es",
+      "type": "DIGITAL_NATIVE", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "LEFT", "ideologyScore": -45, "tier": 2, "audienceEstimate": 8500000,
+      "rssFeeds": [
+        { "url": "https://www.eldiario.es/rss/", "kind": "general", "active": true }
+      ],
+      "qualityScore": 0.80, "active": true
+    },
+    {
+      "id": "el-espanol", "name": "El Español", "domain": "elespanol.com",
+      "type": "DIGITAL_NATIVE", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "CENTER_RIGHT", "ideologyScore": 20, "tier": 2, "audienceEstimate": 10000000,
+      "rssFeeds": [],
+      "qualityScore": 0.75, "active": true
+    },
+    {
+      "id": "la-razon", "name": "La Razón", "domain": "larazon.es",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "RIGHT", "ideologyScore": 55, "tier": 2, "audienceEstimate": 7000000,
+      "rssFeeds": [],
+      "qualityScore": 0.72, "active": true
+    },
+    {
+      "id": "publico", "name": "Público", "domain": "publico.es",
+      "type": "DIGITAL_NATIVE", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "LEFT", "ideologyScore": -55, "tier": 2, "audienceEstimate": 5500000,
+      "rssFeeds": [
+        { "url": "https://www.publico.es/rss", "kind": "general", "active": true }
+      ],
+      "qualityScore": 0.75, "active": true
+    },
+    {
+      "id": "europa-press", "name": "Europa Press", "domain": "europapress.es",
+      "type": "AGENCY", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "INSTITUTIONAL", "ideologyScore": 0, "tier": 4, "audienceEstimate": 9000000,
+      "rssFeeds": [
+        { "url": "https://www.europapress.es/rss/rss.aspx", "kind": "general", "active": true }
+      ],
+      "qualityScore": 0.85, "active": true
+    },
+    {
+      "id": "rtve", "name": "RTVE", "domain": "rtve.es",
+      "type": "INSTITUTIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "INSTITUTIONAL", "ideologyScore": -5, "tier": 1, "audienceEstimate": 15000000,
+      "rssFeeds": [],
+      "qualityScore": 0.85, "active": true
+    },
+    {
+      "id": "ser", "name": "Cadena SER", "domain": "cadenaser.com",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "CENTER_LEFT", "ideologyScore": -20, "tier": 1, "audienceEstimate": 14000000,
+      "rssFeeds": [],
+      "qualityScore": 0.82, "active": true
+    },
+    {
+      "id": "cope", "name": "COPE", "domain": "cope.es",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "RIGHT", "ideologyScore": 40, "tier": 1, "audienceEstimate": 11000000,
+      "rssFeeds": [],
+      "qualityScore": 0.78, "active": true
+    },
+    {
+      "id": "onda-cero", "name": "Onda Cero", "domain": "ondacero.es",
+      "type": "NATIONAL", "country": "ES", "regions": ["ES"], "language": "es",
+      "ideology": "CENTER_RIGHT", "ideologyScore": 15, "tier": 1, "audienceEstimate": 9000000,
+      "rssFeeds": [],
+      "qualityScore": 0.78, "active": true
+    },
+    {
+      "id": "ara", "name": "Ara", "domain": "ara.cat",
+      "type": "REGIONAL", "country": "ES", "regions": ["CAT"], "language": "ca",
+      "ideology": "NATIONALIST", "ideologyScore": -25, "tier": 2, "audienceEstimate": 3500000,
+      "rssFeeds": [],
+      "qualityScore": 0.80, "active": true
+    },
+    {
+      "id": "diario-vasco", "name": "El Diario Vasco", "domain": "diariovasco.com",
+      "type": "REGIONAL", "country": "ES", "regions": ["PV"], "language": "es",
+      "ideology": "CENTER", "ideologyScore": 5, "tier": 2, "audienceEstimate": 2500000,
+      "rssFeeds": [],
+      "qualityScore": 0.78, "active": true
+    },
+    {
+      "id": "la-voz-de-galicia", "name": "La Voz de Galicia", "domain": "lavozdegalicia.es",
+      "type": "REGIONAL", "country": "ES", "regions": ["GAL"], "language": "es",
+      "ideology": "CENTER_RIGHT", "ideologyScore": 10, "tier": 2, "audienceEstimate": 3000000,
+      "rssFeeds": [],
+      "qualityScore": 0.78, "active": true
+    },
+    {
+      "id": "el-correo", "name": "El Correo", "domain": "elcorreo.com",
+      "type": "REGIONAL", "country": "ES", "regions": ["PV"], "language": "es",
+      "ideology": "CENTER", "ideologyScore": 0, "tier": 2, "audienceEstimate": 3000000,
+      "rssFeeds": [],
+      "qualityScore": 0.77, "active": true
+    },
+    {
+      "id": "diario-sur", "name": "Sur", "domain": "diariosur.es",
+      "type": "REGIONAL", "country": "ES", "regions": ["AND"], "language": "es",
+      "ideology": "CENTER", "ideologyScore": 5, "tier": 2, "audienceEstimate": 2000000,
+      "rssFeeds": [],
+      "qualityScore": 0.75, "active": true
+    },
+    {
+      "id": "heraldo-de-aragon", "name": "Heraldo de Aragón", "domain": "heraldo.es",
+      "type": "REGIONAL", "country": "ES", "regions": ["ARA"], "language": "es",
+      "ideology": "CENTER_RIGHT", "ideologyScore": 12, "tier": 2, "audienceEstimate": 2000000,
+      "rssFeeds": [],
+      "qualityScore": 0.76, "active": true
+    }
+  ]
+}

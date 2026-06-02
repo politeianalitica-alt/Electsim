@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "lastUpdated": "2026-06-02",
+  "_status": "PREPARED_FOR_SPRINT_4_NOT_ACTIVE",
+  "framings": [
+    { "framingId": "GESTION_COMPETENCIA", "label": "Gestión / competencia", "rules": [] },
+    { "framingId": "CRISIS_CONFLICTO", "label": "Crisis / conflicto", "rules": [] },
+    { "framingId": "CORRUPCION_ESCANDALO", "label": "Corrupción / escándalo", "rules": [] },
+    { "framingId": "NEGOCIACION_BLOQUEO", "label": "Negociación / bloqueo", "rules": [] },
+    { "framingId": "IMPACTO_ECONOMICO", "label": "Impacto económico", "rules": [] },
+    { "framingId": "LEGITIMIDAD_INSTITUCIONAL", "label": "Legitimidad institucional", "rules": [] },
+    { "framingId": "SEGURIDAD_AMENAZA", "label": "Seguridad / amenaza", "rules": [] },
+    { "framingId": "DERECHOS_GARANTIAS", "label": "Derechos / garantías", "rules": [] },
+    { "framingId": "PROTESTA_MOVILIZACION", "label": "Protesta / movilización", "rules": [] }
+  ]
+}
