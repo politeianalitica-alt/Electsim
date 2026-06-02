@@ -43,6 +43,9 @@ import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_componen
 // (sustituidos por NarrativesFramingWorkbench en narrativas y TendenciasImpactoView en tendencias).
 // Se conservan en _components/ para evitar romper rutas legacy y por si se reusan en informes.
 import TopicPartyHeatmap from './_components/TopicPartyHeatmap'
+// Sprint 0.5 · observabilidad UI del pipeline canónico
+import { PipelineHealthBadge } from './_components/PipelineHealthBadge'
+import { SourceStatusPanel } from './_components/SourceStatusPanel'
 
 import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
 import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
@@ -486,6 +489,12 @@ export default function PrensaPage() {
               <MethodologyWarnings warnings={methodology.warnings} title="Sesgo de muestra detectado" />
             </div>
           )}
+
+          {/* Sprint 0.5 · observabilidad pipeline canónico (badge + fuentes) */}
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12, flexWrap: 'wrap' }}>
+            <PipelineHealthBadge />
+            <SourceStatusPanel />
+          </div>
 
           {/* Sub-nav 7 tabs */}
           <MediosTabsNav activeId={safeActiveTab} onTabChange={setActiveTab} />
