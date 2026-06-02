@@ -57,7 +57,7 @@ async function run() {
       'falta recompute-source-scores',
     )
     assert.ok(names.includes('otro-alert'), 'falta otro-alert')
-    assert.equal(JOBS.length, 3, `esperado 3 jobs, encontrado ${JOBS.length}`)
+    assert.equal(JOBS.length, 4, `esperado 4 jobs (3 base + topic-prominence-snapshot de Sprint 2 C3), encontrado ${JOBS.length}`)
   })
 
   await test('JOBS · cada entrada tiene shape Job (name + schedule + run)', () => {

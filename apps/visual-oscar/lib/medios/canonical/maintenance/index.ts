@@ -27,6 +27,7 @@
 import { cleanupClusters } from './cleanup-clusters.ts'
 import { recomputeSourceScores } from './recompute-source-scores.ts'
 import { otroAlert } from './otro-alert.ts'
+import { computeAndWriteSnapshot } from '../scoring/snapshot-writer.ts'
 
 export interface JobResult {
   job: string
@@ -43,17 +44,69 @@ export interface Job {
   run: () => Promise<JobResult>
 }
 
+// Lista hardcodeada de topicIds para el snapshot de prominence (C3). Coincide
+// con `data/medios/topic-rules.json` salvo OTRO (placeholder ruidoso que no
+// merece snapshot horario). C5 puede sustituir esto por un loader del
+// catálogo si la taxonomía crece.
+const TOPIC_IDS_FOR_SNAPSHOT = [
+  'POLITICA_INSTITUCIONAL',
+  'PARLAMENTO',
+  'PARTIDOS',
+  'JUDICIAL',
+  'ECONOMIA',
+  'EMPLEO',
+  'VIVIENDA',
+  'ENERGIA',
+  'TERRITORIAL',
+  'INTERNACIONAL',
+  'UNION_EUROPEA',
+  'DEFENSA',
+  'SEGURIDAD',
+  'MIGRACION',
+  'SANIDAD',
+  'EDUCACION',
+  'MEDIO_AMBIENTE',
+  'TECNOLOGIA',
+  'COMUNICACION',
+  'SOCIEDAD',
+  'CRISIS',
+  'CORRUPCION',
+  'IBEREX_EMPRESAS',
+  'SINDICAL_PATRONAL',
+] as const
+
+async function topicProminenceSnapshot(): Promise<JobResult> {
+  const t0 = Date.now()
+  const errors: string[] = []
+  let processed = 0
+  try {
+    const result = await computeAndWriteSnapshot([...TOPIC_IDS_FOR_SNAPSHOT], '24h')
+    processed = result.processed
+    errors.push(...result.errors)
+  } catch (e: unknown) {
+    errors.push(String((e as Error)?.message ?? e))
+  }
+  return {
+    job: 'topic-prominence-snapshot',
+    durationMs: Date.now() - t0,
+    itemsProcessed: processed,
+    errors,
+  }
+}
+
 export const JOBS: Job[] = [
   { name: 'cleanup-clusters', schedule: 'hourly', run: cleanupClusters },
   { name: 'recompute-source-scores', schedule: 'daily', run: recomputeSourceScores },
   { name: 'otro-alert', schedule: '6hourly', run: otroAlert },
+  // Sprint 2 C3: snapshot horario de prominence por topic (vol + momentum).
+  // C4 añadirá diversity/tier/entity_density; C5 derivará TopicState real.
+  { name: 'topic-prominence-snapshot', schedule: 'hourly', run: topicProminenceSnapshot },
   // SPRINT_2_REGISTER_HERE:
   //   { name: 'unmapped-tags',         schedule: '6hourly',  run: unmappedTagsJob },
   //   { name: 'terms-not-classified',  schedule: '12hourly', run: termsNotClassifiedJob },
   //   { name: 'classifier-metrics',    schedule: 'daily',    run: classifierMetricsJob },
   // SPRINT_4_REGISTER_HERE (requerirá extender Schedule con 'quarter-hourly' |
   // 'half-hourly' + cambiar el cron de Vercel a "*/15 * * * *"):
-  //   { name: 'topic-prominence',      schedule: 'quarter-hourly', run: topicProminenceJob },
   //   { name: 'narrative-detection',   schedule: 'half-hourly',    run: narrativeDetectionJob },
 ]
 
