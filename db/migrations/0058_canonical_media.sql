@@ -33,8 +33,19 @@ ALTER TABLE article
   ADD COLUMN IF NOT EXISTS entities JSONB DEFAULT '[]'::jsonb,
   ADD COLUMN IF NOT EXISTS canonical_url TEXT;
 
--- Backfill canonical_url desde url existente
-UPDATE article SET canonical_url = url WHERE canonical_url IS NULL;
+-- Backfill canonical_url desde url legacy
+-- En el schema legacy (migración 0012) la columna se llamó `url_canonical`.
+-- Si en algún despliegue antiguo se llamó `url`, también lo cubrimos.
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns
+             WHERE table_name='article' AND column_name='url_canonical') THEN
+    UPDATE article SET canonical_url = url_canonical WHERE canonical_url IS NULL;
+  ELSIF EXISTS (SELECT 1 FROM information_schema.columns
+                WHERE table_name='article' AND column_name='url') THEN
+    EXECUTE 'UPDATE article SET canonical_url = url WHERE canonical_url IS NULL';
+  END IF;
+END $$;
 
 -- Constraints (solo si no existen ya)
 DO $$
