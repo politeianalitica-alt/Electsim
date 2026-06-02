@@ -350,15 +350,28 @@ let shipsCache: { ships: any[]; counts: ShipCounts; source: string } | null = nu
 let shipsCacheTime = 0;
 let shipsInflight: Promise<{ ships: any[]; counts: ShipCounts; source: string }> | null = null;
 const SHIPS_TTL = 20000;
+// Circuit breaker: si aisstream falla (p.ej. key inválida), no reintentamos el
+// WebSocket en cada cache-miss durante este tiempo (evita ~4s de latencia inútil).
+let aisFailedUntil = 0;
+const AIS_COOLDOWN = 300000; // 5 min
 
 async function getShips() {
   const now = Date.now();
   if (shipsCache && now - shipsCacheTime < SHIPS_TTL) return shipsCache;
   if (shipsInflight) return shipsInflight;
   shipsInflight = (async () => {
-    let res = await fetchShipsAisStream();
-    let source = 'aisstream.io (cobertura global)';
-    if (!res || res.ships.length < 50) {
+    let res: { ships: any[]; counts: ShipCounts } | null = null;
+    let source = '';
+    if (Date.now() >= aisFailedUntil) {
+      const ais = await fetchShipsAisStream();
+      if (ais && ais.ships.length >= 50) {
+        res = ais;
+        source = 'aisstream.io (cobertura global)';
+      } else {
+        aisFailedUntil = Date.now() + AIS_COOLDOWN; // marca el fallo; usa fallback un rato
+      }
+    }
+    if (!res) {
       res = await fetchShipsDigitraffic();
       source = 'Digitraffic / Fintraffic AIS (Báltico / Mar del Norte)';
     }
