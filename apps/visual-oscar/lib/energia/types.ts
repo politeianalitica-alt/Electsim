@@ -82,6 +82,109 @@ export interface H2Project {
   horizonte: number
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// Ember (electricidad global) · Sprint Energía S2
+//
+// Tipos del cliente `lib/ember/client.ts` que consume la API REST de Ember
+// Energy (api.ember-energy.org/v1). Se mantienen planos para poder usarse
+// tanto en route handlers como en componentes cliente y tests Node.
+//
+// API real (confirmada vía WebFetch del OpenAPI · 2026-06-02):
+//   - Base: https://api.ember-energy.org/v1
+//   - Auth: query param `api_key=<EMBER_API_KEY>` (NO header). Sin key → 403.
+//   - Envelope: { stats: {...}, data: [ {...registro} ] }
+//   - Granularidad: /yearly y /monthly por endpoint. `date` = "YYYY" o "YYYY-MM".
+//   - Registro generación: entity, entity_code, is_aggregate_entity, date,
+//       series, is_aggregate_series, generation_twh, share_of_generation_pct
+//   - Registro intensidad: entity, entity_code, is_aggregate_entity, date,
+//       emissions_intensity_gco2_per_kwh
+//   - Registro capacidad: entity, entity_code, is_aggregate_entity, date,
+//       series, is_aggregate_series, capacity_gw, capacity_w_per_capita
+//   - Registro demanda: entity, entity_code, is_aggregate_entity, date,
+//       demand_twh, (demand_mwh_per_capita en yearly)
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Resolución temporal soportada por los datasets Ember. */
+export type EmberResolution = 'yearly' | 'monthly'
+
+/** Una fila de generación por fuente para una entidad/fecha. */
+export interface EmberGenerationRow {
+  /** Fuente / combustible (ej. "Wind", "Solar", "Coal", "Nuclear"). */
+  series: string
+  /** Generación absoluta en TWh (puede ser null en la fuente). */
+  generation_twh: number | null
+  /** Cuota sobre la generación total del periodo, en % (puede ser null). */
+  share_of_generation_pct: number | null
+}
+
+/** Generación eléctrica de un país/entidad para un periodo (fuentes + total). */
+export interface EmberGeneration {
+  /** Nombre de la entidad tal como lo devuelve Ember (ej. "Spain"). */
+  entity: string
+  /** Código ISO-3 (ej. "ESP") si Ember lo provee. */
+  entity_code: string | null
+  /** Periodo del dato más reciente usado ("YYYY" o "YYYY-MM"). */
+  date: string
+  /** Resolución temporal de la consulta. */
+  resolution: EmberResolution
+  /** Desglose por fuente, ordenado de mayor a menor generación. */
+  by_source: EmberGenerationRow[]
+  /** Suma de generación de todas las fuentes (TWh). */
+  total_twh: number
+  /** % renovable agregado (eólica+solar+hidro+bio+otras renovables). */
+  renewable_pct: number
+  /** % limpio agregado (renovables + nuclear · definición Ember "clean"). */
+  clean_pct: number
+  /** % fósil agregado (carbón+gas+petróleo+otros fósiles). */
+  fossil_pct: number
+}
+
+/** Intensidad de carbono de la generación eléctrica de una entidad. */
+export interface EmberCarbonIntensity {
+  entity: string
+  entity_code: string | null
+  /** Periodo del dato ("YYYY" o "YYYY-MM"). */
+  date: string
+  resolution: EmberResolution
+  /** Intensidad en gramos de CO2 por kWh (null si no disponible). */
+  gco2_per_kwh: number | null
+}
+
+/** Perfil energético completo de un país (mix + emisiones + demanda). */
+export interface EmberCountryProfile {
+  entity: string
+  entity_code: string | null
+  /** Último año con datos de mix. */
+  latest_year: string | null
+  /** Mix de generación del último año (fuentes + agregados). */
+  generation: EmberGeneration | null
+  /** Intensidad de carbono más reciente. */
+  carbon_intensity: EmberCarbonIntensity | null
+  /** Demanda eléctrica del último año disponible (TWh). */
+  demand_twh: number | null
+  /** Demanda per cápita (MWh/persona) del último año, si disponible. */
+  demand_mwh_per_capita: number | null
+  /** Serie histórica de % renovable por año (orden ascendente). */
+  renewable_trend: Array<{ year: string; renewable_pct: number; total_twh: number }>
+}
+
+/**
+ * Envoltura de degradación común a todas las respuestas del cliente Ember.
+ * Patrón Politeia (ver `lib/esios/client.ts`): nunca lanza; ante fallo o key
+ * ausente devuelve `{ ok: false, error, fetched_at }`.
+ */
+export interface EmberResponse<T> {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: T
+  /** ISO timestamp del momento de la petición. */
+  fetched_at: string
+  /** URL pública de Ember para citar la fuente en la UI. */
+  source_url?: string
+}
+
 /** Empresa del sector energético (española o major global). */
 export interface EnergyCompany {
   /** Slug estable para rutas /sector-energia/empresas/[slug] (S9). */
