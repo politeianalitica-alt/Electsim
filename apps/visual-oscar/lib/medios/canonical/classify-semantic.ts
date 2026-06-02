@@ -134,20 +134,25 @@ export function semanticResultToTopicTag(result: {
 }
 
 /**
- * Factory · selecciona el cliente LLM en runtime según
- * `FLAGS.MEDIOS_LLM_CLASSIFIER`. Sprint 2 C1 (2026-06-02).
+ * Factory que construye el cliente LLM apropiado según
+ * `FLAGS.MEDIOS_LLM_CLASSIFIER`. Cuando no se inyecta
+ * `options.semanticClient` en `processArticle()`, este factory se llama
+ * como default (Sprint 2 C2, 2026-06-02 — primer caller). Los callers
+ * explícitos (endpoint, cron, tests) pueden seguir construyendo su
+ * propio cliente y pasándolo por `ProcessOptions.semanticClient` para
+ * tener control fino sobre cache, rate-limit o testing.
  *
  * Esquema:
- *  - 'gemini'   → GeminiProductionClient (lib/ai/gemini-client.ts) ·
- *                 fallback a StubLlmClient si GEMINI_API_KEY no está.
- *  - 'groq'     → GroqProductionClient · fallback Stub si GROQ_API_KEY no está.
+ *  - 'gemini'   → GeminiProductionClient · fallback a StubLlmClient si
+ *                 GEMINI_API_KEY no está configurada (warn).
+ *  - 'groq'     → GroqProductionClient · fallback a StubLlmClient si
+ *                 GROQ_API_KEY no está configurada (warn).
  *  - 'ollama'   → OllamaLlmClient (dev) · siempre disponible.
- *  - 'disabled' → StubLlmClient.
+ *  - 'disabled' → StubLlmClient (no-op, devuelve null para cada item).
  *
- * NOTA: este factory NO se llama desde processArticle(). El caller
- * (endpoint o cron) construye su cliente y lo pasa via
- * `ProcessOptions.semanticClient`. Esta función centraliza el cableado
- * para que todas las llamadas usen el provider correcto.
+ * Si `MEDIOS_LLM_CLASSIFIER='disabled'`, devuelve `StubLlmClient`.
+ * Si el API key del provider falta, también degrada a `StubLlmClient`
+ * con warning en stdout (graceful degradation; no crashea la ingesta).
  *
  * I2 fix (2026-06-02): usa `FLAGS.MEDIOS_LLM_CLASSIFIER` (validado vía
  * `readClassifier()` en feature-flags.ts) en lugar de leer `process.env`

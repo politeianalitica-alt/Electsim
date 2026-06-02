@@ -34,11 +34,22 @@ function readClassifier(): LlmClassifierProvider {
     : 'ollama'
 }
 
+/**
+ * `MEDIOS_LLM_CLASSIFIER` se expone como getter (lazy) para que cualquier
+ * cambio en `process.env.MEDIOS_LLM_CLASSIFIER` en runtime tenga efecto
+ * inmediato (necesario en tests que toggle el flag para ejercitar
+ * `createLlmClient()` sin reimportar módulos). El resto de flags
+ * (`USE_CANONICAL_*`) son client-side estáticos: se inyectan en build
+ * time via NEXT_PUBLIC_ y no cambian durante el ciclo de vida del
+ * proceso, así que se mantienen como valores frozen.
+ */
 export const FLAGS = {
   USE_CANONICAL_PULSO: process.env.NEXT_PUBLIC_USE_CANONICAL_PULSO === 'true',
   USE_CANONICAL_NARRATIVAS: process.env.NEXT_PUBLIC_USE_CANONICAL_NARRATIVAS === 'true',
   USE_CANONICAL_MAPAS: process.env.NEXT_PUBLIC_USE_CANONICAL_MAPAS === 'true',
-  MEDIOS_LLM_CLASSIFIER: readClassifier(),
+  get MEDIOS_LLM_CLASSIFIER(): LlmClassifierProvider {
+    return readClassifier()
+  },
 } as const
 
 export type FeatureFlags = typeof FLAGS

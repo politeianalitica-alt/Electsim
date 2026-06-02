@@ -18,6 +18,15 @@ export interface MetricsAccumulator {
   classificationByMethod: Record<ClassificationMethod, number>
   classificationConfidence: { high: number; mid: number; low: number }
   otroCount: number
+  /**
+   * I5 fix (Sprint 2 C2 review, 2026-06-02): conteo de artículos donde
+   * Layer 3 (SEMANTIC LLM) lanzó error y se capturó en el try/catch
+   * interno del pipeline (provider outage, circuit breaker open, etc.).
+   * Distinto de `classificationByMethod.FALLBACK`, que también incluye
+   * casos donde L3 devolvió null sin errores. C9 lo consume para
+   * reportar tasa real de outages de Gemini/Groq.
+   */
+  semanticErrors: number
 }
 
 export function createAccumulator(): MetricsAccumulator {
@@ -41,6 +50,7 @@ export function createAccumulator(): MetricsAccumulator {
     },
     classificationConfidence: { high: 0, mid: 0, low: 0 },
     otroCount: 0,
+    semanticErrors: 0,
   }
 }
 
@@ -53,9 +63,14 @@ export function recordOutcome(
     confidence?: number
     topicId?: string
     hasEntities?: boolean
+    semanticErrored?: boolean
   },
 ): void {
   acc.fetchedTotal++
+  // I5 fix: contabilizar L3 outage independientemente del status final
+  // (un L3 que erroró sigue produciendo status=success con FALLBACK; sin
+  // este contador la métrica clave se perdería).
+  if (outcome.semanticErrored) acc.semanticErrors++
   if (outcome.status === 'duplicate') {
     // distinguir exact vs titular: caller pasa failedStep='dedupe_exact' or 'dedupe_titular'
     if (outcome.failedStep === 'dedupe_exact') acc.duplicatesExact++
