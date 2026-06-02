@@ -31,6 +31,7 @@ import { ElectricoView } from './ElectricoView'
 import { VisionGlobalView } from './VisionGlobalView'
 import { RenovablesView } from './RenovablesView'
 import { NuclearView } from './NuclearView'
+import { PetroleoView } from './PetroleoView'
 import type { EnergiaTipo } from '@/lib/energia/types'
 
 const ACCENT = '#16A34A'
@@ -118,7 +119,9 @@ export default function EnergiaShell() {
               ? <RenovablesView />
               : activo.id === 'nuclear'
                 ? <NuclearView />
-                : <EnergiaComingSoon tipo={activo} />}
+                : activo.id === 'petroleo'
+                  ? <PetroleoView />
+                  : <EnergiaComingSoon tipo={activo} />}
  </main>
  </div>
   )

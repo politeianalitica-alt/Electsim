@@ -319,6 +319,129 @@ export interface SubastaRenovable {
   observacion: string
 }
 
+/**
+ * Dependencia de importación de crudo de España · Sprint Energía S7.
+ *
+ * España importa la práctica totalidad del crudo que consume (no tiene
+ * producción doméstica relevante). Los datos de orígenes provienen de la
+ * estadística de aprovisionamiento de crudo de CORES (Corporación de Reservas
+ * Estratégicas de Productos Petrolíferos) / MITECO.
+ */
+export interface PetroleoOrigen {
+  /** País de origen del crudo importado. */
+  pais: string
+  /** Cuota aproximada sobre el total de crudo importado, en %. */
+  cuota_pct: number
+}
+
+/** Resumen de dependencia petrolera de España (catálogo CORES/MITECO). */
+export interface PetroleoDependencia {
+  /** % del crudo consumido que se importa (≈99%, sin producción doméstica). */
+  dependencia_importacion_pct: number
+  /** Año de referencia de los datos. */
+  ano_ref: number
+  /** Principales países de origen del crudo, ordenados por cuota descendente. */
+  origenes: PetroleoOrigen[]
+  /** Fuente citada. */
+  fuente: string
+  /** URL pública de la fuente. */
+  fuente_url: string
+  /** Notas de contexto (chokepoints, diversificación, etc.). */
+  nota: string
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Commodities energía con SERIES · Sprint Energía S7
+//
+// Tipos del cliente `lib/energia/commodities.ts`, que extiende el patrón
+// commodities existente (`lib/commodities-yahoo-seed.ts`,
+// `lib/nasdaq/data-link.ts`) para energía con SERIES históricas (no solo
+// spot). Se mantienen planos para usarse en route handlers, componentes
+// cliente y tests Node (--experimental-strip-types).
+//
+// Fuentes en cascada (la primera que responda gana):
+//   1. Alpha Vantage commodity functions (BRENT, WTI, NATURAL_GAS) → serie
+//      diaria/mensual. Rate-limit 25 req/día → caché agresiva 1h.
+//   2. Nasdaq Data Link (OPEC/ORB para la cesta OPEP) → serie diaria.
+//   3. Yahoo Finance chart (BZ=F, CL=F, NG=F, RB=F, HO=F) → serie diaria
+//      larga (3 meses) vía el patrón existente.
+//
+// Degradación honesta (CLAUDE.md): nunca lanza; ante fallo de todas las
+// fuentes devuelve `{ ok:false, error }`. Cada serie cita su fuente.
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Identificador estable de un commodity energético. */
+export type EnergyCommoditySymbol =
+  | 'brent'
+  | 'wti'
+  | 'opec'
+  | 'henry-hub'
+  | 'ttf'
+  | 'gasolina'
+  | 'diesel'
+
+/** Fuente real de la que provino la serie de un commodity energético. */
+export type EnergyCommoditySource = 'alpha_vantage' | 'nasdaq_data_link' | 'yahoo_finance'
+
+/** Un punto de una serie temporal de commodity (cierre del día). */
+export interface EnergyCommodityPoint {
+  /** Fecha ISO 'YYYY-MM-DD'. */
+  date: string
+  /** Valor de cierre en la unidad del commodity. */
+  value: number
+}
+
+/**
+ * Serie histórica + spot de un commodity energético.
+ *
+ * `latest` es el último punto disponible; `change_24h`/`change_7d`/`change_30d`
+ * son variaciones porcentuales calculadas con `computeChange()` sobre `series`
+ * (cronológica ascendente). Cualquiera puede ser `null` si no hay puntos
+ * suficientes en la ventana.
+ */
+export interface EnergyCommoditySeries {
+  symbol: EnergyCommoditySymbol
+  /** Nombre legible (ej. "Brent"). */
+  name: string
+  /** Unidad de cotización (ej. "USD/bbl", "USD/MMBtu", "USD/gal"). */
+  unit: string
+  /** Moneda de cotización (ISO ej. "USD", "EUR"). */
+  currency: string
+  /** Último valor disponible (spot/cierre más reciente), null si sin datos. */
+  latest: number | null
+  /** Fecha del último valor (ISO 'YYYY-MM-DD'), null si sin datos. */
+  latest_date: string | null
+  /** Variación % a 24h (último vs anterior punto), null si insuficiente. */
+  change_24h: number | null
+  /** Variación % a 7 días naturales, null si insuficiente. */
+  change_7d: number | null
+  /** Variación % a 30 días naturales, null si insuficiente. */
+  change_30d: number | null
+  /** Serie histórica cronológica ascendente (más antigua → más reciente). */
+  series: EnergyCommodityPoint[]
+  /** Fuente real de la que provino la serie. */
+  source: EnergyCommoditySource
+  /** Etiqueta legible de la fuente para citar en la UI. */
+  source_label: string
+  /** URL pública de la fuente para el badge. */
+  source_url: string
+}
+
+/**
+ * Envoltura de degradación común al cliente de commodities energía.
+ * Patrón Politeia: nunca lanza; ante fallo de todas las fuentes en cascada
+ * devuelve `{ ok:false, error, fetched_at }`.
+ */
+export interface EnergyCommodityResponse {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: EnergyCommoditySeries
+  /** ISO timestamp del momento de la petición (o cache hit). */
+  fetched_at: string
+}
+
 /** Empresa del sector energético (española o major global). */
 export interface EnergyCompany {
   /** Slug estable para rutas /sector-energia/empresas/[slug] (S9). */

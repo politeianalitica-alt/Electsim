@@ -25,6 +25,7 @@ import type {
   H2Project,
   EnergyCompany,
   SubastaRenovable,
+  PetroleoDependencia,
 } from './types'
 
 // ────────────────────────────────────────────────────────────────────
@@ -674,3 +675,43 @@ export const EMPRESAS_ENERGIA: EnergyCompany[] = [
     es_espanola: false,
   },
 ]
+
+// ────────────────────────────────────────────────────────────────────
+// DEPENDENCIA PETROLERA DE ESPAÑA · Sprint Energía S7
+// ────────────────────────────────────────────────────────────────────
+// España carece de producción doméstica de crudo relevante (el yacimiento
+// de Casablanca, frente a Tarragona, aporta cantidades testimoniales): se
+// importa la práctica totalidad del crudo que se refina. La estadística de
+// aprovisionamiento de crudo de CORES (Corporación de Reservas Estratégicas
+// de Productos Petrolíferos, dependiente del MITECO) publica mensualmente el
+// desglose por país de origen.
+//
+// Las cuotas varían mes a mes según contratos spot y disrupciones (p. ej.
+// el embargo a Rusia desde 2022 reordenó los orígenes: subieron EE. UU.,
+// Brasil, Nigeria, México y Arabia Saudí). Los valores aquí son una foto
+// representativa de los últimos datos anuales agregados de CORES; deben
+// leerse como orden de magnitud, no como cifra exacta del mes corriente.
+// Fuente: CORES · "Estadística de aprovisionamiento de crudo".
+export const PETROLEO_DEPENDENCIA_ES: PetroleoDependencia = {
+  dependencia_importacion_pct: 99,
+  ano_ref: 2024,
+  origenes: [
+    { pais: 'México', cuota_pct: 13 },
+    { pais: 'Estados Unidos', cuota_pct: 12 },
+    { pais: 'Nigeria', cuota_pct: 11 },
+    { pais: 'Brasil', cuota_pct: 10 },
+    { pais: 'Arabia Saudí', cuota_pct: 9 },
+    { pais: 'Libia', cuota_pct: 7 },
+    { pais: 'Angola', cuota_pct: 5 },
+    { pais: 'Kazajistán', cuota_pct: 5 },
+    { pais: 'Irak', cuota_pct: 4 },
+    { pais: 'Resto', cuota_pct: 24 },
+  ],
+  fuente: 'CORES · Estadística de aprovisionamiento de crudo (MITECO).',
+  fuente_url: 'https://www.cores.es/es/estadisticas',
+  nota: 'España importa ~99% del crudo que consume; sin producción doméstica significativa. ' +
+    'La diversificación por orígenes (>15 países) reduce la exposición a un proveedor único, ' +
+    'pero el grueso de los flujos atlánticos y mediterráneos depende de chokepoints como el ' +
+    'estrecho de Ormuz (golfo Pérsico) y el canal de Suez. El embargo a Rusia (2022) elevó la ' +
+    'cuota de EE. UU., Brasil, Nigeria y México.',
+}

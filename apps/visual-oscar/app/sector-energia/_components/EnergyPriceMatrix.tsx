@@ -6,16 +6,17 @@
  *   - Electricidad spot OMIE   · ESIOS 600   (real)
  *   - PVPC tarifa regulada     · ESIOS 1001  (real)
  *   - CO2 · derecho EUA        · ESIOS 1339  (real)
- *   - Petróleo Brent           · commodities Yahoo (real · solo nivel + 24h)
- *   - Petróleo WTI             · commodities Yahoo (real · solo nivel + 24h)
- *   - Gas natural Henry Hub    · commodities Yahoo (real · solo nivel + 24h)
- *   - Gas TTF (hub europeo)    · pendiente S7/S8 (empty-state "—")
+ *   - Petróleo Brent           · /api/energia/commodities (S7 · serie real 90d)
+ *   - Petróleo WTI             · /api/energia/commodities (S7 · serie real 90d)
+ *   - Gas natural Henry Hub    · /api/energia/commodities (S7 · serie real 90d)
+ *   - Gas TTF (hub europeo)    · sin fuente gratuita fiable (empty-state "—")
  *
  * Columnas: nivel actual · variación 24h · 7d · 30d · sparkline. Cada fila cita
  * su fuente. Los datos eléctricos (ESIOS) traen sparkline real de 24h y var 24h;
  * 7d/30d no están en la ventana del snapshot ESIOS → se marcan "—" honestamente.
- * Los commodities (snapshot-all standalone) solo exponen nivel + var 24h; sus
- * 7d/30d/sparkline quedan "—" hasta que S7/S8 conecte series históricas reales.
+ * Los commodities energía ahora traen SERIE real (S7 · cascada Alpha Vantage →
+ * Nasdaq DL → Yahoo): nivel + var 24h/7d/30d + sparkline desde la serie. TTF
+ * sigue "—" porque no hay fuente gratuita fiable (ver lib/energia/commodities).
  *
  * Degradación honesta (CLAUDE.md): nunca se inventan valores. Cero emojis.
  */
@@ -42,17 +43,30 @@ interface EsiosSnapshotResp {
   ok: boolean
   indicators: Record<string, EsiosIndicator>
 }
-interface CommoditySnapshot {
-  slug: string
-  name: string
-  last_price: number | null
-  change_pct: number | null
-  currency?: string | null
-  unit?: string
-  available?: boolean
+// ── Respuesta del cliente de commodities energía S7 (serie real) ────────────
+interface EnergyCommodityPoint {
+  date: string
+  value: number
 }
-interface SnapshotAllResp {
-  items: CommoditySnapshot[]
+interface EnergyCommoditySeries {
+  symbol: string
+  name: string
+  unit: string
+  latest: number | null
+  change_24h: number | null
+  change_7d: number | null
+  change_30d: number | null
+  series: EnergyCommodityPoint[]
+  source_label: string
+  source_url: string
+}
+interface EnergyCommodityResponse {
+  ok: boolean
+  error?: string
+  data?: EnergyCommoditySeries
+}
+interface EnergiaCommoditiesResp {
+  data: Record<string, EnergyCommodityResponse>
 }
 
 // ── Fila normalizada de la matriz ────────────────────────────────────────────
@@ -92,15 +106,14 @@ export default function EnergyPriceMatrix() {
         fetch('/api/esios/snapshot', { cache: 'no-store' })
           .then((r) => (r.ok ? (r.json() as Promise<EsiosSnapshotResp>) : null))
           .catch(() => null),
-        fetch('/api/commodities/snapshot-all?category=energy', { cache: 'no-store' })
-          .then((r) => (r.ok ? (r.json() as Promise<SnapshotAllResp>) : null))
+        fetch('/api/energia/commodities?category=all&days=90', { cache: 'no-store' })
+          .then((r) => (r.ok ? (r.json() as Promise<EnergiaCommoditiesResp>) : null))
           .catch(() => null),
       ])
       if (!alive) return
 
       const ind = esios?.indicators ?? {}
-      const com = new Map<string, CommoditySnapshot>()
-      for (const c of commod?.items ?? []) com.set(c.slug, c)
+      const com = commod?.data ?? {}
 
       const esiosRow = (
         key: string,
@@ -125,27 +138,29 @@ export default function EnergyPriceMatrix() {
         }
       }
 
+      // S7 · commodities energía con SERIE real (nivel + 24h/7d/30d + sparkline).
       const commodRow = (
         key: string,
         label: string,
         vector: MatrixRow['vector'],
-        slug: string,
+        symbol: string,
         unit: string,
       ): MatrixRow => {
-        const c = com.get(slug)
+        const resp = com[symbol]
+        const s = resp?.ok ? resp.data : undefined
         return {
           key,
           label,
           vector,
-          unit,
-          level: c?.available ? c.last_price ?? null : null,
-          chg24: c?.change_pct ?? null,
-          chg7: null, // snapshot-all (standalone) no expone serie histórica
-          chg30: null,
-          spark: [], // sin serie en modo standalone → S7/S8 conecta OHLC real
-          source: 'Yahoo Finance',
-          sourceUrl: COMMOD_SOURCE,
-          pendingNote: c?.available ? undefined : 'sin dato ahora',
+          unit: s?.unit ?? unit,
+          level: s?.latest ?? null,
+          chg24: s?.change_24h ?? null,
+          chg7: s?.change_7d ?? null,
+          chg30: s?.change_30d ?? null,
+          spark: (s?.series ?? []).map((p) => p.value),
+          source: s ? sourceShort(s.source_label) : 'sin fuente',
+          sourceUrl: s?.source_url || COMMOD_SOURCE,
+          pendingNote: s ? undefined : resp?.error ?? 'sin dato ahora',
         }
       }
 
@@ -153,24 +168,12 @@ export default function EnergyPriceMatrix() {
         esiosRow('spot', 'Electricidad spot · OMIE', 'Electricidad', 'mercado_spot', '€/MWh'),
         esiosRow('pvpc', 'Electricidad PVPC · regulada', 'Electricidad', 'pvpc', '€/MWh'),
         esiosRow('eua', 'CO2 · derecho de emisión EUA', 'CO2', 'precio_co2_eua', '€/t'),
-        commodRow('brent', 'Petróleo Brent', 'Petróleo', 'crude-oil-brent', '$/bbl'),
-        commodRow('wti', 'Petróleo WTI', 'Petróleo', 'crude-oil-wti', '$/bbl'),
-        commodRow('henryhub', 'Gas natural · Henry Hub', 'Gas', 'natural-gas-henryhub', '$/MMBtu'),
-        // TTF no está en el catálogo de commodities actual · lo conecta S7/S8 (MIBGAS/TTF).
-        {
-          key: 'ttf',
-          label: 'Gas natural · TTF (hub UE)',
-          vector: 'Gas',
-          unit: '€/MWh',
-          level: null,
-          chg24: null,
-          chg7: null,
-          chg30: null,
-          spark: [],
-          source: 'pendiente',
-          sourceUrl: COMMOD_SOURCE,
-          pendingNote: 'pendiente S7/S8',
-        },
+        commodRow('brent', 'Petróleo Brent', 'Petróleo', 'brent', '$/bbl'),
+        commodRow('wti', 'Petróleo WTI', 'Petróleo', 'wti', '$/bbl'),
+        commodRow('henryhub', 'Gas natural · Henry Hub', 'Gas', 'henry-hub', '$/MMBtu'),
+        // TTF: sin fuente gratuita fiable (Alpha no lo expone, Nasdaq free no,
+        // Yahoo TTF=F inestable) → el endpoint degrada y mostramos "—" honesto.
+        commodRow('ttf', 'Gas natural · TTF (hub UE)', 'Gas', 'ttf', '€/MWh'),
       ]
       setRows(next)
       setLoading(false)
@@ -213,7 +216,7 @@ export default function EnergyPriceMatrix() {
           Matriz de precios de la energía
         </h2>
         <p style={{ margin: 0, fontSize: 11, color: '#6e6e73' }}>
-          Electricidad y CO2 en vivo (ESIOS) · crudo y gas (Yahoo) · TTF pendiente S7/S8
+          Electricidad y CO2 en vivo (ESIOS) · crudo y gas con serie real (Alpha Vantage · Nasdaq DL · Yahoo) · TTF sin fuente
         </p>
       </header>
 
@@ -305,8 +308,9 @@ export default function EnergyPriceMatrix() {
       </div>
 
       <p style={{ margin: '10px 0 0', fontSize: 10, color: '#9CA3AF', lineHeight: 1.5 }}>
-        Variación 7d/30d y serie histórica de crudo/gas se conectan en S7/S8 (series OHLC reales).
-        El snapshot ESIOS cubre la ventana de 24h; las variaciones a 7d/30d se marcan "—" hasta entonces.
+        Crudo (Brent/WTI) y gas (Henry Hub) traen serie histórica real (S7): nivel + variación 24h/7d/30d +
+        sparkline, vía cascada Alpha Vantage → Nasdaq Data Link → Yahoo. El snapshot ESIOS cubre solo la
+        ventana de 24h, por lo que electricidad/CO2 marcan "—" en 7d/30d. TTF no tiene fuente gratuita fiable.
       </p>
     </section>
   )
@@ -364,4 +368,12 @@ function tdStyle(align: 'left' | 'right'): React.CSSProperties {
 }
 function fmtNum(v: number): string {
   return v.toLocaleString('es-ES', { maximumFractionDigits: 2 })
+}
+
+// Etiqueta corta de fuente a partir del source_label largo del cliente S7.
+function sourceShort(label: string): string {
+  if (/alpha\s*vantage/i.test(label)) return 'Alpha Vantage'
+  if (/nasdaq/i.test(label)) return 'Nasdaq DL'
+  if (/yahoo/i.test(label)) return 'Yahoo Finance'
+  return label.split('·')[0].trim() || 'Fuente'
 }
