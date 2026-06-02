@@ -95,6 +95,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
     map.on('load', () => {
       mapRef.current = map;
+      if (typeof window !== 'undefined') (window as any).__osirisMap = map; // hook de depuración
       // Etiquetas del basemap vectorial (ciudades, países, mares) en español,
       // con respaldo al nombre latino y al local si no hay traducción.
       try {
@@ -121,6 +122,35 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       // Sources
       const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
+
+      // ── Ruta del vuelo seleccionado (al clicar un avión) ──
+      // line-gradient exige lineMetrics:true en la fuente.
+      map.addSource('flight-route', { type: 'geojson', lineMetrics: true, data: EMPTY_FC } as any);
+      map.addSource('flight-route-pts', { type: 'geojson', data: EMPTY_FC });
+      // Casing oscuro debajo, para que la línea resalte sobre cualquier fondo/puntos.
+      map.addLayer({ id: 'flight-route-casing', type: 'line', source: 'flight-route',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-width': ['interpolate',['linear'],['zoom'], 2,4, 6,6, 10,8.5],
+          'line-color': '#05070f', 'line-opacity': 0.55, 'line-blur': 1.2,
+        }});
+      // Color por feature: tramo recorrido (vívido) vs tramo restante (apagado).
+      map.addLayer({ id: 'flight-route-line', type: 'line', source: 'flight-route',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-width': ['interpolate',['linear'],['zoom'], 2,2, 6,3.2, 10,4.5],
+          'line-blur': 0.3,
+          'line-color': ['coalesce', ['get','color'], '#00E5FF'],
+        }});
+      map.addLayer({ id: 'flight-route-dest', type: 'circle', source: 'flight-route-pts',
+        filter: ['==',['get','kind'],'dest'],
+        paint: { 'circle-radius': 5, 'circle-color': 'rgba(255,255,255,0.25)', 'circle-stroke-width': 1.5, 'circle-stroke-color': 'rgba(255,255,255,0.55)' }});
+      map.addLayer({ id: 'flight-route-origin', type: 'circle', source: 'flight-route-pts',
+        filter: ['==',['get','kind'],'origin'],
+        paint: { 'circle-radius': 6, 'circle-color': '#00E5FF', 'circle-stroke-width': 2, 'circle-stroke-color': '#fff' }});
+      map.addLayer({ id: 'flight-route-label', type: 'symbol', source: 'flight-route-pts', minzoom: 3,
+        layout: { 'text-field': ['get','label'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.4], 'text-anchor': 'top', 'text-allow-overlap': false },
+        paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
       const createWarningIcon = (id: string, color: string) => {
@@ -478,21 +508,58 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'line-dasharray': [2, 4],
       }});
 
-      // Maritime Ships (moving entities) — color por tipo de buque (AIS shipType)
+      // Maritime Ships — estilo MarineTraffic: flechas direccionales por tipo
+      const SHIP_TYPE_COLORS: Record<string,string> = { cargo:'#00BCD4', tanker:'#FF9500', passenger:'#B388FF', fishing:'#4DB6AC', tug:'#A1887F', highspeed:'#FF4081', military:'#FF1744', other:'#90A4AE' };
       const shipColorExpr: any = ['match', ['get','type'],
         'cargo','#00BCD4', 'tanker','#FF9500', 'passenger','#B388FF', 'fishing','#4DB6AC',
         'tug','#A1887F', 'highspeed','#FF4081', 'military','#FF1744', /* other */ '#90A4AE'];
-      map.addLayer({ id: 'ship-dots', type: 'circle', source: 'maritime-ships', paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 1,2, 5,4, 10,6],
-        'circle-color': shipColorExpr,
-        'circle-opacity': 0.85,
-        'circle-stroke-width': ['case', ['==', ['get','moored'], true], 1.2, 0],
-        'circle-stroke-color': 'rgba(255,255,255,0.55)',
-      }});
-      map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 6, layout: {
+      // Genera un icono de flecha (apuntando al norte) por cada tipo; icon-rotate la orienta al rumbo.
+      const makeShipArrow = (color: string) => {
+        const s = 24; const cv = document.createElement('canvas'); cv.width = s; cv.height = s;
+        const ctx = cv.getContext('2d')!;
+        ctx.translate(s/2, s/2);
+        ctx.beginPath();
+        ctx.moveTo(0, -9); ctx.lineTo(6, 8); ctx.lineTo(0, 4); ctx.lineTo(-6, 8); ctx.closePath();
+        ctx.fillStyle = color; ctx.fill();
+        ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(0,0,0,0.6)'; ctx.stroke();
+        return ctx.getImageData(0, 0, s, s);
+      };
+      for (const [t, col] of Object.entries(SHIP_TYPE_COLORS)) {
+        const id = 'ship-arrow-' + t;
+        try { if (!map.hasImage(id)) map.addImage(id, makeShipArrow(col), { pixelRatio: 2 }); } catch { /* noop */ }
+      }
+      const shipArrowImg: any = ['match', ['get','type'],
+        'cargo','ship-arrow-cargo', 'tanker','ship-arrow-tanker', 'passenger','ship-arrow-passenger',
+        'fishing','ship-arrow-fishing', 'tug','ship-arrow-tug', 'highspeed','ship-arrow-highspeed',
+        'military','ship-arrow-military', /* other */ 'ship-arrow-other'];
+      // Barcos en movimiento → flecha orientada al rumbo
+      map.addLayer({ id: 'ship-arrows', type: 'symbol', source: 'maritime-ships',
+        filter: ['>', ['get','speed'], 0.5],
+        layout: {
+          'icon-image': shipArrowImg,
+          'icon-rotate': ['coalesce', ['get','heading'], 0],
+          'icon-rotation-alignment': 'map',
+          'icon-allow-overlap': true, 'icon-ignore-placement': true,
+          'icon-size': ['interpolate',['linear'],['zoom'], 2,0.45, 6,0.7, 11,1.0, 14,1.3],
+        }});
+      // Barcos parados (fondeados / amarrados) → punto
+      map.addLayer({ id: 'ship-dots', type: 'circle', source: 'maritime-ships',
+        filter: ['<=', ['get','speed'], 0.5],
+        paint: {
+          'circle-radius': ['interpolate',['linear'],['zoom'], 1,1.6, 5,3, 10,5],
+          'circle-color': shipColorExpr,
+          'circle-opacity': 0.85,
+          'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
+        }});
+      map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 8, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
-        'text-offset': [0, 1.2], 'text-allow-overlap': false,
+        'text-offset': [0, 1.3], 'text-allow-overlap': false,
       }, paint: { 'text-color': shipColorExpr, 'text-halo-color': '#000', 'text-halo-width': 1 }});
+
+      // Sube la ruta de vuelo por encima del resto (si no, queda tapada por puntos/barcos/CCTV).
+      ['flight-route-casing','flight-route-line','flight-route-dest','flight-route-origin','flight-route-label'].forEach(id => {
+        try { map.moveLayer(id); } catch { /* noop */ }
+      });
 
       setMapReady(true);
     });
@@ -513,17 +580,83 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     const popup = (coords: any, html: string) => {
       popupRef.current?.remove();
       popupRef.current = new maplibregl.Popup({ closeButton: true, maxWidth: '420px', offset: 14 }).setLngLat(coords).setHTML(html).addTo(map);
+      // Al cerrar el popup, borra la ruta de vuelo (si la había).
+      popupRef.current.on('close', () => {
+        try { (map.getSource('flight-route') as any)?.setData(EMPTY_FC); (map.getSource('flight-route-pts') as any)?.setData(EMPTY_FC); } catch { /* noop */ }
+      });
     };
     const pStyle = `background:rgba(12,14,26,0.95);backdrop-filter:blur(16px);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;`;
     const linkStyle = `display:inline-block;margin-top:8px;padding:5px 12px;font-size:10px;letter-spacing:0.12em;text-decoration:none;border-radius:5px;font-family:'JetBrains Mono',monospace;`;
 
+    // ── Ruta de vuelo: helpers de círculo máximo + dibujado ──
+    const _toRad = (d: number) => d * Math.PI / 180;
+    const _toDeg = (r: number) => r * 180 / Math.PI;
+    const gcDist = (a: number[], b: number[]) => { // distancia angular (rad)
+      const la1 = _toRad(a[1]), la2 = _toRad(b[1]), dLa = _toRad(b[1]-a[1]), dLo = _toRad(b[0]-a[0]);
+      const h = Math.sin(dLa/2)**2 + Math.cos(la1)*Math.cos(la2)*Math.sin(dLo/2)**2;
+      return 2 * Math.asin(Math.min(1, Math.sqrt(h)));
+    };
+    const gcLine = (a: number[], b: number[], n: number): number[][] => { // [lng,lat]
+      const la1 = _toRad(a[1]), lo1 = _toRad(a[0]), la2 = _toRad(b[1]), lo2 = _toRad(b[0]);
+      const d = gcDist(a, b);
+      if (d < 1e-9) return [a, b];
+      const out: number[][] = [];
+      for (let i = 0; i <= n; i++) {
+        const f = i / n;
+        const A = Math.sin((1-f)*d) / Math.sin(d), B = Math.sin(f*d) / Math.sin(d);
+        const x = A*Math.cos(la1)*Math.cos(lo1) + B*Math.cos(la2)*Math.cos(lo2);
+        const y = A*Math.cos(la1)*Math.sin(lo1) + B*Math.cos(la2)*Math.sin(lo2);
+        const z = A*Math.sin(la1) + B*Math.sin(la2);
+        out.push([_toDeg(Math.atan2(y, x)), _toDeg(Math.atan2(z, Math.sqrt(x*x + y*y)))]);
+      }
+      return out;
+    };
+    // [vívido, apagado] en HEX — line-color data-driven NO acepta rgba() de propiedades, sí hex.
+    const FLIGHT_ROUTE_HEX: Record<string,[string,string]> = { commercial:['#00E5FF','#0B5E6B'], private:['#00E676','#0A5E32'], jet:['#FF69B4','#6B2C4B'], military:['#FF1744','#6B0A1C'] };
+    const clearFlightRoute = () => {
+      try { (map.getSource('flight-route') as any)?.setData(EMPTY_FC); (map.getSource('flight-route-pts') as any)?.setData(EMPTY_FC); } catch { /* noop */ }
+    };
+    let routeReq = 0;
+    const drawFlightRoute = async (callsign: string, plane: number[], category: string) => {
+      clearFlightRoute();
+      const cs = (callsign || '').trim();
+      if (!cs) return;
+      const reqId = ++routeReq;
+      let data: any = null;
+      try {
+        const r = await fetch(`/api/osiris/flight-route?callsign=${encodeURIComponent(cs)}`);
+        if (r.ok) data = await r.json();
+      } catch { /* noop */ }
+      if (reqId !== routeReq) return;          // otro avión clicado mientras tanto
+      if (!data || !data.origin) return;       // ruta no pública / sin origen → no dibuja
+      const [vivid, faded] = FLIGHT_ROUTE_HEX[category] || FLIGHT_ROUTE_HEX.commercial; // de dónde salió (vívido) → a dónde va (apagado)
+      const o = [data.origin.lng, data.origin.lat];
+      const pts: any[] = [{ type: 'Feature', geometry: { type: 'Point', coordinates: o }, properties: { kind: 'origin', label: data.origin.code || data.origin.city || data.origin.name || 'Origen' } }];
+      const lineFeats: any[] = [
+        // Tramo recorrido: origen → posición actual del avión (color VIVO)
+        { type: 'Feature', properties: { color: vivid }, geometry: { type: 'LineString', coordinates: gcLine(o, plane, 56) } },
+      ];
+      if (data.destination) {
+        const de = [data.destination.lng, data.destination.lat];
+        // Tramo restante: avión → destino (color APAGADO)
+        lineFeats.push({ type: 'Feature', properties: { color: faded }, geometry: { type: 'LineString', coordinates: gcLine(plane, de, 56) } });
+        pts.push({ type: 'Feature', geometry: { type: 'Point', coordinates: de }, properties: { kind: 'dest', label: data.destination.code || data.destination.city || data.destination.name || 'Destino' } });
+      }
+      try {
+        (map.getSource('flight-route') as any)?.setData({ type: 'FeatureCollection', features: lineFeats });
+        (map.getSource('flight-route-pts') as any)?.setData({ type: 'FeatureCollection', features: pts });
+      } catch { /* noop */ }
+    };
+
     // ── Flights (with FlightAware + ADS-B Exchange links) ──
+    const FLIGHT_LAYER_CATEGORY: Record<string,string> = { 'fl-commercial':'commercial', 'fl-private':'private', 'fl-jets':'jet', 'fl-military':'military' };
     ['fl-commercial','fl-private','fl-jets','fl-military'].forEach(layer => {
       map.on('click', layer, e => {
         if (!e.features?.length) return;
         const p = e.features[0].properties as any;
         const coords = (e.features[0].geometry as any).coordinates;
         const cs = (p.callsign||'').trim();
+        drawFlightRoute(cs, [coords[0], coords[1]], FLIGHT_LAYER_CATEGORY[layer] || 'commercial');
         popup(coords, `<div style="${pStyle}border:1px solid rgba(212,175,55,0.3);">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
             <span style="color:#D4AF37;font-size:16px;font-weight:700;letter-spacing:0.1em;">${cs}</span>
@@ -703,7 +836,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -807,7 +940,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     // ── Maritime Ships ──
     const SHIP_COLORS: Record<string, string> = { cargo:'#00BCD4', tanker:'#FF9500', passenger:'#B388FF', fishing:'#4DB6AC', tug:'#A1887F', highspeed:'#FF4081', military:'#FF1744', other:'#90A4AE' };
     const SHIP_LABELS: Record<string, string> = { cargo:'Carga', tanker:'Petrolero / tanque', passenger:'Pasaje / ferry', fishing:'Pesca', tug:'Remolcador', highspeed:'Alta velocidad', military:'Militar', other:'Otro / servicio' };
-    map.on('click', 'ship-dots', e => {
+    const onShipClick = (e: any) => {
       if (!e.features?.length) return;
       const p = e.features[0].properties as any;
       const coords = (e.features[0].geometry as any).coordinates;
@@ -815,7 +948,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       const courseTxt = (p.course !== undefined && p.course !== null && p.course !== '') ? `${Math.round(Number(p.course))}°` : (p.heading != null ? `${Math.round(Number(p.heading))}°` : '—');
       const statusTxt = p.moored === true || p.moored === 'true' ? 'Atracado / fondeado' : 'En navegación';
       const statusCol = (p.moored === true || p.moored === 'true') ? '#FFB300' : '#00E676';
-      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;min-width:210px;">
+      const dims = (p.length || p.beam) ? `${p.length ? p.length + ' m' : '?'} × ${p.beam ? p.beam + ' m' : '?'}` : null;
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;min-width:214px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
           <span style="color:${color};font-size:12px;font-weight:700;letter-spacing:0.04em;">${p.name}</span>
           ${p.flag ? `<span style="color:#aaa;font-size:9px;font-weight:600;border:1px solid #ffffff22;border-radius:3px;padding:0 4px;">${p.flag}</span>` : ''}
@@ -826,6 +960,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           <div><span style="color:#5C5A54;">VELOCIDAD</span><br/><span style="color:#E8E6E0;">${Number(p.speed || 0).toFixed(1)} nudos</span></div>
           <div><span style="color:#5C5A54;">RUMBO</span><br/><span style="color:#E8E6E0;">${courseTxt}</span></div>
           <div><span style="color:#5C5A54;">DESTINO</span><br/><span style="color:#E8E6E0;">${p.destination || 'Desconocido'}</span></div>
+          ${dims ? `<div><span style="color:#5C5A54;">ESLORA × MANGA</span><br/><span style="color:#E8E6E0;">${dims}</span></div>` : ''}
           ${p.draught ? `<div><span style="color:#5C5A54;">CALADO</span><br/><span style="color:#E8E6E0;">${p.draught} m</span></div>` : ''}
           ${p.imo ? `<div><span style="color:#5C5A54;">IMO</span><br/><span style="color:#E8E6E0;">${p.imo}</span></div>` : ''}
           ${p.callsign ? `<div><span style="color:#5C5A54;">INDICATIVO</span><br/><span style="color:#E8E6E0;">${p.callsign}</span></div>` : ''}
@@ -833,7 +968,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         </div>
         ${p.mmsi ? `<a href="https://www.marinetraffic.com/en/ais/details/ships/mmsi:${p.mmsi}" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">FICHA MARINETRAFFIC</a>` : ''}
       </div>`);
-    });
+    };
+    map.on('click', 'ship-dots', onShipClick);
+    map.on('click', 'ship-arrows', onShipClick);
 
     // ── Weather Events (NASA EONET) ──
     map.on('click', 'weather-dots', e => {
@@ -1098,7 +1235,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('maritime-ships', activeLayers.maritime && data.maritime_ships
       ? data.maritime_ships
           .filter((s: any) => !shipFilter || shipFilter.has(s.type || 'other'))
-          .map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name || s.mmsi?.toString(), type: s.type || 'other', speed: s.speed, heading: s.heading, course: s.course, destination: s.destination, draught: s.draught, flag: s.flag, mmsi: s.mmsi, callsign: s.callsign, imo: s.imo, moored: !!s.moored } }))
+          .map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name || s.mmsi?.toString(), type: s.type || 'other', speed: s.speed, heading: s.heading, course: s.course, destination: s.destination, draught: s.draught, flag: s.flag, mmsi: s.mmsi, callsign: s.callsign, imo: s.imo, length: s.length, beam: s.beam, moored: !!s.moored } }))
       : []);
   }, [mapReady, data.maritime_ports, data.maritime_chokepoints, data.maritime_ships, activeLayers.maritime, activeLayers.ship_cargo, activeLayers.ship_tanker, activeLayers.ship_passenger, activeLayers.ship_fishing, activeLayers.ship_tug, activeLayers.ship_highspeed, activeLayers.ship_military, activeLayers.ship_other, setGeo]);
 
@@ -1446,7 +1583,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['cables-lines'], activeLayers.submarine_cables);
     setVis(['maritime-glow','maritime-dots','maritime-label'], activeLayers.maritime);
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
-    setVis(['ship-dots','ship-label'], activeLayers.maritime);
+    setVis(['ship-dots','ship-arrows','ship-label'], activeLayers.maritime);
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
     setVis(['conflict-icons'], activeLayers.conflict_zones !== false);

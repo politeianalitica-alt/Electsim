@@ -407,7 +407,7 @@ export default function Dashboard() {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/radiation', d => ({ radiation: d.stations })), 300000)); // 5m
     }
     if (activeLayers.maritime) {
-      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, maritime_ships: d.ships })), 10000)); // 10s
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, maritime_ships: d.ships })), 30000)); // 30s (AIS global tarda ~9s en recogerse + caché 20s)
     }
     return () => intervals.forEach(clearInterval);
   }, [activeLayers, fetchEndpoint]);
