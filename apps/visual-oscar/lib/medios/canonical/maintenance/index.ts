@@ -27,6 +27,7 @@
 import { cleanupClusters } from './cleanup-clusters.ts'
 import { recomputeSourceScores } from './recompute-source-scores.ts'
 import { otroAlert } from './otro-alert.ts'
+import { unmappedTagsJob } from './unmapped-tags.ts'
 import { computeAndWriteSnapshot } from '../scoring/snapshot-writer.ts'
 
 export interface JobResult {
@@ -101,8 +102,10 @@ export const JOBS: Job[] = [
   // Sprint 2 C3: snapshot horario de prominence por topic (vol + momentum).
   // C4 añadirá diversity/tier/entity_density; C5 derivará TopicState real.
   { name: 'topic-prominence-snapshot', schedule: 'hourly', run: topicProminenceSnapshot },
-  // SPRINT_2_REGISTER_HERE:
-  //   { name: 'unmapped-tags',         schedule: '6hourly',  run: unmappedTagsJob },
+  // Sprint 2 C7: cada 6h detecta RSS tags vistos en article.raw_tags que no
+  // están en data/medios/rss-tag-map.json. Output Top 50 → curación humana.
+  { name: 'unmapped-tags', schedule: '6hourly', run: unmappedTagsJob },
+  // SPRINT_2_REGISTER_HERE (C8, C9):
   //   { name: 'terms-not-classified',  schedule: '12hourly', run: termsNotClassifiedJob },
   //   { name: 'classifier-metrics',    schedule: 'daily',    run: classifierMetricsJob },
   // SPRINT_4_REGISTER_HERE (requerirá extender Schedule con 'quarter-hourly' |

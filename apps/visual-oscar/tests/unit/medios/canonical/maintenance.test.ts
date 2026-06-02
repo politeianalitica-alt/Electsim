@@ -57,7 +57,12 @@ async function run() {
       'falta recompute-source-scores',
     )
     assert.ok(names.includes('otro-alert'), 'falta otro-alert')
-    assert.equal(JOBS.length, 4, `esperado 4 jobs (3 base + topic-prominence-snapshot de Sprint 2 C3), encontrado ${JOBS.length}`)
+    assert.ok(names.includes('unmapped-tags'), 'falta unmapped-tags (Sprint 2 C7)')
+    assert.equal(
+      JOBS.length,
+      5,
+      `esperado 5 jobs (3 base + topic-prominence-snapshot Sprint 2 C3 + unmapped-tags Sprint 2 C7), encontrado ${JOBS.length}`,
+    )
   })
 
   await test('JOBS · cada entrada tiene shape Job (name + schedule + run)', () => {
@@ -83,6 +88,11 @@ async function run() {
 
   await test('JOBS · otro-alert tiene schedule 6hourly', () => {
     const j = JOBS.find(j => j.name === 'otro-alert')!
+    assert.equal(j.schedule, '6hourly')
+  })
+
+  await test('JOBS · unmapped-tags tiene schedule 6hourly (Sprint 2 C7)', () => {
+    const j = JOBS.find(j => j.name === 'unmapped-tags')!
     assert.equal(j.schedule, '6hourly')
   })
 
