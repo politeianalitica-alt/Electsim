@@ -8,14 +8,15 @@
  * `?energia=` en la URL (deep-linkable, SSR-prefetch friendly) usando el hook
  * `useUrlState` existente.
  *
- * Default S1 = 'electrico' (Visión Global aún no existe; se construye en S4 y
- * entonces el default pasará a 'global').
+ * Default (S4+) = 'global' · la landing cross-energía <VisionGlobalView />.
+ * Antes de S4 era 'electrico' (Visión Global aún no existía).
  *
  * Lazy mount: solo se monta la vista del tipo activo (igual que
  * EsiosTabsSection), evitando 7×N fetches al cargar.
  *
+ *   - 'global'     → <VisionGlobalView /> (landing cross-energía · S4)
  *   - 'electrico'  → <ElectricoView /> (todo el contenido actual · ESIOS intacto)
- *   - los otros 6  → <EnergiaComingSoon /> · empty-state "en construcción"
+ *   - los otros 5  → <EnergiaComingSoon /> · empty-state "en construcción"
  *
  * Cero emojis (CLAUDE.md §0.5): se usan caracteres Unicode (◆ ◉ ⬡).
  */
@@ -25,6 +26,7 @@ import { useEffect } from 'react'
 import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { ElectricoView } from './ElectricoView'
+import { VisionGlobalView } from './VisionGlobalView'
 import type { EnergiaTipo } from '@/lib/energia/types'
 
 const ACCENT = '#16A34A'
@@ -53,9 +55,9 @@ export default function EnergiaShell() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  // Default S1 = 'electrico'. Cambia a 'global' en S4 cuando exista la landing.
-  const [tipo, setTipo] = useUrlState<EnergiaTipo>('energia', 'electrico')
-  const activo = TIPOS.find(t => t.id === tipo) ?? TIPOS[1]
+  // Default (S4+) = 'global' · la landing cross-energía es la sección de entrada.
+  const [tipo, setTipo] = useUrlState<EnergiaTipo>('energia', 'global')
+  const activo = TIPOS.find(t => t.id === tipo) ?? TIPOS[0]
 
   return (
  <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-text)', color:'#1d1d1f' }}>
@@ -104,9 +106,11 @@ export default function EnergiaShell() {
  </nav>
 
         {/* ───── Contenido del tipo activo (nivel 2 · lazy) ───── */}
-        {activo.id === 'electrico'
-          ? <ElectricoView />
-          : <EnergiaComingSoon tipo={activo} />}
+        {activo.id === 'global'
+          ? <VisionGlobalView />
+          : activo.id === 'electrico'
+            ? <ElectricoView />
+            : <EnergiaComingSoon tipo={activo} />}
  </main>
  </div>
   )
