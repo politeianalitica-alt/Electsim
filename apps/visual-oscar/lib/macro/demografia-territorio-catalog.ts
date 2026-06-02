@@ -71,7 +71,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Población ≥65 / población activa (15-64) · %. España ~32% y subiendo. Determina sostenibilidad pensiones y presión fiscal estructural.",
-    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=OLDDEP",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=OLDDEP1",
     parser: "eurostat-simple",
     threshold: { amber: 30, red: 40, goodAbove: false },
     accent: "#dc2626",
@@ -114,7 +114,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "Edad media de la población residente. Indicador de envejecimiento estructural — España es uno de los países más envejecidos de la UE.",
-    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=AGEMEDPOP",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=MEDAGEPOP",
     parser: "eurostat-simple",
     threshold: { amber: 45, red: 50, goodAbove: false },
     accent: "#0EA5E9",
@@ -158,7 +158,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     frequency: "annual",
     description:
       "% personas ≥65 años sobre total. España ~20% · sube +0.3pp/año. Driver del gasto pensiones+sanidad. UE 2050 proyecta 30%.",
-    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=PC_Y_GE65",
+    endpoint: "/api/eurostat/dataset?code=demo_pjanind&filters=geo=ES;indic_de=PC_Y65_MAX",
     parser: "eurostat-simple",
     threshold: { amber: 22, red: 28, goodAbove: false },
     accent: "#f59e0b",
@@ -291,7 +291,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Nacimientos − defunciones por 1000 habitantes. España negativo desde 2015 (estructural). Mide vegetativo puro, sin migración.",
     endpoint: "/api/spanish-stats/crecimiento-natural?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 0, red: -2, goodAbove: true },
     accent: "#dc2626",
     methodologyNote:
@@ -313,7 +313,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Población extranjera residente como % del total. España ~13% (2024). Driver del crecimiento poblacional y del mercado laboral.",
     endpoint: "/api/spanish-stats/pob-extranjera?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#7C3AED",
     methodologyNote:
       "TODO · endpoint Padrón nacionalidad. Definición Padrón (residencia, no nacionalidad legal). Top 5: Marruecos, Rumanía, Colombia, Italia, Reino Unido.",
@@ -377,7 +377,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Municipios <1000 hab. con pérdida >10% en 10 años. España vaciada núcleo duro. ~3.000+ municipios afectados.",
     endpoint: "/api/spanish-stats/municipios-despoblacion?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#dc2626",
     methodologyNote:
       "Criterio estándar despoblación rural. Combinación umbral población + tendencia. Núcleo: Soria, Teruel, Cuenca, Zamora, Ávila, Cáceres interior.",
@@ -398,7 +398,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Proyección INE escenario central. España alcanzaría ~50 M hab. en 2035 y ~52 M en 2050 con saldo migratorio positivo sostenido.",
     endpoint: "/api/spanish-stats/proyeccion-pob?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#7C3AED",
     methodologyNote:
       "INE Proyecciones quinquenales. Sensible a hipótesis migratorias (escenarios alto/central/bajo divergen ~10 M en 2050).",
@@ -441,7 +441,7 @@ export const DEMOGRAFIA_TERRITORIO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Edad media al tener el primer hijo. España ~32.6 años (líder UE en aplazamiento). Driver estructural de baja fecundidad.",
     endpoint: "/api/spanish-stats/edad-maternidad?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 32, red: 34, goodAbove: false },
     accent: "#7C3AED",
     methodologyNote:

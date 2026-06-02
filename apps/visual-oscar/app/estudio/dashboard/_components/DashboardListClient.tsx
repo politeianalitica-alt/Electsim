@@ -57,11 +57,12 @@ export default function DashboardListClient() {
     <div className={styles.root}>
       <div className={styles.header}>
         <div>
-          <h1 className={styles.title}>Dashboards</h1>
-          <p className={styles.subtitle}>Construye paneles de análisis político conectados a tus datos</p>
+          {/* Sprint Q-C.4 · alinear con nav/hub · "Mis paneles" */}
+          <h1 className={styles.title}>Mis paneles</h1>
+          <p className={styles.subtitle}>Construye paneles de análisis político conectados a tus tablas.</p>
         </div>
         <Link href="/estudio/dashboard/nuevo" className={styles.btnPrimary}>
-          + Nuevo dashboard
+          + Nuevo panel
         </Link>
       </div>
 

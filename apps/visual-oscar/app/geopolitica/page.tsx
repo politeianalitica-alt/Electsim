@@ -6,6 +6,8 @@ import AppHeader from '../_components/AppHeader'
 import { useApi } from '@/lib/useApi'
 import { useUrlState } from '@/lib/useUrlState'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+// Sprint Q-D.1 · Glosa para IRC, V-Dem, SIPRI, GDELT, OFAC, FSF, UNSC, OFSI.
+import Glosa from '@/components/Glosa'
 import { COUNTRY_DAFO, type CountryDafo } from '@/lib/country-dafo'
 import { AcledSpainContext } from '@/components/geopolitics/AcledSpainContext'
 import { GeoKpiGrid } from '@/components/geopolitica/GeoKpiGrid'
@@ -131,7 +133,7 @@ const ISO_TO_FLAG: Record<string, string> = {
   ZAF: '🇿🇦', NGA: '🇳🇬',
 }
 function flagFromIso(iso: string): string {
-  return ISO_TO_FLAG[iso] || '🌐'
+  return ISO_TO_FLAG[iso] || '⊕'
 }
 
 // CountryBadge — bandera + código ISO en círculo coloreado por categoría
@@ -584,9 +586,10 @@ export default function GeopoliticaPage() {
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
                 Radar Global de Crisis · vista ejecutiva
               </h2>
+              {/* Sprint Q-D.1 · IRC, V-Dem, SIPRI, GDELT con tooltip vía <Glosa>. */}
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5 }}>
-                Índice de Riesgo Compuesto (IRC) por país combinando 4 dimensiones:
-                <strong style={{ color: '#cbd5e1' }}> V-Dem democracia · SIPRI militarización · GDELT tono · GDELT volumen conflictos.</strong>{' '}
+                <Glosa term="IRC">Índice de Riesgo Compuesto (IRC)</Glosa> por país combinando 4 dimensiones:
+                <strong style={{ color: '#cbd5e1' }}> <Glosa term="V-Dem">V-Dem</Glosa> democracia · <Glosa term="SIPRI">SIPRI</Glosa> militarización · <Glosa term="GDELT">GDELT</Glosa> tono · GDELT volumen conflictos.</strong>{' '}
                 80 países cubiertos · click en cualquier punto del mapa para detalle.
               </p>
             </div>
@@ -998,13 +1001,29 @@ export default function GeopoliticaPage() {
               background: 'linear-gradient(135deg, #7c2d12 0%, #92400e 100%)',
               borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
             }}>
+              {/* Sprint Quality-Q-A.5 · atenuar claim de compliance.
+                 ANTES: "¿con quién puede tratar España sin riesgo legal?" —
+                 sugiere que esta vista responde a la pregunta de compliance,
+                 cuando OFAC SDN solo aplica a US-touched persons/entities y
+                 mezclarlo con EU FSF / UNSC / UK OFSI sin matizar induce a
+                 error grave en KYC.
+                 AHORA: descripción funcional + disclaimer explícito de que
+                 NO sustituye dictamen jurídico ni due diligence. */}
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
-                Diplomacia & Sanciones · ¿con quién puede tratar España sin riesgo legal?
+                Diplomacia y sanciones · screening de contraparte
               </h2>
+              {/* Sprint Q-D.1 · FSF, UNSC, OFAC, OFSI, OpenSanctions, AGNU, KYC
+                  con tooltip vía glosario. */}
               <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fed7aa', lineHeight: 1.5 }}>
-                Mapa global 2 capas (sanciones por país + polarización AGNU) ·
-                screening fuzzy 333+ fuentes OpenSanctions (OFAC SDN + EU FSF + UNSC + UK OFSI) ·
-                radar movimientos diplomáticos 7d · heatmap votaciones AGNU 50 países × 10 resoluciones clave.
+                Cruza listas EU (<Glosa term="FSF">FSF</Glosa>), ONU (<Glosa term="UNSC">UNSC</Glosa>), EE. UU. (<Glosa term="OFAC">OFAC SDN</Glosa>) y UK (<Glosa term="OFSI">OFSI</Glosa>)
+                sobre 333+ datasets de <Glosa term="OpenSanctions">OpenSanctions</Glosa>, junto a movimientos
+                diplomáticos de los últimos 7 días y votaciones <Glosa term="AGNU">AGNU</Glosa> en 10
+                resoluciones clave (50 países).
+              </p>
+              <p style={{ margin: '6px 0 0', fontSize: 10, color: '#fee2c4', lineHeight: 1.4, fontStyle: 'italic' }}>
+                Importante: este screening NO sustituye dictamen jurídico ni due
+                diligence <Glosa term="KYC">KYC</Glosa>. Un resultado positivo requiere validación legal
+                antes de cualquier decisión comercial.
               </p>
             </div>
             <div style={{ marginBottom: 14 }}>
@@ -1049,20 +1068,24 @@ export default function GeopoliticaPage() {
         {/* TAB 5 — Presencia España · cuadro de mando proyección exterior
             Sprint GEO-ES · mapa 4 dimensiones + KPIs + comercio + inversión.
             Reemplaza/precede la vista legacy (watchlist + spain official). */}
+        {/* Sprint Q-C.3 · G2 · ANTES rojo-sangre `#aa0000 → #d50000` para una sección
+            que cubre socios comerciales, FDI y misiones diplomáticas — visualmente
+            sugería "países hostiles" y confundía el scope amigable. AHORA azul
+            institucional `#1F4E8C → #0c4a6e` (color corporativo) + hero copy
+            descriptivo en lenguaje analista. */}
         {tab === 5 && (
           <div style={{ marginBottom: 18 }}>
             <div style={{
-              background: 'linear-gradient(135deg, #aa0000 0%, #d50000 100%)',
+              background: 'linear-gradient(135deg, #1F4E8C 0%, #0c4a6e 100%)',
               borderRadius: 14, padding: '14px 18px', marginBottom: 14, color: '#fff',
             }}>
               <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700, letterSpacing: '-0.01em' }}>
                 Presencia España · proyección exterior con pulso en tiempo real
               </h2>
-              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#fecaca', lineHeight: 1.5 }}>
-                <strong>¿Dónde está España realmente y qué está pasando en esos lugares?</strong>{' '}
-                Mapa 4 dimensiones (FDI / IBEX / Diplomática / Exports) ·
-                Comercio exterior con 8 dependencias críticas · Inversión con análisis HHI + exposición V-Dem.
-                Datasets curados DataInvex 2023 + DataComex 2024 + MAEC + Cervantes.
+              <p style={{ margin: '4px 0 0', fontSize: 11, color: '#bfdbfe', lineHeight: 1.5 }}>
+                <strong>Mapa operativo de proyección exterior española: comercio, inversión, diplomacia y exposición consular.</strong>{' '}
+                Cuatro capas (inversión directa extranjera · IBEX · red diplomática · exportaciones), 8 dependencias críticas de comercio, análisis de concentración (HHI) e indicadores de exposición V-Dem.
+                Fuentes: DataInvex 2023, DataComex 2024, MAEC e Instituto Cervantes.
               </p>
             </div>
             <div style={{ marginBottom: 14 }}>

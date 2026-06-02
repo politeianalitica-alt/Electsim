@@ -279,10 +279,13 @@ export function TendenciasImpactoView(props: Props) {
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, color: '#0891b2', textTransform: 'uppercase' }}>
           ◆ Tendencias e impacto · ¿a quién beneficia y perjudica esta cobertura?
         </p>
+        {/* Sprint Q-C.1 · ANTES: nombre de función interna (`assessSentiment`) + labels en
+            inglés en una vista ES. AHORA: descripción funcional en español. */}
         <p style={{ margin: '4px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.5 }}>
           Cada actor (figura, empresa, sector o territorio) lleva su <strong>impacto político</strong>
-          (beneficial / harmful / neutral / uncertain) calculado por assessSentiment, NO sólo polaridad plana.
-          Mínimo 3 menciones para aparecer · figuras con confianza media baja se marcan <em>sin lectura clara</em>.
+          (le beneficia, le perjudica, neutral o sin lectura clara) leído por nuestro motor de sentimiento,
+          no como simple polaridad positivo/negativo. Mínimo 3 menciones para aparecer; figuras con confianza
+          media baja se marcan <em>sin lectura clara</em>.
         </p>
       </header>
 
@@ -370,10 +373,11 @@ export function TendenciasImpactoView(props: Props) {
         )}
       </div>
 
+      {/* Sprint Q-C.1 · pie en lenguaje analista, sin nombres de campos internos. */}
       <p style={{ margin: 0, fontSize: 9, color: '#94a3b8', textAlign: 'right' }}>
-        Empresas y sectores con b/h/n derivado de pos/neg/neu (heurística aprox) ·
-        figuras con b/h/n/u exactos vía assessSentiment ·
-        territorios agregados desde narrative_clusters.territorial_spread.
+        Empresas y sectores: lectura aproximada derivada de sentimiento positivo/negativo/neutral ·
+        Figuras: lectura exacta beneficia/perjudica/neutral/sin lectura ·
+        Territorios: agregados por extensión geográfica de cada narrativa.
       </p>
     </section>
   )

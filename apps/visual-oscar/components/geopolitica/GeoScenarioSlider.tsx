@@ -219,7 +219,7 @@ export function GeoScenarioSlider() {
               {data.triggered_top_risks.length > 0 && (
                 <div style={{ marginTop: 14 }}>
                   <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#fbbf24', letterSpacing: 0.6, textTransform: 'uppercase' }}>
-                    ⚠ Top Risks materializados con este escenario
+                    ▲ Top Risks materializados con este escenario
                   </p>
                   <ul style={{ margin: '6px 0 0', paddingLeft: 18, color: '#e2e8f0', fontSize: 11 }}>
                     {data.triggered_top_risks.map((r, i) => <li key={i} style={{ marginBottom: 2 }}>{r}</li>)}

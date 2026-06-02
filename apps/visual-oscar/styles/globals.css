@@ -12,6 +12,68 @@ html  { color-scheme: light; }
 }
 input, textarea, select, button { color-scheme: light; }
 
+/* ============================================================
+   Sprint Quality-2 · Accesibilidad baseline (WCAG 2.1 AA)
+   ============================================================ */
+
+/* Skip-to-content link · WCAG 2.4.1 Bypass Blocks
+   Invisible salvo cuando recibe foco (usuario de teclado tabuló al inicio). */
+.skip-to-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: var(--color-ink);
+  color: var(--color-ink-inverse);
+  padding: 12px 18px;
+  border-radius: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 10000;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 140ms ease-out;
+}
+.skip-to-content:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Focus ring global · WCAG 2.4.7 Focus Visible
+   Sólo en :focus-visible para no molestar a usuarios de ratón.
+   Funciona en todo elemento interactivo (button, a, input, [tabindex]). */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+/* Elementos con border-radius alto (cards, pills) heredan via inherit · ver below */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* prefers-reduced-motion · WCAG 2.3.3
+   Usuarios con sensibilidad vestibular ven cero animaciones, sin perder funcionalidad. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* Desactiva específicamente las animaciones decorativas (pulse del live badge) */
+  .live-badge::before { animation: none !important; }
+}
+
 /* Compatibility aliases — keep existing pages working without changes */
 :root, [data-theme="light"], [data-theme="dark"] {
   --bg:         var(--color-bg);
@@ -117,8 +179,10 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
 .login-card .lead{font-size:14px;color:var(--color-ink-3);margin:0 0 28px;}
 .field{text-align:left;margin-bottom:14px;}
 .field label{display:block;font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-ink-4);margin-bottom:7px;}
-.field input{width:100%;background:var(--color-surface-raised);border:1px solid transparent;border-radius:12px;padding:13px 14px;font-family:inherit;font-size:14px;color:var(--color-ink);outline:none;transition:border-color 140ms,background 140ms;}
+.field input{width:100%;background:var(--color-surface-raised);border:1px solid transparent;border-radius:12px;padding:13px 14px;font-family:inherit;font-size:14px;color:var(--color-ink);outline:none;transition:border-color 140ms,background 140ms,box-shadow 140ms;}
 .field input:focus{background:var(--color-surface);border-color:var(--color-ink);}
+/* Sprint Quality-2 · fix WCAG 2.4.7 · focus visible con teclado, no con click */
+.field input:focus-visible{background:var(--color-surface);border-color:var(--color-accent);box-shadow:0 0 0 3px var(--color-accent-subtle);outline:none;}
 .field-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin:-2px 0 18px;}
 .field-row label{display:inline-flex;align-items:center;gap:7px;color:var(--color-ink-3);cursor:pointer;}
 .field-row a{color:var(--color-accent);font-weight:500;}

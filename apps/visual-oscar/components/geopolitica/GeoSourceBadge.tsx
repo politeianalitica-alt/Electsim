@@ -68,7 +68,7 @@ export function GeoSourceBadge({
     const parts: string[] = [`Modo: ${label}`]
     if (layer) parts.push(`Capa: ${LAYER_LABEL[layer]}`)
     if (typeof confidence === 'number') parts.push(`Confianza: ${Math.round(confidence * 100)}%`)
-    if (mode === 'mock') parts.push('⚠ DATOS SINTÉTICOS · no usar en producción')
+    if (mode === 'mock') parts.push('▲ DATOS SINTÉTICOS · no usar en producción')
     if (mode === 'derived_from_news') parts.push('Heurística sobre RSS · no fuente OSINT primaria')
     if (mode === 'llm_cluster') parts.push('Generado por IA · validar con fuente primaria')
     if (mode === 'curated_baseline') parts.push('Catálogo editorial Politeia · revisión manual')

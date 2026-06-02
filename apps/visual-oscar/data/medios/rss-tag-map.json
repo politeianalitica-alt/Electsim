@@ -1,0 +1,120 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2026-06-02",
+  "mappings": [
+    { "rawTag": "política", "topicId": "POLITICA_INSTITUCIONAL", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "politica", "topicId": "POLITICA_INSTITUCIONAL", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "españa", "topicId": "POLITICA_INSTITUCIONAL", "confidence": 0.70, "sources": ["el-pais","el-mundo","abc","la-vanguardia"] },
+    { "rawTag": "espana", "topicId": "POLITICA_INSTITUCIONAL", "confidence": 0.70, "sources": ["*"] },
+    { "rawTag": "gobierno", "topicId": "POLITICA_INSTITUCIONAL", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "moncloa", "topicId": "POLITICA_INSTITUCIONAL", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "congreso", "topicId": "PARLAMENTO", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "senado", "topicId": "PARLAMENTO", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "parlamento", "topicId": "PARLAMENTO", "confidence": 0.85, "sources": ["*"] },
+
+    { "rawTag": "psoe", "topicId": "PARTIDOS", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "pp", "topicId": "PARTIDOS", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "partido popular", "topicId": "PARTIDOS", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "vox", "topicId": "PARTIDOS", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "sumar", "topicId": "PARTIDOS", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "podemos", "topicId": "PARTIDOS", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "junts", "topicId": "PARTIDOS", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "erc", "topicId": "PARTIDOS", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "pnv", "topicId": "PARTIDOS", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "bildu", "topicId": "PARTIDOS", "confidence": 0.88, "sources": ["*"] },
+
+    { "rawTag": "tribunales", "topicId": "JUDICIAL", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "justicia", "topicId": "JUDICIAL", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "tribunal supremo", "topicId": "JUDICIAL", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "audiencia nacional", "topicId": "JUDICIAL", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "economía", "topicId": "ECONOMIA", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "economia", "topicId": "ECONOMIA", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "macroeconomía", "topicId": "ECONOMIA", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "presupuestos", "topicId": "ECONOMIA", "confidence": 0.88, "sources": ["*"] },
+
+    { "rawTag": "empleo", "topicId": "EMPLEO", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "paro", "topicId": "EMPLEO", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "trabajo", "topicId": "EMPLEO", "confidence": 0.85, "sources": ["*"] },
+
+    { "rawTag": "vivienda", "topicId": "VIVIENDA", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "alquiler", "topicId": "VIVIENDA", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "hipotecas", "topicId": "VIVIENDA", "confidence": 0.85, "sources": ["*"] },
+
+    { "rawTag": "energía", "topicId": "ENERGIA", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "energia", "topicId": "ENERGIA", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "electricidad", "topicId": "ENERGIA", "confidence": 0.85, "sources": ["*"] },
+
+    { "rawTag": "cataluña", "topicId": "TERRITORIAL", "subtopicId": "CATALUÑA", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "catalunya", "topicId": "TERRITORIAL", "subtopicId": "CATALUÑA", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "barcelona", "topicId": "TERRITORIAL", "subtopicId": "CATALUÑA", "confidence": 0.70, "sources": ["*"], "note": "Puede ser sociedad/cultura — bajamos confidence" },
+    { "rawTag": "país vasco", "topicId": "TERRITORIAL", "subtopicId": "PAIS_VASCO", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "pais vasco", "topicId": "TERRITORIAL", "subtopicId": "PAIS_VASCO", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "euskadi", "topicId": "TERRITORIAL", "subtopicId": "PAIS_VASCO", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "galicia", "topicId": "TERRITORIAL", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "andalucía", "topicId": "TERRITORIAL", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "madrid", "topicId": "TERRITORIAL", "confidence": 0.65, "sources": ["*"], "note": "Ambiguo — comunidad o ciudad" },
+
+    { "rawTag": "internacional", "topicId": "INTERNACIONAL", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "mundo", "topicId": "INTERNACIONAL", "confidence": 0.75, "sources": ["*"] },
+    { "rawTag": "exterior", "topicId": "INTERNACIONAL", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "diplomacia", "topicId": "INTERNACIONAL", "confidence": 0.88, "sources": ["*"] },
+
+    { "rawTag": "europa", "topicId": "UNION_EUROPEA", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "union europea", "topicId": "UNION_EUROPEA", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "ue", "topicId": "UNION_EUROPEA", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "bruselas", "topicId": "UNION_EUROPEA", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "defensa", "topicId": "DEFENSA", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "otan", "topicId": "DEFENSA", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "seguridad", "topicId": "SEGURIDAD", "confidence": 0.82, "sources": ["*"] },
+    { "rawTag": "interior", "topicId": "SEGURIDAD", "confidence": 0.78, "sources": ["*"] },
+    { "rawTag": "policía", "topicId": "SEGURIDAD", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "guardia civil", "topicId": "SEGURIDAD", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "migración", "topicId": "MIGRACION", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "migracion", "topicId": "MIGRACION", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "inmigración", "topicId": "MIGRACION", "confidence": 0.88, "sources": ["*"] },
+
+    { "rawTag": "sanidad", "topicId": "SANIDAD", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "salud", "topicId": "SANIDAD", "confidence": 0.80, "sources": ["*"] },
+
+    { "rawTag": "educación", "topicId": "EDUCACION", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "educacion", "topicId": "EDUCACION", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "universidad", "topicId": "EDUCACION", "confidence": 0.85, "sources": ["*"] },
+
+    { "rawTag": "medio ambiente", "topicId": "MEDIO_AMBIENTE", "confidence": 0.90, "sources": ["*"] },
+    { "rawTag": "clima", "topicId": "MEDIO_AMBIENTE", "confidence": 0.85, "sources": ["*"] },
+
+    { "rawTag": "tecnología", "topicId": "TECNOLOGIA", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "tecnologia", "topicId": "TECNOLOGIA", "confidence": 0.85, "sources": ["*"] },
+    { "rawTag": "ia", "topicId": "TECNOLOGIA", "confidence": 0.80, "sources": ["*"] },
+    { "rawTag": "inteligencia artificial", "topicId": "TECNOLOGIA", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "rtve", "topicId": "COMUNICACION", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "medios", "topicId": "COMUNICACION", "confidence": 0.75, "sources": ["*"] },
+
+    { "rawTag": "sociedad", "topicId": "SOCIEDAD", "confidence": 0.70, "sources": ["*"], "note": "Muy genérico" },
+
+    { "rawTag": "crisis", "topicId": "CRISIS", "confidence": 0.75, "sources": ["*"] },
+    { "rawTag": "pandemia", "topicId": "CRISIS", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "dana", "topicId": "CRISIS", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "corrupción", "topicId": "CORRUPCION", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "corrupcion", "topicId": "CORRUPCION", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "ibex 35", "topicId": "IBEREX_EMPRESAS", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "ibex35", "topicId": "IBEREX_EMPRESAS", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "empresas", "topicId": "IBEREX_EMPRESAS", "confidence": 0.78, "sources": ["*"] },
+
+    { "rawTag": "sindicatos", "topicId": "SINDICAL_PATRONAL", "confidence": 0.88, "sources": ["*"] },
+    { "rawTag": "ccoo", "topicId": "SINDICAL_PATRONAL", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "ugt", "topicId": "SINDICAL_PATRONAL", "confidence": 0.92, "sources": ["*"] },
+    { "rawTag": "ceoe", "topicId": "SINDICAL_PATRONAL", "confidence": 0.92, "sources": ["*"] },
+
+    { "rawTag": "others", "topicId": null, "confidence": 0, "sources": ["*"], "note": "Tag genérico de medios anglosajones — ignorar, forzar capa 2" },
+    { "rawTag": "general", "topicId": null, "confidence": 0, "sources": ["*"], "note": "Tag genérico — forzar capa 2" }
+  ]
+}

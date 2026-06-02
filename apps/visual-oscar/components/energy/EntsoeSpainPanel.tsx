@@ -58,7 +58,9 @@ export function EntsoeSpainPanel() {
   }, [])
 
   const tokenConfigured = prices?.ok || generation?.ok
-  const activationSteps = (prices as any)?.activation_steps as string[] | undefined
+  // Sprint Quality-Q-A.1 · `activation_steps` ya no se renderiza al usuario
+  // (los pasos eran info interna de ops). Se mantiene en el shape del endpoint
+  // por compat retrograda · si se necesita debugging, ver /api/entsoe/health.
 
   return (
     <section
@@ -93,48 +95,30 @@ export function EntsoeSpainPanel() {
       {loading && <p style={{ fontSize: 12, color: '#94a3b8', margin: 0 }}>Cargando ENTSO-E…</p>}
 
       {!loading && !tokenConfigured && (
+        // Sprint Quality-Q-A.1 · empty state limpio.
+        // ANTES: la sección filtraba al usuario final (a) email personal del
+        // fundador (politeianalitica@gmail.com), (b) nombre propio en la firma
+        // ("Antonio"), (c) el nombre de la variable de entorno de Vercel
+        // (ENTSOE_API_KEY) y (d) una plantilla completa de email para
+        // solicitar el token a transparency@entsoe.eu.
+        // El procedimiento de activación se movió a docs/internal/entsoe-activation.md
+        // (no accesible al cliente). Aquí dejamos un mensaje neutro que orienta
+        // al visor oficial mientras la integración se reactiva.
         <div style={{ padding: 12, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
-          <strong>ENTSO-E Web API token no activado</strong> · ENTSO-E NO autogenera el security token en self-service.
-          <br/><br/>
-          <strong>Activación manual</strong>:
-          <ol style={{ margin: '6px 0 8px', paddingLeft: 18, lineHeight: 1.6 }}>
-            <li>Cuenta web creada ✓ (politeianalitica@gmail.com)</li>
-            <li>File Library accesible ✓ (username + password)</li>
-            <li><strong>Escribir a transparency@entsoe.eu</strong> con la plantilla siguiente</li>
-            <li>Cuando lleguen el token, pegar en Vercel env <code>ENTSOE_API_KEY</code> · este panel pasa a LIVE automáticamente</li>
-          </ol>
-          <details style={{ marginTop: 8 }}>
-            <summary style={{ cursor: 'pointer', fontWeight: 600, color: ACCENT }}>📧 Ver plantilla de email para solicitar el token</summary>
-            <pre style={{ background: '#fff', padding: 10, borderRadius: 4, marginTop: 8, fontSize: 10, whiteSpace: 'pre-wrap', fontFamily: 'monospace', color: '#1f2937' }}>
-{`To: transparency@entsoe.eu
-Subject: Web API security token request
-
-Hello,
-
-I have registered on the ENTSO-E Transparency Platform with the account
-politeianalitica@gmail.com.
-
-I would like to use the Transparency Platform Web API for academic / data
-analysis purposes, but I cannot find any "Web API Security Token" or "API
-Token" section in My Account.
-
-Could you please enable Web API access for my account or indicate where
-I can generate the security token in the new interface?
-
-Thank you very much.
-
-Best regards,
-Antonio`}
-            </pre>
-          </details>
-          {activationSteps && (
-            <div style={{ marginTop: 10, fontSize: 10, color: '#78350f' }}>
-              <strong>Estado actual:</strong>
-              <ul style={{ margin: '4px 0', paddingLeft: 18 }}>
-                {activationSteps.map((s, i) => <li key={i}>{s}</li>)}
-              </ul>
-            </div>
-          )}
+          <strong>Datos UE-27 (ENTSO-E) en activación</strong>
+          <p style={{ margin: '6px 0 0', lineHeight: 1.5 }}>
+            Los precios mayoristas paneuropeos, el mix de generación y los flujos
+            transfronterizos PT/FR estarán disponibles próximamente. Mientras
+            tanto, puedes consultar el visor oficial:{' '}
+            <a
+              href="https://transparency.entsoe.eu"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: ACCENT, fontWeight: 600, textDecoration: 'none' }}
+            >
+              transparency.entsoe.eu →
+            </a>
+          </p>
         </div>
       )}
 

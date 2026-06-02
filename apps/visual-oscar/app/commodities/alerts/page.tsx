@@ -259,7 +259,7 @@ export default function AlertsPage() {
                             : fmtPrice(snap?.last_price)}
                         </td>
                         <td style={{ ...td, fontWeight: 700, color: triggered ? '#dc2626' : a.active ? '#16a34a' : '#9ca3af' }}>
-                          {triggered ? '⚠ DISPARADA' : a.active ? 'Activa' : 'Pausada'}
+                          {triggered ? '▲ DISPARADA' : a.active ? 'Activa' : 'Pausada'}
                         </td>
                         <td style={td}>{a.channels.join(', ')}</td>
                         <td style={td}>

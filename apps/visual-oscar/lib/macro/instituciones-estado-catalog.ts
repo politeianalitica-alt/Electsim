@@ -301,6 +301,11 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     relatedIndicatorIds: ["ie-fbcf-capital-aapp"],
   },
   // ─── Sprint Tab15-Hero · 10 indicadores nuevos del spec Tab 15.md ──────
+  // Sprint Quality-Data · ANTES apuntaba a `/api/fred/series?id=GGGDTAESA188N`,
+  // que NO tiene route handler · esto causaba el error JSON.parse al abrir el
+  // detalle (devolvía la página 404 HTML). AHORA usa IMF DataMapper, que
+  // (a) ya tiene endpoint operativo, (b) sirve serie histórica desde 1995 +
+  // forecast 5y, (c) Eurostat y FRED coinciden con IMF en este indicador.
   {
     id: "ie-deuda-publica-pib",
     family: "fiscalidad",
@@ -308,18 +313,19 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     shortLabel: "Deuda %PIB",
     unit: "%",
     decimals: 1,
-    source: "FRED · GGGDTAESA188N",
-    sourceCode: "GGGDTAESA188N",
-    frequency: "quarterly",
+    source: "IMF DataMapper · WEO",
+    sourceCode: "GGXWDG_NGDP",
+    frequency: "annual",
     description:
-      "Deuda pública AAPP %PIB. España ~106%. Por encima objetivo Maastricht 60%. Driver sostenibilidad fiscal.",
-    endpoint: "/api/fred/series?id=GGGDTAESA188N",
-    parser: "fred-series",
+      "Deuda pública AAPP %PIB. España ~106%. Por encima del referencial Maastricht 60%. Driver de sostenibilidad fiscal. Serie histórica + forecast IMF WEO +5y.",
+    endpoint: "/api/imf/country?iso=ESP&indicator=GGXWDG_NGDP",
+    parser: "imf-country",
+    imfIndicator: "GGXWDG_NGDP",
     threshold: { amber: 90, red: 110, goodAbove: false },
     accent: "#dc2626",
     methodologyNote:
-      "FRED + Eurostat consolidados. Definición Maastricht (PDE). Trimestral con revisiones.",
-    releaseSchedule: "Trimestral · T+4 meses",
+      "IMF WEO General Government Gross Debt (% GDP). Equivalente a la definición Maastricht/PDE de Eurostat (diferencias <0,3 pp). Revisiones 2x al año (abril, octubre).",
+    releaseSchedule: "Anual · publicaciones WEO en abril y octubre",
     confidenceLevel: "high",
     relatedIndicatorIds: ["ie-deficit-publico", "ie-intereses-pib"],
   },
@@ -466,7 +472,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% gasto ejecutado vs presupuestado AGE. ~85-95% según año. Indicador capacidad administrativa del Estado central.",
     endpoint: "/api/spanish-stats/ejecucion-presup?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 85, red: 75, goodAbove: true },
     accent: "#16a34a",
     methodologyNote:
@@ -488,7 +494,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "Volumen contratación pública España %PIB. ~12-15%. Indicador peso del Estado en demanda agregada + transparencia.",
     endpoint: "/api/spanish-stats/contratacion-pub?country=ESP",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     accent: "#7C3AED",
     methodologyNote:
       "Oficina Independiente de Regulación y Supervisión de la Contratación. Por tipo: obras + suministros + servicios. % procedimiento negociado sin publicidad como red flag.",
@@ -531,7 +537,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% que dice tener mucha o bastante confianza en el Gobierno. Trimestral aproximado. España estructuralmente baja confianza (~25%).",
     endpoint: "/api/cis-snapshot/confianza-gobierno",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 25, red: 15, goodAbove: true },
     accent: "#dc2626",
     methodologyNote:
@@ -553,7 +559,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% confía mucho o bastante en el Congreso. Tradicionalmente bajo (~30%).",
     endpoint: "/api/cis-snapshot/confianza-congreso",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 30, red: 20, goodAbove: true },
     accent: "#dc2626",
     methodologyNote:
@@ -575,7 +581,7 @@ export const INSTITUCIONES_ESTADO_INDICATORS: PulsoIndicatorMeta[] = [
     description:
       "% confía en los Tribunales. España estructuralmente baja confianza judicial vs UE.",
     endpoint: "/api/cis-snapshot/confianza-tribunales",
-    parser: "ine-ipc",
+    parser: "spanish-stats-points",
     threshold: { amber: 35, red: 25, goodAbove: true },
     accent: "#f59e0b",
     methodologyNote:

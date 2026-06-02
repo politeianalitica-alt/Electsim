@@ -1083,7 +1083,7 @@ function AnalisisIntegralCard({ analisis }: { analisis: AnalisisIntegral }) {
           </ul>
         </div>
         <div>
-          <p className="inst-analisis-col-label inst-analisis-col-label--am">⚠ AMENAZAS</p>
+          <p className="inst-analisis-col-label inst-analisis-col-label--am">▲ AMENAZAS</p>
           <ul className="inst-analisis-list">
             {analisis.amenazas.map((a, i) => <li key={i}>{a}</li>)}
           </ul>

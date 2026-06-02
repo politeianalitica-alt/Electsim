@@ -433,7 +433,7 @@ export function BusquedaPuntual() {
       {error && (
         <section style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14 }}>
           <p style={{ fontSize: 12, color: '#991b1b', margin: 0, fontWeight: 600 }}>
-            ⚠ {error}
+            ▲ {error}
           </p>
           {error === 'no_api_key' && (
             <p style={{ fontSize: 11, color: '#64748b', margin: '6px 0 0' }}>
@@ -481,7 +481,7 @@ export function BusquedaPuntual() {
               }}
               style={{ background: '#fff', color: '#1F4E8C', border: '1px solid #1F4E8C', borderRadius: 8, padding: '7px 14px', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              🖨 Imprimir/PDF (HTML)
+              ▭ Imprimir/PDF (HTML)
             </button>
             <button
               onClick={() => {
@@ -1389,7 +1389,7 @@ function UnmatchedSourcesPanel({ match }: { match: NonNullable<SearchResponse['c
 
       {ratePct < 50 && (
         <div style={{ padding: 8, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6, marginBottom: 10, fontSize: 11, color: '#991b1b' }}>
-          ⚠ Match rate bajo. El análisis ideológico puede ser poco representativo · considera ampliar el catálogo o ajustar dominios.
+          ▲ Match rate bajo. El análisis ideológico puede ser poco representativo · considera ampliar el catálogo o ajustar dominios.
         </div>
       )}
 

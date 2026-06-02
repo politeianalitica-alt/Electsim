@@ -33,9 +33,9 @@ interface SearchResp {
 }
 
 const SCHEMA_LABEL: Record<string, { label: string; emoji: string }> = {
-  Person: { label: 'Persona', emoji: '👤' },
-  Organization: { label: 'Organización', emoji: '🏢' },
-  Vessel: { label: 'Buque', emoji: '🚢' },
+  Person: { label: 'Persona', emoji: '◯' },
+  Organization: { label: 'Organización', emoji: '⊞' },
+  Vessel: { label: 'Buque', emoji: '◊' },
   Aircraft: { label: 'Aeronave', emoji: '✈' },
 }
 

@@ -72,9 +72,13 @@ export function EsiosIntercambiosMap() {
         }}>
           Intercambios internacionales · 4 fronteras eléctricas
         </h2>
+        {/* Sprint Q-C.5 · S5 · convención exp/imp consistente con
+            EntsoeSpainPanel ("Positivo = ES exporta · negativo = ES importa")
+            y con el resto del módulo · color verde mantenido para "ES exporta"
+            (España envía energía · saldo neto positivo). */}
         <p style={{ margin: '2px 0 0', fontSize: 11, color: '#6e6e73' }}>
-          Saldos programados Francia · Portugal · Marruecos · Andorra (MW + GWh 24h).
-          Verde = exportación · rojo = importación. Cache 10 min.
+          Saldos programados Francia · Portugal · Marruecos · Andorra (MW + GWh en 24 h).
+          Verde / positivo = España exporta · rojo / negativo = España importa. Caché de 10 minutos.
         </p>
       </header>
 

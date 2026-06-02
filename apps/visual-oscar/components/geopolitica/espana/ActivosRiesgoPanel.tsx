@@ -220,7 +220,7 @@ export function ActivosRiesgoPanel({ onCountryClick }: Props) {
                       )}
                       {a.in_ucdp_seed && a.conflict_label && (
                         <p style={{ margin: '2px 0 0', fontSize: 9, color: '#dc2626', fontWeight: 600 }}>
-                          ⚠ UCDP · {a.conflict_label}
+                          ▲ UCDP · {a.conflict_label}
                         </p>
                       )}
                     </div>

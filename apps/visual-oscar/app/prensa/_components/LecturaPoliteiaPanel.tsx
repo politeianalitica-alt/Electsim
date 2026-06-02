@@ -16,6 +16,17 @@
 
 import { useState } from 'react'
 import { ConfidenceBadge } from './MethodologyComponents'
+import { FLAGS } from '@/lib/medios/feature-flags'
+
+// Sprint 1.4 · feature flag: cuando USE_CANONICAL_PULSO esté activo en el
+// preview de Vercel, hidratamos la lectura desde la capa canónica
+// (/api/medios/pulso) en lugar del endpoint legacy /api/medios/intel.
+// En producción la flag default es FALSE → comportamiento legacy intacto.
+// La transición usará el endpoint /api/medios/lectura ya existente, que
+// internamente decide el origen según `pulsoEndpoint`.
+const PULSO_ENDPOINT = FLAGS.USE_CANONICAL_PULSO
+  ? '/api/medios/pulso?window=72h'
+  : '/api/medios/intel?window=72h'
 
 interface ReadingsSummary {
   n_readings: number

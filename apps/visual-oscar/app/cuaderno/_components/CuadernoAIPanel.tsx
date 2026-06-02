@@ -6,7 +6,7 @@
  * Sprint Cuaderno N7 · cierra el bucle analista ↔ máquina.
  *
  * UX:
- *   - Modal centrado · invocado desde el botón "🧠 IA" del toolbar
+ *   - Modal centrado · invocado desde el botón "◈ IA" del toolbar
  *   - Muestra el CONTEXTO que se va a enviar (entidades + título + backlinks)
  *   - 4 acciones pre-cocinadas (one-click):
  *       · Resumir la nota
@@ -223,7 +223,8 @@ export function CuadernoAIPanel({ note, backlinks, editorRef, onClose }: Props) 
           padding: '14px 18px', borderBottom: '1px solid #e5e7eb',
           display: 'flex', alignItems: 'center', gap: 10,
         }}>
-          <span style={{ fontSize: 18 }}>🧠</span>
+          {/* Sprint Quality-4 · sin emojis · "◈" U+25C8 glifo geométrico permitido */}
+          <span style={{ fontSize: 18, fontWeight: 700, color: '#0071e3' }} aria-hidden="true">◈</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 700, fontSize: 14, color: '#0f172a' }}>
               Asistente · sobre <em>{note.title}</em>
@@ -347,7 +348,8 @@ export function CuadernoAIPanel({ note, backlinks, editorRef, onClose }: Props) 
                 fontSize: 9, color: '#64748b', textTransform: 'uppercase',
                 letterSpacing: 0.5, fontWeight: 700, marginBottom: 4,
               }}>
-                {m.role === 'user' ? '⌨ Tú' : '🧠 Brain'}
+                {/* Sprint Quality-4 · etiquetas sin emojis · ">" usuario / "◈" Brain (glifos seguros) */}
+                {m.role === 'user' ? '> TÚ' : '◈ BRAIN'}
               </div>
               <div style={{
                 fontSize: 13, color: '#0f172a', whiteSpace: 'pre-wrap', lineHeight: 1.45,

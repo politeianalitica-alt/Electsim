@@ -142,7 +142,7 @@ export function EsiosHourlyChart({ defaultSlug = 'pvpc', hours = 48 }: Props) {
               <strong>! Configuración pendiente</strong> · ESIOS_API_KEY no está configurada.
             </>
           ) : (
-            <>⚠ Error: {data.error}</>
+            <>▲ Error: {data.error}</>
           )}
         </div>
       )}

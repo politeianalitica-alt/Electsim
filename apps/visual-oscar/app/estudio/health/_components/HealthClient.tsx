@@ -6,14 +6,18 @@ import type { SystemHealth, ServiceStatus } from '@/types/domo'
 import Skeleton from '@/components/Skeleton'
 import styles from './Health.module.css'
 
-const SERVICE_LABELS: Record<string, { label: string; glyph: string }> = {
-  database:        { label: 'Base de datos',     glyph: '⊟' },
-  redis:           { label: 'Cache (Redis)',     glyph: '' },
-  pipeline_runner: { label: 'Pipeline Runner',   glyph: '⟶' },
-  ai_engine:       { label: 'Motor IA',          glyph: '' },
-  storage:         { label: 'Almacenamiento',    glyph: '◫' },
-  search_index:    { label: 'Índice búsqueda',   glyph: '⌕' },
-  message_queue:   { label: 'Cola de mensajes',  glyph: '⇉' },
+// Sprint Q-D.2 · etiquetas en español del analista + descripción en
+// `hint` para tooltip. Antes "Cache (Redis)", "Pipeline Runner", "Cola de
+// mensajes" eran nombres técnicos que el analista no necesita conocer · ahora
+// el nombre que ve es funcional y el hint explica para qué sirve.
+const SERVICE_LABELS: Record<string, { label: string; glyph: string; hint?: string }> = {
+  database:        { label: 'Base de datos',            glyph: '⊟', hint: 'Almacena tus tablas, paneles y configuración.' },
+  redis:           { label: 'Caché de respuestas',      glyph: '',  hint: 'Acelera las consultas más frecuentes para responder al instante.' },
+  pipeline_runner: { label: 'Procesador de cargas',     glyph: '⟶', hint: 'Ejecuta las cargas de datos, limpiezas y cruces que tienes programados.' },
+  ai_engine:       { label: 'Motor IA',                 glyph: '',  hint: 'Genera el análisis IA y traduce tus preguntas en español a consultas sobre tus tablas.' },
+  storage:         { label: 'Almacenamiento',           glyph: '◫', hint: 'Guarda los archivos que adjuntas (CSV, Excel, documentos).' },
+  search_index:    { label: 'Buscador interno',         glyph: '⌕', hint: 'Permite buscar al instante en tus tablas, paneles y entidades.' },
+  message_queue:   { label: 'Cola de tareas',           glyph: '⇉', hint: 'Coordina las tareas pesadas en segundo plano (cargas grandes, exportes).' },
 }
 
 const STATUS_META: Record<ServiceStatus, { label: string; color: string; dot: string }> = {
@@ -70,8 +74,9 @@ export default function HealthClient() {
  <div className={styles.root}>
  <div className={styles.header}>
  <div>
- <h1 className={styles.title}>System Health</h1>
- <p className={styles.subtitle}>Estado en tiempo real de todos los servicios del módulo Domo</p>
+ {/* Sprint Quality-Q-A.2 (CLAUDE.md 0.5) Estudio en UI (antes System Health). */}
+ <h1 className={styles.title}>Estado del sistema</h1>
+ <p className={styles.subtitle}>Estado en tiempo real de los servicios del Estudio.</p>
  </div>
  <div className={styles.headerRight}>
           {dataUpdatedAt > 0 && (
@@ -89,8 +94,9 @@ export default function HealthClient() {
       {isLoading ? (
  <Skeleton style={{ height: 80, borderRadius: 12, marginBottom: '1.25rem' }} />
       ) : error ? (
+ // Sprint Quality-Q-A.2: mensaje para analista, no para sysadmin.
  <div className={styles.errorBanner}>
-          × No se puede conectar al backend. Verifica que el servidor esté activo.
+          × No hemos podido conectar con los servicios del Estudio. Intenta de nuevo en un minuto.
  </div>
       ) : overallMeta && data ? (
  <div className={styles.overallBanner} style={{ borderColor: `${overallMeta.color}40`, background: `${overallMeta.color}08` }}>
@@ -109,12 +115,15 @@ export default function HealthClient() {
           ? Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} style={{ height: 110, borderRadius: 12 }} />)
           : allServices.map(([key, service]) => {
               const meta  = STATUS_META[service.status ?? 'unknown']
-              const label = SERVICE_LABELS[key] ?? { label: key, glyph: '●' }
+              const label = SERVICE_LABELS[key] ?? { label: key, glyph: '●' as const, hint: undefined as string | undefined }
               return (
  <div
                   key={key}
                   className={styles.serviceCard}
-                  style={{ borderColor: `${meta.color}30` }}
+                  style={{ borderColor: `${meta.color}30`, cursor: label.hint ? 'help' : undefined }}
+                  // Sprint Q-D.2 · tooltip nativo del navegador con la descripción
+                  // del servicio en lenguaje analista (no devops).
+                  title={label.hint}
                 >
  <div className={styles.serviceHeader}>
  <span className={styles.serviceIcon}>{label.glyph}</span>
@@ -130,24 +139,25 @@ export default function HealthClient() {
         }
  </div>
 
+ {/* Sprint Quality-Q-A.2 (CLAUDE.md 0.5): sin Domo y sin jerga de release.
+     Reemplaza la tabla Sprint Coverage por un indice neutro de modulos. */}
  <div className={styles.sprintsSection}>
- <h2 className={styles.sprintsTitle}>Módulos Domo — Sprint Coverage</h2>
+ <h2 className={styles.sprintsTitle}>Cobertura por módulo</h2>
  <div className={styles.sprintsTable}>
           {[
-            { sprint: 1, module: 'Foundation + Sidebar',         route: '/estudio' },
-            { sprint: 2, module: 'Fuentes de datos',             route: '/estudio/fuentes' },
-            { sprint: 3, module: 'Pipelines ETL',                route: '/estudio/pipeline' },
-            { sprint: 4, module: 'Datasets',                     route: '/estudio/dataset' },
-            { sprint: 5, module: 'Dashboards constructor',       route: '/estudio/dashboard' },
-            { sprint: 6, module: 'Alertas + Notif + Sharing',    route: '/estudio/alertas' },
-            { sprint: 7, module: 'Gobernanza + AI Query',        route: '/estudio/gobernanza' },
-            { sprint: 8, module: 'Health + Cmd-K + Anotaciones', route: '/estudio/health' },
+            { module: 'Inicio',                          route: '/estudio' },
+            { module: 'Fuentes de datos',                route: '/estudio/fuentes' },
+            { module: 'Limpieza y cruces',               route: '/estudio/pipeline' },
+            { module: 'Mis tablas',                      route: '/estudio/dataset' },
+            { module: 'Mis paneles',                     route: '/estudio/dashboard' },
+            { module: 'Alertas y notificaciones',        route: '/estudio/alertas' },
+            { module: 'Equipo y permisos',               route: '/estudio/gobernanza' },
+            { module: 'Estado del sistema',              route: '/estudio/health' },
           ].map(row => (
- <div key={row.sprint} className={styles.sprintRow}>
- <span className={styles.sprintNum}>Sprint {row.sprint}</span>
+ <div key={row.route} className={styles.sprintRow}>
  <span className={styles.sprintModule}>{row.module}</span>
  <code className={styles.sprintRoute}>{row.route}</code>
- <span className={styles.sprintStatus} style={{ color: '#22c55e' }}> Completado</span>
+ <span className={styles.sprintStatus} style={{ color: '#22c55e' }}> Operativo</span>
  </div>
           ))}
  </div>

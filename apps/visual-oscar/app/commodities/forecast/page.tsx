@@ -67,7 +67,7 @@ export default function ForecastPage() {
         </p>
         {forecast?.warning ? (
           <p style={{ fontSize: 11, color: '#b45309', marginBottom: 12 }}>
-            ⚠ {forecast.warning}
+            ▲ {forecast.warning}
           </p>
         ) : null}
 

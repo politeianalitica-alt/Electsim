@@ -220,8 +220,8 @@ export function SpainPresenceMap({ onCountryClick }: Props) {
               )}
               {hover.presence.diplomatica && (
                 <p style={{ margin: '2px 0 0', fontSize: 10 }}>
-                  {hover.presence.diplomatica.embassy ? '🏛 Embajada · ' : ''}
-                  {hover.presence.diplomatica.cervantes > 0 ? `📚 ${hover.presence.diplomatica.cervantes} Cervantes` : ''}
+                  {hover.presence.diplomatica.embassy ? '⊟ Embajada · ' : ''}
+                  {hover.presence.diplomatica.cervantes > 0 ? `▦ ${hover.presence.diplomatica.cervantes} Cervantes` : ''}
                 </p>
               )}
               <p style={{ margin: '4px 0 0', fontSize: 9, color: '#94a3b8', fontStyle: 'italic' }}>Click para drawer →</p>

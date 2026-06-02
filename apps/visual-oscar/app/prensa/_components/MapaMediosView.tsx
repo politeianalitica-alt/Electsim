@@ -156,7 +156,7 @@ export function MapaMediosView() {
   if (error || !data) {
     return (
       <section style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14 }}>
-        <p style={{ margin: 0, fontSize: 11, color: '#991b1b', fontWeight: 600 }}>⚠ Catálogo no disponible {error ? `(${error})` : ''}</p>
+        <p style={{ margin: 0, fontSize: 11, color: '#991b1b', fontWeight: 600 }}>▲ Catálogo no disponible {error ? `(${error})` : ''}</p>
       </section>
     )
   }

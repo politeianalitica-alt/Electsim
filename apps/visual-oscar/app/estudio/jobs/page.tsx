@@ -2,10 +2,10 @@ import ComingSoon from '../_components/ComingSoon'
 
 export default function DomoJobsPage() {
   return (
+    // Sprint Quality-Q-A.4 · "Jobs/syncs/exports" → lenguaje analista
  <ComingSoon
-      title="Monitor de Jobs"
-      subtitle="Estado en tiempo real, reintentos y logs de syncs, pipelines y exports"
-      sprint="Sprint 6+"
+      title="Procesos en curso"
+      subtitle="Estado en tiempo real, reintentos y registro de las cargas de datos, limpiezas y exportaciones."
     />
   )
 }

@@ -52,8 +52,9 @@ export default function PipelineListClient() {
  <div className={styles.root}>
  <div className={styles.header}>
  <div>
- <h1 className={styles.title}>Pipelines ETL</h1>
- <p className={styles.subtitle}>Transforma y enruta datos entre fuentes y datasets</p>
+ {/* Sprint Q-C.4 · alinear nav/hub/página · hub dice "Limpieza y cruces" */}
+ <h1 className={styles.title}>Limpieza y cruces</h1>
+ <p className={styles.subtitle}>Transforma, limpia y cruza datos entre fuentes y tablas.</p>
  </div>
  <Link href="/estudio/pipeline/nuevo" className={styles.btnPrimary}>
           + Nuevo pipeline

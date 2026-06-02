@@ -157,7 +157,7 @@ export default function ComisionesPage() {
               </div>
               {legislatura !== 'XV' && (
                 <span style={{ fontSize: 10.5, color: '#7C3AED', fontWeight: 600 }}>
-                  ⚠ Solo Congreso (histórico)
+                  ▲ Solo Congreso (histórico)
                 </span>
               )}
             </div>

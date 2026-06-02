@@ -175,7 +175,7 @@ export function GeoConvergenceAlerts() {
                         if (s.temporal_scope) tipParts.push(`Temporalidad: ${s.temporal_scope}`)
                         if (s.freshness) tipParts.push(`Frescura: ${s.freshness}`)
                         if (typeof s.confidence === 'number') tipParts.push(`Conf: ${Math.round(s.confidence * 100)}%`)
-                        if (s.caveat) tipParts.push(`⚠ ${s.caveat}`)
+                        if (s.caveat) tipParts.push(`▲ ${s.caveat}`)
                         return (
                           <div key={i} title={tipParts.join(' · ')} style={{
                             display: 'grid',
@@ -224,7 +224,7 @@ export function GeoConvergenceAlerts() {
                     {a.caveats && a.caveats.length > 0 && (
                       <details style={{ marginTop: 6 }}>
                         <summary style={{ fontSize: 9, color: '#fbbf24', cursor: 'pointer', letterSpacing: 0.4, textTransform: 'uppercase', fontWeight: 700 }}>
-                          ⚠ {a.caveats.length} caveats
+                          ▲ {a.caveats.length} caveats
                         </summary>
                         <ul style={{ margin: '4px 0 0 14px', padding: 0, fontSize: 9, color: '#cbd5e1', lineHeight: 1.4 }}>
                           {a.caveats.map((c, i) => <li key={i}>{c}</li>)}

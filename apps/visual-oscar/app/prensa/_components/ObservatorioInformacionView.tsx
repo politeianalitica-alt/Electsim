@@ -118,7 +118,7 @@ function SummarySection({
         padding: 14, borderLeft: `4px solid ${ACCENT}`,
       }}>
         <p style={{ margin: 0, fontSize: 11, color: '#991b1b', fontWeight: 600 }}>
-          ⚠ Sumario agregado no disponible {error ? `(${error})` : ''}
+          ▲ Sumario agregado no disponible {error ? `(${error})` : ''}
         </p>
         <p style={{ margin: '4px 0 0', fontSize: 10, color: '#64748b' }}>
           El buscador puntual sigue activo abajo · accede al

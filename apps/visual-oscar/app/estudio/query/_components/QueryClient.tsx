@@ -132,14 +132,21 @@ export default function QueryClient() {
         )}
       </div>
 
+      {/* Sprint Q-C.4 · E5 · empty state en lenguaje analista, no devops.
+         ANTES presumía de SQL en el primer mensaje ("AI Query · El motor
+         generará el SQL...") contradiciendo la promesa del hub ("sin
+         escribir una línea de código"). AHORA habla del resultado que
+         recibe el analista; el detalle SQL sigue accesible bajo el botón
+         "Ver SQL generado" en cada respuesta. */}
       <div className={styles.main}>
         {!activeSessionId ? (
           <div className={styles.emptyChat}>
             <span style={{ fontSize: '2.5rem', opacity: 0.2 }}>⌨</span>
-            <h2 className={styles.emptyChatTitle}>AI Query — Pregunta en lenguaje natural</h2>
+            <h2 className={styles.emptyChatTitle}>Pregúntale a tus datos</h2>
             <p className={styles.emptyChatDesc}>
-              Selecciona uno o varios datasets y haz preguntas en español. El motor generará el SQL,
-              ejecutará la consulta y te mostrará los resultados con sugerencias de visualización.
+              Escribe la pregunta en español. Te devolvemos la tabla y la mejor
+              visualización para responderla. Si necesitas la consulta SQL
+              exacta, podrás verla en cada respuesta.
             </p>
             <div className={styles.exampleQuestions}>
               {EXAMPLE_QUESTIONS.map((q, i) => (
@@ -175,7 +182,8 @@ export default function QueryClient() {
 
               {activeSession?.messages.length === 0 && (
                 <div className={styles.chatHint}>
-                  <p>Haz una pregunta sobre los datos o escribe una consulta SQL directamente.</p>
+                  {/* Sprint Q-C.4 · E5 · prosa coherente con el empty state */}
+                  <p>Pregúntale a tus datos en español. Si necesitas la consulta SQL exacta, podrás verla en cada respuesta.</p>
                   <div className={styles.exampleQuestions} style={{ marginTop: '.5rem' }}>
                     {EXAMPLE_QUESTIONS.slice(0, 3).map((q, i) => (
                       <button

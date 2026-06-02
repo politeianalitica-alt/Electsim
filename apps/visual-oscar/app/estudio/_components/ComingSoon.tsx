@@ -1,10 +1,16 @@
 interface Props {
   title:    string
   subtitle: string
-  sprint:   string
+  /**
+   * Sprint Quality-Q-A.4 · `sprint` queda opcional y, si se pasa, ya no se
+   * muestra al usuario · se conserva solo por compat retrograda con páginas
+   * que aún lo pasan (warehouse/charts/jobs). El render lo ignora.
+   * Era un leak de jerga interna ("En desarrollo · Sprint 6+") a la UI.
+   */
+  sprint?:  string
 }
 
-export default function ComingSoon({ title, subtitle, sprint }: Props) {
+export default function ComingSoon({ title, subtitle }: Props) {
   return (
  <main style={{ padding: '2rem 2.5rem', maxWidth: 1100, margin: '0 auto' }}>
  <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 0.5rem', letterSpacing: '-0.02em' }}>
@@ -35,10 +41,10 @@ export default function ComingSoon({ title, subtitle, sprint }: Props) {
           letterSpacing: '0.06em',
           marginBottom: 16,
         }}>
-          ● En desarrollo · {sprint}
+          Próximamente
  </div>
  <p style={{ color: 'var(--color-muted, #6b7280)', margin: 0, fontSize: '0.875rem' }}>
-          Este módulo se completará en sprints posteriores.
+          Estamos puliendo esta sección. Avisaremos cuando esté lista.
  </p>
  </div>
  </main>

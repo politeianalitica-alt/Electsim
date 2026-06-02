@@ -6,7 +6,7 @@
  * Sprint Cuaderno N9 · sustituye el QuickSwitcher (sólo notas) por un picker
  * tipo Linear/Raycast que cruza los tres ejes del Cuaderno:
  *
- *   📝 Notas        · matching por título · folder · tags · contenido
+ *   ▤ Notas        · matching por título · folder · tags · contenido
  *   ◉ Entidades    · 159 del registry · personas/partidos/CCAA/sectores/empresas/instituciones/países
  *   ⌖ Datos        · 50 datapoints macro/CIS/UNDP/WB
  *
@@ -190,7 +190,8 @@ export function CuadernoOmniSearch({
               }}
             >
               {f === 'all' && 'Todo'}
-              {f === 'note' && '📝 Notas'}
+              {/* Sprint Quality-4 · sin emojis · "▤" (U+25A4) bloque horizontal · glifo seguro */}
+              {f === 'note' && '▤ Notas'}
               {f === 'entity' && '◉ Entidades'}
               {f === 'data' && '⌖ Datos'}
             </button>
@@ -243,7 +244,7 @@ export function CuadernoOmniSearch({
             >
               {h.kind === 'note' && (
                 <>
-                  <span style={{ fontSize: 14, width: 18 }}>📝</span>
+                  <span style={{ fontSize: 14, width: 18 }} aria-hidden="true">▤</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {h.title}

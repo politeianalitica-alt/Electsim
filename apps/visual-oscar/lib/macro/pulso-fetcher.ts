@@ -49,9 +49,21 @@ function splitImfSeries(series: any[] | undefined): PulsoPoint[] {
 }
 
 function pickLast(series: PulsoPoint[]): PulsoPoint | null {
-  // Para series con forecast, el "último observado" es el último no-forecast.
+  // Sprint W.3 · BUG corregido: antes asumía orden cronológico ascendente
+  // (series[length-1] = más reciente). Pero `reverseInePoints` invierte la
+  // serie INE → series[0] queda como la más reciente y series[length-1] como
+  // la más antigua. Resultado: pulso-macro reportaba last_period de 2017/2020
+  // cuando el INE WSTempus ya tenía datos hasta 2025/2026.
+  //
+  // Fix robusto: tomar el período máximo por comparación textual. Funciona
+  // para los formatos que emite el sistema: "YYYY", "YYYY-MM", "YYYY-QN".
+  // (Q > '0'-'9' en ASCII, así que YYYY-Q4 > YYYY-12 dentro del mismo año,
+  // pero los catálogos no mezclan periodicidad por serie así que no hay
+  // colisión semántica.)
+  if (series.length === 0) return null;
   const obs = series.filter((p) => !p.forecast && p.value != null);
-  return obs[obs.length - 1] || series[series.length - 1] || null;
+  if (obs.length === 0) return series[series.length - 1] || null;
+  return obs.reduce((max, p) => (p.period > max.period ? p : max), obs[0]);
 }
 
 /**
@@ -59,9 +71,17 @@ function pickLast(series: PulsoPoint[]): PulsoPoint | null {
  */
 function absoluteUrl(path: string, baseUrl: string | undefined): string {
   if (path.startsWith("http")) return path;
-  const base = baseUrl || process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+  // Sprint W.1 · BUG corregido: la precedencia anterior era
+  //   `baseUrl || process.env.VERCEL_URL ? ... : ...`
+  // que evaluaba la disyunción ANTES de la ternaria. Si pasabas baseUrl
+  // pero VERCEL_URL no estaba (caso local + script), el resultado era
+  // `https://undefined` → fetch fallaba con "fetch failed" en TODOS los
+  // 277 indicadores cuando se llamaba desde scripts/data-probe.ts.
+  // AHORA: precedencia explícita y orden correcto baseUrl > VERCEL_URL > localhost.
+  let base: string;
+  if (baseUrl) base = baseUrl;
+  else if (process.env.VERCEL_URL) base = `https://${process.env.VERCEL_URL}`;
+  else base = "http://localhost:3000";
   return `${base}${path}`;
 }
 
@@ -86,6 +106,28 @@ export async function fetchPulsoIndicator(
         sourceCode: ind.sourceCode,
         status: "missing",
         error: `HTTP ${res.status}`,
+      };
+    }
+    // Sprint Quality-Data · ANTES `await res.json()` se ejecutaba sin
+    // comprobar content-type. Si la fuente responde 200 con HTML (sucede
+    // por ej. cuando IMF/Eurostat/INE devuelven una landing en lugar de
+    // datos por throttling, mantenimiento o User-Agent bloqueado), la
+    // promesa rechaza con "Unexpected token '<'" y el error baja por
+    // catch crudo, perdiendo trazabilidad.
+    // AHORA: verificamos content-type y, si no es JSON, devolvemos un
+    // error tipado que el frontend puede traducir a copy útil.
+    const contentType = (res.headers.get("content-type") || "").toLowerCase();
+    if (!contentType.includes("json")) {
+      const preview = (await res.text()).slice(0, 80);
+      return {
+        ok: false,
+        id: ind.id,
+        series: [],
+        last: null,
+        source: ind.source,
+        sourceCode: ind.sourceCode,
+        status: "missing",
+        error: `non_json_response (ct=${contentType || "unknown"}, preview="${preview.replace(/\s+/g, " ").trim()}")`,
       };
     }
     const json = await res.json();
@@ -193,6 +235,20 @@ export async function fetchPulsoIndicator(
         series = pts
           .map((p: any) => ({
             period: String(p.period || ''),
+            value: typeof p.value === 'number' ? p.value : null,
+          }) as PulsoPoint)
+          .filter((p: PulsoPoint) => p.period && p.value != null);
+        break;
+      }
+      case "spanish-stats-points": {
+        // Sprint W.2 · /api/spanish-stats/<key> devuelve snapshots ministeriales:
+        //   { ok, points: [{ time: '2024', value: 28842.10 }], last: {...}, n_points }
+        // El campo del periodo es `time` (no `period`). 24 indicadores estaban
+        // mapeados a `ine-ipc` por error → ninguno parseaba.
+        const pts = Array.isArray(json?.points) ? json.points : [];
+        series = pts
+          .map((p: any) => ({
+            period: String(p.time ?? p.period ?? ''),
             value: typeof p.value === 'number' ? p.value : null,
           }) as PulsoPoint)
           .filter((p: PulsoPoint) => p.period && p.value != null);

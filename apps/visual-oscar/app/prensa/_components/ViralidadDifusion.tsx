@@ -95,7 +95,7 @@ export function ViralidadDifusion() {
 
       {error && (
         <section style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: 14 }}>
-          <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>⚠ {error}</p>
+          <p style={{ fontSize: 12, color: '#991b1b', margin: 0 }}>▲ {error}</p>
         </section>
       )}
 

@@ -118,18 +118,24 @@ export function GeoStateMediaFeeds() {
       padding: 18,
       color: '#f1f5f9',
     }}>
+      {/* Sprint Q-D.3 · ANTES "régimen autoritario" como flag binario metía a
+         Doha, Pyongyang, Ankara y Pekín en el mismo cubo y la línea
+         "fuentes opresión/no-libres" añadía juicio léxico. AHORA: descripción
+         funcional (medios de Estado en jurisdicciones con baja libertad de
+         prensa) + matiz explícito de que el sesgo varía por país. */}
       <header style={{ marginBottom: 12 }}>
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.8, color: '#fca5a5', textTransform: 'uppercase' }}>
-          ⚠ Cobertura medios estatales · régimen autoritario
+          ▲ Cobertura de medios de Estado con baja libertad de prensa
         </p>
         <p style={{ margin: '4px 0 0', fontSize: 11, color: '#94a3b8', lineHeight: 1.5 }}>
-          Lo que publican Moscú · Pekín · Teherán · Doha · Ankara · La Habana · Caracas sobre el mundo, AHORA.
-          Útil para detectar líneas coordinadas y framing oficial cross-país.
-          <strong style={{ color: '#fca5a5' }}> NO es fuente factual · NO usar para citar como hecho.</strong>
+          Lo que publican AHORA medios públicos o cuasi-estatales de Moscú · Pekín · Teherán · Doha · Ankara · La Habana · Caracas.
+          Estos países tienen índices RSF/Freedom House en banda baja, pero el grado y tipo de control editorial varía notablemente por país.
+          Útil para detectar líneas coordinadas y framing oficial entre países.
+          <strong style={{ color: '#fca5a5' }}> NO equivalente a propaganda automática · NO citar como fuente factual sin contrastar.</strong>
         </p>
         {data?.totals && (
           <p style={{ margin: '6px 0 0', fontSize: 10, color: '#64748b' }}>
-            {data.totals.n_feeds_ok}/{data.totals.n_feeds_ok + data.totals.n_feeds_error} feeds activos · {data.totals.n_items_total} items · {data.totals.n_items_authoritarian} de fuentes opresión/no-libres
+            {data.totals.n_feeds_ok}/{data.totals.n_feeds_ok + data.totals.n_feeds_error} fuentes activas · {data.totals.n_items_total} entradas · {data.totals.n_items_authoritarian} de medios estatales en jurisdicciones con baja libertad de prensa
           </p>
         )}
       </header>
@@ -330,7 +336,7 @@ export function GeoStateMediaFeeds() {
       {data?._meta?.warnings && data._meta.warnings.length > 0 && (
         <div style={{ marginTop: 12, paddingTop: 10, borderTop: '1px solid #1e293b' }}>
           {data._meta.warnings.map((w, i) => (
-            <p key={i} style={{ margin: 0, fontSize: 9, color: '#fde68a', lineHeight: 1.4 }}>⚠ {w}</p>
+            <p key={i} style={{ margin: 0, fontSize: 9, color: '#fde68a', lineHeight: 1.4 }}>▲ {w}</p>
           ))}
         </div>
       )}

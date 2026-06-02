@@ -43,6 +43,9 @@ import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_componen
 // (sustituidos por NarrativesFramingWorkbench en narrativas y TendenciasImpactoView en tendencias).
 // Se conservan en _components/ para evitar romper rutas legacy y por si se reusan en informes.
 import TopicPartyHeatmap from './_components/TopicPartyHeatmap'
+// Sprint 0.5 · observabilidad UI del pipeline canónico
+import { PipelineHealthBadge } from './_components/PipelineHealthBadge'
+import { SourceStatusPanel } from './_components/SourceStatusPanel'
 
 import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
 import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
@@ -273,7 +276,8 @@ function ViralidadStrip({ clusters, mode = 'compact' }: {
           ◆ Historias que aceleran · viralidad
         </p>
         <p style={{ margin: '2px 0 0', fontSize: 10, color: '#475569' }}>
-          Narrativas con velocity ≥ 0.5 art/h o aceleración ≥ +10% vs ventana anterior · first_movers ya integrados.
+          {/* Sprint Q-C.1 · "velocity 0.5 art/h" + "first_movers" eran jerga interna */}
+          Narrativas con más de 0,5 artículos/hora o que han acelerado +10% respecto a la ventana anterior (24 h vs 24 h previas). Incluye los medios que arrancaron la ola.
         </p>
       </header>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -397,7 +401,8 @@ export default function PrensaPage() {
             <div>
               <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.14, textTransform: 'uppercase', opacity: 0.86, margin: 0, display: 'flex', gap: 8, alignItems: 'center' }}>
                 <LiveDot color={isFresh ? '#86efac' : '#fde68a'} />
-                <span>MEDIOS · INTELLIGENCE · Tab {tab.number}/7 · {tab.label}</span>
+                {/* Sprint Q-C.1 · "INTELLIGENCE" → ES */}
+                <span>INTELIGENCIA DE MEDIOS · Tab {tab.number}/7 · {tab.label}</span>
                 {source === 'mock' && <span style={{ background: 'rgba(255,255,255,0.20)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
               </p>
               <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22, margin: '6px 0 0', lineHeight: 1.1, maxWidth: 820 }}>
@@ -442,15 +447,24 @@ export default function PrensaPage() {
                   ))}
                 </div>
               )}
+              {/* Sprint Q-C.1 · botones de balance · ANTES mostraban `m.slice(0,6)` truncado
+                  ("ideol…", "regio…") sin tooltip que aclarara qué hace cada modo. Ahora cada
+                  botón tiene label legible + title con descripción funcional. */}
               {needsIntel && (
                 <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.16)', borderRadius: 999, padding: 3 }}>
-                  {(['pluralism', 'audience', 'regional', 'ideological', 'crisis'] as const).map((m) => (
-                    <button key={m} onClick={() => setBalanceMode(m)} title={`Balance · ${m}`} style={{
-                      background: balanceMode === m ? '#fff' : 'transparent', color: balanceMode === m ? tab.themeAccent : '#fff',
+                  {([
+                    { id: 'pluralism',  label: 'plural',     title: 'Equilibra catálogo por pluralidad editorial (todos los espectros).' },
+                    { id: 'audience',   label: 'audiencia',  title: 'Pondera por audiencia mensual del medio.' },
+                    { id: 'regional',   label: 'regional',   title: 'Sobreexpone medios regionales y locales.' },
+                    { id: 'ideological',label: 'ideológico', title: 'Pondera por distancia ideológica entre medios.' },
+                    { id: 'crisis',     label: 'crisis',     title: 'Prioriza medios con mayor cobertura del topic.' },
+                  ] as const).map((m) => (
+                    <button key={m.id} onClick={() => setBalanceMode(m.id)} title={m.title} style={{
+                      background: balanceMode === m.id ? '#fff' : 'transparent', color: balanceMode === m.id ? tab.themeAccent : '#fff',
                       border: 'none', borderRadius: 999, padding: '3px 10px',
                       fontSize: 9, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', letterSpacing: 0.4, textTransform: 'uppercase',
                     }}>
-                      {m === 'pluralism' ? 'plural' : m.slice(0, 6)}
+                      {m.label}
                     </button>
                   ))}
                 </div>
@@ -476,6 +490,12 @@ export default function PrensaPage() {
             </div>
           )}
 
+          {/* Sprint 0.5 · observabilidad pipeline canónico (badge + fuentes) */}
+          <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 12, flexWrap: 'wrap' }}>
+            <PipelineHealthBadge />
+            <SourceStatusPanel />
+          </div>
+
           {/* Sub-nav 7 tabs */}
           <MediosTabsNav activeId={safeActiveTab} onTabChange={setActiveTab} />
 
@@ -490,9 +510,12 @@ export default function PrensaPage() {
               {/* Tab 1 · Pulso · qué pasa AHORA */}
               {safeActiveTab === 'pulso' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  {/* Sprint Q-C.1 · ANTES enumeraba componentes técnicos
+                      ("feed por tiers", "topic × partido", "Lectura IA con todo lo
+                      anterior"). AHORA responde la pregunta del analista. */}
                   <TabExplainerBlock
                     question="¿Qué está dominando ahora mismo la agenda?"
-                    answer="Narrativas auditables emergentes · feed por tiers nacional/europeo/regional/local · agenda topic × partido · historias que aceleran · contexto GDELT global · Lectura IA con todo lo anterior."
+                    answer="Las narrativas dominantes y los titulares por ámbito (nacional, europeo, regional, local), qué temas concentra cada partido y qué historias están acelerando ahora. Análisis IA opcional."
                   />
                   {/* Sprint M4 FASE B · metodología + confianza + warnings (mismo motor que NewsAPI search) */}
                   {(data?.methodology_confidence || data?.analysis_warnings) && (
@@ -640,9 +663,12 @@ export default function PrensaPage() {
               {/* Tab 5 · Mapas de impacto · dónde impacta (España + Global) */}
               {safeActiveTab === 'mapas' && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+                  {/* Sprint Q-C.1 · header sin `narrative attribution` ni `regional_signal_score`
+                      (eran nombres de campo internos). La metodología detallada ya vive bien
+                      explicada en MapasImpacto.tsx:76-78. */}
                   <TabExplainerBlock
-                    question="¿Dónde impacta? España/CCAA + Global con narrative attribution"
-                    answer="Modo ESPAÑA · separa CCAA del medio vs mencionada vs afectada políticamente con regional_signal_score. Modo GLOBAL · país/evento con severidad + narrativa + relevancia ES + fuente + confianza."
+                    question="¿Dónde tiene impacto político esta cobertura?"
+                    answer="Modo España: distingue origen del medio, territorio mencionado y territorio afectado políticamente. Modo Global: severidad, exposición de España y frame dominante por país."
                   />
                   <LecturaPoliteiaPanel
                     tabId="mapas"

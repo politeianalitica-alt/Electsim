@@ -157,7 +157,7 @@ export function GeoSameEventFraming() {
                     fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 3,
                     background: '#1f2937', color: '#fee2e2', border: '1px solid #991b1b',
                     letterSpacing: 0.4, textTransform: 'uppercase',
-                  }}>⚠ {Math.round((theme.authoritarian_source_share || 0) * 100)}% autoritario</span>
+                  }}>▲ {Math.round((theme.authoritarian_source_share || 0) * 100)}% autoritario</span>
                 )}
               </div>
 
