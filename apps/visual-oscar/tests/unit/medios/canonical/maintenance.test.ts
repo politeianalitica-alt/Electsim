@@ -62,11 +62,20 @@ async function run() {
       names.includes('terms-not-classified'),
       'falta terms-not-classified (Sprint 2 C8)',
     )
+    assert.ok(
+      names.includes('classifier-metrics'),
+      'falta classifier-metrics (Sprint 2 C9)',
+    )
     assert.equal(
       JOBS.length,
-      6,
-      `esperado 6 jobs (3 base + topic-prominence-snapshot Sprint 2 C3 + unmapped-tags Sprint 2 C7 + terms-not-classified Sprint 2 C8), encontrado ${JOBS.length}`,
+      7,
+      `esperado 7 jobs (3 base + topic-prominence-snapshot Sprint 2 C3 + unmapped-tags Sprint 2 C7 + terms-not-classified Sprint 2 C8 + classifier-metrics Sprint 2 C9), encontrado ${JOBS.length}`,
     )
+  })
+
+  await test('JOBS · classifier-metrics tiene schedule daily (Sprint 2 C9)', () => {
+    const j = JOBS.find(j => j.name === 'classifier-metrics')!
+    assert.equal(j.schedule, 'daily')
   })
 
   await test('JOBS · cada entrada tiene shape Job (name + schedule + run)', () => {

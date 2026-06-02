@@ -29,6 +29,7 @@ import { recomputeSourceScores } from './recompute-source-scores.ts'
 import { otroAlert } from './otro-alert.ts'
 import { unmappedTagsJob } from './unmapped-tags.ts'
 import { termsNotClassifiedJob } from './otro-cluster.ts'
+import { classifierMetricsJob } from './classifier-metrics.ts'
 import { computeAndWriteSnapshot } from '../scoring/snapshot-writer.ts'
 
 export interface JobResult {
@@ -110,8 +111,10 @@ export const JOBS: Job[] = [
   // (sin LLM, sin embeddings). Identifica subtemas recurrentes que podrían
   // justificar nuevas reglas heurísticas o macrotemas en topic-rules.json.
   { name: 'terms-not-classified', schedule: '12hourly', run: termsNotClassifiedJob },
-  // SPRINT_2_REGISTER_HERE (C9):
-  //   { name: 'classifier-metrics',    schedule: 'daily',    run: classifierMetricsJob },
+  // Sprint 2 C9: cada 24h agrega métricas pipeline (fetched/noise/clasificado/
+  // OTRO%) y persiste snapshot en pipeline_metrics. Serie temporal consumida
+  // por /medios/health y /api/medios/maintenance/metrics.
+  { name: 'classifier-metrics', schedule: 'daily', run: classifierMetricsJob },
   // SPRINT_4_REGISTER_HERE (requerirá extender Schedule con 'quarter-hourly' |
   // 'half-hourly' + cambiar el cron de Vercel a "*/15 * * * *"):
   //   { name: 'narrative-detection',   schedule: 'half-hourly',    run: narrativeDetectionJob },
