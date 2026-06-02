@@ -127,6 +127,7 @@ export default function Dashboard() {
     weather: false,
     radiation: false,
     infrastructure: false,
+    power_plants: false,
     global_incidents: true,
     traffic_incidents: true,
     war_alerts: false,
@@ -358,8 +359,8 @@ export default function Dashboard() {
       layerFetchedRef.current.add('weather');
     }
     // Infrastructure
-    if (activeLayers.infrastructure && !layerFetchedRef.current.has('infrastructure')) {
-      fetchEndpoint('/api/osiris/infrastructure', d => ({ infrastructure: d.infrastructure }));
+    if ((activeLayers.infrastructure || activeLayers.power_plants) && !layerFetchedRef.current.has('infrastructure')) {
+      fetchEndpoint('/api/osiris/infrastructure', d => ({ infrastructure: d.infrastructure, power_plants: d.power_plants }));
       layerFetchedRef.current.add('infrastructure');
     }
     // Global Incidents (GDELT)

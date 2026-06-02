@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
+import powerPlants from './power-plants.json';
 
 /**
  * Politeia — Global Infrastructure API
- * Tracks critical global infrastructure: Nuclear Power Plants worldwide
- * Comprehensive coverage including all Russian, Chinese, and strategically important facilities
+ * - Nuclear Power Plants (lista curada con detalle: reactores, capacidad, operador)
+ * - Centrales eléctricas de todo el mundo por fuente (Global Power Plant
+ *   Database, WRI): ~34.900 con tipo de combustible y capacidad.
  */
+const POWER_PLANTS = (
+  powerPlants as Array<{ name: string; country: string; lat: number; lng: number; fuel: string; mw: number | null }>
+).map((p, i) => ({ id: `pp-${i}`, ...p }));
 
 const NUCLEAR_FACILITIES = [
   // ═══ EUROPE ═══
@@ -133,12 +138,11 @@ export async function GET() {
 
   return NextResponse.json({
     infrastructure: dynamicFacilities,
+    power_plants: POWER_PLANTS,
     total: dynamicFacilities.length,
+    total_power_plants: POWER_PLANTS.length,
     timestamp: new Date().toISOString(),
   }, {
-    headers: { 
-      'Cache-Control': 'no-store, no-cache, must-revalidate',
-      'Pragma': 'no-cache'
-    }
+    headers: { 'Cache-Control': 'public, s-maxage=600, stale-while-revalidate=1200' },
   });
 }

@@ -6,7 +6,7 @@ import {
   Plane, Satellite, Activity, Globe, Radio, Eye,
   Shield, Sun, AlertTriangle, Camera, Flame, Target,
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
-  ChevronDown, ChevronUp, Network, Construction,
+  ChevronDown, ChevronUp, Network, Construction, Zap,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -102,6 +102,7 @@ const LAYER_GROUPS = [
     color: '#FF3D3D',
     layers: [
       { key: 'infrastructure', label: 'Instalaciones nucleares', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure' },
+      { key: 'power_plants', label: 'Centrales eléctricas (mundo)', icon: Zap, color: '#FFD600', dataKey: 'power_plants' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },
       { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents' },
       { key: 'gps_jamming', label: 'Interferencia GPS', icon: Radio, color: '#FF4444', dataKey: 'gps_jamming' },

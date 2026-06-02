@@ -119,7 +119,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
@@ -255,6 +255,17 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
         'text-offset': [0, 2], 'text-max-width': 14, 'text-allow-overlap': false,
       }, paint: { 'text-color': ['case', ['in', 'SEISMIC RISK', ['get', 'status']], '#FF9500', '#76FF03'], 'text-halo-color': '#000', 'text-halo-width': 1, 'text-opacity': 0.7 }});
+
+      // Centrales eléctricas (color por fuente de energía)
+      map.addLayer({ id: 'power-plants-dots', type: 'circle', source: 'power-plants', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,1.8, 6,4, 11,8],
+        'circle-color': ['match', ['get','fuel'],
+          'Solar','#FFD600', 'Wind','#4FC3F7', 'Hydro','#2979FF', 'Nuclear','#FF1744',
+          'Coal','#455A64', 'Gas','#FF9100', 'Oil','#8D6E63', 'Biomass','#8BC34A',
+          'Geothermal','#E91E63', 'Waste','#9E9E9E', 'Storage','#00E5FF', 'Cogeneration','#FFAB40',
+          '#BDBDBD'],
+        'circle-opacity': 0.85, 'circle-stroke-width': 0.4, 'circle-stroke-color': '#000', 'circle-stroke-opacity': 0.3,
+      }});
 
       // Satellites
       map.addLayer({ id: 'sat-glow', type: 'circle', source: 'satellites', paint: {
@@ -675,7 +686,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -836,6 +847,25 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
+    // ── Centrales eléctricas (por fuente) ──
+    map.on('click', 'power-plants-dots', e => {
+      if (!e.features?.length) return;
+      const p = e.features[0].properties as any;
+      const coords = (e.features[0].geometry as any).coordinates;
+      const fuelColors: Record<string, string> = { Solar:'#FFD600', Wind:'#4FC3F7', Hydro:'#2979FF', Nuclear:'#FF1744', Coal:'#455A64', Gas:'#FF9100', Oil:'#8D6E63', Biomass:'#8BC34A', Geothermal:'#E91E63', Waste:'#9E9E9E', Storage:'#00E5FF' };
+      const fc = fuelColors[p.fuel] || '#BDBDBD';
+      const fuelES: Record<string, string> = { Solar:'Solar', Wind:'Eólica', Hydro:'Hidroeléctrica', Nuclear:'Nuclear', Coal:'Carbón', Gas:'Gas natural', Oil:'Petróleo', Biomass:'Biomasa', Geothermal:'Geotérmica', Waste:'Residuos', Storage:'Almacenamiento', Cogeneration:'Cogeneración', 'Wave and Tidal':'Mareomotriz' };
+      popup(coords, `<div style="${pStyle}border:1px solid ${fc}55;">
+        <div style="color:${fc};font-size:13px;font-weight:700;margin-bottom:4px;">${p.name || 'Central eléctrica'}</div>
+        <div style="font-size:10px;color:#E8E6E0;margin-bottom:8px;line-height:1.6;">
+          <span style="color:#5C5A54;">FUENTE:</span> <span style="color:${fc};font-weight:600;">${fuelES[p.fuel] || p.fuel || '—'}</span><br/>
+          <span style="color:#5C5A54;">CAPACIDAD:</span> ${p.mw ? Number(p.mw).toLocaleString() + ' MW' : '—'}<br/>
+          <span style="color:#5C5A54;">PAÍS:</span> ${p.country || '—'}
+        </div>
+        <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},14z/data=!3m1!1e3" target="_blank" style="${linkStyle}color:${fc};border:1px solid ${fc}66;background:${fc}1a;">VISTA SATÉLITE</a>
+      </div>`);
+    });
+
     // ── Maritime Ports & Naval Bases ──
     map.on('click', 'maritime-dots', e => {
       const p = e.features?.[0]?.properties;
@@ -979,6 +1009,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     if (!mapReady) return;
     setGeo('infrastructure', activeLayers.infrastructure && data.infrastructure ? data.infrastructure.map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, city: i.city, country: i.country, status: i.status, reactors: i.reactors, capacityMW: i.capacityMW, owner: i.owner } })) : []);
   }, [mapReady, data.infrastructure, activeLayers.infrastructure, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('power-plants', activeLayers.power_plants && data.power_plants ? data.power_plants.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, fuel: p.fuel, mw: p.mw } })) : []);
+  }, [mapReady, data.power_plants, activeLayers.power_plants, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1326,6 +1361,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['fires-heat'], activeLayers.fires);
     setVis(['weather-glow','weather-dots','weather-label'], activeLayers.weather);
     setVis(['infra-glow','infra-dots','infra-label'], activeLayers.infrastructure);
+    setVis(['power-plants-dots'], activeLayers.power_plants);
     setVis(['maritime-glow','maritime-dots','maritime-label'], activeLayers.maritime);
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
     setVis(['ship-dots','ship-label'], activeLayers.maritime);
