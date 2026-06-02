@@ -2,6 +2,10 @@
 import { NextResponse } from 'next/server';
 import { stealthFetch } from '@/lib/osiris/stealthFetch';
 
+// Datos en vivo (adsb.lol); no debe prerenderizarse en build (allí adsb.lol
+// no resuelve y la ruta queda rota/404). Se ejecuta bajo demanda.
+export const dynamic = 'force-dynamic';
+
 /**
  * Politeia — Flight Data API
  * Fetches real-time aircraft positions from adsb.lol (no API key required)
