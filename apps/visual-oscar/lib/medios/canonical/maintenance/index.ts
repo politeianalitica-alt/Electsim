@@ -28,6 +28,7 @@ import { cleanupClusters } from './cleanup-clusters.ts'
 import { recomputeSourceScores } from './recompute-source-scores.ts'
 import { otroAlert } from './otro-alert.ts'
 import { unmappedTagsJob } from './unmapped-tags.ts'
+import { termsNotClassifiedJob } from './otro-cluster.ts'
 import { computeAndWriteSnapshot } from '../scoring/snapshot-writer.ts'
 
 export interface JobResult {
@@ -105,8 +106,11 @@ export const JOBS: Job[] = [
   // Sprint 2 C7: cada 6h detecta RSS tags vistos en article.raw_tags que no
   // están en data/medios/rss-tag-map.json. Output Top 50 → curación humana.
   { name: 'unmapped-tags', schedule: '6hourly', run: unmappedTagsJob },
-  // SPRINT_2_REGISTER_HERE (C8, C9):
-  //   { name: 'terms-not-classified',  schedule: '12hourly', run: termsNotClassifiedJob },
+  // Sprint 2 C8: cada 12h clusteriza artículos OTRO con TF-IDF + cosine
+  // (sin LLM, sin embeddings). Identifica subtemas recurrentes que podrían
+  // justificar nuevas reglas heurísticas o macrotemas en topic-rules.json.
+  { name: 'terms-not-classified', schedule: '12hourly', run: termsNotClassifiedJob },
+  // SPRINT_2_REGISTER_HERE (C9):
   //   { name: 'classifier-metrics',    schedule: 'daily',    run: classifierMetricsJob },
   // SPRINT_4_REGISTER_HERE (requerirá extender Schedule con 'quarter-hourly' |
   // 'half-hourly' + cambiar el cron de Vercel a "*/15 * * * *"):

@@ -58,10 +58,14 @@ async function run() {
     )
     assert.ok(names.includes('otro-alert'), 'falta otro-alert')
     assert.ok(names.includes('unmapped-tags'), 'falta unmapped-tags (Sprint 2 C7)')
+    assert.ok(
+      names.includes('terms-not-classified'),
+      'falta terms-not-classified (Sprint 2 C8)',
+    )
     assert.equal(
       JOBS.length,
-      5,
-      `esperado 5 jobs (3 base + topic-prominence-snapshot Sprint 2 C3 + unmapped-tags Sprint 2 C7), encontrado ${JOBS.length}`,
+      6,
+      `esperado 6 jobs (3 base + topic-prominence-snapshot Sprint 2 C3 + unmapped-tags Sprint 2 C7 + terms-not-classified Sprint 2 C8), encontrado ${JOBS.length}`,
     )
   })
 
