@@ -185,6 +185,119 @@ export interface EmberResponse<T> {
   source_url?: string
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// ENTSO-E (red eléctrica europea) · Sprint Energía S3
+//
+// Tipos del cliente `lib/entsoe/client.ts` que consume la API REST XML de
+// ENTSO-E Transparency Platform (web-api.tp.entsoe.eu/api). Se mantienen planos
+// para poder usarse en route handlers, componentes cliente y tests Node.
+//
+// API real (confirmada vía entsoe-py mappings/parsers · 2026-06-02):
+//   - Base: https://web-api.tp.entsoe.eu/api
+//   - Auth: query param `securityToken=<TOKEN>`. El token es el "Web API
+//       Security Token" que se genera en My Account Settings de la web (NO es
+//       la contraseña). Si solo hay user/pass, el cliente degrada con error.
+//   - Formato respuesta: XML (Publication_MarketDocument para precios/flujos,
+//       GL_MarketDocument para generación/carga). El cliente parsea a JSON.
+//   - documentType: A44 (day-ahead prices), A11 (cross-border physical flow),
+//       A75 (actual generation per type), A65 (total load).
+//   - Estructura XML: TimeSeries → Period → timeInterval (start/end) +
+//       resolution (PT60M) + Point (position + price.amount | quantity).
+//       MktPSRType/psrType marca la tecnología en generación (A75).
+//   - periodStart/periodEnd: formato yyyyMMddHHmm en UTC.
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Un punto horario de una serie ENTSO-E (precio o cantidad). */
+export interface EntsoePoint {
+  /** Posición 1-based dentro del Period (la API NO repite posiciones sin cambio). */
+  position: number
+  /** Valor: €/MWh para precios (A44), MW/MWh para flujos/generación/carga. */
+  value: number
+  /** ISO timestamp del punto, derivado de timeInterval.start + (pos-1)*resolution. */
+  timestamp: string
+}
+
+/** Precios day-ahead (A44) de una zona para un rango temporal. */
+export interface EntsoePrices {
+  /** Clave corta de zona (ej. "ES"). */
+  zone: string
+  /** Código EIC del dominio consultado. */
+  eic: string
+  /** Resolución de la serie (minutos · típicamente 60). */
+  resolution_min: number
+  /** Puntos horarios ordenados ascendente por timestamp. */
+  points: EntsoePoint[]
+  /** Precio medio €/MWh sobre los puntos (null si vacío). */
+  avg_eur_mwh: number | null
+  /** Precio máximo €/MWh (null si vacío). */
+  max_eur_mwh: number | null
+  /** Precio mínimo €/MWh (null si vacío). */
+  min_eur_mwh: number | null
+}
+
+/** Flujos físicos cross-border (A11) en un sentido (from → to). */
+export interface EntsoeFlow {
+  /** Zona origen (clave corta). */
+  from: string
+  /** Zona destino (clave corta). */
+  to: string
+  /** Puntos horarios de potencia (MW) en sentido from→to. */
+  points: EntsoePoint[]
+  /** Energía total transferida en el periodo (MWh, suma de puntos horarios). */
+  total_mwh: number
+}
+
+/** Flujos cross-border bidireccionales entre dos zonas + saldo neto. */
+export interface EntsoeCrossBorder {
+  from: string
+  to: string
+  /** Flujo from→to (export desde `from`). */
+  forward: EntsoeFlow
+  /** Flujo to→from (import hacia `from`). */
+  reverse: EntsoeFlow
+  /** Saldo neto MWh (forward - reverse). Positivo = `from` exporta neto. */
+  net_mwh: number
+  /** Dirección dominante legible (ej. "ES → FR"). */
+  net_direction: string
+}
+
+/** Generación por tecnología (A75) agregada en el periodo. */
+export interface EntsoeGenerationItem {
+  /** Código PSR type (ej. "B16"). */
+  psr_type: string
+  /** Etiqueta humana de la tecnología (ej. "Solar"). */
+  label: string
+  /** Energía generada en el periodo (MWh, suma de puntos horarios). */
+  mwh: number
+}
+
+/** Generación por tipo (A75) de una zona en un rango temporal. */
+export interface EntsoeGeneration {
+  zone: string
+  eic: string
+  /** Desglose por tecnología, ordenado de mayor a menor MWh. */
+  by_type: EntsoeGenerationItem[]
+  /** Suma total MWh de todas las tecnologías. */
+  total_mwh: number
+}
+
+/**
+ * Envoltura de degradación común a todas las respuestas del cliente ENTSO-E.
+ * Patrón Politeia (ver `lib/esios/client.ts` y `lib/ember/client.ts`): nunca
+ * lanza; ante token ausente o fallo devuelve `{ ok:false, error, fetched_at }`.
+ */
+export interface EntsoeResponse<T> {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: T
+  /** ISO timestamp del momento de la petición. */
+  fetched_at: string
+  /** URL pública de ENTSO-E para citar la fuente en la UI. */
+  source_url?: string
+}
+
 /** Empresa del sector energético (española o major global). */
 export interface EnergyCompany {
   /** Slug estable para rutas /sector-energia/empresas/[slug] (S9). */

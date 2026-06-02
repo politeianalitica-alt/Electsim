@@ -28,6 +28,8 @@ import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
+// Sprint Energía S3 · contexto europeo (precios day-ahead comparados + flujos)
+import { EntsoeEuContextPanel } from './EntsoeEuContextPanel'
 import { EsiosTabsSection } from '@/components/energy/EsiosTabsSection'
 import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
 // Sprint Cuaderno N2-wire · notas que mencionan al sector energía (registry slug 'energia')
@@ -202,6 +204,15 @@ export function ElectricoView() {
       {/* ───── ENTSO-E · datos UE oficiales TSO ───── */}
       <div style={{ marginBottom: 14 }}>
         <EntsoeSpainPanel />
+      </div>
+
+      {/* ───── Contexto europeo · ENTSO-E precios comparados + flujos ─────
+          Sprint Energía S3 · pone los precios mayoristas y los flujos de
+          España en perspectiva paneuropea (ES/FR/DE/PT/IT day-ahead + flujos
+          cross-border ES↔FR/PT) con datos oficiales ENTSO-E. Si falta el Web
+          API Security Token (ENTSOE_SECURITY_TOKEN), degrada a empty-state. */}
+      <div style={{ marginBottom: 14 }}>
+        <EntsoeEuContextPanel />
       </div>
 
       {/* ───── ROW 1: Mix de generación + Precio mercado ───── */}
