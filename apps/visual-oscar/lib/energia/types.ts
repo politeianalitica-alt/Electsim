@@ -298,6 +298,27 @@ export interface EntsoeResponse<T> {
   source_url?: string
 }
 
+/**
+ * Subasta de capacidad renovable (resultado adjudicado) · Sprint Energía S5.
+ *
+ * España ha celebrado varias subastas del nuevo marco (RD 960/2020 ·
+ * Régimen Económico de Energías Renovables, REER) entre 2021 y 2022, además
+ * de las históricas de 2016-2017. El precio adjudicado es el €/MWh medio
+ * ponderado resultante de la puja (a la baja).
+ */
+export interface SubastaRenovable {
+  /** Fecha de la subasta (ISO YYYY-MM-DD o mes "YYYY-MM"). */
+  fecha: string
+  /** Tecnología(s) subastada(s) (ej. "Fotovoltaica", "Eólica", "Tecnología no específica"). */
+  tecnologia: string
+  /** Precio adjudicado medio en €/MWh (resultado de la puja a la baja). */
+  precio_adjudicado_eur_mwh: number
+  /** Capacidad adjudicada en MW. */
+  capacidad_mw: number
+  /** Observación + fuente del dato. */
+  observacion: string
+}
+
 /** Empresa del sector energético (española o major global). */
 export interface EnergyCompany {
   /** Slug estable para rutas /sector-energia/empresas/[slug] (S9). */

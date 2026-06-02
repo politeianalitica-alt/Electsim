@@ -24,6 +24,7 @@ import type {
   PniecTarget,
   H2Project,
   EnergyCompany,
+  SubastaRenovable,
 } from './types'
 
 // ────────────────────────────────────────────────────────────────────
@@ -151,6 +152,64 @@ export const CAPACIDAD_RENOVABLE_ES: RenewableCapacity[] = [
     capacidad_mw: 600,
     fuente: 'REE · potencia instalada (~2024)',
     ano: 2024,
+  },
+]
+
+// ────────────────────────────────────────────────────────────────────
+// SUBASTAS DE CAPACIDAD RENOVABLE ES · resultados adjudicados
+// ────────────────────────────────────────────────────────────────────
+// Fuente: MITECO · notas de prensa de los resultados de las subastas del
+// Régimen Económico de Energías Renovables (REER, RD 960/2020) celebradas en
+// 2021-2022, más las subastas históricas de 2017. El precio es el €/MWh medio
+// ponderado adjudicado (puja a la baja); la capacidad, la potencia adjudicada.
+//
+//   - Subasta enero 2021: primera del nuevo marco · récord histórico de bajos
+//     precios (fotovoltaica ~24,5 €/MWh; eólica ~25,3 €/MWh) · 3.034 MW.
+//     (MITECO, 26-ene-2021)
+//   - Subasta octubre 2021: segunda · ~3.300 MW adjudicados, precio medio
+//     ~30,6 €/MWh; fotovoltaica ~30,4 €/MWh. (MITECO, 19-oct-2021)
+//   - Subasta octubre 2022: cupos específicos (incl. biomasa, termosolar,
+//     fotovoltaica distribuida) · resultado parcialmente desierto; el precio
+//     fotovoltaica reservada para autoconsumo se adjudicó ~47,7 €/MWh.
+//     (MITECO, 22-nov-2022)
+//   - Subasta 2017 (histórica, marco anterior): ~5.000 MW eólica + fotovoltaica
+//     a precio cercano al de mercado (sin prima · "subasta a cero").
+//     (MINETAD, jul-2017)
+export const SUBASTAS_RENOVABLES_ES: SubastaRenovable[] = [
+  {
+    fecha: '2021-01-26',
+    tecnologia: 'Fotovoltaica',
+    precio_adjudicado_eur_mwh: 24.47,
+    capacidad_mw: 2036,
+    observacion: 'Primera subasta REER (RD 960/2020) · récord de bajo precio · MITECO 26-ene-2021',
+  },
+  {
+    fecha: '2021-01-26',
+    tecnologia: 'Eólica',
+    precio_adjudicado_eur_mwh: 25.31,
+    capacidad_mw: 998,
+    observacion: 'Primera subasta REER · eólica terrestre · MITECO 26-ene-2021',
+  },
+  {
+    fecha: '2021-10-19',
+    tecnologia: 'Fotovoltaica',
+    precio_adjudicado_eur_mwh: 30.40,
+    capacidad_mw: 2255,
+    observacion: 'Segunda subasta REER · MITECO 19-oct-2021',
+  },
+  {
+    fecha: '2021-10-19',
+    tecnologia: 'Eólica',
+    precio_adjudicado_eur_mwh: 30.18,
+    capacidad_mw: 783,
+    observacion: 'Segunda subasta REER · eólica terrestre · MITECO 19-oct-2021',
+  },
+  {
+    fecha: '2022-11-22',
+    tecnologia: 'Fotovoltaica (autoconsumo industrial)',
+    precio_adjudicado_eur_mwh: 47.66,
+    capacidad_mw: 44,
+    observacion: 'Subasta con cupos específicos · gran parte quedó desierta · MITECO 22-nov-2022',
   },
 ]
 
