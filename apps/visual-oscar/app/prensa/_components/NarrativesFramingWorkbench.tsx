@@ -20,6 +20,17 @@
  *  - Filtros (frame, confianza, aceleración) sin recargar
  */
 import { useMemo, useState } from 'react'
+import { FLAGS } from '@/lib/medios/feature-flags'
+
+// Sprint 1.4 · feature flag preparado: cuando USE_CANONICAL_NARRATIVAS
+// esté activo en Vercel preview, futuras versiones de page.tsx leerán de
+// /api/medios/narrativas (stub Sprint 0+1, lleno en Sprint 4). En
+// producción la flag default es FALSE → comportamiento legacy intacto.
+// El componente actual recibe `narratives` como prop desde el padre.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const NARRATIVAS_ENDPOINT = FLAGS.USE_CANONICAL_NARRATIVAS
+  ? '/api/medios/narrativas'
+  : '/api/medios/intel?include=narrative_clusters'
 
 // ─── Tipos espejo de NarrativeCluster (parcial · solo lo que la UI consume) ───
 interface NarrativeChannel { channel: string; weight: number; examples: string[] }

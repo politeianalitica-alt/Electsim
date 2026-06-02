@@ -21,6 +21,13 @@ import { MapaNarrativasGlobal } from './MapaNarrativasGlobal'
 import { IntelRegional } from './IntelRegional'
 import type { CCAARegionStat } from '@/lib/news-aggregator'
 import type { NarrativeCluster } from '@/lib/medios/media-methodology'
+import { FLAGS } from '@/lib/medios/feature-flags'
+
+// Sprint 1.4 · feature flag preparado: cuando USE_CANONICAL_MAPAS esté
+// activo en preview Vercel, datos territoriales futuros consumirán
+// /api/medios/pulso?mode=REGION. Sprint 0+1 mantiene legacy intacto.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const MAPAS_USES_CANONICAL = FLAGS.USE_CANONICAL_MAPAS
 
 type MapaMode = 'espana' | 'global'
 
