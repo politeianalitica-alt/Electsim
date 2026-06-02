@@ -48,6 +48,7 @@ export interface ArticleVolumeRow {
 export interface HistorySnapshot {
   computed_at: Date
   volume: number
+  volume_score: number
   momentum_score: number
 }
 
@@ -116,16 +117,22 @@ export async function readHistoryForTopic(
       const sql = getRawSql(db)
       if (!sql) return []
       const rows = (await sql`
-        SELECT computed_at, volume, momentum_score
+        SELECT computed_at, volume, volume_score, momentum_score
         FROM topic_prominence_history
         WHERE topic_id = ${topicId}
           AND window_spec = ${windowSpec}
           AND computed_at >= ${since.toISOString()}
         ORDER BY computed_at ASC
-      `) as Array<{ computed_at: string | Date; volume: number; momentum_score: number }>
+      `) as Array<{
+        computed_at: string | Date
+        volume: number
+        volume_score: number
+        momentum_score: number
+      }>
       return rows.map((r) => ({
         computed_at: r.computed_at instanceof Date ? r.computed_at : new Date(r.computed_at),
         volume: Number(r.volume) || 0,
+        volume_score: Number(r.volume_score) || 0,
         momentum_score: Number(r.momentum_score) || 0,
       }))
     },

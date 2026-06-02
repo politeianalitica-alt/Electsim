@@ -59,7 +59,12 @@ interface StoreCalls {
 
 function makeStoreStub(
   volumes: Record<string, { volume: number; source_count: number }>,
-  history: Array<{ computed_at: Date; volume: number; momentum_score: number }> = [],
+  history: Array<{
+    computed_at: Date
+    volume: number
+    volume_score: number
+    momentum_score: number
+  }> = [],
 ): { store: TopicProminenceStore; calls: StoreCalls } {
   const calls: StoreCalls = { reads: [], writes: [] }
   const store: TopicProminenceStore = {

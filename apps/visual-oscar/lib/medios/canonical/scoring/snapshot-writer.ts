@@ -1,5 +1,5 @@
 /**
- * Sprint 2 C3-C4 · cron job hourly · snapshot writer de
+ * Sprint 2 C3-C5 · cron job hourly · snapshot writer de
  * topic_prominence_history.
  *
  * Cada hora (registrado en maintenance/index.ts como
@@ -16,11 +16,12 @@
  *         entityDensityScore.
  *      e) Calcula `volumeScore` (log normalizado).
  *      f) Agrega score = 0.30·V + 0.25·M + 0.20·D + 0.15·T + 0.10·E.
- *      g) Insertar fila en `topic_prominence_history`.
+ *      g) Lee histórico de 14 días y deriva `state` con `deriveTopicState`
+ *         (Sprint 2 C5 · STRUCTURAL/EMERGENT/STABLE).
+ *      h) Insertar fila en `topic_prominence_history`.
  *
- * Sprint 2 C4: los 5 componentes son reales. State queda 'STABLE' hasta C5
- * (donde se decide STRUCTURAL/EMERGENT/STABLE a partir de los scores y la
- * persistencia temporal del topic).
+ * Sprint 2 C5: state es real (STRUCTURAL si volumen sostenido 14d ≥ 0.5,
+ * EMERGENT si momentum 24h ≥ 0.7 con volumen < 0.4, STABLE en el resto).
  *
  * Test injection:
  *   `__withTestStore(stub, fn)` ejecuta `fn()` con `_storeOverride = stub`,
@@ -31,6 +32,7 @@ import { aggregateProminenceScore } from './aggregate.ts'
 import { computeSourceDiversity } from './diversity.ts'
 import { computeEntityDensity } from './entity-density.ts'
 import { computeMomentum } from './momentum.ts'
+import { deriveTopicState } from './state-machine.ts'
 import { computeTierWeight } from './tier.ts'
 import {
   readAllMediosConfig as _readAllMediosConfig,
@@ -49,6 +51,7 @@ import {
 
 const T24H = 24 * 3600_000
 const T7D = 7 * T24H
+const T14D = 14 * T24H
 
 export interface TopicProminenceStore {
   readArticleVolumeInWindow: (
@@ -181,7 +184,24 @@ export async function computeAndWriteSnapshot(
           entityDensity: entityDensityScore,
         }),
       )
-      const state = 'STABLE' as const
+
+      // Sprint 2 C5 · TopicState desde histórico 14d (segundo read; reusar el
+      // de 7d no detectaría STRUCTURAL). El reloj `new Date(now)` se inyecta
+      // explícitamente para que el state derivado sea consistente con el
+      // mismo `now` usado en los filtros de ventana arriba.
+      const stateHistory = await store.readHistoryForTopic(
+        topicId,
+        windowSpec,
+        new Date(now - T14D),
+      )
+      const state = deriveTopicState(
+        stateHistory.map((h) => ({
+          computed_at: h.computed_at,
+          volume_score: h.volume_score,
+          momentum_score: h.momentum_score,
+        })),
+        new Date(now),
+      )
 
       await store.writeSnapshot({
         topic_id: topicId,
