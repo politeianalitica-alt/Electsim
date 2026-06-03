@@ -743,13 +743,13 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           'icon-rotate': ['coalesce', ['get','heading'], 0],
           'icon-rotation-alignment': 'map',
           'icon-allow-overlap': true, 'icon-ignore-placement': true,
-          'icon-size': ['interpolate',['linear'],['zoom'], 2,0.45, 6,0.7, 11,1.0, 14,1.3],
+          'icon-size': ['interpolate',['linear'],['zoom'], 2,0.6, 6,0.95, 11,1.35, 14,1.7],
         }});
       // Barcos parados (fondeados / amarrados) → punto
       map.addLayer({ id: 'ship-dots', type: 'circle', source: 'maritime-ships',
         filter: ['<=', ['get','speed'], 0.5],
         paint: {
-          'circle-radius': ['interpolate',['linear'],['zoom'], 1,1.6, 5,3, 10,5],
+          'circle-radius': ['interpolate',['linear'],['zoom'], 1,2.4, 5,4.5, 10,7],
           'circle-color': shipColorExpr,
           'circle-opacity': 0.85,
           'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
@@ -1663,7 +1663,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     const portTypeMap: Record<string, string> = { container: 'port_container', energy: 'port_energy', naval: 'port_naval', port: 'port_commercial' };
     const activePortTypes = Object.keys(portTypeMap).filter(t => activeLayers[portTypeMap[t]]);
     const portFilter: Set<string> | null = activePortTypes.length ? new Set(activePortTypes) : null;
-    setGeo('maritime', activeLayers.maritime && data.maritime_ports
+    const showPorts = activeLayers.maritime || activePortTypes.length > 0;
+    setGeo('maritime', showPorts && data.maritime_ports
       ? data.maritime_ports.filter((p: any) => !portFilter || portFilter.has(p.type)).map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank, congestion: p.congestion, dwell_time: p.dwell_time, live_nearby: p.live_nearby, live_waiting: p.live_waiting } }))
       : []);
     setGeo('maritime-choke', activeLayers.maritime && data.maritime_chokepoints ? data.maritime_chokepoints.map((c: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { name: c.name, traffic: c.traffic, risk: c.risk } })) : []);
@@ -1671,7 +1672,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     const shipTypeKeys = ['cargo','tanker','passenger','fishing','tug','highspeed','military','other'];
     const activeShipTypes = shipTypeKeys.filter(k => activeLayers['ship_' + k]);
     const shipFilter: Set<string> | null = activeShipTypes.length ? new Set(activeShipTypes) : null;
-    setGeo('maritime-ships', activeLayers.maritime && data.maritime_ships
+    const showShips = activeLayers.maritime || activeShipTypes.length > 0;
+    setGeo('maritime-ships', showShips && data.maritime_ships
       ? data.maritime_ships
           .filter((s: any) => !shipFilter || shipFilter.has(s.type || 'other'))
           .map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name || s.mmsi?.toString(), type: s.type || 'other', speed: s.speed, heading: s.heading, course: s.course, destination: s.destination, draught: s.draught, flag: s.flag, mmsi: s.mmsi, callsign: s.callsign, imo: s.imo, length: s.length, beam: s.beam, moored: !!s.moored } }))
@@ -2082,9 +2084,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['power-plants-dots'], activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other);
     setVis(['critical-infra-dots'], activeLayers.critical_infra);
     setVis(['cables-lines'], activeLayers.submarine_cables);
-    setVis(['maritime-glow','maritime-dots','maritime-label'], activeLayers.maritime);
+    const mShowPorts = activeLayers.maritime || activeLayers.port_container || activeLayers.port_energy || activeLayers.port_naval || activeLayers.port_commercial;
+    const mShowShips = activeLayers.maritime || activeLayers.ship_cargo || activeLayers.ship_tanker || activeLayers.ship_passenger || activeLayers.ship_fishing || activeLayers.ship_tug || activeLayers.ship_highspeed || activeLayers.ship_military || activeLayers.ship_other;
+    setVis(['maritime-glow','maritime-dots','maritime-label'], mShowPorts);
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
-    setVis(['ship-dots','ship-arrows','ship-label'], activeLayers.maritime);
+    setVis(['ship-dots','ship-arrows','ship-label'], mShowShips);
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
     setVis(['conflict-icons'], !!activeLayers.conflict_zones);

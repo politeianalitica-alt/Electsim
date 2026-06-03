@@ -1,6 +1,6 @@
 'use client';
 
-import { memo, useState } from 'react';
+import { memo, useState, Fragment } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Plane, Satellite, Activity, Globe, Radio, Eye,
@@ -73,33 +73,21 @@ const LAYER_GROUPS = [
     icon: Ship,
     color: '#00BCD4',
     layers: [
-      { key: 'maritime', label: 'Marítimo / Naval (todo)', icon: Ship, color: '#00BCD4', dataKey: 'maritime_ships,maritime_ports,maritime_chokepoints' },
-    ],
-  },
-  {
-    label: 'BARCOS (por tipo)',
-    icon: Ship,
-    color: '#00BCD4',
-    layers: [
-      { key: 'ship_cargo', label: 'Carga', icon: Ship, color: '#00BCD4', dataKey: '' },
+      { key: 'maritime', label: 'Todo el tráfico marítimo', icon: Ship, color: '#00BCD4', dataKey: 'maritime_ships,maritime_ports,maritime_chokepoints' },
+      // Barcos por tipo
+      { key: 'ship_cargo', label: 'Carga', icon: Ship, color: '#00BCD4', dataKey: '', sectionLabel: 'BARCOS POR TIPO' },
       { key: 'ship_tanker', label: 'Petroleros / tanque', icon: Ship, color: '#FF9500', dataKey: '' },
       { key: 'ship_passenger', label: 'Pasaje / ferry', icon: Ship, color: '#B388FF', dataKey: '' },
       { key: 'ship_fishing', label: 'Pesca', icon: Ship, color: '#4DB6AC', dataKey: '' },
       { key: 'ship_tug', label: 'Remolcadores', icon: Ship, color: '#A1887F', dataKey: '' },
       { key: 'ship_highspeed', label: 'Alta velocidad', icon: Ship, color: '#FF4081', dataKey: '' },
       { key: 'ship_military', label: 'Militar', icon: Shield, color: '#FF1744', dataKey: '' },
-      { key: 'ship_other', label: 'Otros (vela, servicio…)', icon: Ship, color: '#90A4AE', dataKey: '' },
-    ],
-  },
-  {
-    label: 'PUERTOS (por tipo)',
-    icon: Anchor,
-    color: '#00BCD4',
-    layers: [
-      { key: 'port_container', label: 'Contenedores', icon: Anchor, color: '#00BCD4', dataKey: '' },
-      { key: 'port_energy', label: 'Energéticos (crudo/gas)', icon: Anchor, color: '#FF9500', dataKey: '' },
+      { key: 'ship_other', label: 'Otros · vela, servicio', icon: Ship, color: '#90A4AE', dataKey: '' },
+      // Puertos por tipo (sub-sección dentro de Marítimo)
+      { key: 'port_container', label: 'Contenedores', icon: Anchor, color: '#00BCD4', dataKey: '', sectionLabel: 'PUERTOS POR TIPO' },
+      { key: 'port_energy', label: 'Energéticos crudo/gas', icon: Anchor, color: '#FF9500', dataKey: '' },
       { key: 'port_naval', label: 'Bases navales', icon: Anchor, color: '#FF3D3D', dataKey: '' },
-      { key: 'port_commercial', label: 'Comerciales (resto)', icon: Anchor, color: '#26A69A', dataKey: '' },
+      { key: 'port_commercial', label: 'Comerciales', icon: Anchor, color: '#26A69A', dataKey: '' },
     ],
   },
   {
@@ -407,9 +395,15 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                         const Icon = layer.icon;
                         const isActive = activeLayers[layer.key];
                         const count = countFor(layer);
+                        const sectionLabel = (layer as any).sectionLabel as string | undefined;
                         return (
+                          <Fragment key={layer.key}>
+                          {sectionLabel && (
+                            <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.1em', color: POL.ink5, textTransform: 'uppercase', padding: '6px 4px 2px' }}>
+                              {sectionLabel}
+                            </div>
+                          )}
                           <button
-                            key={layer.key}
                             onClick={() => toggle(layer.key)}
                             style={{
                               width: '100%', display: 'flex', alignItems: 'center', gap: 9, padding: '6px 8px',
@@ -435,6 +429,7 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                             )}
                             <Toggle on={!!isActive} />
                           </button>
+                          </Fragment>
                         );
                       })}
                     </div>

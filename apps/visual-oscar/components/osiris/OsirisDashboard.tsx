@@ -19,6 +19,10 @@ const LayerPanel = dynamic(() => import('@/components/osiris/LayerPanel'));
 const CameraViewer = dynamic(() => import('@/components/osiris/CameraViewer'));
 const OsintPanel = dynamic(() => import('@/components/osiris/OsintPanel'));
 
+// Claves de las sub-capas marítimas (barcos y puertos por tipo)
+const MARITIME_SHIP_KEYS = ['ship_cargo', 'ship_tanker', 'ship_passenger', 'ship_fishing', 'ship_tug', 'ship_highspeed', 'ship_military', 'ship_other'];
+const MARITIME_PORT_KEYS = ['port_container', 'port_energy', 'port_naval', 'port_commercial'];
+
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -262,6 +266,12 @@ export default function Dashboard() {
     day_night: true,
     sdk_stream: false,
   });
+  // Marítimo: activar cualquier tipo de barco o puerto debe cargar y mostrar los
+  // datos sin necesidad de activar antes el toggle maestro "Todo el tráfico".
+  const anyShipActive = MARITIME_SHIP_KEYS.some(k => (activeLayers as any)[k]);
+  const anyPortActive = MARITIME_PORT_KEYS.some(k => (activeLayers as any)[k]);
+  const maritimeActive = activeLayers.maritime || anyShipActive || anyPortActive;
+  const showShips = activeLayers.maritime || anyShipActive;
   const [liveFeedUrl, setLiveFeedUrl] = useState<string | null>(null);
   const [liveFeedName, setLiveFeedName] = useState('');
   const [liveFeedEmbedAllowed, setLiveFeedEmbedAllowed] = useState(true);
@@ -461,7 +471,7 @@ export default function Dashboard() {
       layerFetchedRef.current.add('cctv');
     }
     // Maritime
-    if (activeLayers.maritime && !layerFetchedRef.current.has('maritime')) {
+    if (maritimeActive && !layerFetchedRef.current.has('maritime')) {
       fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) }));
       layerFetchedRef.current.add('maritime');
     }
@@ -581,7 +591,7 @@ export default function Dashboard() {
     if (activeLayers.radiation) {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/radiation', d => ({ radiation: d.stations })), 300000)); // 5m
     }
-    if (activeLayers.maritime) {
+    if (maritimeActive) {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) })), 30000)); // 30s (AIS global tarda ~9s en recogerse + caché 20s)
     }
     if (activeLayers.iss) {
@@ -598,7 +608,7 @@ export default function Dashboard() {
   // activar la capa marítima, abrimos el WebSocket y reemplazamos los barcos del
   // servidor (Báltico) por los globales (España, Gibraltar, todo el mundo).
   useEffect(() => {
-    if (!activeLayers.maritime) return;
+    if (!showShips) return;
     let cancelled = false;
     let stop: (() => void) | null = null;
     (async () => {
@@ -624,7 +634,7 @@ export default function Dashboard() {
       aisStopRef.current = null;
       aisActiveRef.current = false;
     };
-  }, [activeLayers.maritime]);
+  }, [showShips]);
 
   // CCTV: loaded once on layer toggle via layerFetchedRef (no viewport polling)
 
