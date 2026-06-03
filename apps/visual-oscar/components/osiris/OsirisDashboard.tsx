@@ -252,6 +252,7 @@ export default function Dashboard() {
     iss: false,
     frontline: false,
     trains: false,
+    railways: false,
     satnogs: false,
     gibs: false,
     nightlights: false,
@@ -542,6 +543,11 @@ export default function Dashboard() {
     if (activeLayers.trains && !layerFetchedRef.current.has('trains')) {
       fetchEndpoint('/api/osiris/trains', d => ({ trains: d.trains }));
       layerFetchedRef.current.add('trains');
+    }
+    // Red ferroviaria mundial (estática, una sola carga)
+    if (activeLayers.railways && !layerFetchedRef.current.has('railways')) {
+      fetchEndpoint('/api/osiris/railways', d => ({ railways_fc: d.railways }));
+      layerFetchedRef.current.add('railways');
     }
     // Estaciones SatNOGS
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {

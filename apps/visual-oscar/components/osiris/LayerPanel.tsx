@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, Swords, Image, Moon,
+  Train, TrainTrack, Swords, Image, Moon,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -157,7 +157,8 @@ const LAYER_GROUPS = [
     color: '#FFB300',
     layers: [
       { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents' },
-      { key: 'trains', label: 'Trenes en directo (Finlandia)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
+      { key: 'trains', label: 'Trenes en directo (FI·IE·US)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
+      { key: 'railways', label: 'Líneas ferroviarias (mundial)', icon: TrainTrack, color: '#C9A66B', dataKey: '' },
     ],
   },
   {
@@ -282,6 +283,7 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     layer.key.startsWith('ship_') ? shipCount(layer.key)
       : layer.key.startsWith('port_') ? portCount(layer.key)
       : layer.key.startsWith('geo_') ? geoCount(layer.key)
+      : layer.key === 'railways' ? (data?.railways_fc?.features?.length ?? null)
       : getCount(layer.dataKey);
   const totalEntities = ALL_LAYERS.reduce((s: number, l: any) => s + (getCount(l.dataKey) || 0), 0);
   const activeCount = Object.values(activeLayers).filter(Boolean).length;

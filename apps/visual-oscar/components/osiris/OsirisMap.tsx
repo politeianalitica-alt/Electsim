@@ -124,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'satnogs', 'military-bases', 'air-quality'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'satnogs', 'military-bases', 'air-quality'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -230,6 +230,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#80CBC4', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
 
+      // ── Red ferroviaria mundial (Natural Earth) — líneas de vía ──
+      map.addLayer({ id: 'railways-line', type: 'line', source: 'railways',
+        layout: { 'line-cap': 'butt', 'line-join': 'round', visibility: 'none' },
+        paint: {
+          'line-color': '#C9A66B',
+          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.35, 5,0.6, 9,0.85],
+          'line-width': ['interpolate',['linear'],['zoom'], 2,0.4, 6,1.1, 10,2],
+          'line-dasharray': [3, 2],
+        }});
+
       // ── GDACS (alertas de desastres) — color por nivel de alerta ──
       const gdacsColor: any = ['match', ['get','alert'], 'Red','#EF5350', 'Orange','#FFA726', /* Green */ '#66BB6A'];
       map.addLayer({ id: 'gdacs-glow', type: 'circle', source: 'gdacs', paint: {
@@ -293,9 +303,10 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'frontline-fill', type: 'fill', source: 'frontline', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': '#FF1744', 'fill-opacity': 0.18 } });
       map.addLayer({ id: 'frontline-line', type: 'line', source: 'frontline', paint: { 'line-color': '#FF1744', 'line-width': 1.6, 'line-opacity': 0.7 } });
 
-      // ── Trenes (Digitraffic) ──
+      // ── Trenes en directo (FI / IE / US) — color por país ──
+      const trainColor: any = ['match', ['get','country'], 'FI','#4FC3F7', 'IE','#66BB6A', 'US','#FF7043', /* otros */ '#FFCA28'];
       map.addLayer({ id: 'trains-dots', type: 'circle', source: 'trains', paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 4,2.2, 8,4, 12,6], 'circle-color': '#FFCA28', 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#4E3B00',
+        'circle-radius': ['interpolate',['linear'],['zoom'], 4,2.2, 8,4, 12,6], 'circle-color': trainColor, 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#1a1208',
       }});
       map.addLayer({ id: 'trains-label', type: 'symbol', source: 'trains', minzoom: 7, layout: {
         'text-field': ['concat', '#', ['to-string', ['get','number']]], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1], 'text-anchor': 'top', 'text-allow-overlap': false,
@@ -1289,15 +1300,23 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Trenes ──
+    const TRAIN_COUNTRY: Record<string, { name: string; color: string; src: string }> = {
+      FI: { name: 'Finlandia', color: '#4FC3F7', src: 'Fintraffic Digitraffic' },
+      IE: { name: 'Irlanda', color: '#66BB6A', src: 'Irish Rail Realtime' },
+      US: { name: 'EE. UU.', color: '#FF7043', src: 'Amtrak · amtraker' },
+    };
     map.on('click', 'trains-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
       const coords = (e.features![0].geometry as any).coordinates;
-      popup(coords, `<div style="${pStyle}border:1px solid #FFCA2855;min-width:170px;">
-        <div style="color:#FFCA28;font-size:13px;font-weight:700;margin-bottom:4px;">Tren #${p.number}</div>
+      const cc = TRAIN_COUNTRY[p.country as string] || { name: '—', color: '#FFCA28', src: 'Tren en directo' };
+      popup(coords, `<div style="${pStyle}border:1px solid ${cc.color}55;min-width:180px;">
+        <div style="color:${cc.color};font-size:13px;font-weight:700;margin-bottom:2px;">Tren #${p.number}</div>
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${cc.color};background:${cc.color}1a;border:1px solid ${cc.color}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">${cc.name}</div>
         <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
-          <div>Velocidad: <span style="color:#E8E6E0;">${p.speed != null ? p.speed + ' km/h' : '—'}</span></div>
+          ${p.route ? `<div>Línea: <span style="color:#E8E6E0;">${p.route}</span></div>` : ''}
+          <div>Velocidad: <span style="color:#E8E6E0;">${p.speed != null && p.speed !== '' ? Number(p.speed) + ' km/h' : '—'}</span></div>
           <div>Posición: <span style="color:#E8E6E0;">${coords[1].toFixed(3)}°, ${coords[0].toFixed(3)}°</span></div>
-          <div style="color:#5C5A54;margin-top:3px;">Fintraffic Digitraffic (Finlandia)</div>
+          <div style="color:#5C5A54;margin-top:3px;">${cc.src}</div>
         </div>
       </div>`);
     });
@@ -1647,11 +1666,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     // Frente de Ucrania: la fuente es un FeatureCollection completo (polígonos + líneas)
     const fcFeats = activeLayers.frontline && data.frontline_fc?.features ? data.frontline_fc.features : [];
     setGeo('frontline', fcFeats);
-    setGeo('trains', activeLayers.trains && Array.isArray(data.trains) ? data.trains.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { number: t.number, speed: t.speed } })) : []);
+    setGeo('trains', activeLayers.trains && Array.isArray(data.trains) ? data.trains.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { number: t.number, speed: t.speed, country: t.country, route: t.route || '' } })) : []);
+    setGeo('railways', activeLayers.railways && data.railways_fc?.features ? data.railways_fc.features : []);
     setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
     setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name } })) : []);
     setGeo('air-quality', activeLayers.air_quality && Array.isArray(data.air_quality) ? data.air_quality.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, aqi: a.aqi, pm25: a.pm25, level: a.level, color: a.color } })) : []);
-  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
+  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1994,6 +2014,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['iss-glow','iss-dot','iss-label'], activeLayers.iss);
     setVis(['frontline-fill','frontline-line'], activeLayers.frontline);
     setVis(['trains-dots','trains-label'], activeLayers.trains);
+    setVis(['railways-line'], activeLayers.railways);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
     setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);
