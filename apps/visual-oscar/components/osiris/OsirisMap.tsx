@@ -1337,12 +1337,14 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Bases militares ──
+    const MILBASE_TYPE: Record<string, string> = { base: 'Base militar', naval_base: 'Base naval', airfield: 'Aeródromo militar', barracks: 'Cuartel', training_area: 'Campo de entrenamiento', depot: 'Depósito militar', bunker: 'Búnker', zone: 'Recinto militar', wikidata: 'Instalación militar' };
     map.on('click', 'milbase-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
       const coords = (e.features![0].geometry as any).coordinates;
+      const tipo = MILBASE_TYPE[p.t as string] || 'Instalación militar';
       popup(coords, `<div style="${pStyle}border:1px solid #EF535055;min-width:180px;">
         <div style="color:#EF5350;font-size:12px;font-weight:700;margin-bottom:3px;">${p.name || 'Instalación militar'}</div>
-        <div style="font-size:9.5px;color:#aaa;">Base / instalación militar · ${coords[1].toFixed(2)}°, ${coords[0].toFixed(2)}°</div>
+        <div style="font-size:9.5px;color:#aaa;">${tipo} · ${coords[1].toFixed(2)}°, ${coords[0].toFixed(2)}°</div>
         <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},15z/data=!3m1!1e3" target="_blank" style="${linkStyle}margin-top:7px;color:#EF5350;border:1px solid #EF535066;background:#EF53501a;">VISTA SATÉLITE</a>
       </div>`);
     });
@@ -1669,7 +1671,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('trains', activeLayers.trains && Array.isArray(data.trains) ? data.trains.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { number: t.number, speed: t.speed, country: t.country, route: t.route || '' } })) : []);
     setGeo('railways', activeLayers.railways && data.railways_fc?.features ? data.railways_fc.features : []);
     setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
-    setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name } })) : []);
+    setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name, t: b.t || '' } })) : []);
     setGeo('air-quality', activeLayers.air_quality && Array.isArray(data.air_quality) ? data.air_quality.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, aqi: a.aqi, pm25: a.pm25, level: a.level, color: a.color } })) : []);
   }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
 
@@ -1967,24 +1969,30 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     if (!mapReady) return;
     // ── CONFLICT ZONES — center-point warning markers ──
     const CONFLICT_ZONES = [
-      { label: 'UKRAINE WAR', severity: 'war', lat: 48.5, lng: 31.2 },
-      { label: 'GAZA CONFLICT', severity: 'war', lat: 31.35, lng: 34.35 },
-      { label: 'LEBANON BORDER', severity: 'high', lat: 33.4, lng: 35.8 },
-      { label: 'SUDAN CIVIL WAR', severity: 'war', lat: 15.0, lng: 30.0 },
-      { label: 'MYANMAR CONFLICT', severity: 'war', lat: 19.5, lng: 96.5 },
-      { label: 'DRC EASTERN CONFLICT', severity: 'war', lat: -1.0, lng: 28.5 },
-      { label: 'YEMEN WAR', severity: 'war', lat: 15.5, lng: 48.0 },
-      { label: 'SYRIA', severity: 'high', lat: 35.0, lng: 38.5 },
-      { label: 'TAIWAN STRAIT', severity: 'elevated', lat: 24.0, lng: 119.5 },
-      { label: 'KOREAN DMZ', severity: 'elevated', lat: 38.3, lng: 127.0 },
-      { label: 'SAHEL INSTABILITY', severity: 'high', lat: 14.0, lng: 5.0 },
-      { label: 'SOMALIA', severity: 'high', lat: 5.0, lng: 46.0 },
-      { label: 'RED SEA THREAT', severity: 'high', lat: 16.0, lng: 40.0 },
+      { label: 'Ucrania', severity: 'war', lat: 48.5, lng: 31.2, description: 'Guerra Rusia-Ucrania; frente activo y ataques en profundidad.' },
+      { label: 'Gaza', severity: 'war', lat: 31.45, lng: 34.4, description: 'Conflicto Israel-Hamás; operaciones militares y crisis humanitaria.' },
+      { label: 'Líbano (frontera sur)', severity: 'high', lat: 33.2, lng: 35.4, description: 'Tensión Israel-Hezbolá en la Línea Azul; intercambios de fuego.' },
+      { label: 'Sudán', severity: 'war', lat: 15.0, lng: 30.0, description: 'Guerra civil entre el Ejército (SAF) y las RSF desde 2023.' },
+      { label: 'Myanmar', severity: 'war', lat: 21.0, lng: 96.0, description: 'Guerra civil tras el golpe de 2021; junta vs. resistencia y EAOs.' },
+      { label: 'RD Congo (este)', severity: 'war', lat: -1.5, lng: 28.8, description: 'Ofensiva del M23 y violencia armada en Kivu del Norte.' },
+      { label: 'Yemen', severity: 'high', lat: 15.5, lng: 44.2, description: 'Guerra civil; hutíes vs. gobierno y ataques en el mar Rojo.' },
+      { label: 'Siria', severity: 'high', lat: 35.0, lng: 38.5, description: 'Conflicto prolongado; reconfiguración de poder y zonas en disputa.' },
+      { label: 'Sahel', severity: 'high', lat: 15.5, lng: 1.0, description: 'Insurgencia yihadista en Malí, Burkina Faso y Níger.' },
+      { label: 'Somalia', severity: 'high', lat: 4.5, lng: 45.5, description: 'Insurgencia de Al-Shabab y operaciones del gobierno.' },
+      { label: 'Mar Rojo', severity: 'high', lat: 16.0, lng: 40.0, description: 'Ataques hutíes a buques; ruta marítima amenazada.' },
+      { label: 'Haití', severity: 'high', lat: 18.6, lng: -72.3, description: 'Colapso de seguridad; control de bandas en Puerto Príncipe.' },
+      { label: 'Etiopía (Amhara)', severity: 'high', lat: 11.6, lng: 37.4, description: 'Enfrentamientos entre el ejército y milicias Fano.' },
+      { label: 'Sáhara Occidental', severity: 'elevated', lat: 24.5, lng: -13.0, description: 'Reanudación de hostilidades Marruecos-Polisario.' },
+      { label: 'Cachemira', severity: 'elevated', lat: 34.0, lng: 76.0, description: 'Disputa India-Pakistán; Línea de Control militarizada.' },
+      { label: 'Cáucaso (Nagorno)', severity: 'elevated', lat: 39.8, lng: 46.7, description: 'Tensión Armenia-Azerbaiyán tras la ofensiva de 2023.' },
+      { label: 'Estrecho de Taiwán', severity: 'elevated', lat: 24.0, lng: 119.5, description: 'Tensión China-Taiwán; incursiones aéreas y navales.' },
+      { label: 'Mar de China Meridional', severity: 'elevated', lat: 14.0, lng: 115.0, description: 'Disputas territoriales; incidentes China-Filipinas.' },
+      { label: 'Península de Corea (DMZ)', severity: 'elevated', lat: 38.3, lng: 127.0, description: 'Tensión entre las dos Coreas en el paralelo 38.' },
     ];
     const conflictFeatures = CONFLICT_ZONES.map(z => ({
       type: 'Feature' as const,
       geometry: { type: 'Point' as const, coordinates: [z.lng, z.lat] },
-      properties: { label: z.label, severity: z.severity },
+      properties: { label: z.label, severity: z.severity, description: z.description },
     }));
     setGeo('conflict-zones', conflictFeatures);
   }, [mapReady, setGeo]);
@@ -2036,7 +2044,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['ship-dots','ship-arrows','ship-label'], activeLayers.maritime);
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
-    setVis(['conflict-icons'], activeLayers.conflict_zones !== false);
+    setVis(['conflict-icons'], !!activeLayers.conflict_zones);
 
     setVis(['balloon-dots','balloon-label'], activeLayers.balloons);
     setVis(['rad-glow','rad-dots','rad-label'], activeLayers.radiation);

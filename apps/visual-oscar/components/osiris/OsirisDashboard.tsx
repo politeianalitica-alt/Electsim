@@ -251,6 +251,7 @@ export default function Dashboard() {
     launches: false,
     iss: false,
     frontline: false,
+    conflict_zones: false,
     trains: false,
     railways: false,
     satnogs: false,

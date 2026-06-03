@@ -146,6 +146,7 @@ const LAYER_GROUPS = [
     icon: Swords,
     color: '#FF1744',
     layers: [
+      { key: 'conflict_zones', label: 'Alertas de guerra (zonas)', icon: AlertTriangle, color: '#FF1744', dataKey: '' },
       { key: 'frontline', label: 'Frente de Ucrania (DeepState)', icon: Swords, color: '#FF1744', dataKey: '' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },
       { key: 'gps_jamming', label: 'Interferencia GPS', icon: Radio, color: '#FF4444', dataKey: 'gps_jamming' },
