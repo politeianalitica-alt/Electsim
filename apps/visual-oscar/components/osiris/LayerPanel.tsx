@@ -356,7 +356,7 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
       initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
       className="pointer-events-auto"
       style={{
-        width: 264, padding: 12, fontFamily: POL.font,
+        width: '100%', padding: 12, fontFamily: POL.font,
         background: POL.panelBg,
         backdropFilter: 'saturate(180%) blur(20px)', WebkitBackdropFilter: 'saturate(180%) blur(20px)',
         border: `1px solid ${POL.hairline}`, borderRadius: 16,
