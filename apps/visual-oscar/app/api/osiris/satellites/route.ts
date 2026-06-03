@@ -2,6 +2,8 @@
 import { NextResponse } from 'next/server';
 import { stealthFetch } from '@/lib/osiris/stealthFetch';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Politeia — Satellite Tracking API
  * Fetches TLE data from multiple sources with fallbacks

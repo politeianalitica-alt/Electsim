@@ -120,7 +120,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Ruta del vuelo seleccionado (al clicar un avión) ──
@@ -185,6 +185,65 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'geo-features-label', type: 'symbol', source: 'geo-points', filter: geoOtherFilter, minzoom: 4, layout: {
         'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#80CBC4', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
+
+      // ── GDACS (alertas de desastres) — color por nivel de alerta ──
+      const gdacsColor: any = ['match', ['get','alert'], 'Red','#EF5350', 'Orange','#FFA726', /* Green */ '#66BB6A'];
+      map.addLayer({ id: 'gdacs-glow', type: 'circle', source: 'gdacs', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,8, 6,16], 'circle-color': gdacsColor, 'circle-opacity': 0.18, 'circle-blur': 0.7,
+      }});
+      map.addLayer({ id: 'gdacs-dots', type: 'circle', source: 'gdacs', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,3.5, 6,6], 'circle-color': gdacsColor, 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#000',
+      }});
+      map.addLayer({ id: 'gdacs-label', type: 'symbol', source: 'gdacs', minzoom: 3, layout: {
+        'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Ciclones tropicales (NHC) ──
+      map.addLayer({ id: 'hurricane-glow', type: 'circle', source: 'hurricanes', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,14, 6,40], 'circle-color': '#26C6DA', 'circle-opacity': 0.16, 'circle-blur': 0.8,
+      }});
+      map.addLayer({ id: 'hurricane-dots', type: 'circle', source: 'hurricanes', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,5, 6,9], 'circle-color': '#26C6DA', 'circle-opacity': 0.95, 'circle-stroke-width': 2, 'circle-stroke-color': '#fff',
+      }});
+      map.addLayer({ id: 'hurricane-label', type: 'symbol', source: 'hurricanes', minzoom: 2, layout: {
+        'text-field': ['get','name'], 'text-size': 11, 'text-font': ['Open Sans Bold'], 'text-offset': [0,1.3], 'text-anchor': 'top',
+      }, paint: { 'text-color': '#26C6DA', 'text-halo-color': '#000', 'text-halo-width': 1.3 }});
+
+      // ── Volcanes ──
+      map.addLayer({ id: 'volcanoes-dots', type: 'circle', source: 'volcanoes', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,2.4, 6,4.5, 10,7], 'circle-color': '#FF7043', 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#4E0F00',
+      }});
+      map.addLayer({ id: 'volcanoes-label', type: 'symbol', source: 'volcanoes', minzoom: 5, layout: {
+        'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#FFAB91', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
+
+      // ── Aeropuertos (grandes más brillantes que medianos) ──
+      map.addLayer({ id: 'airports-dots', type: 'circle', source: 'airports', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 3, ['case',['==',['get','type'],'large'],3,1.6], 7, ['case',['==',['get','type'],'large'],5,3], 11,7],
+        'circle-color': ['case',['==',['get','type'],'large'],'#42A5F5','#5C8AB0'], 'circle-opacity': 0.85, 'circle-stroke-width': 0.6, 'circle-stroke-color': '#0A2030',
+      }});
+      map.addLayer({ id: 'airports-label', type: 'symbol', source: 'airports', minzoom: 6, layout: {
+        'text-field': ['get','iata'], 'text-size': 10, 'text-font': ['Open Sans Bold'], 'text-offset': [0,1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#90CAF9', 'text-halo-color': '#000', 'text-halo-width': 1 }});
+
+      // ── Lanzamientos espaciales ──
+      map.addLayer({ id: 'launches-dots', type: 'circle', source: 'launches', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,4, 6,7], 'circle-color': '#FFD54F', 'circle-opacity': 0.95, 'circle-stroke-width': 1.5, 'circle-stroke-color': '#000',
+      }});
+      map.addLayer({ id: 'launches-label', type: 'symbol', source: 'launches', minzoom: 3, layout: {
+        'text-field': ['get','location'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#FFE082', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
+
+      // ── ISS (punto único) ──
+      map.addLayer({ id: 'iss-glow', type: 'circle', source: 'iss', paint: {
+        'circle-radius': 16, 'circle-color': '#FFFFFF', 'circle-opacity': 0.15, 'circle-blur': 0.8,
+      }});
+      map.addLayer({ id: 'iss-dot', type: 'circle', source: 'iss', paint: {
+        'circle-radius': 6, 'circle-color': '#FFFFFF', 'circle-opacity': 1, 'circle-stroke-width': 2, 'circle-stroke-color': '#00E5FF',
+      }});
+      map.addLayer({ id: 'iss-label', type: 'symbol', source: 'iss', layout: {
+        'text-field': 'ISS', 'text-size': 11, 'text-font': ['Open Sans Bold'], 'text-offset': [0,1.3], 'text-anchor': 'top', 'text-allow-overlap': true,
+      }, paint: { 'text-color': '#fff', 'text-halo-color': '#00E5FF', 'text-halo-width': 1.2 }});
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
       const createWarningIcon = (id: string, color: string) => {
@@ -613,7 +672,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     // ── POPUP HELPER ──
     const popup = (coords: any, html: string) => {
       popupRef.current?.remove();
-      popupRef.current = new maplibregl.Popup({ closeButton: true, maxWidth: '420px', offset: 14 }).setLngLat(coords).setHTML(html).addTo(map);
+      popupRef.current = new maplibregl.Popup({ closeButton: true, closeOnClick: false, maxWidth: '420px', offset: 14 }).setLngLat(coords).setHTML(html).addTo(map);
       // Al cerrar el popup, borra la ruta de vuelo (si la había).
       popupRef.current.on('close', () => {
         try { (map.getSource('flight-route') as any)?.setData(EMPTY_FC); (map.getSource('flight-route-pts') as any)?.setData(EMPTY_FC); } catch { /* noop */ }
@@ -887,7 +946,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1043,6 +1102,98 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     };
     ['geo-mountains','geo-deserts','geo-features'].forEach(l => map.on('click', l, onGeoClick));
+
+    // ── GDACS (alertas de desastres) ──
+    map.on('click', 'gdacs-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const col = p.alert === 'Red' ? '#EF5350' : p.alert === 'Orange' ? '#FFA726' : '#66BB6A';
+      popup(coords, `<div style="${pStyle}border:1px solid ${col}55;min-width:200px;">
+        <div style="color:${col};font-size:13px;font-weight:700;margin-bottom:3px;">${p.type_es || 'Alerta'}</div>
+        <div style="font-size:10px;color:#E8E6E0;margin-bottom:6px;">${p.name || ''}</div>
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${col};background:${col}1a;border:1px solid ${col}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">ALERTA ${String(p.alert).toUpperCase()}</div>
+        ${p.description ? `<div style="font-size:9.5px;color:#aaa;line-height:1.6;">${p.description}</div>` : ''}
+        ${p.country ? `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${p.country}</div>` : ''}
+        ${p.url ? `<a href="${p.url}" target="_blank" style="${linkStyle}margin-top:7px;color:${col};border:1px solid ${col}66;background:${col}1a;">GDACS</a>` : ''}
+      </div>`);
+    });
+
+    // ── Ciclones tropicales ──
+    map.on('click', 'hurricane-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #26C6DA55;min-width:200px;">
+        <div style="color:#26C6DA;font-size:14px;font-weight:700;margin-bottom:4px;">${p.name || 'Ciclón'}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:9px;">
+          <div><span style="color:#5C5A54;">CATEGORÍA</span><br/><span style="color:#26C6DA;font-weight:600;">${p.class_es || '—'}</span></div>
+          <div><span style="color:#5C5A54;">VIENTO</span><br/><span style="color:#E8E6E0;">${p.wind_kt ? p.wind_kt + ' kt' : '—'}</span></div>
+          <div><span style="color:#5C5A54;">PRESIÓN</span><br/><span style="color:#E8E6E0;">${p.pressure_mb ? p.pressure_mb + ' mb' : '—'}</span></div>
+          <div><span style="color:#5C5A54;">MOVIMIENTO</span><br/><span style="color:#E8E6E0;">${p.movement || '—'}</span></div>
+        </div>
+      </div>`);
+    });
+
+    // ── Volcanes ──
+    map.on('click', 'volcanoes-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #FF704355;min-width:190px;">
+        <div style="color:#FF7043;font-size:13px;font-weight:700;margin-bottom:3px;">${p.name || 'Volcán'}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          ${p.vtype ? `<div>Tipo: <span style="color:#E8E6E0;">${p.vtype}</span></div>` : ''}
+          ${p.elev ? `<div>Elevación: <span style="color:#E8E6E0;">${Number(p.elev).toLocaleString('es')} m</span></div>` : ''}
+          ${p.country ? `<div>País: <span style="color:#E8E6E0;">${p.country}</span></div>` : ''}
+          ${p.last ? `<div>Última erupción: <span style="color:#FFAB91;">${p.last}</span></div>` : ''}
+        </div>
+        <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},11z/data=!3m1!1e3" target="_blank" style="${linkStyle}margin-top:7px;color:#FF7043;border:1px solid #FF704366;background:#FF70431a;">VISTA SATÉLITE</a>
+      </div>`);
+    });
+
+    // ── Aeropuertos ──
+    map.on('click', 'airports-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #42A5F555;min-width:190px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+          <span style="color:#42A5F5;font-size:12px;font-weight:700;">${p.name || 'Aeropuerto'}</span>
+          ${p.iata ? `<span style="color:#90CAF9;font-size:11px;font-weight:700;border:1px solid #42A5F555;border-radius:3px;padding:0 5px;">${p.iata}</span>` : ''}
+        </div>
+        <div style="font-size:9.5px;color:#aaa;">${p.city ? p.city + ', ' : ''}${p.country || ''} · ${p.atype === 'large' ? 'Aeropuerto grande' : 'Aeropuerto mediano'}</div>
+        ${p.iata ? `<a href="https://www.flightradar24.com/airport/${String(p.iata).toLowerCase()}" target="_blank" style="${linkStyle}margin-top:7px;color:#42A5F5;border:1px solid #42A5F566;background:#42A5F51a;">FLIGHTRADAR24</a>` : ''}
+      </div>`);
+    });
+
+    // ── Lanzamientos espaciales ──
+    map.on('click', 'launches-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      let when = p.net || '';
+      try { if (p.net) when = new Date(p.net).toLocaleString('es', { dateStyle: 'medium', timeStyle: 'short' }); } catch { /* noop */ }
+      popup(coords, `<div style="${pStyle}border:1px solid #FFD54F55;min-width:200px;">
+        <div style="color:#FFD54F;font-size:12px;font-weight:700;margin-bottom:4px;">${p.name || 'Lanzamiento'}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          <div>Fecha: <span style="color:#E8E6E0;">${when}</span></div>
+          ${p.provider ? `<div>Operador: <span style="color:#E8E6E0;">${p.provider}</span></div>` : ''}
+          ${p.pad ? `<div>Plataforma: <span style="color:#E8E6E0;">${p.pad}</span></div>` : ''}
+          ${p.location ? `<div>Lugar: <span style="color:#E8E6E0;">${p.location}</span></div>` : ''}
+          ${p.status ? `<div>Estado: <span style="color:#FFE082;">${p.status}</span></div>` : ''}
+        </div>
+      </div>`);
+    });
+
+    // ── ISS ──
+    map.on('click', 'iss-dot', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #00E5FF55;min-width:180px;">
+        <div style="color:#fff;font-size:13px;font-weight:700;margin-bottom:4px;">Estación Espacial Internacional</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          <div>Posición: <span style="color:#E8E6E0;">${coords[1].toFixed(2)}°, ${coords[0].toFixed(2)}°</span></div>
+          ${p.altitude_km ? `<div>Altitud: <span style="color:#E8E6E0;">${p.altitude_km} km</span></div>` : ''}
+          ${p.velocity_kmh ? `<div>Velocidad: <span style="color:#00E5FF;">${Number(p.velocity_kmh).toLocaleString('es')} km/h</span></div>` : ''}
+        </div>
+      </div>`);
+    });
 
     // ── Weather Events (NASA EONET) ──
     map.on('click', 'weather-dots', e => {
@@ -1325,6 +1476,17 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.geo_points.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, cat: p.cat, elev: p.elev ?? null } }))
       : []);
   }, [mapReady, data.geo_rivers_fc, data.geo_points, activeLayers.geo_rivers, activeLayers.geo_mountains, activeLayers.geo_deserts, activeLayers.geo_features, setGeo]);
+
+  // ── GDACS / huracanes / volcanes / aeropuertos / lanzamientos / ISS ──
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('gdacs', activeLayers.gdacs && Array.isArray(data.gdacs) ? data.gdacs.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { name: e.name, type_es: e.type_es, alert: e.alert, description: e.description, country: e.country, date: e.date, url: e.url } })) : []);
+    setGeo('hurricanes', activeLayers.hurricanes && Array.isArray(data.hurricanes) ? data.hurricanes.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, class_es: s.class_es, wind_kt: s.wind_kt, pressure_mb: s.pressure_mb, movement: s.movement } })) : []);
+    setGeo('volcanoes', activeLayers.volcanoes && Array.isArray(data.volcanoes) ? data.volcanoes.map((v: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [v.lng, v.lat] }, properties: { name: v.name, vtype: v.type, elev: v.elev, country: v.country, last: v.last } })) : []);
+    setGeo('airports', activeLayers.airports && Array.isArray(data.airports) ? data.airports.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, iata: a.iata, atype: a.type, country: a.country, city: a.city } })) : []);
+    setGeo('launches', activeLayers.launches && Array.isArray(data.launches) ? data.launches.map((l: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [l.lng, l.lat] }, properties: { name: l.name, net: l.net, status: l.status, pad: l.pad, location: l.location, provider: l.provider } })) : []);
+    setGeo('iss', activeLayers.iss && data.iss && Number.isFinite(data.iss.lat) ? [{ type: 'Feature', geometry: { type: 'Point', coordinates: [data.iss.lng, data.iss.lat] }, properties: { altitude_km: data.iss.altitude_km, velocity_kmh: data.iss.velocity_kmh } }] : []);
+  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1656,6 +1818,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['geo-mountains','geo-mountains-label'], activeLayers.geo_mountains);
     setVis(['geo-deserts','geo-deserts-label'], activeLayers.geo_deserts);
     setVis(['geo-features','geo-features-label'], activeLayers.geo_features);
+    setVis(['gdacs-glow','gdacs-dots','gdacs-label'], activeLayers.gdacs);
+    setVis(['hurricane-glow','hurricane-dots','hurricane-label'], activeLayers.hurricanes);
+    setVis(['volcanoes-dots','volcanoes-label'], activeLayers.volcanoes);
+    setVis(['airports-dots','airports-label'], activeLayers.airports);
+    setVis(['launches-dots','launches-label'], activeLayers.launches);
+    setVis(['iss-glow','iss-dot','iss-label'], activeLayers.iss);
     setVis(['fl-commercial'], activeLayers.flights);
     setVis(['fl-private'], activeLayers.private);
     setVis(['fl-jets'], activeLayers.jets);

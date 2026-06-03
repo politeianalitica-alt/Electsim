@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { stealthFetch } from '@/lib/osiris/stealthFetch';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Politeia — Severe Weather & Anomalies API
  * Fetches active natural events from NASA EONET and NOAA/NWS active alerts.

@@ -157,6 +157,12 @@ export default function Dashboard() {
     geo_mountains: false,
     geo_deserts: false,
     geo_features: false,
+    gdacs: false,
+    hurricanes: false,
+    volcanoes: false,
+    airports: false,
+    launches: false,
+    iss: false,
     day_night: true,
     sdk_stream: true,
   });
@@ -403,6 +409,36 @@ export default function Dashboard() {
       fetchEndpoint('/api/osiris/geo-features', d => ({ geo_rivers_fc: d.rivers, geo_points: d.points }));
       layerFetchedRef.current.add('geo_features');
     }
+    // GDACS — alertas de desastres
+    if (activeLayers.gdacs && !layerFetchedRef.current.has('gdacs')) {
+      fetchEndpoint('/api/osiris/gdacs', d => ({ gdacs: d.events }));
+      layerFetchedRef.current.add('gdacs');
+    }
+    // Ciclones tropicales (NHC)
+    if (activeLayers.hurricanes && !layerFetchedRef.current.has('hurricanes')) {
+      fetchEndpoint('/api/osiris/hurricanes', d => ({ hurricanes: d.storms }));
+      layerFetchedRef.current.add('hurricanes');
+    }
+    // Volcanes (Smithsonian)
+    if (activeLayers.volcanoes && !layerFetchedRef.current.has('volcanoes')) {
+      fetchEndpoint('/api/osiris/volcanoes', d => ({ volcanoes: d.volcanoes }));
+      layerFetchedRef.current.add('volcanoes');
+    }
+    // Aeropuertos (OurAirports)
+    if (activeLayers.airports && !layerFetchedRef.current.has('airports')) {
+      fetchEndpoint('/api/osiris/airports', d => ({ airports: d.airports }));
+      layerFetchedRef.current.add('airports');
+    }
+    // Lanzamientos espaciales (Launch Library)
+    if (activeLayers.launches && !layerFetchedRef.current.has('launches')) {
+      fetchEndpoint('/api/osiris/launches', d => ({ launches: d.launches }));
+      layerFetchedRef.current.add('launches');
+    }
+    // ISS (posición en directo)
+    if (activeLayers.iss && !layerFetchedRef.current.has('iss')) {
+      fetchEndpoint('/api/osiris/iss', d => ({ iss: d.iss }));
+      layerFetchedRef.current.add('iss');
+    }
 
   }, [activeLayers]);
 
@@ -421,6 +457,9 @@ export default function Dashboard() {
     }
     if (activeLayers.maritime) {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) })), 30000)); // 30s (AIS global tarda ~9s en recogerse + caché 20s)
+    }
+    if (activeLayers.iss) {
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/iss', d => ({ iss: d.iss })), 5000)); // 5s (la ISS va a ~7,6 km/s)
     }
     return () => intervals.forEach(clearInterval);
   }, [activeLayers, fetchEndpoint]);
