@@ -30,6 +30,11 @@ const LEGENDS: Legend[] = [
     { c: '#FFB300', l: 'Oro' }, { c: '#FF7043', l: 'Cobre' }, { c: '#8D6E63', l: 'Hierro' }, { c: '#37474F', l: 'Carbón' }, { c: '#26C6DA', l: 'Litio' }, { c: '#5C6BC0', l: 'Cobalto' }, { c: '#FFCA28', l: 'Tierras raras' }, { c: '#66BB6A', l: 'Uranio' }, { c: '#A1887F', l: 'Níquel' }, { c: '#B0BEC5', l: 'Plata' }, { c: '#7E57C2', l: 'Manganeso' }, { c: '#90A4AE', l: 'Otros' } ] },
   { id: 'alliances', title: 'Bloques militares', active: (a) => a.alliances, items: [
     { c: '#1565C0', l: 'OTAN' }, { c: '#C62828', l: 'OTSC' }, { c: '#00ACC1', l: 'Aliado EE. UU.' } ] },
+  { id: 'milspend', title: 'Gasto militar (mil M$)', active: (a) => a.milspend, items: [
+    { c: '#9FA8DA', l: '<3' }, { c: '#5C6BC0', l: '3–10' }, { c: '#3949AB', l: '10–30' }, { c: '#283593', l: '30–100' }, { c: '#FF8F00', l: '100–300' }, { c: '#E65100', l: '>300' } ] },
+  { id: 'nukes', title: 'Armas nucleares', active: (a) => a.nukes, items: [ { c: '#D32F2F', l: 'Estado nuclear (nº de ojivas)' } ] },
+  { id: 'regime', title: 'Régimen político', active: (a) => a.regime, items: [
+    { c: '#2E7D32', l: 'Democracia' }, { c: '#9CCC65', l: 'Democracia imperfecta' }, { c: '#FFA726', l: 'Régimen híbrido' }, { c: '#EF5350', l: 'Autoritario' } ] },
   { id: 'sanctions', title: 'Sanciones', active: (a) => a.sanctions, items: [ { c: '#EF5350', l: 'Bajo sanciones' } ] },
   { id: 'piracy', title: 'Piratería', active: (a) => a.piracy, items: [ { c: '#EF5350', l: 'Riesgo alto' }, { c: '#FFA726', l: 'Riesgo medio' } ] },
   { id: 'sea', title: 'Altura de ola', active: (a) => a.sea_state, items: [

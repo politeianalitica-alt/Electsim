@@ -264,6 +264,17 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         layout: { visibility: 'none' }, paint: { 'line-color': allianceColor, 'line-opacity': 0.7, 'line-width': 0.8 } });
       map.addLayer({ id: 'sanctions-fill', type: 'fill', source: 'countries', filter: ['==', ['get','sanctioned'], 1],
         layout: { visibility: 'none' }, paint: { 'fill-color': '#EF5350', 'fill-opacity': 0.35 } });
+      // Gasto militar (coropleta por tramos, miles de millones USD)
+      const spendColor: any = ['step', ['to-number', ['coalesce', ['get','spend'], -1]], 'rgba(0,0,0,0)', 0, '#9FA8DA', 3, '#5C6BC0', 10, '#3949AB', 30, '#283593', 100, '#FF8F00', 300, '#E65100'];
+      map.addLayer({ id: 'milspend-fill', type: 'fill', source: 'countries', layout: { visibility: 'none' }, paint: { 'fill-color': spendColor, 'fill-opacity': 0.45 } });
+      // Régimen político (coropleta por categoría)
+      const regimeColor: any = ['match', ['get','regime'], 'democracia', '#2E7D32', 'imperfecta', '#9CCC65', 'hibrido', '#FFA726', 'autoritario', '#EF5350', 'rgba(0,0,0,0)'];
+      map.addLayer({ id: 'regime-fill', type: 'fill', source: 'countries', layout: { visibility: 'none' }, paint: { 'fill-color': regimeColor, 'fill-opacity': 0.4 } });
+      // Armas nucleares (estados nucleares + nº de ojivas en el centroide)
+      map.addLayer({ id: 'nukes-fill', type: 'fill', source: 'countries', filter: ['>', ['to-number', ['coalesce', ['get','nukes'], 0]], 0], layout: { visibility: 'none' }, paint: { 'fill-color': '#D32F2F', 'fill-opacity': 0.4 } });
+      map.addLayer({ id: 'nukes-label', type: 'symbol', source: 'countries', filter: ['>', ['to-number', ['coalesce', ['get','nukes'], 0]], 0], layout: {
+        'text-field': ['concat', '☢ ', ['to-string', ['get','nukes']]], 'text-size': ['interpolate',['linear'],['zoom'], 1,10, 4,14], 'text-font': ['Open Sans Bold'], 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#FFCDD2', 'text-halo-color': '#3a0000', 'text-halo-width': 1.5 } });
 
       // ── Agricultura: regiones de cultivo (áreas sombreadas por cultivo) ──
       map.addLayer({ id: 'agriculture-fill', type: 'fill', source: 'agriculture',
@@ -1263,18 +1274,23 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
     // ── Países (bloques militares / sanciones) ──
+    const REGIME_ES: Record<string, string> = { democracia: 'Democracia', imperfecta: 'Democracia imperfecta', hibrido: 'Régimen híbrido', autoritario: 'Autoritario' };
     const onCountryClick = (e: any) => {
       const p = e.features?.[0]?.properties; if (!p) return;
-      const bits: string[] = [];
-      if (p.alliance) bits.push(`Bloque: <span style="color:#82B1FF;">${p.alliance}</span>`);
-      if (Number(p.sanctioned) === 1) bits.push(`<span style="color:#EF5350;">Bajo sanciones</span>`);
-      popup(e.lngLat, `<div style="${pStyle}border:1px solid #44557788;min-width:160px;">
-        <div style="color:#E8E6E0;font-size:13px;font-weight:700;margin-bottom:3px;">${p.name}</div>
-        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">${bits.join('<br/>') || 'Sin bloque ni sanciones'}</div>
+      const rows: string[] = [];
+      if (p.alliance) rows.push(`<div><span style="color:#5C5A54;">Bloque · </span><span style="color:#82B1FF;">${p.alliance}</span></div>`);
+      if (p.regime) rows.push(`<div><span style="color:#5C5A54;">Régimen · </span><span style="color:#E8E6E0;">${REGIME_ES[p.regime as string] || p.regime}</span></div>`);
+      if (p.spend != null) rows.push(`<div><span style="color:#5C5A54;">Gasto militar · </span><span style="color:#FFB74D;">${p.spend} mil M$</span></div>`);
+      if (p.troops != null) rows.push(`<div><span style="color:#5C5A54;">Tropas activas · </span><span style="color:#E8E6E0;">${Number(p.troops).toLocaleString('es')} mil</span></div>`);
+      if (p.nukes != null) rows.push(`<div><span style="color:#5C5A54;">Ojivas nucleares · </span><span style="color:#FF8A80;">${p.nukes}</span></div>`);
+      const sanc = Number(p.sanctioned) === 1 ? `<div style="margin-top:5px;padding-top:5px;border-top:1px solid #ffffff14;"><span style="color:#EF5350;font-weight:700;">Bajo sanciones</span>${p.sanc ? `<div style="color:#bbb;font-size:9px;margin-top:2px;line-height:1.5;">${p.sanc}</div>` : ''}</div>` : '';
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid #44557788;min-width:200px;max-width:300px;">
+        <div style="color:#E8E6E0;font-size:13px;font-weight:700;margin-bottom:4px;">${p.name}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">${rows.join('') || 'Sin datos'}</div>
+        ${sanc}
       </div>`);
     };
-    map.on('click', 'alliances-fill', onCountryClick);
-    map.on('click', 'sanctions-fill', onCountryClick);
+    ['alliances-fill', 'sanctions-fill', 'milspend-fill', 'regime-fill', 'nukes-fill'].forEach((l) => map.on('click', l, onCountryClick));
     // ── Piratería ──
     map.on('click', 'piracy-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
@@ -1936,7 +1952,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.minerals.map((m: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [m.lng, m.lat] }, properties: { name: m.name, m: m.m, color: m.color, country: m.country, major: m.major || 0 } })) : []);
     setGeo('agriculture', activeLayers.agriculture && data.agriculture_fc?.features ? data.agriculture_fc.features : []);
     // Lote Geopolítica
-    setGeo('countries', (activeLayers.alliances || activeLayers.sanctions) && data.geopolitics_fc?.features ? data.geopolitics_fc.features : []);
+    setGeo('countries', (activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes) && data.geopolitics_fc?.features ? data.geopolitics_fc.features : []);
     setGeo('disputes', activeLayers.disputes && Array.isArray(data.disputes)
       ? data.disputes.map((d: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [d.lng, d.lat] }, properties: { name: d.name, parties: d.parties } })) : []);
     setGeo('orgs', activeLayers.orgs && Array.isArray(data.orgs)
@@ -1947,7 +1963,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.lighthouses.map((l: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [l.lng, l.lat] }, properties: { name: l.name } })) : []);
     setGeo('piracy', activeLayers.piracy && Array.isArray(data.piracy)
       ? data.piracy.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, risk: p.risk, color: p.color } })) : []);
-  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
+  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.milspend, activeLayers.regime, activeLayers.nukes, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
 
   // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
   useEffect(() => {
@@ -2399,6 +2415,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['agriculture-fill','agriculture-outline','agriculture-label'], activeLayers.agriculture);
     setVis(['alliances-fill','alliances-outline'], activeLayers.alliances);
     setVis(['sanctions-fill'], activeLayers.sanctions);
+    setVis(['milspend-fill'], activeLayers.milspend);
+    setVis(['regime-fill'], activeLayers.regime);
+    setVis(['nukes-fill','nukes-label'], activeLayers.nukes);
     setVis(['disputes-dots','disputes-label'], activeLayers.disputes);
     setVis(['orgs-dots','orgs-label'], activeLayers.orgs);
     setVis(['sea-lanes-line'], activeLayers.maritime_routes);

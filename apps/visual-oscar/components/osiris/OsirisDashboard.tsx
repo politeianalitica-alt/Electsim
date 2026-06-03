@@ -277,6 +277,9 @@ export default function Dashboard() {
     agriculture: false,
     alliances: false,
     sanctions: false,
+    milspend: false,
+    regime: false,
+    nukes: false,
     disputes: false,
     orgs: false,
     lighthouses: false,
@@ -622,7 +625,7 @@ export default function Dashboard() {
       layerFetchedRef.current.add('agriculture');
     }
     // Lote Geopolítica (una sola carga sirve países + disputas + organismos)
-    if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.disputes || activeLayers.orgs) && !layerFetchedRef.current.has('geopolitics')) {
+    if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes || activeLayers.disputes || activeLayers.orgs) && !layerFetchedRef.current.has('geopolitics')) {
       fetchEndpoint('/api/osiris/geopolitics', d => ({ geopolitics_fc: d.countries, disputes: d.disputes, orgs: d.orgs }));
       layerFetchedRef.current.add('geopolitics');
     }

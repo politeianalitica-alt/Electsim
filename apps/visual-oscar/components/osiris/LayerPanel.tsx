@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout, Ban, Landmark, Route, Skull, Navigation,
+  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout, Ban, Landmark, Route, Skull, Navigation, Coins, Vote,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -167,7 +167,10 @@ const LAYER_GROUPS = [
     color: '#1565C0',
     layers: [
       { key: 'alliances', label: 'Bloques militares (OTAN/OTSC)', icon: Shield, color: '#1565C0', dataKey: '' },
+      { key: 'milspend', label: 'Gasto militar', icon: Coins, color: '#E65100', dataKey: '' },
+      { key: 'nukes', label: 'Armas nucleares', icon: Radiation, color: '#D32F2F', dataKey: '' },
       { key: 'sanctions', label: 'Países sancionados', icon: Ban, color: '#EF5350', dataKey: '' },
+      { key: 'regime', label: 'Régimen político', icon: Vote, color: '#2E7D32', dataKey: '' },
       { key: 'disputes', label: 'Disputas territoriales', icon: Swords, color: '#FF1744', dataKey: '' },
       { key: 'orgs', label: 'Organismos internacionales', icon: Landmark, color: '#448AFF', dataKey: '' },
     ],
