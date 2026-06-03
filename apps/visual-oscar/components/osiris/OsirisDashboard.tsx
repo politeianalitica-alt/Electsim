@@ -258,6 +258,15 @@ export default function Dashboard() {
     iss: false,
     frontline: false,
     conflict_zones: false,
+    war_ukraine: false,
+    war_gaza: false,
+    war_lebanon: false,
+    war_iran: false,
+    war_sudan: false,
+    war_myanmar: false,
+    war_congo: false,
+    war_sahel: false,
+    war_syria: false,
     trains: false,
     railways: false,
     satnogs: false,
@@ -652,6 +661,11 @@ export default function Dashboard() {
     if (activeLayers.air_quality && !layerFetchedRef.current.has('air_quality')) {
       fetchEndpoint('/api/osiris/air-quality', d => ({ air_quality: d.stations }));
       layerFetchedRef.current.add('air_quality');
+    }
+    // Sucesos de guerra (una sola carga sirve para todas las guerras; se filtran en el mapa)
+    if ((activeLayers.war_ukraine || activeLayers.war_gaza || activeLayers.war_lebanon || activeLayers.war_iran || activeLayers.war_sudan || activeLayers.war_myanmar || activeLayers.war_congo || activeLayers.war_sahel || activeLayers.war_syria) && !layerFetchedRef.current.has('war_events')) {
+      fetchEndpoint('/api/osiris/war-events', d => ({ war_events: d.events }));
+      layerFetchedRef.current.add('war_events');
     }
 
   }, [activeLayers]);

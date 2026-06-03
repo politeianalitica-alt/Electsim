@@ -45,6 +45,8 @@ const LEGENDS: Legend[] = [
     { c: '#FF1744', l: 'Guerra activa' }, { c: '#FF9500', l: 'Alta' }, { c: '#FFD500', l: 'Tensión' } ] },
   { id: 'front', title: 'Frente de Ucrania', active: (a) => a.frontline, items: [
     { c: '#A52714', l: 'Ocupado' }, { c: '#0F9D58', l: 'Liberado' }, { c: '#FF5252', l: 'Dirección de ataque' }, { c: '#BCAAA4', l: 'Desconocido' } ] },
+  { id: 'warevents', title: 'Sucesos por guerra', active: (a) => has(a, ['war_ukraine', 'war_gaza', 'war_lebanon', 'war_iran', 'war_sudan', 'war_myanmar', 'war_congo', 'war_sahel', 'war_syria']), items: [
+    { c: '#4FC3F7', l: 'Rusia–Ucrania' }, { c: '#EF5350', l: 'Israel–Gaza' }, { c: '#FF7043', l: 'Israel–Hezbolá' }, { c: '#AB47BC', l: 'Israel–Irán' }, { c: '#FBC02D', l: 'Sudán' }, { c: '#26A69A', l: 'Myanmar' }, { c: '#66BB6A', l: 'RD Congo' }, { c: '#8D6E63', l: 'Sahel' }, { c: '#EC407A', l: 'Siria' } ] },
   { id: 'gdacs', title: 'Alertas de desastres', active: (a) => a.gdacs, items: [
     { c: '#EF5350', l: 'Roja' }, { c: '#FFA726', l: 'Naranja' }, { c: '#66BB6A', l: 'Verde' } ] },
   { id: 'energy', title: 'Energía por fuente', active: (a) => has(a, ['power_solar', 'power_wind', 'power_hydro', 'power_nuclear', 'power_coal', 'power_gas', 'power_oil', 'power_other']), items: [

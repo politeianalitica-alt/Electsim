@@ -124,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -537,6 +537,29 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: {
         'text-color': ['match', ['get','severity'], 'war','#FF1744', 'high','#FF9500', '#FFD500'],
         'text-halo-color': '#000', 'text-halo-width': 1.5, 'text-opacity': 0.9,
+      }});
+
+      // ── Sucesos de guerra (georreferenciados, color por guerra) ──
+      map.addLayer({ id: 'war-events-glow', type: 'circle', source: 'war-events', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 1,5, 4,9, 8,16],
+        'circle-color': ['coalesce',['get','color'],'#FF1744'],
+        'circle-opacity': 0.18, 'circle-blur': 1,
+      }});
+      map.addLayer({ id: 'war-events-dots', type: 'circle', source: 'war-events', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 1,3, 4,5, 8,8],
+        'circle-color': ['coalesce',['get','color'],'#FF1744'],
+        'circle-stroke-color': '#0C0E1A', 'circle-stroke-width': 1.5,
+        'circle-opacity': 0.95,
+      }});
+      map.addLayer({ id: 'war-events-label', type: 'symbol', source: 'war-events', minzoom: 4, layout: {
+        'text-field': ['get','title'],
+        'text-size': ['interpolate',['linear'],['zoom'], 4,8.5, 7,11, 10,13],
+        'text-font': ['Open Sans Bold'],
+        'text-offset': [0, 1.3], 'text-anchor': 'top',
+        'text-allow-overlap': false, 'text-optional': true, 'text-max-width': 9,
+      }, paint: {
+        'text-color': ['coalesce',['get','color'],'#FF1744'],
+        'text-halo-color': '#000', 'text-halo-width': 1.5, 'text-opacity': 0.95,
       }});
 
 
@@ -1175,6 +1198,35 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
+    // ── Sucesos de guerra — popup por suceso georreferenciado ──
+    const WAR_LABELS: Record<string, string> = {
+      ucrania: 'Rusia–Ucrania', gaza: 'Israel–Gaza', libano: 'Israel–Hezbolá', iran: 'Israel–Irán',
+      sudan: 'Sudán (SAF–RSF)', myanmar: 'Myanmar', congo: 'RD Congo (M23)', sahel: 'Sahel', siria: 'Siria',
+    };
+    map.on('click', 'war-events-dots', e => {
+      if (!e.features?.length) return;
+      const p = e.features[0].properties as any;
+      const coords = (e.features[0].geometry as any).coordinates;
+      const color = p.color || '#FF1744';
+      const q = encodeURIComponent((p.title || '') + ' ' + (p.place || ''));
+      const links: string[] = [];
+      if (p.source) links.push(`<a href="${p.source}" target="_blank" style="${linkStyle}color:${color};border:1px solid ${color}66;background:${color}1a;">Fuente ↗</a>`);
+      links.push(`<a href="https://news.google.com/search?q=${q}&hl=es" target="_blank" style="${linkStyle}color:#E8E6E0;border:1px solid #ffffff22;">Noticias ↗</a>`);
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;min-width:236px;max-width:300px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+          <span style="display:inline-block;padding:2px 7px;border-radius:4px;background:${color}22;color:${color};font-size:8.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">${WAR_LABELS[p.war] || p.war}</span>
+          <span style="color:#8A8880;font-size:9px;">${p.date || ''}</span>
+        </div>
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:5px;line-height:1.25;">${p.title || 'Suceso'}</div>
+        <div style="font-size:10px;color:#E8E6E0;margin-bottom:8px;line-height:1.5;">${p.desc || ''}</div>
+        <div style="display:flex;flex-direction:column;gap:3px;font-size:9px;margin-bottom:9px;">
+          ${p.place ? `<div><span style="color:#5C5A54;">LUGAR · </span><span style="color:#E8E6E0;">${p.place}</span></div>` : ''}
+          ${p.type ? `<div><span style="color:#5C5A54;">TIPO · </span><span style="color:${color};font-weight:600;text-transform:capitalize;">${p.type}</span></div>` : ''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">${links.join('')}</div>
+      </div>`);
+    });
+
     // ── Frente de Ucrania (DeepState) — popup por zona, color = estado ──
     map.on('click', 'frontline-fill', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
@@ -1355,7 +1407,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -2378,6 +2430,24 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('conflict-zones', conflictFeatures);
   }, [mapReady, setGeo]);
 
+  // ── Sucesos de guerra → filtrados por las guerras activas (separar por guerra) ──
+  useEffect(() => {
+    if (!mapReady) return;
+    const WAR_KEYS: Record<string, string> = {
+      war_ukraine: 'ucrania', war_gaza: 'gaza', war_lebanon: 'libano', war_iran: 'iran',
+      war_sudan: 'sudan', war_myanmar: 'myanmar', war_congo: 'congo', war_sahel: 'sahel', war_syria: 'siria',
+    };
+    const activeWars = new Set(
+      Object.entries(WAR_KEYS).filter(([k]) => (activeLayers as any)[k]).map(([, v]) => v)
+    );
+    const evts = ((data.war_events as any[]) || []).filter((e) => activeWars.has(e.war));
+    setGeo('war-events', evts.map((e) => ({
+      type: 'Feature' as const,
+      geometry: { type: 'Point' as const, coordinates: [e.lng, e.lat] },
+      properties: { ...e },
+    })));
+  }, [mapReady, data.war_events, activeLayers.war_ukraine, activeLayers.war_gaza, activeLayers.war_lebanon, activeLayers.war_iran, activeLayers.war_sudan, activeLayers.war_myanmar, activeLayers.war_congo, activeLayers.war_sahel, activeLayers.war_syria, setGeo]);
+
 
   // Visibility
   useEffect(() => {
@@ -2447,6 +2517,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
     setVis(['conflict-icons'], !!activeLayers.conflict_zones);
+    const anyWar = activeLayers.war_ukraine || activeLayers.war_gaza || activeLayers.war_lebanon || activeLayers.war_iran || activeLayers.war_sudan || activeLayers.war_myanmar || activeLayers.war_congo || activeLayers.war_sahel || activeLayers.war_syria;
+    setVis(['war-events-glow','war-events-dots','war-events-label'], !!anyWar);
 
     setVis(['balloon-dots','balloon-label'], activeLayers.balloons);
     setVis(['rad-glow','rad-dots','rad-label'], activeLayers.radiation);
