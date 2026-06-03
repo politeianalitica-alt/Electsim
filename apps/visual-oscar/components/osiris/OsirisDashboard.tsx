@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi, Type, Check } from 'lucide-react';
+import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Database, Wifi, Type, Check } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
 import SearchBar from '@/components/osiris/SearchBar';
 import ScaleBar from '@/components/osiris/ScaleBar';
@@ -1275,71 +1275,41 @@ export default function Dashboard() {
         </>
       )}
 
-      {/* ── BOTTOM CENTER (desktop) ── */}
+      {/* ── TOP CENTER · barra de estado discreta (desktop) ── */}
       {!isMobile && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3, duration: 0.8 }} className="desktop-only absolute bottom-5 left-1/2 -translate-x-1/2 z-[200] pointer-events-auto">
-          <div className="glass-panel px-5 py-2.5 flex items-center gap-0 osiris-glow relative overflow-hidden" style={{ borderImage: 'linear-gradient(90deg, rgba(212,175,55,0.05), rgba(212,175,55,0.2), rgba(212,175,55,0.05)) 1', borderImageSlice: 1, borderWidth: '1px', borderStyle: 'solid' }}>
-
-            {/* Animated scan line sweeping across the bar */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-              <div className="absolute top-0 bottom-0 w-[60px] bg-gradient-to-r from-transparent via-[var(--gold-primary)]/[0.07] to-transparent" style={{ animation: 'hud-scanline 4s ease-in-out infinite' }} />
-            </div>
-
-            {/* COORDINATES */}
-            <div className="flex flex-col items-center min-w-[110px] px-3">
-              <div className="hud-label">COORDENADAS</div>
-              <div ref={coordsDisplayRef} className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tracking-wide tabular-nums">—</div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* LOCATION */}
-            <div className="flex flex-col items-center min-w-[160px] max-w-[280px] px-3">
-              <div className="hud-label">UBICACIÓN</div>
-              <div className="text-[9px] text-[var(--text-secondary)] font-mono truncate max-w-[280px]">{locationLabel || 'Pasa el cursor por el mapa…'}</div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* ZOOM */}
-            <div className="flex flex-col items-center px-3">
-              <div className="hud-label">ZOOM</div>
-              <div className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tabular-nums">{mapView.zoom.toFixed(1)}</div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* ACTIVE LAYERS */}
-            <div className="flex flex-col items-center px-3 min-w-[60px]">
-              <div className="hud-label">CAPAS ACTIVAS</div>
-              <div className="flex items-center gap-1">
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6 }} className="desktop-only absolute top-3 left-1/2 -translate-x-1/2 z-[200] pointer-events-auto">
+          <div className="glass-panel flex items-center gap-2.5 px-3 py-1" style={{ opacity: 0.9 }}>
+            {(() => { const sep = <span className="w-px h-3 bg-[var(--border-primary)] flex-shrink-0 opacity-60" />; const lbl = 'text-[7.5px] font-mono tracking-[0.1em] text-[var(--text-muted)] uppercase'; const val = 'text-[9.5px] font-mono font-semibold tabular-nums'; return (<>
+              {/* COORDENADAS */}
+              <div className="flex items-center gap-1.5">
+                <span className={lbl}>COORD</span>
+                <span ref={coordsDisplayRef} className={`${val} text-[var(--gold-primary)]`}>—</span>
+              </div>
+              {sep}
+              {/* UBICACIÓN */}
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className={lbl}>UBIC</span>
+                <span className="text-[9px] font-mono text-[var(--text-secondary)] truncate max-w-[170px]">{locationLabel || '—'}</span>
+              </div>
+              {sep}
+              {/* ZOOM */}
+              <div className="flex items-center gap-1.5">
+                <span className={lbl}>Z</span>
+                <span className={`${val} text-[var(--gold-primary)]`}>{mapView.zoom.toFixed(1)}</span>
+              </div>
+              {sep}
+              {/* CAPAS ACTIVAS */}
+              <div className="flex items-center gap-1" title="Capas activas">
                 <Layers className="w-3 h-3 text-[var(--gold-primary)]" />
-                <span className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tabular-nums">{Object.values(activeLayers).filter(Boolean).length}</span>
+                <span className={`${val} text-[var(--gold-primary)]`}>{Object.values(activeLayers).filter(Boolean).length}</span>
               </div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* DATA FEEDS */}
-            <div className="flex flex-col items-center px-3 min-w-[60px]">
-              <div className="hud-label">FLUJOS</div>
-              <div className="flex items-center gap-1">
-                <Activity className="w-3 h-3 text-[var(--cyan-primary)]" />
-                <span className="text-[10px] font-mono font-bold text-[var(--cyan-primary)] tabular-nums">{Object.values(activeLayers).filter(Boolean).length}</span>
-              </div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* ENTITIES */}
-            <div className="flex flex-col items-center px-3 min-w-[70px]">
-              <div className="hud-label">ENTIDADES</div>
-              <div className="flex items-center gap-1">
+              {sep}
+              {/* ENTIDADES */}
+              <div className="flex items-center gap-1 text-[9.5px]" title="Entidades en pantalla">
                 <Database className="w-3 h-3 text-[var(--alert-green)]" />
                 <ActiveEntityCount data={data} />
               </div>
-            </div>
-
+            </>); })()}
           </div>
         </motion.div>
       )}
