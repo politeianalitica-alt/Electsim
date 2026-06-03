@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi } from 'lucide-react';
+import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi, Type } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
 import SearchBar from '@/components/osiris/SearchBar';
 import ScaleBar from '@/components/osiris/ScaleBar';
@@ -103,6 +103,7 @@ export default function Dashboard() {
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
   const [mapStyle, setMapStyle] = useState<'dark'|'light'|'satellite'>('dark');
   const [visualMode, setVisualMode] = useState<'none'|'flir'|'nvg'|'crt'>('none');
+  const [muteMap, setMuteMap] = useState(false);
   const [sweepData, setSweepData] = useState<any>(null);
   const [scanTargets, setScanTargets] = useState<any[]>([]);
 
@@ -418,7 +419,7 @@ export default function Dashboard() {
     }
     // Accidentes geográficos (Natural Earth) — ríos, montañas, desiertos…
     if ((activeLayers.geo_rivers || activeLayers.geo_mountains || activeLayers.geo_deserts || activeLayers.geo_features) && !layerFetchedRef.current.has('geo_features')) {
-      fetchEndpoint('/api/osiris/geo-features', d => ({ geo_rivers_fc: d.rivers, geo_points: d.points }));
+      fetchEndpoint('/api/osiris/geo-features', d => ({ geo_rivers_fc: d.rivers, geo_areas_fc: d.areas, geo_points: d.points }));
       layerFetchedRef.current.add('geo_features');
     }
     // GDACS — alertas de desastres
@@ -829,6 +830,7 @@ export default function Dashboard() {
           projection={mapProjection} 
           mapStyle={mapStyle}
           visualMode={visualMode}
+          muteLabels={muteMap}
           onEntityClick={handleEntityClick} 
           onMouseCoords={handleMouseCoords} 
           onRightClick={handleRightClick} 
@@ -888,6 +890,18 @@ export default function Dashboard() {
           <Radar className={`w-4 h-4 group-hover:scale-110 transition-transform ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
             {visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}
+          </span>
+        </button>
+
+        {/* Mapa Mudo Toggle — oculta/muestra las etiquetas (nombres) del basemap */}
+        <button
+          onClick={() => setMuteMap(m => !m)}
+          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
+          title="Mapa mudo (sin nombres)"
+        >
+          <Type className={`w-4 h-4 group-hover:scale-110 transition-transform ${muteMap ? 'text-[var(--gold-primary)]' : 'text-[var(--text-muted)]'}`} />
+          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
+            {muteMap ? 'MAPA MUDO' : 'CON NOMBRES'}
           </span>
         </button>
       </motion.div>

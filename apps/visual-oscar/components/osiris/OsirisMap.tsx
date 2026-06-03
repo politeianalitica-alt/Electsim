@@ -15,6 +15,7 @@ interface OsirisMapProps {
   projection?: 'mercator' | 'globe';
   mapStyle?: string;
   visualMode?: string;
+  muteLabels?: boolean;
   sweepData?: any;
   scanTargets?: any[];
 }
@@ -41,8 +42,9 @@ function computeSolarTerminator(): [number, number][] {
 
 const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
-function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', sweepData, scanTargets = [] }: OsirisMapProps) {
+function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', muteLabels = false, sweepData, scanTargets = [] }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const basemapLabelsRef = useRef<string[]>([]);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const popupRef = useRef<maplibregl.Popup | null>(null);
   const [mapReady, setMapReady] = useState(false);
@@ -102,6 +104,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       try {
         for (const layer of map.getStyle().layers) {
           if (layer.type === 'symbol' && (layer.layout as any)?.['text-field']) {
+            basemapLabelsRef.current.push(layer.id); // para el "mapa mudo"
             map.setLayoutProperty(layer.id, 'text-field',
               ['coalesce', ['get', 'name:es'], ['get', 'name:latin'], ['get', 'name']] as any);
           }
@@ -121,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'satnogs', 'military-bases', 'air-quality'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'satnogs', 'military-bases', 'air-quality'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -163,7 +166,45 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         layout: { 'text-field': ['get','label'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.4], 'text-anchor': 'top', 'text-allow-overlap': false },
         paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
 
-      // ── Accidentes geográficos (ríos, montañas, desiertos, otros) ──
+      // ── Accidentes geográficos (ríos, áreas sombreadas, picos puntuales) ──
+      // 1) Áreas sombreadas (polígonos): cordilleras, desiertos y otros relieves.
+      //    Se dibujan PRIMERO para que queden por debajo de ríos y puntos.
+      const geoRangeFilter: any = ['==', ['get','cat'], 'range'];
+      const geoDesertAreaFilter: any = ['==', ['get','cat'], 'desert'];
+      const geoOtherAreaFilter: any = ['in', ['get','cat'], ['literal', ['upland','lowland','wetland','land','tundra']]];
+      // Cordilleras — marrón
+      map.addLayer({ id: 'geo-range-fill', type: 'fill', source: 'geo-areas', filter: geoRangeFilter, paint: {
+        'fill-color': '#8D6E63', 'fill-opacity': 0.20,
+      }});
+      map.addLayer({ id: 'geo-range-outline', type: 'line', source: 'geo-areas', filter: geoRangeFilter, paint: {
+        'line-color': '#6D4C41', 'line-opacity': 0.55, 'line-width': ['interpolate',['linear'],['zoom'], 2,0.6, 6,1.4],
+      }});
+      // Desiertos — arena
+      map.addLayer({ id: 'geo-desert-fill', type: 'fill', source: 'geo-areas', filter: geoDesertAreaFilter, paint: {
+        'fill-color': '#E0A82E', 'fill-opacity': 0.22,
+      }});
+      map.addLayer({ id: 'geo-desert-outline', type: 'line', source: 'geo-areas', filter: geoDesertAreaFilter, paint: {
+        'line-color': '#B5851E', 'line-opacity': 0.5, 'line-width': ['interpolate',['linear'],['zoom'], 2,0.6, 6,1.4],
+      }});
+      // Otros relieves (mesetas, cuencas, llanuras, humedales, tundra) — turquesa
+      map.addLayer({ id: 'geo-other-fill', type: 'fill', source: 'geo-areas', filter: geoOtherAreaFilter, paint: {
+        'fill-color': '#26A69A', 'fill-opacity': 0.16,
+      }});
+      map.addLayer({ id: 'geo-other-outline', type: 'line', source: 'geo-areas', filter: geoOtherAreaFilter, paint: {
+        'line-color': '#00796B', 'line-opacity': 0.5, 'line-width': ['interpolate',['linear'],['zoom'], 2,0.5, 6,1.2],
+      }});
+      // Etiquetas de las áreas (en el centroide del polígono)
+      map.addLayer({ id: 'geo-range-label', type: 'symbol', source: 'geo-areas', filter: geoRangeFilter, minzoom: 2, layout: {
+        'text-field': ['get','name'], 'text-size': ['interpolate',['linear'],['zoom'], 2,9, 6,13], 'text-font': ['Open Sans Italic'], 'text-letter-spacing': 0.04, 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#D7CCC8', 'text-halo-color': '#2A1A12', 'text-halo-width': 1.2 }});
+      map.addLayer({ id: 'geo-desert-label', type: 'symbol', source: 'geo-areas', filter: geoDesertAreaFilter, minzoom: 2, layout: {
+        'text-field': ['get','name'], 'text-size': ['interpolate',['linear'],['zoom'], 2,10, 6,14], 'text-font': ['Open Sans Italic'], 'text-letter-spacing': 0.06, 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#F0C765', 'text-halo-color': '#3A2A0A', 'text-halo-width': 1.2 }});
+      map.addLayer({ id: 'geo-other-label', type: 'symbol', source: 'geo-areas', filter: geoOtherAreaFilter, minzoom: 3, layout: {
+        'text-field': ['get','name'], 'text-size': ['interpolate',['linear'],['zoom'], 3,9, 6,12], 'text-font': ['Open Sans Italic'], 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#80CBC4', 'text-halo-color': '#06201D', 'text-halo-width': 1.2 }});
+
+      // 2) Ríos (líneas)
       map.addLayer({ id: 'geo-rivers-line', type: 'line', source: 'geo-rivers', layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: {
         'line-color': '#29B6F6', 'line-opacity': 0.55,
         'line-width': ['interpolate',['linear'],['zoom'], 2,0.5, 5,1.2, 9,2.4],
@@ -171,10 +212,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'geo-rivers-label', type: 'symbol', source: 'geo-rivers', minzoom: 5, layout: {
         'symbol-placement': 'line', 'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Italic'], 'text-letter-spacing': 0.05,
       }, paint: { 'text-color': '#4FC3F7', 'text-halo-color': '#001018', 'text-halo-width': 1.2 }});
-      // Puntos (montañas/cordilleras, desiertos, otros) — filtrados por categoría
-      const geoPeakFilter: any = ['in', ['get','cat'], ['literal', ['peak','range']]];
-      const geoDesertFilter: any = ['==', ['get','cat'], 'desert'];
-      const geoOtherFilter: any = ['in', ['get','cat'], ['literal', ['basin','plateau','plain','delta','valley','waterfall','wetland','feature']]];
+      // 3) Puntos individuales: picos (con geo_mountains) y cascadas/otros puntuales (con geo_features)
+      const geoPeakFilter: any = ['==', ['get','cat'], 'peak'];
+      const geoOtherFilter: any = ['in', ['get','cat'], ['literal', ['waterfall','feature']]];
       map.addLayer({ id: 'geo-mountains', type: 'circle', source: 'geo-points', filter: geoPeakFilter, paint: {
         'circle-radius': ['interpolate',['linear'],['zoom'], 2,2.2, 6,4, 10,6],
         'circle-color': '#A1887F', 'circle-opacity': 0.85, 'circle-stroke-width': 1, 'circle-stroke-color': '#3E2723',
@@ -182,13 +222,6 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'geo-mountains-label', type: 'symbol', source: 'geo-points', filter: geoPeakFilter, minzoom: 4, layout: {
         'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#D7CCC8', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
-      map.addLayer({ id: 'geo-deserts', type: 'circle', source: 'geo-points', filter: geoDesertFilter, paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 2,3, 6,6, 10,9],
-        'circle-color': '#E0A82E', 'circle-opacity': 0.5, 'circle-stroke-width': 1, 'circle-stroke-color': '#8C6D1F',
-      }});
-      map.addLayer({ id: 'geo-deserts-label', type: 'symbol', source: 'geo-points', filter: geoDesertFilter, minzoom: 3, layout: {
-        'text-field': ['get','name'], 'text-size': 11, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top',
-      }, paint: { 'text-color': '#F0C765', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
       map.addLayer({ id: 'geo-features', type: 'circle', source: 'geo-points', filter: geoOtherFilter, paint: {
         'circle-radius': ['interpolate',['linear'],['zoom'], 2,2.4, 6,4, 10,6],
         'circle-color': '#26A69A', 'circle-opacity': 0.8, 'circle-stroke-width': 1, 'circle-stroke-color': '#10403B',
@@ -996,7 +1029,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1133,25 +1166,35 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     map.on('click', 'ship-arrows', onShipClick);
 
     // ── Accidentes geográficos ──
-    const GEO_CAT_LABEL: Record<string, string> = { peak:'Pico / montaña', range:'Cordillera', desert:'Desierto', basin:'Cuenca', plateau:'Meseta', plain:'Llanura', delta:'Delta', valley:'Valle', waterfall:'Cascada', wetland:'Humedal', feature:'Accidente geográfico' };
-    const GEO_CAT_COLOR: Record<string, string> = { peak:'#A1887F', range:'#A1887F', desert:'#E0A82E', waterfall:'#29B6F6' };
-    const onGeoClick = (e: any) => {
-      if (!e.features?.length) return;
-      const p = e.features[0].properties as any;
-      const coords = (e.features[0].geometry as any).coordinates;
+    const GEO_CAT_LABEL: Record<string, string> = { peak:'Pico / montaña', range:'Cordillera', desert:'Desierto', upland:'Meseta / altiplano', lowland:'Cuenca / llanura', wetland:'Humedal / delta', land:'Área geográfica', tundra:'Tundra', basin:'Cuenca', plateau:'Meseta', plain:'Llanura', delta:'Delta', valley:'Valle', waterfall:'Cascada', feature:'Accidente geográfico' };
+    const GEO_CAT_COLOR: Record<string, string> = { peak:'#A1887F', range:'#8D6E63', desert:'#E0A82E', waterfall:'#29B6F6', upland:'#26A69A', lowland:'#26A69A', wetland:'#4DB6AC', land:'#26A69A', tundra:'#90A4AE' };
+    // Cuerpo común del popup (lng,lat ya resuelto)
+    const geoPopupAt = (p: any, lng: number, lat: number) => {
       const color = GEO_CAT_COLOR[p.cat] || '#26A69A';
       const elev = (p.elev !== undefined && p.elev !== null && p.elev !== '') ? Number(p.elev) : null;
-      popup(coords, `<div style="${pStyle}border:1px solid ${color}55;min-width:180px;">
+      popup([lng, lat], `<div style="${pStyle}border:1px solid ${color}55;min-width:180px;">
         <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:3px;">${p.name || 'Accidente geográfico'}</div>
         <div style="display:inline-block;font-size:9px;font-weight:700;color:${color};background:${color}1a;border:1px solid ${color}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">${GEO_CAT_LABEL[p.cat] || 'Accidente geográfico'}</div>
         <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
           ${elev ? `<div>Altitud: <span style="color:#E8E6E0;font-weight:600;">${elev.toLocaleString('es')} m</span></div>` : ''}
-          <div>Coordenadas: <span style="color:#E8E6E0;">${coords[1].toFixed(2)}°, ${coords[0].toFixed(2)}°</span></div>
+          <div>Coordenadas: <span style="color:#E8E6E0;">${lat.toFixed(2)}°, ${lng.toFixed(2)}°</span></div>
         </div>
-        <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},9z/data=!3m1!1e3" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">VISTA SATÉLITE</a>
+        <a href="https://www.google.com/maps/@${lat},${lng},9z/data=!3m1!1e3" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">VISTA SATÉLITE</a>
       </div>`);
     };
-    ['geo-mountains','geo-deserts','geo-features'].forEach(l => map.on('click', l, onGeoClick));
+    // Puntos: coordenada = geometría del punto
+    const onGeoClick = (e: any) => {
+      if (!e.features?.length) return;
+      const coords = (e.features[0].geometry as any).coordinates;
+      geoPopupAt(e.features[0].properties, coords[0], coords[1]);
+    };
+    // Áreas (polígonos): coordenada = punto donde se clicó
+    const onGeoAreaClick = (e: any) => {
+      if (!e.features?.length) return;
+      geoPopupAt(e.features[0].properties, e.lngLat.lng, e.lngLat.lat);
+    };
+    ['geo-mountains','geo-features'].forEach(l => map.on('click', l, onGeoClick));
+    ['geo-range-fill','geo-desert-fill','geo-other-fill'].forEach(l => map.on('click', l, onGeoAreaClick));
 
     // ── GDACS (alertas de desastres) ──
     map.on('click', 'gdacs-dots', e => {
@@ -1581,12 +1624,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   // ── Accidentes geográficos ──
   useEffect(() => {
     if (!mapReady) return;
-    const anyPoints = activeLayers.geo_mountains || activeLayers.geo_deserts || activeLayers.geo_features;
+    // Puntos individuales: picos (geo_mountains) + cascadas/otros puntuales (geo_features)
+    const anyPoints = activeLayers.geo_mountains || activeLayers.geo_features;
+    // Áreas sombreadas: cordilleras (geo_mountains) + desiertos (geo_deserts) + otros relieves (geo_features)
+    const anyAreas = activeLayers.geo_mountains || activeLayers.geo_deserts || activeLayers.geo_features;
     setGeo('geo-rivers', activeLayers.geo_rivers && data.geo_rivers_fc?.features ? data.geo_rivers_fc.features : []);
+    setGeo('geo-areas', anyAreas && data.geo_areas_fc?.features ? data.geo_areas_fc.features : []);
     setGeo('geo-points', anyPoints && Array.isArray(data.geo_points)
       ? data.geo_points.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, cat: p.cat, elev: p.elev ?? null } }))
       : []);
-  }, [mapReady, data.geo_rivers_fc, data.geo_points, activeLayers.geo_rivers, activeLayers.geo_mountains, activeLayers.geo_deserts, activeLayers.geo_features, setGeo]);
+  }, [mapReady, data.geo_rivers_fc, data.geo_areas_fc, data.geo_points, activeLayers.geo_rivers, activeLayers.geo_mountains, activeLayers.geo_deserts, activeLayers.geo_features, setGeo]);
 
   // ── GDACS / huracanes / volcanes / aeropuertos / lanzamientos / ISS ──
   useEffect(() => {
@@ -1933,9 +1980,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['jam-fill','jam-label'], activeLayers.gps_jamming);
     setVis(['day-night-fill'], activeLayers.day_night);
     setVis(['geo-rivers-line','geo-rivers-label'], activeLayers.geo_rivers);
-    setVis(['geo-mountains','geo-mountains-label'], activeLayers.geo_mountains);
-    setVis(['geo-deserts','geo-deserts-label'], activeLayers.geo_deserts);
-    setVis(['geo-features','geo-features-label'], activeLayers.geo_features);
+    // Cordilleras: picos puntuales + área sombreada de la cordillera
+    setVis(['geo-mountains','geo-mountains-label','geo-range-fill','geo-range-outline','geo-range-label'], activeLayers.geo_mountains);
+    // Desiertos: solo áreas sombreadas
+    setVis(['geo-desert-fill','geo-desert-outline','geo-desert-label'], activeLayers.geo_deserts);
+    // Otros relieves: áreas sombreadas + cascadas/otros puntuales
+    setVis(['geo-features','geo-features-label','geo-other-fill','geo-other-outline','geo-other-label'], activeLayers.geo_features);
     setVis(['gdacs-glow','gdacs-dots','gdacs-label'], activeLayers.gdacs);
     setVis(['hurricane-glow','hurricane-dots','hurricane-label'], activeLayers.hurricanes);
     setVis(['volcanoes-dots','volcanoes-label'], activeLayers.volcanoes);
@@ -2107,6 +2157,15 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     };
     el.style.filter = FILTERS[visualMode] || '';
   }, [visualMode]);
+
+  // ── Mapa mudo: oculta/muestra las etiquetas (nombres) del basemap ──
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map) return;
+    basemapLabelsRef.current.forEach(id => {
+      try { map.setLayoutProperty(id, 'visibility', muteLabels ? 'none' : 'visible'); } catch { /* noop */ }
+    });
+  }, [muteLabels, mapReady]);
 
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;

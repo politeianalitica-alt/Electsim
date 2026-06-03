@@ -223,19 +223,28 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     const cat = key.slice(5); // quita "ship_"
     return ships.reduce((n: number, s: any) => n + ((s?.type || 'other') === cat ? 1 : 0), 0);
   };
-  // Conteo por sub-capa de accidentes geográficos
-  const GEO_CATS: Record<string, string[]> = {
-    geo_mountains: ['peak', 'range'],
+  // Conteo por sub-capa de accidentes geográficos (puntos + áreas sombreadas)
+  const GEO_PT_CATS: Record<string, string[]> = {
+    geo_mountains: ['peak'],
+    geo_deserts: [],
+    geo_features: ['waterfall', 'feature'],
+  };
+  const GEO_AREA_CATS: Record<string, string[]> = {
+    geo_mountains: ['range'],
     geo_deserts: ['desert'],
-    geo_features: ['basin', 'plateau', 'plain', 'delta', 'valley', 'waterfall', 'wetland', 'feature'],
+    geo_features: ['upland', 'lowland', 'wetland', 'land', 'tundra'],
   };
   const geoCount = (key: string): number | null => {
     if (key === 'geo_rivers') return data?.geo_rivers_fc?.features?.length ?? null;
+    const ptCats = GEO_PT_CATS[key];
+    const areaCats = GEO_AREA_CATS[key];
+    if (!ptCats && !areaCats) return null;
     const pts = data?.geo_points;
-    if (!Array.isArray(pts)) return null;
-    const cats = GEO_CATS[key];
-    if (!cats) return null;
-    return pts.reduce((n: number, p: any) => n + (cats.includes(p?.cat) ? 1 : 0), 0);
+    const areas = data?.geo_areas_fc?.features;
+    let n = 0;
+    if (Array.isArray(pts) && ptCats?.length) n += pts.reduce((a: number, p: any) => a + (ptCats.includes(p?.cat) ? 1 : 0), 0);
+    if (Array.isArray(areas) && areaCats?.length) n += areas.reduce((a: number, f: any) => a + (areaCats.includes(f?.properties?.cat) ? 1 : 0), 0);
+    return n;
   };
   // Conteo por tipo de puerto (port_container → 'container', etc.)
   const PORT_CAT: Record<string, string> = { port_container: 'container', port_energy: 'energy', port_naval: 'naval', port_commercial: 'port' };
