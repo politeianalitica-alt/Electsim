@@ -50,15 +50,12 @@ function Toggle({ on }: { on: boolean }) {
   );
 }
 
+// Orden lógico por dominio: primero lo que se mueve en directo (aéreo, marítimo,
+// espacio), luego instalaciones fijas (energía, infraestructura), después
+// eventos y seguridad (conflicto, tráfico, vigilancia), naturaleza (riesgos,
+// geografía) y, al final, capas meta y de fondo (SDK, visualización del mapa).
 const LAYER_GROUPS = [
-  {
-    label: 'INTELIGENCIA SDK',
-    icon: Network,
-    color: '#1565C0',
-    layers: [
-      { key: 'sdk_stream', label: 'Flujo de inteligencia', icon: Network, color: '#1565C0', dataKey: 'sdk_entities' },
-    ],
-  },
+  // ───────────────── EN MOVIMIENTO / EN DIRECTO ─────────────────
   {
     label: 'AVIACIÓN',
     icon: Plane,
@@ -68,27 +65,15 @@ const LAYER_GROUPS = [
       { key: 'private', label: 'Privada', icon: Plane, color: '#00E676', dataKey: 'private_flights' },
       { key: 'jets', label: 'Jets privados', icon: Plane, color: '#FF69B4', dataKey: 'private_jets' },
       { key: 'military', label: 'Militar', icon: Shield, color: '#FF3D3D', dataKey: 'military_flights' },
+      { key: 'airports', label: 'Aeropuertos del mundo', icon: Plane, color: '#42A5F5', dataKey: 'airports' },
     ],
   },
   {
-    label: 'MARÍTIMO Y ESPACIO',
+    label: 'MARÍTIMO',
     icon: Ship,
     color: '#00BCD4',
     layers: [
-      { key: 'maritime', label: 'Marítimo / Naval', icon: Ship, color: '#00BCD4', dataKey: 'maritime_ships,maritime_ports,maritime_chokepoints' },
-      { key: 'satellites', label: 'Satélites', icon: Satellite, color: '#D4AF37', dataKey: 'satellites' },
-      { key: 'iss', label: 'ISS (en directo)', icon: Satellite, color: '#FFFFFF', dataKey: '' },
-      { key: 'launches', label: 'Lanzamientos espaciales', icon: Rocket, color: '#FFD54F', dataKey: 'launches' },
-      { key: 'satnogs', label: 'Estaciones terrestres (SatNOGS)', icon: Radio, color: '#AB47BC', dataKey: 'satnogs' },
-    ],
-  },
-  {
-    label: 'GEOPOLÍTICA Y TRANSPORTE',
-    icon: Swords,
-    color: '#FF1744',
-    layers: [
-      { key: 'frontline', label: 'Frente de Ucrania (DeepState)', icon: Swords, color: '#FF1744', dataKey: '' },
-      { key: 'trains', label: 'Trenes en directo (Finlandia)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
+      { key: 'maritime', label: 'Marítimo / Naval (todo)', icon: Ship, color: '#00BCD4', dataKey: 'maritime_ships,maritime_ports,maritime_chokepoints' },
     ],
   },
   {
@@ -118,28 +103,17 @@ const LAYER_GROUPS = [
     ],
   },
   {
-    label: 'VIGILANCIA',
-    icon: Camera,
-    color: '#39FF14',
+    label: 'ESPACIO',
+    icon: Satellite,
+    color: '#D4AF37',
     layers: [
-      { key: 'cctv', label: 'Cámaras CCTV', icon: Camera, color: '#39FF14', dataKey: 'cameras' },
-      { key: 'live_news', label: 'Noticias en directo', icon: Tv, color: '#FF4081', dataKey: 'live_feeds' },
+      { key: 'satellites', label: 'Satélites', icon: Satellite, color: '#D4AF37', dataKey: 'satellites' },
+      { key: 'iss', label: 'ISS (en directo)', icon: Satellite, color: '#FFFFFF', dataKey: '' },
+      { key: 'launches', label: 'Lanzamientos espaciales', icon: Rocket, color: '#FFD54F', dataKey: 'launches' },
+      { key: 'satnogs', label: 'Estaciones terrestres (SatNOGS)', icon: Radio, color: '#AB47BC', dataKey: 'satnogs' },
     ],
   },
-  {
-    label: 'RIESGOS NATURALES',
-    icon: Activity,
-    color: '#FF9500',
-    layers: [
-      { key: 'earthquakes', label: 'Terremotos (24h)', icon: Activity, color: '#FF9500', dataKey: 'earthquakes' },
-      { key: 'fires', label: 'Incendios activos', icon: Flame, color: '#FF6B00', dataKey: 'fires' },
-      { key: 'weather', label: 'Clima severo', icon: CloudLightning, color: '#E040FB', dataKey: 'weather_events' },
-      { key: 'gdacs', label: 'Alertas de desastres (GDACS)', icon: AlertOctagon, color: '#EF5350', dataKey: 'gdacs' },
-      { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
-      { key: 'volcanoes', label: 'Volcanes', icon: Flame, color: '#FF7043', dataKey: 'volcanoes' },
-      { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
-    ],
-  },
+  // ───────────────── INSTALACIONES FIJAS ─────────────────
   {
     label: 'ENERGÍA (por fuente)',
     icon: Zap,
@@ -156,18 +130,58 @@ const LAYER_GROUPS = [
     ],
   },
   {
-    label: 'AMENAZAS E INFRAESTRUCTURA',
-    icon: AlertTriangle,
-    color: '#FF3D3D',
+    label: 'INFRAESTRUCTURA',
+    icon: Building2,
+    color: '#00E5FF',
     layers: [
       { key: 'infrastructure', label: 'Instalaciones nucleares', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure' },
-      { key: 'critical_infra', label: 'Aeropuertos · refinerías · presas', icon: Building2, color: '#00E5FF', dataKey: 'critical_infra' },
-      { key: 'airports', label: 'Aeropuertos del mundo', icon: Plane, color: '#42A5F5', dataKey: 'airports' },
+      { key: 'critical_infra', label: 'Refinerías · presas · críticas', icon: Building2, color: '#00E5FF', dataKey: 'critical_infra' },
       { key: 'military_bases', label: 'Bases militares', icon: Shield, color: '#EF5350', dataKey: 'military_bases' },
       { key: 'submarine_cables', label: 'Cables submarinos', icon: Cable, color: '#00BCD4', dataKey: 'cables' },
+    ],
+  },
+  // ───────────────── EVENTOS Y SEGURIDAD ─────────────────
+  {
+    label: 'CONFLICTO Y SEGURIDAD',
+    icon: Swords,
+    color: '#FF1744',
+    layers: [
+      { key: 'frontline', label: 'Frente de Ucrania (DeepState)', icon: Swords, color: '#FF1744', dataKey: '' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },
-      { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents' },
       { key: 'gps_jamming', label: 'Interferencia GPS', icon: Radio, color: '#FF4444', dataKey: 'gps_jamming' },
+    ],
+  },
+  {
+    label: 'TRÁFICO Y TRANSPORTE',
+    icon: Train,
+    color: '#FFB300',
+    layers: [
+      { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents' },
+      { key: 'trains', label: 'Trenes en directo (Finlandia)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
+    ],
+  },
+  {
+    label: 'VIGILANCIA Y MEDIOS',
+    icon: Camera,
+    color: '#39FF14',
+    layers: [
+      { key: 'cctv', label: 'Cámaras CCTV', icon: Camera, color: '#39FF14', dataKey: 'cameras' },
+      { key: 'live_news', label: 'Noticias en directo', icon: Tv, color: '#FF4081', dataKey: 'live_feeds' },
+    ],
+  },
+  // ───────────────── NATURALEZA ─────────────────
+  {
+    label: 'RIESGOS NATURALES',
+    icon: Activity,
+    color: '#FF9500',
+    layers: [
+      { key: 'earthquakes', label: 'Terremotos (24h)', icon: Activity, color: '#FF9500', dataKey: 'earthquakes' },
+      { key: 'fires', label: 'Incendios activos', icon: Flame, color: '#FF6B00', dataKey: 'fires' },
+      { key: 'weather', label: 'Clima severo', icon: CloudLightning, color: '#E040FB', dataKey: 'weather_events' },
+      { key: 'gdacs', label: 'Alertas de desastres (GDACS)', icon: AlertOctagon, color: '#EF5350', dataKey: 'gdacs' },
+      { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
+      { key: 'volcanoes', label: 'Volcanes', icon: Flame, color: '#FF7043', dataKey: 'volcanoes' },
+      { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
     ],
   },
   {
@@ -179,6 +193,15 @@ const LAYER_GROUPS = [
       { key: 'geo_mountains', label: 'Montañas y cordilleras', icon: Mountain, color: '#8D6E63', dataKey: '' },
       { key: 'geo_deserts', label: 'Desiertos', icon: Sun, color: '#E0A82E', dataKey: '' },
       { key: 'geo_features', label: 'Otros (mesetas, cuencas, deltas…)', icon: Droplets, color: '#26A69A', dataKey: '' },
+    ],
+  },
+  // ───────────────── META Y FONDO DEL MAPA ─────────────────
+  {
+    label: 'INTELIGENCIA SDK',
+    icon: Network,
+    color: '#1565C0',
+    layers: [
+      { key: 'sdk_stream', label: 'Flujo de inteligencia', icon: Network, color: '#1565C0', dataKey: 'sdk_entities' },
     ],
   },
   {
@@ -197,9 +220,10 @@ const LAYER_GROUPS = [
 const ALL_LAYERS = LAYER_GROUPS.flatMap(g => g.layers);
 
 function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
+  // Al abrir la página todos los grupos arrancan RECOGIDOS (colapsados).
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
-    LAYER_GROUPS.forEach(g => { initial[g.label] = true; });
+    LAYER_GROUPS.forEach(g => { initial[g.label] = false; });
     return initial;
   });
 
@@ -266,6 +290,13 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     setExpandedGroups(prev => ({ ...prev, [groupLabel]: !prev[groupLabel] }));
   };
 
+  const anyExpanded = LAYER_GROUPS.some(g => expandedGroups[g.label]);
+  const setAllGroups = (val: boolean) => setExpandedGroups(() => {
+    const next: Record<string, boolean> = {};
+    LAYER_GROUPS.forEach(g => { next[g.label] = val; });
+    return next;
+  });
+
   const toggleAllInGroup = (group: typeof LAYER_GROUPS[0]) => {
     const allActive = group.layers.every(l => activeLayers[l.key]);
     setActiveLayers((prev: any) => {
@@ -304,6 +335,21 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={pill(`${activeCount}/${ALL_LAYERS.length}`, 'accent')}>{activeCount}/{ALL_LAYERS.length}</span>
           <span style={pill(`${totalEntities} ENT`, 'muted')}>{totalEntities.toLocaleString()}</span>
+          <button
+            onClick={() => setAllGroups(!anyExpanded)}
+            title={anyExpanded ? 'Recoger todo' : 'Desplegar todo'}
+            aria-label={anyExpanded ? 'Recoger todos los grupos' : 'Desplegar todos los grupos'}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 3,
+              borderRadius: 6, background: 'none', border: `1px solid ${POL.hairline}`, cursor: 'pointer',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = POL.surfaceRaised)}
+            onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+          >
+            {anyExpanded
+              ? <ChevronUp style={{ width: 13, height: 13, color: POL.ink4 }} strokeWidth={2} />
+              : <ChevronDown style={{ width: 13, height: 13, color: POL.ink4 }} strokeWidth={2} />}
+          </button>
         </div>
       </div>
 
