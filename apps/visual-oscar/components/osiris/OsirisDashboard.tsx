@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi, Type } from 'lucide-react';
+import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi, Type, Check } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
 import SearchBar from '@/components/osiris/SearchBar';
 import ScaleBar from '@/components/osiris/ScaleBar';
@@ -37,6 +37,85 @@ function useIsMobile() {
     };
   }, []);
   return isMobile;
+}
+
+// Botón de control del mapa con menú desplegable de opciones (estilo / modo visual).
+// En vez de "ciclar" a ciegas, abre un menú con TODAS las opciones y marca la activa.
+type MapMenuOption = { value: string; label: string; icon?: React.ReactNode; color?: string };
+function MapControlMenu({
+  triggerIcon, tooltip, options, value, onSelect, isOpen, onToggle, onClose,
+}: {
+  triggerIcon: React.ReactNode;
+  tooltip: string;
+  options: MapMenuOption[];
+  value: string;
+  onSelect: (v: string) => void;
+  isOpen: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  // Cierra al pulsar fuera del control (robusto frente a ancestros con transform).
+  useEffect(() => {
+    if (!isOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) onClose();
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen, onClose]);
+  return (
+    <div ref={wrapRef} className="relative pointer-events-auto">
+      <button
+        onClick={onToggle}
+        className={`glass-panel p-2.5 transition-colors group relative ${isOpen ? 'border-[var(--gold-primary)]/60' : 'hover:border-[var(--gold-primary)]/40'}`}
+        title={tooltip}
+      >
+        {triggerIcon}
+        {!isOpen && (
+          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
+            {tooltip}
+          </span>
+        )}
+      </button>
+      {isOpen && (
+        <>
+          <div
+            className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-[300] glass-panel p-1"
+            style={{ minWidth: 150, display: 'flex', flexDirection: 'column', gap: 1 }}
+          >
+            {options.map((opt) => {
+              const active = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => { onSelect(opt.value); onClose(); }}
+                  className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md transition-colors text-left"
+                  style={{
+                    background: active ? 'var(--gold-primary)' : 'transparent',
+                    color: active ? '#0b0e16' : 'var(--text-primary, #E8E6E0)',
+                  }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+                  onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = 'transparent'; }}
+                >
+                  <span className="flex items-center justify-center w-4 h-4 flex-shrink-0" style={{ color: active ? '#0b0e16' : (opt.color || 'var(--text-muted)') }}>
+                    {opt.icon}
+                  </span>
+                  <span className="flex-1 text-[11.5px] font-medium tracking-wide">{opt.label}</span>
+                  {active && <Check className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={3} />}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 const UptimeClock = () => {
   const [uptime, setUptime] = useState('00:00:00');
@@ -104,6 +183,8 @@ export default function Dashboard() {
   const [mapStyle, setMapStyle] = useState<'dark'|'light'|'satellite'>('dark');
   const [visualMode, setVisualMode] = useState<'none'|'flir'|'nvg'|'crt'>('none');
   const [muteMap, setMuteMap] = useState(false);
+  // Qué menú desplegable de control del mapa está abierto (estilo / modo visual)
+  const [openMapMenu, setOpenMapMenu] = useState<null | 'style' | 'visual'>(null);
   const [sweepData, setSweepData] = useState<any>(null);
   const [scanTargets, setScanTargets] = useState<any[]>([]);
 
@@ -863,35 +944,42 @@ export default function Dashboard() {
           </span>
         </button>
 
-        {/* Map Style Toggle */}
-        <button
-          onClick={() => setMapStyle(s => s === 'dark' ? 'light' : s === 'light' ? 'satellite' : 'dark')}
-          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title="Estilo del mapa"
-        >
-          {mapStyle === 'dark' ? (
-            <Moon className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
-          ) : mapStyle === 'light' ? (
-            <Sun className="w-4 h-4 text-[#E8A33D] group-hover:scale-110 transition-transform" />
-          ) : (
-            <Satellite className="w-4 h-4 text-[var(--alert-green)] group-hover:scale-110 transition-transform" />
-          )}
-          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}
-          </span>
-        </button>
+        {/* Map Style — menú desplegable (Oscuro / Claro / Satélite) */}
+        <MapControlMenu
+          tooltip={`Estilo: ${mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}`}
+          triggerIcon={
+            mapStyle === 'dark' ? <Moon className="w-4 h-4 text-[var(--cyan-primary)]" />
+              : mapStyle === 'light' ? <Sun className="w-4 h-4 text-[#E8A33D]" />
+              : <Satellite className="w-4 h-4 text-[var(--alert-green)]" />
+          }
+          options={[
+            { value: 'dark', label: 'Oscuro', icon: <Moon className="w-4 h-4" />, color: 'var(--cyan-primary)' },
+            { value: 'light', label: 'Claro', icon: <Sun className="w-4 h-4" />, color: '#E8A33D' },
+            { value: 'satellite', label: 'Satélite', icon: <Satellite className="w-4 h-4" />, color: 'var(--alert-green)' },
+          ]}
+          value={mapStyle}
+          onSelect={(v) => setMapStyle(v as any)}
+          isOpen={openMapMenu === 'style'}
+          onToggle={() => setOpenMapMenu(m => m === 'style' ? null : 'style')}
+          onClose={() => setOpenMapMenu(null)}
+        />
 
-        {/* Visual Mode Toggle — FLIR / NVG / CRT */}
-        <button
-          onClick={() => setVisualMode(m => m === 'none' ? 'flir' : m === 'flir' ? 'nvg' : m === 'nvg' ? 'crt' : 'none')}
-          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title="Modo visual (FLIR / NVG / CRT)"
-        >
-          <Radar className={`w-4 h-4 group-hover:scale-110 transition-transform ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />
-          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}
-          </span>
-        </button>
+        {/* Visual Mode — menú desplegable (Normal / FLIR / NVG / CRT) */}
+        <MapControlMenu
+          tooltip={`Visual: ${visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}`}
+          triggerIcon={<Radar className={`w-4 h-4 ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />}
+          options={[
+            { value: 'none', label: 'Normal', icon: <Radar className="w-4 h-4" />, color: 'var(--text-muted)' },
+            { value: 'flir', label: 'FLIR · térmico', icon: <Radar className="w-4 h-4" />, color: '#FF6B35' },
+            { value: 'nvg', label: 'NVG · nocturno', icon: <Radar className="w-4 h-4" />, color: '#39FF14' },
+            { value: 'crt', label: 'CRT · retro', icon: <Radar className="w-4 h-4" />, color: '#FFB300' },
+          ]}
+          value={visualMode}
+          onSelect={(v) => setVisualMode(v as any)}
+          isOpen={openMapMenu === 'visual'}
+          onToggle={() => setOpenMapMenu(m => m === 'visual' ? null : 'visual')}
+          onClose={() => setOpenMapMenu(null)}
+        />
 
         {/* Mapa Mudo Toggle — oculta/muestra las etiquetas (nombres) del basemap */}
         <button
