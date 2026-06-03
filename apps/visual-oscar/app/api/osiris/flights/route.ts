@@ -82,8 +82,10 @@ async function fetchRegion(region: typeof REGIONS[0]): Promise<any[]> {
 // OpenSky /states/all: TODOS los vuelos del mundo en una sola llamada
 // (best-effort; si falla o limita, se ignora y quedan los de adsb.lol).
 async function fetchOpenSky(): Promise<any[]> {
+  // Timeout corto: desde la IP de Vercel suele estar limitado y colgarse; así no
+  // ralentiza la capa. Cuando responde (≈0,5 s) rellena huecos oceánicos.
   try {
-    const res = await fetch('https://opensky-network.org/api/states/all', { signal: AbortSignal.timeout(12000) });
+    const res = await fetch('https://opensky-network.org/api/states/all', { signal: AbortSignal.timeout(3500) });
     if (!res.ok) return [];
     const data = await res.json();
     return data.states || [];
