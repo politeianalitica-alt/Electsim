@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles,
+  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -115,6 +115,17 @@ const LAYER_GROUPS = [
       { key: 'power_gas', label: 'Gas natural', icon: Zap, color: '#FF9100', dataKey: '' },
       { key: 'power_oil', label: 'Petróleo', icon: Zap, color: '#A1887F', dataKey: '' },
       { key: 'power_other', label: 'Otras (biomasa, geotérmica…)', icon: Zap, color: '#BDBDBD', dataKey: '' },
+    ],
+  },
+  {
+    label: 'REDES Y RECURSOS',
+    icon: Fuel,
+    color: '#42A5F5',
+    layers: [
+      { key: 'pipelines', label: 'Oleoductos y gasoductos', icon: Fuel, color: '#42A5F5', dataKey: '' },
+      { key: 'datacenters', label: 'Centros de datos', icon: Server, color: '#00E5FF', dataKey: 'datacenters' },
+      { key: 'oilgas', label: 'Campos de petróleo y gas', icon: Fuel, color: '#8D6E63', dataKey: 'oilgas' },
+      { key: 'minerals', label: 'Minerales críticos', icon: Gem, color: '#26C6DA', dataKey: 'minerals' },
     ],
   },
   {

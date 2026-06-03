@@ -268,6 +268,11 @@ export default function Dashboard() {
     aurora: false,
     tectonics: false,
     sea_state: false,
+    pipelines: false,
+    powerlines: false,
+    datacenters: false,
+    oilgas: false,
+    minerals: false,
     day_night: true,
     sdk_stream: false,
   });
@@ -581,6 +586,27 @@ export default function Dashboard() {
     if (activeLayers.sea_state && !layerFetchedRef.current.has('sea_state')) {
       fetchEndpoint('/api/osiris/sea-state', d => ({ sea_state: d.points }));
       layerFetchedRef.current.add('sea_state');
+    }
+    // Lote Energía y Recursos
+    if (activeLayers.pipelines && !layerFetchedRef.current.has('pipelines')) {
+      fetchEndpoint('/api/osiris/pipelines', d => ({ pipelines_fc: d.pipelines }));
+      layerFetchedRef.current.add('pipelines');
+    }
+    if (activeLayers.powerlines && !layerFetchedRef.current.has('powerlines')) {
+      fetchEndpoint('/api/osiris/powerlines', d => ({ powerlines_fc: d.powerlines }));
+      layerFetchedRef.current.add('powerlines');
+    }
+    if (activeLayers.datacenters && !layerFetchedRef.current.has('datacenters')) {
+      fetchEndpoint('/api/osiris/datacenters', d => ({ datacenters: d.datacenters }));
+      layerFetchedRef.current.add('datacenters');
+    }
+    if (activeLayers.oilgas && !layerFetchedRef.current.has('oilgas')) {
+      fetchEndpoint('/api/osiris/oilgas', d => ({ oilgas: d.fields }));
+      layerFetchedRef.current.add('oilgas');
+    }
+    if (activeLayers.minerals && !layerFetchedRef.current.has('minerals')) {
+      fetchEndpoint('/api/osiris/minerals', d => ({ minerals: d.mines }));
+      layerFetchedRef.current.add('minerals');
     }
     // Estaciones SatNOGS
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {
