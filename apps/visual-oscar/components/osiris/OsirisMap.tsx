@@ -124,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -370,6 +370,27 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'orgs-label', type: 'symbol', source: 'orgs', minzoom: 4, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#82B1FF', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
+
+      // ── Lote Espacio y Marítimo ──
+      // Rutas comerciales marítimas — líneas cian discontinuas
+      map.addLayer({ id: 'sea-lanes-line', type: 'line', source: 'sea-lanes',
+        layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
+        paint: { 'line-color': '#26C6DA', 'line-opacity': 0.6, 'line-dasharray': [3, 2],
+          'line-width': ['interpolate',['linear'],['zoom'], 2,1, 6,2, 10,3] }});
+      // Faros — puntos amarillos
+      map.addLayer({ id: 'lighthouses-dots', type: 'circle', source: 'lighthouses',
+        layout: { visibility: 'none' }, paint: {
+          'circle-radius': ['interpolate',['linear'],['zoom'], 3,1.8, 7,3.5, 11,5.5],
+          'circle-color': '#FFEE58', 'circle-opacity': 0.85, 'circle-stroke-width': 0.8, 'circle-stroke-color': '#5D4E00',
+        }});
+      // Piratería — zonas de riesgo (glow + punto)
+      map.addLayer({ id: 'piracy-glow', type: 'circle', source: 'piracy', layout: { visibility: 'none' }, paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,14, 6,30], 'circle-color': ['coalesce',['get','color'],'#EF5350'], 'circle-opacity': 0.16, 'circle-blur': 0.8 }});
+      map.addLayer({ id: 'piracy-dots', type: 'circle', source: 'piracy', layout: { visibility: 'none' }, paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,5, 6,9], 'circle-color': ['coalesce',['get','color'],'#EF5350'], 'circle-opacity': 0.8, 'circle-stroke-width': 1.5, 'circle-stroke-color': '#fff' }});
+      map.addLayer({ id: 'piracy-label', type: 'symbol', source: 'piracy', minzoom: 2, layout: {
+        'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Bold'], 'text-offset': [0,1.3], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#FFAB91', 'text-halo-color': '#000', 'text-halo-width': 1.3 }});
 
       // ── GDACS (alertas de desastres) — color por nivel de alerta ──
       const gdacsColor: any = ['match', ['get','alert'], 'Red','#EF5350', 'Orange','#FFA726', /* Green */ '#66BB6A'];
@@ -1253,6 +1274,33 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     };
     map.on('click', 'alliances-fill', onCountryClick);
     map.on('click', 'sanctions-fill', onCountryClick);
+    // ── Piratería ──
+    map.on('click', 'piracy-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const color = (p.color as string) || '#EF5350';
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}66;min-width:170px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:3px;">${p.name}</div>
+        <div style="font-size:9.5px;color:#aaa;">Riesgo de piratería: <span style="color:${color};text-transform:capitalize;">${p.risk || '—'}</span></div>
+      </div>`);
+    });
+    // ── Faros ──
+    map.on('click', 'lighthouses-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #FFEE5855;min-width:150px;">
+        <div style="color:#FFEE58;font-size:12px;font-weight:700;margin-bottom:2px;">${p.name || 'Faro'}</div>
+        <div style="font-size:9.5px;color:#aaa;">Faro / ayuda a la navegación</div>
+      </div>`);
+    });
+    // ── Rutas marítimas ──
+    map.on('click', 'sea-lanes-line', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid #26C6DA55;min-width:160px;">
+        <div style="color:#26C6DA;font-size:12px;font-weight:700;">${p.name || 'Ruta marítima'}</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:2px;">Corredor comercial marítimo</div>
+      </div>`);
+    });
 
 
     // ── Politeia SDK link click ──
@@ -1290,7 +1338,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1892,7 +1940,13 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.disputes.map((d: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [d.lng, d.lat] }, properties: { name: d.name, parties: d.parties } })) : []);
     setGeo('orgs', activeLayers.orgs && Array.isArray(data.orgs)
       ? data.orgs.map((o: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [o.lng, o.lat] }, properties: { name: o.name, city: o.city } })) : []);
-  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.disputes, activeLayers.orgs, setGeo]);
+    // Lote Espacio y Marítimo
+    setGeo('sea-lanes', activeLayers.maritime_routes && data.sea_lanes_fc?.features ? data.sea_lanes_fc.features : []);
+    setGeo('lighthouses', activeLayers.lighthouses && Array.isArray(data.lighthouses)
+      ? data.lighthouses.map((l: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [l.lng, l.lat] }, properties: { name: l.name } })) : []);
+    setGeo('piracy', activeLayers.piracy && Array.isArray(data.piracy)
+      ? data.piracy.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, risk: p.risk, color: p.color } })) : []);
+  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
 
   // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
   useEffect(() => {
@@ -2346,6 +2400,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['sanctions-fill'], activeLayers.sanctions);
     setVis(['disputes-dots','disputes-label'], activeLayers.disputes);
     setVis(['orgs-dots','orgs-label'], activeLayers.orgs);
+    setVis(['sea-lanes-line'], activeLayers.maritime_routes);
+    setVis(['lighthouses-dots'], activeLayers.lighthouses);
+    setVis(['piracy-glow','piracy-dots','piracy-label'], activeLayers.piracy);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
     setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);

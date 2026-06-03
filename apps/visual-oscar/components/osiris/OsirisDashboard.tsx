@@ -278,6 +278,9 @@ export default function Dashboard() {
     sanctions: false,
     disputes: false,
     orgs: false,
+    lighthouses: false,
+    maritime_routes: false,
+    piracy: false,
     day_night: true,
     sdk_stream: false,
   });
@@ -621,6 +624,15 @@ export default function Dashboard() {
     if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.disputes || activeLayers.orgs) && !layerFetchedRef.current.has('geopolitics')) {
       fetchEndpoint('/api/osiris/geopolitics', d => ({ geopolitics_fc: d.countries, disputes: d.disputes, orgs: d.orgs }));
       layerFetchedRef.current.add('geopolitics');
+    }
+    // Lote Espacio y Marítimo
+    if (activeLayers.lighthouses && !layerFetchedRef.current.has('lighthouses')) {
+      fetchEndpoint('/api/osiris/lighthouses', d => ({ lighthouses: d.lighthouses }));
+      layerFetchedRef.current.add('lighthouses');
+    }
+    if ((activeLayers.maritime_routes || activeLayers.piracy) && !layerFetchedRef.current.has('maritime_routes')) {
+      fetchEndpoint('/api/osiris/maritime-routes', d => ({ sea_lanes_fc: d.routes, piracy: d.piracy }));
+      layerFetchedRef.current.add('maritime_routes');
     }
     // Estaciones SatNOGS
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {

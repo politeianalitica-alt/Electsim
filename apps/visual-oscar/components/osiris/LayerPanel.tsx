@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout, Ban, Landmark,
+  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout, Ban, Landmark, Route, Skull, Navigation,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -88,6 +88,16 @@ const LAYER_GROUPS = [
       { key: 'port_energy', label: 'Energéticos crudo/gas', icon: Anchor, color: '#FF9500', dataKey: '' },
       { key: 'port_naval', label: 'Bases navales', icon: Anchor, color: '#FF3D3D', dataKey: '' },
       { key: 'port_commercial', label: 'Comerciales', icon: Anchor, color: '#26A69A', dataKey: '' },
+    ],
+  },
+  {
+    label: 'RUTAS Y NAVEGACIÓN',
+    icon: Route,
+    color: '#26C6DA',
+    layers: [
+      { key: 'maritime_routes', label: 'Rutas comerciales marítimas', icon: Route, color: '#26C6DA', dataKey: '' },
+      { key: 'piracy', label: 'Piratería (zonas de riesgo)', icon: Skull, color: '#EF5350', dataKey: '' },
+      { key: 'lighthouses', label: 'Faros', icon: Navigation, color: '#FFEE58', dataKey: 'lighthouses' },
     ],
   },
   {
