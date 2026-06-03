@@ -115,27 +115,27 @@ export default function Dashboard() {
   const aisStopRef = useRef<null | (() => void)>(null);
   const aisActiveRef = useRef(false);
 
-  // ── DEFAULT: Most layers OFF — fast initial load ──
+  // ── DEFAULT: TODAS las capas apagadas excepto "día/noche" ──
   const [activeLayers, setActiveLayers] = useState({
     flights: false,
     private: false,
     jets: false,
     military: false,
-    maritime: true,
-    ship_cargo: true,
-    ship_tanker: true,
-    ship_passenger: true,
-    ship_fishing: true,
-    ship_tug: true,
-    ship_highspeed: true,
-    ship_military: true,
-    ship_other: true,
+    maritime: false,
+    ship_cargo: false,
+    ship_tanker: false,
+    ship_passenger: false,
+    ship_fishing: false,
+    ship_tug: false,
+    ship_highspeed: false,
+    ship_military: false,
+    ship_other: false,
     satellites: false,
     balloons: false,
-    cctv: true,
-    live_news: true,
-    news_intel: true,
-    earthquakes: true,
+    cctv: false,
+    live_news: false,
+    news_intel: false,
+    earthquakes: false,
     fires: false,
     weather: false,
     radiation: false,
@@ -150,8 +150,8 @@ export default function Dashboard() {
     power_other: false,
     critical_infra: false,
     submarine_cables: false,
-    global_incidents: true,
-    traffic_incidents: true,
+    global_incidents: false,
+    traffic_incidents: false,
     war_alerts: false,
     gps_jamming: false,
     geo_rivers: false,
@@ -170,7 +170,7 @@ export default function Dashboard() {
     gibs: false,
     nightlights: false,
     day_night: true,
-    sdk_stream: true,
+    sdk_stream: false,
   });
   const [liveFeedUrl, setLiveFeedUrl] = useState<string | null>(null);
   const [liveFeedName, setLiveFeedName] = useState('');
