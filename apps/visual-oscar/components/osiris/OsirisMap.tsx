@@ -291,10 +291,10 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       // ── Estado del mar (altura de ola) — puntos oceánicos por color ──
       map.addLayer({ id: 'sea-state-dots', type: 'circle', source: 'sea-state',
         layout: { visibility: 'none' }, paint: {
-          'circle-radius': ['interpolate',['linear'],['zoom'], 1,3, 4,6, 8,11],
+          'circle-radius': ['interpolate',['linear'],['zoom'], 1,2, 4,4, 8,7, 11,10],
           'circle-color': ['coalesce', ['get','color'], '#26C6DA'],
-          'circle-opacity': 0.6, 'circle-blur': 0.4,
-          'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.4)',
+          'circle-opacity': 0.65, 'circle-blur': 0.3,
+          'circle-stroke-width': 0.6, 'circle-stroke-color': 'rgba(255,255,255,0.35)',
         }});
 
       // ── Auroras (probabilidad OVATION) — mancha verde en latitudes altas ──
