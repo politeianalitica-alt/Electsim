@@ -185,6 +185,50 @@ const LAYER_GROUPS = [
     ],
   },
   {
+    label: 'POLÍTICA E ÍNDICES',
+    icon: Vote,
+    color: '#42A5F5',
+    layers: [
+      { key: 'election', label: 'Calendario electoral (2026-28)', icon: Vote, color: '#EF5350', dataKey: '' },
+      { key: 'econ_blocs', label: 'Bloques económicos', icon: Globe, color: '#1565C0', dataKey: '' },
+      { key: 'press_freedom', label: 'Libertad de prensa (RSF)', icon: Newspaper, color: '#9CCC65', dataKey: '' },
+      { key: 'corruption', label: 'Corrupción (CPI)', icon: Landmark, color: '#FFA726', dataKey: '' },
+      { key: 'hdi', label: 'Desarrollo humano (IDH)', icon: Activity, color: '#2E7D32', dataKey: '' },
+      { key: 'gdp_pc', label: 'PIB per cápita', icon: Coins, color: '#26A69A', dataKey: '' },
+    ],
+  },
+  {
+    label: 'INDUSTRIA ESTRATÉGICA',
+    icon: Fuel,
+    color: '#A1887F',
+    layers: [
+      { key: 'refineries', label: 'Refinerías de petróleo', icon: Fuel, color: '#A1887F', dataKey: '' },
+      { key: 'lng_terminals', label: 'Terminales de GNL', icon: Flame, color: '#42A5F5', dataKey: '' },
+      { key: 'fabs', label: 'Fábricas de semiconductores', icon: Server, color: '#00E5FF', dataKey: '' },
+      { key: 'nuclear_plants', label: 'Centrales nucleares', icon: Radiation, color: '#FFD600', dataKey: '' },
+      { key: 'dams', label: 'Grandes presas hidroeléctricas', icon: Waves, color: '#4FC3F7', dataKey: '' },
+    ],
+  },
+  {
+    label: 'CONECTIVIDAD',
+    icon: Network,
+    color: '#AB47BC',
+    layers: [
+      { key: 'ixps', label: 'Puntos de intercambio (IXP)', icon: Network, color: '#AB47BC', dataKey: '' },
+      { key: 'cable_landings', label: 'Aterrizajes de cable submarino', icon: Cable, color: '#26C6DA', dataKey: '' },
+      { key: 'net_shutdowns', label: 'Apagones de internet', icon: Zap, color: '#EF5350', dataKey: '' },
+    ],
+  },
+  {
+    label: 'HUMANITARIO Y MEDIOAMBIENTE',
+    icon: Sprout,
+    color: '#FF9800',
+    layers: [
+      { key: 'refugee_camps', label: 'Campos de refugiados (ACNUR)', icon: AlertOctagon, color: '#FF9800', dataKey: '' },
+      { key: 'deforestation', label: 'Deforestación (pérdida forestal)', icon: Sprout, color: '#E53935', dataKey: '' },
+    ],
+  },
+  {
     label: 'TRÁFICO Y TRANSPORTE',
     icon: Train,
     color: '#FFB300',

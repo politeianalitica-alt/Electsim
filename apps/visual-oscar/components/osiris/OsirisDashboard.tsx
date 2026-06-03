@@ -267,6 +267,26 @@ export default function Dashboard() {
     war_congo: false,
     war_sahel: false,
     war_syria: false,
+    // Lote A — Política e índices
+    election: false,
+    press_freedom: false,
+    corruption: false,
+    hdi: false,
+    gdp_pc: false,
+    econ_blocs: false,
+    // Lote B — Industria estratégica
+    refineries: false,
+    lng_terminals: false,
+    fabs: false,
+    nuclear_plants: false,
+    dams: false,
+    // Lote C — Infraestructura digital
+    ixps: false,
+    cable_landings: false,
+    net_shutdowns: false,
+    // Lote D — Humanitario y medioambiente
+    refugee_camps: false,
+    deforestation: false,
     trains: false,
     railways: false,
     satnogs: false,
@@ -634,9 +654,24 @@ export default function Dashboard() {
       layerFetchedRef.current.add('agriculture');
     }
     // Lote Geopolítica (una sola carga sirve países + disputas + organismos)
-    if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes || activeLayers.disputes || activeLayers.orgs) && !layerFetchedRef.current.has('geopolitics')) {
+    if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes || activeLayers.disputes || activeLayers.orgs || activeLayers.election || activeLayers.press_freedom || activeLayers.corruption || activeLayers.hdi || activeLayers.gdp_pc || activeLayers.econ_blocs) && !layerFetchedRef.current.has('geopolitics')) {
       fetchEndpoint('/api/osiris/geopolitics', d => ({ geopolitics_fc: d.countries, disputes: d.disputes, orgs: d.orgs }));
       layerFetchedRef.current.add('geopolitics');
+    }
+    // Lote B — Industria estratégica
+    if ((activeLayers.refineries || activeLayers.lng_terminals || activeLayers.fabs || activeLayers.nuclear_plants || activeLayers.dams) && !layerFetchedRef.current.has('industry')) {
+      fetchEndpoint('/api/osiris/industry', d => ({ industry_refineries: d.refineries, industry_lng: d.lng_terminals, industry_fabs: d.fabs, industry_nuclear: d.nuclear, industry_dams: d.dams }));
+      layerFetchedRef.current.add('industry');
+    }
+    // Lote C — Infraestructura digital
+    if ((activeLayers.ixps || activeLayers.cable_landings || activeLayers.net_shutdowns) && !layerFetchedRef.current.has('digital_infra')) {
+      fetchEndpoint('/api/osiris/digital-infra', d => ({ infra_ixps: d.ixps, infra_landings: d.landings, infra_shutdowns: d.shutdowns }));
+      layerFetchedRef.current.add('digital_infra');
+    }
+    // Lote D — Campos de refugiados
+    if (activeLayers.refugee_camps && !layerFetchedRef.current.has('refugee_camps')) {
+      fetchEndpoint('/api/osiris/refugee-camps', d => ({ refugee_camps: d.camps }));
+      layerFetchedRef.current.add('refugee_camps');
     }
     // Lote Espacio y Marítimo
     if (activeLayers.lighthouses && !layerFetchedRef.current.has('lighthouses')) {

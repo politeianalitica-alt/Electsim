@@ -47,6 +47,33 @@ const LEGENDS: Legend[] = [
     { c: '#A52714', l: 'Ocupado' }, { c: '#0F9D58', l: 'Liberado' }, { c: '#FF5252', l: 'Dirección de ataque' }, { c: '#BCAAA4', l: 'Desconocido' } ] },
   { id: 'warevents', title: 'Sucesos por guerra', active: (a) => has(a, ['war_ukraine', 'war_gaza', 'war_lebanon', 'war_iran', 'war_sudan', 'war_myanmar', 'war_congo', 'war_sahel', 'war_syria']), items: [
     { c: '#4FC3F7', l: 'Rusia–Ucrania' }, { c: '#EF5350', l: 'Israel–Gaza' }, { c: '#FF7043', l: 'Israel–Hezbolá' }, { c: '#AB47BC', l: 'Israel–Irán' }, { c: '#FBC02D', l: 'Sudán' }, { c: '#26A69A', l: 'Myanmar' }, { c: '#66BB6A', l: 'RD Congo' }, { c: '#8D6E63', l: 'Sahel' }, { c: '#EC407A', l: 'Siria' } ] },
+  // ── Lote A: política e índices ──
+  { id: 'election', title: 'Calendario electoral', active: (a) => a.election, items: [
+    { c: '#EF5350', l: '2026' }, { c: '#FFA726', l: '2027' }, { c: '#42A5F5', l: '2028' } ] },
+  { id: 'blocs', title: 'Bloques económicos', active: (a) => a.econ_blocs, items: [
+    { c: '#E53935', l: 'BRICS+' }, { c: '#1565C0', l: 'UE' }, { c: '#5E35B1', l: 'G7' }, { c: '#00897B', l: 'ASEAN' }, { c: '#43A047', l: 'Mercosur' }, { c: '#FB8C00', l: 'OPEP' } ] },
+  { id: 'press', title: 'Libertad de prensa', active: (a) => a.press_freedom, items: [
+    { c: '#2E7D32', l: 'Buena' }, { c: '#9CCC65', l: 'Satisfactoria' }, { c: '#FFEE58', l: 'Problemática' }, { c: '#FFA726', l: 'Difícil' }, { c: '#EF5350', l: 'Muy grave' } ] },
+  { id: 'cpi', title: 'Corrupción (CPI)', active: (a) => a.corruption, items: [
+    { c: '#B71C1C', l: '<30' }, { c: '#EF5350', l: '30–44' }, { c: '#FFA726', l: '45–59' }, { c: '#9CCC65', l: '60–74' }, { c: '#2E7D32', l: '≥75' } ] },
+  { id: 'hdi', title: 'Desarrollo humano (IDH)', active: (a) => a.hdi, items: [
+    { c: '#B71C1C', l: '<0,55' }, { c: '#FFA726', l: '0,55–0,7' }, { c: '#FFEE58', l: '0,7–0,8' }, { c: '#9CCC65', l: '0,8–0,9' }, { c: '#2E7D32', l: '≥0,9' } ] },
+  { id: 'gdp', title: 'PIB per cápita (USD)', active: (a) => a.gdp_pc, items: [
+    { c: '#311B92', l: '<2k' }, { c: '#5E35B1', l: '2–10k' }, { c: '#7E57C2', l: '10–30k' }, { c: '#26A69A', l: '30–60k' }, { c: '#00E5FF', l: '≥60k' } ] },
+  // ── Lote B: industria estratégica ──
+  { id: 'refineries', title: 'Refinerías', active: (a) => a.refineries, items: [ { c: '#A1887F', l: 'Refinería (tamaño = capacidad)' } ] },
+  { id: 'lng', title: 'Terminales de GNL', active: (a) => a.lng_terminals, items: [ { c: '#FF7043', l: 'Exportación' }, { c: '#42A5F5', l: 'Importación' } ] },
+  { id: 'fabs', title: 'Semiconductores', active: (a) => a.fabs, items: [ { c: '#00E5FF', l: 'Fábrica de chips' } ] },
+  { id: 'nuclearp', title: 'Centrales nucleares', active: (a) => a.nuclear_plants, items: [ { c: '#FFD600', l: 'Central (tamaño = MW)' } ] },
+  { id: 'dams', title: 'Presas hidroeléctricas', active: (a) => a.dams, items: [ { c: '#4FC3F7', l: 'Presa (tamaño = MW)' } ] },
+  // ── Lote C: conectividad ──
+  { id: 'ixps', title: 'Puntos de intercambio (IXP)', active: (a) => a.ixps, items: [ { c: '#AB47BC', l: 'IXP (tamaño = tráfico)' } ] },
+  { id: 'landings', title: 'Cables submarinos', active: (a) => a.cable_landings, items: [ { c: '#26C6DA', l: 'Estación de aterrizaje' } ] },
+  { id: 'shutdowns', title: 'Apagones de internet', active: (a) => a.net_shutdowns, items: [
+    { c: '#EF5350', l: 'Guerra' }, { c: '#AB47BC', l: 'Elecciones' }, { c: '#FF9800', l: 'Protesta' }, { c: '#42A5F5', l: 'Exámenes' } ] },
+  // ── Lote D: humanitario y medioambiente ──
+  { id: 'camps', title: 'Campos de refugiados', active: (a) => a.refugee_camps, items: [ { c: '#FF9800', l: 'Campo (tamaño = población)' } ] },
+  { id: 'defor', title: 'Deforestación', active: (a) => a.deforestation, items: [ { c: '#E53935', l: 'Pérdida de cobertura arbórea' } ] },
   { id: 'gdacs', title: 'Alertas de desastres', active: (a) => a.gdacs, items: [
     { c: '#EF5350', l: 'Roja' }, { c: '#FFA726', l: 'Naranja' }, { c: '#66BB6A', l: 'Verde' } ] },
   { id: 'energy', title: 'Energía por fuente', active: (a) => has(a, ['power_solar', 'power_wind', 'power_hydro', 'power_nuclear', 'power_coal', 'power_gas', 'power_oil', 'power_other']), items: [
