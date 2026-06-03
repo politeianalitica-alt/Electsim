@@ -231,14 +231,13 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': '#80CBC4', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
 
       // ── Red ferroviaria mundial — separada por tipo de servicio ──
-      // 1) Regular / convencional (Natural Earth) — ámbar, debajo
+      // 1) Regular / convencional (Natural Earth) — ámbar brillante, debajo
       map.addLayer({ id: 'railways-line', type: 'line', source: 'railways',
-        layout: { 'line-cap': 'butt', 'line-join': 'round', visibility: 'none' },
+        layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
         paint: {
-          'line-color': '#C9A66B',
-          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.3, 5,0.5, 9,0.75],
-          'line-width': ['interpolate',['linear'],['zoom'], 2,0.4, 6,1, 10,1.8],
-          'line-dasharray': [3, 2],
+          'line-color': '#FFC23C',
+          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.6, 5,0.8, 9,0.95],
+          'line-width': ['interpolate',['linear'],['zoom'], 2,0.5, 6,1.3, 10,2.2],
         }});
       // 2) Cercanías / suburbano (OSM) — verde, encima de la regular
       map.addLayer({ id: 'railways-commuter-line', type: 'line', source: 'railways-commuter',
@@ -317,8 +316,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': '#fff', 'text-halo-color': '#00E5FF', 'text-halo-width': 1.2 }});
 
       // ── Frente de Ucrania (DeepState) — territorio ocupado/contestado ──
-      map.addLayer({ id: 'frontline-fill', type: 'fill', source: 'frontline', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': '#FF1744', 'fill-opacity': 0.18 } });
-      map.addLayer({ id: 'frontline-line', type: 'line', source: 'frontline', paint: { 'line-color': '#FF1744', 'line-width': 1.6, 'line-opacity': 0.7 } });
+      map.addLayer({ id: 'frontline-fill', type: 'fill', source: 'frontline', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': ['coalesce', ['get', 'color'], '#FF1744'], 'fill-opacity': 0.32 } });
+      map.addLayer({ id: 'frontline-line', type: 'line', source: 'frontline', paint: { 'line-color': ['coalesce', ['get', 'color'], '#FF1744'], 'line-width': 1.4, 'line-opacity': 0.85 } });
 
       // ── Trenes en directo (FI / IE / US) — color por país ──
       const trainColor: any = ['match', ['get','country'], 'FI','#4FC3F7', 'IE','#66BB6A', 'US','#FF7043', /* otros */ '#FFCA28'];
@@ -1006,18 +1005,43 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Global Event / Conflict Markers ──
+    const SEV_ES: Record<string, string> = { war: 'Guerra activa', high: 'Alta', elevated: 'Tensión' };
     map.on('click', 'conflict-icons', e => {
       if (!e.features?.length) return;
       const p = e.features[0].properties as any;
       const coords = (e.features[0].geometry as any).coordinates;
       const color = p.severity === 'war' ? '#FF1744' : p.severity === 'high' ? '#FF9500' : '#FFD500';
-      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;">
-        <div style="color:${color};font-size:12px;font-weight:700;margin-bottom:6px;">${p.label || 'EVENTO DE ALERTA'}</div>
-        <div style="font-size:10px;color:#E8E6E0;margin-bottom:8px;line-height:1.4;">${p.description || 'Evento global detectado en esta ubicación.'}</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:9px;margin-bottom:8px;">
-          <div><span style="color:#5C5A54;">GRAVEDAD</span><br/><span style="color:${color};">${(p.severity||'desconocida').toUpperCase()}</span></div>
-          <div><span style="color:#5C5A54;">COORDENADAS</span><br/><span style="color:#E8E6E0;">${coords[1].toFixed(3)}°, ${coords[0].toFixed(3)}°</span></div>
+      const q = encodeURIComponent((p.label || 'conflicto') + ' conflicto');
+      const links: string[] = [];
+      if (p.live) links.push(`<a href="${p.live}" target="_blank" style="${linkStyle}color:${color};border:1px solid ${color}66;background:${color}1a;">● Mapa en directo (Liveuamap)</a>`);
+      links.push(`<a href="https://news.google.com/search?q=${q}&hl=es" target="_blank" style="${linkStyle}color:#E8E6E0;border:1px solid #ffffff22;">Noticias ↗</a>`);
+      links.push(`<a href="https://reliefweb.int/updates?search=${encodeURIComponent(p.label || '')}" target="_blank" style="${linkStyle}color:#E8E6E0;border:1px solid #ffffff22;">ReliefWeb · ONU ↗</a>`);
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}40;min-width:226px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:5px;">${p.label || 'EVENTO DE ALERTA'}</div>
+        <div style="font-size:10px;color:#E8E6E0;margin-bottom:8px;line-height:1.5;">${p.description || 'Zona de conflicto activa.'}</div>
+        <div style="display:flex;flex-direction:column;gap:3px;font-size:9px;margin-bottom:9px;">
+          ${p.actors ? `<div><span style="color:#5C5A54;">ACTORES · </span><span style="color:#E8E6E0;">${p.actors}</span></div>` : ''}
+          ${p.since ? `<div><span style="color:#5C5A54;">DESDE · </span><span style="color:#E8E6E0;">${p.since}</span></div>` : ''}
+          <div><span style="color:#5C5A54;">INTENSIDAD · </span><span style="color:${color};font-weight:600;">${SEV_ES[p.severity] || p.severity}</span></div>
         </div>
+        <div style="display:flex;flex-direction:column;gap:4px;">${links.join('')}</div>
+      </div>`);
+    });
+
+    // ── Frente de Ucrania (DeepState) — popup por zona, color = estado ──
+    map.on('click', 'frontline-fill', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const color = (p.color as string) || '#FF1744';
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid ${color}66;min-width:200px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
+          <span style="width:9px;height:9px;border-radius:2px;background:${color};flex-shrink:0;"></span>
+          <span style="color:${color};font-size:12px;font-weight:700;">${p.status || 'Zona de conflicto'}</span>
+        </div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          <div>Frente de Ucrania · DeepState</div>
+          ${p.dt ? `<div>Actualizado: <span style="color:#E8E6E0;">${p.dt}</span></div>` : ''}
+        </div>
+        <a href="https://deepstatemap.live" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">Abrir DeepState ↗</a>
       </div>`);
     });
 
@@ -1057,7 +1081,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','frontline-fill','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1988,30 +2012,30 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     if (!mapReady) return;
     // ── CONFLICT ZONES — center-point warning markers ──
     const CONFLICT_ZONES = [
-      { label: 'Ucrania', severity: 'war', lat: 48.5, lng: 31.2, description: 'Guerra Rusia-Ucrania; frente activo y ataques en profundidad.' },
-      { label: 'Gaza', severity: 'war', lat: 31.45, lng: 34.4, description: 'Conflicto Israel-Hamás; operaciones militares y crisis humanitaria.' },
-      { label: 'Líbano (frontera sur)', severity: 'high', lat: 33.2, lng: 35.4, description: 'Tensión Israel-Hezbolá en la Línea Azul; intercambios de fuego.' },
-      { label: 'Sudán', severity: 'war', lat: 15.0, lng: 30.0, description: 'Guerra civil entre el Ejército (SAF) y las RSF desde 2023.' },
-      { label: 'Myanmar', severity: 'war', lat: 21.0, lng: 96.0, description: 'Guerra civil tras el golpe de 2021; junta vs. resistencia y EAOs.' },
-      { label: 'RD Congo (este)', severity: 'war', lat: -1.5, lng: 28.8, description: 'Ofensiva del M23 y violencia armada en Kivu del Norte.' },
-      { label: 'Yemen', severity: 'high', lat: 15.5, lng: 44.2, description: 'Guerra civil; hutíes vs. gobierno y ataques en el mar Rojo.' },
-      { label: 'Siria', severity: 'high', lat: 35.0, lng: 38.5, description: 'Conflicto prolongado; reconfiguración de poder y zonas en disputa.' },
-      { label: 'Sahel', severity: 'high', lat: 15.5, lng: 1.0, description: 'Insurgencia yihadista en Malí, Burkina Faso y Níger.' },
-      { label: 'Somalia', severity: 'high', lat: 4.5, lng: 45.5, description: 'Insurgencia de Al-Shabab y operaciones del gobierno.' },
-      { label: 'Mar Rojo', severity: 'high', lat: 16.0, lng: 40.0, description: 'Ataques hutíes a buques; ruta marítima amenazada.' },
-      { label: 'Haití', severity: 'high', lat: 18.6, lng: -72.3, description: 'Colapso de seguridad; control de bandas en Puerto Príncipe.' },
-      { label: 'Etiopía (Amhara)', severity: 'high', lat: 11.6, lng: 37.4, description: 'Enfrentamientos entre el ejército y milicias Fano.' },
-      { label: 'Sáhara Occidental', severity: 'elevated', lat: 24.5, lng: -13.0, description: 'Reanudación de hostilidades Marruecos-Polisario.' },
-      { label: 'Cachemira', severity: 'elevated', lat: 34.0, lng: 76.0, description: 'Disputa India-Pakistán; Línea de Control militarizada.' },
-      { label: 'Cáucaso (Nagorno)', severity: 'elevated', lat: 39.8, lng: 46.7, description: 'Tensión Armenia-Azerbaiyán tras la ofensiva de 2023.' },
-      { label: 'Estrecho de Taiwán', severity: 'elevated', lat: 24.0, lng: 119.5, description: 'Tensión China-Taiwán; incursiones aéreas y navales.' },
-      { label: 'Mar de China Meridional', severity: 'elevated', lat: 14.0, lng: 115.0, description: 'Disputas territoriales; incidentes China-Filipinas.' },
-      { label: 'Península de Corea (DMZ)', severity: 'elevated', lat: 38.3, lng: 127.0, description: 'Tensión entre las dos Coreas en el paralelo 38.' },
+      { label: 'Ucrania', severity: 'war', lat: 48.5, lng: 31.2, description: 'Guerra Rusia-Ucrania; frente activo y ataques en profundidad.', actors: 'Rusia · Ucrania', since: 'feb 2022', live: 'https://liveuamap.com' },
+      { label: 'Gaza', severity: 'war', lat: 31.45, lng: 34.4, description: 'Conflicto Israel-Hamás; operaciones militares y crisis humanitaria.', actors: 'Israel · Hamás', since: 'oct 2023', live: 'https://israelpalestine.liveuamap.com' },
+      { label: 'Líbano (frontera sur)', severity: 'high', lat: 33.2, lng: 35.4, description: 'Tensión Israel-Hezbolá en la Línea Azul; intercambios de fuego.', actors: 'Israel · Hezbolá', since: '2023', live: 'https://israelpalestine.liveuamap.com' },
+      { label: 'Sudán', severity: 'war', lat: 15.0, lng: 30.0, description: 'Guerra civil entre el Ejército (SAF) y las RSF.', actors: 'SAF · RSF', since: 'abr 2023', live: 'https://sudan.liveuamap.com' },
+      { label: 'Myanmar', severity: 'war', lat: 21.0, lng: 96.0, description: 'Guerra civil tras el golpe de 2021; junta vs. resistencia y EAOs.', actors: 'Junta · PDF / EAOs', since: '2021' },
+      { label: 'RD Congo (este)', severity: 'war', lat: -1.5, lng: 28.8, description: 'Ofensiva del M23 y violencia armada en Kivu del Norte.', actors: 'RDC · M23 / Ruanda', since: '2022' },
+      { label: 'Yemen', severity: 'high', lat: 15.5, lng: 44.2, description: 'Guerra civil; hutíes vs. gobierno y ataques en el mar Rojo.', actors: 'Gobierno · hutíes', since: '2014', live: 'https://yemen.liveuamap.com' },
+      { label: 'Siria', severity: 'high', lat: 35.0, lng: 38.5, description: 'Conflicto prolongado; reconfiguración de poder y zonas en disputa.', actors: 'Múltiples facciones', since: '2011', live: 'https://syria.liveuamap.com' },
+      { label: 'Sahel', severity: 'high', lat: 15.5, lng: 1.0, description: 'Insurgencia yihadista en Malí, Burkina Faso y Níger.', actors: 'Estados · JNIM / EIGS', since: '2012' },
+      { label: 'Somalia', severity: 'high', lat: 4.5, lng: 45.5, description: 'Insurgencia de Al-Shabab y operaciones del gobierno.', actors: 'Gobierno · Al-Shabab', since: '2006' },
+      { label: 'Mar Rojo', severity: 'high', lat: 16.0, lng: 40.0, description: 'Ataques hutíes a buques; ruta marítima amenazada.', actors: 'Hutíes · coalición naval', since: '2023', live: 'https://yemen.liveuamap.com' },
+      { label: 'Haití', severity: 'high', lat: 18.6, lng: -72.3, description: 'Colapso de seguridad; control de bandas en Puerto Príncipe.', actors: 'Estado · bandas (G9)', since: '2024' },
+      { label: 'Etiopía (Amhara)', severity: 'high', lat: 11.6, lng: 37.4, description: 'Enfrentamientos entre el ejército y milicias Fano.', actors: 'Ejército · milicias Fano', since: '2023' },
+      { label: 'Sáhara Occidental', severity: 'elevated', lat: 24.5, lng: -13.0, description: 'Reanudación de hostilidades Marruecos-Polisario.', actors: 'Marruecos · Polisario', since: '2020' },
+      { label: 'Cachemira', severity: 'elevated', lat: 34.0, lng: 76.0, description: 'Disputa India-Pakistán; Línea de Control militarizada.', actors: 'India · Pakistán', since: '1947' },
+      { label: 'Cáucaso (Nagorno)', severity: 'elevated', lat: 39.8, lng: 46.7, description: 'Tensión Armenia-Azerbaiyán tras la ofensiva de 2023.', actors: 'Armenia · Azerbaiyán', since: '2020' },
+      { label: 'Estrecho de Taiwán', severity: 'elevated', lat: 24.0, lng: 119.5, description: 'Tensión China-Taiwán; incursiones aéreas y navales.', actors: 'China · Taiwán', since: 'tensión' },
+      { label: 'Mar de China Meridional', severity: 'elevated', lat: 14.0, lng: 115.0, description: 'Disputas territoriales; incidentes China-Filipinas.', actors: 'China · Filipinas / vecinos', since: 'disputa' },
+      { label: 'Península de Corea (DMZ)', severity: 'elevated', lat: 38.3, lng: 127.0, description: 'Tensión entre las dos Coreas en el paralelo 38.', actors: 'Corea del Norte · Corea del Sur', since: '1953' },
     ];
     const conflictFeatures = CONFLICT_ZONES.map(z => ({
       type: 'Feature' as const,
       geometry: { type: 'Point' as const, coordinates: [z.lng, z.lat] },
-      properties: { label: z.label, severity: z.severity, description: z.description },
+      properties: { label: z.label, severity: z.severity, description: z.description, actors: z.actors, since: z.since, live: (z as any).live || '' },
     }));
     setGeo('conflict-zones', conflictFeatures);
   }, [mapReady, setGeo]);

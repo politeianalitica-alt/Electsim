@@ -937,7 +937,7 @@ export default function Dashboard() {
           {[
             { c: '#FF3B30', t: 'Alta velocidad' },
             { c: '#34C759', t: 'Cercanías / suburbano' },
-            { c: '#C9A66B', t: 'Regular / convencional' },
+            { c: '#FFC23C', t: 'Regular / convencional' },
           ].map(r => (
             <div key={r.t} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
               <span style={{ width: 16, height: 3, borderRadius: 2, background: r.c, flexShrink: 0 }} />
