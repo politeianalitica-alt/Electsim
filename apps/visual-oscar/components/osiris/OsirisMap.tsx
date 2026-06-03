@@ -2085,7 +2085,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.minerals.map((m: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [m.lng, m.lat] }, properties: { name: m.name, m: m.m, color: m.color, country: m.country, major: m.major || 0 } })) : []);
     setGeo('agriculture', activeLayers.agriculture && data.agriculture_fc?.features ? data.agriculture_fc.features : []);
     // Lote Geopolítica
-    setGeo('countries', (activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes) && data.geopolitics_fc?.features ? data.geopolitics_fc.features : []);
+    setGeo('countries', (activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes || activeLayers.election || activeLayers.press_freedom || activeLayers.corruption || activeLayers.hdi || activeLayers.gdp_pc || activeLayers.econ_blocs) && data.geopolitics_fc?.features ? data.geopolitics_fc.features : []);
     setGeo('disputes', activeLayers.disputes && Array.isArray(data.disputes)
       ? data.disputes.map((d: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [d.lng, d.lat] }, properties: { name: d.name, parties: d.parties } })) : []);
     setGeo('orgs', activeLayers.orgs && Array.isArray(data.orgs)
@@ -2096,7 +2096,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.lighthouses.map((l: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [l.lng, l.lat] }, properties: { name: l.name } })) : []);
     setGeo('piracy', activeLayers.piracy && Array.isArray(data.piracy)
       ? data.piracy.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, risk: p.risk, color: p.color } })) : []);
-  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.milspend, activeLayers.regime, activeLayers.nukes, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
+  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.milspend, activeLayers.regime, activeLayers.nukes, activeLayers.election, activeLayers.press_freedom, activeLayers.corruption, activeLayers.hdi, activeLayers.gdp_pc, activeLayers.econ_blocs, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
 
   // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
   useEffect(() => {
