@@ -126,6 +126,7 @@ const LAYER_GROUPS = [
       { key: 'gdacs', label: 'Alertas de desastres (GDACS)', icon: AlertOctagon, color: '#EF5350', dataKey: 'gdacs' },
       { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
       { key: 'volcanoes', label: 'Volcanes', icon: Flame, color: '#FF7043', dataKey: 'volcanoes' },
+      { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
     ],
   },
   {
@@ -151,6 +152,7 @@ const LAYER_GROUPS = [
       { key: 'infrastructure', label: 'Instalaciones nucleares', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure' },
       { key: 'critical_infra', label: 'Aeropuertos · refinerías · presas', icon: Building2, color: '#00E5FF', dataKey: 'critical_infra' },
       { key: 'airports', label: 'Aeropuertos del mundo', icon: Plane, color: '#42A5F5', dataKey: 'airports' },
+      { key: 'military_bases', label: 'Bases militares', icon: Shield, color: '#EF5350', dataKey: 'military_bases' },
       { key: 'submarine_cables', label: 'Cables submarinos', icon: Cable, color: '#00BCD4', dataKey: 'cables' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },
       { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents' },

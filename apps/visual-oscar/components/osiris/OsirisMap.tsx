@@ -121,7 +121,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'satnogs'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'satnogs', 'military-bases', 'air-quality'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -275,6 +275,25 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'satnogs-label', type: 'symbol', source: 'satnogs', minzoom: 5, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#CE93D8', 'text-halo-color': '#000', 'text-halo-width': 1 }});
+
+      // ── Bases militares ──
+      map.addLayer({ id: 'milbase-dots', type: 'circle', source: 'military-bases', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 3,1.8, 7,3.5, 11,6], 'circle-color': '#EF5350', 'circle-opacity': 0.8, 'circle-stroke-width': 0.6, 'circle-stroke-color': '#3A0000',
+      }});
+      map.addLayer({ id: 'milbase-label', type: 'symbol', source: 'military-bases', minzoom: 7, layout: {
+        'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#EF9A9A', 'text-halo-color': '#000', 'text-halo-width': 1 }});
+
+      // ── Calidad del aire (color por nivel AQI) ──
+      map.addLayer({ id: 'aq-glow', type: 'circle', source: 'air-quality', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,10, 6,22], 'circle-color': ['get','color'], 'circle-opacity': 0.16, 'circle-blur': 0.7,
+      }});
+      map.addLayer({ id: 'aq-dots', type: 'circle', source: 'air-quality', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,4, 6,7], 'circle-color': ['get','color'], 'circle-opacity': 0.95, 'circle-stroke-width': 1, 'circle-stroke-color': '#000',
+      }});
+      map.addLayer({ id: 'aq-label', type: 'symbol', source: 'air-quality', minzoom: 3, layout: {
+        'text-field': ['concat', ['get','name'], ' ', ['to-string', ['get','aqi']]], 'text-size': 9, 'text-font': ['Open Sans Bold'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
       const createWarningIcon = (id: string, color: string) => {
@@ -977,7 +996,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1252,6 +1271,32 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           ${p.altitude != null ? `<div>Altitud: <span style="color:#E8E6E0;">${p.altitude} m</span></div>` : ''}
         </div>
         <a href="https://network.satnogs.org/stations/${p.id || ''}/" target="_blank" style="${linkStyle}margin-top:7px;color:#AB47BC;border:1px solid #AB47BC66;background:#AB47BC1a;">SATNOGS</a>
+      </div>`);
+    });
+
+    // ── Bases militares ──
+    map.on('click', 'milbase-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #EF535055;min-width:180px;">
+        <div style="color:#EF5350;font-size:12px;font-weight:700;margin-bottom:3px;">${p.name || 'Instalación militar'}</div>
+        <div style="font-size:9.5px;color:#aaa;">Base / instalación militar · ${coords[1].toFixed(2)}°, ${coords[0].toFixed(2)}°</div>
+        <a href="https://www.google.com/maps/@${coords[1]},${coords[0]},15z/data=!3m1!1e3" target="_blank" style="${linkStyle}margin-top:7px;color:#EF5350;border:1px solid #EF535066;background:#EF53501a;">VISTA SATÉLITE</a>
+      </div>`);
+    });
+
+    // ── Calidad del aire ──
+    map.on('click', 'aq-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const col = p.color || '#66BB6A';
+      popup(coords, `<div style="${pStyle}border:1px solid ${col}55;min-width:180px;">
+        <div style="color:${col};font-size:13px;font-weight:700;margin-bottom:4px;">${p.name}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:9px;">
+          <div><span style="color:#5C5A54;">AQI (US)</span><br/><span style="color:${col};font-weight:700;font-size:14px;">${p.aqi}</span></div>
+          <div><span style="color:#5C5A54;">NIVEL</span><br/><span style="color:${col};font-weight:600;">${p.level}</span></div>
+          ${p.pm25 != null ? `<div><span style="color:#5C5A54;">PM2.5</span><br/><span style="color:#E8E6E0;">${p.pm25} µg/m³</span></div>` : ''}
+        </div>
       </div>`);
     });
 
@@ -1551,7 +1596,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('frontline', fcFeats);
     setGeo('trains', activeLayers.trains && Array.isArray(data.trains) ? data.trains.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { number: t.number, speed: t.speed } })) : []);
     setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
-  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.satnogs, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.satnogs, setGeo]);
+    setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name } })) : []);
+    setGeo('air-quality', activeLayers.air_quality && Array.isArray(data.air_quality) ? data.air_quality.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, aqi: a.aqi, pm25: a.pm25, level: a.level, color: a.color } })) : []);
+  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1892,6 +1939,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['frontline-fill','frontline-line'], activeLayers.frontline);
     setVis(['trains-dots','trains-label'], activeLayers.trains);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
+    setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
+    setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);
     setVis(['gibs-layer'], activeLayers.gibs);
     setVis(['nightlights-layer'], activeLayers.nightlights);
     setVis(['fl-commercial'], activeLayers.flights);

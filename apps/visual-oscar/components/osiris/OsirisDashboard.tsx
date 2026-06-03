@@ -169,6 +169,8 @@ export default function Dashboard() {
     satnogs: false,
     gibs: false,
     nightlights: false,
+    military_bases: false,
+    air_quality: false,
     day_night: true,
     sdk_stream: false,
   });
@@ -459,6 +461,16 @@ export default function Dashboard() {
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {
       fetchEndpoint('/api/osiris/satnogs', d => ({ satnogs: d.stations }));
       layerFetchedRef.current.add('satnogs');
+    }
+    // Bases militares (Wikidata)
+    if (activeLayers.military_bases && !layerFetchedRef.current.has('military_bases')) {
+      fetchEndpoint('/api/osiris/military-bases', d => ({ military_bases: d.bases }));
+      layerFetchedRef.current.add('military_bases');
+    }
+    // Calidad del aire (Open-Meteo)
+    if (activeLayers.air_quality && !layerFetchedRef.current.has('air_quality')) {
+      fetchEndpoint('/api/osiris/air-quality', d => ({ air_quality: d.stations }));
+      layerFetchedRef.current.add('air_quality');
     }
 
   }, [activeLayers]);
