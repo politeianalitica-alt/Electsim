@@ -107,6 +107,17 @@ const LAYER_GROUPS = [
     ],
   },
   {
+    label: 'PUERTOS (por tipo)',
+    icon: Anchor,
+    color: '#00BCD4',
+    layers: [
+      { key: 'port_container', label: 'Contenedores', icon: Anchor, color: '#00BCD4', dataKey: '' },
+      { key: 'port_energy', label: 'Energéticos (crudo/gas)', icon: Anchor, color: '#FF9500', dataKey: '' },
+      { key: 'port_naval', label: 'Bases navales', icon: Anchor, color: '#FF3D3D', dataKey: '' },
+      { key: 'port_commercial', label: 'Comerciales (resto)', icon: Anchor, color: '#26A69A', dataKey: '' },
+    ],
+  },
+  {
     label: 'VIGILANCIA',
     icon: Camera,
     color: '#39FF14',
@@ -226,8 +237,17 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     if (!cats) return null;
     return pts.reduce((n: number, p: any) => n + (cats.includes(p?.cat) ? 1 : 0), 0);
   };
+  // Conteo por tipo de puerto (port_container → 'container', etc.)
+  const PORT_CAT: Record<string, string> = { port_container: 'container', port_energy: 'energy', port_naval: 'naval', port_commercial: 'port' };
+  const portCount = (key: string): number | null => {
+    const ports = data?.maritime_ports;
+    if (!Array.isArray(ports)) return null;
+    const cat = PORT_CAT[key];
+    return ports.reduce((n: number, p: any) => n + (p?.type === cat ? 1 : 0), 0);
+  };
   const countFor = (layer: { key: string; dataKey: string }): number | null =>
     layer.key.startsWith('ship_') ? shipCount(layer.key)
+      : layer.key.startsWith('port_') ? portCount(layer.key)
       : layer.key.startsWith('geo_') ? geoCount(layer.key)
       : getCount(layer.dataKey);
   const totalEntities = ALL_LAYERS.reduce((s: number, l: any) => s + (getCount(l.dataKey) || 0), 0);

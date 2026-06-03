@@ -1554,7 +1554,13 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
   useEffect(() => {
     if (!mapReady) return;
-    setGeo('maritime', activeLayers.maritime && data.maritime_ports ? data.maritime_ports.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank, congestion: p.congestion, dwell_time: p.dwell_time, live_nearby: p.live_nearby, live_waiting: p.live_waiting } })) : []);
+    // Filtro por tipo de puerto: si no hay ninguno activo, se muestran todos.
+    const portTypeMap: Record<string, string> = { container: 'port_container', energy: 'port_energy', naval: 'port_naval', port: 'port_commercial' };
+    const activePortTypes = Object.keys(portTypeMap).filter(t => activeLayers[portTypeMap[t]]);
+    const portFilter: Set<string> | null = activePortTypes.length ? new Set(activePortTypes) : null;
+    setGeo('maritime', activeLayers.maritime && data.maritime_ports
+      ? data.maritime_ports.filter((p: any) => !portFilter || portFilter.has(p.type)).map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank, congestion: p.congestion, dwell_time: p.dwell_time, live_nearby: p.live_nearby, live_waiting: p.live_waiting } }))
+      : []);
     setGeo('maritime-choke', activeLayers.maritime && data.maritime_chokepoints ? data.maritime_chokepoints.map((c: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { name: c.name, traffic: c.traffic, risk: c.risk } })) : []);
     // Filtro por tipo de buque: si no hay ningún tipo activo, se muestran todos.
     const shipTypeKeys = ['cargo','tanker','passenger','fishing','tug','highspeed','military','other'];
@@ -1565,7 +1571,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           .filter((s: any) => !shipFilter || shipFilter.has(s.type || 'other'))
           .map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name || s.mmsi?.toString(), type: s.type || 'other', speed: s.speed, heading: s.heading, course: s.course, destination: s.destination, draught: s.draught, flag: s.flag, mmsi: s.mmsi, callsign: s.callsign, imo: s.imo, length: s.length, beam: s.beam, moored: !!s.moored } }))
       : []);
-  }, [mapReady, data.maritime_ports, data.maritime_chokepoints, data.maritime_ships, activeLayers.maritime, activeLayers.ship_cargo, activeLayers.ship_tanker, activeLayers.ship_passenger, activeLayers.ship_fishing, activeLayers.ship_tug, activeLayers.ship_highspeed, activeLayers.ship_military, activeLayers.ship_other, setGeo]);
+  }, [mapReady, data.maritime_ports, data.maritime_chokepoints, data.maritime_ships, activeLayers.maritime, activeLayers.ship_cargo, activeLayers.ship_tanker, activeLayers.ship_passenger, activeLayers.ship_fishing, activeLayers.ship_tug, activeLayers.ship_highspeed, activeLayers.ship_military, activeLayers.ship_other, activeLayers.port_container, activeLayers.port_energy, activeLayers.port_naval, activeLayers.port_commercial, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
