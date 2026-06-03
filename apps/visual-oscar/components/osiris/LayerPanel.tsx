@@ -159,7 +159,7 @@ const LAYER_GROUPS = [
     layers: [
       { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents' },
       { key: 'trains', label: 'Trenes en directo (FI·IE·US)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
-      { key: 'railways', label: 'Líneas ferroviarias (mundial)', icon: TrainTrack, color: '#C9A66B', dataKey: '' },
+      { key: 'railways', label: 'Líneas ferroviarias (por tipo)', icon: TrainTrack, color: '#C9A66B', dataKey: '' },
     ],
   },
   {

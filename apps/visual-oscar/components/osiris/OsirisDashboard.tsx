@@ -547,7 +547,7 @@ export default function Dashboard() {
     }
     // Red ferroviaria mundial (estática, una sola carga)
     if (activeLayers.railways && !layerFetchedRef.current.has('railways')) {
-      fetchEndpoint('/api/osiris/railways', d => ({ railways_fc: d.railways }));
+      fetchEndpoint('/api/osiris/railways', d => ({ railways_fc: d.railways, railways_hs_fc: d.highspeed, railways_commuter_fc: d.commuter }));
       layerFetchedRef.current.add('railways');
     }
     // Estaciones SatNOGS
@@ -929,6 +929,23 @@ export default function Dashboard() {
         />
       </ErrorBoundary>
 
+      {/* ── Leyenda de tipos de vía (cuando la capa ferroviaria está activa) ── */}
+      {activeLayers.railways && (
+        <div className="absolute bottom-[75px] md:bottom-6 right-3 z-[200] glass-panel px-3 py-2 pointer-events-none"
+          style={{ fontSize: 10, lineHeight: 1.6 }}>
+          <div style={{ fontWeight: 700, letterSpacing: '0.08em', color: 'var(--text-muted)', marginBottom: 4, fontSize: 8.5 }}>VÍAS FÉRREAS</div>
+          {[
+            { c: '#FF3B30', t: 'Alta velocidad' },
+            { c: '#34C759', t: 'Cercanías / suburbano' },
+            { c: '#C9A66B', t: 'Regular / convencional' },
+          ].map(r => (
+            <div key={r.t} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <span style={{ width: 16, height: 3, borderRadius: 2, background: r.c, flexShrink: 0 }} />
+              <span style={{ color: 'var(--text-secondary, #C8C6C0)' }}>{r.t}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ── MAP VIEW CONTROLS (3D/2D + SATELLITE TOGGLE) ── */}
       <motion.div

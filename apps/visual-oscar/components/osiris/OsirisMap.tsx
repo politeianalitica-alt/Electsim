@@ -124,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'satnogs', 'military-bases', 'air-quality'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -230,14 +230,31 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#80CBC4', 'text-halo-color': '#000', 'text-halo-width': 1.1 }});
 
-      // ── Red ferroviaria mundial (Natural Earth) — líneas de vía ──
+      // ── Red ferroviaria mundial — separada por tipo de servicio ──
+      // 1) Regular / convencional (Natural Earth) — ámbar, debajo
       map.addLayer({ id: 'railways-line', type: 'line', source: 'railways',
         layout: { 'line-cap': 'butt', 'line-join': 'round', visibility: 'none' },
         paint: {
           'line-color': '#C9A66B',
-          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.35, 5,0.6, 9,0.85],
-          'line-width': ['interpolate',['linear'],['zoom'], 2,0.4, 6,1.1, 10,2],
+          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.3, 5,0.5, 9,0.75],
+          'line-width': ['interpolate',['linear'],['zoom'], 2,0.4, 6,1, 10,1.8],
           'line-dasharray': [3, 2],
+        }});
+      // 2) Cercanías / suburbano (OSM) — verde, encima de la regular
+      map.addLayer({ id: 'railways-commuter-line', type: 'line', source: 'railways-commuter',
+        layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
+        paint: {
+          'line-color': '#34C759',
+          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.5, 6,0.75, 10,0.9],
+          'line-width': ['interpolate',['linear'],['zoom'], 2,0.6, 6,1.4, 10,2.4],
+        }});
+      // 3) Alta velocidad (OSM) — rojo, la más destacada, encima del todo
+      map.addLayer({ id: 'railways-hs-line', type: 'line', source: 'railways-hs',
+        layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
+        paint: {
+          'line-color': '#FF3B30',
+          'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.7, 6,0.9, 10,1],
+          'line-width': ['interpolate',['linear'],['zoom'], 2,0.8, 6,1.8, 10,3],
         }});
 
       // ── GDACS (alertas de desastres) — color por nivel de alerta ──
@@ -1670,10 +1687,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('frontline', fcFeats);
     setGeo('trains', activeLayers.trains && Array.isArray(data.trains) ? data.trains.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { number: t.number, speed: t.speed, country: t.country, route: t.route || '' } })) : []);
     setGeo('railways', activeLayers.railways && data.railways_fc?.features ? data.railways_fc.features : []);
+    setGeo('railways-hs', activeLayers.railways && data.railways_hs_fc?.features ? data.railways_hs_fc.features : []);
+    setGeo('railways-commuter', activeLayers.railways && data.railways_commuter_fc?.features ? data.railways_commuter_fc.features : []);
     setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
     setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name, t: b.t || '' } })) : []);
     setGeo('air-quality', activeLayers.air_quality && Array.isArray(data.air_quality) ? data.air_quality.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, aqi: a.aqi, pm25: a.pm25, level: a.level, color: a.color } })) : []);
-  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
+  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.railways_hs_fc, data.railways_commuter_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -2022,7 +2041,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['iss-glow','iss-dot','iss-label'], activeLayers.iss);
     setVis(['frontline-fill','frontline-line'], activeLayers.frontline);
     setVis(['trains-dots','trains-label'], activeLayers.trains);
-    setVis(['railways-line'], activeLayers.railways);
+    setVis(['railways-line', 'railways-commuter-line', 'railways-hs-line'], activeLayers.railways);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
     setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);
