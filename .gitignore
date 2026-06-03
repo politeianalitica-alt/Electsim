@@ -95,3 +95,9 @@ data1/
 gits amigos/
 .worktrees/
 .vercel
+
+# Caché de Turborepo (build cache, no versionable)
+.turbo/
+
+# Config local de Claude Code preview (entorno de cada máquina)
+.claude/launch.json
