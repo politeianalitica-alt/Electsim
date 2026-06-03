@@ -12,6 +12,7 @@ import SharePanel from '@/components/osiris/SharePanel';
 import KeyboardShortcuts from '@/components/osiris/KeyboardShortcuts';
 import GlobalStatusBar from '@/components/osiris/GlobalStatusBar';
 import LiveAlerts from '@/components/osiris/LiveAlerts';
+import { startAisStream } from '@/lib/osiris/aisClient';
 
 const OsirisMap = dynamic(() => import('@/components/osiris/OsirisMap'), { ssr: false });
 const LayerPanel = dynamic(() => import('@/components/osiris/LayerPanel'));
@@ -109,6 +110,9 @@ export default function Dashboard() {
   const geocodeCache = useRef<Map<string, string>>(new Map());
   const geocodeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastGeocodedPos = useRef<{ lat: number; lng: number } | null>(null);
+  // AIS global (aisstream) — corre en el navegador
+  const aisStopRef = useRef<null | (() => void)>(null);
+  const aisActiveRef = useRef(false);
 
   // ── DEFAULT: Most layers OFF — fast initial load ──
   const [activeLayers, setActiveLayers] = useState({
@@ -356,7 +360,7 @@ export default function Dashboard() {
     }
     // Maritime
     if (activeLayers.maritime && !layerFetchedRef.current.has('maritime')) {
-      fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, maritime_ships: d.ships }));
+      fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) }));
       layerFetchedRef.current.add('maritime');
     }
     // Balloons
@@ -416,10 +420,43 @@ export default function Dashboard() {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/radiation', d => ({ radiation: d.stations })), 300000)); // 5m
     }
     if (activeLayers.maritime) {
-      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, maritime_ships: d.ships })), 30000)); // 30s (AIS global tarda ~9s en recogerse + caché 20s)
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) })), 30000)); // 30s (AIS global tarda ~9s en recogerse + caché 20s)
     }
     return () => intervals.forEach(clearInterval);
   }, [activeLayers, fetchEndpoint]);
+
+  // ── AIS GLOBAL (aisstream) EN EL NAVEGADOR — cobertura mundial de barcos ──
+  // Vercel (datacenter) no recibe el stream; el navegador del usuario sí. Al
+  // activar la capa marítima, abrimos el WebSocket y reemplazamos los barcos del
+  // servidor (Báltico) por los globales (España, Gibraltar, todo el mundo).
+  useEffect(() => {
+    if (!activeLayers.maritime) return;
+    let cancelled = false;
+    let stop: (() => void) | null = null;
+    (async () => {
+      try {
+        const r = await fetch('/api/osiris/ais-key');
+        if (!r.ok) return;
+        const { key, enabled } = await r.json();
+        if (!enabled || !key || cancelled) return;
+        stop = startAisStream({
+          apiKey: key,
+          onShips: (ships) => {
+            aisActiveRef.current = true;
+            dataRef.current = { ...dataRef.current, maritime_ships: ships };
+            setDataVersion(v => v + 1);
+          },
+        });
+        aisStopRef.current = stop;
+      } catch { /* sin AIS global: quedan los barcos del servidor */ }
+    })();
+    return () => {
+      cancelled = true;
+      if (stop) stop();
+      aisStopRef.current = null;
+      aisActiveRef.current = false;
+    };
+  }, [activeLayers.maritime]);
 
   // CCTV: loaded once on layer toggle via layerFetchedRef (no viewport polling)
 

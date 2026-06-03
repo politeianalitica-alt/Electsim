@@ -226,8 +226,11 @@ function fetchShipsAisStream(): Promise<{ ships: any[]; counts: ShipCounts } | n
     });
     ws.on('message', (data: any) => {
       aisDiag.msgs++;
+      if (aisDiag.msgs === 1) {
+        try { aisDiag.firstRaw = (typeof data === 'string' ? data : (data && data.toString ? data.toString() : String(data))).slice(0, 90); } catch (e: any) { aisDiag.firstRaw = 'toString-err: ' + (e?.message || e); }
+      }
       let m: any;
-      try { m = JSON.parse(data.toString()); } catch { return; }
+      try { m = JSON.parse(data.toString()); } catch (e: any) { aisDiag.parseErr = (aisDiag.parseErr || 0) + 1; return; }
       const md = m.MetaData || {};
       if (m.MessageType === 'Error' || m.Error) { aisDiag.error = 'srv: ' + JSON.stringify(m.Error || m).slice(0, 160); }
       const mmsi = md.MMSI;
@@ -355,27 +358,16 @@ const SHIPS_TTL = 20000;
 let aisFailedUntil = 0;
 const AIS_COOLDOWN = 300000; // 5 min
 
+// NOTA: la cobertura GLOBAL de aisstream se hace en el CLIENTE (el navegador
+// sí recibe el stream; las IP de datacenter de Vercel no). El servidor solo
+// aporta los barcos del Báltico (Digitraffic) como respaldo + los puertos.
 async function getShips() {
   const now = Date.now();
   if (shipsCache && now - shipsCacheTime < SHIPS_TTL) return shipsCache;
   if (shipsInflight) return shipsInflight;
   shipsInflight = (async () => {
-    let res: { ships: any[]; counts: ShipCounts } | null = null;
-    let source = '';
-    if (Date.now() >= aisFailedUntil) {
-      const ais = await fetchShipsAisStream();
-      if (ais && ais.ships.length >= 50) {
-        res = ais;
-        source = 'aisstream.io (cobertura global)';
-      } else {
-        aisFailedUntil = Date.now() + AIS_COOLDOWN; // marca el fallo; usa fallback un rato
-      }
-    }
-    if (!res) {
-      res = await fetchShipsDigitraffic();
-      source = 'Digitraffic / Fintraffic AIS (Báltico / Mar del Norte)';
-    }
-    const out = { ships: res.ships, counts: res.counts, source };
+    const res = await fetchShipsDigitraffic();
+    const out = { ships: res.ships, counts: res.counts, source: 'Digitraffic / Fintraffic AIS (Báltico — respaldo); aisstream global en cliente' };
     shipsCache = out;
     shipsCacheTime = Date.now();
     return out;
