@@ -137,7 +137,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         map.addSource('nightlights', { type: 'raster', tiles: ['https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png'], tileSize: 256, attribution: 'NASA Black Marble' });
         map.addLayer({ id: 'nightlights-layer', type: 'raster', source: 'nightlights', layout: { visibility: 'none' }, paint: { 'raster-opacity': 0.9 } });
         // Deforestación: pérdida de cobertura arbórea (Hansen/UMD Global Forest Change, en rojo)
-        map.addSource('deforestation', { type: 'raster', tiles: ['https://storage.googleapis.com/earthenginepartners-hansen/tiles/gfc_v1.2/loss_alpha/{z}/{x}/{y}.png'], tileSize: 256, maxzoom: 12, attribution: 'Hansen/UMD/Google Global Forest Change' });
+        map.addSource('deforestation', { type: 'raster', tiles: ['https://storage.googleapis.com/earthenginepartners-hansen/tiles/gfc_v1.12/loss_alpha/{z}/{x}/{y}.png'], tileSize: 256, maxzoom: 12, attribution: 'Hansen/UMD/Google Global Forest Change' });
         map.addLayer({ id: 'deforestation-layer', type: 'raster', source: 'deforestation', layout: { visibility: 'none' }, paint: { 'raster-opacity': 0.85 } });
       } catch { /* noop */ }
 
