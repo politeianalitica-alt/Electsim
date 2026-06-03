@@ -263,6 +263,10 @@ export default function Dashboard() {
     nightlights: false,
     military_bases: false,
     air_quality: false,
+    rainfall: false,
+    aurora: false,
+    tectonics: false,
+    sea_state: false,
     day_night: true,
     sdk_stream: false,
   });
@@ -559,6 +563,23 @@ export default function Dashboard() {
     if (activeLayers.railways && !layerFetchedRef.current.has('railways')) {
       fetchEndpoint('/api/osiris/railways', d => ({ railways_fc: d.railways, railways_hs_fc: d.highspeed, railways_commuter_fc: d.commuter }));
       layerFetchedRef.current.add('railways');
+    }
+    // Lote Clima y Tierra
+    if (activeLayers.rainfall && !layerFetchedRef.current.has('rainfall')) {
+      fetchEndpoint('/api/osiris/rainviewer', d => ({ rainviewer: d }));
+      layerFetchedRef.current.add('rainfall');
+    }
+    if (activeLayers.aurora && !layerFetchedRef.current.has('aurora')) {
+      fetchEndpoint('/api/osiris/aurora', d => ({ aurora: d.points }));
+      layerFetchedRef.current.add('aurora');
+    }
+    if (activeLayers.tectonics && !layerFetchedRef.current.has('tectonics')) {
+      fetchEndpoint('/api/osiris/tectonics', d => ({ tectonics_fc: d.plates }));
+      layerFetchedRef.current.add('tectonics');
+    }
+    if (activeLayers.sea_state && !layerFetchedRef.current.has('sea_state')) {
+      fetchEndpoint('/api/osiris/sea-state', d => ({ sea_state: d.points }));
+      layerFetchedRef.current.add('sea_state');
     }
     // Estaciones SatNOGS
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {

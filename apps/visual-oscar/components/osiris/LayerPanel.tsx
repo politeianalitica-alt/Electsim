@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, TrainTrack, Swords, Image, Moon,
+  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -172,6 +172,17 @@ const LAYER_GROUPS = [
       { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
       { key: 'volcanoes', label: 'Volcanes', icon: Flame, color: '#FF7043', dataKey: 'volcanoes' },
       { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
+    ],
+  },
+  {
+    label: 'CLIMA Y TIERRA',
+    icon: CloudRain,
+    color: '#29B6F6',
+    layers: [
+      { key: 'rainfall', label: 'Radar de lluvia (tiempo real)', icon: CloudRain, color: '#29B6F6', dataKey: '' },
+      { key: 'aurora', label: 'Auroras (boreal/austral)', icon: Sparkles, color: '#76FF03', dataKey: 'aurora' },
+      { key: 'tectonics', label: 'Placas tectónicas', icon: Mountain, color: '#FF7043', dataKey: '' },
+      { key: 'sea_state', label: 'Estado del mar (olas)', icon: Waves, color: '#26C6DA', dataKey: 'sea_state' },
     ],
   },
   {

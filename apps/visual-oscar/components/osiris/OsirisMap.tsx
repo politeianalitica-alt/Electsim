@@ -124,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -254,6 +254,35 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           'line-color': '#FF3B30',
           'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.7, 6,0.9, 10,1],
           'line-width': ['interpolate',['linear'],['zoom'], 2,0.8, 6,1.8, 10,3],
+        }});
+
+      // ── Placas tectónicas (líneas de borde de placa) ──
+      map.addLayer({ id: 'tectonics-line', type: 'line', source: 'tectonics',
+        layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
+        paint: {
+          'line-color': '#FF7043', 'line-dasharray': [2, 1.5],
+          'line-opacity': ['interpolate',['linear'],['zoom'], 1,0.6, 5,0.85],
+          'line-width': ['interpolate',['linear'],['zoom'], 1,0.8, 5,1.6, 9,2.6],
+        }});
+
+      // ── Estado del mar (altura de ola) — puntos oceánicos por color ──
+      map.addLayer({ id: 'sea-state-dots', type: 'circle', source: 'sea-state',
+        layout: { visibility: 'none' }, paint: {
+          'circle-radius': ['interpolate',['linear'],['zoom'], 1,3, 4,6, 8,11],
+          'circle-color': ['coalesce', ['get','color'], '#26C6DA'],
+          'circle-opacity': 0.6, 'circle-blur': 0.4,
+          'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.4)',
+        }});
+
+      // ── Auroras (probabilidad OVATION) — mancha verde en latitudes altas ──
+      map.addLayer({ id: 'aurora-heat', type: 'heatmap', source: 'aurora',
+        layout: { visibility: 'none' }, paint: {
+          'heatmap-weight': ['interpolate',['linear'],['get','p'], 8,0.1, 100,1],
+          'heatmap-intensity': ['interpolate',['linear'],['zoom'], 1,0.6, 5,1.4],
+          'heatmap-radius': ['interpolate',['linear'],['zoom'], 1,8, 4,22, 7,40],
+          'heatmap-opacity': 0.7,
+          'heatmap-color': ['interpolate',['linear'],['heatmap-density'],
+            0,'rgba(0,0,0,0)', 0.2,'rgba(0,120,60,0.4)', 0.5,'rgba(0,230,118,0.7)', 0.8,'rgba(118,255,3,0.85)', 1,'rgba(204,255,144,0.95)'],
         }});
 
       // ── GDACS (alertas de desastres) — color por nivel de alerta ──
@@ -1045,6 +1074,26 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
+    // ── Placas tectónicas ──
+    map.on('click', 'tectonics-line', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid #FF704355;min-width:160px;">
+        <div style="color:#FF7043;font-size:12px;font-weight:700;margin-bottom:3px;">Borde de placa</div>
+        <div style="font-size:9.5px;color:#aaa;">${p.name ? 'Límite ' + p.name : 'Placa tectónica'}</div>
+      </div>`);
+    });
+    // ── Estado del mar ──
+    map.on('click', 'sea-state-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const color = (p.color as string) || '#26C6DA';
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}66;min-width:160px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:3px;">Altura de ola</div>
+        <div style="font-size:11px;color:#E8E6E0;">${Number(p.h).toFixed(1)} m</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Estado del mar · Open-Meteo</div>
+      </div>`);
+    });
+
 
     // ── Politeia SDK link click ──
     const SDK_SOURCE_URLS: Record<string, string> = {
@@ -1081,7 +1130,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','frontline-fill','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','frontline-fill','tectonics-line','sea-state-dots','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1657,6 +1706,46 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('submarine-cables', activeLayers.submarine_cables && data.cables ? (data.cables.features || []) : []);
   }, [mapReady, data.cables, activeLayers.submarine_cables, setGeo]);
 
+  // ── Lote Clima y Tierra: auroras, placas tectónicas, estado del mar ──
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('tectonics', activeLayers.tectonics && data.tectonics_fc?.features ? data.tectonics_fc.features : []);
+    setGeo('aurora', activeLayers.aurora && Array.isArray(data.aurora)
+      ? data.aurora.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { p: a.p } }))
+      : []);
+    setGeo('sea-state', activeLayers.sea_state && Array.isArray(data.sea_state)
+      ? data.sea_state.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { h: s.h, color: s.color } }))
+      : []);
+  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, setGeo]);
+
+  // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!mapReady || !map) return;
+    const rv = data.rainviewer;
+    const want = activeLayers.rainfall && rv?.host && rv?.path;
+    try {
+      if (want) {
+        const url = `${rv.host}${rv.path}/256/{z}/{x}/{y}/2/1_1.png`;
+        const existing = (map.getSource('rainviewer') as any);
+        if (existing && (map as any).__rvPath !== rv.path) {
+          // El frame cambió: recreamos la fuente con los tiles nuevos
+          if (map.getLayer('rainviewer-layer')) map.removeLayer('rainviewer-layer');
+          map.removeSource('rainviewer');
+        }
+        if (!map.getSource('rainviewer')) {
+          map.addSource('rainviewer', { type: 'raster', tiles: [url], tileSize: 256, attribution: 'RainViewer' } as any);
+          (map as any).__rvPath = rv.path;
+          map.addLayer({ id: 'rainviewer-layer', type: 'raster', source: 'rainviewer', paint: { 'raster-opacity': 0.6 } });
+        } else if (map.getLayer('rainviewer-layer')) {
+          map.setLayoutProperty('rainviewer-layer', 'visibility', 'visible');
+        }
+      } else if (map.getLayer('rainviewer-layer')) {
+        map.setLayoutProperty('rainviewer-layer', 'visibility', 'none');
+      }
+    } catch { /* noop */ }
+  }, [mapReady, data.rainviewer, activeLayers.rainfall]);
+
   useEffect(() => {
     if (!mapReady) return;
     // Filtro por tipo de puerto: si no hay ninguno activo, se muestran todos.
@@ -2068,6 +2157,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['frontline-fill','frontline-line'], activeLayers.frontline);
     setVis(['trains-dots','trains-label'], activeLayers.trains);
     setVis(['railways-line', 'railways-commuter-line', 'railways-hs-line'], activeLayers.railways);
+    setVis(['tectonics-line'], activeLayers.tectonics);
+    setVis(['sea-state-dots'], activeLayers.sea_state);
+    setVis(['aurora-heat'], activeLayers.aurora);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
     setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);
