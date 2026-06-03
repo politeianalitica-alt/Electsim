@@ -8,6 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
+  Train, Swords, Image, Moon,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -78,6 +79,16 @@ const LAYER_GROUPS = [
       { key: 'satellites', label: 'Satélites', icon: Satellite, color: '#D4AF37', dataKey: 'satellites' },
       { key: 'iss', label: 'ISS (en directo)', icon: Satellite, color: '#FFFFFF', dataKey: '' },
       { key: 'launches', label: 'Lanzamientos espaciales', icon: Rocket, color: '#FFD54F', dataKey: 'launches' },
+      { key: 'satnogs', label: 'Estaciones terrestres (SatNOGS)', icon: Radio, color: '#AB47BC', dataKey: 'satnogs' },
+    ],
+  },
+  {
+    label: 'GEOPOLÍTICA Y TRANSPORTE',
+    icon: Swords,
+    color: '#FF1744',
+    layers: [
+      { key: 'frontline', label: 'Frente de Ucrania (DeepState)', icon: Swords, color: '#FF1744', dataKey: '' },
+      { key: 'trains', label: 'Trenes en directo (Finlandia)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
     ],
   },
   {
@@ -163,6 +174,8 @@ const LAYER_GROUPS = [
     color: '#448AFF',
     layers: [
       { key: 'day_night', label: 'Ciclo día / noche', icon: Sun, color: '#448AFF', dataKey: '' },
+      { key: 'gibs', label: 'Imagen satélite (NASA MODIS)', icon: Image, color: '#66BB6A', dataKey: '' },
+      { key: 'nightlights', label: 'Luces nocturnas (VIIRS)', icon: Moon, color: '#FFD54F', dataKey: '' },
     ],
   },
 ];

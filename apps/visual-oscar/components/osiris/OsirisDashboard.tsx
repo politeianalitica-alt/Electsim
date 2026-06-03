@@ -102,6 +102,7 @@ export default function Dashboard() {
   const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
   const [mapStyle, setMapStyle] = useState<'dark'|'light'|'satellite'>('dark');
+  const [visualMode, setVisualMode] = useState<'none'|'flir'|'nvg'|'crt'>('none');
   const [sweepData, setSweepData] = useState<any>(null);
   const [scanTargets, setScanTargets] = useState<any[]>([]);
 
@@ -163,6 +164,11 @@ export default function Dashboard() {
     airports: false,
     launches: false,
     iss: false,
+    frontline: false,
+    trains: false,
+    satnogs: false,
+    gibs: false,
+    nightlights: false,
     day_night: true,
     sdk_stream: true,
   });
@@ -439,6 +445,21 @@ export default function Dashboard() {
       fetchEndpoint('/api/osiris/iss', d => ({ iss: d.iss }));
       layerFetchedRef.current.add('iss');
     }
+    // Frente de Ucrania (DeepState)
+    if (activeLayers.frontline && !layerFetchedRef.current.has('frontline')) {
+      fetchEndpoint('/api/osiris/frontlines', d => ({ frontline_fc: d.frontlines?.map || d.frontlines }));
+      layerFetchedRef.current.add('frontline');
+    }
+    // Trenes (Digitraffic)
+    if (activeLayers.trains && !layerFetchedRef.current.has('trains')) {
+      fetchEndpoint('/api/osiris/trains', d => ({ trains: d.trains }));
+      layerFetchedRef.current.add('trains');
+    }
+    // Estaciones SatNOGS
+    if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {
+      fetchEndpoint('/api/osiris/satnogs', d => ({ satnogs: d.stations }));
+      layerFetchedRef.current.add('satnogs');
+    }
 
   }, [activeLayers]);
 
@@ -460,6 +481,9 @@ export default function Dashboard() {
     }
     if (activeLayers.iss) {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/iss', d => ({ iss: d.iss })), 5000)); // 5s (la ISS va a ~7,6 km/s)
+    }
+    if (activeLayers.trains) {
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/trains', d => ({ trains: d.trains })), 20000)); // 20s
     }
     return () => intervals.forEach(clearInterval);
   }, [activeLayers, fetchEndpoint]);
@@ -788,6 +812,7 @@ export default function Dashboard() {
           activeLayers={activeLayers} 
           projection={mapProjection} 
           mapStyle={mapStyle}
+          visualMode={visualMode}
           onEntityClick={handleEntityClick} 
           onMouseCoords={handleMouseCoords} 
           onRightClick={handleRightClick} 
@@ -835,6 +860,18 @@ export default function Dashboard() {
           )}
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
             {mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}
+          </span>
+        </button>
+
+        {/* Visual Mode Toggle — FLIR / NVG / CRT */}
+        <button
+          onClick={() => setVisualMode(m => m === 'none' ? 'flir' : m === 'flir' ? 'nvg' : m === 'nvg' ? 'crt' : 'none')}
+          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
+          title="Modo visual (FLIR / NVG / CRT)"
+        >
+          <Radar className={`w-4 h-4 group-hover:scale-110 transition-transform ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />
+          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
+            {visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}
           </span>
         </button>
       </motion.div>

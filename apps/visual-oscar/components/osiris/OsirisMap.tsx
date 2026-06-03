@@ -14,6 +14,7 @@ interface OsirisMapProps {
   flyToLocation?: { lat: number; lng: number; ts: number } | null;
   projection?: 'mercator' | 'globe';
   mapStyle?: string;
+  visualMode?: string;
   sweepData?: any;
   scanTargets?: any[];
 }
@@ -40,7 +41,7 @@ function computeSolarTerminator(): [number, number][] {
 
 const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
-function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', sweepData, scanTargets = [] }: OsirisMapProps) {
+function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', sweepData, scanTargets = [] }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const popupRef = useRef<maplibregl.Popup | null>(null);
@@ -120,8 +121,18 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'satnogs'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
+
+      // ── Capas raster (imágenes de satélite) ── NASA GIBS
+      const _d = new Date(Date.now() - 36 * 3600 * 1000); // ~ayer (GIBS publica con retraso)
+      const gibsDate = `${_d.getUTCFullYear()}-${String(_d.getUTCMonth()+1).padStart(2,'0')}-${String(_d.getUTCDate()).padStart(2,'0')}`;
+      try {
+        map.addSource('gibs', { type: 'raster', tiles: [`https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/${gibsDate}/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg`], tileSize: 256, attribution: 'NASA GIBS' });
+        map.addLayer({ id: 'gibs-layer', type: 'raster', source: 'gibs', layout: { visibility: 'none' }, paint: { 'raster-opacity': 0.85 } });
+        map.addSource('nightlights', { type: 'raster', tiles: ['https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_Black_Marble/default/2016-01-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.png'], tileSize: 256, attribution: 'NASA Black Marble' });
+        map.addLayer({ id: 'nightlights-layer', type: 'raster', source: 'nightlights', layout: { visibility: 'none' }, paint: { 'raster-opacity': 0.9 } });
+      } catch { /* noop */ }
 
       // ── Ruta del vuelo seleccionado (al clicar un avión) ──
       // line-gradient exige lineMetrics:true en la fuente.
@@ -244,6 +255,26 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'iss-label', type: 'symbol', source: 'iss', layout: {
         'text-field': 'ISS', 'text-size': 11, 'text-font': ['Open Sans Bold'], 'text-offset': [0,1.3], 'text-anchor': 'top', 'text-allow-overlap': true,
       }, paint: { 'text-color': '#fff', 'text-halo-color': '#00E5FF', 'text-halo-width': 1.2 }});
+
+      // ── Frente de Ucrania (DeepState) — territorio ocupado/contestado ──
+      map.addLayer({ id: 'frontline-fill', type: 'fill', source: 'frontline', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': '#FF1744', 'fill-opacity': 0.18 } });
+      map.addLayer({ id: 'frontline-line', type: 'line', source: 'frontline', paint: { 'line-color': '#FF1744', 'line-width': 1.6, 'line-opacity': 0.7 } });
+
+      // ── Trenes (Digitraffic) ──
+      map.addLayer({ id: 'trains-dots', type: 'circle', source: 'trains', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 4,2.2, 8,4, 12,6], 'circle-color': '#FFCA28', 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#4E3B00',
+      }});
+      map.addLayer({ id: 'trains-label', type: 'symbol', source: 'trains', minzoom: 7, layout: {
+        'text-field': ['concat', '#', ['to-string', ['get','number']]], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#FFE082', 'text-halo-color': '#000', 'text-halo-width': 1 }});
+
+      // ── Estaciones SatNOGS ──
+      map.addLayer({ id: 'satnogs-dots', type: 'circle', source: 'satnogs', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,2.2, 6,4, 10,6], 'circle-color': '#AB47BC', 'circle-opacity': 0.85, 'circle-stroke-width': 1, 'circle-stroke-color': '#2A0A33',
+      }});
+      map.addLayer({ id: 'satnogs-label', type: 'symbol', source: 'satnogs', minzoom: 5, layout: {
+        'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#CE93D8', 'text-halo-color': '#000', 'text-halo-width': 1 }});
 
       // Warning icon generator (parameterized — eliminates 3x copy-paste)
       const createWarningIcon = (id: string, color: string) => {
@@ -946,7 +977,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-deserts','geo-features','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1192,6 +1223,35 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           ${p.altitude_km ? `<div>Altitud: <span style="color:#E8E6E0;">${p.altitude_km} km</span></div>` : ''}
           ${p.velocity_kmh ? `<div>Velocidad: <span style="color:#00E5FF;">${Number(p.velocity_kmh).toLocaleString('es')} km/h</span></div>` : ''}
         </div>
+      </div>`);
+    });
+
+    // ── Trenes ──
+    map.on('click', 'trains-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #FFCA2855;min-width:170px;">
+        <div style="color:#FFCA28;font-size:13px;font-weight:700;margin-bottom:4px;">Tren #${p.number}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          <div>Velocidad: <span style="color:#E8E6E0;">${p.speed != null ? p.speed + ' km/h' : '—'}</span></div>
+          <div>Posición: <span style="color:#E8E6E0;">${coords[1].toFixed(3)}°, ${coords[0].toFixed(3)}°</span></div>
+          <div style="color:#5C5A54;margin-top:3px;">Fintraffic Digitraffic (Finlandia)</div>
+        </div>
+      </div>`);
+    });
+
+    // ── Estaciones SatNOGS ──
+    map.on('click', 'satnogs-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}border:1px solid #AB47BC55;min-width:180px;">
+        <div style="color:#CE93D8;font-size:13px;font-weight:700;margin-bottom:4px;">${p.name || 'Estación SatNOGS'}</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          ${p.status ? `<div>Estado: <span style="color:#E8E6E0;">${p.status}</span></div>` : ''}
+          ${p.bands ? `<div>Bandas: <span style="color:#E8E6E0;">${p.bands}</span></div>` : ''}
+          ${p.altitude != null ? `<div>Altitud: <span style="color:#E8E6E0;">${p.altitude} m</span></div>` : ''}
+        </div>
+        <a href="https://network.satnogs.org/stations/${p.id || ''}/" target="_blank" style="${linkStyle}margin-top:7px;color:#AB47BC;border:1px solid #AB47BC66;background:#AB47BC1a;">SATNOGS</a>
       </div>`);
     });
 
@@ -1486,7 +1546,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('airports', activeLayers.airports && Array.isArray(data.airports) ? data.airports.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, iata: a.iata, atype: a.type, country: a.country, city: a.city } })) : []);
     setGeo('launches', activeLayers.launches && Array.isArray(data.launches) ? data.launches.map((l: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [l.lng, l.lat] }, properties: { name: l.name, net: l.net, status: l.status, pad: l.pad, location: l.location, provider: l.provider } })) : []);
     setGeo('iss', activeLayers.iss && data.iss && Number.isFinite(data.iss.lat) ? [{ type: 'Feature', geometry: { type: 'Point', coordinates: [data.iss.lng, data.iss.lat] }, properties: { altitude_km: data.iss.altitude_km, velocity_kmh: data.iss.velocity_kmh } }] : []);
-  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, setGeo]);
+    // Frente de Ucrania: la fuente es un FeatureCollection completo (polígonos + líneas)
+    const fcFeats = activeLayers.frontline && data.frontline_fc?.features ? data.frontline_fc.features : [];
+    setGeo('frontline', fcFeats);
+    setGeo('trains', activeLayers.trains && Array.isArray(data.trains) ? data.trains.map((t: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [t.lng, t.lat] }, properties: { number: t.number, speed: t.speed } })) : []);
+    setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
+  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.satnogs, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.satnogs, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -1824,6 +1889,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['airports-dots','airports-label'], activeLayers.airports);
     setVis(['launches-dots','launches-label'], activeLayers.launches);
     setVis(['iss-glow','iss-dot','iss-label'], activeLayers.iss);
+    setVis(['frontline-fill','frontline-line'], activeLayers.frontline);
+    setVis(['trains-dots','trains-label'], activeLayers.trains);
+    setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
+    setVis(['gibs-layer'], activeLayers.gibs);
+    setVis(['nightlights-layer'], activeLayers.nightlights);
     setVis(['fl-commercial'], activeLayers.flights);
     setVis(['fl-private'], activeLayers.private);
     setVis(['fl-jets'], activeLayers.jets);
@@ -1970,6 +2040,19 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   // Estilo del mapa: oscuro (base dark-matter) / claro (raster positron) / satélite
   // (raster ArcGIS). Claro y satélite son rásters superpuestos al base, por debajo
   // de las capas de datos (beforeId 'day-night-fill'), para no perder los marcadores.
+  // ── Modos visuales (FLIR / NVG / CRT) — filtro CSS sobre el lienzo del mapa ──
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const FILTERS: Record<string, string> = {
+      none: '',
+      flir: 'grayscale(1) contrast(1.6) sepia(1) hue-rotate(-25deg) saturate(7) brightness(1.05)',
+      nvg: 'grayscale(1) brightness(1.25) sepia(1) hue-rotate(55deg) saturate(4.5)',
+      crt: 'contrast(1.12) brightness(1.06) saturate(1.35)',
+    };
+    el.style.filter = FILTERS[visualMode] || '';
+  }, [visualMode]);
+
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
     if (mapStyle === prevStyleRef.current) return;
@@ -2014,7 +2097,17 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     }
   }, [mapReady, mapStyle]);
 
-  return <div ref={containerRef} className="absolute inset-0 w-full h-full" />;
+  return (
+    <>
+      <div ref={containerRef} className="absolute inset-0 w-full h-full" />
+      {visualMode === 'crt' && (
+        <div className="absolute inset-0 pointer-events-none" style={{
+          zIndex: 5,
+          backgroundImage: 'repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 1px, transparent 2px, transparent 3px)',
+        }} />
+      )}
+    </>
+  );
 }
 
 export default memo(OsirisMap);
