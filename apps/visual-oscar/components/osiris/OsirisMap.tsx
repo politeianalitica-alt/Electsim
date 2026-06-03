@@ -1236,10 +1236,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     map.on('click', 'agriculture-fill', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
       const color = (p.color as string) || '#9CCC65';
-      popup(e.lngLat, `<div style="${pStyle}border:1px solid ${color}66;min-width:180px;">
-        <div style="display:inline-block;font-size:9px;font-weight:700;color:${color};background:${color}1a;border:1px solid ${color}55;border-radius:4px;padding:1px 7px;margin-bottom:5px;text-transform:capitalize;">${p.crop || 'Cultivo'}</div>
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid ${color}66;min-width:190px;">
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${color};background:${color}1a;border:1px solid ${color}55;border-radius:4px;padding:1px 7px;margin-bottom:5px;">${p.crop || 'Cultivo'}</div>
         <div style="color:#E8E6E0;font-size:12px;font-weight:600;">${p.name || ''}</div>
-        <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Región agrícola</div>
+        ${p.admin ? `<div style="font-size:9.5px;color:#aaa;">${p.admin}</div>` : ''}
+        <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Cultivo dominante · MapSPAM</div>
       </div>`);
     });
     // ── Disputas territoriales ──
