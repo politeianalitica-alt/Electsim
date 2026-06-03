@@ -274,6 +274,10 @@ export default function Dashboard() {
     oilgas: false,
     minerals: false,
     agriculture: false,
+    alliances: false,
+    sanctions: false,
+    disputes: false,
+    orgs: false,
     day_night: true,
     sdk_stream: false,
   });
@@ -612,6 +616,11 @@ export default function Dashboard() {
     if (activeLayers.agriculture && !layerFetchedRef.current.has('agriculture')) {
       fetchEndpoint('/api/osiris/agriculture', d => ({ agriculture_fc: d.agriculture }));
       layerFetchedRef.current.add('agriculture');
+    }
+    // Lote Geopolítica (una sola carga sirve países + disputas + organismos)
+    if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.disputes || activeLayers.orgs) && !layerFetchedRef.current.has('geopolitics')) {
+      fetchEndpoint('/api/osiris/geopolitics', d => ({ geopolitics_fc: d.countries, disputes: d.disputes, orgs: d.orgs }));
+      layerFetchedRef.current.add('geopolitics');
     }
     // Estaciones SatNOGS
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {

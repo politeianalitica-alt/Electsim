@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import petroSites from './petro_sites.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -80,9 +81,12 @@ const FIELDS: Field[] = [
 const COLOR = { oil: '#8D6E63', gas: '#42A5F5', both: '#AB47BC' };
 
 export async function GET() {
-  const fields = FIELDS.map((f) => ({ ...f, color: COLOR[f.type] }));
+  // Campos mayores curados (etiquetados) + sitios de extracción de OSM (volumen).
+  const major = FIELDS.map((f) => ({ ...f, color: COLOR[f.type], major: 1 }));
+  const osm = (petroSites as any[]).map((s) => ({ name: s.name, lat: s.lat, lng: s.lng, type: s.type, color: COLOR[s.type as 'oil' | 'gas'] || '#8D6E63' }));
+  const fields = [...major, ...osm];
   return NextResponse.json(
-    { fields, total: fields.length },
+    { fields, total: fields.length, major: major.length, osm: osm.length },
     { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' } },
   );
 }

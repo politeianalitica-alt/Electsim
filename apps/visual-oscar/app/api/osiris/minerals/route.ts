@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import minesOsm from './mines_osm.json';
 
 export const dynamic = 'force-dynamic';
 
@@ -61,9 +62,12 @@ const COLOR: Record<string, string> = {
 };
 
 export async function GET() {
-  const mines = MINES.map((m) => ({ ...m, color: COLOR[m.m] || '#26A69A' }));
+  // Minas críticas curadas (etiquetadas) + minas de OSM (volumen, ~20.600).
+  const major = MINES.map((m) => ({ ...m, color: COLOR[m.m] || '#26A69A', major: 1 }));
+  const osm = (minesOsm as any[]).map((m) => ({ name: m.name, lat: m.lat, lng: m.lng, m: m.m, color: m.color }));
+  const mines = [...major, ...osm];
   return NextResponse.json(
-    { mines, total: mines.length },
+    { mines, total: mines.length, major: major.length, osm: osm.length },
     { headers: { 'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=604800' } },
   );
 }

@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout,
+  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout, Ban, Landmark,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -149,6 +149,17 @@ const LAYER_GROUPS = [
       { key: 'frontline', label: 'Frente de Ucrania (DeepState)', icon: Swords, color: '#FF1744', dataKey: '' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },
       { key: 'gps_jamming', label: 'Interferencia GPS', icon: Radio, color: '#FF4444', dataKey: 'gps_jamming' },
+    ],
+  },
+  {
+    label: 'GEOPOLÍTICA',
+    icon: Globe,
+    color: '#1565C0',
+    layers: [
+      { key: 'alliances', label: 'Bloques militares (OTAN/OTSC)', icon: Shield, color: '#1565C0', dataKey: '' },
+      { key: 'sanctions', label: 'Países sancionados', icon: Ban, color: '#EF5350', dataKey: '' },
+      { key: 'disputes', label: 'Disputas territoriales', icon: Swords, color: '#FF1744', dataKey: '' },
+      { key: 'orgs', label: 'Organismos internacionales', icon: Landmark, color: '#448AFF', dataKey: '' },
     ],
   },
   {
