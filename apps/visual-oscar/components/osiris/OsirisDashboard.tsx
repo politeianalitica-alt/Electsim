@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Database, Wifi, Type, Check } from 'lucide-react';
+import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Database, Wifi, Type, Check, Crosshair } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
 import SearchBar from '@/components/osiris/SearchBar';
 import ScaleBar from '@/components/osiris/ScaleBar';
@@ -181,6 +181,7 @@ export default function Dashboard() {
   const [spaceWeather, setSpaceWeather] = useState<any>(null);
   const [showLayers, setShowLayers] = useState(true);
   const [showIntel, setShowIntel] = useState(true);
+  const [showRecon, setShowRecon] = useState(false); // panel de Reconocimiento (flotante)
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
@@ -978,76 +979,43 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* ── MAP VIEW CONTROLS (3D/2D + SATELLITE TOGGLE) ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3.5 }}
-        className="absolute bottom-[75px] md:bottom-6 left-3 md:left-[315px] z-[200] flex items-center gap-2 pointer-events-none"
-      >
-        {/* 3D/2D Toggle */}
-        <button
-          onClick={() => setMapProjection(p => p === 'globe' ? 'mercator' : 'globe')}
-          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title={mapProjection === 'globe' ? 'Switch to 2D Map' : 'Switch to 3D Globe'}
-        >
-          {mapProjection === 'globe' ? (
-            <MapPinned className="w-4 h-4 text-[var(--gold-primary)] group-hover:scale-110 transition-transform" />
-          ) : (
-            <Globe className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
-          )}
-          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapProjection === 'globe' ? '2D MAP' : '3D GLOBE'}
-          </span>
-        </button>
+      {/* Los controles de vista del mapa ahora viven en el panel izquierdo, bajo las capas. */}
 
-        {/* Map Style — menú desplegable (Oscuro / Claro / Satélite) */}
-        <MapControlMenu
-          tooltip={`Estilo: ${mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}`}
-          triggerIcon={
-            mapStyle === 'dark' ? <Moon className="w-4 h-4 text-[var(--cyan-primary)]" />
-              : mapStyle === 'light' ? <Sun className="w-4 h-4 text-[#E8A33D]" />
-              : <Satellite className="w-4 h-4 text-[var(--alert-green)]" />
-          }
-          options={[
-            { value: 'dark', label: 'Oscuro', icon: <Moon className="w-4 h-4" />, color: 'var(--cyan-primary)' },
-            { value: 'light', label: 'Claro', icon: <Sun className="w-4 h-4" />, color: '#E8A33D' },
-            { value: 'satellite', label: 'Satélite', icon: <Satellite className="w-4 h-4" />, color: 'var(--alert-green)' },
-          ]}
-          value={mapStyle}
-          onSelect={(v) => setMapStyle(v as any)}
-          isOpen={openMapMenu === 'style'}
-          onToggle={() => setOpenMapMenu(m => m === 'style' ? null : 'style')}
-          onClose={() => setOpenMapMenu(null)}
-        />
-
-        {/* Visual Mode — menú desplegable (Normal / FLIR / NVG / CRT) */}
-        <MapControlMenu
-          tooltip={`Visual: ${visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}`}
-          triggerIcon={<Radar className={`w-4 h-4 ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />}
-          options={[
-            { value: 'none', label: 'Normal', icon: <Radar className="w-4 h-4" />, color: 'var(--text-muted)' },
-            { value: 'flir', label: 'FLIR · térmico', icon: <Radar className="w-4 h-4" />, color: '#FF6B35' },
-            { value: 'nvg', label: 'NVG · nocturno', icon: <Radar className="w-4 h-4" />, color: '#39FF14' },
-            { value: 'crt', label: 'CRT · retro', icon: <Radar className="w-4 h-4" />, color: '#FFB300' },
-          ]}
-          value={visualMode}
-          onSelect={(v) => setVisualMode(v as any)}
-          isOpen={openMapMenu === 'visual'}
-          onToggle={() => setOpenMapMenu(m => m === 'visual' ? null : 'visual')}
-          onClose={() => setOpenMapMenu(null)}
-        />
-
-        {/* Mapa Mudo Toggle — oculta/muestra las etiquetas (nombres) del basemap */}
-        <button
-          onClick={() => setMuteMap(m => !m)}
-          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title="Mapa mudo (sin nombres)"
-        >
-          <Type className={`w-4 h-4 group-hover:scale-110 transition-transform ${muteMap ? 'text-[var(--gold-primary)]' : 'text-[var(--text-muted)]'}`} />
-          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {muteMap ? 'MAPA MUDO' : 'CON NOMBRES'}
-          </span>
-        </button>
-      </motion.div>
+      {/* ── RECONOCIMIENTO (desktop): botón flotante + panel a la derecha ── */}
+      {!isMobile && (
+        <>
+          <motion.button
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.5 }}
+            onClick={() => setShowRecon(v => !v)}
+            className={`absolute bottom-6 right-5 z-[201] glass-panel p-2.5 pointer-events-auto transition-colors group ${showRecon ? 'border-[var(--gold-primary)]/60' : 'hover:border-[var(--gold-primary)]/40'}`}
+            title="Reconocimiento OSINT"
+          >
+            <Crosshair className={`w-4 h-4 ${showRecon ? 'text-[var(--gold-primary)]' : 'text-[var(--text-muted)]'}`} />
+          </motion.button>
+          <AnimatePresence>
+            {showRecon && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
+                className="absolute right-5 top-20 bottom-20 w-80 z-[200] flex flex-col pointer-events-auto"
+              >
+                <div className="flex items-center justify-between mb-2 px-1 flex-shrink-0">
+                  <span className="text-[10px] font-mono font-bold tracking-[0.12em] text-[var(--gold-primary)] uppercase">Reconocimiento</span>
+                  <button onClick={() => setShowRecon(false)} className="text-[var(--text-muted)] hover:text-white transition-colors"><X className="w-4 h-4" /></button>
+                </div>
+                <div className="flex-1 min-h-0 overflow-y-auto styled-scrollbar pr-1">
+                  <OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
+                    setScanTargets(prev => {
+                      const existing = prev.filter(t => t.id !== target);
+                      return [{ id: target, timestamp: Date.now(), ...data }, ...existing].slice(0, 10);
+                    });
+                    setFlyToLocation({ lat: data.lat, lng: data.lng, ts: Date.now() });
+                  }} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
+      )}
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 2.5 }} className={`absolute top-3 left-3 md:top-5 md:left-5 z-[200] pointer-events-none flex items-center gap-2 md:gap-3`}>
@@ -1103,37 +1071,70 @@ export default function Dashboard() {
         <UptimeClock />
       </motion.div>
 
-      {/* ── LEFT HUD (desktop): Capas + Stats + Intel + Reconocimiento + Alertas ── */}
-      <div className="desktop-panel absolute left-5 top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-none overflow-y-auto styled-scrollbar pr-1">
-        {/* Localizador — arriba de la columna */}
-        <div className="flex gap-2 items-start pointer-events-auto">
-          <div className="flex-1"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
-          <div className="relative"><SharePanel mapView={mapView} activeLayers={activeLayers} mouseCoords={null} /></div>
-        </div>
+      {/* ── LEFT HUD (desktop): Capas (scroll) + selectores de mapa + coordenadas ── */}
+      <div className="desktop-panel absolute left-5 top-20 bottom-5 w-80 flex flex-col gap-3 z-[200] pointer-events-none">
+        {/* Localizador */}
+        <div className="pointer-events-auto flex-shrink-0"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
+        {/* Capas — única sección con scroll */}
         {showLayers && (
-          <>
+          <div className="flex-1 min-h-0 overflow-y-auto styled-scrollbar pr-1 pointer-events-auto">
             <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="glass-panel px-3 py-2.5 pointer-events-auto">
-              <div className="grid grid-cols-5 gap-2 text-center">
-                <div><div className="hud-label">AVIONES</div><div className="hud-value text-[10px] animate-data-pulse">{globalStats ? globalStats.flights.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">SATS</div><div className="hud-value text-[10px]">{globalStats ? globalStats.sats.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">CCTV</div><div className="hud-value text-[10px]">{globalStats ? globalStats.cctv.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">CLIMA</div><div className="hud-value text-[10px]" style={{ color: 'var(--accent-weather)' }}>{globalStats ? globalStats.weather.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">NUCLEAR</div><div className="hud-value text-[10px]" style={{ color: 'var(--accent-nuclear)' }}>{globalStats ? globalStats.nuclear.toLocaleString() : '0'}</div></div>
-              </div>
-            </motion.div>
-          </>
+          </div>
         )}
-        {showIntel && <IntelFeed data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} />}
-        {/* Reconocimiento + Alertas — debajo, en la misma columna */}
-        <div className="pointer-events-auto"><OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
-          setScanTargets(prev => {
-            const existing = prev.filter(t => t.id !== target);
-            return [{ id: target, timestamp: Date.now(), ...data }, ...existing].slice(0, 10);
-          });
-          setFlyToLocation({ lat: data.lat, lng: data.lng, ts: Date.now() });
-        }} /></div>
-        <div className="pointer-events-auto"><LiveAlerts data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} onWatchFeed={(url, name) => { setLiveFeedUrl(url); setLiveFeedName(name); }} /></div>
+        {/* Selectores de tipo de mapa — debajo de las capas */}
+        <div className="glass-panel px-3 py-2 pointer-events-auto flex-shrink-0 flex items-center justify-between gap-2">
+          <span className="text-[8.5px] font-mono tracking-[0.12em] text-[var(--text-muted)] uppercase">Vista del mapa</span>
+          <div className="flex items-center gap-1.5">
+            {/* 3D / 2D */}
+            <button onClick={() => setMapProjection(p => p === 'globe' ? 'mercator' : 'globe')}
+              className="p-1.5 rounded-md hover:bg-white/5 transition-colors" title={mapProjection === 'globe' ? 'Cambiar a 2D' : 'Cambiar a 3D'}>
+              {mapProjection === 'globe'
+                ? <MapPinned className="w-4 h-4 text-[var(--gold-primary)]" />
+                : <Globe className="w-4 h-4 text-[var(--cyan-primary)]" />}
+            </button>
+            {/* Estilo */}
+            <MapControlMenu
+              tooltip={`Estilo: ${mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}`}
+              triggerIcon={mapStyle === 'dark' ? <Moon className="w-4 h-4 text-[var(--cyan-primary)]" /> : mapStyle === 'light' ? <Sun className="w-4 h-4 text-[#E8A33D]" /> : <Satellite className="w-4 h-4 text-[var(--alert-green)]" />}
+              options={[
+                { value: 'dark', label: 'Oscuro', icon: <Moon className="w-4 h-4" />, color: 'var(--cyan-primary)' },
+                { value: 'light', label: 'Claro', icon: <Sun className="w-4 h-4" />, color: '#E8A33D' },
+                { value: 'satellite', label: 'Satélite', icon: <Satellite className="w-4 h-4" />, color: 'var(--alert-green)' },
+              ]}
+              value={mapStyle} onSelect={(v) => setMapStyle(v as any)}
+              isOpen={openMapMenu === 'style'} onToggle={() => setOpenMapMenu(m => m === 'style' ? null : 'style')} onClose={() => setOpenMapMenu(null)}
+            />
+            {/* Modo visual */}
+            <MapControlMenu
+              tooltip={`Visual: ${visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}`}
+              triggerIcon={<Radar className={`w-4 h-4 ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />}
+              options={[
+                { value: 'none', label: 'Normal', icon: <Radar className="w-4 h-4" />, color: 'var(--text-muted)' },
+                { value: 'flir', label: 'FLIR · térmico', icon: <Radar className="w-4 h-4" />, color: '#FF6B35' },
+                { value: 'nvg', label: 'NVG · nocturno', icon: <Radar className="w-4 h-4" />, color: '#39FF14' },
+                { value: 'crt', label: 'CRT · retro', icon: <Radar className="w-4 h-4" />, color: '#FFB300' },
+              ]}
+              value={visualMode} onSelect={(v) => setVisualMode(v as any)}
+              isOpen={openMapMenu === 'visual'} onToggle={() => setOpenMapMenu(m => m === 'visual' ? null : 'visual')} onClose={() => setOpenMapMenu(null)}
+            />
+            {/* Mapa mudo */}
+            <button onClick={() => setMuteMap(m => !m)}
+              className="p-1.5 rounded-md hover:bg-white/5 transition-colors" title="Mapa mudo (sin nombres)">
+              <Type className={`w-4 h-4 ${muteMap ? 'text-[var(--gold-primary)]' : 'text-[var(--text-muted)]'}`} />
+            </button>
+          </div>
+        </div>
+        {/* Coordenadas — debajo de todo */}
+        <div className="glass-panel px-3 py-2 pointer-events-auto flex-shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[8.5px] font-mono tracking-[0.12em] text-[var(--text-muted)] uppercase">Coordenadas</span>
+            <span ref={coordsDisplayRef} className="text-[10px] font-mono font-semibold text-[var(--gold-primary)] tabular-nums">—</span>
+          </div>
+          <div className="flex items-center justify-between gap-2 mt-1">
+            <span className="text-[9px] font-mono text-[var(--text-secondary)] truncate">{locationLabel || 'Pasa el cursor por el mapa…'}</span>
+            <span className="text-[9px] font-mono text-[var(--text-muted)] flex-shrink-0">z{mapView.zoom.toFixed(1)}</span>
+          </div>
+        </div>
       </div>
 
       {/* ── LIVE FEED VIEWER OVERLAY ── */}
@@ -1296,44 +1297,7 @@ export default function Dashboard() {
         </>
       )}
 
-      {/* ── TOP CENTER · barra de estado discreta (desktop) ── */}
-      {!isMobile && (
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6 }} className="desktop-only absolute top-3 left-1/2 -translate-x-1/2 z-[200] pointer-events-auto">
-          <div className="glass-panel flex items-center gap-2.5 px-3 py-1" style={{ opacity: 0.9 }}>
-            {(() => { const sep = <span className="w-px h-3 bg-[var(--border-primary)] flex-shrink-0 opacity-60" />; const lbl = 'text-[7.5px] font-mono tracking-[0.1em] text-[var(--text-muted)] uppercase'; const val = 'text-[9.5px] font-mono font-semibold tabular-nums'; return (<>
-              {/* COORDENADAS */}
-              <div className="flex items-center gap-1.5">
-                <span className={lbl}>COORD</span>
-                <span ref={coordsDisplayRef} className={`${val} text-[var(--gold-primary)]`}>—</span>
-              </div>
-              {sep}
-              {/* UBICACIÓN */}
-              <div className="flex items-center gap-1.5 min-w-0">
-                <span className={lbl}>UBIC</span>
-                <span className="text-[9px] font-mono text-[var(--text-secondary)] truncate max-w-[170px]">{locationLabel || '—'}</span>
-              </div>
-              {sep}
-              {/* ZOOM */}
-              <div className="flex items-center gap-1.5">
-                <span className={lbl}>Z</span>
-                <span className={`${val} text-[var(--gold-primary)]`}>{mapView.zoom.toFixed(1)}</span>
-              </div>
-              {sep}
-              {/* CAPAS ACTIVAS */}
-              <div className="flex items-center gap-1" title="Capas activas">
-                <Layers className="w-3 h-3 text-[var(--gold-primary)]" />
-                <span className={`${val} text-[var(--gold-primary)]`}>{Object.values(activeLayers).filter(Boolean).length}</span>
-              </div>
-              {sep}
-              {/* ENTIDADES */}
-              <div className="flex items-center gap-1 text-[9.5px]" title="Entidades en pantalla">
-                <Database className="w-3 h-3 text-[var(--alert-green)]" />
-                <ActiveEntityCount data={data} />
-              </div>
-            </>); })()}
-          </div>
-        </motion.div>
-      )}
+      {/* Las coordenadas viven ahora en el panel izquierdo, bajo los selectores. */}
 
       {/* ── Scale Bar (desktop) ── */}
       <div className="desktop-only absolute bottom-[4.5rem] left-[20rem] z-[201] pointer-events-none">
