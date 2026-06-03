@@ -8,7 +8,7 @@ import {
   CloudLightning, Radiation, Tv, Anchor, Ship, Newspaper,
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
-  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem,
+  Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout,
 } from 'lucide-react';
 
 interface LayerPanelProps {
@@ -194,6 +194,7 @@ const LAYER_GROUPS = [
       { key: 'aurora', label: 'Auroras (boreal/austral)', icon: Sparkles, color: '#76FF03', dataKey: 'aurora' },
       { key: 'tectonics', label: 'Placas tectónicas', icon: Mountain, color: '#FF7043', dataKey: '' },
       { key: 'sea_state', label: 'Estado del mar (olas)', icon: Waves, color: '#26C6DA', dataKey: 'sea_state' },
+      { key: 'agriculture', label: 'Agricultura (cultivos)', icon: Sprout, color: '#9CCC65', dataKey: '' },
     ],
   },
   {

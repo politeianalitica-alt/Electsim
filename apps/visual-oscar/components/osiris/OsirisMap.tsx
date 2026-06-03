@@ -124,7 +124,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals'];
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -255,6 +255,20 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.7, 6,0.9, 10,1],
           'line-width': ['interpolate',['linear'],['zoom'], 2,0.8, 6,1.8, 10,3],
         }});
+
+      // ── Agricultura: regiones de cultivo (áreas sombreadas por cultivo) ──
+      map.addLayer({ id: 'agriculture-fill', type: 'fill', source: 'agriculture',
+        layout: { visibility: 'none' }, paint: {
+          'fill-color': ['coalesce', ['get', 'color'], '#9CCC65'], 'fill-opacity': 0.3,
+        }});
+      map.addLayer({ id: 'agriculture-outline', type: 'line', source: 'agriculture',
+        layout: { visibility: 'none' }, paint: {
+          'line-color': ['coalesce', ['get', 'color'], '#9CCC65'], 'line-opacity': 0.6,
+          'line-width': ['interpolate',['linear'],['zoom'], 2,0.5, 6,1.2],
+        }});
+      map.addLayer({ id: 'agriculture-label', type: 'symbol', source: 'agriculture', minzoom: 3,
+        layout: { 'text-field': ['get', 'crop'], 'text-size': ['interpolate',['linear'],['zoom'], 3,9, 6,12], 'text-font': ['Open Sans Bold'], 'text-transform': 'uppercase', 'text-letter-spacing': 0.05, 'text-allow-overlap': false },
+        paint: { 'text-color': ['coalesce', ['get', 'color'], '#9CCC65'], 'text-halo-color': '#06140a', 'text-halo-width': 1.4 }});
 
       // ── Placas tectónicas (líneas de borde de placa) ──
       map.addLayer({ id: 'tectonics-line', type: 'line', source: 'tectonics',
@@ -1170,6 +1184,16 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         <div style="font-size:9.5px;color:#aaa;">Centro de datos</div>
       </div>`);
     });
+    // ── Agricultura (regiones de cultivo) ──
+    map.on('click', 'agriculture-fill', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const color = (p.color as string) || '#9CCC65';
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid ${color}66;min-width:180px;">
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${color};background:${color}1a;border:1px solid ${color}55;border-radius:4px;padding:1px 7px;margin-bottom:5px;text-transform:capitalize;">${p.crop || 'Cultivo'}</div>
+        <div style="color:#E8E6E0;font-size:12px;font-weight:600;">${p.name || ''}</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Región agrícola</div>
+      </div>`);
+    });
 
 
     // ── Politeia SDK link click ──
@@ -1207,7 +1231,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['conflict-icons','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['conflict-icons','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1802,7 +1826,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.oilgas.map((f: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [f.lng, f.lat] }, properties: { name: f.name, type: f.type, color: f.color, country: f.country } })) : []);
     setGeo('minerals', activeLayers.minerals && Array.isArray(data.minerals)
       ? data.minerals.map((m: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [m.lng, m.lat] }, properties: { name: m.name, m: m.m, color: m.color, country: m.country } })) : []);
-  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, setGeo]);
+    setGeo('agriculture', activeLayers.agriculture && data.agriculture_fc?.features ? data.agriculture_fc.features : []);
+  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, setGeo]);
 
   // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
   useEffect(() => {
@@ -2251,6 +2276,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['datacenters-dots'], activeLayers.datacenters);
     setVis(['oilgas-dots','oilgas-label'], activeLayers.oilgas);
     setVis(['minerals-dots','minerals-label'], activeLayers.minerals);
+    setVis(['agriculture-fill','agriculture-outline','agriculture-label'], activeLayers.agriculture);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
     setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);

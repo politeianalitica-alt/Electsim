@@ -273,6 +273,7 @@ export default function Dashboard() {
     datacenters: false,
     oilgas: false,
     minerals: false,
+    agriculture: false,
     day_night: true,
     sdk_stream: false,
   });
@@ -607,6 +608,10 @@ export default function Dashboard() {
     if (activeLayers.minerals && !layerFetchedRef.current.has('minerals')) {
       fetchEndpoint('/api/osiris/minerals', d => ({ minerals: d.mines }));
       layerFetchedRef.current.add('minerals');
+    }
+    if (activeLayers.agriculture && !layerFetchedRef.current.has('agriculture')) {
+      fetchEndpoint('/api/osiris/agriculture', d => ({ agriculture_fc: d.agriculture }));
+      layerFetchedRef.current.add('agriculture');
     }
     // Estaciones SatNOGS
     if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {
