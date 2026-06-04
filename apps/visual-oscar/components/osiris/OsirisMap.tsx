@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback, memo } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { saveToInbox } from '@/lib/workspace/map-inbox';
 
 interface OsirisMapProps {
   data: any;
@@ -1014,6 +1015,28 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     const pStyle = `background:rgba(12,14,26,0.95);backdrop-filter:blur(16px);border-radius:10px;padding:16px;font-family:'JetBrains Mono',monospace;`;
     const linkStyle = `display:inline-block;margin-top:8px;padding:5px 12px;font-size:10px;letter-spacing:0.12em;text-decoration:none;border-radius:5px;font-family:'JetBrains Mono',monospace;`;
 
+    // ── "Guardar en workspace" desde cualquier popup ──
+    const esc = (s: any) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const wsBtn = (title: string, kind: string, source: string, lat?: number, lng?: number) =>
+      `<button class="ws-save-btn" data-t="${esc(title)}" data-k="${esc(kind)}" data-s="${esc(source)}" data-lat="${lat ?? ''}" data-lng="${lng ?? ''}" style="${linkStyle}width:100%;text-align:center;margin-top:9px;cursor:pointer;color:#D4AF37;border:1px solid rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);font-weight:700;">★ Guardar en workspace</button>`;
+    map.getContainer().addEventListener('click', (ev) => {
+      const btn = (ev.target as HTMLElement)?.closest?.('.ws-save-btn') as HTMLElement | null;
+      if (!btn || btn.hasAttribute('data-done')) return;
+      try {
+        saveToInbox({
+          title: btn.getAttribute('data-t') || '—',
+          kind: btn.getAttribute('data-k') || 'entidad',
+          source: btn.getAttribute('data-s') || 'Mapa OSINT',
+          lat: btn.getAttribute('data-lat') ? Number(btn.getAttribute('data-lat')) : undefined,
+          lng: btn.getAttribute('data-lng') ? Number(btn.getAttribute('data-lng')) : undefined,
+        });
+        btn.setAttribute('data-done', '1');
+        btn.textContent = '✓ Guardado en workspace';
+        btn.style.color = '#34C759';
+        btn.style.borderColor = 'rgba(52,199,89,0.5)';
+      } catch { /* noop */ }
+    });
+
     // ── Ruta de vuelo: helpers de círculo máximo + dibujado ──
     const _toRad = (d: number) => d * Math.PI / 180;
     const _toDeg = (r: number) => r * 180 / Math.PI;
@@ -1400,6 +1423,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         <div style="color:#E8E6E0;font-size:13px;font-weight:700;margin-bottom:4px;">${p.name}</div>
         <div style="font-size:9.5px;color:#aaa;line-height:1.7;">${rows.join('') || 'Sin datos'}</div>
         ${sanc}
+        ${wsBtn(p.name || 'País', 'país', 'Geopolítica', e.lngLat?.lat, e.lngLat?.lng)}
       </div>`);
     };
     ['alliances-fill', 'sanctions-fill', 'milspend-fill', 'regime-fill', 'nukes-fill', 'election-fill', 'press-fill', 'cpi-fill', 'hdi-fill', 'gdp-fill', 'blocs-fill'].forEach((l) => map.on('click', l, onCountryClick));
@@ -1427,6 +1451,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       popup(coords, `<div style="${pStyle}border:1px solid ${color}55;min-width:200px;max-width:300px;">
         <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:5px;">${p.name || '—'}</div>
         <div style="font-size:9.5px;color:#aaa;line-height:1.7;">${rows.join('') || 'Sin datos'}</div>
+        ${wsBtn(p.name || 'Entidad', 'instalación', p.country || 'Mapa OSINT', coords?.[1], coords?.[0])}
       </div>`);
     };
     Object.entries(PT_COLORS).forEach(([layer, color]) => map.on('click', layer, onPointClick(color)));

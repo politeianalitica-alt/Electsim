@@ -28,6 +28,7 @@ export const WORKSPACE_VIEWS: WorkspaceNavItem[] = [
   { key: "simulator",   label: "Simulador",      segment: "simulator",   description: "Antes de actuar · 3 outcomes + war gaming",                   group: "inteligencia" },
   { key: "knowledge",   label: "Knowledge",      segment: "knowledge",   description: "Memoria institucional · wiki actores/leyes",                   group: "inteligencia" },
   { key: "vigilancia",  label: "Vigilancia",     segment: "vigilancia",  description: "Intel OSINT en vivo · noticias · alertas sísmicas",            group: "inteligencia" },
+  { key: "guardados",   label: "Guardados",      segment: "guardados",   description: "Entidades enviadas desde el mapa OSINT",                       group: "inteligencia" },
 
   // Sistema · gestión
   { key: "projects",    label: "Projects",       segment: "projects",    description: "Gantt · Kanban · Lista · Resumen",                            group: "sistema" },
