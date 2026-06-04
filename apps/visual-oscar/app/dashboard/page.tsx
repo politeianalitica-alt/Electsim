@@ -392,7 +392,7 @@ export default function DashboardPage() {
  <a href="/osint-global" style={{ fontSize: 12, fontWeight: 600, color: '#0E7490', textDecoration: 'none' }}>Abrir mapa completo →</a>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.7fr) minmax(0, 1fr)', gap: 14 }} className="home-osint-grid">
- <SectorMapPreview sector="inicio" accent="#0E7490" height={340} caption="situación mundial · conflictos y desastres" marginTop={0} />
+ <SectorMapPreview sector="inicio" accent="#0E7490" height={340} caption="situación mundial · conflictos y desastres" marginTop={0} lazyClick />
  <OsintAlertsCard height={340} />
  </div>
  </section>

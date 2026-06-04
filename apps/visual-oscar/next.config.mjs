@@ -62,7 +62,20 @@ const nextConfig = {
   },
 
   async headers() {
+    // Cabeceras de seguridad. NO añadimos CSP estricta para no romper el mapa
+    // (tiles externos NASA/Hansen/Carto) ni los estilos inline. X-Frame-Options
+    // SAMEORIGIN (no DENY) para que sigan funcionando los mini-mapas embebidos.
+    const securityHeaders = [
+      { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+      { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
+    ];
     return [
+      {
+        source: '/:path*',
+        headers: securityHeaders,
+      },
       {
         source: '/_next/static/:path*',
         headers: [
