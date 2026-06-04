@@ -990,8 +990,9 @@ export default function DashboardPage() {
             )}
  </section>
 
-          {/* Mapa territorial — enriched */}
- <section style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Mapa territorial — enriched · oculto en móvil (16 comunidades en
+              filas flex no caben legibles a <640px; accesible vía /mapa) */}
+ <section className="mobile-hidden" style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
             {/* Header + tab toggle */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

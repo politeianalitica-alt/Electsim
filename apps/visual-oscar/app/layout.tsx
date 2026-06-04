@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 
 // Forzar modo claro a nivel de navegador · ignora prefers-color-scheme del SO
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
   colorScheme: 'light',
   themeColor: '#fbfbfd',
 };

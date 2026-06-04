@@ -231,3 +231,76 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
 [data-workspace-light] .bg-indigo-600   { background-color: var(--color-accent) !important; }
 [data-workspace-light] .border-indigo-500,
 [data-workspace-light] .border-l-indigo-500 { border-color: var(--color-accent) !important; }
+
+/* ============================================================
+   MÓVIL · versión limitada pero usable (iPhone · ancho ≤ 640px)
+   ------------------------------------------------------------
+   El producto se diseñó SOLO para escritorio: rejillas de 12
+   columnas, anchos fijos y estilos inline por todas partes. Este
+   bloque convierte cualquier pantalla estrecha en una columna
+   apilable y legible:
+     · todas las rejillas (clase Y estilo inline) → 1 columna
+     · tablas → scroll horizontal en vez de romper el layout
+     · multimedia (mapas, imágenes, sparklines) → fluida
+     · cabecera y banner-hero → compactos
+     · .mobile-hidden → se ocultan los bloques que no funcionan
+   Usamos !important porque la mayoría de los estilos son inline
+   (especificidad máxima); una regla !important del hoja sí los
+   vence al no llevar ellos !important.
+   ============================================================ */
+@media (max-width: 640px) {
+  /* — Apilar TODAS las rejillas: clases conocidas + estilos inline — */
+  .grid, .hero-strip,
+  [style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+  .span-3,.span-4,.span-5,.span-6,.span-8,.span-12 { grid-column: 1 / -1 !important; }
+  /* KPIs y mini-índices: 2 columnas se leen mejor que 1 sola fila larga */
+  .kpi-row, .mini-row { grid-template-columns: repeat(2, 1fr) !important; }
+  .region-row { flex-direction: column !important; }
+  /* La tabla de sondeos usa unidades fr (siempre cabe); solo achicamos texto */
+  .pollster-table { font-size: 10.5px !important; }
+  .pollster-table .th, .pollster-table .td { padding: 7px 4px !important; }
+
+  /* Hero apilado y alineado a la izquierda */
+  .hero-strip { padding: 20px !important; border-radius: 18px !important; gap: 16px !important; }
+  .hero-mega { text-align: left !important; align-items: flex-start !important;
+    padding-left: 0 !important; border-left: 0 !important;
+    border-top: 1px solid var(--color-hairline-soft); padding-top: 14px !important; }
+  .hero-mega .num { font-size: 48px !important; }
+
+  /* — Contenedores principales con menos padding —
+       (excluimos .osiris-root: el mapa OSINT va a pantalla completa y
+        tiene su propio CSS responsive en osiris.css) — */
+  .shell { padding: 16px 14px 40px !important; }
+  main:not(.osiris-root) { padding-left: 14px !important; padding-right: 14px !important; }
+  .card { padding: 18px 16px !important; border-radius: 16px !important; }
+
+  /* — Tablas: scroll horizontal, nunca romper el layout — */
+  table { display: block !important; max-width: 100% !important;
+    overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+
+  /* — Multimedia fluida (iframes de mapa, imágenes, sparklines, gráficos) —
+       (no incluimos <canvas> para no interferir con el canvas de MapLibre) — */
+  img, video, iframe, svg.spark, svg.hemicycle-mini { max-width: 100% !important; }
+
+  /* — Ocultar lo que es imposible que se vea bien en móvil — */
+  .mobile-hidden, .desktop-only { display: none !important; }
+
+  /* — Cabecera compacta — */
+  .ah-inner { padding: 0 12px !important; }
+  .ah-logo { margin-right: 12px !important; }
+  .ah-logo-sub { display: none !important; }     /* oculta "ANALÍTICA" para ganar ancho */
+  .ah-tabs { justify-content: flex-start !important; }
+  .ah-live { display: none !important; }          /* "Actualizado hace 2 min" sobra en móvil */
+  .ah-subnav-inner { padding: 0 12px !important; gap: 10px !important; }
+
+  /* — Banner-hero de módulo compacto — */
+  .ah-banner { padding: 22px 18px !important; border-radius: 0 0 18px 18px !important;
+    flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+  .ah-banner h1 { font-size: 24px !important; }
+  .ah-banner-metric { font-size: 44px !important; }
+  .ah-banner-metric span { font-size: 22px !important; }
+
+  /* — Login centrado y cómodo — */
+  .login-shell { padding: 28px 16px !important; min-height: calc(100vh - 44px); }
+  .login-card { padding: 32px 22px 28px !important; border-radius: 18px !important; }
+}

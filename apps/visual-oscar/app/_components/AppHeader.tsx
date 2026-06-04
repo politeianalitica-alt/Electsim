@@ -21,13 +21,13 @@ export default function AppHeader() {
         WebkitBackdropFilter:'saturate(180%) blur(20px)',
         borderBottom:'1px solid rgba(0,0,0,0.06)',
       }}>
- <div style={{
+ <div className="ah-inner" style={{
           maxWidth:1600,margin:'0 auto',padding:'0 20px',
           display:'flex',alignItems:'center',height:'100%',
           fontFamily:'var(--font-text,-apple-system,system-ui)',
           fontSize:12,
         }}>
- <Link href="/dashboard" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
+ <Link href="/dashboard" className="ah-logo" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
             {/* Icono Politeia Analítica — capitel jónico + barras · decorativo,
                 aria-hidden porque el texto adyacente "POLITEIA ANALÍTICA" ya
                 etiqueta el link · WCAG 1.1.1 */}
@@ -43,9 +43,9 @@ export default function AppHeader() {
  <rect x="52" y="48" width="18" height="54" rx="2"/>
  <rect x="78" y="38" width="18" height="64" rx="2"/>
  </svg>
-            POLITEIA <span style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
+            POLITEIA <span className="ah-logo-sub" style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
  </Link>
- <div style={{display:'flex',flex:1,height:'100%',justifyContent:'center',overflowX:'auto',scrollbarWidth:'none',minWidth:0}}>
+ <div className="ah-tabs" style={{display:'flex',flex:1,height:'100%',justifyContent:'center',overflowX:'auto',scrollbarWidth:'none',minWidth:0}}>
             {MODULES.filter(m => !m.hideFromTopBar).map(m=>{
               const active = activeModule?.id === m.id
               // Tomamos el primer item NO oculto como destino del tab
@@ -66,7 +66,7 @@ export default function AppHeader() {
             })}
  </div>
  <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
- <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
+ <span className="ah-live" style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
  <span style={{
                 width:5,height:5,borderRadius:'50%',background:'#2d8a39',
                 boxShadow:'0 0 0 2px rgba(45,138,57,0.2)',flexShrink:0,
@@ -111,7 +111,7 @@ export default function AppHeader() {
           background:'#fff',
           borderBottom:'1px solid rgba(0,0,0,0.06)',
         }}>
- <div style={{
+ <div className="ah-subnav-inner" style={{
             maxWidth:1600,margin:'0 auto',padding:'0 20px',
             display:'flex',alignItems:'center',height:'100%',gap:18,
             fontFamily:'var(--font-text,-apple-system,system-ui)',
@@ -142,7 +142,7 @@ export default function AppHeader() {
       {banner && (
  <div style={{ background:'#fbfbfd' }}>
  <div style={{ maxWidth:1600, margin:'0 auto', padding:'0 28px' }}>
- <section style={{
+ <section className="ah-banner" style={{
               background:`linear-gradient(135deg,${banner.colorFrom || '#0070D1'} 0%,${banner.colorTo || '#003d8a'} 100%)`,
               borderRadius:'0 0 24px 24px', padding:'40px 48px',
               display:'flex', justifyContent:'space-between', alignItems:'center',
@@ -168,7 +168,7 @@ export default function AppHeader() {
  </div>
               {banner.metric && (
  <div style={{ textAlign:'right', flexShrink:0 }}>
- <div style={{
+ <div className="ah-banner-metric" style={{
                     fontFamily:'var(--font-display,-apple-system,"Helvetica Neue",system-ui)',
                     fontWeight:700, fontSize:68, letterSpacing:'-0.05em',
                     lineHeight:1, display:'inline-flex', alignItems:'baseline',
