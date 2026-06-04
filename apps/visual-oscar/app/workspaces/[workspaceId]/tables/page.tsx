@@ -4,6 +4,7 @@ import Link from "next/link";
 import { tableRepository } from "@/lib/tables/table-repository";
 import { WorkspaceViewHeader } from "@/app/_components/workspace/workspace-view-header";
 import { WorkspaceEmptyState } from "@/app/_components/workspace/workspace-empty-state";
+import { DHondtCalculator } from "@/app/_components/workspace/dhondt-calculator";
 
 const KIND_LABEL: Record<string, string> = {
   polling: "Sondeos",
@@ -69,6 +70,11 @@ export default function TablesPage({ params }: { params: { workspaceId: string }
  </span>
  </Link>
         ))}
+ </div>
+
+ <div className="mt-7">
+ <div className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-[#6e6e73]">Herramientas electorales</div>
+ <DHondtCalculator />
  </div>
  </div>
   );

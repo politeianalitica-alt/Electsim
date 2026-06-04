@@ -52,10 +52,10 @@ function buildCommands(workspaceId: string): CommandAction[] {
   }));
 
   const createActions: CommandAction[] = [
-    { id: "create_issue",    label: "Nuevo issue",           description: "Crear un issue en el workspace",          group: "create",    shortcut: ["C", "I"] },
-    { id: "create_doc",      label: "Nuevo documento",       description: "Crear un documento en Docs",              group: "create" },
-    { id: "create_canvas",   label: "Nuevo canvas",          description: "Crear un canvas de investigación visual", group: "create" },
-    { id: "create_project",  label: "Nuevo proyecto",        description: "Crear un proyecto en Projects",           group: "create" },
+    { id: "create_issue",    label: "Nuevo issue",           description: "Crear un issue en el workspace",          group: "create",    shortcut: ["C", "I"], href: buildWorkspaceHref(workspaceId, "overview") },
+    { id: "create_doc",      label: "Nuevo documento",       description: "Crear un documento en Docs",              group: "create",    href: buildWorkspaceHref(workspaceId, "docs/new") },
+    { id: "create_canvas",   label: "Nuevo canvas",          description: "Crear un canvas de investigación visual", group: "create",    href: buildWorkspaceHref(workspaceId, "canvas") },
+    { id: "create_project",  label: "Nuevo proyecto",        description: "Crear un proyecto en Projects",           group: "create",    href: buildWorkspaceHref(workspaceId, "projects") },
   ];
 
   const agentActions: CommandAction[] = [

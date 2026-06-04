@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { WS } from "@/lib/workspace/workspace-utils";
 import { demoMembers } from "@/lib/workspace/mock-data";
-import { getViewByPath } from "@/lib/workspace/navigation";
+import { getViewBySegment } from "@/lib/workspace/navigation";
 import { memberStatusColor } from "@/lib/workspace/workspace-utils";
 import { useWorkspaceStore } from "@/context/WorkspaceContext";
 import { IconBack, IconCommand, IconPanelRight, IconAlertCircle } from "./workspace-icons";
@@ -18,7 +18,15 @@ interface WorkspaceTopbarProps {
 
 export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps) {
   const path = usePathname() ?? "";
-  const currentView = getViewByPath(path);
+  const parts = path.split("/").filter(Boolean); // ["workspaces", wsId, view, detail?, ...]
+  const wsIdx = parts.indexOf("workspaces");
+  const viewSeg = wsIdx >= 0 ? parts[wsIdx + 2] : undefined;
+  const detailSeg = wsIdx >= 0 ? parts[wsIdx + 3] : undefined;
+  const currentView = viewSeg ? getViewBySegment(viewSeg) : undefined;
+  const SUB_LABELS: Record<string, string> = { new: "Nuevo", matrix: "Matriz", map: "Mapa", feeds: "Feeds", knowledge: "Conocimiento", analysis: "Análisis", preview: "Vista previa" };
+  const detailLabel = detailSeg
+    ? (SUB_LABELS[detailSeg] ?? (/^[a-z]{2,11}$/i.test(detailSeg) ? detailSeg.charAt(0).toUpperCase() + detailSeg.slice(1) : "Detalle"))
+    : null;
   const { toggleAgent, openCommandPalette, isAgentOpen } = useWorkspaceStore();
 
   const isMac = typeof navigator !== "undefined" && /mac/i.test(navigator.platform);
@@ -61,7 +69,17 @@ export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps
         {currentView && (
  <>
  <span style={{ color: WS.ink3, fontSize: 11 }}>/</span>
+            {detailLabel ? (
+ <Link href={`/workspaces/${workspaceId}/${currentView.segment}`} style={{ fontSize: 12, color: WS.ink3, textDecoration: "none" }}>{currentView.label}</Link>
+            ) : (
  <span style={{ fontSize: 12, fontWeight: 600, color: WS.ink }}>{currentView.label}</span>
+            )}
+ </>
+        )}
+        {detailLabel && (
+ <>
+ <span style={{ color: WS.ink3, fontSize: 11 }}>/</span>
+ <span style={{ fontSize: 12, fontWeight: 600, color: WS.ink }}>{detailLabel}</span>
  </>
         )}
  </div>
