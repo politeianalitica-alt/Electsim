@@ -11,6 +11,12 @@ const PUBLIC_PREFIXES = [
   '/api/system/',
   '/_next',
   '/favicon',
+  // Iconos/manifest PWA · rutas de metadata de Next SIN extensión (no las
+  // cubre la regla `pathname.includes('.')`), así que iOS/Android pueden
+  // cargar el apple-touch-icon y el manifest sin sesión.
+  '/apple-icon',
+  '/icon',
+  '/manifest.webmanifest',
   // Proxies a APIs públicas externas · no exponen secretos sensibles
   // (sólo passthrough de datos abiertos macro/comercio/energía/geopolítica/medios)
   '/api/acled/',
