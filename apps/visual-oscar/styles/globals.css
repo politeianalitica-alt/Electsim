@@ -285,11 +285,14 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
   /* — Ocultar lo que es imposible que se vea bien en móvil — */
   .mobile-hidden, .desktop-only { display: none !important; }
 
-  /* — Cabecera compacta — */
+  /* — Cabecera compacta · en móvil las pestañas pasan al menú hamburguesa — */
   .ah-inner { padding: 0 12px !important; }
   .ah-logo { margin-right: 12px !important; }
   .ah-logo-sub { display: none !important; }     /* oculta "ANALÍTICA" para ganar ancho */
-  .ah-tabs { justify-content: flex-start !important; }
+  .ah-tabs { display: none !important; }          /* las pestañas viven en el menú móvil */
+  .ah-burger { display: inline-flex !important; } /* botón de menú visible en móvil */
+  .ah-right { margin-left: auto !important; }      /* empuja el clúster derecho a la derecha */
+  .ah-salir { display: none !important; }          /* "Salir" vive dentro del menú móvil */
   .ah-live { display: none !important; }          /* "Actualizado hace 2 min" sobra en móvil */
   .ah-subnav-inner { padding: 0 12px !important; gap: 10px !important; }
 

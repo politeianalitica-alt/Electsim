@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Database, Wifi, Type, Check, Crosshair } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
 import SearchBar from '@/components/osiris/SearchBar';
+import MapViewPresets from '@/components/osiris/MapViewPresets';
 import ScaleBar from '@/components/osiris/ScaleBar';
 import ErrorBoundary from '@/components/osiris/ErrorBoundary';
 import SharePanel from '@/components/osiris/SharePanel';
@@ -1173,6 +1174,8 @@ export default function Dashboard() {
       <div className={`desktop-panel absolute left-5 top-20 bottom-5 w-80 flex flex-col gap-3 z-[200] pointer-events-none ${embed ? 'hidden' : ''}`}>
         {/* Localizador */}
         <div className="pointer-events-auto flex-shrink-0"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
+        {/* Mis vistas guardadas (presets de capas + posición) */}
+        <div className="pointer-events-auto flex-shrink-0"><MapViewPresets /></div>
         {/* Capas — única sección con scroll */}
         {showLayers && (
           <div className="flex-1 min-h-0 overflow-y-auto styled-scrollbar pr-1 pointer-events-auto">
