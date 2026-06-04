@@ -19,6 +19,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 // Sprint Cuaderno N2-wire · notas que mencionan "Tercer sector"
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
+import { sectorMapHref } from '@/lib/sector-map-layers'
 
 const ACCENT = '#16a34a' // verde tercer sector
 const ACCENT_DARK = '#15803d'
@@ -138,6 +139,20 @@ export default function SectorTercerSectorPage() {
             Ecosistema de {ORGS.length} fundaciones, asociaciones declaradas de utilidad pública, cooperativas y ONGs cumbre.
             Fuentes: BDNS · IRPF 0,7% · CEPES · Plataforma del Tercer Sector · Coordinadora ONGD.
           </p>
+          <Link
+            href={sectorMapHref('tercer-sector')}
+            title="Abrir el mapa OSINT con las capas útiles de este sector activadas"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 10,
+              padding: '5px 11px', fontSize: 12, fontWeight: 600,
+              background: '#fff', color: ACCENT, border: `1px solid ${ACCENT}`, borderRadius: 6, textDecoration: 'none',
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M6 2 1.5 4v10L6 12l4 2 4.5-2V2L10 4 6 2Z" /><path d="M6 2v10M10 4v10" />
+            </svg>
+            Ver en el mapa OSINT
+          </Link>
         </header>
 
         {/* KPIs hero */}
