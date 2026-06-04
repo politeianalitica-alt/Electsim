@@ -1,13 +1,24 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect } from 'react'
 import { MODULES, moduleOfPath, itemOfPath } from './navigation'
+import { recordModuleVisit } from '@/lib/home/modules-access'
 
 export default function AppHeader() {
   const path = usePathname() || ''
   const activeModule = moduleOfPath(path)
   const activeItem = itemOfPath(path)
   const banner = activeItem?.banner
+
+  // Registra la página visitada para el bloque "Recientes" del inicio.
+  // Excluimos el propio inicio y el login (no son destinos de "volver a").
+  useEffect(() => {
+    if (!path || path === '/dashboard' || path === '/inicio' || path.startsWith('/login')) return
+    const label = activeItem?.label || activeModule?.label
+    const href = activeItem?.href || path
+    if (label) recordModuleVisit(href, label)
+  }, [path, activeItem, activeModule])
 
   return (
  <>

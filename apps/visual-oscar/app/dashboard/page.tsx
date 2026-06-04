@@ -18,6 +18,9 @@ import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
 import { SectorMapPreview } from '@/components/SectorMapPreview'
 import OsintAlertsCard from '@/components/OsintAlertsCard'
+import DemoBadge from '@/components/DemoBadge'
+import { getFavoriteHrefs, getRecentModules, toggleFavorite, type ModuleRef } from '@/lib/home/modules-access'
+import { getAgendaItems } from '@/lib/home/agenda'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // Bloques pesados (mercados, macro, geopolítica, energía, comercio) cargados de
@@ -294,6 +297,49 @@ export default function DashboardPage() {
     .sort((a, b) => LEVELS_ORDER.indexOf(a.level) - LEVELS_ORDER.indexOf(b.level))
   const top5Alerts = richAlerts.slice(0, 5)
 
+  // ── Inicio · resumen ejecutivo + favoritos/recientes + agenda + audio (TTS) ──
+  const [favHrefs, setFavHrefs] = useState<string[]>([])
+  const [recents, setRecents] = useState<ModuleRef[]>([])
+  const [speaking, setSpeaking] = useState(false)
+  useEffect(() => {
+    setFavHrefs(getFavoriteHrefs())
+    setRecents(getRecentModules())
+  }, [])
+  const onToggleFav = (href: string) => setFavHrefs(toggleFavorite(href))
+  const favModules = favHrefs
+    .map(h => MODULES.find(m => m.href === h))
+    .filter(Boolean) as typeof MODULES
+  const agendaItems = getAgendaItems(new Date(), 5)
+  const criticasTop = richAlerts.filter(a => a.level === 'rojo-parpadeante').length
+  const altasTop = richAlerts.filter(a => a.level === 'rojo').length
+  const ibexMacro = data?.macro?.find(m => /ibex/i.test(m.label))
+  const distKpi = data?.kpis?.find(k => /distancia/i.test(k.label))
+  const execParts: string[] = []
+  if (criticasTop) execParts.push(`${criticasTop} ${criticasTop === 1 ? 'alerta crítica' : 'alertas críticas'}`)
+  else if (altasTop) execParts.push(`${altasTop} ${altasTop === 1 ? 'alerta de prioridad alta' : 'alertas de prioridad alta'}`)
+  else execParts.push('sin alertas críticas')
+  if (ibexMacro) execParts.push(`IBEX 35 ${ibexMacro.value} (${ibexMacro.delta})`)
+  if (distKpi) execParts.push(`distancia PP–PSOE ${distKpi.value} esc.`)
+  execParts.push(`${agendaItems.length} hitos esta semana`)
+  const execSummaryText = execParts.join(' · ')
+  const speakSummary = () => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+    const synth = window.speechSynthesis
+    if (synth.speaking) { synth.cancel(); setSpeaking(false); return }
+    const intro = `${greetingForHour(new Date().getHours())}${userFirstName() ? ', ' + userFirstName() : ''}.`
+    const alertsLine = top5Alerts.length
+      ? `Lo urgente: ${top5Alerts.slice(0, 3).map(a => a.title).join('. ')}.`
+      : 'Hoy sin alertas urgentes.'
+    const u = new SpeechSynthesisUtterance(`${intro} Resumen de hoy. ${execSummaryText}. ${alertsLine}`)
+    u.lang = 'es-ES'
+    u.rate = 1.03
+    u.onend = () => setSpeaking(false)
+    u.onerror = () => setSpeaking(false)
+    synth.cancel()
+    synth.speak(u)
+    setSpeaking(true)
+  }
+
   useEffect(() => {
     const ok = isAuthenticated()
     if (!ok) router.push('/login')
@@ -324,6 +370,36 @@ export default function DashboardPage() {
  </p>
  </div>
 
+        {/* Resumen ejecutivo de hoy (C1) + escuchar en audio (C5) */}
+        <div style={{ display: 'flex', alignItems: 'stretch', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
+          <div style={{
+            flex: '1 1 320px', minWidth: 0, display: 'flex', alignItems: 'center', gap: 10,
+            background: '#fff', border: '1px solid #ECECEF', borderLeft: '3px solid #1F4E8C',
+            borderRadius: 10, padding: '9px 14px',
+          }}>
+            <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1F4E8C', flexShrink: 0 }}>Hoy</span>
+            <span style={{ fontSize: 13, color: '#1d1d1f', lineHeight: 1.4 }}>{execSummaryText}</span>
+          </div>
+          <button
+            onClick={speakSummary}
+            title="Escuchar el resumen de hoy"
+            aria-label={speaking ? 'Parar la lectura del resumen' : 'Escuchar el resumen de hoy'}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7, flexShrink: 0,
+              background: speaking ? '#1F4E8C' : '#fff', color: speaking ? '#fff' : '#1F4E8C',
+              border: '1px solid #1F4E8C', borderRadius: 10, padding: '0 14px', minHeight: 38,
+              fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              {speaking
+                ? <><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></>
+                : <polygon points="5 3 19 12 5 21 5 3"/>}
+            </svg>
+            {speaking ? 'Parar' : 'Escuchar'}
+          </button>
+        </div>
+
         {/* Acciones rápidas */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: -8, marginBottom: 18 }}>
           {[
@@ -341,6 +417,44 @@ export default function DashboardPage() {
               <span style={{ width: 6, height: 6, borderRadius: 99, background: qa.accent }} />
               {qa.label}
             </a>
+          ))}
+        </div>
+
+        {/* Acceso rápido · favoritos + recientes de módulos (C3) */}
+        {(favModules.length > 0 || recents.length > 0) && (
+          <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', marginBottom: 14 }}>
+            {favModules.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Favoritos</span>
+                {favModules.map(m => (
+                  <a key={m.href} href={m.href} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#1d1d1f', background: '#fff', border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px', textDecoration: 'none' }}>
+                    <span style={{ width: 6, height: 6, borderRadius: 99, background: m.accent }} />
+                    {m.label}
+                  </a>
+                ))}
+              </div>
+            )}
+            {recents.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Recientes</span>
+                {recents.map(r => (
+                  <a key={r.href} href={r.href} style={{ display: 'inline-flex', alignItems: 'center', fontSize: 12, fontWeight: 500, color: '#3a3a3d', background: '#fff', border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px', textDecoration: 'none' }}>{r.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Agenda de la semana · hitos institucionales (C4) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 18 }}>
+          <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Agenda</span>
+          <DemoBadge title="Hitos institucionales orientativos · sin calendario en vivo conectado" />
+          {agendaItems.map((a, i) => (
+            <span key={i} title={a.title} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 12, background: '#fff', border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px' }}>
+              <span style={{ width: 6, height: 6, borderRadius: 99, background: a.accent, flexShrink: 0 }} />
+              <span style={{ fontWeight: 700, color: a.accent, textTransform: 'capitalize' }}>{a.dateLabel}</span>
+              <span style={{ color: '#3a3a3d' }}>{a.title}</span>
+            </span>
           ))}
         </div>
 
@@ -526,6 +640,17 @@ export default function DashboardPage() {
                       }
  </div>
  <p style={{ fontSize: 11.5, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
+                    {Array.isArray(k.data) && k.data.length > 1 && (() => {
+                      const d = k.data
+                      const min = Math.min(...d), max = Math.max(...d), range = (max - min) || 1
+                      const w = 100, h = 18
+                      const pts = d.map((v, i) => `${(i / (d.length - 1)) * w},${h - ((v - min) / range) * h}`).join(' ')
+                      return (
+                        <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ marginTop: 8, display: 'block', opacity: 0.8 }} aria-hidden="true">
+                          <polyline points={pts} fill="none" stroke={k.accent} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke"/>
+                        </svg>
+                      )
+                    })()}
  </div>
                 )
               })}
@@ -1202,7 +1327,7 @@ export default function DashboardPage() {
  </span>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
-            {MODULES.map(m => (
+            {MODULES.map(m => { const fav = favHrefs.includes(m.href); return (
  <button key={m.href} onClick={() => router.push(m.href)} style={{
                 background: '#fff',
                 border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
@@ -1215,15 +1340,26 @@ export default function DashboardPage() {
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
  <span style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0, marginLeft: 6 }}>
                   {m.tag && (
- <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
+ <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent }}>
                       {m.tag}
  </span>
                   )}
+ <span
+                    role="button"
+                    tabIndex={0}
+                    aria-label={fav ? `Quitar ${m.label} de favoritos` : `Añadir ${m.label} a favoritos`}
+                    title={fav ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                    onClick={(e) => { e.stopPropagation(); onToggleFav(m.href) }}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onToggleFav(m.href) } }}
+                    style={{ cursor: 'pointer', color: fav ? '#F5A623' : '#C7C7CC', fontSize: 14, lineHeight: 1, display: 'inline-flex' }}
+                  >{fav ? '★' : '☆'}</span>
+ </span>
  </div>
  <p style={{ margin: 0, fontSize: 12, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
  </button>
-            ))}
+            )})}
  </div>
  </section>
 
