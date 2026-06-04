@@ -400,6 +400,14 @@ export default function DashboardPage() {
           </button>
         </div>
 
+        {/* Banner de error · datos principales (B2) · no bloquea el resto de la página */}
+        {homeQ.isError && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', background: 'rgba(220,38,38,0.06)', border: '1px solid #F7C9C9', borderRadius: 10, padding: '9px 14px', marginBottom: 14 }}>
+            <span style={{ fontSize: 13, color: '#B91C1C', fontWeight: 600 }}>No hemos podido cargar los datos principales del inicio.</span>
+            <button onClick={() => refresh()} style={{ fontSize: 12.5, fontWeight: 600, color: '#fff', background: '#B91C1C', border: 'none', borderRadius: 8, padding: '5px 12px', cursor: 'pointer' }}>Reintentar</button>
+          </div>
+        )}
+
         {/* Acciones rápidas */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: -8, marginBottom: 18 }}>
           {[
