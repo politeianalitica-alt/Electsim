@@ -243,7 +243,53 @@ export default function DashboardPage() {
     () => apiClient.get('/api/intelligence/signals?legacy=1'),
     { refetchInterval: 30_000 },
   )
-  const richAlerts: AlertaItem[] = (signalsData?.signals ?? [])
+  // "Lo urgente de hoy" sale de una fuente VIVA que varía: artículos de alto
+  // impacto del feed (si hay backend) o, en demo, los titulares RSS de news_pulse.
+  // Cada urgente lleva su medio como fuente y enlaza a la noticia real. Si no hay
+  // noticias, cae a las señales curadas.
+  const relTs = (iso: string | null): string => {
+    if (!iso) return 'hoy'
+    const mm = Math.round((Date.now() - Date.parse(iso)) / 60000)
+    if (isNaN(mm)) return 'hoy'
+    if (mm < 60) return `hace ${mm} min`
+    const h = Math.round(mm / 60)
+    return h < 24 ? `hace ${h} h` : `hace ${Math.round(h / 24)} d`
+  }
+  const googleNews = (t: string) => `https://news.google.com/search?q=${encodeURIComponent(t)}&hl=es`
+  const newsUrgent: AlertaItem[] = (() => {
+    const arts = newsRaw?.articles ?? []
+    const high = arts.filter(a => a.ai_spain_impact === 'critico' || a.ai_spain_impact === 'alto' || (a.ai_relevance ?? 0) >= 0.72)
+    if (high.length) {
+      return high
+        .sort((a, b) => (b.ai_relevance ?? 0) - (a.ai_relevance ?? 0))
+        .slice(0, 6)
+        .map(a => ({
+          id: `urg-${a.id}`,
+          level: (a.ai_spain_impact === 'critico' ? 'rojo-parpadeante' : a.ai_spain_impact === 'alto' ? 'rojo' : 'naranja') as AlertaItem['level'],
+          category: (a.ai_category ?? 'actualidad') as AlertaItem['category'],
+          title: a.title,
+          description: a.ai_summary ?? '',
+          source: a.source_name,
+          ts: relTs(a.published_at),
+          evidenceUrl: a.url || googleNews(a.title),
+        }))
+    }
+    const np = data?.news_pulse ?? []
+    return np.slice()
+      .sort((a, b) => (b.relevance ?? 0) - (a.relevance ?? 0))
+      .slice(0, 6)
+      .map(n => ({
+        id: `urg-${n.id}`,
+        level: ((n.relevance ?? 0) >= 0.9 ? 'rojo' : (n.relevance ?? 0) >= 0.78 ? 'naranja' : 'amarillo') as AlertaItem['level'],
+        category: 'actualidad' as AlertaItem['category'],
+        title: n.title,
+        description: '',
+        source: n.source,
+        ts: 'hoy',
+        evidenceUrl: n.url || googleNews(n.title),
+      }))
+  })()
+  const richAlerts: AlertaItem[] = (newsUrgent.length ? newsUrgent : (signalsData?.signals ?? []))
     .slice()
     .sort((a, b) => LEVELS_ORDER.indexOf(a.level) - LEVELS_ORDER.indexOf(b.level))
   const top5Alerts = richAlerts.slice(0, 5)
@@ -534,9 +580,9 @@ export default function DashboardPage() {
           boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
         }}>
           {(() => {
-            const criticas = richAlerts.filter(a => a.level === 'CRITICA' || (a.level as string) === 'critica').length
-            const altas = richAlerts.filter(a => a.level === 'ALTA' || (a.level as string) === 'alta').length
-            const medias = richAlerts.filter(a => a.level === 'MEDIA' || (a.level as string) === 'media').length
+            const criticas = richAlerts.filter(a => a.level === 'rojo-parpadeante').length
+            const altas = richAlerts.filter(a => a.level === 'rojo').length
+            const medias = richAlerts.filter(a => a.level === 'naranja' || a.level === 'amarillo').length
             return (
               <>
                 {/* Header con contador desglosado */}
@@ -899,7 +945,7 @@ export default function DashboardPage() {
                     source: n.source,
                     sentiment: n.sentiment,
                     relevance: n.relevance,
-                    url: n.url,
+                    url: n.url ?? newsRaw?.articles?.find(a => a.title === n.title)?.url ?? googleNews(n.title),
                     parties: sanitizeParties(n.parties),
                     ts: null,
                   }

@@ -101,6 +101,7 @@ export interface DashboardNewsPulse {
   relevance: number
   date: string | null
   parties: string
+  url?: string | null
 }
 
 export interface DashboardHome {
@@ -194,6 +195,7 @@ function deriveNewsPulse(articles: AggregatedArticle[]): DashboardNewsPulse[] {
       relevance: Math.min(1, 0.6 + (a.medio.audiencia_M / 15)),
       date: a.pub_date_iso,
       parties: extractPartiesMentioned(a.title + ' ' + a.description),
+      url: a.link,
     }))
 }
 
