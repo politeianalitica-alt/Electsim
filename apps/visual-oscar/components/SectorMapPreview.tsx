@@ -7,6 +7,10 @@ interface Props {
   accent?: string
   /** Altura del mini-mapa (px). */
   height?: number
+  /** Texto de la etiqueta superior (por defecto "N capas del sector"). */
+  caption?: string
+  /** Margen superior (px). Por defecto 18; usar 0 dentro de rejillas. */
+  marginTop?: number
 }
 
 /**
@@ -14,7 +18,7 @@ interface Props {
  * más un botón para abrir el módulo de mapa completo. Reutiliza /osint-global
  * en modo embed (sin el chrome) vía iframe del mismo origen.
  */
-export function SectorMapPreview({ sector, accent = '#111827', height = 340 }: Props) {
+export function SectorMapPreview({ sector, accent = '#111827', height = 340, caption, marginTop = 18 }: Props) {
   const layers = SECTOR_MAP_LAYERS[sector] ?? []
   if (layers.length === 0) return null
   const embedSrc = `/osint-global?layers=${layers.join(',')}&lat=22&lon=10&zoom=1.7&embed=1`
@@ -24,7 +28,7 @@ export function SectorMapPreview({ sector, accent = '#111827', height = 340 }: P
     <div
       style={{
         position: 'relative',
-        marginTop: 18,
+        marginTop,
         borderRadius: 12,
         overflow: 'hidden',
         border: '1px solid #e5e7eb',
@@ -47,7 +51,7 @@ export function SectorMapPreview({ sector, accent = '#111827', height = 340 }: P
           padding: '4px 9px', borderRadius: 6, pointerEvents: 'none',
         }}
       >
-        Mapa OSINT · {layers.length} capas del sector
+        Mapa OSINT · {caption ?? `${layers.length} capas del sector`}
       </div>
 
       {/* Botón ampliar información */}

@@ -12,6 +12,8 @@ export const SECTOR_MAP_LAYERS: Record<string, string[]> = {
   vivienda: ["gdp_pc", "hdi", "sea_state", "rainfall"],
   turismo: ["airports", "flights", "maritime", "ship_passenger", "port_commercial", "conflict_zones", "sea_state", "air_quality"],
   "tercer-sector": ["refugee_camps", "conflict_zones", "war_sudan", "war_congo", "war_sahel", "gdacs", "deforestation", "hdi"],
+  // Vista de inicio: situación mundial (conflictos, guerras, desastres, sanciones)
+  inicio: ["conflict_zones", "war_ukraine", "war_gaza", "war_iran", "war_sudan", "gdacs", "sanctions", "alliances"],
 };
 
 /** URL del mapa OSINT con las capas del sector preactivadas y una vista global. */

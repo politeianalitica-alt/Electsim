@@ -16,6 +16,8 @@ import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/comp
 import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
+import OsintAlertsCard from '@/components/OsintAlertsCard'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // Bloques pesados (mercados, macro, geopolítica, energía, comercio) cargados de
@@ -300,6 +302,23 @@ export default function DashboardPage() {
           >
             Abrir dosieres →
  </a>
+ </section>
+
+        {/* ═══════════════ SITUACIÓN MUNDIAL · OSINT en vivo ═══════════════
+           Mini-mapa OSINT (conflictos, guerras, desastres, sanciones) + alertas
+           en vivo. Reutiliza el módulo de mapa en modo embed. */}
+ <section style={{ marginBottom: 20 }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+ <span style={{ width: 7, height: 7, borderRadius: 99, background: '#0E7490' }} />
+              Situación mundial · OSINT en vivo
+ </h2>
+ <a href="/osint-global" style={{ fontSize: 12, fontWeight: 600, color: '#0E7490', textDecoration: 'none' }}>Abrir mapa completo →</a>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.7fr) minmax(0, 1fr)', gap: 14 }} className="home-osint-grid">
+ <SectorMapPreview sector="inicio" accent="#0E7490" height={340} caption="situación mundial · conflictos y desastres" marginTop={0} />
+ <OsintAlertsCard height={340} />
+ </div>
  </section>
 
         {/* ═══════════════ 3 · PANEL EJECUTIVO · KPIs ═══════════════
