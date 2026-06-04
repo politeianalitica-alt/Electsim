@@ -9,6 +9,7 @@ import { memberStatusColor } from "@/lib/workspace/workspace-utils";
 import { useWorkspaceStore } from "@/context/WorkspaceContext";
 import { IconBack, IconCommand, IconPanelRight, IconAlertCircle } from "./workspace-icons";
 import { WorkspaceNotifications } from "./workspace-notifications";
+import { WorkspaceQuickAccess } from "./workspace-quick-access";
 import type { WorkspaceSummary } from "@/types/workspace";
 
 interface WorkspaceTopbarProps {
@@ -121,6 +122,9 @@ export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps
  </span>
         )}
  </div>
+
+      {/* Acceso rápido (recientes + favoritos) */}
+ <WorkspaceQuickAccess />
 
       {/* Notificaciones */}
  <WorkspaceNotifications workspaceId={workspaceId} />

@@ -9,6 +9,7 @@ import { WorkspaceTopbar } from "./workspace-topbar";
 import { WorkspaceTabs } from "./workspace-tabs";
 import { WorkspaceAgentPanel } from "./workspace-agent-panel";
 import { WorkspaceCommandPalette } from "./workspace-command-palette";
+import { RecentTracker } from "./recent-tracker";
 
 interface WorkspaceShellProps {
   workspaceId: string;
@@ -71,6 +72,8 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
 
       {/* Command palette (portal-like, fixed) */}
  <WorkspaceCommandPalette workspaceId={workspaceId} />
+      {/* Tracker invisible de recientes */}
+ <RecentTracker workspaceId={workspaceId} />
  </div>
   );
 }
