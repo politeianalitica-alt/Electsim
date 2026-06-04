@@ -273,7 +273,17 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
   [style*="grid-template-columns:1fr 2fr"], [style*="grid-template-columns: 1fr 2fr"],
   [style*="grid-template-columns:1.1fr 2fr"], [style*="grid-template-columns: 1.1fr 2fr"],
   [style*="grid-template-columns:1.1fr 1fr"], [style*="grid-template-columns: 1.1fr 1fr"],
-  [style*="grid-template-columns:1.7fr"], [style*="minmax(0, 1.7fr) minmax(0, 1fr)"]
+  [style*="grid-template-columns:1fr 1.3fr"], [style*="grid-template-columns:1fr 1.5fr"],
+  [style*="grid-template-columns:1fr 1.7fr"], [style*="grid-template-columns:1fr 1.8fr"],
+  [style*="minmax(0, 1.7fr) minmax(0, 1fr)"],
+  /* Pistas enteras Nfr (N≥1.7) al inicio = siempre splits de 2 paneles
+     (7fr 5fr, 8fr 4fr, 6fr 6fr…), nunca filas de barra (esas van px-primero). */
+  [style*="grid-template-columns:1.7fr"], [style*="grid-template-columns:1.8fr"],
+  [style*="grid-template-columns:1.9fr"], [style*="grid-template-columns:2fr"],
+  [style*="grid-template-columns:3fr"], [style*="grid-template-columns:4fr"],
+  [style*="grid-template-columns:5fr"], [style*="grid-template-columns:6fr"],
+  [style*="grid-template-columns:7fr"], [style*="grid-template-columns:8fr"],
+  [style*="grid-template-columns:9fr"]
   { grid-template-columns: 1fr !important; }
   .span-3,.span-4,.span-5,.span-6,.span-8,.span-12 { grid-column: 1 / -1 !important; }
   /* Tiras de KPIs/stats/selectores (repeat(N,…) y auto-fit) → 2 columnas
