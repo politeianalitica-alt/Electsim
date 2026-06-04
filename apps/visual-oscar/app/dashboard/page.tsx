@@ -1121,8 +1121,9 @@ export default function DashboardPage() {
 
             {/* Header + tab toggle */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
- <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                 Qué pasa en cada comunidad
+ <DemoBadge title="Estimaciones por comunidad de muestra · no conectadas a un proveedor de sondeos en vivo" />
  </h2>
  <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
                 {(['electoral', 'narrativa', 'figuras'] as MapTab[]).map(tab => (

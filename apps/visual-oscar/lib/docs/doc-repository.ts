@@ -36,6 +36,40 @@ export const docRepository = {
     return newDoc;
   },
 
+  /** Crea un documento a partir de texto plano (p. ej. una salida de IA),
+   *  convirtiendo cada párrafo en un bloque. Devuelve el doc creado. */
+  createDocFromText(
+    workspaceId: string,
+    title: string,
+    text: string,
+    kind: DocWithBlocks["kind"] = "analysis",
+  ): DocWithBlocks {
+    const now = new Date().toISOString();
+    const paras = text.split(/\n{2,}/).map(s => s.trim()).filter(Boolean);
+    const blocks: DocBlock[] = (paras.length ? paras : [text.trim() || "—"]).map(p => ({
+      id: generateId("blk"),
+      type: "paragraph",
+      content: p,
+    }));
+    const newDoc: DocWithBlocks = {
+      id: generateId("doc"),
+      workspaceId,
+      title: title.trim() || "Documento de IA",
+      kind,
+      status: "draft",
+      authorId: "u1",
+      createdAt: now,
+      updatedAt: now,
+      tags: ["ia"],
+      relatedIssueIds: [],
+      clientVisible: false,
+      blocks,
+    };
+    docsMockData.push(newDoc);
+    persist(PKEY, docsMockData);
+    return newDoc;
+  },
+
   saveDoc(docId: string, patch: Partial<DocWithBlocks>) {
     const idx = docsMockData.findIndex(d => d.id === docId);
     if (idx !== -1) {
