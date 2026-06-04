@@ -287,6 +287,7 @@ export default function Dashboard() {
     // Lote D — Humanitario y medioambiente
     refugee_camps: false,
     deforestation: false,
+    mobile_coverage: false,
     trains: false,
     railways: false,
     satnogs: false,
@@ -672,6 +673,11 @@ export default function Dashboard() {
     if (activeLayers.refugee_camps && !layerFetchedRef.current.has('refugee_camps')) {
       fetchEndpoint('/api/osiris/refugee-camps', d => ({ refugee_camps: d.camps }));
       layerFetchedRef.current.add('refugee_camps');
+    }
+    // Cobertura/rendimiento móvil (Ookla)
+    if (activeLayers.mobile_coverage && !layerFetchedRef.current.has('mobile_coverage')) {
+      fetchEndpoint('/api/osiris/mobile-coverage', d => ({ mobile_coverage: d.coverage }));
+      layerFetchedRef.current.add('mobile_coverage');
     }
     // Lote Espacio y Marítimo
     if (activeLayers.lighthouses && !layerFetchedRef.current.has('lighthouses')) {

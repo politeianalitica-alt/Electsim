@@ -125,7 +125,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
       // Sources
       const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
-        'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps'];
+        'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
       sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
@@ -313,6 +313,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'agriculture-label', type: 'symbol', source: 'agriculture', minzoom: 3,
         layout: { 'text-field': ['get', 'crop'], 'text-size': ['interpolate',['linear'],['zoom'], 3,9, 6,12], 'text-font': ['Open Sans Bold'], 'text-transform': 'uppercase', 'text-letter-spacing': 0.05, 'text-allow-overlap': false },
         paint: { 'text-color': ['coalesce', ['get', 'color'], '#9CCC65'], 'text-halo-color': '#06140a', 'text-halo-width': 1.4 }});
+
+      // ── Cobertura/rendimiento móvil (Ookla, teselas z9 coloreadas por velocidad) ──
+      map.addLayer({ id: 'mobile-coverage-fill', type: 'fill', source: 'mobile-coverage',
+        layout: { visibility: 'none' }, paint: {
+          'fill-color': ['coalesce', ['get', 'color'], '#FDD835'], 'fill-opacity': 0.55,
+        }});
 
       // ── Placas tectónicas (líneas de borde de placa) ──
       map.addLayer({ id: 'tectonics-line', type: 'line', source: 'tectonics',
@@ -1424,6 +1430,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     };
     Object.entries(PT_COLORS).forEach(([layer, color]) => map.on('click', layer, onPointClick(color)));
+
+    // ── Popup de cobertura/rendimiento móvil (Ookla) ──
+    map.on('click', 'mobile-coverage-fill', e => {
+      const f = e.features?.[0]; if (!f) return;
+      const p = f.properties as any; const color = p.color || '#FDD835';
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid ${color}55;min-width:200px;">
+        <div style="color:${color};font-size:12px;font-weight:700;margin-bottom:5px;">Rendimiento móvil (Ookla)</div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.8;">
+          <div><span style="color:#5C5A54;">Bajada · </span><span style="color:#E8E6E0;font-weight:700;">${p.dl} Mbps</span></div>
+          <div><span style="color:#5C5A54;">Subida · </span><span style="color:#E8E6E0;">${p.ul} Mbps</span></div>
+          <div><span style="color:#5C5A54;">Latencia · </span><span style="color:#E8E6E0;">${p.lat} ms</span></div>
+          <div><span style="color:#5C5A54;">Muestras · </span><span style="color:#E8E6E0;">${Number(p.tests).toLocaleString('es')}</span></div>
+        </div>
+        <div style="font-size:8px;color:#5C5A54;margin-top:6px;">Tesela ~78 km · Speedtest by Ookla · Q1 2026</div>
+      </div>`);
+    });
     // ── Piratería ──
     map.on('click', 'piracy-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
@@ -1488,7 +1510,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -2544,7 +2566,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('cable-landings', activeLayers.cable_landings ? toFeat(data.infra_landings) : []);
     setGeo('net-shutdowns', activeLayers.net_shutdowns ? toFeat(data.infra_shutdowns) : []);
     setGeo('refugee-camps', activeLayers.refugee_camps ? toFeat(data.refugee_camps) : []);
-  }, [mapReady, setGeo, data.industry_refineries, data.industry_lng, data.industry_fabs, data.industry_nuclear, data.industry_dams, data.infra_ixps, data.infra_landings, data.infra_shutdowns, data.refugee_camps, activeLayers.refineries, activeLayers.lng_terminals, activeLayers.fabs, activeLayers.nuclear_plants, activeLayers.dams, activeLayers.ixps, activeLayers.cable_landings, activeLayers.net_shutdowns, activeLayers.refugee_camps]);
+    setGeo('mobile-coverage', activeLayers.mobile_coverage && data.mobile_coverage?.features ? data.mobile_coverage.features : []);
+  }, [mapReady, setGeo, data.industry_refineries, data.industry_lng, data.industry_fabs, data.industry_nuclear, data.industry_dams, data.infra_ixps, data.infra_landings, data.infra_shutdowns, data.refugee_camps, data.mobile_coverage, activeLayers.refineries, activeLayers.lng_terminals, activeLayers.fabs, activeLayers.nuclear_plants, activeLayers.dams, activeLayers.ixps, activeLayers.cable_landings, activeLayers.net_shutdowns, activeLayers.refugee_camps, activeLayers.mobile_coverage]);
 
 
   // Visibility
@@ -2635,6 +2658,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['net-shutdowns-dots','net-shutdowns-label'], activeLayers.net_shutdowns);
     setVis(['refugee-camps-dots','refugee-camps-label'], activeLayers.refugee_camps);
     setVis(['deforestation-layer'], activeLayers.deforestation);
+    setVis(['mobile-coverage-fill'], activeLayers.mobile_coverage);
 
     setVis(['balloon-dots','balloon-label'], activeLayers.balloons);
     setVis(['rad-glow','rad-dots','rad-label'], activeLayers.radiation);

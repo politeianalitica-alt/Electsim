@@ -171,6 +171,7 @@ const LAYER_GROUPS = [
       { key: 'ixps', label: 'Puntos de intercambio (IXP)', icon: Network, color: '#AB47BC', dataKey: '', sectionLabel: 'CONECTIVIDAD' },
       { key: 'cable_landings', label: 'Aterrizajes de cable submarino', icon: Cable, color: '#26C6DA', dataKey: '' },
       { key: 'net_shutdowns', label: 'Apagones de internet', icon: Zap, color: '#EF5350', dataKey: '' },
+      { key: 'mobile_coverage', label: 'Cobertura móvil (Ookla)', icon: Radio, color: '#43A047', dataKey: '' },
     ],
   },
   // ═══════════════ 6 · MEDIO AMBIENTE Y RIESGOS ═══════════════

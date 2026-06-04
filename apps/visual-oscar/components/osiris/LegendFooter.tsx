@@ -71,6 +71,8 @@ const LEGENDS: Legend[] = [
   { id: 'landings', title: 'Cables submarinos', active: (a) => a.cable_landings, items: [ { c: '#26C6DA', l: 'Estación de aterrizaje' } ] },
   { id: 'shutdowns', title: 'Apagones de internet', active: (a) => a.net_shutdowns, items: [
     { c: '#EF5350', l: 'Guerra' }, { c: '#AB47BC', l: 'Elecciones' }, { c: '#FF9800', l: 'Protesta' }, { c: '#42A5F5', l: 'Exámenes' } ] },
+  { id: 'mobile', title: 'Cobertura móvil · bajada (Ookla)', active: (a) => a.mobile_coverage, items: [
+    { c: '#E53935', l: '<10 Mbps' }, { c: '#FB8C00', l: '10–25' }, { c: '#FDD835', l: '25–50' }, { c: '#9CCC65', l: '50–100' }, { c: '#43A047', l: '100–200' }, { c: '#00E5FF', l: '≥200' } ] },
   // ── Lote D: humanitario y medioambiente ──
   { id: 'camps', title: 'Campos de refugiados', active: (a) => a.refugee_camps, items: [ { c: '#FF9800', l: 'Campo (tamaño = población)' } ] },
   { id: 'defor', title: 'Deforestación', active: (a) => a.deforestation, items: [ { c: '#E53935', l: 'Pérdida de cobertura arbórea' } ] },
