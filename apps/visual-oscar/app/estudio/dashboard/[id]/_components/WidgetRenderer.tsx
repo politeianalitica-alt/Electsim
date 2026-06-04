@@ -79,7 +79,7 @@ function WidgetContent({ widget, rows, columns }: {
     case 'text':
       return (
  <div className={styles.textWidget}>
- <div dangerouslySetInnerHTML={{ __html: (cfg.content ?? '').replace(/\n/g, '<br/>') }} />
+ <div dangerouslySetInnerHTML={{ __html: (cfg.content ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\n/g, '<br/>') }} />
  </div>
       )
 

@@ -324,6 +324,26 @@ export default function DashboardPage() {
  </p>
  </div>
 
+        {/* Acciones rápidas */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: -8, marginBottom: 18 }}>
+          {[
+            { label: 'Briefing diario', href: '/briefing', accent: '#2d8a39' },
+            { label: 'Abrir workspace', href: '/workspaces', accent: '#7C3AED' },
+            { label: 'Mapa OSINT', href: '/osint-global', accent: '#0E7490' },
+            { label: 'Alertas activas', href: '/alertas', accent: '#D97706' },
+          ].map(qa => (
+            <a key={qa.href} href={qa.href} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 12.5, fontWeight: 600, color: qa.accent,
+              background: '#fff', border: `1px solid ${qa.accent}33`, borderRadius: 999,
+              padding: '6px 13px', textDecoration: 'none',
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: 99, background: qa.accent }} />
+              {qa.label}
+            </a>
+          ))}
+        </div>
+
         {/* ═══════════════ 1 · IA · chat con PoliteIA ═══════════════
            Primera vista de la pantalla. Cabecera dark con la conversación
            con PoliteIA + lectura analítica del día + tres preguntas
