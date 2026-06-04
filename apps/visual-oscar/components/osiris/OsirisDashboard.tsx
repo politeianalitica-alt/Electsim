@@ -183,6 +183,7 @@ export default function Dashboard() {
   const [showLayers, setShowLayers] = useState(true);
   const [showIntel, setShowIntel] = useState(true);
   const [showRecon, setShowRecon] = useState(false); // panel de Reconocimiento (flotante)
+  const [embed, setEmbed] = useState(false); // modo embebido (iframe sectorial): oculta el chrome
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
@@ -345,6 +346,7 @@ export default function Dashboard() {
       setFlyToLocation({ lat, lng: lon, ts: Date.now() });
       if (!isNaN(zoom)) setMapView(v => ({ ...v, zoom }));
     }
+    if (p.get('embed') === '1') setEmbed(true);
     const layers = p.get('layers');
     if (layers) {
       const active = layers.split(',');
@@ -857,7 +859,7 @@ export default function Dashboard() {
 
 
   return (
-    <main className="osiris-root fixed inset-x-0 bottom-0 top-[44px] bg-[var(--bg-void)] overflow-hidden" style={{ position: 'fixed', top: 44, left: 0, right: 0, bottom: 0 }}>
+    <main className={`osiris-root fixed inset-x-0 bottom-0 ${embed ? 'top-0' : 'top-[44px]'} bg-[var(--bg-void)] overflow-hidden`} style={{ position: 'fixed', top: embed ? 0 : 44, left: 0, right: 0, bottom: 0 }}>
 
       {/* ── SPLASH ── */}
       <AnimatePresence>
@@ -1078,7 +1080,7 @@ export default function Dashboard() {
       {/* Los controles de vista del mapa ahora viven en el panel izquierdo, bajo las capas. */}
 
       {/* ── RECONOCIMIENTO (desktop): botón flotante + panel a la derecha ── */}
-      {!isMobile && (
+      {!isMobile && !embed && (
         <>
           <motion.button
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.5 }}
@@ -1144,7 +1146,7 @@ export default function Dashboard() {
       </motion.div>
 
       {/* ── TOP-RIGHT STATUS (desktop) — C2 DISPLAY ── */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }} className="status-bar-desktop absolute top-3 right-3 md:top-4 md:right-5 z-[200] pointer-events-none flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-muted)]">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }} className={`status-bar-desktop absolute top-3 right-3 md:top-4 md:right-5 z-[200] pointer-events-none flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-muted)] ${embed ? 'hidden' : ''}`}>
 
         {/* Zulu Clock */}
         <span className="hidden lg:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm border border-[var(--border-primary)] bg-black/30">
@@ -1168,7 +1170,7 @@ export default function Dashboard() {
       </motion.div>
 
       {/* ── LEFT HUD (desktop): Capas (scroll) + selectores de mapa + coordenadas ── */}
-      <div className="desktop-panel absolute left-5 top-20 bottom-5 w-80 flex flex-col gap-3 z-[200] pointer-events-none">
+      <div className={`desktop-panel absolute left-5 top-20 bottom-5 w-80 flex flex-col gap-3 z-[200] pointer-events-none ${embed ? 'hidden' : ''}`}>
         {/* Localizador */}
         <div className="pointer-events-auto flex-shrink-0"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
         {/* Capas — única sección con scroll */}
@@ -1396,7 +1398,7 @@ export default function Dashboard() {
       {/* Las coordenadas viven ahora en el panel izquierdo, bajo los selectores. */}
 
       {/* ── Scale Bar (desktop) — a la derecha del buscador, encima de las capas ── */}
-      <div className="desktop-only absolute top-[5.5rem] left-[21.5rem] z-[201] pointer-events-none">
+      <div className={`desktop-only absolute top-[5.5rem] left-[21.5rem] z-[201] pointer-events-none ${embed ? 'hidden' : ''}`}>
         <ScaleBar zoom={mapView.zoom} latitude={mapView.latitude} />
       </div>
 
@@ -1462,7 +1464,7 @@ export default function Dashboard() {
       <KeyboardShortcuts />
 
       {/* ── GLOBAL STATUS TICKER (bottom) ── */}
-      <GlobalStatusBar />
+      {!embed && <GlobalStatusBar />}
 
       {/* Shortcut hint */}
       <div className="desktop-only absolute bottom-[26px] right-5 z-[200] pointer-events-none text-[6px] font-mono text-[var(--text-muted)]/40 tracking-widest">

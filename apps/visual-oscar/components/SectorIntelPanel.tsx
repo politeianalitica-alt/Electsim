@@ -13,7 +13,7 @@
  */
 import { useSectorIntel } from '@/hooks/useSectorIntel'
 import { SECTOR_INTEL_CONFIG, type SectorIntelKey } from '@/types/sector-intel'
-import { sectorMapHref } from '@/lib/sector-map-layers'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface Props {
   sector: SectorIntelKey
@@ -135,21 +135,6 @@ export function SectorIntelPanel({
           </h2>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11, color: '#6b7280' }}>
-          <a
-            href={sectorMapHref(sector)}
-            title="Abrir el mapa OSINT con las capas útiles de este sector activadas"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              padding: '4px 10px', fontSize: 11, fontWeight: 600,
-              background: '#fff', color: accentColor,
-              border: `1px solid ${accentColor}`, borderRadius: 4, textDecoration: 'none',
-            }}
-          >
-            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <path d="M6 2 1.5 4v10L6 12l4 2 4.5-2V2L10 4 6 2Z" /><path d="M6 2v10M10 4v10" />
-            </svg>
-            Ver en el mapa
-          </a>
           {detailHref ? (
             <a
               href={detailHref}
@@ -346,6 +331,9 @@ export function SectorIntelPanel({
           </span>
         ))}
       </div>
+
+      {/* Vista inicial del mapa OSINT con las capas del sector + ampliar */}
+      <SectorMapPreview sector={sector} accent={accentColor} />
     </section>
   )
 }
