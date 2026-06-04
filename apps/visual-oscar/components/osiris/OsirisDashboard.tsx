@@ -1395,8 +1395,8 @@ export default function Dashboard() {
 
       {/* Las coordenadas viven ahora en el panel izquierdo, bajo los selectores. */}
 
-      {/* ── Scale Bar (desktop) ── */}
-      <div className="desktop-only absolute bottom-[4.5rem] left-[20rem] z-[201] pointer-events-none">
+      {/* ── Scale Bar (desktop) — a la derecha del buscador, encima de las capas ── */}
+      <div className="desktop-only absolute top-[5.5rem] left-[21.5rem] z-[201] pointer-events-none">
         <ScaleBar zoom={mapView.zoom} latitude={mapView.latitude} />
       </div>
 
