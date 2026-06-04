@@ -303,6 +303,11 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
   .ah-banner-metric { font-size: 44px !important; }
   .ah-banner-metric span { font-size: 22px !important; }
 
+  /* — Workspace en móvil: una sola columna (sin sidebar ni panel de agente);
+       la navegación entre secciones queda en las pestañas + el menú global — */
+  .ws-sidebar-wrap, .ws-agent-wrap { display: none !important; }
+  .ws-content { padding: 16px 14px 40px !important; }
+
   /* — Login centrado y cómodo — */
   .login-shell { padding: 28px 16px !important; min-height: calc(100vh - 44px); }
   .login-card { padding: 32px 22px 28px !important; border-radius: 18px !important; }

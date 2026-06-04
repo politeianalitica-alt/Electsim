@@ -23,4 +23,10 @@ export const tableRepository = {
       persist(PKEY, tablesMockData);
     }
   },
+  /** Crea una tabla nueva (p. ej. importada de CSV) y la persiste. */
+  createTable(table: PoliteiTable): PoliteiTable {
+    tablesMockData.unshift(table);
+    persist(PKEY, tablesMockData);
+    return table;
+  },
 };

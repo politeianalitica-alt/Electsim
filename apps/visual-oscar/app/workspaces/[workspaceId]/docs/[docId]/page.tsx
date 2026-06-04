@@ -5,6 +5,7 @@ import { useDocEditor } from "@/hooks/workspace/use-doc-editor";
 import { PoliteiBlockEditor } from "@/components/editor/dynamic-editor";
 import { DocContextPanel } from "@/app/_components/docs/doc-context-panel";
 import { BadgeStatus } from "@/app/_components/workspace/badges";
+import { downloadDocAsMarkdown, downloadDocAsPdf } from "@/lib/docs/pdf-generator";
 
 export default function DocEditorPage({
   params,
@@ -45,7 +46,7 @@ export default function DocEditorPage({
  <span className="text-[#3a3a3d]">/</span>
  <BadgeStatus value={doc.status} />
  </div>
- <div className="flex items-center gap-2 text-[11px] text-[#6e6e73]">
+ <div className="flex items-center gap-3 text-[11px] text-[#6e6e73]">
             {isSaving ? (
  <span className="text-amber-400">Guardando…</span>
             ) : lastSavedAt ? (
@@ -53,6 +54,18 @@ export default function DocEditorPage({
             ) : (
  <span>Sin cambios</span>
             )}
+            <div className="flex items-center gap-1">
+ <button
+                onClick={() => downloadDocAsMarkdown({ doc, blocks: doc.blocks })}
+                title="Descargar como Markdown"
+                className="rounded-md border border-[#e8e8ed] px-2 py-1 font-semibold text-[#3a3a3d] hover:border-[#1F4E8C] hover:text-[#1F4E8C] transition-colors"
+              >Markdown</button>
+ <button
+                onClick={() => downloadDocAsPdf({ doc, blocks: doc.blocks })}
+                title="Descargar como PDF"
+                className="rounded-md border border-[#e8e8ed] px-2 py-1 font-semibold text-[#3a3a3d] hover:border-[#1F4E8C] hover:text-[#1F4E8C] transition-colors"
+              >PDF</button>
+            </div>
  </div>
  </div>
 
