@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
-import { isAuthenticated } from '@/lib/auth'
+import { isAuthenticated, getAccessToken } from '@/lib/auth'
 import dynamic from 'next/dynamic'
 import { useApiQuery } from '@/lib/api/use-api-query'
 import { apiClient } from '@/lib/api/client'
@@ -192,6 +192,26 @@ function ArrowIcon({ size = 11 }: { size?: number }) {
   )
 }
 
+// Saludo personalizado · el token local codifica el email (local.<b64>.session).
+const KNOWN_NAMES: Record<string, string> = { oscar: 'Óscar', antonio: 'Antonio', invitado: 'Invitado' }
+function userFirstName(): string {
+  try {
+    const t = getAccessToken()
+    if (!t) return ''
+    const email = atob(t.split('.')[1] || '')
+    const local = (email.split('@')[0] || '').toLowerCase()
+    return KNOWN_NAMES[local] ?? (local ? local.charAt(0).toUpperCase() + local.slice(1) : '')
+  } catch {
+    return ''
+  }
+}
+function greetingForHour(h: number): string {
+  if (h < 6) return 'Buenas noches'
+  if (h < 13) return 'Buenos días'
+  if (h < 21) return 'Buenas tardes'
+  return 'Buenas noches'
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
@@ -247,6 +267,16 @@ export default function DashboardPage() {
  <AppHeader/>
 
  <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
+
+        {/* ═══════════════ 0 · SALUDO PERSONALIZADO ═══════════════ */}
+ <div style={{ marginBottom: 18 }}>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', margin: 0, color: '#1d1d1f' }}>
+            {greetingForHour(new Date().getHours())}{userFirstName() ? `, ${userFirstName()}` : ''}
+ </h1>
+ <p style={{ fontSize: 13, color: '#6e6e73', margin: '3px 0 0', textTransform: 'capitalize' }}>
+            {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+ </p>
+ </div>
 
         {/* ═══════════════ 1 · IA · chat con PoliteIA ═══════════════
            Primera vista de la pantalla. Cabecera dark con la conversación
@@ -1040,6 +1070,7 @@ export default function DashboardPage() {
  <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
  <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
                 Quién está subiendo y quién está bajando
+ <span style={{ marginLeft: 8, fontWeight: 500, textTransform: 'none', letterSpacing: 0, color: '#9ca3af' }}>· tracking semanal · datos a mayo 2026</span>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
                 {TRENDING_FIGURES.map(f => {
