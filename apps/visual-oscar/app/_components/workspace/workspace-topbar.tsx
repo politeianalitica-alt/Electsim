@@ -8,6 +8,7 @@ import { getViewByPath } from "@/lib/workspace/navigation";
 import { memberStatusColor } from "@/lib/workspace/workspace-utils";
 import { useWorkspaceStore } from "@/context/WorkspaceContext";
 import { IconBack, IconCommand, IconPanelRight, IconAlertCircle } from "./workspace-icons";
+import { WorkspaceNotifications } from "./workspace-notifications";
 import type { WorkspaceSummary } from "@/types/workspace";
 
 interface WorkspaceTopbarProps {
@@ -53,6 +54,10 @@ export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps
       {/* Breadcrumb */}
  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
  <span style={{ fontSize: 12, color: WS.ink3 }}>{workspace.name}</span>
+ <span title="Los datos del workspace son ilustrativos (demo). Conecta el backend para datos reales." style={{
+          fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", color: WS.ink3,
+          border: `1px solid ${WS.border}`, borderRadius: 4, padding: "1px 5px", cursor: "help", flexShrink: 0,
+        }}>DATOS DEMO</span>
         {currentView && (
  <>
  <span style={{ color: WS.ink3, fontSize: 11 }}>/</span>
@@ -98,6 +103,9 @@ export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps
  </span>
         )}
  </div>
+
+      {/* Notificaciones */}
+ <WorkspaceNotifications workspaceId={workspaceId} />
 
       {/* Team avatars */}
  <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
