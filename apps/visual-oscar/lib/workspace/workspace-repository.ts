@@ -35,9 +35,14 @@ import type {
   WorkspaceOverview,
 } from "@/types/workspace";
 
+import { hydrate, persist } from "./persist";
+
 // El repositorio asume mocks por ahora. Cuando se conecte el backend,
 // se sustituye el cuerpo de cada método por una llamada al API real
 // sin tocar componentes ni hooks.
+
+const KNOWLEDGE_KEY = "politeia:ws:knowledge";
+hydrate(KNOWLEDGE_KEY, knowledgeItems);
 
 function byWs<T extends { workspaceId: string }>(arr: T[], workspaceId: string): T[] {
   return arr.filter(item => item.workspaceId === workspaceId);
@@ -137,6 +142,29 @@ export const workspaceRepository = {
   // ─── Knowledge ─────────────────────────────────────────────────────
   getKnowledgeItems(workspaceId: string): WorkspaceKnowledgeItem[] {
     return byWs(knowledgeItems, workspaceId);
+  },
+  createKnowledgeItem(workspaceId: string, input: Partial<WorkspaceKnowledgeItem> & { title: string }): WorkspaceKnowledgeItem {
+    const item: WorkspaceKnowledgeItem = {
+      id: `kn_${Date.now().toString(36)}_${Math.floor(Math.random() * 1e4).toString(36)}`,
+      workspaceId,
+      title: input.title,
+      entityType: input.entityType ?? "event",
+      updatedAt: new Date().toISOString(),
+      confidence: input.confidence ?? 0.7,
+      relatedIds: input.relatedIds ?? [],
+      summary: input.summary ?? "",
+      tags: input.tags ?? [],
+    };
+    knowledgeItems.unshift(item);
+    persist(KNOWLEDGE_KEY, knowledgeItems);
+    return item;
+  },
+  deleteKnowledgeItem(itemId: string) {
+    const idx = knowledgeItems.findIndex((k) => k.id === itemId);
+    if (idx !== -1) {
+      knowledgeItems.splice(idx, 1);
+      persist(KNOWLEDGE_KEY, knowledgeItems);
+    }
   },
 
   // ─── Opportunities ─────────────────────────────────────────────────

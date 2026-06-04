@@ -1,5 +1,9 @@
 import type { Project, TaskStatus } from "@/types/project";
 import { projectsMockData } from "./projects-mock-data";
+import { hydrate, persist } from "@/lib/workspace/persist";
+
+const PKEY = "politeia:ws:projects";
+hydrate(PKEY, projectsMockData);
 
 export const projectRepository = {
   list(workspaceId: string): Project[] {
@@ -15,5 +19,6 @@ export const projectRepository = {
     if (!task) return;
     task.status = status;
     task.updatedAt = new Date().toISOString();
+    persist(PKEY, projectsMockData);
   },
 };

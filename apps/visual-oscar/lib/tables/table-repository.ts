@@ -1,5 +1,9 @@
 import type { PoliteiTable } from "@/types/tables";
 import { tablesMockData } from "./tables-mock-data";
+import { hydrate, persist } from "@/lib/workspace/persist";
+
+const PKEY = "politeia:ws:tables";
+hydrate(PKEY, tablesMockData);
 
 export const tableRepository = {
   list(workspaceId: string): PoliteiTable[] {
@@ -16,6 +20,7 @@ export const tableRepository = {
         ...patch,
         updatedAt: new Date().toISOString(),
       };
+      persist(PKEY, tablesMockData);
     }
   },
 };
