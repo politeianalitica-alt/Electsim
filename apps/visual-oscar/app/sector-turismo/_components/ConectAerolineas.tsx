@@ -36,6 +36,7 @@ interface Empresa {
 }
 interface EmpresasResponse {
   ok: boolean
+  empresas?: Empresa[]
   data?: { empresas?: Empresa[] } | null
 }
 
@@ -57,7 +58,8 @@ export function ConectAerolineas() {
         const r = await fetch('/api/turismo/empresas?segmento=aerolinea,aeropuertos', { cache: 'no-store' })
         const j: EmpresasResponse = await r.json()
         if (!alive) return
-        setEmpresas(Array.isArray(j?.data?.empresas) ? j.data!.empresas! : [])
+        const lista = j?.empresas ?? j?.data?.empresas
+        setEmpresas(Array.isArray(lista) ? lista : [])
         setState('ready')
       } catch {
         if (alive) setState('error')

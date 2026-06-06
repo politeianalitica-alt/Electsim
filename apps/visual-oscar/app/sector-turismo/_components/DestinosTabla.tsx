@@ -208,7 +208,7 @@ export function DestinoDetalle({ destino, year }: { destino: Destino | null; yea
         />
         <DetalleStat
           label="Coordenadas"
-          value={`${destino.lat.toFixed(3)}, ${destino.lon.toFixed(3)}`}
+          value={Number.isFinite(destino.lat) && Number.isFinite(destino.lon) ? `${destino.lat.toFixed(3)}, ${destino.lon.toFixed(3)}` : '—'}
         />
       </div>
       <p style={{ margin: '12px 0 0', fontSize: 9.5, color: '#94A3B8', lineHeight: 1.5 }}>

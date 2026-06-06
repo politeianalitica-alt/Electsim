@@ -51,6 +51,8 @@ export interface TurismoEmpresa {
 
 interface TurismoEmpresasResponse {
   ok: boolean
+  // El endpoint sirve `empresas` en el top-level; se acepta data.empresas por robustez.
+  empresas?: TurismoEmpresa[]
   data?: { empresas?: TurismoEmpresa[] } | null
 }
 
@@ -67,14 +69,11 @@ export function TurismoEmpresasPanel() {
         const r = await fetch('/api/turismo/empresas', { cache: 'no-store' })
         const j: TurismoEmpresasResponse = await r.json()
         if (!alive) return
-        if (j?.ok && Array.isArray(j.data?.empresas)) {
-          setEmpresas(j.data!.empresas!)
-          setState('ready')
-        } else {
-          // Respuesta degradada del endpoint (ok:false o sin empresas).
-          setEmpresas(Array.isArray(j?.data?.empresas) ? j.data!.empresas! : [])
-          setState('ready')
-        }
+        // El endpoint devuelve `empresas` en el top-level (con ok/fetched_at);
+        // se acepta data.empresas por robustez. Degradacion honesta si falta.
+        const lista = j?.empresas ?? j?.data?.empresas
+        setEmpresas(Array.isArray(lista) ? lista : [])
+        setState('ready')
       } catch {
         if (alive) setState('error')
       }
