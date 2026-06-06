@@ -1,0 +1,27 @@
+# Dockerfile.worker · Sprint Railway R2
+# Imagen para los servicios `worker` y `beat` de Celery en Railway.
+# Comparte el repo con la API pero instala el set COMPLETO de dependencias
+# (NLP/Ollama/BERTopic) que el pipeline necesita y que la imagen ligera de la
+# API (Dockerfile.railway · requirements-api-prod.txt) NO trae.
+#
+# Cada servicio Railway (worker / beat) usa esta imagen y sobreescribe el
+# startCommand en el dashboard:
+#   worker → bash scheduler/worker-start.sh
+#   beat   → bash scheduler/beat-start.sh
+FROM python:3.11-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev gcc build-essential curl git \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+COPY requirements-worker.txt requirements.txt ./
+RUN pip install --no-cache-dir -r requirements-worker.txt
+
+COPY . .
+
+# Default = worker. El servicio `beat` sobreescribe el startCommand.
+CMD ["bash", "scheduler/worker-start.sh"]
