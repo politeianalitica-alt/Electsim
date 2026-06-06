@@ -28,8 +28,16 @@ const SOURCE_COLOR: Record<InboxSource, string> = {
   manual: "#6e6e73",
 };
 
+// Equipo para asignación de issues (demo · sustituible por miembros reales).
+const TEAM = ["Sin asignar", "Óscar", "Antonio", "Equipo datos", "Equipo legal"];
+
+interface IssueComment { id: string; author: string; text: string; ts: string; }
+
 export function InboxView({ workspaceId }: { workspaceId: string }) {
   const [statusMap, setStatusMap] = useState<Record<string, InboxStatus>>({});
+  const [assigneeMap, setAssigneeMap] = useState<Record<string, string>>({});
+  const [commentsMap, setCommentsMap] = useState<Record<string, IssueComment[]>>({});
+  const [draftComment, setDraftComment] = useState("");
   const [filterSource, setFilterSource] = useState<InboxSource | "all">("all");
   const [filterStatus, setFilterStatus] = useState<InboxStatus | "all">("unread");
   const [search, setSearch] = useState("");
@@ -41,12 +49,36 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY(workspaceId));
       if (raw) setStatusMap(JSON.parse(raw));
+      const a = window.localStorage.getItem(STORAGE_KEY(workspaceId) + ":assignee");
+      if (a) setAssigneeMap(JSON.parse(a));
+      const c = window.localStorage.getItem(STORAGE_KEY(workspaceId) + ":comments");
+      if (c) setCommentsMap(JSON.parse(c));
     } catch { /* ignore */ }
   }, [workspaceId]);
 
   const persist = useCallback((map: Record<string, InboxStatus>) => {
     setStatusMap(map);
     try { window.localStorage.setItem(STORAGE_KEY(workspaceId), JSON.stringify(map)); } catch { /* ignore */ }
+  }, [workspaceId]);
+
+  const setAssignee = useCallback((id: string, who: string) => {
+    setAssigneeMap(prev => {
+      const next = { ...prev, [id]: who };
+      try { window.localStorage.setItem(STORAGE_KEY(workspaceId) + ":assignee", JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  }, [workspaceId]);
+
+  const addComment = useCallback((id: string, text: string) => {
+    const t = text.trim();
+    if (!t) return;
+    setCommentsMap(prev => {
+      const list = prev[id] ?? [];
+      const next = { ...prev, [id]: [...list, { id: `c_${Date.now().toString(36)}`, author: "Tú", text: t, ts: new Date().toISOString() }] };
+      try { window.localStorage.setItem(STORAGE_KEY(workspaceId) + ":comments", JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+    setDraftComment("");
   }, [workspaceId]);
 
   const allItems = useMemo(
@@ -259,6 +291,47 @@ export function InboxView({ workspaceId }: { workspaceId: string }) {
  </div>
  </Section>
             )}
+
+ <Section title="Asignación y comentarios">
+ <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 10 }}>
+                {TEAM.map(who => {
+                  const active = (assigneeMap[selected.id] ?? "Sin asignar") === who;
+                  return (
+ <button key={who} onClick={() => setAssignee(selected.id, who)} style={{
+                      fontSize: 11, padding: "3px 9px", borderRadius: 99, cursor: "pointer",
+                      background: active ? WS.accent : WS.surface2, color: active ? "#fff" : WS.ink,
+                      border: `1px solid ${active ? WS.accent : WS.border}`, fontWeight: active ? 700 : 500,
+                    }}>{who}</button>
+                  );
+                })}
+ </div>
+              {(commentsMap[selected.id] ?? []).length > 0 && (
+ <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 8 }}>
+                  {(commentsMap[selected.id] ?? []).map(c => (
+ <div key={c.id} style={{ fontSize: 12, background: WS.surface2, borderRadius: 8, padding: "6px 9px" }}>
+ <div style={{ color: WS.ink3, fontSize: 10, marginBottom: 2 }}>
+                        {c.author} · {new Date(c.ts).toLocaleString("es-ES", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" })}
+ </div>
+ <div style={{ color: WS.ink }}>{c.text}</div>
+ </div>
+                  ))}
+ </div>
+              )}
+ <div style={{ display: "flex", gap: 6 }}>
+ <input
+                  value={draftComment}
+                  onChange={e => setDraftComment(e.target.value)}
+                  onKeyDown={e => { if (e.key === "Enter") addComment(selected.id, draftComment); }}
+                  placeholder="Añadir comentario…"
+                  style={{ flex: 1, minWidth: 0, fontSize: 12, padding: "6px 9px", borderRadius: 8, border: `1px solid ${WS.border}`, background: WS.surface, color: WS.ink, outline: "none" }}
+                />
+ <button
+                  onClick={() => addComment(selected.id, draftComment)}
+                  disabled={!draftComment.trim()}
+                  style={{ fontSize: 12, fontWeight: 600, padding: "6px 12px", borderRadius: 8, border: "none", background: WS.accent, color: "#fff", cursor: draftComment.trim() ? "pointer" : "default", opacity: draftComment.trim() ? 1 : 0.5 }}
+                >Comentar</button>
+ </div>
+ </Section>
 
  <Section title="Acciones rápidas">
  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6 }}>

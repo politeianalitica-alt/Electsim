@@ -1,6 +1,10 @@
 import type { DocMeta, DocBlock, DocTemplate, DocWithBlocks } from "@/types/docs";
 import { docsMockData } from "./docs-mock-data";
 import { generateId } from "@/lib/workspace/agent-utils";
+import { hydrate, persist } from "@/lib/workspace/persist";
+
+const PKEY = "politeia:ws:docs";
+hydrate(PKEY, docsMockData);
 
 export const docRepository = {
   getDocs(workspaceId: string): DocMeta[] {
@@ -28,6 +32,41 @@ export const docRepository = {
       blocks: template.blocks.map(b => ({ ...b })),
     };
     docsMockData.push(newDoc);
+    persist(PKEY, docsMockData);
+    return newDoc;
+  },
+
+  /** Crea un documento a partir de texto plano (p. ej. una salida de IA),
+   *  convirtiendo cada párrafo en un bloque. Devuelve el doc creado. */
+  createDocFromText(
+    workspaceId: string,
+    title: string,
+    text: string,
+    kind: DocWithBlocks["kind"] = "analysis",
+  ): DocWithBlocks {
+    const now = new Date().toISOString();
+    const paras = text.split(/\n{2,}/).map(s => s.trim()).filter(Boolean);
+    const blocks: DocBlock[] = (paras.length ? paras : [text.trim() || "—"]).map(p => ({
+      id: generateId("blk"),
+      type: "paragraph",
+      content: p,
+    }));
+    const newDoc: DocWithBlocks = {
+      id: generateId("doc"),
+      workspaceId,
+      title: title.trim() || "Documento de IA",
+      kind,
+      status: "draft",
+      authorId: "u1",
+      createdAt: now,
+      updatedAt: now,
+      tags: ["ia"],
+      relatedIssueIds: [],
+      clientVisible: false,
+      blocks,
+    };
+    docsMockData.push(newDoc);
+    persist(PKEY, docsMockData);
     return newDoc;
   },
 
@@ -39,6 +78,15 @@ export const docRepository = {
         ...patch,
         updatedAt: new Date().toISOString(),
       };
+      persist(PKEY, docsMockData);
+    }
+  },
+
+  deleteDoc(docId: string) {
+    const idx = docsMockData.findIndex(d => d.id === docId);
+    if (idx !== -1) {
+      docsMockData.splice(idx, 1);
+      persist(PKEY, docsMockData);
     }
   },
 

@@ -1,0 +1,3059 @@
+{
+  "refineries": [
+    {
+      "name": "Jamnagar (Reliance)",
+      "country": "India",
+      "lat": 22.345,
+      "lng": 69.8597,
+      "capacity_kbd": 1400
+    },
+    {
+      "name": "Paraguaná (Amuay/Cardón)",
+      "country": "Venezuela",
+      "lat": 11.75,
+      "lng": -70.21,
+      "capacity_kbd": 955
+    },
+    {
+      "name": "SK Energy Ulsan",
+      "country": "Corea del Sur",
+      "lat": 35.5012,
+      "lng": 129.387,
+      "capacity_kbd": 840
+    },
+    {
+      "name": "ADNOC Ruwais",
+      "country": "Emiratos Árabes Unidos",
+      "lat": 24.14,
+      "lng": 52.73,
+      "capacity_kbd": 817
+    },
+    {
+      "name": "GS Caltex Yeosu",
+      "country": "Corea del Sur",
+      "lat": 34.85,
+      "lng": 127.74,
+      "capacity_kbd": 800
+    },
+    {
+      "name": "S-Oil Onsan",
+      "country": "Corea del Sur",
+      "lat": 35.425,
+      "lng": 129.352,
+      "capacity_kbd": 669
+    },
+    {
+      "name": "Motiva Port Arthur",
+      "country": "EE. UU.",
+      "lat": 29.858,
+      "lng": -93.93,
+      "capacity_kbd": 640
+    },
+    {
+      "name": "Dangote",
+      "country": "Nigeria",
+      "lat": 6.45,
+      "lng": 3.63,
+      "capacity_kbd": 650
+    },
+    {
+      "name": "Marathon Galveston Bay",
+      "country": "EE. UU.",
+      "lat": 29.364,
+      "lng": -94.918,
+      "capacity_kbd": 631
+    },
+    {
+      "name": "ExxonMobil Beaumont",
+      "country": "EE. UU.",
+      "lat": 30.084,
+      "lng": -94.078,
+      "capacity_kbd": 630
+    },
+    {
+      "name": "Marathon Garyville",
+      "country": "EE. UU.",
+      "lat": 30.056,
+      "lng": -90.623,
+      "capacity_kbd": 597
+    },
+    {
+      "name": "Al-Zour",
+      "country": "Kuwait",
+      "lat": 28.705,
+      "lng": 48.35,
+      "capacity_kbd": 615
+    },
+    {
+      "name": "Jurong Island (ExxonMobil)",
+      "country": "Singapur",
+      "lat": 1.268,
+      "lng": 103.696,
+      "capacity_kbd": 592
+    },
+    {
+      "name": "ExxonMobil Baytown",
+      "country": "EE. UU.",
+      "lat": 29.737,
+      "lng": -94.978,
+      "capacity_kbd": 561
+    },
+    {
+      "name": "Ras Tanura (Aramco)",
+      "country": "Arabia Saudí",
+      "lat": 26.642,
+      "lng": 50.158,
+      "capacity_kbd": 550
+    },
+    {
+      "name": "Formosa Mailiao",
+      "country": "Taiwán",
+      "lat": 23.796,
+      "lng": 120.188,
+      "capacity_kbd": 540
+    },
+    {
+      "name": "ExxonMobil Baton Rouge",
+      "country": "EE. UU.",
+      "lat": 30.49,
+      "lng": -91.19,
+      "capacity_kbd": 522
+    },
+    {
+      "name": "Hyundai Oilbank Daesan",
+      "country": "Corea del Sur",
+      "lat": 37.005,
+      "lng": 126.36,
+      "capacity_kbd": 520
+    },
+    {
+      "name": "Shell Pulau Bukom",
+      "country": "Singapur",
+      "lat": 1.224,
+      "lng": 103.766,
+      "capacity_kbd": 500
+    },
+    {
+      "name": "Mina Al-Ahmadi",
+      "country": "Kuwait",
+      "lat": 29.068,
+      "lng": 48.134,
+      "capacity_kbd": 466
+    },
+    {
+      "name": "SATORP Jubail",
+      "country": "Arabia Saudí",
+      "lat": 27,
+      "lng": 49.58,
+      "capacity_kbd": 460
+    },
+    {
+      "name": "YASREF Yanbu",
+      "country": "Arabia Saudí",
+      "lat": 24.05,
+      "lng": 38.06,
+      "capacity_kbd": 430
+    },
+    {
+      "name": "PETRONAS RAPID Pengerang",
+      "country": "Malasia",
+      "lat": 1.36,
+      "lng": 104.17,
+      "capacity_kbd": 300
+    },
+    {
+      "name": "PetroRabigh",
+      "country": "Arabia Saudí",
+      "lat": 22.7,
+      "lng": 39.03,
+      "capacity_kbd": 400
+    },
+    {
+      "name": "Shell Pernis (Rotterdam)",
+      "country": "Países Bajos",
+      "lat": 51.884,
+      "lng": 4.387,
+      "capacity_kbd": 404
+    },
+    {
+      "name": "BP Whiting",
+      "country": "EE. UU.",
+      "lat": 41.67,
+      "lng": -87.48,
+      "capacity_kbd": 440
+    },
+    {
+      "name": "Phillips 66 Wood River",
+      "country": "EE. UU.",
+      "lat": 38.86,
+      "lng": -90.09,
+      "capacity_kbd": 356
+    },
+    {
+      "name": "Tüpraş İzmit",
+      "country": "Turquía",
+      "lat": 40.76,
+      "lng": 29.88,
+      "capacity_kbd": 250
+    },
+    {
+      "name": "Pertamina Cilacap",
+      "country": "Indonesia",
+      "lat": -7.73,
+      "lng": 109.01,
+      "capacity_kbd": 348
+    },
+    {
+      "name": "Nayara Vadinar",
+      "country": "India",
+      "lat": 22.47,
+      "lng": 69.72,
+      "capacity_kbd": 405
+    },
+    {
+      "name": "IOCL Paradip",
+      "country": "India",
+      "lat": 20.29,
+      "lng": 86.61,
+      "capacity_kbd": 300
+    },
+    {
+      "name": "MRPL Mangalore",
+      "country": "India",
+      "lat": 12.96,
+      "lng": 74.85,
+      "capacity_kbd": 300
+    },
+    {
+      "name": "BPCL Kochi",
+      "country": "India",
+      "lat": 9.97,
+      "lng": 76.24,
+      "capacity_kbd": 310
+    },
+    {
+      "name": "Pemex Salina Cruz",
+      "country": "México",
+      "lat": 16.17,
+      "lng": -95.19,
+      "capacity_kbd": 330
+    },
+    {
+      "name": "Olmeca (Dos Bocas)",
+      "country": "México",
+      "lat": 18.43,
+      "lng": -93.19,
+      "capacity_kbd": 340
+    },
+    {
+      "name": "Abadan",
+      "country": "Irán",
+      "lat": 30.36,
+      "lng": 48.29,
+      "capacity_kbd": 400
+    },
+    {
+      "name": "Bandar Abbas",
+      "country": "Irán",
+      "lat": 27.2,
+      "lng": 56.37,
+      "capacity_kbd": 330
+    },
+    {
+      "name": "Isfahán",
+      "country": "Irán",
+      "lat": 32.76,
+      "lng": 51.53,
+      "capacity_kbd": 375
+    },
+    {
+      "name": "Galp Sines",
+      "country": "Portugal",
+      "lat": 37.95,
+      "lng": -8.82,
+      "capacity_kbd": 220
+    },
+    {
+      "name": "TotalEnergies Antwerp",
+      "country": "Bélgica",
+      "lat": 51.29,
+      "lng": 4.33,
+      "capacity_kbd": 338
+    },
+    {
+      "name": "Laffan (Ras Laffan)",
+      "country": "Catar",
+      "lat": 25.91,
+      "lng": 51.57,
+      "capacity_kbd": 292
+    },
+    {
+      "name": "Lukoil Neftohim Burgas",
+      "country": "Bulgaria",
+      "lat": 42.48,
+      "lng": 27.33,
+      "capacity_kbd": 190
+    },
+    {
+      "name": "Valero St. Charles",
+      "country": "EE. UU.",
+      "lat": 29.99,
+      "lng": -90.42,
+      "capacity_kbd": 340
+    },
+    {
+      "name": "Citgo Lake Charles",
+      "country": "EE. UU.",
+      "lat": 30.23,
+      "lng": -93.3,
+      "capacity_kbd": 425
+    },
+    {
+      "name": "Chevron Pascagoula",
+      "country": "EE. UU.",
+      "lat": 30.35,
+      "lng": -88.56,
+      "capacity_kbd": 356
+    },
+    {
+      "name": "Chevron El Segundo",
+      "country": "EE. UU.",
+      "lat": 33.9,
+      "lng": -118.41,
+      "capacity_kbd": 290
+    },
+    {
+      "name": "Chevron Richmond",
+      "country": "EE. UU.",
+      "lat": 37.94,
+      "lng": -122.39,
+      "capacity_kbd": 245
+    },
+    {
+      "name": "Pemex Deer Park",
+      "country": "EE. UU.",
+      "lat": 29.72,
+      "lng": -95.13,
+      "capacity_kbd": 340
+    },
+    {
+      "name": "Thai Oil Sriracha",
+      "country": "Tailandia",
+      "lat": 13.1,
+      "lng": 100.9,
+      "capacity_kbd": 275
+    },
+    {
+      "name": "Map Ta Phut (PTTGC/IRPC)",
+      "country": "Tailandia",
+      "lat": 12.7,
+      "lng": 101.15,
+      "capacity_kbd": 280
+    },
+    {
+      "name": "ENEOS Mizushima",
+      "country": "Japón",
+      "lat": 34.51,
+      "lng": 133.73,
+      "capacity_kbd": 380
+    },
+    {
+      "name": "ENEOS Negishi",
+      "country": "Japón",
+      "lat": 35.42,
+      "lng": 139.64,
+      "capacity_kbd": 270
+    }
+  ],
+  "lng_terminals": [
+    {
+      "name": "Ras Laffan",
+      "country": "Catar",
+      "lat": 25.908,
+      "lng": 51.578,
+      "kind": "exportación"
+    },
+    {
+      "name": "Sabine Pass",
+      "country": "EE. UU.",
+      "lat": 29.74,
+      "lng": -93.887,
+      "kind": "exportación"
+    },
+    {
+      "name": "Plaquemines",
+      "country": "EE. UU.",
+      "lat": 29.43,
+      "lng": -89.73,
+      "kind": "exportación"
+    },
+    {
+      "name": "Corpus Christi",
+      "country": "EE. UU.",
+      "lat": 27.848,
+      "lng": -97.29,
+      "kind": "exportación"
+    },
+    {
+      "name": "Cameron",
+      "country": "EE. UU.",
+      "lat": 29.97,
+      "lng": -93.33,
+      "kind": "exportación"
+    },
+    {
+      "name": "Freeport",
+      "country": "EE. UU.",
+      "lat": 28.94,
+      "lng": -95.31,
+      "kind": "exportación"
+    },
+    {
+      "name": "Calcasieu Pass",
+      "country": "EE. UU.",
+      "lat": 29.77,
+      "lng": -93.34,
+      "kind": "exportación"
+    },
+    {
+      "name": "Golden Pass",
+      "country": "EE. UU.",
+      "lat": 29.77,
+      "lng": -93.93,
+      "kind": "exportación"
+    },
+    {
+      "name": "Cove Point",
+      "country": "EE. UU.",
+      "lat": 38.4,
+      "lng": -76.39,
+      "kind": "exportación"
+    },
+    {
+      "name": "North West Shelf (Karratha)",
+      "country": "Australia",
+      "lat": -20.63,
+      "lng": 116.77,
+      "kind": "exportación"
+    },
+    {
+      "name": "Gorgon (Barrow Island)",
+      "country": "Australia",
+      "lat": -20.79,
+      "lng": 115.45,
+      "kind": "exportación"
+    },
+    {
+      "name": "Wheatstone (Onslow)",
+      "country": "Australia",
+      "lat": -21.79,
+      "lng": 115.01,
+      "kind": "exportación"
+    },
+    {
+      "name": "Pluto (Karratha)",
+      "country": "Australia",
+      "lat": -20.63,
+      "lng": 116.73,
+      "kind": "exportación"
+    },
+    {
+      "name": "Ichthys (Darwin)",
+      "country": "Australia",
+      "lat": -12.51,
+      "lng": 130.9,
+      "kind": "exportación"
+    },
+    {
+      "name": "Gladstone (Curtis Island)",
+      "country": "Australia",
+      "lat": -23.776,
+      "lng": 151.21,
+      "kind": "exportación"
+    },
+    {
+      "name": "Yamal (Sabetta)",
+      "country": "Rusia",
+      "lat": 71.26,
+      "lng": 72.07,
+      "kind": "exportación"
+    },
+    {
+      "name": "Sakhalin-2 (Prigorodnoye)",
+      "country": "Rusia",
+      "lat": 46.63,
+      "lng": 143.09,
+      "kind": "exportación"
+    },
+    {
+      "name": "Arctic LNG 2 (Utrenneye)",
+      "country": "Rusia",
+      "lat": 71.3,
+      "lng": 76.4,
+      "kind": "exportación"
+    },
+    {
+      "name": "Bonny Island (NLNG)",
+      "country": "Nigeria",
+      "lat": 4.42,
+      "lng": 7.16,
+      "kind": "exportación"
+    },
+    {
+      "name": "Bontang",
+      "country": "Indonesia",
+      "lat": 0.13,
+      "lng": 117.47,
+      "kind": "exportación"
+    },
+    {
+      "name": "Tangguh",
+      "country": "Indonesia",
+      "lat": -2.4,
+      "lng": 133.07,
+      "kind": "exportación"
+    },
+    {
+      "name": "MLNG Bintulu",
+      "country": "Malasia",
+      "lat": 3.2,
+      "lng": 113.02,
+      "kind": "exportación"
+    },
+    {
+      "name": "Arzew (Bethioua)",
+      "country": "Argelia",
+      "lat": 35.81,
+      "lng": -0.24,
+      "kind": "exportación"
+    },
+    {
+      "name": "Skikda",
+      "country": "Argelia",
+      "lat": 36.88,
+      "lng": 6.95,
+      "kind": "exportación"
+    },
+    {
+      "name": "Idku (ELNG)",
+      "country": "Egipto",
+      "lat": 31.43,
+      "lng": 30.29,
+      "kind": "exportación"
+    },
+    {
+      "name": "Damietta",
+      "country": "Egipto",
+      "lat": 31.46,
+      "lng": 31.76,
+      "kind": "exportación"
+    },
+    {
+      "name": "Hammerfest (Melkøya)",
+      "country": "Noruega",
+      "lat": 70.685,
+      "lng": 23.597,
+      "kind": "exportación"
+    },
+    {
+      "name": "Angola LNG (Soyo)",
+      "country": "Angola",
+      "lat": -6.11,
+      "lng": 12.37,
+      "kind": "exportación"
+    },
+    {
+      "name": "Atlantic LNG (Point Fortin)",
+      "country": "Trinidad y Tobago",
+      "lat": 10.19,
+      "lng": -61.67,
+      "kind": "exportación"
+    },
+    {
+      "name": "Das Island",
+      "country": "Emiratos Árabes Unidos",
+      "lat": 25.15,
+      "lng": 52.87,
+      "kind": "exportación"
+    },
+    {
+      "name": "GTA (Tortue/Ahmeyim)",
+      "country": "Mauritania/Senegal",
+      "lat": 16.05,
+      "lng": -16.9,
+      "kind": "exportación"
+    },
+    {
+      "name": "Zeebrugge",
+      "country": "Bélgica",
+      "lat": 51.345,
+      "lng": 3.19,
+      "kind": "importación"
+    },
+    {
+      "name": "Gate (Rotterdam)",
+      "country": "Países Bajos",
+      "lat": 51.956,
+      "lng": 4.015,
+      "kind": "importación"
+    },
+    {
+      "name": "Dunkerque",
+      "country": "Francia",
+      "lat": 51.03,
+      "lng": 2.17,
+      "kind": "importación"
+    },
+    {
+      "name": "Świnoujście",
+      "country": "Polonia",
+      "lat": 53.91,
+      "lng": 14.27,
+      "kind": "importación"
+    },
+    {
+      "name": "Isle of Grain",
+      "country": "Reino Unido",
+      "lat": 51.45,
+      "lng": 0.7,
+      "kind": "importación"
+    },
+    {
+      "name": "South Hook (Milford Haven)",
+      "country": "Reino Unido",
+      "lat": 51.705,
+      "lng": -5.03,
+      "kind": "importación"
+    },
+    {
+      "name": "Barcelona (Enagás)",
+      "country": "España",
+      "lat": 41.33,
+      "lng": 2.16,
+      "kind": "importación"
+    },
+    {
+      "name": "Futtsu (JERA)",
+      "country": "Japón",
+      "lat": 35.31,
+      "lng": 139.82,
+      "kind": "importación"
+    },
+    {
+      "name": "Sodegaura",
+      "country": "Japón",
+      "lat": 35.43,
+      "lng": 140,
+      "kind": "importación"
+    },
+    {
+      "name": "Incheon (KOGAS)",
+      "country": "Corea del Sur",
+      "lat": 37.39,
+      "lng": 126.59,
+      "kind": "importación"
+    },
+    {
+      "name": "Pyeongtaek (KOGAS)",
+      "country": "Corea del Sur",
+      "lat": 36.97,
+      "lng": 126.82,
+      "kind": "importación"
+    },
+    {
+      "name": "Dahej (Petronet)",
+      "country": "India",
+      "lat": 21.69,
+      "lng": 72.53,
+      "kind": "importación"
+    },
+    {
+      "name": "Dapeng (Shenzhen)",
+      "country": "China",
+      "lat": 22.58,
+      "lng": 114.55,
+      "kind": "importación"
+    },
+    {
+      "name": "Yangshan (Shanghái)",
+      "country": "China",
+      "lat": 30.63,
+      "lng": 122.07,
+      "kind": "importación"
+    }
+  ],
+  "fabs": [
+    {
+      "name": "TSMC Fab 18 (GigaFab)",
+      "country": "Taiwán",
+      "lat": 23.104,
+      "lng": 120.274,
+      "company": "TSMC",
+      "node": "3nm"
+    },
+    {
+      "name": "TSMC Fab 12 (Hsinchu)",
+      "country": "Taiwán",
+      "lat": 24.774,
+      "lng": 121.004,
+      "company": "TSMC",
+      "node": "5nm"
+    },
+    {
+      "name": "TSMC Fab 20 (Baoshan)",
+      "country": "Taiwán",
+      "lat": 24.82,
+      "lng": 121.01,
+      "company": "TSMC",
+      "node": "2nm"
+    },
+    {
+      "name": "TSMC Fab 21 (Arizona)",
+      "country": "EE. UU.",
+      "lat": 33.72,
+      "lng": -112.09,
+      "company": "TSMC",
+      "node": "4nm"
+    },
+    {
+      "name": "TSMC JASM (Kumamoto)",
+      "country": "Japón",
+      "lat": 32.9,
+      "lng": 130.78,
+      "company": "TSMC",
+      "node": "22/28nm"
+    },
+    {
+      "name": "Samsung Pyeongtaek",
+      "country": "Corea del Sur",
+      "lat": 37.07,
+      "lng": 127.06,
+      "company": "Samsung",
+      "node": "3nm"
+    },
+    {
+      "name": "Samsung Hwaseong",
+      "country": "Corea del Sur",
+      "lat": 37.205,
+      "lng": 127.05,
+      "company": "Samsung",
+      "node": "5nm"
+    },
+    {
+      "name": "Samsung Taylor",
+      "country": "EE. UU.",
+      "lat": 30.57,
+      "lng": -97.42,
+      "company": "Samsung",
+      "node": "2nm"
+    },
+    {
+      "name": "Samsung Austin",
+      "country": "EE. UU.",
+      "lat": 30.39,
+      "lng": -97.63,
+      "company": "Samsung",
+      "node": "14nm"
+    },
+    {
+      "name": "Samsung Xi'an (NAND)",
+      "country": "China",
+      "lat": 34.18,
+      "lng": 108.84,
+      "company": "Samsung",
+      "node": "NAND"
+    },
+    {
+      "name": "SK Hynix M16 (Icheon)",
+      "country": "Corea del Sur",
+      "lat": 37.24,
+      "lng": 127.47,
+      "company": "SK Hynix",
+      "node": "DRAM"
+    },
+    {
+      "name": "SK Hynix Cheongju (M15)",
+      "country": "Corea del Sur",
+      "lat": 36.63,
+      "lng": 127.45,
+      "company": "SK Hynix",
+      "node": "NAND"
+    },
+    {
+      "name": "SK Hynix Wuxi",
+      "country": "China",
+      "lat": 31.49,
+      "lng": 120.28,
+      "company": "SK Hynix",
+      "node": "DRAM"
+    },
+    {
+      "name": "Intel Ocotillo (Fab 52)",
+      "country": "EE. UU.",
+      "lat": 33.29,
+      "lng": -111.91,
+      "company": "Intel",
+      "node": "18A"
+    },
+    {
+      "name": "Intel Ronler Acres (Hillsboro)",
+      "country": "EE. UU.",
+      "lat": 45.54,
+      "lng": -122.95,
+      "company": "Intel",
+      "node": "18A"
+    },
+    {
+      "name": "Intel Fab 28 (Kiryat Gat)",
+      "country": "Israel",
+      "lat": 31.61,
+      "lng": 34.77,
+      "company": "Intel",
+      "node": "7nm"
+    },
+    {
+      "name": "Intel Leixlip (Fab 34)",
+      "country": "Irlanda",
+      "lat": 53.37,
+      "lng": -6.5,
+      "company": "Intel",
+      "node": "4nm"
+    },
+    {
+      "name": "Intel Ohio One",
+      "country": "EE. UU.",
+      "lat": 40.09,
+      "lng": -82.74,
+      "company": "Intel",
+      "node": "18A"
+    },
+    {
+      "name": "Micron Boise",
+      "country": "EE. UU.",
+      "lat": 43.54,
+      "lng": -116.27,
+      "company": "Micron",
+      "node": "DRAM"
+    },
+    {
+      "name": "Micron Hiroshima",
+      "country": "Japón",
+      "lat": 34.4,
+      "lng": 132.74,
+      "company": "Micron",
+      "node": "DRAM"
+    },
+    {
+      "name": "Micron Taichung (Fab 16)",
+      "country": "Taiwán",
+      "lat": 24.23,
+      "lng": 120.56,
+      "company": "Micron",
+      "node": "DRAM"
+    },
+    {
+      "name": "Micron Singapur (NAND)",
+      "country": "Singapur",
+      "lat": 1.35,
+      "lng": 103.7,
+      "company": "Micron",
+      "node": "NAND"
+    },
+    {
+      "name": "SMIC Shanghái (Lingang)",
+      "country": "China",
+      "lat": 30.9,
+      "lng": 121.92,
+      "company": "SMIC",
+      "node": "7nm"
+    },
+    {
+      "name": "SMIC Pekín",
+      "country": "China",
+      "lat": 40.06,
+      "lng": 116.5,
+      "company": "SMIC",
+      "node": "14nm"
+    },
+    {
+      "name": "SMIC Shenzhen",
+      "country": "China",
+      "lat": 22.7,
+      "lng": 113.88,
+      "company": "SMIC",
+      "node": "28nm"
+    },
+    {
+      "name": "GlobalFoundries Dresden",
+      "country": "Alemania",
+      "lat": 51.09,
+      "lng": 13.67,
+      "company": "GlobalFoundries",
+      "node": "22nm"
+    },
+    {
+      "name": "GlobalFoundries Malta (NY)",
+      "country": "EE. UU.",
+      "lat": 42.97,
+      "lng": -73.79,
+      "company": "GlobalFoundries",
+      "node": "12nm"
+    },
+    {
+      "name": "UMC Fab 12A (Tainan)",
+      "country": "Taiwán",
+      "lat": 23.1,
+      "lng": 120.28,
+      "company": "UMC",
+      "node": "14nm"
+    },
+    {
+      "name": "YMTC Wuhan (NAND)",
+      "country": "China",
+      "lat": 30.49,
+      "lng": 114.42,
+      "company": "YMTC",
+      "node": "NAND"
+    },
+    {
+      "name": "CXMT Hefei (DRAM)",
+      "country": "China",
+      "lat": 31.85,
+      "lng": 117.22,
+      "company": "CXMT",
+      "node": "DRAM"
+    },
+    {
+      "name": "Kioxia/WD Yokkaichi",
+      "country": "Japón",
+      "lat": 34.97,
+      "lng": 136.6,
+      "company": "Kioxia",
+      "node": "NAND"
+    },
+    {
+      "name": "Kioxia/WD Kitakami",
+      "country": "Japón",
+      "lat": 39.29,
+      "lng": 141.11,
+      "company": "Kioxia",
+      "node": "NAND"
+    },
+    {
+      "name": "TI Sherman (SM1)",
+      "country": "EE. UU.",
+      "lat": 33.67,
+      "lng": -96.57,
+      "company": "Texas Instruments",
+      "node": "analógico 300mm"
+    },
+    {
+      "name": "Infineon Dresden",
+      "country": "Alemania",
+      "lat": 51.11,
+      "lng": 13.68,
+      "company": "Infineon",
+      "node": "potencia"
+    },
+    {
+      "name": "Hua Hong Wuxi",
+      "country": "China",
+      "lat": 31.5,
+      "lng": 120.3,
+      "company": "Hua Hong",
+      "node": "28nm"
+    },
+    {
+      "name": "PSMC Tongluo (P5)",
+      "country": "Taiwán",
+      "lat": 24.5,
+      "lng": 120.78,
+      "company": "PSMC",
+      "node": "28nm"
+    }
+  ],
+  "nuclear": [
+    {
+      "name": "Kashiwazaki-Kariwa",
+      "country": "Japón",
+      "lat": 37.429,
+      "lng": 138.597,
+      "reactors": 7,
+      "mw": 7965
+    },
+    {
+      "name": "Hanul (Uljin)",
+      "country": "Corea del Sur",
+      "lat": 37.093,
+      "lng": 129.383,
+      "reactors": 8,
+      "mw": 8261
+    },
+    {
+      "name": "Kori",
+      "country": "Corea del Sur",
+      "lat": 35.321,
+      "lng": 129.292,
+      "reactors": 7,
+      "mw": 7488
+    },
+    {
+      "name": "Bruce",
+      "country": "Canadá",
+      "lat": 44.325,
+      "lng": -81.599,
+      "reactors": 8,
+      "mw": 6550
+    },
+    {
+      "name": "Yangjiang",
+      "country": "China",
+      "lat": 21.705,
+      "lng": 112.258,
+      "reactors": 6,
+      "mw": 6516
+    },
+    {
+      "name": "Hongyanhe",
+      "country": "China",
+      "lat": 39.798,
+      "lng": 121.479,
+      "reactors": 6,
+      "mw": 6244
+    },
+    {
+      "name": "Fuqing",
+      "country": "China",
+      "lat": 25.447,
+      "lng": 119.448,
+      "reactors": 6,
+      "mw": 6120
+    },
+    {
+      "name": "Tianwan",
+      "country": "China",
+      "lat": 34.687,
+      "lng": 119.46,
+      "reactors": 6,
+      "mw": 6070
+    },
+    {
+      "name": "Hanbit (Yeonggwang)",
+      "country": "Corea del Sur",
+      "lat": 35.415,
+      "lng": 126.417,
+      "reactors": 6,
+      "mw": 5875
+    },
+    {
+      "name": "Ling Ao / Daya Bay",
+      "country": "China",
+      "lat": 22.6,
+      "lng": 114.545,
+      "reactors": 6,
+      "mw": 5772
+    },
+    {
+      "name": "Zaporiyia",
+      "country": "Ucrania",
+      "lat": 47.512,
+      "lng": 34.585,
+      "reactors": 6,
+      "mw": 5700
+    },
+    {
+      "name": "Gravelines",
+      "country": "Francia",
+      "lat": 51.015,
+      "lng": 2.136,
+      "reactors": 6,
+      "mw": 5460
+    },
+    {
+      "name": "Barakah",
+      "country": "Emiratos Árabes Unidos",
+      "lat": 23.969,
+      "lng": 52.201,
+      "reactors": 4,
+      "mw": 5380
+    },
+    {
+      "name": "Saeul (Shin-Kori)",
+      "country": "Corea del Sur",
+      "lat": 35.329,
+      "lng": 129.306,
+      "reactors": 4,
+      "mw": 5360
+    },
+    {
+      "name": "Paluel",
+      "country": "Francia",
+      "lat": 49.858,
+      "lng": 0.635,
+      "reactors": 4,
+      "mw": 5320
+    },
+    {
+      "name": "Cattenom",
+      "country": "Francia",
+      "lat": 49.416,
+      "lng": 6.218,
+      "reactors": 4,
+      "mw": 5200
+    },
+    {
+      "name": "Qinshan",
+      "country": "China",
+      "lat": 30.436,
+      "lng": 120.956,
+      "reactors": 7,
+      "mw": 5038
+    },
+    {
+      "name": "Wolsong",
+      "country": "Corea del Sur",
+      "lat": 35.713,
+      "lng": 129.475,
+      "reactors": 6,
+      "mw": 4779
+    },
+    {
+      "name": "Vogtle",
+      "country": "EE. UU.",
+      "lat": 33.143,
+      "lng": -81.761,
+      "reactors": 4,
+      "mw": 4536
+    },
+    {
+      "name": "Akkuyu",
+      "country": "Turquía",
+      "lat": 36.145,
+      "lng": 33.541,
+      "reactors": 4,
+      "mw": 4456
+    },
+    {
+      "name": "Leningrado",
+      "country": "Rusia",
+      "lat": 59.847,
+      "lng": 29.041,
+      "reactors": 4,
+      "mw": 4400
+    },
+    {
+      "name": "Flamanville",
+      "country": "Francia",
+      "lat": 49.536,
+      "lng": -1.881,
+      "reactors": 3,
+      "mw": 4290
+    },
+    {
+      "name": "Laxiwa",
+      "country": "China",
+      "lat": 36.05,
+      "lng": 101.1,
+      "reactors": 2,
+      "mw": 4200
+    },
+    {
+      "name": "Ningde",
+      "country": "China",
+      "lat": 26.989,
+      "lng": 120.047,
+      "reactors": 4,
+      "mw": 4072
+    },
+    {
+      "name": "Fangchenggang",
+      "country": "China",
+      "lat": 21.602,
+      "lng": 108.563,
+      "reactors": 4,
+      "mw": 4000
+    },
+    {
+      "name": "Palo Verde",
+      "country": "EE. UU.",
+      "lat": 33.388,
+      "lng": -112.865,
+      "reactors": 3,
+      "mw": 3937
+    },
+    {
+      "name": "Rostov (Volgodonsk)",
+      "country": "Rusia",
+      "lat": 47.597,
+      "lng": 42.369,
+      "reactors": 4,
+      "mw": 3922
+    },
+    {
+      "name": "Balakovo",
+      "country": "Rusia",
+      "lat": 52.09,
+      "lng": 47.954,
+      "reactors": 4,
+      "mw": 3800
+    },
+    {
+      "name": "Kalinin",
+      "country": "Rusia",
+      "lat": 57.906,
+      "lng": 35.056,
+      "reactors": 4,
+      "mw": 3800
+    },
+    {
+      "name": "Kursk",
+      "country": "Rusia",
+      "lat": 51.676,
+      "lng": 35.604,
+      "reactors": 4,
+      "mw": 3700
+    },
+    {
+      "name": "Tricastin",
+      "country": "Francia",
+      "lat": 44.33,
+      "lng": 4.732,
+      "reactors": 4,
+      "mw": 3660
+    },
+    {
+      "name": "Bugey",
+      "country": "Francia",
+      "lat": 45.798,
+      "lng": 5.27,
+      "reactors": 4,
+      "mw": 3580
+    },
+    {
+      "name": "Dampierre",
+      "country": "Francia",
+      "lat": 47.733,
+      "lng": 2.517,
+      "reactors": 4,
+      "mw": 3560
+    },
+    {
+      "name": "Darlington",
+      "country": "Canadá",
+      "lat": 43.873,
+      "lng": -78.72,
+      "reactors": 4,
+      "mw": 3512
+    },
+    {
+      "name": "Olkiluoto",
+      "country": "Finlandia",
+      "lat": 61.237,
+      "lng": 21.44,
+      "reactors": 3,
+      "mw": 3310
+    },
+    {
+      "name": "Taishan",
+      "country": "China",
+      "lat": 21.929,
+      "lng": 112.982,
+      "reactors": 2,
+      "mw": 3300
+    },
+    {
+      "name": "Browns Ferry",
+      "country": "EE. UU.",
+      "lat": 34.704,
+      "lng": -87.119,
+      "reactors": 3,
+      "mw": 3300
+    },
+    {
+      "name": "Pickering",
+      "country": "Canadá",
+      "lat": 43.812,
+      "lng": -79.066,
+      "reactors": 6,
+      "mw": 3100
+    },
+    {
+      "name": "Civaux",
+      "country": "Francia",
+      "lat": 46.457,
+      "lng": 0.652,
+      "reactors": 2,
+      "mw": 2990
+    },
+    {
+      "name": "Kakrapar",
+      "country": "India",
+      "lat": 21.236,
+      "lng": 73.351,
+      "reactors": 4,
+      "mw": 2800
+    },
+    {
+      "name": "South Texas Project",
+      "country": "EE. UU.",
+      "lat": 28.795,
+      "lng": -96.048,
+      "reactors": 2,
+      "mw": 2560
+    },
+    {
+      "name": "Doel",
+      "country": "Bélgica",
+      "lat": 51.325,
+      "lng": 4.259,
+      "reactors": 2,
+      "mw": 2080
+    },
+    {
+      "name": "Tihange",
+      "country": "Bélgica",
+      "lat": 50.534,
+      "lng": 5.274,
+      "reactors": 2,
+      "mw": 2000
+    }
+  ],
+  "dams": [
+    {
+      "name": "Three Gorges Dam",
+      "country": "China",
+      "lat": 30.8208,
+      "lng": 111.0022,
+      "mw": 22500
+    },
+    {
+      "name": "Baihetan Dam",
+      "country": "China",
+      "lat": 28.2517,
+      "lng": 103.6594,
+      "mw": 16000
+    },
+    {
+      "name": "Itaipu Dam",
+      "country": "Brasil",
+      "lat": -25.4086,
+      "lng": -54.5892,
+      "mw": 14000
+    },
+    {
+      "name": "Xiluodu Dam",
+      "country": "China",
+      "lat": 28.2644,
+      "lng": 103.6464,
+      "mw": 13860
+    },
+    {
+      "name": "Belo Monte Dam",
+      "country": "Brasil",
+      "lat": -3.2833,
+      "lng": -52.2,
+      "mw": 11223
+    },
+    {
+      "name": "Guri Dam",
+      "country": "Venezuela",
+      "lat": 7.7667,
+      "lng": -63,
+      "mw": 10235
+    },
+    {
+      "name": "Wudongde Dam",
+      "country": "China",
+      "lat": 26.3339,
+      "lng": 102.63,
+      "mw": 10200
+    },
+    {
+      "name": "Tucuruí Dam",
+      "country": "Brasil",
+      "lat": -3.8317,
+      "lng": -49.6467,
+      "mw": 8370
+    },
+    {
+      "name": "Xiangjiaba Dam",
+      "country": "China",
+      "lat": 28.6492,
+      "lng": 104.3706,
+      "mw": 7798
+    },
+    {
+      "name": "Grand Coulee Dam",
+      "country": "EE. UU.",
+      "lat": 47.9567,
+      "lng": -118.9833,
+      "mw": 6809
+    },
+    {
+      "name": "Longtan Dam",
+      "country": "China",
+      "lat": 25.0272,
+      "lng": 107.0475,
+      "mw": 6426
+    },
+    {
+      "name": "Sayano-Shushenskaya Dam",
+      "country": "Rusia",
+      "lat": 52.8253,
+      "lng": 91.3708,
+      "mw": 6400
+    },
+    {
+      "name": "Krasnoyarsk Dam",
+      "country": "Rusia",
+      "lat": 55.9347,
+      "lng": 92.2944,
+      "mw": 6000
+    },
+    {
+      "name": "Nuozhadu Dam",
+      "country": "China",
+      "lat": 22.5642,
+      "lng": 100.5128,
+      "mw": 5850
+    },
+    {
+      "name": "Robert-Bourassa",
+      "country": "Canadá",
+      "lat": 53.7953,
+      "lng": -77.4406,
+      "mw": 5616
+    },
+    {
+      "name": "Churchill Falls",
+      "country": "Canadá",
+      "lat": 53.5294,
+      "lng": -63.9681,
+      "mw": 5428
+    },
+    {
+      "name": "Renacimiento (GERD)",
+      "country": "Etiopía",
+      "lat": 11.215,
+      "lng": 35.0928,
+      "mw": 5150
+    },
+    {
+      "name": "Tarbela Dam",
+      "country": "Pakistán",
+      "lat": 34.0897,
+      "lng": 72.6983,
+      "mw": 4888
+    },
+    {
+      "name": "Jinping-II Dam",
+      "country": "China",
+      "lat": 28.2389,
+      "lng": 101.6422,
+      "mw": 4800
+    },
+    {
+      "name": "Bratsk Dam",
+      "country": "Rusia",
+      "lat": 56.2861,
+      "lng": 101.7861,
+      "mw": 4500
+    },
+    {
+      "name": "Paulo Afonso",
+      "country": "Brasil",
+      "lat": -9.3969,
+      "lng": -38.2022,
+      "mw": 4279
+    },
+    {
+      "name": "Laxiwa Dam",
+      "country": "China",
+      "lat": 36.0703,
+      "lng": 101.1856,
+      "mw": 4200
+    },
+    {
+      "name": "Xiaowan Dam",
+      "country": "China",
+      "lat": 24.7053,
+      "lng": 100.0922,
+      "mw": 4200
+    },
+    {
+      "name": "Ust-Ilimsk",
+      "country": "Rusia",
+      "lat": 57.9683,
+      "lng": 102.6958,
+      "mw": 3840
+    },
+    {
+      "name": "Jirau",
+      "country": "Brasil",
+      "lat": -9.25,
+      "lng": -64.4,
+      "mw": 3750
+    },
+    {
+      "name": "Jinping-I Dam",
+      "country": "China",
+      "lat": 28.1853,
+      "lng": 101.6283,
+      "mw": 3600
+    },
+    {
+      "name": "Fengning (bombeo)",
+      "country": "China",
+      "lat": 41.6842,
+      "lng": 116.5533,
+      "mw": 3600
+    },
+    {
+      "name": "Santo Antônio",
+      "country": "Brasil",
+      "lat": -8.8017,
+      "lng": -63.9508,
+      "mw": 3568
+    },
+    {
+      "name": "Ilha Solteira Dam",
+      "country": "Brasil",
+      "lat": -20.3828,
+      "lng": -51.3622,
+      "mw": 3444
+    },
+    {
+      "name": "Ertan Dam",
+      "country": "China",
+      "lat": 26.8211,
+      "lng": 101.7811,
+      "mw": 3300
+    },
+    {
+      "name": "Pubugou Dam",
+      "country": "China",
+      "lat": 29.2094,
+      "lng": 102.8364,
+      "mw": 3300
+    },
+    {
+      "name": "Macagua",
+      "country": "Venezuela",
+      "lat": 8.3039,
+      "lng": -62.6678,
+      "mw": 3168
+    },
+    {
+      "name": "Xingó",
+      "country": "Brasil",
+      "lat": -9.6206,
+      "lng": -37.7928,
+      "mw": 3162
+    },
+    {
+      "name": "Yacyretá Dam",
+      "country": "Argentina",
+      "lat": -27.4828,
+      "lng": -56.725,
+      "mw": 3100
+    },
+    {
+      "name": "Nurek Dam",
+      "country": "Tayikistán",
+      "lat": 38.3667,
+      "lng": 69.35,
+      "mw": 3015
+    },
+    {
+      "name": "Bath County (bombeo)",
+      "country": "EE. UU.",
+      "lat": 38.2089,
+      "lng": -79.8,
+      "mw": 3003
+    },
+    {
+      "name": "Goupitan Dam",
+      "country": "China",
+      "lat": 27.3753,
+      "lng": 107.6331,
+      "mw": 3000
+    },
+    {
+      "name": "Guanyinyan Dam",
+      "country": "China",
+      "lat": 26.5214,
+      "lng": 101.4378,
+      "mw": 3000
+    },
+    {
+      "name": "Lianghekou Dam",
+      "country": "China",
+      "lat": 30.1628,
+      "lng": 101.0136,
+      "mw": 3000
+    },
+    {
+      "name": "Boguchany",
+      "country": "Rusia",
+      "lat": 58.6947,
+      "lng": 99.1489,
+      "mw": 2997
+    },
+    {
+      "name": "G. M. Shrum",
+      "country": "Canadá",
+      "lat": 56.0181,
+      "lng": -122.2067,
+      "mw": 2907
+    },
+    {
+      "name": "Mica Dam",
+      "country": "Canadá",
+      "lat": 52.0778,
+      "lng": -118.5664,
+      "mw": 2805
+    },
+    {
+      "name": "La Grande-4",
+      "country": "Canadá",
+      "lat": 53.8867,
+      "lng": -73.4653,
+      "mw": 2779
+    },
+    {
+      "name": "Volga (Volgogrado)",
+      "country": "Rusia",
+      "lat": 48.8261,
+      "lng": 44.6719,
+      "mw": 2734
+    },
+    {
+      "name": "Gezhouba Dam",
+      "country": "China",
+      "lat": 30.7397,
+      "lng": 111.2722,
+      "mw": 2715
+    },
+    {
+      "name": "Robert Moses Niagara",
+      "country": "EE. UU.",
+      "lat": 43.1431,
+      "lng": -79.0397,
+      "mw": 2675
+    },
+    {
+      "name": "Chief Joseph Dam",
+      "country": "EE. UU.",
+      "lat": 47.9953,
+      "lng": -119.6333,
+      "mw": 2620
+    },
+    {
+      "name": "Changheba Dam",
+      "country": "China",
+      "lat": 30.1488,
+      "lng": 102.1742,
+      "mw": 2600
+    },
+    {
+      "name": "Dagangshan Dam",
+      "country": "China",
+      "lat": 29.4492,
+      "lng": 102.2172,
+      "mw": 2600
+    },
+    {
+      "name": "Bakun",
+      "country": "Malasia",
+      "lat": 2.7564,
+      "lng": 114.0631,
+      "mw": 2520
+    },
+    {
+      "name": "Zhiguli",
+      "country": "Rusia",
+      "lat": 53.445,
+      "lng": 49.49,
+      "mw": 2488
+    },
+    {
+      "name": "Revelstoke Dam",
+      "country": "Canadá",
+      "lat": 51.0494,
+      "lng": -118.1939,
+      "mw": 2480
+    },
+    {
+      "name": "Huizhou (bombeo)",
+      "country": "China",
+      "lat": 23.2686,
+      "lng": 114.3139,
+      "mw": 2448
+    },
+    {
+      "name": "Chicoasén Dam",
+      "country": "México",
+      "lat": 16.9417,
+      "lng": -93.1006,
+      "mw": 2430
+    },
+    {
+      "name": "La Grande-3",
+      "country": "Canadá",
+      "lat": 53.7278,
+      "lng": -75.9986,
+      "mw": 2418
+    },
+    {
+      "name": "Atatürk Dam",
+      "country": "Turquía",
+      "lat": 37.4817,
+      "lng": 38.3175,
+      "mw": 2400
+    },
+    {
+      "name": "Guandi Dam",
+      "country": "China",
+      "lat": 27.7442,
+      "lng": 101.9297,
+      "mw": 2400
+    },
+    {
+      "name": "Jinanqiao Dam",
+      "country": "China",
+      "lat": 26.8075,
+      "lng": 100.4478,
+      "mw": 2400
+    },
+    {
+      "name": "Liyuan Dam",
+      "country": "China",
+      "lat": 27.66,
+      "lng": 100.2867,
+      "mw": 2400
+    },
+    {
+      "name": "Sơn La Dam",
+      "country": "Vietnam",
+      "lat": 21.4964,
+      "lng": 103.995,
+      "mw": 2400
+    },
+    {
+      "name": "Guangdong (bombeo)",
+      "country": "China",
+      "lat": 23.7644,
+      "lng": 113.9533,
+      "mw": 2400
+    },
+    {
+      "name": "Puertas de Hierro I",
+      "country": "Rumanía",
+      "lat": 44.6708,
+      "lng": 22.5292,
+      "mw": 2372
+    },
+    {
+      "name": "Karun-3 Dam",
+      "country": "Irán",
+      "lat": 31.8,
+      "lng": 50.0833,
+      "mw": 2280
+    },
+    {
+      "name": "Maerdang Dam",
+      "country": "China",
+      "lat": 34.6725,
+      "lng": 100.6922,
+      "mw": 2200
+    },
+    {
+      "name": "Ludington (bombeo)",
+      "country": "EE. UU.",
+      "lat": 43.8936,
+      "lng": -86.4453,
+      "mw": 2172
+    },
+    {
+      "name": "Caruachi Dam",
+      "country": "Venezuela",
+      "lat": 8.16,
+      "lng": -62.7986,
+      "mw": 2160
+    },
+    {
+      "name": "John Day Dam",
+      "country": "EE. UU.",
+      "lat": 45.7164,
+      "lng": -120.6944,
+      "mw": 2160
+    },
+    {
+      "name": "Ludila Dam",
+      "country": "China",
+      "lat": 26.2003,
+      "lng": 100.815,
+      "mw": 2160
+    },
+    {
+      "name": "Julius Nyerere",
+      "country": "Tanzania",
+      "lat": -7.8053,
+      "lng": 37.8456,
+      "mw": 2115
+    },
+    {
+      "name": "La Grande-2-A",
+      "country": "Canadá",
+      "lat": 53.7858,
+      "lng": -77.4519,
+      "mw": 2106
+    },
+    {
+      "name": "Asuán (presa alta)",
+      "country": "Egipto",
+      "lat": 23.9706,
+      "lng": 32.8778,
+      "mw": 2100
+    },
+    {
+      "name": "Itumbiara",
+      "country": "Brasil",
+      "lat": -18.4167,
+      "lng": -49.2167,
+      "mw": 2082
+    },
+    {
+      "name": "Hoover Dam",
+      "country": "EE. UU.",
+      "lat": 36.0156,
+      "lng": -114.7378,
+      "mw": 2080
+    },
+    {
+      "name": "Cahora Bassa",
+      "country": "Mozambique",
+      "lat": -15.5853,
+      "lng": 32.7047,
+      "mw": 2075
+    },
+    {
+      "name": "Laúca",
+      "country": "Angola",
+      "lat": -9.743,
+      "lng": 15.1256,
+      "mw": 2070
+    },
+    {
+      "name": "Bureya Dam",
+      "country": "Rusia",
+      "lat": 50.2686,
+      "lng": 130.315,
+      "mw": 2010
+    },
+    {
+      "name": "Ahai Dam",
+      "country": "China",
+      "lat": 27.3331,
+      "lng": 100.5075,
+      "mw": 2000
+    },
+    {
+      "name": "Karun-1 (Abbaspour)",
+      "country": "Irán",
+      "lat": 32.1167,
+      "lng": 49.6167,
+      "mw": 2000
+    },
+    {
+      "name": "Karun-2 (Masjed Soleyman)",
+      "country": "Irán",
+      "lat": 32.0278,
+      "lng": 49.4003,
+      "mw": 2000
+    },
+    {
+      "name": "Lijiaxia Dam",
+      "country": "China",
+      "lat": 36.1186,
+      "lng": 101.8081,
+      "mw": 2000
+    },
+    {
+      "name": "Adam Beck",
+      "country": "Canadá",
+      "lat": 43.1475,
+      "lng": -79.0449,
+      "mw": 1962
+    },
+    {
+      "name": "Hòa Bình Dam",
+      "country": "Vietnam",
+      "lat": 20.8083,
+      "lng": 105.3239,
+      "mw": 1960
+    },
+    {
+      "name": "Koyna",
+      "country": "India",
+      "lat": 17.4017,
+      "lng": 73.7522,
+      "mw": 1960
+    },
+    {
+      "name": "Moses-Saunders",
+      "country": "EE. UU.",
+      "lat": 45.0064,
+      "lng": -74.795,
+      "mw": 1957
+    },
+    {
+      "name": "Okutataragi (bombeo)",
+      "country": "Japón",
+      "lat": 35.2367,
+      "lng": 134.8564,
+      "mw": 1932
+    },
+    {
+      "name": "Beauharnois",
+      "country": "Canadá",
+      "lat": 45.3139,
+      "lng": -73.9089,
+      "mw": 1903
+    },
+    {
+      "name": "Huangdeng Dam",
+      "country": "China",
+      "lat": 26.5561,
+      "lng": 99.1114,
+      "mw": 1900
+    },
+    {
+      "name": "Salto Grande",
+      "country": "Argentina",
+      "lat": -31.2747,
+      "lng": -57.9383,
+      "mw": 1890
+    },
+    {
+      "name": "The Dalles Dam",
+      "country": "EE. UU.",
+      "lat": 45.6122,
+      "lng": -121.1344,
+      "mw": 1878
+    },
+    {
+      "name": "Gilgel Gibe III",
+      "country": "Etiopía",
+      "lat": 6.8472,
+      "lng": 37.3014,
+      "mw": 1870
+    },
+    {
+      "name": "Shuibuya Dam",
+      "country": "China",
+      "lat": 30.4417,
+      "lng": 110.3611,
+      "mw": 1840
+    },
+    {
+      "name": "Xiaolangdi Dam",
+      "country": "China",
+      "lat": 34.6703,
+      "lng": 112.4258,
+      "mw": 1836
+    },
+    {
+      "name": "Tianhuangping (bombeo)",
+      "country": "China",
+      "lat": 30.4703,
+      "lng": 119.6058,
+      "mw": 1836
+    },
+    {
+      "name": "Teles Pires",
+      "country": "Brasil",
+      "lat": -9.3406,
+      "lng": -56.7769,
+      "mw": 1820
+    },
+    {
+      "name": "Baishan Dam",
+      "country": "China",
+      "lat": 42.7264,
+      "lng": 127.2236,
+      "mw": 1800
+    },
+    {
+      "name": "Grand'Maison",
+      "country": "Francia",
+      "lat": 45.2058,
+      "lng": 6.1169,
+      "mw": 1800
+    },
+    {
+      "name": "Karakaya Dam",
+      "country": "Turquía",
+      "lat": 38.2278,
+      "lng": 39.1389,
+      "mw": 1800
+    },
+    {
+      "name": "Longkaikou Dam",
+      "country": "China",
+      "lat": 26.5325,
+      "lng": 100.4161,
+      "mw": 1800
+    },
+    {
+      "name": "Roseires Dam",
+      "country": "Sudán",
+      "lat": 11.798,
+      "lng": 34.3877,
+      "mw": 1800
+    },
+    {
+      "name": "Tumut-3",
+      "country": "Australia",
+      "lat": -35.6117,
+      "lng": 148.2914,
+      "mw": 1800
+    },
+    {
+      "name": "Jixi (bombeo)",
+      "country": "China",
+      "lat": 30.1539,
+      "lng": 118.7669,
+      "mw": 1800
+    },
+    {
+      "name": "Jinghong Dam",
+      "country": "China",
+      "lat": 22.0525,
+      "lng": 100.765,
+      "mw": 1750
+    },
+    {
+      "name": "Pengshui Dam",
+      "country": "China",
+      "lat": 29.2006,
+      "lng": 108.1972,
+      "mw": 1750
+    },
+    {
+      "name": "Dinorwig (bombeo)",
+      "country": "Reino Unido",
+      "lat": 53.1186,
+      "lng": -4.1139,
+      "mw": 1728
+    },
+    {
+      "name": "São Simão",
+      "country": "Brasil",
+      "lat": -18.9842,
+      "lng": -50.5189,
+      "mw": 1710
+    },
+    {
+      "name": "Houziyan Dam",
+      "country": "China",
+      "lat": 30.5461,
+      "lng": 102.0581,
+      "mw": 1700
+    },
+    {
+      "name": "Bento Munhoz",
+      "country": "Brasil",
+      "lat": -26.0094,
+      "lng": -51.6667,
+      "mw": 1674
+    },
+    {
+      "name": "Srisailam Dam",
+      "country": "India",
+      "lat": 16.0867,
+      "lng": 78.8967,
+      "mw": 1670
+    },
+    {
+      "name": "Raccoon Mountain (bombeo)",
+      "country": "EE. UU.",
+      "lat": 35.0486,
+      "lng": -85.3967,
+      "mw": 1652
+    },
+    {
+      "name": "Kariba",
+      "country": "Zambia",
+      "lat": -16.5217,
+      "lng": 28.7614,
+      "mw": 1626
+    },
+    {
+      "name": "Mingtan (bombeo)",
+      "country": "Taiwán",
+      "lat": 23.8364,
+      "lng": 120.8678,
+      "mw": 1602
+    },
+    {
+      "name": "Okukiyotsu (bombeo)",
+      "country": "Japón",
+      "lat": 36.8436,
+      "lng": 138.7661,
+      "mw": 1600
+    },
+    {
+      "name": "Manic-5",
+      "country": "Canadá",
+      "lat": 50.6392,
+      "lng": -68.7264,
+      "mw": 1596
+    },
+    {
+      "name": "Dniéper (DniproHES)",
+      "country": "Ucrania",
+      "lat": 47.8692,
+      "lng": 35.0869,
+      "mw": 1579
+    },
+    {
+      "name": "Manwan Dam",
+      "country": "China",
+      "lat": 24.6222,
+      "lng": 100.4489,
+      "mw": 1570
+    },
+    {
+      "name": "Castaic (bombeo)",
+      "country": "EE. UU.",
+      "lat": 34.5872,
+      "lng": -118.6564,
+      "mw": 1566
+    },
+    {
+      "name": "Eng. Souza Dias (Jupiá)",
+      "country": "Brasil",
+      "lat": -20.7783,
+      "lng": -51.6356,
+      "mw": 1551
+    },
+    {
+      "name": "Porto Primavera",
+      "country": "Brasil",
+      "lat": -22.4789,
+      "lng": -52.9558,
+      "mw": 1540
+    },
+    {
+      "name": "Coca Codo Sinclair",
+      "country": "Ecuador",
+      "lat": -0.1311,
+      "lng": -77.4519,
+      "mw": 1500
+    },
+    {
+      "name": "Gongboxia Dam",
+      "country": "China",
+      "lat": 35.8778,
+      "lng": 102.2322,
+      "mw": 1500
+    },
+    {
+      "name": "Nathpa Jhakri",
+      "country": "India",
+      "lat": 31.5639,
+      "lng": 77.9803,
+      "mw": 1500
+    },
+    {
+      "name": "Liyang (bombeo)",
+      "country": "China",
+      "lat": 31.2381,
+      "lng": 119.3764,
+      "mw": 1500
+    },
+    {
+      "name": "Xianju (bombeo)",
+      "country": "China",
+      "lat": 28.6417,
+      "lng": 120.4114,
+      "mw": 1500
+    },
+    {
+      "name": "Okumino (bombeo)",
+      "country": "Japón",
+      "lat": 35.7386,
+      "lng": 136.6708,
+      "mw": 1500
+    },
+    {
+      "name": "Saratov",
+      "country": "Rusia",
+      "lat": 52.0531,
+      "lng": 47.755,
+      "mw": 1481
+    },
+    {
+      "name": "Fengman Dam",
+      "country": "China",
+      "lat": 43.7194,
+      "lng": 126.6883,
+      "mw": 1480
+    },
+    {
+      "name": "Linth-Limmern (bombeo)",
+      "country": "Suiza",
+      "lat": 46.85,
+      "lng": 9.0008,
+      "mw": 1480
+    },
+    {
+      "name": "Luiz Gonzaga (Itaparica)",
+      "country": "Brasil",
+      "lat": -9.1439,
+      "lng": -38.3133,
+      "mw": 1479
+    },
+    {
+      "name": "Ghazi-Barotha",
+      "country": "Pakistán",
+      "lat": 33.78,
+      "lng": 72.2597,
+      "mw": 1450
+    },
+    {
+      "name": "Itá",
+      "country": "Brasil",
+      "lat": -27.2667,
+      "lng": -52.3167,
+      "mw": 1450
+    },
+    {
+      "name": "Sardar Sarovar",
+      "country": "India",
+      "lat": 21.8303,
+      "lng": 73.7472,
+      "mw": 1450
+    },
+    {
+      "name": "Marimbondo",
+      "country": "Brasil",
+      "lat": -20.3039,
+      "lng": -49.1978,
+      "mw": 1440
+    },
+    {
+      "name": "La Grande-1",
+      "country": "Canadá",
+      "lat": 53.7344,
+      "lng": -78.5736,
+      "mw": 1436
+    },
+    {
+      "name": "Inga II",
+      "country": "Rep. Dem. del Congo",
+      "lat": -5.5289,
+      "lng": 13.6206,
+      "mw": 1424
+    },
+    {
+      "name": "Salto Santiago",
+      "country": "Brasil",
+      "lat": -25.6178,
+      "lng": -52.6133,
+      "mw": 1420
+    },
+    {
+      "name": "Miaowei Dam",
+      "country": "China",
+      "lat": 25.8544,
+      "lng": 99.1613,
+      "mw": 1400
+    },
+    {
+      "name": "Piedra del Águila",
+      "country": "Argentina",
+      "lat": -40.1903,
+      "lng": -69.9914,
+      "mw": 1400
+    },
+    {
+      "name": "Shuikou Dam",
+      "country": "China",
+      "lat": 26.3019,
+      "lng": 118.8133,
+      "mw": 1400
+    },
+    {
+      "name": "Tehri Dam",
+      "country": "India",
+      "lat": 30.3778,
+      "lng": 78.4806,
+      "mw": 1400
+    },
+    {
+      "name": "Dunhua (bombeo)",
+      "country": "China",
+      "lat": 44.0156,
+      "lng": 128.0844,
+      "mw": 1400
+    },
+    {
+      "name": "Água Vermelha",
+      "country": "Brasil",
+      "lat": -19.9497,
+      "lng": -49.8983,
+      "mw": 1396
+    },
+    {
+      "name": "Cheboksary",
+      "country": "Rusia",
+      "lat": 56.1381,
+      "lng": 47.4656,
+      "mw": 1374
+    },
+    {
+      "name": "Dachaoshan Dam",
+      "country": "China",
+      "lat": 24.0272,
+      "lng": 100.3719,
+      "mw": 1350
+    },
+    {
+      "name": "Limestone",
+      "country": "Canadá",
+      "lat": 55.5069,
+      "lng": -94.1069,
+      "mw": 1340
+    },
+    {
+      "name": "Ingula (bombeo)",
+      "country": "Sudáfrica",
+      "lat": -28.2817,
+      "lng": 29.5856,
+      "mw": 1332
+    },
+    {
+      "name": "Keban Dam",
+      "country": "Turquía",
+      "lat": 38.8069,
+      "lng": 38.7569,
+      "mw": 1330
+    },
+    {
+      "name": "Zeya Dam",
+      "country": "Rusia",
+      "lat": 53.8,
+      "lng": 127.3833,
+      "mw": 1330
+    },
+    {
+      "name": "Bhakra Dam",
+      "country": "India",
+      "lat": 31.4108,
+      "lng": 76.4333,
+      "mw": 1325
+    },
+    {
+      "name": "Glen Canyon Dam",
+      "country": "EE. UU.",
+      "lat": 36.9372,
+      "lng": -111.4844,
+      "mw": 1320
+    },
+    {
+      "name": "Tianshengqiao-II",
+      "country": "China",
+      "lat": 24.9631,
+      "lng": 105.1556,
+      "mw": 1320
+    },
+    {
+      "name": "Enguri Dam",
+      "country": "Georgia",
+      "lat": 42.76,
+      "lng": 42.03,
+      "mw": 1300
+    },
+    {
+      "name": "Rocky Reach Dam",
+      "country": "EE. UU.",
+      "lat": 47.5333,
+      "lng": -120.2944,
+      "mw": 1300
+    },
+    {
+      "name": "Vianden (bombeo)",
+      "country": "Luxemburgo",
+      "lat": 49.9522,
+      "lng": 6.1772,
+      "mw": 1296
+    },
+    {
+      "name": "Dniéster (bombeo)",
+      "country": "Ucrania",
+      "lat": 48.5136,
+      "lng": 27.4733,
+      "mw": 1296
+    },
+    {
+      "name": "Xayaburi Dam",
+      "country": "Laos",
+      "lat": 19.2539,
+      "lng": 101.8136,
+      "mw": 1285
+    },
+    {
+      "name": "Longyangxia Dam",
+      "country": "China",
+      "lat": 36.1225,
+      "lng": 100.92,
+      "mw": 1280
+    },
+    {
+      "name": "Okawachi (bombeo)",
+      "country": "Japón",
+      "lat": 35.1281,
+      "lng": 134.7147,
+      "mw": 1280
+    },
+    {
+      "name": "Qingyuan (bombeo)",
+      "country": "China",
+      "lat": 23.7414,
+      "lng": 112.8619,
+      "mw": 1280
+    },
+    {
+      "name": "Shin Takasegawa (bombeo)",
+      "country": "Japón",
+      "lat": 36.4739,
+      "lng": 137.6897,
+      "mw": 1280
+    },
+    {
+      "name": "Serra da Mesa",
+      "country": "Brasil",
+      "lat": -13.8331,
+      "lng": -48.3,
+      "mw": 1275
+    },
+    {
+      "name": "Bieudron (Cleuson-Dixence)",
+      "country": "Suiza",
+      "lat": 46.1853,
+      "lng": 7.2494,
+      "mw": 1269
+    },
+    {
+      "name": "El Chocón",
+      "country": "Argentina",
+      "lat": -39.2658,
+      "lng": -68.7564,
+      "mw": 1260
+    },
+    {
+      "name": "Toktogul Dam",
+      "country": "Kirguistán",
+      "lat": 41.8064,
+      "lng": 72.8742,
+      "mw": 1260
+    },
+    {
+      "name": "Merowe Dam",
+      "country": "Sudán",
+      "lat": 18.6689,
+      "lng": 32.0503,
+      "mw": 1250
+    },
+    {
+      "name": "René-Lévesque (Manic-3)",
+      "country": "Canadá",
+      "lat": 49.7403,
+      "lng": -68.5928,
+      "mw": 1244
+    },
+    {
+      "name": "Bonneville Dam",
+      "country": "EE. UU.",
+      "lat": 45.6442,
+      "lng": -121.9406,
+      "mw": 1242
+    },
+    {
+      "name": "Furnas",
+      "country": "Brasil",
+      "lat": -20.6697,
+      "lng": -46.3181,
+      "mw": 1240
+    },
+    {
+      "name": "Kvilldal",
+      "country": "Noruega",
+      "lat": 59.5167,
+      "lng": 6.6333,
+      "mw": 1240
+    },
+    {
+      "name": "San Carlos",
+      "country": "Colombia",
+      "lat": 6.2108,
+      "lng": -74.8406,
+      "mw": 1240
+    },
+    {
+      "name": "Liujiaxia Dam",
+      "country": "China",
+      "lat": 35.9339,
+      "lng": 103.3428,
+      "mw": 1225
+    },
+    {
+      "name": "Hohhot (bombeo)",
+      "country": "China",
+      "lat": 40.9872,
+      "lng": 111.6883,
+      "mw": 1224
+    },
+    {
+      "name": "Kettle",
+      "country": "Canadá",
+      "lat": 56.3842,
+      "lng": -94.635,
+      "mw": 1220
+    },
+    {
+      "name": "Yantan Dam",
+      "country": "China",
+      "lat": 24.0406,
+      "lng": 107.5125,
+      "mw": 1210
+    },
+    {
+      "name": "Okuyoshino (bombeo)",
+      "country": "Japón",
+      "lat": 34.1178,
+      "lng": 135.8211,
+      "mw": 1206
+    },
+    {
+      "name": "Nizhnekamsk",
+      "country": "Rusia",
+      "lat": 55.6997,
+      "lng": 52.2786,
+      "mw": 1205
+    },
+    {
+      "name": "Geheyan Dam",
+      "country": "China",
+      "lat": 30.4675,
+      "lng": 111.1397,
+      "mw": 1200
+    },
+    {
+      "name": "Ilısu Dam",
+      "country": "Turquía",
+      "lat": 37.5667,
+      "lng": 41.9,
+      "mw": 1200
+    },
+    {
+      "name": "Lai Châu Dam",
+      "country": "Vietnam",
+      "lat": 22.1394,
+      "lng": 102.9853,
+      "mw": 1200
+    },
+    {
+      "name": "Suwalong Dam",
+      "country": "China",
+      "lat": 29.5561,
+      "lng": 99.0481,
+      "mw": 1200
+    },
+    {
+      "name": "Tianshengqiao-I",
+      "country": "China",
+      "lat": 24.9419,
+      "lng": 105.1064,
+      "mw": 1200
+    },
+    {
+      "name": "Wuqiangxi Dam",
+      "country": "China",
+      "lat": 28.7758,
+      "lng": 110.9275,
+      "mw": 1200
+    },
+    {
+      "name": "Yangqu Dam",
+      "country": "China",
+      "lat": 35.7011,
+      "lng": 100.2689,
+      "mw": 1200
+    },
+    {
+      "name": "Helms (bombeo)",
+      "country": "EE. UU.",
+      "lat": 37.0372,
+      "lng": -118.9649,
+      "mw": 1200
+    },
+    {
+      "name": "Kazunogawa (bombeo)",
+      "country": "Japón",
+      "lat": 35.7186,
+      "lng": 138.9297,
+      "mw": 1200
+    },
+    {
+      "name": "Omarugawa (bombeo)",
+      "country": "Japón",
+      "lat": 32.2478,
+      "lng": 131.3736,
+      "mw": 1200
+    },
+    {
+      "name": "Zagorsk (bombeo)",
+      "country": "Rusia",
+      "lat": 56.4819,
+      "lng": 38.1911,
+      "mw": 1200
+    },
+    {
+      "name": "Emborcação",
+      "country": "Brasil",
+      "lat": -18.5758,
+      "lng": -47.8769,
+      "mw": 1192
+    },
+    {
+      "name": "Entracque (bombeo)",
+      "country": "Italia",
+      "lat": 44.2247,
+      "lng": 7.3861,
+      "mw": 1184
+    },
+    {
+      "name": "Bersimis-1",
+      "country": "Canadá",
+      "lat": 49.3086,
+      "lng": -69.5639,
+      "mw": 1178
+    },
+    {
+      "name": "Northfield Mountain (bombeo)",
+      "country": "EE. UU.",
+      "lat": 42.6101,
+      "lng": -72.4474,
+      "mw": 1168
+    },
+    {
+      "name": "Coo-Trois-Ponts (bombeo)",
+      "country": "Bélgica",
+      "lat": 50.3867,
+      "lng": 5.8572,
+      "mw": 1164
+    },
+    {
+      "name": "Blenheim-Gilboa (bombeo)",
+      "country": "EE. UU.",
+      "lat": 42.455,
+      "lng": -74.4581,
+      "mw": 1160
+    },
+    {
+      "name": "Guavio (A. Lleras)",
+      "country": "Colombia",
+      "lat": 4.7247,
+      "lng": -73.4831,
+      "mw": 1150
+    },
+    {
+      "name": "Jean-Lesage (Manic-2)",
+      "country": "Canadá",
+      "lat": 49.3217,
+      "lng": -68.3469,
+      "mw": 1145
+    },
+    {
+      "name": "Machadinho",
+      "country": "Brasil",
+      "lat": -27.5667,
+      "lng": -51.6667,
+      "mw": 1140
+    },
+    {
+      "name": "Aldeadávila",
+      "country": "España",
+      "lat": 41.2117,
+      "lng": -6.6856,
+      "mw": 1139
+    },
+    {
+      "name": "Wujiangdu Dam",
+      "country": "China",
+      "lat": 27.3194,
+      "lng": 106.7608,
+      "mw": 1130
+    },
+    {
+      "name": "McNary Dam",
+      "country": "EE. UU.",
+      "lat": 45.9297,
+      "lng": -119.2961,
+      "mw": 1127
+    },
+    {
+      "name": "Infiernillo",
+      "country": "México",
+      "lat": 18.2731,
+      "lng": -101.8928,
+      "mw": 1120
+    },
+    {
+      "name": "Shatuo Dam",
+      "country": "China",
+      "lat": 28.4981,
+      "lng": 108.4753,
+      "mw": 1120
+    },
+    {
+      "name": "Votkinsk",
+      "country": "Rusia",
+      "lat": 56.7869,
+      "lng": 54.0789,
+      "mw": 1120
+    },
+    {
+      "name": "Tingzikou Dam",
+      "country": "China",
+      "lat": 31.8233,
+      "lng": 105.8686,
+      "mw": 1100
+    },
+    {
+      "name": "Rocky Mountain (bombeo)",
+      "country": "EE. UU.",
+      "lat": 34.3556,
+      "lng": -85.3039,
+      "mw": 1095
+    },
+    {
+      "name": "Estreito",
+      "country": "Brasil",
+      "lat": -6.5894,
+      "lng": -47.4647,
+      "mw": 1087
+    },
+    {
+      "name": "Malpaso (Nezahualcóyotl)",
+      "country": "México",
+      "lat": 17.1786,
+      "lng": -93.5983,
+      "mw": 1080
+    },
+    {
+      "name": "Silin Dam",
+      "country": "China",
+      "lat": 27.8022,
+      "lng": 108.1861,
+      "mw": 1080
+    },
+    {
+      "name": "Wanjiazhai Dam",
+      "country": "China",
+      "lat": 39.5797,
+      "lng": 111.4272,
+      "mw": 1080
+    },
+    {
+      "name": "Salto Osório",
+      "country": "Brasil",
+      "lat": -25.535,
+      "lng": -53.0092,
+      "mw": 1078
+    },
+    {
+      "name": "Nam Theun 2",
+      "country": "Laos",
+      "lat": 17.5039,
+      "lng": 105.0314,
+      "mw": 1075
+    },
+    {
+      "name": "Paute (Molino)",
+      "country": "Ecuador",
+      "lat": -2.5861,
+      "lng": -78.5583,
+      "mw": 1075
+    },
+    {
+      "name": "Chamera",
+      "country": "India",
+      "lat": 32.5972,
+      "lng": 75.9858,
+      "mw": 1071
+    },
+    {
+      "name": "Muddy Run (bombeo)",
+      "country": "EE. UU.",
+      "lat": 39.8081,
+      "lng": -76.2983,
+      "mw": 1071
+    },
+    {
+      "name": "Mangla Dam",
+      "country": "Pakistán",
+      "lat": 33.1419,
+      "lng": 73.645,
+      "mw": 1070
+    },
+    {
+      "name": "Bad Creek (bombeo)",
+      "country": "EE. UU.",
+      "lat": 35.0111,
+      "lng": -83.0145,
+      "mw": 1065
+    },
+    {
+      "name": "Manic-5-PA",
+      "country": "Canadá",
+      "lat": 50.475,
+      "lng": -68.7294,
+      "mw": 1064
+    },
+    {
+      "name": "Goldisthal (bombeo)",
+      "country": "Alemania",
+      "lat": 50.5072,
+      "lng": 11.005,
+      "mw": 1060
+    },
+    {
+      "name": "Mosul Dam",
+      "country": "Irak",
+      "lat": 36.6303,
+      "lng": 42.8231,
+      "mw": 1052
+    },
+    {
+      "name": "Alicurá",
+      "country": "Argentina",
+      "lat": -40.5861,
+      "lng": -70.7525,
+      "mw": 1050
+    },
+    {
+      "name": "Sobradinho",
+      "country": "Brasil",
+      "lat": -9.4667,
+      "lng": -40.8083,
+      "mw": 1050
+    },
+    {
+      "name": "Imaichi (bombeo)",
+      "country": "Japón",
+      "lat": 36.8253,
+      "lng": 139.6661,
+      "mw": 1050
+    },
+    {
+      "name": "Markersbach (bombeo)",
+      "country": "Alemania",
+      "lat": 50.5206,
+      "lng": 12.8825,
+      "mw": 1045
+    },
+    {
+      "name": "Guangzhao Dam",
+      "country": "China",
+      "lat": 25.9594,
+      "lng": 105.2508,
+      "mw": 1040
+    },
+    {
+      "name": "Wanapum Dam",
+      "country": "EE. UU.",
+      "lat": 46.8753,
+      "lng": -119.9711,
+      "mw": 1040
+    },
+    {
+      "name": "Siah Bishe (bombeo)",
+      "country": "Irán",
+      "lat": 36.2178,
+      "lng": 51.305,
+      "mw": 1040
+    },
+    {
+      "name": "Danjiangkou Dam",
+      "country": "China",
+      "lat": 32.5558,
+      "lng": 111.4878,
+      "mw": 1035
+    },
+    {
+      "name": "Outardes-3",
+      "country": "Canadá",
+      "lat": 49.5592,
+      "lng": -68.7328,
+      "mw": 1026
+    },
+    {
+      "name": "Akosombo Dam",
+      "country": "Ghana",
+      "lat": 6.2997,
+      "lng": 0.0594,
+      "mw": 1020
+    },
+    {
+      "name": "Jishixia Dam",
+      "country": "China",
+      "lat": 35.8283,
+      "lng": 102.7064,
+      "mw": 1020
+    },
+    {
+      "name": "Karun-4 Dam",
+      "country": "Irán",
+      "lat": 31.6,
+      "lng": 50.4667,
+      "mw": 1020
+    },
+    {
+      "name": "Tala",
+      "country": "Bután",
+      "lat": 27.0358,
+      "lng": 89.5969,
+      "mw": 1020
+    },
+    {
+      "name": "Roncovalgrande (bombeo)",
+      "country": "Italia",
+      "lat": 46.0694,
+      "lng": 8.7319,
+      "mw": 1016
+    },
+    {
+      "name": "Long Spruce",
+      "country": "Canadá",
+      "lat": 56.4003,
+      "lng": -94.3694,
+      "mw": 1010
+    },
+    {
+      "name": "Cirata",
+      "country": "Indonesia",
+      "lat": -6.7006,
+      "lng": 107.3669,
+      "mw": 1008
+    },
+    {
+      "name": "Mantaro (Tablachaca)",
+      "country": "Perú",
+      "lat": -12.2911,
+      "lng": -74.6844,
+      "mw": 1008
+    },
+    {
+      "name": "Minghu (bombeo)",
+      "country": "Taiwán",
+      "lat": 23.8544,
+      "lng": 120.8703,
+      "mw": 1008
+    },
+    {
+      "name": "Presenzano (bombeo)",
+      "country": "Italia",
+      "lat": 41.3814,
+      "lng": 14.0903,
+      "mw": 1005
+    },
+    {
+      "name": "Boundary Dam",
+      "country": "EE. UU.",
+      "lat": 48.9872,
+      "lng": -117.3475,
+      "mw": 1003
+    },
+    {
+      "name": "Chirkey Dam",
+      "country": "Rusia",
+      "lat": 42.9772,
+      "lng": 46.8708,
+      "mw": 1000
+    },
+    {
+      "name": "Chivor",
+      "country": "Colombia",
+      "lat": 4.9008,
+      "lng": -73.2969,
+      "mw": 1000
+    },
+    {
+      "name": "Karcham Wangtoo",
+      "country": "India",
+      "lat": 31.5432,
+      "lng": 78.0152,
+      "mw": 1000
+    },
+    {
+      "name": "Sanbanxi Dam",
+      "country": "China",
+      "lat": 26.6058,
+      "lng": 109.0492,
+      "mw": 1000
+    },
+    {
+      "name": "Upper Gotvand",
+      "country": "Irán",
+      "lat": 32.2161,
+      "lng": 48.9358,
+      "mw": 1000
+    },
+    {
+      "name": "Drakensberg (bombeo)",
+      "country": "Sudáfrica",
+      "lat": -28.5731,
+      "lng": 29.0869,
+      "mw": 1000
+    },
+    {
+      "name": "Edolo (bombeo)",
+      "country": "Italia",
+      "lat": 46.1708,
+      "lng": 10.3478,
+      "mw": 1000
+    },
+    {
+      "name": "Shimogo (bombeo)",
+      "country": "Japón",
+      "lat": 37.345,
+      "lng": 139.9083,
+      "mw": 1000
+    },
+    {
+      "name": "Tai'an (bombeo)",
+      "country": "China",
+      "lat": 36.2219,
+      "lng": 117.0419,
+      "mw": 1000
+    },
+    {
+      "name": "Yangyang (bombeo)",
+      "country": "Corea del Sur",
+      "lat": 38.0103,
+      "lng": 128.5428,
+      "mw": 1000
+    },
+    {
+      "name": "Indira Sagar",
+      "country": "India",
+      "lat": 22.2839,
+      "lng": 76.4714,
+      "mw": 1000
+    }
+  ]
+}

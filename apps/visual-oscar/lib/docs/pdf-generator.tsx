@@ -25,6 +25,50 @@ export async function downloadDocAsTextFile({ doc, blocks }: DocPDFInput) {
   URL.revokeObjectURL(url);
 }
 
+/** Convierte el documento a Markdown (encabezados, listas, citas, callouts…). */
+export function blocksToMarkdown(doc: DocMeta, blocks: DocBlock[]): string {
+  const out: string[] = [];
+  out.push(`# ${doc.title}`);
+  out.push("");
+  out.push(`*${doc.kind} · ${new Date(doc.updatedAt).toLocaleDateString("es-ES")}*`);
+  out.push("");
+  let numIdx = 0;
+  for (const b of blocks) {
+    const content = String(b.content ?? "");
+    const lvl = Math.min(6, Math.max(1, Number((b.props as { level?: number } | undefined)?.level ?? 2)));
+    switch (b.type) {
+      case "heading":
+        out.push("", `${"#".repeat(lvl)} ${content}`, ""); numIdx = 0; break;
+      case "bullet":
+        out.push(`- ${content}`); numIdx = 0; break;
+      case "numbered":
+        numIdx += 1; out.push(`${numIdx}. ${content}`); break;
+      case "quote":
+        out.push(`> ${content}`); numIdx = 0; break;
+      case "callout":
+        out.push("> [!NOTE]", `> ${content}`, ""); numIdx = 0; break;
+      case "divider":
+        out.push("", "---", ""); numIdx = 0; break;
+      case "code":
+        out.push("```", content, "```"); numIdx = 0; break;
+      default:
+        if (content.trim()) out.push(content, ""); numIdx = 0;
+    }
+  }
+  return out.join("\n").replace(/\n{3,}/g, "\n\n").trim() + "\n";
+}
+
+export async function downloadDocAsMarkdown({ doc, blocks }: DocPDFInput) {
+  const md = blocksToMarkdown(doc, blocks);
+  const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `${slug(doc.title)}.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export function blocksToPlainText(doc: DocMeta, blocks: DocBlock[]): string {
   const lines: string[] = [];
   lines.push(`${doc.title.toUpperCase()}`);

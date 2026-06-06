@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+# electsim — CLI de ElectSim España
+# Uso: ./electsim <comando>
+#
+# Comandos:
+#   start          Arranca el dashboard (PostgreSQL + Streamlit)
+#   start-public   Arranca accesible desde la red local (LAN)
+#   update         Actualiza datos (RSS + INE + BDE + Congreso + Agenda oficial)
+#   indices        Recalcula todos los índices Politeia
+#   all            update + indices (ciclo completo)
+#   scraper rss    Solo scraper de prensa
+#   scraper ine    Solo INE API
+#   scraper cis    CIS barometros + observatorios regionales
+#   shell          Abre psql en la BD
+
+set -e
+ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT"
+
+PYTHON="$ROOT/.venv/bin/python"
+STREAMLIT="$ROOT/.venv/bin/streamlit"
+export PYTHONPATH="$ROOT:$PYTHONPATH"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+
+# Colores
+B="\033[1m"; R="\033[0m"; G="\033[32m"; C="\033[36m"; Y="\033[33m"
+
+_pg_check() {
+    if pg_isready -h localhost -p 5432 -q 2>/dev/null; then
+        echo -e "  ${G}✓${R} PostgreSQL activo"
+    else
+        echo -e "  → Arrancando PostgreSQL..."
+        brew services start postgresql@16 2>/dev/null || true
+        sleep 3
+        pg_isready -h localhost -p 5432 -q && echo -e "  ${G}✓${R} PostgreSQL activo"
+    fi
+}
+
+echo -e "\n${B}ElectSim España — Politeia Analytics${R}"
+echo -e "──────────────────────────────────────\n"
+
+CMD="${1:-start}"
+
+case "$CMD" in
+
+start)
+    _pg_check
+    echo -e "\n  ${C}Dashboard:${R} http://localhost:8501\n"
+    "$STREAMLIT" run dashboard/app.py \
+        --server.port 8501 \
+        --server.headless true \
+        --browser.gatherUsageStats false
+    ;;
+
+start-public)
+    _pg_check
+    # Detecta IP local
+    LOCAL_IP=$(ipconfig getifaddr en0 2>/dev/null || ipconfig getifaddr en1 2>/dev/null || echo "tu-ip-local")
+    echo -e "\n  ${C}Dashboard local:${R}   http://localhost:8501"
+    echo -e "  ${C}Dashboard en red:${R}  http://${LOCAL_IP}:8501"
+    echo -e "  ${Y}Nota:${R} cualquiera en tu WiFi puede acceder a http://${LOCAL_IP}:8501\n"
+    "$STREAMLIT" run dashboard/app.py \
+        --server.port 8501 \
+        --server.address 0.0.0.0 \
+        --server.headless true \
+        --browser.gatherUsageStats false
+    ;;
+
+update)
+    _pg_check
+    echo -e "  → Actualizando datos (RSS + INE + BDE + Congreso + Agenda oficial)..."
+    "$PYTHON" -m etl.run_all_scrapers
+    echo -e "\n  ${G}✓${R} Datos actualizados\n"
+    ;;
+
+indices)
+    _pg_check
+    echo -e "  → Calculando índices Politeia..."
+    "$PYTHON" -m analytics.indices.compute_all
+    echo -e "\n  ${G}✓${R} Índices calculados\n"
+    ;;
+
+all)
+    _pg_check
+    echo -e "  → Ciclo completo: datos + índices..."
+    "$PYTHON" -m etl.run_all_scrapers
+    "$PYTHON" -m analytics.indices.compute_all
+    echo -e "\n  ${G}✓${R} Todo actualizado\n"
+    ;;
+
+alertas)
+    _pg_check
+    echo -e "  → Actualizando alertas (2025-2026)..."
+    "$PYTHON" -m etl.sources.alertas_actuales
+    echo -e "\n  ${G}✓${R} Alertas actualizadas\n"
+    ;;
+
+scraper)
+    _pg_check
+    TIPO="${2:-rss}"
+    case "$TIPO" in
+        rss)      "$PYTHON" -m etl.sources.rss_noticias ;;
+        ine)      "$PYTHON" -m etl.sources.ine_api_v2 ;;
+        bde)      "$PYTHON" -m etl.sources.bde_api_v2 ;;
+        congreso) "$PYTHON" -m etl.sources.congreso_api ;;
+        alertas)  "$PYTHON" -m etl.sources.alertas_actuales ;;
+        cis)      "$PYTHON" -m etl.sources.cis_barometro_v2 ;;
+        agenda)   "$PYTHON" -m etl.sources.agenda_oficial_api ;;
+        *) echo "Scrapers disponibles: rss, ine, bde, congreso, alertas, cis, agenda" ;;
+    esac
+    ;;
+
+shell)
+    psql "postgresql://electsim:electsim@localhost:5432/electsim_espana"
+    ;;
+
+help|--help|-h|*)
+    echo -e "  ${B}Comandos disponibles:${R}"
+    echo -e "    ${C}./electsim start${R}          Dashboard en localhost:8501"
+    echo -e "    ${C}./electsim start-public${R}   Dashboard accesible en la red local (LAN)"
+    echo -e "    ${C}./electsim update${R}          Actualiza datos (RSS, INE, BDE, Congreso, Agenda oficial)"
+    echo -e "    ${C}./electsim indices${R}         Recalcula índices Politeia"
+    echo -e "    ${C}./electsim all${R}             Update completo + índices"
+    echo -e "    ${C}./electsim scraper rss${R}     Solo prensa RSS"
+    echo -e "    ${C}./electsim scraper ine${R}     Solo INE API"
+    echo -e "    ${C}./electsim scraper cis${R}     CIS barometros + observatorios regionales"
+    echo -e "    ${C}./electsim scraper agenda${R}  Agenda/comunicados oficiales multifuente"
+    echo -e "    ${C}./electsim shell${R}           Abre psql\n"
+    ;;
+esac

@@ -13,6 +13,7 @@
  */
 import { useSectorIntel } from '@/hooks/useSectorIntel'
 import { SECTOR_INTEL_CONFIG, type SectorIntelKey } from '@/types/sector-intel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface Props {
   sector: SectorIntelKey
@@ -330,6 +331,9 @@ export function SectorIntelPanel({
           </span>
         ))}
       </div>
+
+      {/* Vista inicial del mapa OSINT con las capas del sector + ampliar */}
+      <SectorMapPreview sector={sector} accent={accentColor} />
     </section>
   )
 }

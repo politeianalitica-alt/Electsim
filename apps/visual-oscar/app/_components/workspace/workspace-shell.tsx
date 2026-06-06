@@ -9,6 +9,7 @@ import { WorkspaceTopbar } from "./workspace-topbar";
 import { WorkspaceTabs } from "./workspace-tabs";
 import { WorkspaceAgentPanel } from "./workspace-agent-panel";
 import { WorkspaceCommandPalette } from "./workspace-command-palette";
+import { RecentTracker } from "./recent-tracker";
 
 interface WorkspaceShellProps {
   workspaceId: string;
@@ -36,8 +37,10 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
       {/* Body: sidebar + content + agent */}
  <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
 
-        {/* Left sidebar */}
+        {/* Left sidebar · oculto en móvil (ver .ws-sidebar-wrap en globals.css) */}
+ <div className="ws-sidebar-wrap" style={{ display: "flex", minHeight: 0 }}>
  <WorkspaceSidebar workspaceId={workspaceId} workspace={workspace} />
+ </div>
 
         {/* Main column */}
  <div style={{ display: "flex", flexDirection: "column", flex: 1, minWidth: 0 }}>
@@ -52,7 +55,7 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
             overflowX: "hidden",
             background: WS.bg,
           }}>
- <div style={{
+ <div className="ws-content" style={{
               maxWidth: 1400,
               margin: "0 auto",
               padding: "24px 28px 48px",
@@ -63,14 +66,18 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
  </main>
  </div>
 
-        {/* Right agent panel */}
+        {/* Right agent panel · oculto en móvil (ver .ws-agent-wrap) */}
         {isAgentOpen && (
+ <div className="ws-agent-wrap" style={{ display: "flex", minHeight: 0 }}>
  <WorkspaceAgentPanel workspaceId={workspaceId} />
+ </div>
         )}
  </div>
 
       {/* Command palette (portal-like, fixed) */}
  <WorkspaceCommandPalette workspaceId={workspaceId} />
+      {/* Tracker invisible de recientes */}
+ <RecentTracker workspaceId={workspaceId} />
  </div>
   );
 }

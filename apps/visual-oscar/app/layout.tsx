@@ -13,11 +13,16 @@ import { sans, serif, mono } from './fonts';
 export const metadata: Metadata = {
   title: 'Politeia Analítica',
   description: 'Inteligencia electoral · Análisis y estimación de comicios en España',
-  icons: { icon: '/politeia-logo.svg' },
+  applicationName: 'Politeia',
+  icons: { icon: '/politeia-logo.svg', apple: '/apple-icon' },
+  // Permite que iOS abra la app a pantalla completa al "Añadir a inicio".
+  appleWebApp: { capable: true, title: 'Politeia', statusBarStyle: 'default' },
 };
 
 // Forzar modo claro a nivel de navegador · ignora prefers-color-scheme del SO
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
   colorScheme: 'light',
   themeColor: '#fbfbfd',
 };

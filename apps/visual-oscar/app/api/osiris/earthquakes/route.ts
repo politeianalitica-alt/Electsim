@@ -1,6 +1,8 @@
 
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Politeia — Earthquake Data API
  * Fetches real-time seismic events from USGS (last 24h, M2.5+)

@@ -231,3 +231,135 @@ footer .links{display:flex;gap:22px;flex-wrap:wrap;margin-top:12px;padding-top:1
 [data-workspace-light] .bg-indigo-600   { background-color: var(--color-accent) !important; }
 [data-workspace-light] .border-indigo-500,
 [data-workspace-light] .border-l-indigo-500 { border-color: var(--color-accent) !important; }
+
+/* ============================================================
+   MÓVIL · versión limitada pero usable (iPhone · ancho ≤ 640px)
+   ------------------------------------------------------------
+   El producto se diseñó SOLO para escritorio: rejillas de 12
+   columnas, anchos fijos y estilos inline por todas partes. Este
+   bloque convierte cualquier pantalla estrecha en una columna
+   apilable y legible:
+     · todas las rejillas (clase Y estilo inline) → 1 columna
+     · tablas → scroll horizontal en vez de romper el layout
+     · multimedia (mapas, imágenes, sparklines) → fluida
+     · cabecera y banner-hero → compactos
+     · .mobile-hidden → se ocultan los bloques que no funcionan
+   Usamos !important porque la mayoría de los estilos son inline
+   (especificidad máxima); una regla !important del hoja sí los
+   vence al no llevar ellos !important.
+   ============================================================ */
+@media (max-width: 640px) {
+  /* — Apilar TODAS las rejillas: clases conocidas + estilos inline — */
+  /* Nada debe provocar scroll horizontal · `clip` no rompe position:sticky
+     (a diferencia de overflow:hidden) y evita el zoom de texto de iOS. */
+  html { overflow-x: clip; -webkit-text-size-adjust: 100%; }
+
+  /* Apila SOLO los layouts de 2 paneles flexibles (heroes, doble columna fr).
+     CLAVE: NO tocamos las filas "etiqueta | barra | valor" (Npx 1fr Mpx, 1fr
+     auto…): esas ya se adaptan solas (el 1fr absorbe el ancho) y colapsarlas a
+     1fr las rompía en 3 líneas apiladas → era la causa principal del aspecto
+     "regular" en móvil. Por eso enumeramos solo combinaciones de dos pistas fr. */
+  .grid, .hero-strip,
+  [style*="grid-template-columns:1fr 1fr"], [style*="grid-template-columns: 1fr 1fr"],
+  [style*="grid-template-columns:1.2fr 1fr"], [style*="grid-template-columns: 1.2fr 1fr"],
+  [style*="grid-template-columns:1.3fr 1fr"], [style*="grid-template-columns: 1.3fr 1fr"],
+  [style*="grid-template-columns:1.4fr 1fr"], [style*="grid-template-columns: 1.4fr 1fr"],
+  [style*="grid-template-columns:1.5fr 1fr"], [style*="grid-template-columns: 1.5fr 1fr"],
+  [style*="grid-template-columns:1.6fr 1fr"], [style*="grid-template-columns: 1.6fr 1fr"],
+  [style*="grid-template-columns:2fr 1fr"], [style*="grid-template-columns: 2fr 1fr"],
+  [style*="grid-template-columns:1fr 1.2fr"], [style*="grid-template-columns: 1fr 1.2fr"],
+  [style*="grid-template-columns:1fr 1.4fr"], [style*="grid-template-columns: 1fr 1.4fr"],
+  [style*="grid-template-columns:1fr 1.6fr"], [style*="grid-template-columns: 1fr 1.6fr"],
+  [style*="grid-template-columns:1fr 2fr"], [style*="grid-template-columns: 1fr 2fr"],
+  [style*="grid-template-columns:1.1fr 2fr"], [style*="grid-template-columns: 1.1fr 2fr"],
+  [style*="grid-template-columns:1.1fr 1fr"], [style*="grid-template-columns: 1.1fr 1fr"],
+  [style*="grid-template-columns:1fr 1.3fr"], [style*="grid-template-columns:1fr 1.5fr"],
+  [style*="grid-template-columns:1fr 1.7fr"], [style*="grid-template-columns:1fr 1.8fr"],
+  [style*="minmax(0, 1.7fr) minmax(0, 1fr)"],
+  /* Pistas enteras Nfr (N≥1.7) al inicio = siempre splits de 2 paneles
+     (7fr 5fr, 8fr 4fr, 6fr 6fr…), nunca filas de barra (esas van px-primero). */
+  [style*="grid-template-columns:1.7fr"], [style*="grid-template-columns:1.8fr"],
+  [style*="grid-template-columns:1.9fr"], [style*="grid-template-columns:2fr"],
+  [style*="grid-template-columns:3fr"], [style*="grid-template-columns:4fr"],
+  [style*="grid-template-columns:5fr"], [style*="grid-template-columns:6fr"],
+  [style*="grid-template-columns:7fr"], [style*="grid-template-columns:8fr"],
+  [style*="grid-template-columns:9fr"]
+  { grid-template-columns: 1fr !important; }
+  .span-3,.span-4,.span-5,.span-6,.span-8,.span-12 { grid-column: 1 / -1 !important; }
+  /* Tiras de KPIs/stats/selectores (repeat(N,…) y auto-fit) → 2 columnas
+     (no una sola fila larga y dispersa). */
+  .kpi-row, .mini-row,
+  [style*="grid-template-columns:repeat(2"], [style*="grid-template-columns: repeat(2"],
+  [style*="grid-template-columns:repeat(3"], [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns:repeat(4"], [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns:repeat(5"], [style*="grid-template-columns: repeat(5"],
+  [style*="grid-template-columns:repeat(6"], [style*="grid-template-columns: repeat(6"],
+  [style*="grid-template-columns:repeat(auto"], [style*="grid-template-columns: repeat(auto"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  .region-row { flex-direction: column !important; }
+  /* La tabla de sondeos usa unidades fr (siempre cabe); solo achicamos texto */
+  .pollster-table { font-size: 10.5px !important; }
+  .pollster-table .th, .pollster-table .td { padding: 7px 4px !important; }
+
+  /* Hero apilado y alineado a la izquierda */
+  .hero-strip { padding: 20px !important; border-radius: 18px !important; gap: 16px !important; }
+  .hero-mega { text-align: left !important; align-items: flex-start !important;
+    padding-left: 0 !important; border-left: 0 !important;
+    border-top: 1px solid var(--color-hairline-soft); padding-top: 14px !important; }
+  .hero-mega .num { font-size: 48px !important; }
+
+  /* — Contenedores principales con menos padding —
+       (excluimos .osiris-root: el mapa OSINT va a pantalla completa y
+        tiene su propio CSS responsive en osiris.css) — */
+  .shell { padding: 16px 14px 40px !important; }
+  main:not(.osiris-root) { padding-left: 14px !important; padding-right: 14px !important; }
+  .card { padding: 18px 16px !important; border-radius: 16px !important; }
+  /* Secciones/tarjetas con padding horizontal grande (inline) → 16px en móvil,
+     para que el contenido no quede tan pegado/estrecho. Solo afecta a bloques
+     con estos paddings amplios (secciones), no a botones ni chips. */
+  [style*="padding:24px 32px"], [style*="padding:24px 28px"], [style*="padding:22px 26px"],
+  [style*="padding:24px 26px"], [style*="padding:20px 24px"], [style*="padding:18px 22px"],
+  [style*="padding:28px 32px"], [style*="padding:28px 40px"], [style*="padding:22px 28px"],
+  [style*="padding:24px 30px"], [style*="padding:20px 22px"], [style*="padding:26px 28px"] {
+    padding-left: 16px !important; padding-right: 16px !important;
+  }
+
+  /* — Tablas: scroll horizontal, nunca romper el layout — */
+  table { display: block !important; max-width: 100% !important;
+    overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+
+  /* — Multimedia fluida (iframes de mapa, imágenes, sparklines, gráficos) —
+       (no incluimos <canvas> para no interferir con el canvas de MapLibre) — */
+  img, video, iframe, svg.spark, svg.hemicycle-mini { max-width: 100% !important; }
+
+  /* — Ocultar lo que es imposible que se vea bien en móvil — */
+  .mobile-hidden, .desktop-only { display: none !important; }
+
+  /* — Cabecera compacta · en móvil las pestañas pasan al menú hamburguesa — */
+  .ah-inner { padding: 0 12px !important; }
+  .ah-logo { margin-right: 12px !important; }
+  .ah-logo-sub { display: none !important; }     /* oculta "ANALÍTICA" para ganar ancho */
+  .ah-tabs { display: none !important; }          /* las pestañas viven en el menú móvil */
+  .ah-burger { display: inline-flex !important; } /* botón de menú visible en móvil */
+  .ah-right { margin-left: auto !important; }      /* empuja el clúster derecho a la derecha */
+  .ah-salir { display: none !important; }          /* "Salir" vive dentro del menú móvil */
+  .ah-live { display: none !important; }          /* "Actualizado hace 2 min" sobra en móvil */
+  .ah-subnav-inner { padding: 0 12px !important; gap: 10px !important; }
+
+  /* — Banner-hero de módulo compacto — */
+  .ah-banner { padding: 22px 18px !important; border-radius: 0 0 18px 18px !important;
+    flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+  .ah-banner h1 { font-size: 24px !important; }
+  .ah-banner-metric { font-size: 44px !important; }
+  .ah-banner-metric span { font-size: 22px !important; }
+
+  /* — Workspace en móvil: una sola columna (sin sidebar ni panel de agente);
+       la navegación entre secciones queda en las pestañas + el menú global — */
+  .ws-sidebar-wrap, .ws-agent-wrap { display: none !important; }
+  .ws-content { padding: 16px 14px 40px !important; }
+
+  /* — Login centrado y cómodo — */
+  .login-shell { padding: 28px 16px !important; min-height: calc(100vh - 44px); }
+  .login-card { padding: 32px 22px 28px !important; border-radius: 18px !important; }
+}

@@ -1,13 +1,28 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { MODULES, moduleOfPath, itemOfPath } from './navigation'
+import { recordModuleVisit } from '@/lib/home/modules-access'
 
 export default function AppHeader() {
   const path = usePathname() || ''
   const activeModule = moduleOfPath(path)
   const activeItem = itemOfPath(path)
   const banner = activeItem?.banner
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  // Registra la página visitada para el bloque "Recientes" del inicio.
+  // Excluimos el propio inicio y el login (no son destinos de "volver a").
+  useEffect(() => {
+    if (!path || path === '/dashboard' || path === '/inicio' || path.startsWith('/login')) return
+    const label = activeItem?.label || activeModule?.label
+    const href = activeItem?.href || path
+    if (label) recordModuleVisit(href, label)
+  }, [path, activeItem, activeModule])
+
+  // Cierra el menú móvil al cambiar de ruta.
+  useEffect(() => { setMenuOpen(false) }, [path])
 
   return (
  <>
@@ -21,13 +36,13 @@ export default function AppHeader() {
         WebkitBackdropFilter:'saturate(180%) blur(20px)',
         borderBottom:'1px solid rgba(0,0,0,0.06)',
       }}>
- <div style={{
+ <div className="ah-inner" style={{
           maxWidth:1600,margin:'0 auto',padding:'0 20px',
           display:'flex',alignItems:'center',height:'100%',
           fontFamily:'var(--font-text,-apple-system,system-ui)',
           fontSize:12,
         }}>
- <Link href="/dashboard" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
+ <Link href="/dashboard" className="ah-logo" style={{display:'flex',alignItems:'center',gap:8,marginRight:28,textDecoration:'none',flexShrink:0,color:'#1F4E8C',fontWeight:600,fontFamily:'inherit',letterSpacing:'-0.01em'}}>
             {/* Icono Politeia Analítica — capitel jónico + barras · decorativo,
                 aria-hidden porque el texto adyacente "POLITEIA ANALÍTICA" ya
                 etiqueta el link · WCAG 1.1.1 */}
@@ -43,9 +58,9 @@ export default function AppHeader() {
  <rect x="52" y="48" width="18" height="54" rx="2"/>
  <rect x="78" y="38" width="18" height="64" rx="2"/>
  </svg>
-            POLITEIA <span style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
+            POLITEIA <span className="ah-logo-sub" style={{fontWeight:400,color:'#6e6e73',marginLeft:-4}}>ANALÍTICA</span>
  </Link>
- <div style={{display:'flex',flex:1,height:'100%',justifyContent:'center',overflowX:'auto',scrollbarWidth:'none',minWidth:0}}>
+ <div className="ah-tabs" style={{display:'flex',flex:1,height:'100%',justifyContent:'center',overflowX:'auto',scrollbarWidth:'none',minWidth:0}}>
             {MODULES.filter(m => !m.hideFromTopBar).map(m=>{
               const active = activeModule?.id === m.id
               // Tomamos el primer item NO oculto como destino del tab
@@ -65,8 +80,8 @@ export default function AppHeader() {
               )
             })}
  </div>
- <div style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
- <span style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
+ <div className="ah-right" style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
+ <span className="ah-live" style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
  <span style={{
                 width:5,height:5,borderRadius:'50%',background:'#2d8a39',
                 boxShadow:'0 0 0 2px rgba(45,138,57,0.2)',flexShrink:0,
@@ -97,10 +112,58 @@ export default function AppHeader() {
  </svg>
               Workspace
  </Link>
- <Link href="/login" style={{fontSize:12,color:'#6e6e73',textDecoration:'none'}}>Salir</Link>
+ <Link href="/login" className="ah-salir" style={{fontSize:12,color:'#6e6e73',textDecoration:'none'}}>Salir</Link>
+            {/* Botón de menú · solo visible en móvil (CSS .ah-burger) */}
+ <button
+              className="ah-burger"
+              aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(o => !o)}
+              style={{
+                alignItems:'center',justifyContent:'center',width:34,height:30,
+                background:menuOpen?'#1F4E8C':'#fff',color:menuOpen?'#fff':'#1F4E8C',
+                border:'1px solid #1F4E8C33',borderRadius:8,cursor:'pointer',padding:0,
+              }}>
+ <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                {menuOpen
+                  ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
+                  : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>}
+ </svg>
+ </button>
  </div>
  </div>
  </nav>
+
+      {/* ── Menú desplegable móvil ── (se muestra al pulsar la hamburguesa) */}
+      {menuOpen && (
+ <div className="ah-menu" role="dialog" aria-label="Menú de navegación" style={{
+          position:'fixed',top:44,left:0,right:0,zIndex:48,
+          background:'#fff',borderBottom:'1px solid rgba(0,0,0,0.08)',
+          boxShadow:'0 8px 24px rgba(0,0,0,0.12)',
+          maxHeight:'calc(100vh - 44px)',overflowY:'auto',padding:'10px 12px 16px',
+          fontFamily:'var(--font-text,-apple-system,system-ui)',
+        }}>
+ <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+            {MODULES.filter(m => !m.hideFromTopBar).map(m => {
+              const dest = (m.items.find(it => !it.hidden) ?? m.items[0]).href
+              const active = activeModule?.id === m.id
+              return (
+ <Link key={m.id} href={dest} onClick={() => setMenuOpen(false)} style={{
+                  flex:'1 1 45%',minWidth:0,padding:'11px 12px',borderRadius:8,
+                  fontSize:13,fontWeight:active?700:500,
+                  color:active?'#1F4E8C':'#1d1d1f',
+                  background:active?'rgba(31,78,140,0.10)':'#F5F5F7',
+                  textDecoration:'none',
+                }}>{m.label}</Link>
+              )
+            })}
+ </div>
+ <div style={{display:'flex',gap:8,marginTop:10}}>
+ <Link href="/workspaces/ws_espana_2026/overview" onClick={() => setMenuOpen(false)} style={{flex:1,textAlign:'center',padding:'11px',borderRadius:8,background:'#1F4E8C',color:'#fff',fontWeight:600,fontSize:13,textDecoration:'none'}}>Workspace</Link>
+ <Link href="/login" onClick={() => setMenuOpen(false)} style={{flex:1,textAlign:'center',padding:'11px',borderRadius:8,background:'#F5F5F7',color:'#1d1d1f',fontWeight:600,fontSize:13,textDecoration:'none'}}>Salir</Link>
+ </div>
+ </div>
+      )}
 
       {/* ── Subnav del módulo activo · solo si tiene 2+ items visibles ── */}
       {activeModule && activeModule.items.filter(it => !it.hidden).length > 1 && (
@@ -111,7 +174,7 @@ export default function AppHeader() {
           background:'#fff',
           borderBottom:'1px solid rgba(0,0,0,0.06)',
         }}>
- <div style={{
+ <div className="ah-subnav-inner" style={{
             maxWidth:1600,margin:'0 auto',padding:'0 20px',
             display:'flex',alignItems:'center',height:'100%',gap:18,
             fontFamily:'var(--font-text,-apple-system,system-ui)',
@@ -142,7 +205,7 @@ export default function AppHeader() {
       {banner && (
  <div style={{ background:'#fbfbfd' }}>
  <div style={{ maxWidth:1600, margin:'0 auto', padding:'0 28px' }}>
- <section style={{
+ <section className="ah-banner" style={{
               background:`linear-gradient(135deg,${banner.colorFrom || '#0070D1'} 0%,${banner.colorTo || '#003d8a'} 100%)`,
               borderRadius:'0 0 24px 24px', padding:'40px 48px',
               display:'flex', justifyContent:'space-between', alignItems:'center',
@@ -168,7 +231,7 @@ export default function AppHeader() {
  </div>
               {banner.metric && (
  <div style={{ textAlign:'right', flexShrink:0 }}>
- <div style={{
+ <div className="ah-banner-metric" style={{
                     fontFamily:'var(--font-display,-apple-system,"Helvetica Neue",system-ui)',
                     fontWeight:700, fontSize:68, letterSpacing:'-0.05em',
                     lineHeight:1, display:'inline-flex', alignItems:'baseline',

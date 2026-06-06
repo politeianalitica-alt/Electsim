@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { WS } from "@/lib/workspace/workspace-utils";
 import { demoMembers } from "@/lib/workspace/mock-data";
-import { getViewByPath } from "@/lib/workspace/navigation";
+import { getViewBySegment } from "@/lib/workspace/navigation";
 import { memberStatusColor } from "@/lib/workspace/workspace-utils";
 import { useWorkspaceStore } from "@/context/WorkspaceContext";
 import { IconBack, IconCommand, IconPanelRight, IconAlertCircle } from "./workspace-icons";
+import { WorkspaceNotifications } from "./workspace-notifications";
+import { WorkspaceQuickAccess } from "./workspace-quick-access";
 import type { WorkspaceSummary } from "@/types/workspace";
 
 interface WorkspaceTopbarProps {
@@ -17,7 +19,15 @@ interface WorkspaceTopbarProps {
 
 export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps) {
   const path = usePathname() ?? "";
-  const currentView = getViewByPath(path);
+  const parts = path.split("/").filter(Boolean); // ["workspaces", wsId, view, detail?, ...]
+  const wsIdx = parts.indexOf("workspaces");
+  const viewSeg = wsIdx >= 0 ? parts[wsIdx + 2] : undefined;
+  const detailSeg = wsIdx >= 0 ? parts[wsIdx + 3] : undefined;
+  const currentView = viewSeg ? getViewBySegment(viewSeg) : undefined;
+  const SUB_LABELS: Record<string, string> = { new: "Nuevo", matrix: "Matriz", map: "Mapa", feeds: "Feeds", knowledge: "Conocimiento", analysis: "Análisis", preview: "Vista previa" };
+  const detailLabel = detailSeg
+    ? (SUB_LABELS[detailSeg] ?? (/^[a-z]{2,11}$/i.test(detailSeg) ? detailSeg.charAt(0).toUpperCase() + detailSeg.slice(1) : "Detalle"))
+    : null;
   const { toggleAgent, openCommandPalette, isAgentOpen } = useWorkspaceStore();
 
   const isMac = typeof navigator !== "undefined" && /mac/i.test(navigator.platform);
@@ -53,10 +63,24 @@ export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps
       {/* Breadcrumb */}
  <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
  <span style={{ fontSize: 12, color: WS.ink3 }}>{workspace.name}</span>
+ <span title="Los datos del workspace son ilustrativos (demo). Conecta el backend para datos reales." style={{
+          fontSize: 8.5, fontWeight: 700, letterSpacing: "0.06em", color: WS.ink3,
+          border: `1px solid ${WS.border}`, borderRadius: 4, padding: "1px 5px", cursor: "help", flexShrink: 0,
+        }}>DATOS DEMO</span>
         {currentView && (
  <>
  <span style={{ color: WS.ink3, fontSize: 11 }}>/</span>
+            {detailLabel ? (
+ <Link href={`/workspaces/${workspaceId}/${currentView.segment}`} style={{ fontSize: 12, color: WS.ink3, textDecoration: "none" }}>{currentView.label}</Link>
+            ) : (
  <span style={{ fontSize: 12, fontWeight: 600, color: WS.ink }}>{currentView.label}</span>
+            )}
+ </>
+        )}
+        {detailLabel && (
+ <>
+ <span style={{ color: WS.ink3, fontSize: 11 }}>/</span>
+ <span style={{ fontSize: 12, fontWeight: 600, color: WS.ink }}>{detailLabel}</span>
  </>
         )}
  </div>
@@ -98,6 +122,12 @@ export function WorkspaceTopbar({ workspace, workspaceId }: WorkspaceTopbarProps
  </span>
         )}
  </div>
+
+      {/* Acceso rápido (recientes + favoritos) */}
+ <WorkspaceQuickAccess />
+
+      {/* Notificaciones */}
+ <WorkspaceNotifications workspaceId={workspaceId} />
 
       {/* Team avatars */}
  <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>

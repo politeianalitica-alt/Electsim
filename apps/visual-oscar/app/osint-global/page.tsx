@@ -11,7 +11,7 @@
  */
 import './osiris.css'
 import dynamic from 'next/dynamic'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
@@ -35,13 +35,17 @@ const OsirisDashboard = dynamic(() => import('@/components/osiris/OsirisDashboar
 
 export default function OsintGlobalPage() {
   const router = useRouter()
+  const [embed, setEmbed] = useState(false)
   useEffect(() => {
     if (!isAuthenticated()) router.push('/login')
+    if (typeof window !== 'undefined') {
+      setEmbed(new URLSearchParams(window.location.search).get('embed') === '1')
+    }
   }, [router])
 
   return (
     <>
-      <AppHeader />
+      {!embed && <AppHeader />}
       <OsirisDashboard />
     </>
   )

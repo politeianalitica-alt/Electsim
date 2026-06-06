@@ -10,7 +10,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test:smoke": "playwright test",
-    "test:unit": "node --experimental-strip-types --no-warnings tests/unit/medios-methodology.test.ts"
+    "test:unit": "node --experimental-strip-types --no-warnings tests/unit/medios-methodology.test.ts",
+    "test:units": "for f in tests/unit/*.test.ts; do echo \"· $f\"; node --experimental-strip-types --no-warnings \"$f\" || exit 1; done"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

@@ -19,6 +19,7 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 // Sprint Cuaderno N2-wire · notas que mencionan "Tercer sector"
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 const ACCENT = '#16a34a' // verde tercer sector
 const ACCENT_DARK = '#15803d'
@@ -139,6 +140,9 @@ export default function SectorTercerSectorPage() {
             Fuentes: BDNS · IRPF 0,7% · CEPES · Plataforma del Tercer Sector · Coordinadora ONGD.
           </p>
         </header>
+
+        {/* Vista inicial del mapa OSINT con las capas del sector + ampliar */}
+        <SectorMapPreview sector="tercer-sector" accent={ACCENT} height={320} />
 
         {/* KPIs hero */}
         <section

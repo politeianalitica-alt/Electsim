@@ -5,6 +5,7 @@ import { stealthFetch } from '@/lib/osiris/stealthFetch';
 // Datos en vivo (adsb.lol); no debe prerenderizarse en build (allí adsb.lol
 // no resuelve y la ruta queda rota/404). Se ejecuta bajo demanda.
 export const dynamic = 'force-dynamic';
+export const maxDuration = 30;
 
 /**
  * Politeia — Flight Data API
@@ -12,13 +13,17 @@ export const dynamic = 'force-dynamic';
  * Covers 6 global regions for maximum coverage
  */
 
+// IMPORTANTE: muchos círculos en paralelo desde la IP de Vercel hacen que
+// adsb.lol nos limite (timeouts → MENOS vuelos). Con pocos círculos GRANDES no
+// limita y, además, deja ancho de banda para que OpenSky (cobertura global)
+// rellene los huecos. El dedupe por hex elimina los solapes.
 const REGIONS = [
-  { lat: 39.8, lon: -98.5, dist: 2000 },   // North America
-  { lat: 50.0, lon: 15.0, dist: 2000 },     // Europe
-  { lat: 35.0, lon: 105.0, dist: 2000 },    // Asia
-  { lat: -25.0, lon: 133.0, dist: 2000 },   // Australia
-  { lat: 0.0, lon: 20.0, dist: 2500 },      // Africa
-  { lat: -15.0, lon: -60.0, dist: 2000 },   // South America
+  { lat: 39.8, lon: -98.5, dist: 2200 },    // Norteamérica
+  { lat: 50.0, lon: 15.0, dist: 2200 },     // Europa
+  { lat: 35.0, lon: 105.0, dist: 2300 },    // Asia
+  { lat: -25.0, lon: 133.0, dist: 2200 },   // Australia / SE Asia
+  { lat: 5.0, lon: 22.0, dist: 2500 },      // África / Oriente Medio
+  { lat: -15.0, lon: -58.0, dist: 2300 },   // Sudamérica
 ];
 
 // Helicopter type codes
@@ -72,6 +77,55 @@ async function fetchRegion(region: typeof REGIONS[0]): Promise<any[]> {
     console.warn(`Region fetch failed for lat=${region.lat}:`, e);
   }
   return [];
+}
+
+// OpenSky /states/all: TODOS los vuelos del mundo en una sola llamada
+// (best-effort; si falla o limita, se ignora y quedan los de adsb.lol).
+async function fetchOpenSky(): Promise<any[]> {
+  // Timeout corto: desde la IP de Vercel suele estar limitado y colgarse; así no
+  // ralentiza la capa. Cuando responde (≈0,5 s) rellena huecos oceánicos.
+  try {
+    const res = await fetch('https://opensky-network.org/api/states/all', { signal: AbortSignal.timeout(3500) });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.states || [];
+  } catch {
+    return [];
+  }
+}
+
+const MIL_CALLSIGN_RE = /^(RCH|REACH|KING|DUKE|EVAC|JAKE|CONVOY|RRR|ASCOT|NAVY|ARMY|HERKY|FORTE|GRZLY|HOMER|SENTRY|SLAM|VADER|BAF|CFC|NATO|AWACS)\d*/i;
+
+// Clasifica un state-vector de OpenSky (array) heurísticamente por callsign.
+function classifyOpenSky(s: any[]) {
+  const hex = (s[0] || '').toLowerCase().trim();
+  const callsign = (s[1] || '').trim();
+  const lon = s[5], lat = s[6];
+  if (!hex || lat == null || lon == null) return null;
+  const altM = typeof s[7] === 'number' ? s[7] : (typeof s[13] === 'number' ? s[13] : 0);
+  const velMs = typeof s[9] === 'number' ? s[9] : null;
+  const track = typeof s[10] === 'number' ? s[10] : 0;
+  let category: 'commercial' | 'private' | 'military' = 'private';
+  if (MIL_CALLSIGN_RE.test(callsign)) category = 'military';
+  else if (AIRLINE_CODE_RE.test(callsign)) category = 'commercial';
+  const airlineMatch = AIRLINE_CODE_RE.exec(callsign);
+  return {
+    callsign: callsign || hex,
+    lat: Math.round(lat * 100000) / 100000,
+    lng: Math.round(lon * 100000) / 100000,
+    alt: Math.round(altM),
+    heading: Math.round(track),
+    speed_knots: velMs != null ? Math.round(velMs * 1.94384 * 10) / 10 : null,
+    model: 'Unknown',
+    icao24: hex,
+    registration: 'N/A',
+    squawk: s[14] || '',
+    airline_code: airlineMatch ? airlineMatch[1] : '',
+    aircraft_category: 'plane',
+    category,
+    grounded: s[8] === true,
+    type: 'flight',
+  };
 }
 
 function classifyFlight(f: any) {
@@ -166,10 +220,11 @@ export async function GET() {
 
   // Start new global fetch
   fetchPromise = (async () => {
-    // Fetch all 6 regions in parallel
-    const regionResults = await Promise.allSettled(
-      REGIONS.map(r => fetchRegion(r))
-    );
+    // Fetch all regions (adsb.lol) + OpenSky global en paralelo
+    const [regionResults, openskyStates] = await Promise.all([
+      Promise.allSettled(REGIONS.map(r => fetchRegion(r))),
+      fetchOpenSky(),
+    ]);
 
     const allRaw: any[] = [];
     const seenHex = new Set<string>();
@@ -215,6 +270,21 @@ export async function GET() {
       }
     }
 
+    // Merge OpenSky (best-effort): añade vuelos que adsb.lol no tiene (huecos
+    // oceánicos, regiones sin cobertura). Clasificación heurística por callsign.
+    let openskyAdded = 0;
+    for (const s of openskyStates) {
+      const hex = (s[0] || '').toLowerCase().trim();
+      if (!hex || seenHex.has(hex) || s[6] == null || s[5] == null) continue;
+      const fl = classifyOpenSky(s);
+      if (!fl) continue;
+      seenHex.add(hex);
+      openskyAdded++;
+      if (fl.category === 'military') military.push(fl);
+      else if (fl.category === 'commercial') commercial.push(fl);
+      else privateFl.push(fl);
+    }
+
     // Aggregate GPS jamming zones (grid-based)
     const jammingZones = aggregateJamming(gpsJamming, JAMMING_NACAP_THRESHOLD);
 
@@ -224,7 +294,8 @@ export async function GET() {
       private_jets: jets,
       military_flights: military,
       gps_jamming: jammingZones,
-      total: allRaw.length,
+      total: seenHex.size,
+      sources: { adsblol: allRaw.length, opensky_added: openskyAdded },
       timestamp: new Date().toISOString(),
     };
   })();

@@ -1,6 +1,10 @@
 import type { ResearchSource, ResearchThread, SourceType, RssFeed, RssItem, KnowledgeItem } from "@/types/research";
 import { researchMockData, rssFeedsMockData, rssItemsMockData, knowledgeBaseMockData } from "./research-mock-data";
 import { generateId } from "@/lib/workspace/agent-utils";
+import { hydrate, persist } from "@/lib/workspace/persist";
+
+const PKEY = "politeia:ws:research";
+hydrate(PKEY, researchMockData);
 
 export const researchRepository = {
   getThreads(workspaceId: string): ResearchThread[] {
@@ -25,6 +29,7 @@ export const researchRepository = {
       updatedAt: now,
     };
     researchMockData.push(thread);
+    persist(PKEY, researchMockData);
     return thread;
   },
   addManualSource(threadId: string, content: string, type: SourceType, title?: string): ResearchSource {
@@ -40,6 +45,7 @@ export const researchRepository = {
     if (thread) {
       thread.sources.push(source);
       thread.updatedAt = source.addedAt;
+      persist(PKEY, researchMockData);
     }
     return source;
   },

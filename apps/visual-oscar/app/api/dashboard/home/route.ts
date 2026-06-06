@@ -37,6 +37,8 @@ export interface DashboardKPI {
   value: string | number
   sub: string
   accent: string
+  /** Serie corta (8 puntos) para el sparkline de tendencia. Opcional. */
+  data?: number[]
 }
 
 export interface DashboardAlert {
@@ -101,6 +103,7 @@ export interface DashboardNewsPulse {
   relevance: number
   date: string | null
   parties: string
+  url?: string | null
 }
 
 export interface DashboardHome {
@@ -133,9 +136,9 @@ const CURRENT_POLLS: Pick<DashboardHome, 'parties' | 'kpis' | 'polls' | 'regions
     { partido_id: 7, siglas: 'JUNTS', nombre: 'Junts',             pct:  2.9, ci_inf:  1.4, ci_sup:  4.4, seats:   7, seats_low:   5, seats_high:   9, color: '#00C4D4', bloque: 'otros',     delta:  0.0 },
   ],
   kpis: [
-    { label: 'Escaños PP',        value: 136, sub: 'de 350 · media encuestadoras', accent: '#0070D1' },
-    { label: 'Escaños PSOE',      value: 116, sub: 'de 350 · media encuestadoras', accent: '#C01818' },
-    { label: 'Distancia PP–PSOE', value: 20,  sub: 'escaños estimados',            accent: '#8B5CF6' },
+    { label: 'Escaños PP',        value: 136, sub: 'de 350 · media encuestadoras', accent: '#0070D1', data: [131,132,134,133,135,135,136,136] },
+    { label: 'Escaños PSOE',      value: 116, sub: 'de 350 · media encuestadoras', accent: '#C01818', data: [120,119,118,118,117,116,116,116] },
+    { label: 'Distancia PP–PSOE', value: 20,  sub: 'escaños estimados',            accent: '#8B5CF6', data: [11,13,16,15,18,19,20,20] },
   ],
   polls: [
     { id: '1', pollster: 'CIS Barómetro',     title: 'Barómetro febrero 2026',     date: '2026-02-28' },
@@ -194,6 +197,7 @@ function deriveNewsPulse(articles: AggregatedArticle[]): DashboardNewsPulse[] {
       relevance: Math.min(1, 0.6 + (a.medio.audiencia_M / 15)),
       date: a.pub_date_iso,
       parties: extractPartiesMentioned(a.title + ' ' + a.description),
+      url: a.link,
     }))
 }
 

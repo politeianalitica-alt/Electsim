@@ -5,6 +5,7 @@ import Link from "next/link";
 import { researchRepository } from "@/lib/research/research-repository";
 import { useResearchSynthesis } from "@/hooks/research/use-research-synthesis";
 import type { SynthesisType } from "@/types/research";
+import SaveAiAsDoc from "@/components/workspace/SaveAiAsDoc";
 
 const SYNTHESIS_TYPES: { id: SynthesisType; label: string }[] = [
   { id: "summary",        label: "Resumen ejecutivo" },
@@ -58,9 +59,16 @@ export default function ResearchThreadPage({
  </Link>
  <h1 className="text-base font-semibold text-[#1d1d1f] mt-1">{thread.title}</h1>
  </div>
+ <div className="flex items-center gap-2">
+ <SaveAiAsDoc
+            workspaceId={params.workspaceId}
+            title={thread.title}
+            text={[...syntheses, ...thread.syntheses].map((s: { content?: string }) => s.content ?? "").filter(Boolean).join("\n\n")}
+          />
  <span className="rounded-full bg-[#f5f5f7] px-2 py-0.5 text-[10px] text-[#6e6e73]">
-          {thread.sources.length} fuentes
+            {thread.sources.length} fuentes
  </span>
+ </div>
  </div>
 
       {/* Synthesis selector */}

@@ -7,13 +7,9 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import EmptyState from '@/components/EmptyState'
 import Skeleton, { LiveDot } from '@/components/Skeleton'
-import { DOSIERES_RESUMEN } from '@/data/dosieres-fixture'
-import { CONGRESO_RESUMEN } from '@/data/congreso-fixture'
-import { SENADO_RESUMEN } from '@/data/senado-fixture'
-import { MEDIOS_RESUMEN } from '@/data/medios-fixture'
-import { IBEX35_RESUMEN } from '@/data/ibex35-fixture'
-import { DIPUTACIONES_RESUMEN } from '@/data/diputaciones-fixture'
-import { PODER_RESUMEN } from '@/data/poder-fixture'
+// Los fixtures de personas (~14 MB en total) se cargan de forma DIFERIDA dentro
+// del componente (import dinámico en useEffect), no estáticamente, para que no
+// entren en el bundle inicial de la ruta /dosieres. Ver `fx` más abajo.
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -197,22 +193,57 @@ export default function DosieresPage() {
   )
 
   const apiDosieres: DossierResumen[] = Array.isArray(data) ? data : []
+
+  // Carga DIFERIDA de los fixtures pesados (~14 MB): salen del bundle inicial
+  // de la ruta y entran como chunk async tras montar. Hasta que llegan, la
+  // lista muestra el estado de carga (ver condición `loading || fx === null`).
+  const [fx, setFx] = useState<null | {
+    dosieres: DossierResumen[]; congreso: DossierResumen[]; senado: DossierResumen[]
+    medios: DossierResumen[]; ibex: DossierResumen[]; diput: DossierResumen[]; poder: DossierResumen[]
+  }>(null)
+  useEffect(() => {
+    let alive = true
+    Promise.all([
+      import('@/data/dosieres-fixture'),
+      import('@/data/congreso-fixture'),
+      import('@/data/senado-fixture'),
+      import('@/data/medios-fixture'),
+      import('@/data/ibex35-fixture'),
+      import('@/data/diputaciones-fixture'),
+      import('@/data/poder-fixture'),
+    ]).then(([d, c, s, m, i, dp, p]) => {
+      if (!alive) return
+      setFx({
+        dosieres: d.DOSIERES_RESUMEN as DossierResumen[],
+        congreso: c.CONGRESO_RESUMEN as DossierResumen[],
+        senado: s.SENADO_RESUMEN as DossierResumen[],
+        medios: m.MEDIOS_RESUMEN as DossierResumen[],
+        ibex: i.IBEX35_RESUMEN as DossierResumen[],
+        diput: dp.DIPUTACIONES_RESUMEN as DossierResumen[],
+        poder: p.PODER_RESUMEN as DossierResumen[],
+      })
+    }).catch(() => {
+      if (alive) setFx({ dosieres: [], congreso: [], senado: [], medios: [], ibex: [], diput: [], poder: [] })
+    })
+    return () => { alive = false }
+  }, [])
+
   // UNIFICACIÓN · todas las personas en un único sitio, autosuficiente sin backend:
   // políticos (fixture) + IBEX 35 + Diputaciones + Poder no-electo, deduplicado por
   // slug. Si el backend responde, sus datos (apiDosieres) prevalecen sobre el fixture.
   const dosieres = useMemo(() => {
     const bySlug = new Map<string, DossierResumen>()
-    for (const d of DOSIERES_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of (fx?.dosieres ?? [])) bySlug.set(d.slug, d)
     for (const d of apiDosieres) bySlug.set(d.slug, d) // backend (si vive) sobre fixture genérico
     // Fuentes curadas prevalecen sobre la ficha genérica (mismo slug):
-    for (const d of CONGRESO_RESUMEN) bySlug.set(d.slug, d) // diputados con datos oficiales
-    for (const d of SENADO_RESUMEN) bySlug.set(d.slug, d)   // senadores con datos oficiales
-    for (const d of MEDIOS_RESUMEN) bySlug.set(d.slug, d)   // periodistas / poder mediático
-    for (const d of IBEX35_RESUMEN) bySlug.set(d.slug, d)
-    for (const d of DIPUTACIONES_RESUMEN) bySlug.set(d.slug, d)
-    for (const d of PODER_RESUMEN) bySlug.set(d.slug, d)
+    for (const d of (fx?.congreso ?? [])) bySlug.set(d.slug, d) // diputados con datos oficiales
+    for (const d of (fx?.senado ?? [])) bySlug.set(d.slug, d)   // senadores con datos oficiales
+    for (const d of (fx?.medios ?? [])) bySlug.set(d.slug, d)   // periodistas / poder mediático
+    for (const d of (fx?.ibex ?? [])) bySlug.set(d.slug, d)
+    for (const d of (fx?.diput ?? [])) bySlug.set(d.slug, d)
+    for (const d of (fx?.poder ?? [])) bySlug.set(d.slug, d)
     return Array.from(bySlug.values())
-  }, [apiDosieres])
+  }, [apiDosieres, fx])
 
   // Enriquecer cada dossier con tipo + subcat inferidos (memoizado).
   // Todos los slugs van a /dosieres/[slug] · esa página tiene fallback
@@ -403,7 +434,7 @@ export default function DosieresPage() {
         </section>
 
         {/* Lista */}
-        {loading ? (
+        {(loading || fx === null) ? (
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
             {[0,1,2,3,4,5].map(i => (
  <div key={i} style={{ background: '#fff', borderRadius: 12, padding: 18, border: '1px solid #ECECEF' }}>
@@ -514,7 +545,7 @@ export default function DosieresPage() {
 
  <p style={{ marginTop: 30, textAlign: 'center', fontSize: 11, color: '#86868b' }}>
           {dosieres.length} personas en un único sitio
-          {' · '}<span style={{ color: '#525258' }}>{CONGRESO_RESUMEN.length} diputados + {SENADO_RESUMEN.length} senadores + {MEDIOS_RESUMEN.length} periodistas + {IBEX35_RESUMEN.length} IBEX 35 + {DIPUTACIONES_RESUMEN.length} Diputaciones + {PODER_RESUMEN.length} Poder no-electo + {DOSIERES_RESUMEN.length} políticos (fixture)</span>
+          {' · '}<span style={{ color: '#525258' }}>{fx?.congreso.length ?? 0} diputados + {fx?.senado.length ?? 0} senadores + {fx?.medios.length ?? 0} periodistas + {fx?.ibex.length ?? 0} IBEX 35 + {fx?.diput.length ?? 0} Diputaciones + {fx?.poder.length ?? 0} Poder no-electo + {fx?.dosieres.length ?? 0} políticos (fixture)</span>
  </p>
  </main>
  </div>

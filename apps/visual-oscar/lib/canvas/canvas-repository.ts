@@ -1,5 +1,9 @@
 import type { InvestigationCanvas } from "@/types/canvas";
 import { canvasMockData } from "./canvas-mock-data";
+import { hydrate, persist } from "@/lib/workspace/persist";
+
+const PKEY = "politeia:ws:canvas";
+hydrate(PKEY, canvasMockData);
 
 export const canvasRepository = {
   list(workspaceId: string): InvestigationCanvas[] {
@@ -16,6 +20,7 @@ export const canvasRepository = {
         ...patch,
         updatedAt: new Date().toISOString(),
       };
+      persist(PKEY, canvasMockData);
     }
   },
 };

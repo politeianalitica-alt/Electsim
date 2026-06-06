@@ -244,6 +244,8 @@ export type WorkspaceView =
   | "simulator"
   | "slides"
   | "reporting"
+  | "vigilancia"
+  | "guardados"
   | "terminal";
 
 export interface WorkspaceTab {

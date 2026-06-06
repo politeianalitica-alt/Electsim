@@ -9,6 +9,34 @@ import { useCommandPalette } from "@/hooks/use-command-palette";
 import { ViewIcon, IconClose, IconPlus, IconAgent, IconCalendar, IconZap } from "./workspace-icons";
 import type { CommandAction } from "@/types/workspace";
 import { SHORTCUTS } from "@/lib/shortcuts/shortcut-registry";
+import { docRepository } from "@/lib/docs/doc-repository";
+import { crmRepository } from "@/lib/crm/crm-repository";
+import { researchRepository } from "@/lib/research/research-repository";
+import { workspaceRepository } from "@/lib/workspace/workspace-repository";
+
+// Búsqueda de contenido (no solo acciones): docs, actores, research, conocimiento.
+function searchEntities(workspaceId: string, q: string): CommandAction[] {
+  const query = q.trim().toLowerCase();
+  if (query.length < 2) return [];
+  const out: CommandAction[] = [];
+  const push = (id: string, label: string, description: string, href: string) =>
+    out.push({ id, label, description, group: "results" as any, href });
+  try {
+    docRepository.getDocs(workspaceId)
+      .filter((d) => d.title.toLowerCase().includes(query)).slice(0, 4)
+      .forEach((d) => push(`res_doc_${d.id}`, d.title, "Documento", buildWorkspaceHref(workspaceId, `docs/${d.id}`)));
+    crmRepository.listActors(workspaceId)
+      .filter((a: any) => (a.name || "").toLowerCase().includes(query)).slice(0, 4)
+      .forEach((a: any) => push(`res_actor_${a.id}`, a.name, `Actor${a.party ? ` · ${a.party}` : ""}`, buildWorkspaceHref(workspaceId, `crm/${a.id}`)));
+    researchRepository.getThreads(workspaceId)
+      .filter((t) => t.title.toLowerCase().includes(query) || (t.query || "").toLowerCase().includes(query)).slice(0, 3)
+      .forEach((t) => push(`res_thr_${t.id}`, t.title, "Research", buildWorkspaceHref(workspaceId, `research/${t.id}`)));
+    workspaceRepository.getKnowledgeItems(workspaceId)
+      .filter((k) => k.title.toLowerCase().includes(query)).slice(0, 3)
+      .forEach((k) => push(`res_kn_${k.id}`, k.title, "Conocimiento", buildWorkspaceHref(workspaceId, "knowledge")));
+  } catch { /* repos en modo demo */ }
+  return out;
+}
 
 interface WorkspaceCommandPaletteProps {
   workspaceId: string;
@@ -24,10 +52,10 @@ function buildCommands(workspaceId: string): CommandAction[] {
   }));
 
   const createActions: CommandAction[] = [
-    { id: "create_issue",    label: "Nuevo issue",           description: "Crear un issue en el workspace",          group: "create",    shortcut: ["C", "I"] },
-    { id: "create_doc",      label: "Nuevo documento",       description: "Crear un documento en Docs",              group: "create" },
-    { id: "create_canvas",   label: "Nuevo canvas",          description: "Crear un canvas de investigación visual", group: "create" },
-    { id: "create_project",  label: "Nuevo proyecto",        description: "Crear un proyecto en Projects",           group: "create" },
+    { id: "create_issue",    label: "Nuevo issue",           description: "Crear un issue en el workspace",          group: "create",    shortcut: ["C", "I"], href: buildWorkspaceHref(workspaceId, "overview") },
+    { id: "create_doc",      label: "Nuevo documento",       description: "Crear un documento en Docs",              group: "create",    href: buildWorkspaceHref(workspaceId, "docs/new") },
+    { id: "create_canvas",   label: "Nuevo canvas",          description: "Crear un canvas de investigación visual", group: "create",    href: buildWorkspaceHref(workspaceId, "canvas") },
+    { id: "create_project",  label: "Nuevo proyecto",        description: "Crear un proyecto en Projects",           group: "create",    href: buildWorkspaceHref(workspaceId, "projects") },
   ];
 
   const agentActions: CommandAction[] = [
@@ -52,13 +80,14 @@ function buildCommands(workspaceId: string): CommandAction[] {
 }
 
 const GROUP_LABELS: Record<string, string> = {
+  results: "Resultados",
   navigation: "Navegar",
   create: "Crear",
   agent: "Agente IA",
   workspace: "Workspace",
 };
 
-const GROUP_ORDER = ["navigation", "create", "agent", "workspace"];
+const GROUP_ORDER = ["results", "navigation", "create", "agent", "workspace"];
 
 export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPaletteProps) {
   const { isOpen, close } = useCommandPalette();
@@ -83,8 +112,11 @@ export function WorkspaceCommandPalette({ workspaceId }: WorkspaceCommandPalette
       )
     : commands;
 
+  const entityResults = searchEntities(workspaceId, query);
+  const allItems = [...entityResults, ...filtered];
+
   const grouped = GROUP_ORDER.reduce<Record<string, CommandAction[]>>((acc, g) => {
-    const items = filtered.filter(c => c.group === g);
+    const items = allItems.filter(c => c.group === g);
     if (items.length) acc[g] = items;
     return acc;
   }, {});

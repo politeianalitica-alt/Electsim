@@ -18,7 +18,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
-const HIDE_ON: readonly string[] = ['/login', '/agente-ia']
+const HIDE_ON: readonly string[] = ['/login', '/agente-ia', '/osint-global']
 const HIDE_PREFIX: readonly string[] = ['/workspaces/']
 
 const BAR_HEIGHT = 28

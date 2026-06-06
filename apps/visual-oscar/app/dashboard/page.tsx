@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
-import { isAuthenticated } from '@/lib/auth'
+import { isAuthenticated, getAccessToken } from '@/lib/auth'
 import dynamic from 'next/dynamic'
 import { useApiQuery } from '@/lib/api/use-api-query'
 import { apiClient } from '@/lib/api/client'
@@ -16,6 +16,11 @@ import AlertCard, { AlertKeyframes, LEVELS_ORDER, type AlertaItem } from '@/comp
 import NewsCard, { type NewsItem } from '@/components/NewsCard'
 import EmptyState from '@/components/EmptyState'
 import MetricTrace from '@/components/MetricTrace'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
+import OsintAlertsCard from '@/components/OsintAlertsCard'
+import DemoBadge from '@/components/DemoBadge'
+import { getFavoriteHrefs, getRecentModules, toggleFavorite, type ModuleRef } from '@/lib/home/modules-access'
+import { getAgendaItems } from '@/lib/home/agenda'
 import type { DashboardHome } from '../api/dashboard/home/route'
 
 // Bloques pesados (mercados, macro, geopolítica, energía, comercio) cargados de
@@ -190,6 +195,26 @@ function ArrowIcon({ size = 11 }: { size?: number }) {
   )
 }
 
+// Saludo personalizado · el token local codifica el email (local.<b64>.session).
+const KNOWN_NAMES: Record<string, string> = { oscar: 'Óscar', antonio: 'Antonio', invitado: 'Invitado' }
+function userFirstName(): string {
+  try {
+    const t = getAccessToken()
+    if (!t) return ''
+    const email = atob(t.split('.')[1] || '')
+    const local = (email.split('@')[0] || '').toLowerCase()
+    return KNOWN_NAMES[local] ?? (local ? local.charAt(0).toUpperCase() + local.slice(1) : '')
+  } catch {
+    return ''
+  }
+}
+function greetingForHour(h: number): string {
+  if (h < 6) return 'Buenas noches'
+  if (h < 13) return 'Buenos días'
+  if (h < 21) return 'Buenas tardes'
+  return 'Buenas noches'
+}
+
 export default function DashboardPage() {
   const router = useRouter()
   const [mapTab, setMapTab] = useState<MapTab>('electoral')
@@ -221,10 +246,99 @@ export default function DashboardPage() {
     () => apiClient.get('/api/intelligence/signals?legacy=1'),
     { refetchInterval: 30_000 },
   )
-  const richAlerts: AlertaItem[] = (signalsData?.signals ?? [])
+  // "Lo urgente de hoy" sale de una fuente VIVA que varía: artículos de alto
+  // impacto del feed (si hay backend) o, en demo, los titulares RSS de news_pulse.
+  // Cada urgente lleva su medio como fuente y enlaza a la noticia real. Si no hay
+  // noticias, cae a las señales curadas.
+  const relTs = (iso: string | null): string => {
+    if (!iso) return 'hoy'
+    const mm = Math.round((Date.now() - Date.parse(iso)) / 60000)
+    if (isNaN(mm)) return 'hoy'
+    if (mm < 60) return `hace ${mm} min`
+    const h = Math.round(mm / 60)
+    return h < 24 ? `hace ${h} h` : `hace ${Math.round(h / 24)} d`
+  }
+  const googleNews = (t: string) => `https://news.google.com/search?q=${encodeURIComponent(t)}&hl=es`
+  const newsUrgent: AlertaItem[] = (() => {
+    const arts = newsRaw?.articles ?? []
+    const high = arts.filter(a => a.ai_spain_impact === 'critico' || a.ai_spain_impact === 'alto' || (a.ai_relevance ?? 0) >= 0.72)
+    if (high.length) {
+      return high
+        .sort((a, b) => (b.ai_relevance ?? 0) - (a.ai_relevance ?? 0))
+        .slice(0, 6)
+        .map(a => ({
+          id: `urg-${a.id}`,
+          level: (a.ai_spain_impact === 'critico' ? 'rojo-parpadeante' : a.ai_spain_impact === 'alto' ? 'rojo' : 'naranja') as AlertaItem['level'],
+          category: (a.ai_category ?? 'actualidad') as AlertaItem['category'],
+          title: a.title,
+          description: a.ai_summary ?? '',
+          source: a.source_name,
+          ts: relTs(a.published_at),
+          evidenceUrl: a.url || googleNews(a.title),
+        }))
+    }
+    const np = data?.news_pulse ?? []
+    return np.slice()
+      .sort((a, b) => (b.relevance ?? 0) - (a.relevance ?? 0))
+      .slice(0, 6)
+      .map(n => ({
+        id: `urg-${n.id}`,
+        level: ((n.relevance ?? 0) >= 0.9 ? 'rojo' : (n.relevance ?? 0) >= 0.78 ? 'naranja' : 'amarillo') as AlertaItem['level'],
+        category: 'actualidad' as AlertaItem['category'],
+        title: n.title,
+        description: '',
+        source: n.source,
+        ts: 'hoy',
+        evidenceUrl: n.url || googleNews(n.title),
+      }))
+  })()
+  const richAlerts: AlertaItem[] = (newsUrgent.length ? newsUrgent : (signalsData?.signals ?? []))
     .slice()
     .sort((a, b) => LEVELS_ORDER.indexOf(a.level) - LEVELS_ORDER.indexOf(b.level))
   const top5Alerts = richAlerts.slice(0, 5)
+
+  // ── Inicio · resumen ejecutivo + favoritos/recientes + agenda + audio (TTS) ──
+  const [favHrefs, setFavHrefs] = useState<string[]>([])
+  const [recents, setRecents] = useState<ModuleRef[]>([])
+  const [speaking, setSpeaking] = useState(false)
+  useEffect(() => {
+    setFavHrefs(getFavoriteHrefs())
+    setRecents(getRecentModules())
+  }, [])
+  const onToggleFav = (href: string) => setFavHrefs(toggleFavorite(href))
+  const favModules = favHrefs
+    .map(h => MODULES.find(m => m.href === h))
+    .filter(Boolean) as typeof MODULES
+  const agendaItems = getAgendaItems(new Date(), 5)
+  const criticasTop = richAlerts.filter(a => a.level === 'rojo-parpadeante').length
+  const altasTop = richAlerts.filter(a => a.level === 'rojo').length
+  const ibexMacro = data?.macro?.find(m => /ibex/i.test(m.label))
+  const distKpi = data?.kpis?.find(k => /distancia/i.test(k.label))
+  const execParts: string[] = []
+  if (criticasTop) execParts.push(`${criticasTop} ${criticasTop === 1 ? 'alerta crítica' : 'alertas críticas'}`)
+  else if (altasTop) execParts.push(`${altasTop} ${altasTop === 1 ? 'alerta de prioridad alta' : 'alertas de prioridad alta'}`)
+  else execParts.push('sin alertas críticas')
+  if (ibexMacro) execParts.push(`IBEX 35 ${ibexMacro.value} (${ibexMacro.delta})`)
+  if (distKpi) execParts.push(`distancia PP–PSOE ${distKpi.value} esc.`)
+  execParts.push(`${agendaItems.length} hitos esta semana`)
+  const execSummaryText = execParts.join(' · ')
+  const speakSummary = () => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return
+    const synth = window.speechSynthesis
+    if (synth.speaking) { synth.cancel(); setSpeaking(false); return }
+    const intro = `${greetingForHour(new Date().getHours())}${userFirstName() ? ', ' + userFirstName() : ''}.`
+    const alertsLine = top5Alerts.length
+      ? `Lo urgente: ${top5Alerts.slice(0, 3).map(a => a.title).join('. ')}.`
+      : 'Hoy sin alertas urgentes.'
+    const u = new SpeechSynthesisUtterance(`${intro} Resumen de hoy. ${execSummaryText}. ${alertsLine}`)
+    u.lang = 'es-ES'
+    u.rate = 1.03
+    u.onend = () => setSpeaking(false)
+    u.onerror = () => setSpeaking(false)
+    synth.cancel()
+    synth.speak(u)
+    setSpeaking(true)
+  }
 
   useEffect(() => {
     const ok = isAuthenticated()
@@ -245,6 +359,112 @@ export default function DashboardPage() {
  <AppHeader/>
 
  <main style={{ maxWidth: 1600, margin: '0 auto', padding: '28px 40px 64px' }}>
+
+        {/* ═══════════════ 0 · SALUDO PERSONALIZADO ═══════════════ */}
+ <div style={{ marginBottom: 18 }}>
+ <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', margin: 0, color: '#1d1d1f' }}>
+            {greetingForHour(new Date().getHours())}{userFirstName() ? `, ${userFirstName()}` : ''}
+ </h1>
+ <p style={{ fontSize: 13, color: '#6e6e73', margin: '3px 0 0', textTransform: 'capitalize' }}>
+            {new Date().toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+ </p>
+ </div>
+
+        {/* Resumen ejecutivo de hoy (C1) + escuchar en audio (C5) */}
+        <div style={{ display: 'flex', alignItems: 'stretch', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
+          <div style={{
+            flex: '1 1 320px', minWidth: 0, display: 'flex', alignItems: 'center', gap: 10,
+            background: '#fff', border: '1px solid #ECECEF', borderLeft: '3px solid #1F4E8C',
+            borderRadius: 10, padding: '9px 14px',
+          }}>
+            <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#1F4E8C', flexShrink: 0 }}>Hoy</span>
+            <span style={{ fontSize: 13, color: '#1d1d1f', lineHeight: 1.4 }}>{execSummaryText}</span>
+          </div>
+          <button
+            onClick={speakSummary}
+            title="Escuchar el resumen de hoy"
+            aria-label={speaking ? 'Parar la lectura del resumen' : 'Escuchar el resumen de hoy'}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7, flexShrink: 0,
+              background: speaking ? '#1F4E8C' : '#fff', color: speaking ? '#fff' : '#1F4E8C',
+              border: '1px solid #1F4E8C', borderRadius: 10, padding: '0 14px', minHeight: 38,
+              fontSize: 12.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              {speaking
+                ? <><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></>
+                : <polygon points="5 3 19 12 5 21 5 3"/>}
+            </svg>
+            {speaking ? 'Parar' : 'Escuchar'}
+          </button>
+        </div>
+
+        {/* Banner de error · datos principales (B2) · no bloquea el resto de la página */}
+        {homeQ.isError && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', background: 'rgba(220,38,38,0.06)', border: '1px solid #F7C9C9', borderRadius: 10, padding: '9px 14px', marginBottom: 14 }}>
+            <span style={{ fontSize: 13, color: '#B91C1C', fontWeight: 600 }}>No hemos podido cargar los datos principales del inicio.</span>
+            <button onClick={() => refresh()} style={{ fontSize: 12.5, fontWeight: 600, color: '#fff', background: '#B91C1C', border: 'none', borderRadius: 8, padding: '5px 12px', cursor: 'pointer' }}>Reintentar</button>
+          </div>
+        )}
+
+        {/* Acciones rápidas */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: -8, marginBottom: 18 }}>
+          {[
+            { label: 'Briefing diario', href: '/briefing', accent: '#2d8a39' },
+            { label: 'Abrir workspace', href: '/workspaces', accent: '#7C3AED' },
+            { label: 'Mapa OSINT', href: '/osint-global', accent: '#0E7490' },
+            { label: 'Alertas activas', href: '/alertas', accent: '#D97706' },
+          ].map(qa => (
+            <a key={qa.href} href={qa.href} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 6,
+              fontSize: 12.5, fontWeight: 600, color: qa.accent,
+              background: '#fff', border: `1px solid ${qa.accent}33`, borderRadius: 999,
+              padding: '6px 13px', textDecoration: 'none',
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: 99, background: qa.accent }} />
+              {qa.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Acceso rápido · favoritos + recientes de módulos (C3) */}
+        {(favModules.length > 0 || recents.length > 0) && (
+          <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', marginBottom: 14 }}>
+            {favModules.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Favoritos</span>
+                {favModules.map(m => (
+                  <a key={m.href} href={m.href} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: '#1d1d1f', background: '#fff', border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px', textDecoration: 'none' }}>
+                    <span style={{ width: 6, height: 6, borderRadius: 99, background: m.accent }} />
+                    {m.label}
+                  </a>
+                ))}
+              </div>
+            )}
+            {recents.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Recientes</span>
+                {recents.map(r => (
+                  <a key={r.href} href={r.href} style={{ display: 'inline-flex', alignItems: 'center', fontSize: 12, fontWeight: 500, color: '#3a3a3d', background: '#fff', border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px', textDecoration: 'none' }}>{r.label}</a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Agenda de la semana · hitos institucionales (C4) */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: 18 }}>
+          <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73' }}>Agenda</span>
+          <DemoBadge title="Hitos institucionales orientativos · sin calendario en vivo conectado" />
+          {agendaItems.map((a, i) => (
+            <span key={i} title={a.title} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: 12, background: '#fff', border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px' }}>
+              <span style={{ width: 6, height: 6, borderRadius: 99, background: a.accent, flexShrink: 0 }} />
+              <span style={{ fontWeight: 700, color: a.accent, textTransform: 'capitalize' }}>{a.dateLabel}</span>
+              <span style={{ color: '#3a3a3d' }}>{a.title}</span>
+            </span>
+          ))}
+        </div>
 
         {/* ═══════════════ 1 · IA · chat con PoliteIA ═══════════════
            Primera vista de la pantalla. Cabecera dark con la conversación
@@ -300,6 +520,23 @@ export default function DashboardPage() {
           >
             Abrir dosieres →
  </a>
+ </section>
+
+        {/* ═══════════════ SITUACIÓN MUNDIAL · OSINT en vivo ═══════════════
+           Mini-mapa OSINT (conflictos, guerras, desastres, sanciones) + alertas
+           en vivo. Reutiliza el módulo de mapa en modo embed. */}
+ <section style={{ marginBottom: 20 }}>
+ <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.015em', margin: 0, color: '#1d1d1f', display: 'flex', alignItems: 'center', gap: 8 }}>
+ <span style={{ width: 7, height: 7, borderRadius: 99, background: '#0E7490' }} />
+              Situación mundial · OSINT en vivo
+ </h2>
+ <a href="/osint-global" style={{ fontSize: 12, fontWeight: 600, color: '#0E7490', textDecoration: 'none' }}>Abrir mapa completo →</a>
+ </div>
+ <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.7fr) minmax(0, 1fr)', gap: 14 }} className="home-osint-grid">
+ <SectorMapPreview sector="inicio" accent="#0E7490" height={340} caption="situación mundial · conflictos y desastres" marginTop={0} lazyClick />
+ <OsintAlertsCard height={340} />
+ </div>
  </section>
 
         {/* ═══════════════ 3 · PANEL EJECUTIVO · KPIs ═══════════════
@@ -411,6 +648,17 @@ export default function DashboardPage() {
                       }
  </div>
  <p style={{ fontSize: 11.5, color: '#86868b', margin: '3px 0 0', lineHeight: 1.3 }}>{k.sub}</p>
+                    {Array.isArray(k.data) && k.data.length > 1 && (() => {
+                      const d = k.data
+                      const min = Math.min(...d), max = Math.max(...d), range = (max - min) || 1
+                      const w = 100, h = 18
+                      const pts = d.map((v, i) => `${(i / (d.length - 1)) * w},${h - ((v - min) / range) * h}`).join(' ')
+                      return (
+                        <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ marginTop: 8, display: 'block', opacity: 0.8 }} aria-hidden="true">
+                          <polyline points={pts} fill="none" stroke={k.accent} strokeWidth={1.5} strokeLinejoin="round" strokeLinecap="round" vectorEffect="non-scaling-stroke"/>
+                        </svg>
+                      )
+                    })()}
  </div>
                 )
               })}
@@ -485,9 +733,9 @@ export default function DashboardPage() {
           boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
         }}>
           {(() => {
-            const criticas = richAlerts.filter(a => a.level === 'CRITICA' || (a.level as string) === 'critica').length
-            const altas = richAlerts.filter(a => a.level === 'ALTA' || (a.level as string) === 'alta').length
-            const medias = richAlerts.filter(a => a.level === 'MEDIA' || (a.level as string) === 'media').length
+            const criticas = richAlerts.filter(a => a.level === 'rojo-parpadeante').length
+            const altas = richAlerts.filter(a => a.level === 'rojo').length
+            const medias = richAlerts.filter(a => a.level === 'naranja' || a.level === 'amarillo').length
             return (
               <>
                 {/* Header con contador desglosado */}
@@ -850,7 +1098,7 @@ export default function DashboardPage() {
                     source: n.source,
                     sentiment: n.sentiment,
                     relevance: n.relevance,
-                    url: n.url,
+                    url: n.url ?? newsRaw?.articles?.find(a => a.title === n.title)?.url ?? googleNews(n.title),
                     parties: sanitizeParties(n.parties),
                     ts: null,
                   }
@@ -875,13 +1123,15 @@ export default function DashboardPage() {
             )}
  </section>
 
-          {/* Mapa territorial — enriched */}
- <section style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {/* Mapa territorial — enriched · oculto en móvil (16 comunidades en
+              filas flex no caben legibles a <640px; accesible vía /mapa) */}
+ <section className="mobile-hidden" style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', boxShadow: '0 1px 3px rgba(0,0,0,0.05)', border: '1px solid #ECECEF', display: 'flex', flexDirection: 'column', gap: 10 }}>
 
             {/* Header + tab toggle */}
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
- <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0 }}>
+ <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 600, letterSpacing: '-0.01em', margin: 0, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
                 Qué pasa en cada comunidad
+ <DemoBadge title="Estimaciones por comunidad de muestra · no conectadas a un proveedor de sondeos en vivo" />
  </h2>
  <div style={{ display: 'flex', background: '#F5F5F7', borderRadius: 8, padding: 2, gap: 1 }}>
                 {(['electoral', 'narrativa', 'figuras'] as MapTab[]).map(tab => (
@@ -1021,6 +1271,7 @@ export default function DashboardPage() {
  <div style={{ borderTop: '1px solid #ECECEF', paddingTop: 9 }}>
  <div style={{ fontSize: 11, fontWeight: 600, color: '#6e6e73', letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: 7 }}>
                 Quién está subiendo y quién está bajando
+ <span style={{ marginLeft: 8, fontWeight: 500, textTransform: 'none', letterSpacing: 0, color: '#9ca3af' }}>· tracking semanal · datos a mayo 2026</span>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
                 {TRENDING_FIGURES.map(f => {
@@ -1085,7 +1336,7 @@ export default function DashboardPage() {
  </span>
  </div>
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
-            {MODULES.map(m => (
+            {MODULES.map(m => { const fav = favHrefs.includes(m.href); return (
  <button key={m.href} onClick={() => router.push(m.href)} style={{
                 background: '#fff',
                 border: m.tag ? `1px solid ${m.accent}22` : '1px solid #ECECEF',
@@ -1098,15 +1349,26 @@ export default function DashboardPage() {
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(0,0,0,0.03)' }}>
  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
  <span style={{ fontSize: 13, fontWeight: 600, color: '#1d1d1f', letterSpacing: '-0.005em', lineHeight: 1.3 }}>{m.label}</span>
+ <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0, marginLeft: 6 }}>
                   {m.tag && (
- <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent, flexShrink: 0, marginLeft: 6 }}>
+ <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 5px', borderRadius: 999, letterSpacing: '0.05em', background: `${m.accent}18`, color: m.accent }}>
                       {m.tag}
  </span>
                   )}
+ <span
+                    role="button"
+                    tabIndex={0}
+                    aria-label={fav ? `Quitar ${m.label} de favoritos` : `Añadir ${m.label} a favoritos`}
+                    title={fav ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                    onClick={(e) => { e.stopPropagation(); onToggleFav(m.href) }}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onToggleFav(m.href) } }}
+                    style={{ cursor: 'pointer', color: fav ? '#F5A623' : '#C7C7CC', fontSize: 14, lineHeight: 1, display: 'inline-flex' }}
+                  >{fav ? '★' : '☆'}</span>
+ </span>
  </div>
  <p style={{ margin: 0, fontSize: 12, color: '#6e6e73', lineHeight: 1.35 }}>{m.sub}</p>
  </button>
-            ))}
+            )})}
  </div>
  </section>
 

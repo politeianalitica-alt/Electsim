@@ -3,20 +3,27 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Activity, Database, Wifi } from 'lucide-react';
+import { Layers, Newspaper, Search, X, Globe, MapPinned, Radar, Satellite, Moon, Sun, ExternalLink, AlertTriangle, Database, Wifi, Type, Check, Crosshair } from 'lucide-react';
 import IntelFeed from '@/components/osiris/IntelFeed';
 import SearchBar from '@/components/osiris/SearchBar';
+import MapViewPresets from '@/components/osiris/MapViewPresets';
 import ScaleBar from '@/components/osiris/ScaleBar';
 import ErrorBoundary from '@/components/osiris/ErrorBoundary';
 import SharePanel from '@/components/osiris/SharePanel';
 import KeyboardShortcuts from '@/components/osiris/KeyboardShortcuts';
 import GlobalStatusBar from '@/components/osiris/GlobalStatusBar';
+import LegendFooter from '@/components/osiris/LegendFooter';
 import LiveAlerts from '@/components/osiris/LiveAlerts';
+import { startAisStream } from '@/lib/osiris/aisClient';
 
 const OsirisMap = dynamic(() => import('@/components/osiris/OsirisMap'), { ssr: false });
 const LayerPanel = dynamic(() => import('@/components/osiris/LayerPanel'));
 const CameraViewer = dynamic(() => import('@/components/osiris/CameraViewer'));
 const OsintPanel = dynamic(() => import('@/components/osiris/OsintPanel'));
+
+// Claves de las sub-capas marítimas (barcos y puertos por tipo)
+const MARITIME_SHIP_KEYS = ['ship_cargo', 'ship_tanker', 'ship_passenger', 'ship_fishing', 'ship_tug', 'ship_highspeed', 'ship_military', 'ship_other'];
+const MARITIME_PORT_KEYS = ['port_container', 'port_energy', 'port_naval', 'port_commercial'];
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
@@ -36,6 +43,85 @@ function useIsMobile() {
     };
   }, []);
   return isMobile;
+}
+
+// Botón de control del mapa con menú desplegable de opciones (estilo / modo visual).
+// En vez de "ciclar" a ciegas, abre un menú con TODAS las opciones y marca la activa.
+type MapMenuOption = { value: string; label: string; icon?: React.ReactNode; color?: string };
+function MapControlMenu({
+  triggerIcon, tooltip, options, value, onSelect, isOpen, onToggle, onClose,
+}: {
+  triggerIcon: React.ReactNode;
+  tooltip: string;
+  options: MapMenuOption[];
+  value: string;
+  onSelect: (v: string) => void;
+  isOpen: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  // Cierra al pulsar fuera del control (robusto frente a ancestros con transform).
+  useEffect(() => {
+    if (!isOpen) return;
+    const onDown = (e: PointerEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) onClose();
+    };
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [isOpen, onClose]);
+  return (
+    <div ref={wrapRef} className="relative pointer-events-auto">
+      <button
+        onClick={onToggle}
+        className={`glass-panel p-2.5 transition-colors group relative ${isOpen ? 'border-[var(--gold-primary)]/60' : 'hover:border-[var(--gold-primary)]/40'}`}
+        title={tooltip}
+      >
+        {triggerIcon}
+        {!isOpen && (
+          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
+            {tooltip}
+          </span>
+        )}
+      </button>
+      {isOpen && (
+        <>
+          <div
+            className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 z-[300] glass-panel p-1"
+            style={{ minWidth: 150, display: 'flex', flexDirection: 'column', gap: 1 }}
+          >
+            {options.map((opt) => {
+              const active = opt.value === value;
+              return (
+                <button
+                  key={opt.value}
+                  onClick={() => { onSelect(opt.value); onClose(); }}
+                  className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-md transition-colors text-left"
+                  style={{
+                    background: active ? 'var(--gold-primary)' : 'transparent',
+                    color: active ? '#0b0e16' : 'var(--text-primary, #E8E6E0)',
+                  }}
+                  onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; }}
+                  onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = 'transparent'; }}
+                >
+                  <span className="flex items-center justify-center w-4 h-4 flex-shrink-0" style={{ color: active ? '#0b0e16' : (opt.color || 'var(--text-muted)') }}>
+                    {opt.icon}
+                  </span>
+                  <span className="flex-1 text-[11.5px] font-medium tracking-wide">{opt.label}</span>
+                  {active && <Check className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={3} />}
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
 const UptimeClock = () => {
   const [uptime, setUptime] = useState('00:00:00');
@@ -97,10 +183,16 @@ export default function Dashboard() {
   const [spaceWeather, setSpaceWeather] = useState<any>(null);
   const [showLayers, setShowLayers] = useState(true);
   const [showIntel, setShowIntel] = useState(true);
+  const [showRecon, setShowRecon] = useState(false); // panel de Reconocimiento (flotante)
+  const [embed, setEmbed] = useState(false); // modo embebido (iframe sectorial): oculta el chrome
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
   const [mapStyle, setMapStyle] = useState<'dark'|'light'|'satellite'>('dark');
+  const [visualMode, setVisualMode] = useState<'none'|'flir'|'nvg'|'crt'>('none');
+  const [muteMap, setMuteMap] = useState(false);
+  // Qué menú desplegable de control del mapa está abierto (estilo / modo visual)
+  const [openMapMenu, setOpenMapMenu] = useState<null | 'style' | 'visual'>(null);
   const [sweepData, setSweepData] = useState<any>(null);
   const [scanTargets, setScanTargets] = useState<any[]>([]);
 
@@ -109,28 +201,35 @@ export default function Dashboard() {
   const geocodeCache = useRef<Map<string, string>>(new Map());
   const geocodeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lastGeocodedPos = useRef<{ lat: number; lng: number } | null>(null);
+  // AIS global (aisstream) — corre en el navegador
+  const aisStopRef = useRef<null | (() => void)>(null);
+  const aisActiveRef = useRef(false);
 
-  // ── DEFAULT: Most layers OFF — fast initial load ──
+  // ── DEFAULT: TODAS las capas apagadas excepto "día/noche" ──
   const [activeLayers, setActiveLayers] = useState({
     flights: false,
     private: false,
     jets: false,
     military: false,
-    maritime: true,
-    ship_cargo: true,
-    ship_tanker: true,
-    ship_passenger: true,
-    ship_fishing: true,
-    ship_tug: true,
-    ship_highspeed: true,
-    ship_military: true,
-    ship_other: true,
+    maritime: false,
+    ship_cargo: false,
+    ship_tanker: false,
+    ship_passenger: false,
+    ship_fishing: false,
+    ship_tug: false,
+    ship_highspeed: false,
+    ship_military: false,
+    ship_other: false,
+    port_container: false,
+    port_energy: false,
+    port_naval: false,
+    port_commercial: false,
     satellites: false,
     balloons: false,
-    cctv: true,
-    live_news: true,
-    news_intel: true,
-    earthquakes: true,
+    cctv: false,
+    live_news: false,
+    news_intel: false,
+    earthquakes: false,
     fires: false,
     weather: false,
     radiation: false,
@@ -145,13 +244,88 @@ export default function Dashboard() {
     power_other: false,
     critical_infra: false,
     submarine_cables: false,
-    global_incidents: true,
-    traffic_incidents: true,
+    global_incidents: false,
+    traffic_incidents: false,
     war_alerts: false,
     gps_jamming: false,
+    geo_rivers: false,
+    geo_mountains: false,
+    geo_deserts: false,
+    geo_features: false,
+    gdacs: false,
+    hurricanes: false,
+    volcanoes: false,
+    airports: false,
+    launches: false,
+    iss: false,
+    frontline: false,
+    conflict_zones: false,
+    war_ukraine: false,
+    war_gaza: false,
+    war_lebanon: false,
+    war_iran: false,
+    war_sudan: false,
+    war_myanmar: false,
+    war_congo: false,
+    war_sahel: false,
+    war_syria: false,
+    // Lote A — Política e índices
+    election: false,
+    press_freedom: false,
+    corruption: false,
+    hdi: false,
+    gdp_pc: false,
+    econ_blocs: false,
+    // Lote B — Industria estratégica
+    refineries: false,
+    lng_terminals: false,
+    fabs: false,
+    nuclear_plants: false,
+    dams: false,
+    // Lote C — Infraestructura digital
+    ixps: false,
+    cable_landings: false,
+    net_shutdowns: false,
+    // Lote D — Humanitario y medioambiente
+    refugee_camps: false,
+    deforestation: false,
+    mobile_coverage: false,
+    trains: false,
+    railways: false,
+    satnogs: false,
+    gibs: false,
+    nightlights: false,
+    military_bases: false,
+    air_quality: false,
+    rainfall: false,
+    aurora: false,
+    tectonics: false,
+    sea_state: false,
+    pipelines: false,
+    powerlines: false,
+    datacenters: false,
+    oilgas: false,
+    minerals: false,
+    agriculture: false,
+    alliances: false,
+    sanctions: false,
+    milspend: false,
+    regime: false,
+    nukes: false,
+    disputes: false,
+    orgs: false,
+    lighthouses: false,
+    maritime_routes: false,
+    piracy: false,
     day_night: true,
-    sdk_stream: true,
+    sdk_stream: false,
   });
+  // Marítimo: activar cualquier tipo de barco o puerto debe cargar y mostrar los
+  // datos sin necesidad de activar antes el toggle maestro "Todo el tráfico".
+  const anyShipActive = MARITIME_SHIP_KEYS.some(k => (activeLayers as any)[k]);
+  const anyPortActive = MARITIME_PORT_KEYS.some(k => (activeLayers as any)[k]);
+  const maritimeActive = activeLayers.maritime || anyShipActive || anyPortActive;
+  const showShips = activeLayers.maritime || anyShipActive;
   const [liveFeedUrl, setLiveFeedUrl] = useState<string | null>(null);
   const [liveFeedName, setLiveFeedName] = useState('');
   const [liveFeedEmbedAllowed, setLiveFeedEmbedAllowed] = useState(true);
@@ -173,6 +347,7 @@ export default function Dashboard() {
       setFlyToLocation({ lat, lng: lon, ts: Date.now() });
       if (!isNaN(zoom)) setMapView(v => ({ ...v, zoom }));
     }
+    if (p.get('embed') === '1') setEmbed(true);
     const layers = p.get('layers');
     if (layers) {
       const active = layers.split(',');
@@ -351,8 +526,8 @@ export default function Dashboard() {
       layerFetchedRef.current.add('cctv');
     }
     // Maritime
-    if (activeLayers.maritime && !layerFetchedRef.current.has('maritime')) {
-      fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, maritime_ships: d.ships }));
+    if (maritimeActive && !layerFetchedRef.current.has('maritime')) {
+      fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) }));
       layerFetchedRef.current.add('maritime');
     }
     // Balloons
@@ -390,6 +565,152 @@ export default function Dashboard() {
       fetchEndpoint('/api/osiris/traffic-incidents', d => ({ traffic_incidents: d.incidents }));
       layerFetchedRef.current.add('traffic_incidents');
     }
+    // Accidentes geográficos (Natural Earth) — ríos, montañas, desiertos…
+    if ((activeLayers.geo_rivers || activeLayers.geo_mountains || activeLayers.geo_deserts || activeLayers.geo_features) && !layerFetchedRef.current.has('geo_features')) {
+      fetchEndpoint('/api/osiris/geo-features', d => ({ geo_rivers_fc: d.rivers, geo_areas_fc: d.areas, geo_points: d.points }));
+      layerFetchedRef.current.add('geo_features');
+    }
+    // GDACS — alertas de desastres
+    if (activeLayers.gdacs && !layerFetchedRef.current.has('gdacs')) {
+      fetchEndpoint('/api/osiris/gdacs', d => ({ gdacs: d.events }));
+      layerFetchedRef.current.add('gdacs');
+    }
+    // Ciclones tropicales (NHC)
+    if (activeLayers.hurricanes && !layerFetchedRef.current.has('hurricanes')) {
+      fetchEndpoint('/api/osiris/hurricanes', d => ({ hurricanes: d.storms }));
+      layerFetchedRef.current.add('hurricanes');
+    }
+    // Volcanes (Smithsonian)
+    if (activeLayers.volcanoes && !layerFetchedRef.current.has('volcanoes')) {
+      fetchEndpoint('/api/osiris/volcanoes', d => ({ volcanoes: d.volcanoes }));
+      layerFetchedRef.current.add('volcanoes');
+    }
+    // Aeropuertos (OurAirports)
+    if (activeLayers.airports && !layerFetchedRef.current.has('airports')) {
+      fetchEndpoint('/api/osiris/airports', d => ({ airports: d.airports }));
+      layerFetchedRef.current.add('airports');
+    }
+    // Lanzamientos espaciales (Launch Library)
+    if (activeLayers.launches && !layerFetchedRef.current.has('launches')) {
+      fetchEndpoint('/api/osiris/launches', d => ({ launches: d.launches }));
+      layerFetchedRef.current.add('launches');
+    }
+    // ISS (posición en directo)
+    if (activeLayers.iss && !layerFetchedRef.current.has('iss')) {
+      fetchEndpoint('/api/osiris/iss', d => ({ iss: d.iss }));
+      layerFetchedRef.current.add('iss');
+    }
+    // Frente de Ucrania (DeepState)
+    if (activeLayers.frontline && !layerFetchedRef.current.has('frontline')) {
+      fetchEndpoint('/api/osiris/frontlines', d => ({ frontline_fc: d.frontlines?.map || d.frontlines }));
+      layerFetchedRef.current.add('frontline');
+    }
+    // Trenes (Digitraffic)
+    if (activeLayers.trains && !layerFetchedRef.current.has('trains')) {
+      fetchEndpoint('/api/osiris/trains', d => ({ trains: d.trains }));
+      layerFetchedRef.current.add('trains');
+    }
+    // Red ferroviaria mundial (estática, una sola carga)
+    if (activeLayers.railways && !layerFetchedRef.current.has('railways')) {
+      fetchEndpoint('/api/osiris/railways', d => ({ railways_fc: d.railways, railways_hs_fc: d.highspeed, railways_commuter_fc: d.commuter }));
+      layerFetchedRef.current.add('railways');
+    }
+    // Lote Clima y Tierra
+    if (activeLayers.rainfall && !layerFetchedRef.current.has('rainfall')) {
+      fetchEndpoint('/api/osiris/rainviewer', d => ({ rainviewer: d }));
+      layerFetchedRef.current.add('rainfall');
+    }
+    if (activeLayers.aurora && !layerFetchedRef.current.has('aurora')) {
+      fetchEndpoint('/api/osiris/aurora', d => ({ aurora: d.points }));
+      layerFetchedRef.current.add('aurora');
+    }
+    if (activeLayers.tectonics && !layerFetchedRef.current.has('tectonics')) {
+      fetchEndpoint('/api/osiris/tectonics', d => ({ tectonics_fc: d.plates }));
+      layerFetchedRef.current.add('tectonics');
+    }
+    if (activeLayers.sea_state && !layerFetchedRef.current.has('sea_state')) {
+      fetchEndpoint('/api/osiris/sea-state', d => ({ sea_state: d.points }));
+      layerFetchedRef.current.add('sea_state');
+    }
+    // Lote Energía y Recursos
+    if (activeLayers.pipelines && !layerFetchedRef.current.has('pipelines')) {
+      fetchEndpoint('/api/osiris/pipelines', d => ({ pipelines_fc: d.pipelines }));
+      layerFetchedRef.current.add('pipelines');
+    }
+    if (activeLayers.powerlines && !layerFetchedRef.current.has('powerlines')) {
+      fetchEndpoint('/api/osiris/powerlines', d => ({ powerlines_fc: d.powerlines }));
+      layerFetchedRef.current.add('powerlines');
+    }
+    if (activeLayers.datacenters && !layerFetchedRef.current.has('datacenters')) {
+      fetchEndpoint('/api/osiris/datacenters', d => ({ datacenters: d.datacenters }));
+      layerFetchedRef.current.add('datacenters');
+    }
+    if (activeLayers.oilgas && !layerFetchedRef.current.has('oilgas')) {
+      fetchEndpoint('/api/osiris/oilgas', d => ({ oilgas: d.fields }));
+      layerFetchedRef.current.add('oilgas');
+    }
+    if (activeLayers.minerals && !layerFetchedRef.current.has('minerals')) {
+      fetchEndpoint('/api/osiris/minerals', d => ({ minerals: d.mines }));
+      layerFetchedRef.current.add('minerals');
+    }
+    if (activeLayers.agriculture && !layerFetchedRef.current.has('agriculture')) {
+      fetchEndpoint('/api/osiris/agriculture', d => ({ agriculture_fc: d.agriculture }));
+      layerFetchedRef.current.add('agriculture');
+    }
+    // Lote Geopolítica (una sola carga sirve países + disputas + organismos)
+    if ((activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes || activeLayers.disputes || activeLayers.orgs || activeLayers.election || activeLayers.press_freedom || activeLayers.corruption || activeLayers.hdi || activeLayers.gdp_pc || activeLayers.econ_blocs) && !layerFetchedRef.current.has('geopolitics')) {
+      fetchEndpoint('/api/osiris/geopolitics', d => ({ geopolitics_fc: d.countries, disputes: d.disputes, orgs: d.orgs }));
+      layerFetchedRef.current.add('geopolitics');
+    }
+    // Lote B — Industria estratégica
+    if ((activeLayers.refineries || activeLayers.lng_terminals || activeLayers.fabs || activeLayers.nuclear_plants || activeLayers.dams) && !layerFetchedRef.current.has('industry')) {
+      fetchEndpoint('/api/osiris/industry', d => ({ industry_refineries: d.refineries, industry_lng: d.lng_terminals, industry_fabs: d.fabs, industry_nuclear: d.nuclear, industry_dams: d.dams }));
+      layerFetchedRef.current.add('industry');
+    }
+    // Lote C — Infraestructura digital
+    if ((activeLayers.ixps || activeLayers.cable_landings || activeLayers.net_shutdowns) && !layerFetchedRef.current.has('digital_infra')) {
+      fetchEndpoint('/api/osiris/digital-infra', d => ({ infra_ixps: d.ixps, infra_landings: d.landings, infra_shutdowns: d.shutdowns }));
+      layerFetchedRef.current.add('digital_infra');
+    }
+    // Lote D — Campos de refugiados
+    if (activeLayers.refugee_camps && !layerFetchedRef.current.has('refugee_camps')) {
+      fetchEndpoint('/api/osiris/refugee-camps', d => ({ refugee_camps: d.camps }));
+      layerFetchedRef.current.add('refugee_camps');
+    }
+    // Cobertura/rendimiento móvil (Ookla)
+    if (activeLayers.mobile_coverage && !layerFetchedRef.current.has('mobile_coverage')) {
+      fetchEndpoint('/api/osiris/mobile-coverage', d => ({ mobile_coverage: d.coverage }));
+      layerFetchedRef.current.add('mobile_coverage');
+    }
+    // Lote Espacio y Marítimo
+    if (activeLayers.lighthouses && !layerFetchedRef.current.has('lighthouses')) {
+      fetchEndpoint('/api/osiris/lighthouses', d => ({ lighthouses: d.lighthouses }));
+      layerFetchedRef.current.add('lighthouses');
+    }
+    if ((activeLayers.maritime_routes || activeLayers.piracy) && !layerFetchedRef.current.has('maritime_routes')) {
+      fetchEndpoint('/api/osiris/maritime-routes', d => ({ sea_lanes_fc: d.routes, piracy: d.piracy }));
+      layerFetchedRef.current.add('maritime_routes');
+    }
+    // Estaciones SatNOGS
+    if (activeLayers.satnogs && !layerFetchedRef.current.has('satnogs')) {
+      fetchEndpoint('/api/osiris/satnogs', d => ({ satnogs: d.stations }));
+      layerFetchedRef.current.add('satnogs');
+    }
+    // Bases militares (Wikidata)
+    if (activeLayers.military_bases && !layerFetchedRef.current.has('military_bases')) {
+      fetchEndpoint('/api/osiris/military-bases', d => ({ military_bases: d.bases }));
+      layerFetchedRef.current.add('military_bases');
+    }
+    // Calidad del aire (Open-Meteo)
+    if (activeLayers.air_quality && !layerFetchedRef.current.has('air_quality')) {
+      fetchEndpoint('/api/osiris/air-quality', d => ({ air_quality: d.stations }));
+      layerFetchedRef.current.add('air_quality');
+    }
+    // Sucesos de guerra (una sola carga sirve para todas las guerras; se filtran en el mapa)
+    if ((activeLayers.war_ukraine || activeLayers.war_gaza || activeLayers.war_lebanon || activeLayers.war_iran || activeLayers.war_sudan || activeLayers.war_myanmar || activeLayers.war_congo || activeLayers.war_sahel || activeLayers.war_syria) && !layerFetchedRef.current.has('war_events')) {
+      fetchEndpoint('/api/osiris/war-events', d => ({ war_events: d.events }));
+      layerFetchedRef.current.add('war_events');
+    }
 
   }, [activeLayers]);
 
@@ -406,11 +727,50 @@ export default function Dashboard() {
     if (activeLayers.radiation) {
       intervals.push(setInterval(() => fetchEndpoint('/api/osiris/radiation', d => ({ radiation: d.stations })), 300000)); // 5m
     }
-    if (activeLayers.maritime) {
-      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, maritime_ships: d.ships })), 10000)); // 10s
+    if (maritimeActive) {
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/maritime', d => ({ maritime_ports: d.ports, maritime_chokepoints: d.chokepoints, ...(aisActiveRef.current ? {} : { maritime_ships: d.ships }) })), 30000)); // 30s (AIS global tarda ~9s en recogerse + caché 20s)
+    }
+    if (activeLayers.iss) {
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/iss', d => ({ iss: d.iss })), 5000)); // 5s (la ISS va a ~7,6 km/s)
+    }
+    if (activeLayers.trains) {
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/trains', d => ({ trains: d.trains })), 20000)); // 20s
     }
     return () => intervals.forEach(clearInterval);
   }, [activeLayers, fetchEndpoint]);
+
+  // ── AIS GLOBAL (aisstream) EN EL NAVEGADOR — cobertura mundial de barcos ──
+  // Vercel (datacenter) no recibe el stream; el navegador del usuario sí. Al
+  // activar la capa marítima, abrimos el WebSocket y reemplazamos los barcos del
+  // servidor (Báltico) por los globales (España, Gibraltar, todo el mundo).
+  useEffect(() => {
+    if (!showShips) return;
+    let cancelled = false;
+    let stop: (() => void) | null = null;
+    (async () => {
+      try {
+        const r = await fetch('/api/osiris/ais-key');
+        if (!r.ok) return;
+        const { key, enabled } = await r.json();
+        if (!enabled || !key || cancelled) return;
+        stop = startAisStream({
+          apiKey: key,
+          onShips: (ships) => {
+            aisActiveRef.current = true;
+            dataRef.current = { ...dataRef.current, maritime_ships: ships };
+            setDataVersion(v => v + 1);
+          },
+        });
+        aisStopRef.current = stop;
+      } catch { /* sin AIS global: quedan los barcos del servidor */ }
+    })();
+    return () => {
+      cancelled = true;
+      if (stop) stop();
+      aisStopRef.current = null;
+      aisActiveRef.current = false;
+    };
+  }, [showShips]);
 
   // CCTV: loaded once on layer toggle via layerFetchedRef (no viewport polling)
 
@@ -500,7 +860,7 @@ export default function Dashboard() {
 
 
   return (
-    <main className="osiris-root fixed inset-x-0 bottom-0 top-[44px] bg-[var(--bg-void)] overflow-hidden" style={{ position: 'fixed', top: 44, left: 0, right: 0, bottom: 0 }}>
+    <main className={`osiris-root fixed inset-x-0 bottom-0 ${embed ? 'top-0' : 'top-[44px]'} bg-[var(--bg-void)] overflow-hidden`} style={{ position: 'fixed', top: embed ? 0 : 44, left: 0, right: 0, bottom: 0 }}>
 
       {/* ── SPLASH ── */}
       <AnimatePresence>
@@ -703,6 +1063,8 @@ export default function Dashboard() {
           activeLayers={activeLayers} 
           projection={mapProjection} 
           mapStyle={mapStyle}
+          visualMode={visualMode}
+          muteLabels={muteMap}
           onEntityClick={handleEntityClick} 
           onMouseCoords={handleMouseCoords} 
           onRightClick={handleRightClick} 
@@ -713,46 +1075,46 @@ export default function Dashboard() {
         />
       </ErrorBoundary>
 
+      {/* ── Pie de página · leyenda de colores de las capas activas (con paginación) ── */}
+      {!isMobile && <LegendFooter activeLayers={activeLayers} />}
 
-      {/* ── MAP VIEW CONTROLS (3D/2D + SATELLITE TOGGLE) ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3.5 }}
-        className="absolute bottom-[75px] md:bottom-6 left-3 md:left-[315px] z-[200] flex items-center gap-2 pointer-events-none"
-      >
-        {/* 3D/2D Toggle */}
-        <button
-          onClick={() => setMapProjection(p => p === 'globe' ? 'mercator' : 'globe')}
-          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title={mapProjection === 'globe' ? 'Switch to 2D Map' : 'Switch to 3D Globe'}
-        >
-          {mapProjection === 'globe' ? (
-            <MapPinned className="w-4 h-4 text-[var(--gold-primary)] group-hover:scale-110 transition-transform" />
-          ) : (
-            <Globe className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
-          )}
-          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapProjection === 'globe' ? '2D MAP' : '3D GLOBE'}
-          </span>
-        </button>
+      {/* Los controles de vista del mapa ahora viven en el panel izquierdo, bajo las capas. */}
 
-        {/* Map Style Toggle */}
-        <button
-          onClick={() => setMapStyle(s => s === 'dark' ? 'light' : s === 'light' ? 'satellite' : 'dark')}
-          className="glass-panel p-2.5 pointer-events-auto hover:border-[var(--gold-primary)]/40 transition-colors group relative"
-          title="Estilo del mapa"
-        >
-          {mapStyle === 'dark' ? (
-            <Moon className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
-          ) : mapStyle === 'light' ? (
-            <Sun className="w-4 h-4 text-[#E8A33D] group-hover:scale-110 transition-transform" />
-          ) : (
-            <Satellite className="w-4 h-4 text-[var(--alert-green)] group-hover:scale-110 transition-transform" />
-          )}
-          <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}
-          </span>
-        </button>
-      </motion.div>
+      {/* ── RECONOCIMIENTO (desktop): botón flotante + panel a la derecha ── */}
+      {!isMobile && !embed && (
+        <>
+          <motion.button
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3.5 }}
+            onClick={() => setShowRecon(v => !v)}
+            className={`absolute bottom-6 right-5 z-[201] glass-panel p-2.5 pointer-events-auto transition-colors group ${showRecon ? 'border-[var(--gold-primary)]/60' : 'hover:border-[var(--gold-primary)]/40'}`}
+            title="Reconocimiento OSINT"
+          >
+            <Crosshair className={`w-4 h-4 ${showRecon ? 'text-[var(--gold-primary)]' : 'text-[var(--text-muted)]'}`} />
+          </motion.button>
+          <AnimatePresence>
+            {showRecon && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
+                className="absolute right-5 top-20 bottom-20 w-80 z-[200] flex flex-col pointer-events-auto"
+              >
+                <div className="flex items-center justify-between mb-2 px-1 flex-shrink-0">
+                  <span className="text-[10px] font-mono font-bold tracking-[0.12em] text-[var(--gold-primary)] uppercase">Reconocimiento</span>
+                  <button onClick={() => setShowRecon(false)} className="text-[var(--text-muted)] hover:text-white transition-colors"><X className="w-4 h-4" /></button>
+                </div>
+                <div className="flex-1 min-h-0 overflow-y-auto styled-scrollbar pr-1">
+                  <OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
+                    setScanTargets(prev => {
+                      const existing = prev.filter(t => t.id !== target);
+                      return [{ id: target, timestamp: Date.now(), ...data }, ...existing].slice(0, 10);
+                    });
+                    setFlyToLocation({ lat: data.lat, lng: data.lng, ts: Date.now() });
+                  }} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </>
+      )}
 
       {/* ── HEADER ── */}
       <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 2.5 }} className={`absolute top-3 left-3 md:top-5 md:left-5 z-[200] pointer-events-none flex items-center gap-2 md:gap-3`}>
@@ -785,7 +1147,7 @@ export default function Dashboard() {
       </motion.div>
 
       {/* ── TOP-RIGHT STATUS (desktop) — C2 DISPLAY ── */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }} className="status-bar-desktop absolute top-3 right-3 md:top-4 md:right-5 z-[200] pointer-events-none flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-muted)]">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 3 }} className={`status-bar-desktop absolute top-3 right-3 md:top-4 md:right-5 z-[200] pointer-events-none flex items-center gap-1.5 md:gap-3 text-[9px] md:text-[10px] font-mono tracking-widest text-[var(--text-muted)] ${embed ? 'hidden' : ''}`}>
 
         {/* Zulu Clock */}
         <span className="hidden lg:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm border border-[var(--border-primary)] bg-black/30">
@@ -808,37 +1170,72 @@ export default function Dashboard() {
         <UptimeClock />
       </motion.div>
 
-      {/* ── LEFT HUD (desktop): Capas + Stats + Intel + Reconocimiento + Alertas ── */}
-      <div className="desktop-panel absolute left-5 top-20 bottom-24 w-80 flex flex-col gap-3 z-[200] pointer-events-none overflow-y-auto styled-scrollbar pr-1">
-        {/* Localizador — arriba de la columna */}
-        <div className="flex gap-2 items-start pointer-events-auto">
-          <div className="flex-1"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
-          <div className="relative"><SharePanel mapView={mapView} activeLayers={activeLayers} mouseCoords={null} /></div>
-        </div>
+      {/* ── LEFT HUD (desktop): Capas (scroll) + selectores de mapa + coordenadas ── */}
+      <div className={`desktop-panel absolute left-5 top-20 bottom-5 w-80 flex flex-col gap-3 z-[200] pointer-events-none ${embed ? 'hidden' : ''}`}>
+        {/* Localizador */}
+        <div className="pointer-events-auto flex-shrink-0"><SearchBar onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} /></div>
+        {/* Mis vistas guardadas (presets de capas + posición) */}
+        <div className="pointer-events-auto flex-shrink-0"><MapViewPresets /></div>
+        {/* Capas — única sección con scroll */}
         {showLayers && (
-          <>
+          <div className="flex-1 min-h-0 overflow-y-auto styled-scrollbar pr-1 pointer-events-auto">
             <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="glass-panel px-3 py-2.5 pointer-events-auto">
-              <div className="grid grid-cols-5 gap-2 text-center">
-                <div><div className="hud-label">AVIONES</div><div className="hud-value text-[10px] animate-data-pulse">{globalStats ? globalStats.flights.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">SATS</div><div className="hud-value text-[10px]">{globalStats ? globalStats.sats.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">CCTV</div><div className="hud-value text-[10px]">{globalStats ? globalStats.cctv.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">CLIMA</div><div className="hud-value text-[10px]" style={{ color: 'var(--accent-weather)' }}>{globalStats ? globalStats.weather.toLocaleString() : '0'}</div></div>
-                <div><div className="hud-label">NUCLEAR</div><div className="hud-value text-[10px]" style={{ color: 'var(--accent-nuclear)' }}>{globalStats ? globalStats.nuclear.toLocaleString() : '0'}</div></div>
-              </div>
-            </motion.div>
-          </>
+          </div>
         )}
-        {showIntel && <IntelFeed data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} />}
-        {/* Reconocimiento + Alertas — debajo, en la misma columna */}
-        <div className="pointer-events-auto"><OsintPanel onSweepVisualize={setSweepData} onScanGeolocate={(target, data) => {
-          setScanTargets(prev => {
-            const existing = prev.filter(t => t.id !== target);
-            return [{ id: target, timestamp: Date.now(), ...data }, ...existing].slice(0, 10);
-          });
-          setFlyToLocation({ lat: data.lat, lng: data.lng, ts: Date.now() });
-        }} /></div>
-        <div className="pointer-events-auto"><LiveAlerts data={data} onLocate={(lat, lng) => setFlyToLocation({ lat, lng, ts: Date.now() })} onWatchFeed={(url, name) => { setLiveFeedUrl(url); setLiveFeedName(name); }} /></div>
+        {/* Selectores de tipo de mapa — debajo de las capas */}
+        <div className="glass-panel px-3 py-2 pointer-events-auto flex-shrink-0 flex items-center justify-between gap-2">
+          <span className="text-[8.5px] font-mono tracking-[0.12em] text-[var(--text-muted)] uppercase">Vista del mapa</span>
+          <div className="flex items-center gap-1.5">
+            {/* 3D / 2D */}
+            <button onClick={() => setMapProjection(p => p === 'globe' ? 'mercator' : 'globe')}
+              className="p-1.5 rounded-md hover:bg-white/5 transition-colors" title={mapProjection === 'globe' ? 'Cambiar a 2D' : 'Cambiar a 3D'}>
+              {mapProjection === 'globe'
+                ? <MapPinned className="w-4 h-4 text-[var(--gold-primary)]" />
+                : <Globe className="w-4 h-4 text-[var(--cyan-primary)]" />}
+            </button>
+            {/* Estilo */}
+            <MapControlMenu
+              tooltip={`Estilo: ${mapStyle === 'dark' ? 'OSCURO' : mapStyle === 'light' ? 'CLARO' : 'SATÉLITE'}`}
+              triggerIcon={mapStyle === 'dark' ? <Moon className="w-4 h-4 text-[var(--cyan-primary)]" /> : mapStyle === 'light' ? <Sun className="w-4 h-4 text-[#E8A33D]" /> : <Satellite className="w-4 h-4 text-[var(--alert-green)]" />}
+              options={[
+                { value: 'dark', label: 'Oscuro', icon: <Moon className="w-4 h-4" />, color: 'var(--cyan-primary)' },
+                { value: 'light', label: 'Claro', icon: <Sun className="w-4 h-4" />, color: '#E8A33D' },
+                { value: 'satellite', label: 'Satélite', icon: <Satellite className="w-4 h-4" />, color: 'var(--alert-green)' },
+              ]}
+              value={mapStyle} onSelect={(v) => setMapStyle(v as any)}
+              isOpen={openMapMenu === 'style'} onToggle={() => setOpenMapMenu(m => m === 'style' ? null : 'style')} onClose={() => setOpenMapMenu(null)}
+            />
+            {/* Modo visual */}
+            <MapControlMenu
+              tooltip={`Visual: ${visualMode === 'none' ? 'NORMAL' : visualMode.toUpperCase()}`}
+              triggerIcon={<Radar className={`w-4 h-4 ${visualMode === 'none' ? 'text-[var(--text-muted)]' : 'text-[var(--gold-primary)]'}`} />}
+              options={[
+                { value: 'none', label: 'Normal', icon: <Radar className="w-4 h-4" />, color: 'var(--text-muted)' },
+                { value: 'flir', label: 'FLIR · térmico', icon: <Radar className="w-4 h-4" />, color: '#FF6B35' },
+                { value: 'nvg', label: 'NVG · nocturno', icon: <Radar className="w-4 h-4" />, color: '#39FF14' },
+                { value: 'crt', label: 'CRT · retro', icon: <Radar className="w-4 h-4" />, color: '#FFB300' },
+              ]}
+              value={visualMode} onSelect={(v) => setVisualMode(v as any)}
+              isOpen={openMapMenu === 'visual'} onToggle={() => setOpenMapMenu(m => m === 'visual' ? null : 'visual')} onClose={() => setOpenMapMenu(null)}
+            />
+            {/* Mapa mudo */}
+            <button onClick={() => setMuteMap(m => !m)}
+              className="p-1.5 rounded-md hover:bg-white/5 transition-colors" title="Mapa mudo (sin nombres)">
+              <Type className={`w-4 h-4 ${muteMap ? 'text-[var(--gold-primary)]' : 'text-[var(--text-muted)]'}`} />
+            </button>
+          </div>
+        </div>
+        {/* Coordenadas — debajo de todo */}
+        <div className="glass-panel px-3 py-2 pointer-events-auto flex-shrink-0">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[8.5px] font-mono tracking-[0.12em] text-[var(--text-muted)] uppercase">Coordenadas</span>
+            <span ref={coordsDisplayRef} className="text-[10px] font-mono font-semibold text-[var(--gold-primary)] tabular-nums">—</span>
+          </div>
+          <div className="flex items-center justify-between gap-2 mt-1">
+            <span className="text-[9px] font-mono text-[var(--text-secondary)] truncate">{locationLabel || 'Pasa el cursor por el mapa…'}</span>
+            <span className="text-[9px] font-mono text-[var(--text-muted)] flex-shrink-0">z{mapView.zoom.toFixed(1)}</span>
+          </div>
+        </div>
       </div>
 
       {/* ── LIVE FEED VIEWER OVERLAY ── */}
@@ -1001,77 +1398,10 @@ export default function Dashboard() {
         </>
       )}
 
-      {/* ── BOTTOM CENTER (desktop) ── */}
-      {!isMobile && (
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 3, duration: 0.8 }} className="desktop-only absolute bottom-5 left-1/2 -translate-x-1/2 z-[200] pointer-events-auto">
-          <div className="glass-panel px-5 py-2.5 flex items-center gap-0 osiris-glow relative overflow-hidden" style={{ borderImage: 'linear-gradient(90deg, rgba(212,175,55,0.05), rgba(212,175,55,0.2), rgba(212,175,55,0.05)) 1', borderImageSlice: 1, borderWidth: '1px', borderStyle: 'solid' }}>
+      {/* Las coordenadas viven ahora en el panel izquierdo, bajo los selectores. */}
 
-            {/* Animated scan line sweeping across the bar */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-              <div className="absolute top-0 bottom-0 w-[60px] bg-gradient-to-r from-transparent via-[var(--gold-primary)]/[0.07] to-transparent" style={{ animation: 'hud-scanline 4s ease-in-out infinite' }} />
-            </div>
-
-            {/* COORDINATES */}
-            <div className="flex flex-col items-center min-w-[110px] px-3">
-              <div className="hud-label">COORDENADAS</div>
-              <div ref={coordsDisplayRef} className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tracking-wide tabular-nums">—</div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* LOCATION */}
-            <div className="flex flex-col items-center min-w-[160px] max-w-[280px] px-3">
-              <div className="hud-label">UBICACIÓN</div>
-              <div className="text-[9px] text-[var(--text-secondary)] font-mono truncate max-w-[280px]">{locationLabel || 'Pasa el cursor por el mapa…'}</div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* ZOOM */}
-            <div className="flex flex-col items-center px-3">
-              <div className="hud-label">ZOOM</div>
-              <div className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tabular-nums">{mapView.zoom.toFixed(1)}</div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* ACTIVE LAYERS */}
-            <div className="flex flex-col items-center px-3 min-w-[60px]">
-              <div className="hud-label">CAPAS ACTIVAS</div>
-              <div className="flex items-center gap-1">
-                <Layers className="w-3 h-3 text-[var(--gold-primary)]" />
-                <span className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tabular-nums">{Object.values(activeLayers).filter(Boolean).length}</span>
-              </div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* DATA FEEDS */}
-            <div className="flex flex-col items-center px-3 min-w-[60px]">
-              <div className="hud-label">FLUJOS</div>
-              <div className="flex items-center gap-1">
-                <Activity className="w-3 h-3 text-[var(--cyan-primary)]" />
-                <span className="text-[10px] font-mono font-bold text-[var(--cyan-primary)] tabular-nums">{Object.values(activeLayers).filter(Boolean).length}</span>
-              </div>
-            </div>
-
-            <div className="w-px h-8 bg-gradient-to-b from-transparent via-[var(--border-primary)] to-transparent flex-shrink-0" />
-
-            {/* ENTITIES */}
-            <div className="flex flex-col items-center px-3 min-w-[70px]">
-              <div className="hud-label">ENTIDADES</div>
-              <div className="flex items-center gap-1">
-                <Database className="w-3 h-3 text-[var(--alert-green)]" />
-                <ActiveEntityCount data={data} />
-              </div>
-            </div>
-
-          </div>
-        </motion.div>
-      )}
-
-      {/* ── Scale Bar (desktop) ── */}
-      <div className="desktop-only absolute bottom-[4.5rem] left-[20rem] z-[201] pointer-events-none">
+      {/* ── Scale Bar (desktop) — a la derecha del buscador, encima de las capas ── */}
+      <div className={`desktop-only absolute top-[5.5rem] left-[21.5rem] z-[201] pointer-events-none ${embed ? 'hidden' : ''}`}>
         <ScaleBar zoom={mapView.zoom} latitude={mapView.latitude} />
       </div>
 
@@ -1137,7 +1467,7 @@ export default function Dashboard() {
       <KeyboardShortcuts />
 
       {/* ── GLOBAL STATUS TICKER (bottom) ── */}
-      <GlobalStatusBar />
+      {!embed && <GlobalStatusBar />}
 
       {/* Shortcut hint */}
       <div className="desktop-only absolute bottom-[26px] right-5 z-[200] pointer-events-none text-[6px] font-mono text-[var(--text-muted)]/40 tracking-widest">
