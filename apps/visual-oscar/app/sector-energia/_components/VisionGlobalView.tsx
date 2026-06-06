@@ -249,6 +249,11 @@ export function VisionGlobalView() {
         <SupplyRiskGauge />
       </div>
 
+      {/* ───── Análisis IA · riesgo de suministro (Gemini → heurístico) ───── */}
+      <div style={{ marginBottom: 14 }}>
+        <SupplyRiskBriefPanel />
+      </div>
+
       {/* ───── Strip de cotización · majors + utilities ───── */}
       <div style={{ marginBottom: 14 }}>
         <CotizacionStrip />
@@ -510,6 +515,106 @@ async function fetchQuote(symbol: string, name: string): Promise<Quote> {
     /* degradación silenciosa */
   }
   return { symbol, name, price: null, change_percent: null, available: false }
+}
+
+// ─── Análisis IA · riesgo de suministro ─────────────────────────────────────
+interface RiskVectorView {
+  nombre: string
+  banda: 'bajo' | 'medio' | 'alto' | 'critico' | 'pendiente'
+  score: number | null
+  nota: string
+}
+interface SupplyRiskBrief {
+  resumen: string
+  nivel_riesgo_global: string
+  score: number | null
+  vectores: RiskVectorView[]
+  generated_by_llm: boolean
+}
+const BANDA_C: Record<string, string> = {
+  bajo: '#16A34A', medio: '#F59E0B', alto: '#F97316', critico: '#DC2626', pendiente: '#C0C0C5',
+}
+
+function SupplyRiskBriefPanel() {
+  const [brief, setBrief] = useState<SupplyRiskBrief | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let alive = true
+    fetch('/api/energia/supply-risk-brief', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: { ok?: boolean; brief?: SupplyRiskBrief } | null) => {
+        if (!alive) return
+        setBrief(j?.brief ?? null)
+        setLoading(false)
+      })
+      .catch(() => {
+        if (alive) setLoading(false)
+      })
+    return () => { alive = false }
+  }, [])
+
+  return (
+    <section style={{ background: '#fff', border: '1px solid #ECECEF', borderLeft: `4px solid ${ACCENT}`, borderRadius: 14, padding: '18px 22px' }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 10, marginBottom: 12 }}>
+        <div>
+          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
+            ◆ Análisis IA · Riesgo de suministro
+          </h2>
+          <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
+            Síntesis de los vectores de seguridad energética
+            {brief && (
+              <span style={{ marginLeft: 8, fontSize: 9.5, fontWeight: 700, color: brief.generated_by_llm ? ACCENT : '#86868b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                {brief.generated_by_llm ? '· generado por IA (Gemini)' : '· síntesis heurística'}
+              </span>
+            )}
+          </p>
+        </div>
+        {brief && brief.score != null && (
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: 9, color: '#86868b', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Riesgo global</div>
+            <div style={{ fontSize: 20, fontWeight: 700, fontFamily: 'var(--font-display)', color: BANDA_C[brief.nivel_riesgo_global] ?? '#1d1d1f', textTransform: 'capitalize' }}>
+              {brief.nivel_riesgo_global} · {brief.score}/100
+            </div>
+          </div>
+        )}
+      </header>
+
+      {loading && <div style={{ fontSize: 12, color: '#86868b' }}>Generando análisis…</div>}
+
+      {!loading && brief && (
+        <>
+          <p style={{ margin: '0 0 14px', fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.55 }}>{brief.resumen}</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
+            {brief.vectores.map((v) => (
+              <div key={v.nombre} style={{ padding: '9px 12px', background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10, borderLeft: `3px solid ${BANDA_C[v.banda] ?? '#C0C0C5'}` }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 6 }}>
+                  <span style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f' }}>{v.nombre}</span>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', color: BANDA_C[v.banda] ?? '#86868b' }}>
+                    {v.banda === 'pendiente' ? 'pendiente' : v.banda}
+                  </span>
+                </div>
+                <div style={{ fontSize: 10.5, color: '#6e6e73', marginTop: 3, lineHeight: 1.4 }}>{v.nota}</div>
+              </div>
+            ))}
+          </div>
+          {brief.generated_by_llm && (
+            <p style={{ margin: '12px 0 0', fontSize: 9.5, color: '#9CA3AF', lineHeight: 1.5 }}>
+              Resumen generado por IA (Gemini) sobre vectores calculados con datos reales. Las cifras provienen de
+              ESIOS/commodities/AGSI; la IA solo interpreta. Verifica antes de decidir.
+            </p>
+          )}
+          <Link href="/prensa?q=energia" style={{ display: 'inline-block', marginTop: 12, fontSize: 11.5, color: ACCENT, textDecoration: 'none', fontWeight: 600 }}>
+            Noticias de energía en /prensa ⟶
+          </Link>
+        </>
+      )}
+
+      {!loading && !brief && (
+        <div style={{ fontSize: 12, color: '#86868b' }}>Análisis no disponible ahora. Reintenta más tarde.</div>
+      )}
+    </section>
+  )
 }
 
 // ─── Áreas estratégicas ─────────────────────────────────────────────────────
