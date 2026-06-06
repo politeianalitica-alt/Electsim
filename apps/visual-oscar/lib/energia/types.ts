@@ -875,3 +875,129 @@ export interface GieInsideInfoResponse {
   /** URL pública de GIE IIP para citar la fuente en la UI. */
   source_url?: string
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// energy-charts.info (Fraunhofer ISE) · contexto eléctrico europeo · S-EU
+//
+// Tipos del cliente `lib/energia/energy-charts.ts`, que consume la API REST
+// pública (SIN key · licencia CC-BY) de energy-charts.info, mantenida por el
+// Fraunhofer Institute for Solar Energy Systems (ISE). Es la fuente PRIMARIA
+// del "Contexto europeo" del sistema eléctrico en Politeia: sustituye al panel
+// ENTSO-E (que requiere un security token aún no disponible), que se conserva
+// como fuente adicional opcional cuando se configure ENTSOE_SECURITY_TOKEN.
+//
+// API real (verificada en vivo · 2026-06-06):
+//   - Base: https://api.energy-charts.info
+//   - Auth: NINGUNA (keyless). Rate-limit: devuelve HTTP 429 si se piden muchas
+//       zonas simultáneamente → el cliente hace fetches SECUENCIALES + caché 1h.
+//   - GET /price?bzn=ES → { license_info, unix_seconds:[…], price:[…], unit,
+//       deprecated }. Precio day-ahead €/MWh. unix_seconds en pasos de 900s
+//       (15-min) o 3600s. Bidding zones: ES, FR, DE-LU, PT, IT-North, BE, NL.
+//   - GET /public_power?country=es → { unix_seconds:[…], production_types:[
+//       {name, data:[…]}, … ], deprecated }. Generación por fuente en MW.
+//       Incluye series especiales: "Load" (demanda), "Renewable share of load",
+//       "Renewable share of generation" (%), y series de consumo con valores
+//       NEGATIVOS ("Hydro pumped storage consumption", "Battery Consumption",
+//       "Cross border electricity trading"). country en minúsculas ISO2.
+//   - GET /cbpf?country=es → { unix_seconds:[…], countries:[{name, data:[…]},
+//       …], deprecated }. Flujos físicos cross-border NETOS por país vecino,
+//       en GW. Incluye una entrada agregada name="sum" (saldo total). Convención
+//       de signo (observada): valor POSITIVO = importación neta hacia el país
+//       consultado; NEGATIVO = exportación neta desde el país consultado.
+//
+// Diseño defensivo (CLAUDE.md): nunca lanza; ante fallo de la API devuelve
+// `{ ok:false, error, fetched_at }`. NO inventa datos. Caché en memoria 1h.
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Precio day-ahead de una bidding zone (último valor + media del día + serie). */
+export interface EuPrice {
+  /** Clave de bidding zone tal como la espera la API (ej. "ES", "DE-LU", "IT-North"). */
+  zone: string
+  /** Etiqueta legible para la UI (ej. "España", "Alemania-Luxemburgo"). */
+  label: string
+  /** Último precio disponible en €/MWh (null si la serie viene vacía). */
+  latest_eur_mwh: number | null
+  /** Precio medio del último día natural cubierto por la serie (€/MWh, null). */
+  avg_today: number | null
+  /** Precio mínimo de la serie devuelta (€/MWh, null si vacía). */
+  min_eur_mwh: number | null
+  /** Precio máximo de la serie devuelta (€/MWh, null si vacía). */
+  max_eur_mwh: number | null
+  /** Timestamp ISO del último punto (derivado de unix_seconds), null si vacía. */
+  latest_ts: string | null
+  /** Serie completa (timestamp ISO + valor €/MWh) ascendente. */
+  series: Array<{ ts: string; value: number }>
+}
+
+/** Una fuente de generación del mix eléctrico (energy-charts public_power). */
+export interface EuGenerationSource {
+  /** Nombre de la fuente tal como la devuelve la API (ej. "Solar", "Nuclear", "Fossil gas"). */
+  name: string
+  /** Potencia más reciente de esa fuente en MW (último valor no nulo). */
+  mw: number
+  /** Cuota de esa fuente sobre la generación total del último instante, en %. */
+  share_pct: number
+}
+
+/** Generación por fuente de un país (mix EU-style · MW + % renovable). */
+export interface EuGeneration {
+  /** ISO-2 del país consultado (minúsculas, ej. "es"). */
+  country: string
+  /** Etiqueta legible (ej. "España"). */
+  label: string
+  /** Timestamp ISO del último instante con datos (null si vacío). */
+  latest_ts: string | null
+  /** Demanda (carga) del último instante en MW, si la API la provee (serie "Load"). */
+  load_mw: number | null
+  /** Generación total (suma de fuentes con producción positiva) en MW. */
+  total_generation_mw: number
+  /** % renovable sobre la generación, según la API ("Renewable share of generation"). */
+  renewable_share_pct: number | null
+  /** % renovable sobre la carga, según la API ("Renewable share of load"). */
+  renewable_share_of_load_pct: number | null
+  /** Desglose por fuente (solo producción positiva), ordenado de mayor a menor MW. */
+  sources: EuGenerationSource[]
+}
+
+/** Flujo físico neto cross-border con un país vecino (energy-charts cbpf). */
+export interface EuCrossBorderFlow {
+  /** Nombre del país vecino tal como lo devuelve la API (ej. "France", "Portugal"). */
+  neighbour: string
+  /** Flujo neto más reciente en MW (positivo = importa el país consultado). */
+  net_mw: number
+  /** Flujo neto medio de la serie en MW (positivo = importa el país consultado). */
+  avg_mw: number
+  /** Dirección dominante legible del último valor (ej. "FR → ES" o "ES → PT"). */
+  direction: string
+}
+
+/** Flujos cross-border de un país + saldo neto agregado. */
+export interface EuCrossBorder {
+  /** ISO-2 del país consultado (minúsculas, ej. "es"). */
+  country: string
+  /** Etiqueta legible (ej. "España"). */
+  label: string
+  /** Timestamp ISO del último instante con datos (null si vacío). */
+  latest_ts: string | null
+  /** Flujos por país vecino (excluye la entrada agregada "sum"). */
+  neighbours: EuCrossBorderFlow[]
+  /** Saldo neto agregado más reciente en MW (positivo = importador neto), null. */
+  net_balance_mw: number | null
+}
+
+/**
+ * Envoltura de degradación común al cliente energy-charts.
+ * Patrón Politeia (ver `lib/ember/client.ts`, `lib/entsoe/client.ts`): nunca
+ * lanza; ante fallo de la API devuelve `{ ok:false, error, fetched_at }`.
+ */
+export interface EuPowerResponse<T> {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: T
+  /** ISO timestamp del momento de la petición (o cache hit). */
+  fetched_at: string
+  /** URL pública de energy-charts.info para citar la fuente en la UI. */
+  source_url?: string
+}

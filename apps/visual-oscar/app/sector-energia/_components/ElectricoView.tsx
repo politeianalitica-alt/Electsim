@@ -28,7 +28,9 @@ import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
-// Sprint Energía S3 · contexto europeo (precios day-ahead comparados + flujos)
+// Contexto europeo · FUENTE PRIMARIA energy-charts.info (keyless · Fraunhofer ISE)
+import { EuPowerContextPanel } from './EuPowerContextPanel'
+// Sprint Energía S3 · contexto europeo ENTSO-E (fuente ADICIONAL · requiere token)
 import { EntsoeEuContextPanel } from './EntsoeEuContextPanel'
 import { EsiosTabsSection } from '@/components/energy/EsiosTabsSection'
 import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
@@ -206,11 +208,21 @@ export function ElectricoView() {
         <EntsoeSpainPanel />
       </div>
 
-      {/* ───── Contexto europeo · ENTSO-E precios comparados + flujos ─────
-          Sprint Energía S3 · pone los precios mayoristas y los flujos de
-          España en perspectiva paneuropea (ES/FR/DE/PT/IT day-ahead + flujos
-          cross-border ES↔FR/PT) con datos oficiales ENTSO-E. Si falta el Web
-          API Security Token (ENTSOE_SECURITY_TOKEN), degrada a empty-state. */}
+      {/* ───── Contexto europeo · FUENTE PRIMARIA energy-charts.info ─────
+          Precios day-ahead comparados (ES/FR/DE-LU/PT/IT-North) + mix de
+          generación ES + flujos cross-border, con datos REALES y SIN token vía
+          energy-charts.info (Fraunhofer ISE · CC-BY). Caché 1h + fetches
+          secuenciales (anti-429). Sustituye al panel ENTSO-E como fuente
+          principal del contexto europeo. */}
+      <div style={{ marginBottom: 14 }}>
+        <EuPowerContextPanel />
+      </div>
+
+      {/* ───── Contexto europeo · ENTSO-E (FUENTE ADICIONAL) ─────
+          Sprint Energía S3 · datos oficiales de todos los TSOs UE. Requiere el
+          Web API Security Token (ENTSOE_SECURITY_TOKEN); mientras no esté
+          configurado, degrada a empty-state. Complementa (no sustituye) al
+          panel energy-charts de arriba. */}
       <div style={{ marginBottom: 14 }}>
         <EntsoeEuContextPanel />
       </div>
