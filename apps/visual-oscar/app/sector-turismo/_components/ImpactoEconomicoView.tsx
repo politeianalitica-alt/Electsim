@@ -1,33 +1,44 @@
 'use client'
 /**
- * <ImpactoEconomicoView /> · Turismo v3 · TurismoShell (stub T1)
+ * <ImpactoEconomicoView /> · Turismo v3 · TurismoShell · Sprint T9 (profundidad)
  *
- * Impacto económico. La Ola 2 (Sprint T9) la llenará con:
- *   - %PIB turístico (cuenta satélite / bop_its6_det).
- *   - Empleo HORECA (afiliación / EPA).
- *   - Gasto público (ejecución PERTE Turismo).
- *   - Empresas cotizadas del sector (<TurismoEmpresasPanel />).
+ * Impacto económico del turismo, con LENTE TURÍSTICA (no replica el cuadro macro
+ * general de /macro). Cuatro bloques, todos sobre el envelope `{ ok, data, ... }`:
  *
- * Aquí ya se monta <TurismoEmpresasPanel /> para que el bloque de empresas
- * cotizadas viva en su sección canónica desde T1 (la Ola 2 añade el resto del
- * cuadro macro). Andamio sobrio para lo aún pendiente · CLAUDE.md. Cero emojis.
+ *   1. <ImpactoMacroPanel />        · peso macro: %PIB turístico (bop_its6_det),
+ *      empleo HORECA (lfsq_egan2) y gasto del turismo receptor (EGATUR).
+ *   2. <ImpactoGastoPublicoPanel /> · tabla PERTE/planes (presupuesto·fuente·
+ *      fecha) + total; honesto sobre la ausencia de dato de ejecución.
+ *   3. <ImpactoEmpresasResumen /> + <TurismoEmpresasPanel /> · cotizadas del
+ *      sector: KPIs agregados (nº · sesgo del día · por segmento) sobre el grid
+ *      canónico de fichas (que NO se toca).
+ *   4. <ImpactoLecturaAnalista />   · 1-2 líneas sobre dependencia y riesgos
+ *      (estacionalidad · concentración de mercados).
+ *
+ * Degradación honesta (CLAUDE.md): cada bloque degrada por su cuenta; no se
+ * inventan valores. Cero emojis · Unicode geométrico.
  */
-import { TurismoSectionStub } from './shared/TurismoSectionStub'
 import { TurismoEmpresasPanel } from './TurismoEmpresasPanel'
+import { ImpactoMacroPanel } from './ImpactoMacroPanel'
+import { ImpactoGastoPublicoPanel } from './ImpactoGastoPublicoPanel'
+import { ImpactoEmpresasResumen } from './ImpactoEmpresasResumen'
+import { ImpactoLecturaAnalista } from './ImpactoLecturaAnalista'
 
 export function ImpactoEconomicoView() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <TurismoSectionStub
-        glyph="◉"
-        eyebrow="TURISMO · IMPACTO ECONÓMICO"
-        title="Impacto económico"
-        desc="Peso del turismo en el PIB (cuenta satélite), empleo en hostelería (HORECA), ejecución del gasto público (PERTE Turismo) y empresas cotizadas del sector."
-        sprint="T9"
-        fuentes={['INE Cuenta Satélite', 'Eurostat bop_its6_det', 'Seg. Social HORECA', 'PERTE Turismo']}
-      />
-      {/* Empresas cotizadas del sector · sección canónica desde T1. */}
+      {/* 1 · Peso macro del turismo (lente turística). */}
+      <ImpactoMacroPanel />
+
+      {/* 2 · Gasto público · PERTE y planes. */}
+      <ImpactoGastoPublicoPanel />
+
+      {/* 3 · Cotizadas del sector: resumen agregado + grid canónico de fichas. */}
+      <ImpactoEmpresasResumen />
       <TurismoEmpresasPanel />
+
+      {/* 4 · Lectura para el analista. */}
+      <ImpactoLecturaAnalista />
     </div>
   )
 }
