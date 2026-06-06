@@ -33,6 +33,7 @@ import {
   URANIO_REF,
   NUCLEAR_GLOBAL_CONTEXT,
 } from '@/lib/energia/catalog'
+import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 import {
   summarizeFleet,
   fleetLoadFactor,
@@ -202,7 +203,12 @@ export function NuclearView() {
         >
           <UranioRefBox />
         </Panel>
-        <EmpresasNuclear />
+        <CompanyQuotePanel
+          energias={['nuclear']}
+          title="Empresas copropietarias del parque"
+          subtitle="Las utilities españolas titulares de los reactores · cotización"
+          compact
+        />
       </div>
 
       {/* Inteligencia operativa sectorial */}
@@ -556,97 +562,5 @@ function UranioRefBox() {
   )
 }
 
-// ─── Empresas copropietarias del parque (Finnhub) ────────────────────────────
-interface Quote {
-  symbol: string
-  name: string
-  rol: string
-  price: number | null
-  change_percent: number | null
-  available: boolean
-}
-
-// Las tres utilities españolas titulares del parque nuclear (ELE/IBE/NTGY).
-const NUCLEAR_COMPANIES: Array<{ symbol: string; name: string; rol: string }> = [
-  { symbol: 'IBE.MC', name: 'Iberdrola', rol: 'Copropietaria · 5 reactores' },
-  { symbol: 'ELE.MC', name: 'Endesa', rol: 'Copropietaria · 5 reactores' },
-  { symbol: 'NTGY.MC', name: 'Naturgy', rol: 'Copropietaria · Almaraz + Trillo' },
-]
-
-function EmpresasNuclear() {
-  const [quotes, setQuotes] = useState<Quote[] | null>(null)
-
-  useEffect(() => {
-    let alive = true
-    async function load() {
-      const qs = await Promise.all(
-        NUCLEAR_COMPANIES.map(async (c): Promise<Quote> => {
-          try {
-            const r = await fetch(`/api/finnhub/quote/${encodeURIComponent(c.symbol)}`, { cache: 'no-store' })
-            const j: any = await r.json()
-            if (j?.ok && j.price != null) {
-              return { ...c, price: j.price, change_percent: j.change_percent ?? null, available: true }
-            }
-          } catch { /* degradación silenciosa */ }
-          return { ...c, price: null, change_percent: null, available: false }
-        }),
-      )
-      if (alive) setQuotes(qs)
-    }
-    load()
-    return () => { alive = false }
-  }, [])
-
-  return (
-    <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px' }}>
-      <header style={{ marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}>
-        <div>
-          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
-            Empresas copropietarias del parque
-          </h2>
-          <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
-            Las tres utilities españolas titulares de los reactores · cotización
-          </p>
-        </div>
-        <a href="https://finnhub.io" target="_blank" rel="noreferrer" style={{ fontSize: 10.5, color: NUCLEAR, textDecoration: 'none' }}>
-          Finnhub · tiempo real
-        </a>
-      </header>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 }}>
-        {quotes == null &&
-          Array.from({ length: NUCLEAR_COMPANIES.length }).map((_, i) => (
-            <div key={i} style={{ height: 86, background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }} />
-          ))}
-        {quotes?.map((q) => (
-          <div key={q.symbol} style={{ padding: '10px 12px', background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {q.name}
-            </div>
-            <div style={{ fontSize: 9.5, color: '#86868b', fontFamily: 'monospace', marginTop: 1 }}>{q.symbol}</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 5, gap: 6 }}>
-              {q.available ? (
-                <>
-                  <span style={{ fontSize: 14, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f' }}>
-                    {q.price!.toLocaleString('es-ES', { maximumFractionDigits: 2 })}
-                  </span>
-                  {q.change_percent != null && (
-                    <span style={{ fontSize: 11, fontWeight: 700, color: q.change_percent >= 0 ? '#16A34A' : '#DC2626' }}>
-                      {q.change_percent >= 0 ? '⇡' : '⇣'} {Math.abs(q.change_percent).toFixed(2)}%
-                    </span>
-                  )}
-                </>
-              ) : (
-                <span style={{ fontSize: 10.5, color: '#C0C0C5' }} title="Sin cotización (rate-limit o ticker no soportado en free tier)">
-                  — sin cotización
-                </span>
-              )}
-            </div>
-            <div style={{ fontSize: 9, color: NUCLEAR, fontWeight: 700, marginTop: 6, letterSpacing: '0.03em', textTransform: 'uppercase' }}>
-              {q.rol}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
+// Empresas copropietarias del parque → ahora vía
+// <CompanyQuotePanel energias={['nuclear']} /> (shared · Energía v3 E1).

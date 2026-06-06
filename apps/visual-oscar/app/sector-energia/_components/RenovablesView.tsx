@@ -35,6 +35,7 @@ import {
 } from '@/lib/energia/catalog'
 import { ESIOS_TECH_COLORS } from '@/lib/esios/catalog'
 import LoadFactorChart from './LoadFactorChart'
+import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 
 const ACCENT = '#16A34A'
 const ACCENT_DARK = '#0d4626'
@@ -206,9 +207,13 @@ export function RenovablesView() {
         <SubastasTable />
       </Panel>
 
-      {/* ───── ROW 5: Empresas renovables (Finnhub) ───── */}
+      {/* ───── ROW 5: Empresas renovables (Finnhub) · primitiva compartida ───── */}
       <div style={{ marginBottom: 14 }}>
-        <EmpresasRenovables />
+        <CompanyQuotePanel
+          energias={['renovables']}
+          title="Empresas renovables cotizadas"
+          subtitle="Puro-play renovable español + integradas con segmento renovable · cotización"
+        />
       </div>
 
       {/* Inteligencia operativa sectorial */}
@@ -573,100 +578,5 @@ function SubastasTable() {
   )
 }
 
-// ─── Empresas renovables (Finnhub) ───────────────────────────────────────────
-interface Quote {
-  symbol: string
-  name: string
-  segmento: string
-  price: number | null
-  change_percent: number | null
-  available: boolean
-}
-
-// Empresas renovables del strip: tickers + nombre + segmento del catálogo.
-// EDPR (renovables de EDP) cotiza como EDPR.LS en Euronext Lisbon.
-const RENOV_COMPANIES: Array<{ symbol: string; name: string; segmento: string }> = [
-  { symbol: 'ANE.MC', name: 'Acciona Energía', segmento: 'Renovables' },
-  { symbol: 'SLR.MC', name: 'Solaria', segmento: 'Solar fotovoltaica' },
-  { symbol: 'GRE.MC', name: 'Grenergy', segmento: 'Renovables · almacenamiento' },
-  { symbol: 'EDPR.LS', name: 'EDP Renováveis', segmento: 'Renovables' },
-  { symbol: 'IBE.MC', name: 'Iberdrola', segmento: 'Integrada · renovables' },
-]
-
-function EmpresasRenovables() {
-  const [quotes, setQuotes] = useState<Quote[] | null>(null)
-
-  useEffect(() => {
-    let alive = true
-    async function load() {
-      const qs = await Promise.all(
-        RENOV_COMPANIES.map(async (c): Promise<Quote> => {
-          try {
-            const r = await fetch(`/api/finnhub/quote/${encodeURIComponent(c.symbol)}`, { cache: 'no-store' })
-            const j: any = await r.json()
-            if (j?.ok && j.price != null) {
-              return { ...c, price: j.price, change_percent: j.change_percent ?? null, available: true }
-            }
-          } catch { /* degradación silenciosa */ }
-          return { ...c, price: null, change_percent: null, available: false }
-        }),
-      )
-      if (alive) setQuotes(qs)
-    }
-    load()
-    return () => { alive = false }
-  }, [])
-
-  return (
-    <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px' }}>
-      <header style={{ marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}>
-        <div>
-          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
-            Empresas renovables cotizadas
-          </h2>
-          <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
-            Puro-play renovable español + EDPR + Iberdrola · segmento del catálogo
-          </p>
-        </div>
-        <a href="https://finnhub.io" target="_blank" rel="noreferrer" style={{ fontSize: 10.5, color: ACCENT, textDecoration: 'none' }}>
-          Finnhub · tiempo real
-        </a>
-      </header>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gap: 8 }}>
-        {quotes == null &&
-          Array.from({ length: RENOV_COMPANIES.length }).map((_, i) => (
-            <div key={i} style={{ height: 76, background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }} />
-          ))}
-        {quotes?.map((q) => (
-          <div key={q.symbol} style={{ padding: '10px 12px', background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {q.name}
-            </div>
-            <div style={{ fontSize: 9.5, color: '#86868b', fontFamily: 'monospace', marginTop: 1 }}>{q.symbol}</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 5, gap: 6 }}>
-              {q.available ? (
-                <>
-                  <span style={{ fontSize: 14, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f' }}>
-                    {q.price!.toLocaleString('es-ES', { maximumFractionDigits: 2 })}
-                  </span>
-                  {q.change_percent != null && (
-                    <span style={{ fontSize: 11, fontWeight: 700, color: q.change_percent >= 0 ? '#16A34A' : '#DC2626' }}>
-                      {q.change_percent >= 0 ? '⇡' : '⇣'} {Math.abs(q.change_percent).toFixed(2)}%
-                    </span>
-                  )}
-                </>
-              ) : (
-                <span style={{ fontSize: 10.5, color: '#C0C0C5' }} title="Sin cotización (rate-limit o ticker no soportado en free tier)">
-                  — sin cotización
-                </span>
-              )}
-            </div>
-            <div style={{ fontSize: 9, color: ACCENT, fontWeight: 700, marginTop: 6, letterSpacing: '0.03em', textTransform: 'uppercase' }}>
-              {q.segmento}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
+// Empresas renovables cotizadas → ahora vía
+// <CompanyQuotePanel energias={['renovables']} /> (shared · Energía v3 E1).

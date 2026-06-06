@@ -23,8 +23,9 @@
  */
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { EMPRESAS_ENERGIA, REGULADORES_ENERGIA } from '@/lib/sources/ree'
+import { REGULADORES_ENERGIA } from '@/lib/sources/ree'
 import { Panel } from '@/components/SectorPanel'
+import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
@@ -281,7 +282,7 @@ export function ElectricoView() {
         {balance && <BalanceStacked balance={balance.balance}/>}
  </Panel>
 
-      {/* ───── ROW 4: Emisiones CO2 + Top empresas ───── */}
+      {/* ───── ROW 4: Emisiones CO2 + Top empresas (primitiva compartida) ───── */}
  <div style={{ display:'grid', gridTemplateColumns:'1fr 1.4fr', gap:14, marginBottom:14 }}>
  <Panel
           title="Emisiones CO2 · últimos 14 días"
@@ -291,9 +292,11 @@ export function ElectricoView() {
         >
           {emisiones && <EmisionesList series={emisiones.series}/>}
  </Panel>
- <Panel title="Empresas líderes del sector" subtitle={`${EMPRESAS_ENERGIA.length} compañías · IBEX 35 + selectivos`}>
- <EmpresasGrid/>
- </Panel>
+ <CompanyQuotePanel
+          energias={['electrico']}
+          title="Empresas líderes del sector"
+          subtitle="Eléctricas e integradas del catálogo · cotización en vivo"
+        />
  </div>
 
       {/* ───── ROW 5: Reguladores + Licitaciones del sector ───── */}
@@ -670,28 +673,8 @@ function EmisionesList({ series }: { series: Array<{ title: string; color?: stri
   )
 }
 
-function EmpresasGrid() {
-  return (
- <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:10 }}>
-      {EMPRESAS_ENERGIA.map(e => (
- <li key={e.ticker}>
- <a href={e.web} target="_blank" rel="noreferrer" style={{
-            display:'block', padding:'10px 12px', background:'#FAFAFA', borderRadius:10,
-            border:'1px solid #ECECEF', textDecoration:'none', color:'inherit',
-          }}>
- <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', gap:6 }}>
- <span style={{ fontWeight:700, fontFamily:'var(--font-display)', fontSize:13.5, color:'#1d1d1f' }}>{e.nombre}</span>
-              {e.ibex && <span style={{ fontSize:8.5, fontWeight:800, padding:'2px 6px', borderRadius:4, background:'#FCD34D', color:'#92400E' }}>IBEX 35</span>}
- </div>
- <div style={{ fontSize:10, color:'#86868b', fontFamily:'monospace', marginTop:2 }}>{e.ticker} · {e.capitalizacion_b}b€</div>
- <div style={{ fontSize:11, color:'#3a3a3d', marginTop:4, lineHeight:1.4 }}>{e.descripcion}</div>
- <div style={{ fontSize:9.5, color:'#16A34A', fontWeight:700, marginTop:5, letterSpacing:'0.04em', textTransform:'uppercase' }}>{e.segmento}</div>
- </a>
- </li>
-      ))}
- </ul>
-  )
-}
+// EmpresasGrid (legacy · lib/sources/ree) → ahora vía
+// <CompanyQuotePanel energias={['electrico']} /> (shared · catálogo + cotización).
 
 function RegLista() {
   return (

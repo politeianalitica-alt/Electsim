@@ -29,8 +29,8 @@ import {
   H2_SUBASTAS_EU,
   H2_SUBASTA_EU_NOTA_2A,
   H2_BACKBONE,
-  EMPRESAS_ENERGIA,
 } from '@/lib/energia/catalog'
+import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 
 const H2 = '#0D9488' // teal-cyan · hidrógeno
 const H2_DARK = '#115E59'
@@ -147,9 +147,13 @@ export function HidrogenoView() {
         <BackboneList />
       </Panel>
 
-      {/* ───── ROW 4: Empresas H2 (Finnhub · en vivo) ───── */}
+      {/* ───── ROW 4: Empresas H2 (Finnhub · en vivo) · primitiva compartida ───── */}
       <div style={{ marginBottom: 14 }}>
-        <EmpresasH2 />
+        <CompanyQuotePanel
+          energias={['hidrogeno']}
+          title="Empresas líderes en hidrógeno"
+          subtitle="Iberdrola · Repsol · Acciona · Enagás (backbone) · cotización en vivo"
+        />
       </div>
 
       {/* Inteligencia operativa sectorial */}
@@ -337,120 +341,5 @@ function BackboneList() {
   )
 }
 
-// ─── Empresas H2 (Finnhub · en vivo) ─────────────────────────────────────────
-interface Quote {
-  slug: string
-  symbol: string | null
-  name: string
-  rol: string
-  price: number | null
-  change_percent: number | null
-  available: boolean
-}
-
-// Empresas líderes del hidrógeno en España (electrolizadores + backbone).
-const H2_COMPANY_SLUGS = ['iberdrola', 'repsol', 'acciona-energia', 'enagas', 'cepsa']
-
-function rolFor(slug: string): string {
-  if (slug === 'iberdrola') return 'Electrolizador Puertollano'
-  if (slug === 'repsol') return 'Petronar · valles H2'
-  if (slug === 'acciona-energia') return 'Green Hysland · renovable'
-  if (slug === 'enagas') return 'Backbone · H2Med'
-  if (slug === 'cepsa') return 'Valle H2 Andalucía'
-  return 'Hidrógeno'
-}
-
-function EmpresasH2() {
-  const [quotes, setQuotes] = useState<Quote[] | null>(null)
-
-  useEffect(() => {
-    let alive = true
-    async function load() {
-      const companies = H2_COMPANY_SLUGS
-        .map((slug) => EMPRESAS_ENERGIA.find((c) => c.slug === slug))
-        .filter((c): c is NonNullable<typeof c> => !!c)
-      const qs = await Promise.all(
-        companies.map(async (c): Promise<Quote> => {
-          const base: Quote = {
-            slug: c.slug,
-            symbol: c.ticker || null,
-            name: c.nombre,
-            rol: rolFor(c.slug),
-            price: null,
-            change_percent: null,
-            available: false,
-          }
-          if (!c.ticker) return base
-          try {
-            const r = await fetch(`/api/finnhub/quote/${encodeURIComponent(c.ticker)}`, { cache: 'no-store' })
-            const j: any = await r.json()
-            if (j?.ok && j.price != null) {
-              return { ...base, price: j.price, change_percent: j.change_percent ?? null, available: true }
-            }
-          } catch {
-            /* degradación silenciosa */
-          }
-          return base
-        }),
-      )
-      if (alive) setQuotes(qs)
-    }
-    load()
-    return () => { alive = false }
-  }, [])
-
-  return (
-    <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px' }}>
-      <header style={{ marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}>
-        <div>
-          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
-            Empresas líderes en hidrógeno
-          </h2>
-          <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
-            Iberdrola · Repsol · Acciona · Enagás (backbone) · cotización en vivo
-          </p>
-        </div>
-        <a href="/sector-energia/empresas?energia=hidrogeno" style={{ fontSize: 10.5, color: H2_DARK, textDecoration: 'none', fontWeight: 600 }}>
-          Ver todas las empresas ⟶
-        </a>
-      </header>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 }}>
-        {quotes == null &&
-          Array.from({ length: H2_COMPANY_SLUGS.length }).map((_, i) => (
-            <div key={i} style={{ height: 86, background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }} />
-          ))}
-        {quotes?.map((q) => (
-          <a key={q.slug} href={`/sector-energia/empresas/${q.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div style={{ padding: '10px 12px', background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {q.name}
-              </div>
-              <div style={{ fontSize: 9.5, color: '#86868b', fontFamily: 'monospace', marginTop: 1 }}>{q.symbol ?? '—'}</div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 5, gap: 6 }}>
-                {q.available ? (
-                  <>
-                    <span style={{ fontSize: 14, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f' }}>
-                      {q.price!.toLocaleString('es-ES', { maximumFractionDigits: 2 })}
-                    </span>
-                    {q.change_percent != null && (
-                      <span style={{ fontSize: 11, fontWeight: 700, color: q.change_percent >= 0 ? '#16A34A' : '#DC2626' }}>
-                        {q.change_percent >= 0 ? '⇡' : '⇣'} {Math.abs(q.change_percent).toFixed(2)}%
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  <span style={{ fontSize: 10.5, color: '#C0C0C5' }} title={q.symbol ? 'Sin cotización (rate-limit o ticker no soportado en free tier)' : 'Empresa privada · no cotiza'}>
-                    {q.symbol ? '— sin cotización' : '— no cotiza'}
-                  </span>
-                )}
-              </div>
-              <div style={{ fontSize: 9, color: H2_DARK, fontWeight: 700, marginTop: 6, letterSpacing: '0.03em', textTransform: 'uppercase' }}>
-                {q.rol}
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  )
-}
+// Empresas líderes en hidrógeno → ahora vía
+// <CompanyQuotePanel energias={['hidrogeno']} /> (shared · Energía v3 E1).

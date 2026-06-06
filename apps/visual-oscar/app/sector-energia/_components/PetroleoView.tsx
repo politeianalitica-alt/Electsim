@@ -24,7 +24,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
-import { PETROLEO_DEPENDENCIA_ES, EMPRESAS_ENERGIA } from '@/lib/energia/catalog'
+import { PETROLEO_DEPENDENCIA_ES } from '@/lib/energia/catalog'
+import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 import { brentWtiSpread } from '@/lib/energia/commodities'
 import type {
   EnergyCommodityResponse,
@@ -167,9 +168,13 @@ export function PetroleoView() {
         </Panel>
       </div>
 
-      {/* ───── ROW 5: Empresas (Repsol/Cepsa + majors) ───── */}
+      {/* ───── ROW 5: Empresas (Repsol/Cepsa + majors) · primitiva compartida ───── */}
       <div style={{ marginBottom: 14 }}>
-        <EmpresasPetroleo />
+        <CompanyQuotePanel
+          energias={['petroleo']}
+          title="Empresas petroleras"
+          subtitle="Españolas (Repsol · Cepsa) y majors integradas globales · cotización"
+        />
       </div>
 
       {/* Inteligencia operativa sectorial */}
@@ -438,123 +443,7 @@ function Chokepoint({ name, detail }: { name: string; detail: string }) {
   )
 }
 
-// ─── Empresas petróleo (Finnhub) ─────────────────────────────────────────────
-interface Quote {
-  slug: string
-  symbol: string | null
-  name: string
-  rol: string
-  es_espanola: boolean
-  price: number | null
-  change_percent: number | null
-  available: boolean
-}
-
-// Españolas (Repsol cotiza · Cepsa privada) + majors integradas.
-const OIL_COMPANY_SLUGS = ['repsol', 'cepsa', 'shell', 'bp', 'totalenergies', 'exxonmobil', 'chevron', 'equinor']
-
-function rolFor(slug: string, esEspanola: boolean): string {
-  if (slug === 'repsol') return 'ES · integrada multienergía'
-  if (slug === 'cepsa') return 'ES · privada (no cotiza)'
-  return esEspanola ? 'Española' : 'Major integrada'
-}
-
-function EmpresasPetroleo() {
-  const [quotes, setQuotes] = useState<Quote[] | null>(null)
-
-  useEffect(() => {
-    let alive = true
-    async function load() {
-      const companies = OIL_COMPANY_SLUGS.map((slug) => EMPRESAS_ENERGIA.find((c) => c.slug === slug)).filter(
-        (c): c is NonNullable<typeof c> => !!c,
-      )
-      const qs = await Promise.all(
-        companies.map(async (c): Promise<Quote> => {
-          const base: Quote = {
-            slug: c.slug,
-            symbol: c.ticker || null,
-            name: c.nombre,
-            rol: rolFor(c.slug, c.es_espanola),
-            es_espanola: c.es_espanola,
-            price: null,
-            change_percent: null,
-            available: false,
-          }
-          // Cepsa es privada (sin ticker) → no se cotiza.
-          if (!c.ticker) return base
-          try {
-            const r = await fetch(`/api/finnhub/quote/${encodeURIComponent(c.ticker)}`, { cache: 'no-store' })
-            const j: any = await r.json()
-            if (j?.ok && j.price != null) {
-              return { ...base, price: j.price, change_percent: j.change_percent ?? null, available: true }
-            }
-          } catch {
-            /* degradación silenciosa */
-          }
-          return base
-        }),
-      )
-      if (alive) setQuotes(qs)
-    }
-    load()
-    return () => {
-      alive = false
-    }
-  }, [])
-
-  return (
-    <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px' }}>
-      <header style={{ marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}>
-        <div>
-          <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
-            Empresas petroleras
-          </h2>
-          <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
-            Españolas (Repsol · Cepsa) y majors integradas globales · cotización
-          </p>
-        </div>
-        <a href="https://finnhub.io" target="_blank" rel="noreferrer" style={{ fontSize: 10.5, color: OIL, textDecoration: 'none' }}>
-          Finnhub · tiempo real
-        </a>
-      </header>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 8 }}>
-        {quotes == null &&
-          Array.from({ length: OIL_COMPANY_SLUGS.length }).map((_, i) => (
-            <div key={i} style={{ height: 86, background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }} />
-          ))}
-        {quotes?.map((q) => (
-          <div key={q.slug} style={{ padding: '10px 12px', background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10 }}>
-            <div style={{ fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-              {q.name}
-            </div>
-            <div style={{ fontSize: 9.5, color: '#86868b', fontFamily: 'monospace', marginTop: 1 }}>{q.symbol ?? '—'}</div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 5, gap: 6 }}>
-              {q.available ? (
-                <>
-                  <span style={{ fontSize: 14, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f' }}>
-                    {q.price!.toLocaleString('es-ES', { maximumFractionDigits: 2 })}
-                  </span>
-                  {q.change_percent != null && (
-                    <span style={{ fontSize: 11, fontWeight: 700, color: q.change_percent >= 0 ? '#16A34A' : '#DC2626' }}>
-                      {q.change_percent >= 0 ? '⇡' : '⇣'} {Math.abs(q.change_percent).toFixed(2)}%
-                    </span>
-                  )}
-                </>
-              ) : (
-                <span style={{ fontSize: 10.5, color: '#C0C0C5' }} title={q.symbol ? 'Sin cotización (rate-limit o ticker no soportado en free tier)' : 'Empresa privada · no cotiza en bolsa'}>
-                  {q.symbol ? '— sin cotización' : '— no cotiza'}
-                </span>
-              )}
-            </div>
-            <div style={{ fontSize: 9, color: OIL, fontWeight: 700, marginTop: 6, letterSpacing: '0.03em', textTransform: 'uppercase' }}>
-              {q.rol}
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  )
-}
+// Empresas petroleras → ahora vía <CompanyQuotePanel energias={['petroleo']} /> (shared).
 
 // ─── Primitivas compartidas ──────────────────────────────────────────────────
 function InlineMetric({ label, value, highlight, color }: { label: string; value: string; highlight?: boolean; color?: string }) {
