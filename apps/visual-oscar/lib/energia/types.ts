@@ -736,3 +736,142 @@ export interface EnergyCompany {
   /** Número de compañía OpenCorporates (S9). */
   opencorporates_company_number?: string
 }
+
+// ─────────────────────────────────────────────────────────────────────────
+// ALSI almacenamiento de GNL (GIE) · Sprint Energía S8b · "exprimir GIE"
+//
+// Tipos del cliente `lib/energia/alsi.ts`, que consume la API REST de GIE
+// ALSI (Aggregated LNG Storage Inventory · https://alsi.gie.eu/api), la
+// plataforma hermana de AGSI pero para terminales de regasificación de GNL
+// (existencias de GNL en tanque + emisión a la red). España es el país con
+// mayor capacidad de regasificación de la UE → el dato vivo es muy relevante.
+//
+// API real (capturada en vivo con la key · 2026-06-06):
+//   - Base: https://alsi.gie.eu/api
+//   - Auth: header HTTP `x-key: <GIE_API_KEY>` (la MISMA key que AGSI).
+//   - Query: `country` (ISO-2, ej. "ES"), `type=eu` (agregado UE),
+//       `from`/`to` (YYYY-MM-DD), `size`, `page`.
+//   - Envelope OK: { last_page, total, data: [ {...registro diario} ] }.
+//   - Campos por registro (valores como STRING, huecos "-"):
+//       name · code · gasDayStart (YYYY-MM-DD) ·
+//       inventory: { lng (kt de GNL), gwh (energía almacenada) } ·
+//       sendOut (GWh/d emitidos a la red) ·
+//       dtmi: { lng (kt máx), gwh (capacidad máxima declarada) } ·
+//       dtrs · contractedCapacity · availableCapacity ·
+//       coveredCapacity · status.
+//   - fullness % = inventory.gwh / dtmi.gwh × 100 (ES ≈ 75%).
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Un punto diario de la serie de almacenamiento de GNL (ALSI). */
+export interface LngStoragePoint {
+  /** Fecha del gas-day (ISO 'YYYY-MM-DD'). */
+  date: string
+  /** % de llenado (inventory.gwh / dtmi.gwh × 100), null si hueco. */
+  fullness_pct: number | null
+  /** Energía de GNL en tanque ese día en GWh (inventory.gwh), null si hueco. */
+  inventory_gwh: number | null
+  /** Emisión a la red ese día en GWh/d (sendOut), null si hueco. */
+  send_out_gwh: number | null
+}
+
+/** Almacenamiento de GNL de una zona (UE agregado o un país) · ALSI. */
+export interface LngStorage {
+  /** Ámbito: 'eu' (agregado UE) o ISO-2 del país (ej. "ES"). */
+  zona: string
+  /** Etiqueta legible (ej. "Unión Europea", "España"). */
+  zona_label: string
+  /** % de llenado más reciente (inventory.gwh / dtmi.gwh × 100), null si sin datos. */
+  fullness_pct: number | null
+  /** Energía de GNL en tanque más reciente en GWh (inventory.gwh), null. */
+  inventory_gwh: number | null
+  /** Capacidad máxima declarada en GWh (dtmi.gwh), null si no disponible. */
+  dtmi_gwh: number | null
+  /** Emisión a la red del último día en GWh/d (sendOut), null si sin datos. */
+  send_out_gwh: number | null
+  /** Fecha del último dato disponible (ISO 'YYYY-MM-DD'). */
+  updated_at: string | null
+  /** Serie histórica diaria ascendente (más antigua → más reciente). */
+  series: LngStoragePoint[]
+}
+
+/**
+ * Envoltura de degradación común al cliente ALSI.
+ * Patrón Politeia (ver `lib/energia/agsi.ts`): nunca lanza; ante key ausente o
+ * fallo devuelve `{ ok:false, error, fetched_at }`.
+ */
+export interface LngStorageResponse {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: LngStorage
+  /** ISO timestamp del momento de la petición. */
+  fetched_at: string
+  /** URL pública de GIE ALSI para citar la fuente en la UI. */
+  source_url?: string
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// IIP Inside Information Platform (GIE) · Sprint Energía S8b · "exprimir GIE"
+//
+// Tipos del cliente `lib/energia/iip.ts`, que consume la API REST de GIE IIP
+// (Inside Information Platform · https://iip.gie.eu/api). Publica UMM (Urgent
+// Market Messages): indisponibilidades planificadas/no planificadas de
+// infraestructura gasista (plantas de tratamiento, almacenamiento subterráneo,
+// terminales de GNL, interconexiones). Es la fuente regulada de "eventos de
+// mercado gasista / señales de suministro" en tiempo casi real.
+//
+// API real (capturada en vivo con la key · 2026-06-06):
+//   - Base: https://iip.gie.eu/api
+//   - Auth: header HTTP `x-key: <GIE_API_KEY>` (la MISMA key que AGSI/ALSI).
+//   - Query: `size`, `page`, `country` (ISO-2 · filtra por país, parcial).
+//   - Envelope OK: { current_page, last_page, total, data: [ {...UMM} ] }.
+//   - Campos por UMM (anidados, muchos opcionales):
+//       submitted ("YYYY-MM-DD HH:mm:ss") ·
+//       reportingEntity: { name, code, type } ·
+//       message: { messageId, messageType, reportType, unavailabilityType } ·
+//       messageString · status · from · to · duration ·
+//       marketParticipant · asset · direction · unavailable · available ·
+//       technical · balancingZone · unavailabilityReason · remarks · published.
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Un evento de mercado gasista (UMM) de la GIE Inside Information Platform. */
+export interface GieInsideEvent {
+  /** Timestamp de envío del mensaje (ISO-like "YYYY-MM-DD HH:mm:ss"), null. */
+  submitted: string | null
+  /** Entidad que reporta (operador de la infraestructura), null si ausente. */
+  entity: string | null
+  /** Activo / instalación afectada, null si la fuente no lo declara. */
+  asset: string | null
+  /** Tipo de mensaje (ej. "Gas treatment plant unavailability"), null. */
+  message_type: string | null
+  /** Naturaleza de la indisponibilidad ("Planned" / "Unplanned"), null. */
+  unavailability_type: string | null
+  /** Inicio de la ventana de indisponibilidad (string crudo de la fuente), null. */
+  from: string | null
+  /** Fin de la ventana de indisponibilidad (string crudo de la fuente), null. */
+  to: string | null
+  /** Capacidad/cantidad no disponible (string crudo de la fuente), null. */
+  unavailable: string | null
+  /** Zona de balance afectada, null si no se declara. */
+  balancing_zone: string | null
+  /** Motivo declarado de la indisponibilidad, null si ausente. */
+  reason: string | null
+}
+
+/**
+ * Envoltura de degradación común al cliente IIP.
+ * Patrón Politeia (ver `lib/energia/agsi.ts`): nunca lanza; ante key ausente o
+ * fallo devuelve `{ ok:false, error, fetched_at }`.
+ */
+export interface GieInsideInfoResponse {
+  ok: boolean
+  /** Mensaje de error legible cuando `ok === false`. */
+  error?: string
+  /** Payload tipado cuando `ok === true`. */
+  data?: { events: GieInsideEvent[] }
+  /** ISO timestamp del momento de la petición. */
+  fetched_at: string
+  /** URL pública de GIE IIP para citar la fuente en la UI. */
+  source_url?: string
+}

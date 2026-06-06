@@ -33,6 +33,10 @@ import type {
   EnergyCommoditySymbol,
   GasStorage,
   GasStorageResponse,
+  GieInsideEvent,
+  GieInsideInfoResponse,
+  LngStorage,
+  LngStorageResponse,
 } from '@/lib/energia/types'
 import CommodityStrip from './CommodityStrip'
 
@@ -46,12 +50,19 @@ export function GasView() {
   const [euStorage, setEuStorage] = useState<GasStorage | null>(null)
   const [esStorage, setEsStorage] = useState<GasStorage | null>(null)
   const [storageErr, setStorageErr] = useState<string | null>(null)
+  // GNL live (ALSI · almacenamiento de GNL) ES + EU.
+  const [euLng, setEuLng] = useState<LngStorage | null>(null)
+  const [esLng, setEsLng] = useState<LngStorage | null>(null)
+  const [lngErr, setLngErr] = useState<string | null>(null)
+  // Eventos de mercado gasista (IIP · Inside Information Platform).
+  const [insideEvents, setInsideEvents] = useState<GieInsideEvent[] | null>(null)
+  const [insideErr, setInsideErr] = useState<string | null>(null)
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
 
   const refresh = async () => {
     setLoading(true)
-    const [comm, eu, es] = await Promise.all([
+    const [comm, eu, es, euL, esL, inside] = await Promise.all([
       fetch('/api/energia/commodities?category=gas&days=90', { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null),
@@ -59,6 +70,16 @@ export function GasView() {
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null),
       fetch('/api/energia/gas-storage?country=es&days=120', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null),
+      fetch('/api/energia/lng-storage?country=eu&days=120', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null),
+      fetch('/api/energia/lng-storage?country=es&days=120', { cache: 'no-store' })
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null),
+      // Eventos de mercado gasista: sin country → globales (UE), más volumen.
+      fetch('/api/energia/gas-inside-info?size=18', { cache: 'no-store' })
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null),
     ])
@@ -69,6 +90,19 @@ export function GasView() {
     setEsStorage(esResp?.ok ? esResp.data ?? null : null)
     // Un único mensaje de degradación (la key suele faltar para ambos a la vez).
     setStorageErr(euResp?.ok ? null : euResp?.error ?? esResp?.error ?? 'sin datos')
+
+    // GNL live (ALSI) · misma key GIE que AGSI.
+    const euLResp = euL as LngStorageResponse | null
+    const esLResp = esL as LngStorageResponse | null
+    setEuLng(euLResp?.ok ? euLResp.data ?? null : null)
+    setEsLng(esLResp?.ok ? esLResp.data ?? null : null)
+    setLngErr(esLResp?.ok ? null : esLResp?.error ?? euLResp?.error ?? 'sin datos')
+
+    // Eventos IIP.
+    const insideResp = inside as GieInsideInfoResponse | null
+    setInsideEvents(insideResp?.ok ? insideResp.data?.events ?? [] : null)
+    setInsideErr(insideResp?.ok ? null : insideResp?.error ?? 'sin datos')
+
     setUpdatedAt(new Date())
     setLoading(false)
   }
@@ -151,7 +185,18 @@ export function GasView() {
         <StoragePanel eu={euStorage} es={esStorage} err={storageErr} loading={loading} />
       </Panel>
 
-      {/* ───── ROW 3: GNL ES (plantas) + Dependencia/diversificación ───── */}
+      {/* ───── ROW 3a: GNL live (GIE ALSI · almacenamiento de GNL) ───── */}
+      <Panel
+        title="GNL en tanque · nivel de llenado en vivo"
+        subtitle="Existencias de GNL en las terminales de regasificación (% lleno, energía en tanque, send-out a red) · GIE ALSI"
+        marginBottom
+        sourceUrl="https://alsi.gie.eu"
+        sourceTooltip="GIE ALSI · Aggregated LNG Storage Inventory"
+      >
+        <LngStoragePanel es={esLng} eu={euLng} err={lngErr} loading={loading} />
+      </Panel>
+
+      {/* ───── ROW 3b: GNL ES (plantas) + Dependencia/diversificación ───── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginBottom: 14 }}>
         <Panel
           title="Importaciones de GNL · plantas de regasificación"
@@ -170,6 +215,17 @@ export function GasView() {
           <OrigenesGnl />
         </Panel>
       </div>
+
+      {/* ───── ROW 3c: Inside information · eventos de mercado gasista (IIP) ───── */}
+      <Panel
+        title="Inside information · eventos de mercado gasista"
+        subtitle="Indisponibilidades planificadas y no planificadas de infraestructura gasista (UMM) · GIE Inside Information Platform"
+        marginBottom
+        sourceUrl="https://iip.gie.eu"
+        sourceTooltip="GIE IIP · Inside Information Platform (Urgent Market Messages)"
+      >
+        <InsideInfoPanel events={insideEvents} err={insideErr} loading={loading} />
+      </Panel>
 
       {/* ───── ROW 4: Empresas (Naturgy/Enagás + majors) ───── */}
       <div style={{ marginBottom: 14 }}>
@@ -569,6 +625,207 @@ function OrigenesGnl() {
         {d.nota}
       </p>
     </div>
+  )
+}
+
+// ─── GNL live (GIE ALSI) · fullness ES + EU + inventario + send-out ──────────
+function LngStoragePanel({
+  es,
+  eu,
+  err,
+  loading,
+}: {
+  es: LngStorage | null
+  eu: LngStorage | null
+  err: string | null
+  loading: boolean
+}) {
+  if (loading) {
+    return <div style={{ fontSize: 12, color: '#86868b' }}>Cargando nivel de GNL en tanque…</div>
+  }
+  if (!es && !eu) {
+    const keyMissing = /no_key|GIE_API_KEY|unauthorized|api key/i.test(err ?? '')
+    return (
+      <div style={{ fontSize: 12, color: '#86868b', lineHeight: 1.55 }}>
+        <p style={{ margin: '0 0 8px' }}>
+          Nivel de GNL en tanque no disponible ahora{err ? ` (${err.split('·')[0].trim()})` : ''}.
+        </p>
+        {keyMissing ? (
+          <p style={{ margin: 0 }}>
+            La API de <strong>GIE ALSI</strong> usa la <strong>misma clave gratuita</strong> que
+            AGSI (gas). Regístrate en{' '}
+            <a href="https://alsi.gie.eu/account" target="_blank" rel="noreferrer" style={{ color: GAS, fontWeight: 600, textDecoration: 'none' }}>
+              alsi.gie.eu/account
+            </a>{' '}
+            y añade <code style={{ fontFamily: 'monospace', background: '#F1F5F9', padding: '1px 4px', borderRadius: 3 }}>GIE_API_KEY</code> en
+            Vercel. Mientras tanto, el catálogo de plantas y orígenes sigue operativo.
+          </p>
+        ) : (
+          <p style={{ margin: 0 }}>
+            La fuente (GIE ALSI) no respondió. Se reintenta automáticamente; los datos son diarios
+            (gas-day) y se cachean 6 horas.
+          </p>
+        )}
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+        <LngZoneCard data={es} fallbackLabel="España" highlight />
+        <LngZoneCard data={eu} fallbackLabel="Unión Europea" />
+      </div>
+      <p style={{ margin: '12px 0 0', fontSize: 10, color: '#A0A0A5', lineHeight: 1.5 }}>
+        GIE ALSI · existencias de GNL en las terminales de regasificación. El <strong>% lleno</strong>
+        {' '}es la energía en tanque (GWh) sobre la capacidad máxima declarada (DTMI); el
+        <strong> send-out</strong> es el GNL regasificado y emitido a la red (GWh/d). España, con la
+        mayor capacidad de regasificación de la UE, suele mantener un nivel de GNL en tanque
+        superior a la media europea. {es?.updated_at ? `Gas-day ${es.updated_at}.` : ''}
+      </p>
+    </div>
+  )
+}
+
+function LngZoneCard({
+  data,
+  fallbackLabel,
+  highlight,
+}: {
+  data: LngStorage | null
+  fallbackLabel: string
+  highlight?: boolean
+}) {
+  const label = data?.zona_label ?? fallbackLabel
+  return (
+    <div
+      style={{
+        border: `1px solid ${highlight ? GAS : '#ECECEF'}`,
+        borderRadius: 12,
+        padding: '14px 16px',
+        background: highlight ? 'rgba(29,78,216,0.04)' : '#FAFAFA',
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
+        <span style={{ fontSize: 12, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>{label}</span>
+        {data?.updated_at && <span style={{ fontSize: 9, color: '#A0A0A5' }}>{data.updated_at}</span>}
+      </div>
+      {data ? (
+        <>
+          <div style={{ display: 'flex', gap: 14, alignItems: 'flex-end', marginBottom: 10 }}>
+            <div>
+              <div style={{ fontSize: 9.5, color: '#86868b', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>% lleno (GNL)</div>
+              <div style={{ fontSize: 30, fontWeight: 700, fontFamily: 'var(--font-display)', color: GAS, letterSpacing: '-0.02em', lineHeight: 1 }}>
+                {data.fullness_pct != null ? `${data.fullness_pct.toFixed(1)}%` : '—'}
+              </div>
+            </div>
+            <FillBar pct={data.fullness_pct} />
+          </div>
+          <div style={{ display: 'flex', gap: 18, flexWrap: 'wrap' }}>
+            <InlineMetric label="GNL en tanque" value={data.inventory_gwh != null ? `${data.inventory_gwh.toLocaleString('es-ES', { maximumFractionDigits: 0 })} GWh` : '—'} />
+            <InlineMetric label="Capacidad (DTMI)" value={data.dtmi_gwh != null ? `${data.dtmi_gwh.toLocaleString('es-ES', { maximumFractionDigits: 0 })} GWh` : '—'} />
+            <InlineMetric label="Send-out" value={data.send_out_gwh != null ? `${data.send_out_gwh.toLocaleString('es-ES', { maximumFractionDigits: 0 })} GWh/d` : '—'} color="#DC2626" />
+          </div>
+        </>
+      ) : (
+        <div style={{ fontSize: 11.5, color: '#86868b', paddingTop: 6 }}>Sin dato de esta zona ahora.</div>
+      )}
+    </div>
+  )
+}
+
+// ─── Inside information (GIE IIP) · eventos de mercado gasista (UMM) ──────────
+function InsideInfoPanel({
+  events,
+  err,
+  loading,
+}: {
+  events: GieInsideEvent[] | null
+  err: string | null
+  loading: boolean
+}) {
+  if (loading) {
+    return <div style={{ fontSize: 12, color: '#86868b' }}>Cargando eventos de mercado gasista…</div>
+  }
+  if (events == null) {
+    const keyMissing = /no_key|GIE_API_KEY|unauthorized|api key/i.test(err ?? '')
+    return (
+      <div style={{ fontSize: 12, color: '#86868b', lineHeight: 1.55 }}>
+        <p style={{ margin: '0 0 8px' }}>
+          Eventos de mercado gasista no disponibles ahora{err ? ` (${err.split('·')[0].trim()})` : ''}.
+        </p>
+        {keyMissing ? (
+          <p style={{ margin: 0 }}>
+            La <strong>GIE Inside Information Platform</strong> usa la <strong>misma clave gratuita</strong>{' '}
+            que AGSI/ALSI. Regístrate en{' '}
+            <a href="https://iip.gie.eu/account" target="_blank" rel="noreferrer" style={{ color: GAS, fontWeight: 600, textDecoration: 'none' }}>
+              iip.gie.eu/account
+            </a>{' '}
+            y añade <code style={{ fontFamily: 'monospace', background: '#F1F5F9', padding: '1px 4px', borderRadius: 3 }}>GIE_API_KEY</code> en
+            Vercel.
+          </p>
+        ) : (
+          <p style={{ margin: 0 }}>La fuente (GIE IIP) no respondió. Se reintenta automáticamente (caché 1h).</p>
+        )}
+      </div>
+    )
+  }
+  if (events.length === 0) {
+    return (
+      <div style={{ fontSize: 12, color: '#86868b', lineHeight: 1.5 }}>
+        Sin eventos de indisponibilidad publicados ahora en la GIE IIP. Es la situación esperada en
+        mercado normal: las UMM solo se emiten cuando hay una incidencia de infraestructura.
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {events.map((ev, i) => (
+          <InsideEventRow key={`${ev.submitted ?? ''}-${i}`} ev={ev} />
+        ))}
+      </ul>
+      <p style={{ margin: '12px 0 0', fontSize: 10, color: '#A0A0A5', lineHeight: 1.5 }}>
+        GIE IIP · Urgent Market Messages. Los operadores de transporte, almacenamiento y terminales
+        de GNL publican aquí las indisponibilidades de su infraestructura. Son señales de suministro
+        relevantes para el precio del gas: una indisponibilidad no planificada en una interconexión
+        o terminal grande puede tensar el mercado.
+      </p>
+    </div>
+  )
+}
+
+function InsideEventRow({ ev }: { ev: GieInsideEvent }) {
+  const planned = (ev.unavailability_type ?? '').toLowerCase().includes('plan') && !(ev.unavailability_type ?? '').toLowerCase().includes('unplan')
+  const unplanned = (ev.unavailability_type ?? '').toLowerCase().includes('unplan')
+  const tagColor = unplanned ? '#DC2626' : planned ? '#16A34A' : '#6e6e73'
+  const tagBg = unplanned ? 'rgba(220,38,38,0.08)' : planned ? 'rgba(22,163,74,0.08)' : '#F1F5F9'
+  const window = [ev.from, ev.to].filter(Boolean).join('  ⟶  ')
+  return (
+    <li style={{ border: '1px solid #ECECEF', borderRadius: 10, padding: '10px 12px', background: '#FAFAFA' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+        <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f', fontFamily: 'var(--font-display)' }}>
+          {ev.entity ?? 'Operador no identificado'}
+        </span>
+        {ev.unavailability_type && (
+          <span style={{ fontSize: 9, fontWeight: 800, color: tagColor, background: tagBg, padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            {unplanned ? 'No planificada' : planned ? 'Planificada' : ev.unavailability_type}
+          </span>
+        )}
+      </div>
+      <div style={{ fontSize: 11, color: '#3a3a3d', marginTop: 3 }}>
+        {ev.message_type ?? 'Indisponibilidad de infraestructura gasista'}
+        {ev.asset ? <span style={{ color: '#86868b' }}> · {ev.asset}</span> : null}
+      </div>
+      <div style={{ display: 'flex', gap: 14, marginTop: 6, flexWrap: 'wrap', fontSize: 10, color: '#86868b' }}>
+        {window && <span>{window}</span>}
+        {ev.unavailable && <span>No disponible: <strong style={{ color: '#3a3a3d' }}>{ev.unavailable}</strong></span>}
+        {ev.balancing_zone && <span>Zona: {ev.balancing_zone}</span>}
+        {ev.reason && <span>{ev.reason}</span>}
+        {ev.submitted && <span style={{ marginLeft: 'auto', color: '#A0A0A5' }}>{ev.submitted}</span>}
+      </div>
+    </li>
   )
 }
 
