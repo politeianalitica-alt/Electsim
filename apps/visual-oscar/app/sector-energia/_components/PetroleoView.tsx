@@ -1,6 +1,6 @@
 'use client'
 /**
- * <PetroleoView /> · Sprint Energía S7
+ * <PetroleoView /> · Sprint Energía S7 · profundizado en E6 (Petróleo profundo)
  *
  * Vista "Petróleo" del EnergiaShell. Foto completa del crudo + España:
  *
@@ -9,16 +9,26 @@
  *   - Precios crudo (series): Brent / WTI / OPEP histórico (línea) con
  *     selector + variaciones 24h/7d/30d. Fuente real en cascada.
  *   - Spread Brent-WTI: serie del spread (Brent − WTI por fecha alineada).
+ *   - Estructura temporal del Brent (E6): spread + marco contango/backwardation,
+ *     sin inventar forward curve (no hay fuente de la curva por vencimientos).
  *   - Productos refinados: gasolina (RBOB) + diésel (heating oil) · series.
+ *   - Crack spread / margen de refino (E6): gasolina/diésel × 42 − Brent y blend
+ *     3-2-1, normalizado a $/bbl · cálculo propio sobre las series ya cargadas.
+ *   - Logística energética (E6): chokepoints + Baltic Dry + buques vía el
+ *     endpoint cross-source /api/energia/energy-logistics (origen seed/heurístico
+ *     marcado).
+ *   - OPEP cuota vs producción + reservas estratégicas ES (E6): tarjetas curadas
+ *     con fuente y fecha (no se inventa el dato del día).
  *   - Dependencia/importaciones ES: catálogo curado CORES (PETROLEO_DEPENDENCIA_ES).
  *   - Geopolítica: link a /geopolitica + nota chokepoints (Ormuz/Suez).
  *   - Empresas: Repsol/Cepsa (ES) + majors (Shell/BP/Total/Exxon/Chevron/
- *     Equinor) · strip cotización Finnhub.
+ *     Equinor) · strip cotización Finnhub (vía CompanyQuotePanel).
  *   - <SectorIntelPanel sector="energia" compact />.
  *
  * Fuentes reales: Alpha Vantage / Nasdaq DL / Yahoo (crudo · cascada),
- * Finnhub (cotización), catálogo CORES (dependencia). Empty-state honesto
- * cuando falta dato (CLAUDE.md). Cero emojis · Unicode (⇡ ⇣ ⟶ ◐).
+ * Finnhub (cotización), Puertos standalone (logística · seed/heurístico),
+ * catálogo CORES (dependencia) + curado datado (OPEP, reservas). Empty-state
+ * honesto cuando falta dato (CLAUDE.md). Cero emojis · Unicode (⇡ ⇣ ⟶ ◐).
  */
 import { useEffect, useMemo, useState } from 'react'
 import { Panel } from '@/components/SectorPanel'
@@ -33,6 +43,12 @@ import type {
   EnergyCommoditySymbol,
 } from '@/lib/energia/types'
 import CommodityStrip from './CommodityStrip'
+import { HeroKpis } from './shared/HeroKpis'
+import { PetroleoCrackSpread } from './PetroleoCrackSpread'
+import { PetroleoTermStructure } from './PetroleoTermStructure'
+import { PetroleoLogistics } from './PetroleoLogistics'
+import { PetroleoOpecQuota } from './PetroleoOpecQuota'
+import { PetroleoReservasES } from './PetroleoReservasES'
 
 const OIL = '#0F766E'
 const OIL_DARK = '#134E4A'
@@ -61,6 +77,8 @@ export function PetroleoView() {
   const brent = seriesOf(data, 'brent')
   const wti = seriesOf(data, 'wti')
   const opec = seriesOf(data, 'opec')
+  const gasolina = seriesOf(data, 'gasolina')
+  const diesel = seriesOf(data, 'diesel')
 
   const spread = brentWtiSpread(brent?.latest ?? null, wti?.latest ?? null)
 
@@ -105,12 +123,15 @@ export function PetroleoView() {
             </div>
           )}
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8 }}>
-          <HeroKPI label="Brent" value={brent?.latest ?? null} unit="$/bbl" chg={brent?.change_24h ?? null} accent="#5EEAD4" pending={brent ? undefined : 'sin dato'} />
-          <HeroKPI label="WTI" value={wti?.latest ?? null} unit="$/bbl" chg={wti?.change_24h ?? null} accent="#99F6E4" pending={wti ? undefined : 'sin dato'} />
-          <HeroKPI label="Spread Brent-WTI" value={spread} unit="$/bbl" accent="#CCFBF1" sub="prima del Brent" pending={spread == null ? 'sin dato' : undefined} />
-          <HeroKPI label="Cesta OPEP (ORB)" value={opec?.latest ?? null} unit="$/bbl" chg={opec?.change_24h ?? null} accent="#A7F3D0" pending={opec ? undefined : 'sin Nasdaq DL'} />
-        </div>
+        <HeroKpis
+          loading={loading && !data}
+          items={[
+            { label: 'Brent', value: brent?.latest ?? null, unit: '$/bbl', color: '#5EEAD4', footer: chgFooter(brent?.change_24h ?? null, brent ? undefined : 'sin dato') },
+            { label: 'WTI', value: wti?.latest ?? null, unit: '$/bbl', color: '#99F6E4', footer: chgFooter(wti?.change_24h ?? null, wti ? undefined : 'sin dato') },
+            { label: 'Spread Brent-WTI', value: spread, unit: '$/bbl', color: '#CCFBF1', footer: spread == null ? 'sin dato' : 'prima del Brent' },
+            { label: 'Cesta OPEP (ORB)', value: opec?.latest ?? null, unit: '$/bbl', color: '#A7F3D0', footer: chgFooter(opec?.change_24h ?? null, opec ? undefined : 'sin Nasdaq DL') },
+          ]}
+        />
       </section>
 
       {/* ───── ROW 1: Precios crudo (series con selector) ───── */}
@@ -133,6 +154,15 @@ export function PetroleoView() {
         <SpreadChart brent={brent} wti={wti} />
       </Panel>
 
+      {/* ───── ROW 2b: Estructura temporal del Brent (contango/backwardation) ───── */}
+      <Panel
+        title="Estructura temporal del Brent"
+        subtitle="Spread Brent-WTI actual + marco contango/backwardation · sin forward curve (no hay fuente de curva)"
+        marginBottom
+      >
+        <PetroleoTermStructure brent={brent} wti={wti} />
+      </Panel>
+
       {/* ───── ROW 3: Productos refinados (gasolina + diésel) ───── */}
       <Panel
         title="Productos refinados · gasolina y diésel"
@@ -143,12 +173,50 @@ export function PetroleoView() {
       >
         <CommodityStrip symbols={['gasolina', 'diesel']} category="oil" accent={OIL} />
         <p style={{ margin: '12px 0 0', fontSize: 10.5, color: '#86868b', lineHeight: 1.5 }}>
-          El <strong>crack spread</strong> (margen de refino = producto refinado − crudo) no se calcula
-          directamente aquí porque gasolina/diésel cotizan en USD/galón y el crudo en USD/barril
-          (1 barril ≈ 42 galones); requiere normalización adicional. RBOB y heating oil son los
-          mejores proxies públicos gratuitos de gasolina y diésel.
+          RBOB y heating oil son los mejores proxies públicos gratuitos de gasolina y diésel; cotizan en
+          USD/galón (el crudo en USD/barril, 1 barril ≈ 42 galones). El <strong>crack spread</strong> —
+          el margen de refino que sale de estos productos menos el crudo— se calcula, ya normalizado, en
+          el panel siguiente.
         </p>
       </Panel>
+
+      {/* ───── ROW 3b: Crack spread (margen de refino) ───── */}
+      <Panel
+        title="Crack spread · margen de refino"
+        subtitle="Producto refinado − crudo, normalizado a $/bbl · gasolina, diésel y blend 3-2-1 · cálculo propio"
+        marginBottom
+      >
+        <PetroleoCrackSpread gasolina={gasolina} diesel={diesel} brent={brent} />
+      </Panel>
+
+      {/* ───── ROW 3c: Logística energética (cross-source Puertos) ───── */}
+      <Panel
+        title="Logística energética · chokepoints, fletes y buques"
+        subtitle="Corredores marítimos del crudo/GNL, Baltic Dry Index y conteo de petroleros · cruce con Puertos"
+        marginBottom
+      >
+        <PetroleoLogistics />
+      </Panel>
+
+      {/* ───── ROW 3d: OPEP cuota vs producción + Reservas estratégicas ES ───── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 14, marginBottom: 14 }}>
+        <Panel
+          title="OPEP+ · objetivo vs producción"
+          subtitle="Cuota grupal y recortes vigentes · dato curado con fuente y fecha"
+          sourceUrl="https://www.opec.org/monthly-oil-market-report.html"
+          sourceTooltip="OPEC · Monthly Oil Market Report (MOMR)"
+        >
+          <PetroleoOpecQuota />
+        </Panel>
+        <Panel
+          title="Reservas estratégicas de España"
+          subtitle="CORES · días de cobertura ≥90 (AIE/UE) · dato curado con fuente y fecha"
+          sourceUrl="https://www.cores.es/es/seguridad-suministro/productos-petroliferos/reservas-cores"
+          sourceTooltip="CORES · reservas estratégicas de productos petrolíferos"
+        >
+          <PetroleoReservasES />
+        </Panel>
+      </div>
 
       {/* ───── ROW 4: Dependencia ES + Geopolítica ───── */}
       <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 14, marginBottom: 14 }}>
@@ -201,45 +269,14 @@ function seriesOf(data: DataMap | null, sym: EnergyCommoditySymbol): EnergyCommo
   return r?.ok ? r.data ?? null : null
 }
 
-// ─── HeroKPI ──────────────────────────────────────────────────────────────
-function HeroKPI({
-  label,
-  value,
-  unit,
-  accent,
-  sub,
-  chg,
-  pending,
-}: {
-  label: string
-  value: number | null | undefined
-  unit: string
-  accent: string
-  sub?: string
-  chg?: number | null
-  pending?: string
-}) {
-  const display = value == null ? '—' : value.toLocaleString('es-ES', { maximumFractionDigits: Math.abs(value) >= 100 ? 1 : 2 })
-  return (
-    <div style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 12, padding: '12px 14px' }}>
-      <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.72, marginBottom: 4 }}>
-        {label}
-      </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', color: accent }}>
-        {display}
-        {unit && value != null && <span style={{ fontSize: 11, fontWeight: 600, marginLeft: 5, opacity: 0.85 }}>{unit}</span>}
-      </div>
-      {value != null && chg != null ? (
-        <div style={{ fontSize: 10, fontWeight: 700, marginTop: 2, color: chg >= 0 ? '#86EFAC' : '#FCA5A5' }}>
-          {chg >= 0 ? '⇡' : '⇣'} {Math.abs(chg).toFixed(2)}% · 24h
-        </div>
-      ) : value == null && pending ? (
-        <div style={{ fontSize: 9.5, opacity: 0.6, marginTop: 2 }}>{pending}</div>
-      ) : sub ? (
-        <div style={{ fontSize: 9.5, opacity: 0.6, marginTop: 2 }}>{sub}</div>
-      ) : null}
-    </div>
-  )
+// ─── Footer del KPI hero (variación 24h o nota de degradación) ───────────────
+// Los KPIs del hero usan ahora la primitiva compartida <HeroKpis>, que sólo
+// admite un `footer` textual; aquí componemos la variación 24h o el pending.
+function chgFooter(chg: number | null, pending?: string): string | undefined {
+  if (chg != null && Number.isFinite(chg)) {
+    return `${chg >= 0 ? '⇡' : '⇣'} ${Math.abs(chg).toFixed(2)}% · 24h`
+  }
+  return pending
 }
 
 // ─── Precios crudo · serie con selector Brent/WTI/OPEP ───────────────────────

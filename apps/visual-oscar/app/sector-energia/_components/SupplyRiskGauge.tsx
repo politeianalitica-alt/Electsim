@@ -66,7 +66,39 @@ interface EsiosSnapshotResp {
   indicators: Record<string, EsiosIndicator>
 }
 
-export default function SupplyRiskGauge() {
+/**
+ * Props OPCIONALES y retrocompatibles (E9 · Visión Global). Sin ellas el gauge
+ * se comporta exactamente igual que antes (5 dimensiones, 2 con dato en vivo).
+ * Cuando la Visión Global le pasa el riesgo geopolítico ponderado de los
+ * proveedores (de `/api/energia/energy-supply-risk-geo`), las dimensiones de
+ * "diversificación del gas" y "riesgo país proveedores" dejan de estar
+ * "pendiente" y puntúan con dato real (V-Dem + sanciones · seed estructural).
+ */
+export interface SupplyRiskGaugeProps {
+  /** Riesgo geopolítico ponderado del crudo (0-100). Opcional. */
+  petroleoGeoRisk?: number | null
+  /** Riesgo geopolítico ponderado del gas/GNL (0-100). Opcional. */
+  gasGeoRisk?: number | null
+  /** Cuota de importación de crudo cubierta por países identificados (%). */
+  petroleoCuotaIdentificada?: number | null
+  /** Cuota de importación de GNL cubierta por países identificados (%). */
+  gasCuotaIdentificada?: number | null
+}
+
+/** Banda cualitativa desde un score 0-100 (compartida con el riesgo agregado). */
+function bandaFromScore(score: number): Banda {
+  if (score >= 80) return 'crítico'
+  if (score >= 65) return 'alto'
+  if (score >= 45) return 'medio'
+  return 'bajo'
+}
+
+export default function SupplyRiskGauge({
+  petroleoGeoRisk = null,
+  gasGeoRisk = null,
+  petroleoCuotaIdentificada = null,
+  gasCuotaIdentificada = null,
+}: SupplyRiskGaugeProps = {}) {
   const [spot, setSpot] = useState<number | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -107,15 +139,52 @@ export default function SupplyRiskGauge() {
         fuente: 'ESIOS · spot OMIE en vivo',
       }
 
+  // Dimensión · riesgo geopolítico del crudo (real si la Visión Global pasa el
+  // ponderado de energy-supply-risk-geo; si no, queda pendiente como antes).
+  const riesgoCrudo: Dimension =
+    petroleoGeoRisk != null && Number.isFinite(petroleoGeoRisk)
+      ? {
+          nombre: 'Riesgo geopolítico proveedores de crudo',
+          nivel: Math.round(petroleoGeoRisk),
+          banda: bandaFromScore(petroleoGeoRisk),
+          detalle:
+            petroleoCuotaIdentificada != null
+              ? `Riesgo país ponderado por cuota import · ${petroleoCuotaIdentificada.toFixed(0)}% de orígenes identificados`
+              : 'Riesgo país ponderado por cuota de importación (CORES)',
+          fuente: 'geopolítica · V-Dem + sanciones (seed) × cuotas CORES',
+        }
+      : {
+          nombre: 'Riesgo geopolítico proveedores de crudo',
+          nivel: null,
+          banda: 'pendiente',
+          detalle: 'Riesgo país de los orígenes del crudo importado (Nigeria, Arabia Saudí, EEUU…)',
+          fuente: 'pendiente · cruce geopolítica × cuotas CORES',
+        }
+
+  // Dimensión · diversificación/riesgo del gas (real con el ponderado del GNL).
+  const riesgoGas: Dimension =
+    gasGeoRisk != null && Number.isFinite(gasGeoRisk)
+      ? {
+          nombre: 'Riesgo geopolítico de los orígenes del gas',
+          nivel: Math.round(gasGeoRisk),
+          banda: bandaFromScore(gasGeoRisk),
+          detalle:
+            gasCuotaIdentificada != null
+              ? `Riesgo país ponderado por cuota GNL · ${gasCuotaIdentificada.toFixed(0)}% de orígenes identificados (Argelia, EEUU, Rusia…)`
+              : 'Riesgo país ponderado por cuota de importación de GNL',
+          fuente: 'geopolítica · V-Dem + sanciones (seed) × cuotas Enagás/CORES',
+        }
+      : {
+          nombre: 'Diversificación geográfica del gas',
+          nivel: null,
+          banda: 'pendiente',
+          detalle: 'Concentración de orígenes del gas importado (Argelia, GNL US…)',
+          fuente: 'pendiente S8 · orígenes de importación',
+        }
+
   const dims: Dimension[] = [
     dependencia,
-    {
-      nombre: 'Almacenamiento de gas en Europa',
-      nivel: null,
-      banda: 'pendiente',
-      detalle: 'Nivel de llenado de almacenamiento UE/ES · requiere cliente GIE AGSI',
-      fuente: 'pendiente S8 · GIE AGSI+',
-    },
+    riesgoCrudo,
     {
       nombre: 'Margen de capacidad eléctrica',
       nivel: null,
@@ -123,13 +192,7 @@ export default function SupplyRiskGauge() {
       detalle: 'Capacidad firme disponible frente a la punta de demanda',
       fuente: 'pendiente · capacidad firme REE/ENTSO-E',
     },
-    {
-      nombre: 'Diversificación geográfica del gas',
-      nivel: null,
-      banda: 'pendiente',
-      detalle: 'Concentración de orígenes del gas importado (Argelia, GNL US…)',
-      fuente: 'pendiente S8 · orígenes de importación',
-    },
+    riesgoGas,
     exposicion,
   ]
 
@@ -263,9 +326,10 @@ export default function SupplyRiskGauge() {
       </div>
 
       <p style={{ margin: '12px 0 0', fontSize: 10, color: '#9CA3AF', lineHeight: 1.5 }}>
-        El riesgo agregado solo pondera las dimensiones con dato en vivo. Las dimensiones de gas
-        (almacenamiento, diversificación) se activan en S8 con el cliente GIE AGSI; el margen de
-        capacidad requiere la serie de capacidad firme.
+        El riesgo agregado solo pondera las dimensiones con dato en vivo. El riesgo geopolítico de
+        proveedores (crudo y gas) es estructural: V-Dem + sanciones conocidas (seed) ponderados por
+        cuota de importación, no eventos recientes. El margen de capacidad eléctrica requiere la
+        serie de capacidad firme (pendiente).
       </p>
     </section>
   )

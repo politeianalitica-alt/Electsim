@@ -35,6 +35,11 @@ import {
 } from '@/lib/energia/catalog'
 import { ESIOS_TECH_COLORS } from '@/lib/esios/catalog'
 import LoadFactorChart from './LoadFactorChart'
+import RenovablesCapacityChart from './RenovablesCapacityChart'
+import RenovablesPniecProgress from './RenovablesPniecProgress'
+import RenovablesComplementarity from './RenovablesComplementarity'
+import RenovablesForecast from './RenovablesForecast'
+import RenovablesCurtailment from './RenovablesCurtailment'
 import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 
 const ACCENT = '#16A34A'
@@ -179,6 +184,57 @@ export function RenovablesView() {
           <LoadFactorChart />
         </Panel>
       </div>
+
+      {/* ───── ROW 1b: Capacidad instalada LIVE + Progreso PNIEC 2030 (Sprint E4) ───── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+        <Panel
+          title="Potencia instalada por tecnología"
+          subtitle="REE apidatos · en vivo, con degradación honesta al catálogo"
+          sourceUrl="https://www.ree.es/es/apidatos"
+          sourceTooltip="REE · apidatos · potencia instalada"
+        >
+          <RenovablesCapacityChart />
+        </Panel>
+        <Panel
+          title="Progreso hacia los objetivos PNIEC 2030"
+          subtitle="Valor actual (REE en vivo donde es posible) vs objetivo 2030 · MITECO"
+          sourceUrl="https://www.miteco.gob.es/es/energia/estrategia-normativa/pniec.html"
+          sourceTooltip="MITECO · PNIEC 2023-2030"
+        >
+          <RenovablesPniecProgress />
+        </Panel>
+      </div>
+
+      {/* ───── ROW 1c: Complementariedad eólica-solar + Forecast D+1 (Sprint E4) ───── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 14, marginBottom: 14 }}>
+        <Panel
+          title="Complementariedad eólica-solar"
+          subtitle="Correlación de la generación 24 h · cuando una baja, ¿sube la otra?"
+          sourceUrl="https://www.esios.ree.es/"
+          sourceTooltip="Abrir ESIOS · REE"
+        >
+          <RenovablesComplementarity />
+        </Panel>
+        <Panel
+          title="Predicción D+1 · eólica y solar"
+          subtitle="Forecast oficial REE (previsto vs real) · MAPE y sesgo"
+          sourceUrl="https://www.esios.ree.es/"
+          sourceTooltip="Abrir ESIOS · REE · predicciones"
+        >
+          <RenovablesForecast />
+        </Panel>
+      </div>
+
+      {/* ───── ROW 1d: Curtailment / energía vertida (Sprint E4 · tarjeta honesta) ───── */}
+      <Panel
+        title="Curtailment · energía renovable vertida"
+        subtitle="Qué es, por qué importa y señal proxy (sin inventar MWh)"
+        marginBottom
+        sourceUrl="https://www.esios.ree.es/es/analisis/10095"
+        sourceTooltip="ESIOS · coste de restricciones técnicas (proxy)"
+      >
+        <RenovablesCurtailment />
+      </Panel>
 
       {/* ───── ROW 2: Cuota renovable histórica + objetivo PNIEC 2030 ───── */}
       <Panel

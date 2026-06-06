@@ -1,32 +1,47 @@
 'use client'
 /**
- * <VisionGlobalView /> · Sprint Energía S4
+ * <VisionGlobalView /> · Sprint Energía v3 · E9 (cuadro de mando ejecutivo)
  *
- * Landing cross-energía del shell /sector-energia (sección por defecto). Da una
- * foto de todo el sistema energético de un vistazo y enlaza a cada tipo:
+ * Landing cross-energía del shell /sector-energia (sección por defecto). Es un
+ * RESUMEN EJECUTIVO: snapshots, no detalle. El detalle de cada commodity/serie
+ * vive en su pestaña canónica (Petróleo/Gas/Eléctrico…). Aquí, de un vistazo:
  *
- *   - Hero con 8 KPIs vivos (auto-refresh 5 min, patrón ElectricoView):
- *       demanda eléctrica ES · mix renovable ES · PVPC · Brent · TTF gas ·
- *       Henry Hub · EUA CO2 · intensidad CO2 eléctrica ES.
- *   - <EnergyPriceMatrix /> · matriz de precios cross-energía
- *   - <WorldEnergyMap /> · mapa mundial Ember (S2)
- *   - <SupplyRiskGauge /> · semáforo seguridad de suministro (5 dimensiones)
- *   - Strip de cotización · majors globales + utilities españolas (Finnhub)
- *   - Áreas estratégicas (cards) · transición, autonomía, precios, etc.
+ *   - Hero con 8 KPIs vivos (primitiva compartida <HeroKpis />).
+ *   - <GlobalEnergyStatus /> · semáforo cross-energía (precios + almacenamiento
+ *     gas + riesgo suministro) con 1 línea de lectura para el analista.
+ *   - <CommoditySnapshot /> · SNAPSHOT de commodities (valor + cambio %), sin
+ *     series largas (de-dup: las series están en Petróleo/Gas).
+ *   - <WorldEnergyMap /> · mapa mundial Ember (S2).
+ *   - <SupplyRiskGauge /> · semáforo de dimensiones, ENRIQUECIDO con el riesgo
+ *     país ponderado de proveedores (prop opcional retrocompatible).
+ *   - <GlobalSupplyRiskBoard /> · tabla proveedores por riesgo país (cuota ×
+ *     riesgo), V-Dem + sanciones (seed estructural).
+ *   - <GlobalEnergyInflation /> · cruce Macro↔Energía (IPC energía vs general,
+ *     IPI, EUR/USD + passthrough Brent).
+ *   - <SupplyRiskBriefPanel /> · síntesis IA del riesgo (Gemini → heurístico).
+ *   - Strip de cotización · majors + utilities (Finnhub) · Áreas estratégicas.
  *   - <SectorIntelPanel sector="energia" compact />
  *
+ * De-dup E9: se ELIMINÓ <EnergyPriceMatrix /> (matriz de SERIES con sparkline
+ * 24h/7d/30d) de esta vista — las series viven en Petróleo/Gas. Aquí queda solo
+ * el SNAPSHOT (valor + cambio %), fiel al principio "Visión Global = snapshots".
+ *
  * Fuentes reales: ESIOS/REE (eléctrico ES), Ember (mapa global), Yahoo
- * (Brent/WTI/HenryHub), Finnhub (cotización). KPIs/celdas sin dato aún
- * (TTF gas, AGSI) muestran empty-state "—" marcado hasta S7/S8. Nunca se
- * inventan valores (CLAUDE.md). Cero emojis · Unicode (◆ ◉ ⬡ ⇡ ⟶).
+ * (Brent/WTI/HenryHub snapshot), Eurostat/ECB (inflación), geopolítica seeds
+ * (riesgo proveedores), Finnhub (cotización). Degradación honesta por bloque
+ * (CLAUDE.md): nunca se inventan valores. Cero emojis · Unicode (◆ ◉ ⬡ ⇡ ⟶ ●).
  */
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
-import EnergyPriceMatrix from './EnergyPriceMatrix'
+import { HeroKpis, type HeroKpiItem } from './shared/HeroKpis'
+import { CommoditySnapshot, type CommoditySnapshotItem } from './shared/CommoditySnapshot'
 import SupplyRiskGauge from './SupplyRiskGauge'
 import WorldEnergyMap from './WorldEnergyMap'
+import GlobalEnergyStatus from './GlobalEnergyStatus'
+import GlobalEnergyInflation from './GlobalEnergyInflation'
+import GlobalSupplyRiskBoard, { type SupplyRiskGeoSummary } from './GlobalSupplyRiskBoard'
 
 const ACCENT = '#16A34A'
 const ACCENT_DARK = '#0d4626'
@@ -44,7 +59,7 @@ interface EsiosSnapshotResp {
   ok: boolean
   indicators: Record<string, EsiosIndicator>
 }
-interface CommoditySnapshot {
+interface CommoditySnapshotDto {
   slug: string
   last_price: number | null
   change_pct: number | null
@@ -52,25 +67,18 @@ interface CommoditySnapshot {
   available?: boolean
 }
 interface SnapshotAllResp {
-  items: CommoditySnapshot[]
-}
-
-interface KpiData {
-  label: string
-  value: number | null
-  unit: string
-  accent: string
-  /** Variación porcentual (opcional, se muestra como flecha). */
-  chg?: number | null
-  /** Nota de empty-state cuando value === null. */
-  pending?: string
+  items: CommoditySnapshotDto[]
 }
 
 export function VisionGlobalView() {
   const [esios, setEsios] = useState<EsiosSnapshotResp | null>(null)
-  const [commod, setCommod] = useState<Map<string, CommoditySnapshot>>(new Map())
+  const [commod, setCommod] = useState<Map<string, CommoditySnapshotDto>>(new Map())
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
+  // Resumen del riesgo país de proveedores (lo calcula <GlobalSupplyRiskBoard>
+  // tras su fetch; lo elevamos aquí para alimentar el semáforo y el gauge sin
+  // volver a pegar al endpoint).
+  const [geoRisk, setGeoRisk] = useState<SupplyRiskGeoSummary | null>(null)
 
   const refresh = async () => {
     setLoading(true)
@@ -83,7 +91,7 @@ export function VisionGlobalView() {
         .catch(() => null),
     ])
     setEsios(e)
-    const m = new Map<string, CommoditySnapshot>()
+    const m = new Map<string, CommoditySnapshotDto>()
     for (const it of c?.items ?? []) m.set(it.slug, it)
     setCommod(m)
     setUpdatedAt(new Date())
@@ -99,64 +107,89 @@ export function VisionGlobalView() {
   const ind = esios?.indicators ?? {}
   const com = (slug: string) => commod.get(slug)
 
-  // ── 8 KPIs del hero ──────────────────────────────────────────────────────
+  // ── 8 KPIs del hero (primitiva compartida <HeroKpis />) ───────────────────
   const brent = com('crude-oil-brent')
   const henry = com('natural-gas-henryhub')
-  const kpis: KpiData[] = [
-    {
-      label: 'Demanda eléctrica ES',
-      value: ind.demanda_real?.latest?.value ?? null,
-      unit: 'MW',
-      accent: '#86EFAC',
-    },
-    {
-      label: 'Mix renovable ES',
-      value: ind.porcentaje_renovable?.latest?.value ?? null,
-      unit: '%',
-      accent: '#7DD3FC',
-    },
+  const arrow = (chg: number | null | undefined): string | undefined =>
+    chg == null ? undefined : `${chg >= 0 ? '⇡' : '⇣'} ${Math.abs(chg).toFixed(1)}% · 24h`
+  const kpis: HeroKpiItem[] = [
+    { label: 'Demanda eléctrica ES', value: ind.demanda_real?.latest?.value ?? null, unit: 'MW', color: '#86EFAC' },
+    { label: 'Mix renovable ES', value: ind.porcentaje_renovable?.latest?.value ?? null, unit: '%', color: '#7DD3FC' },
     {
       label: 'PVPC · tarifa hogar',
       value: ind.pvpc?.latest?.value ?? null,
       unit: '€/MWh',
-      accent: '#FCD34D',
-      chg: ind.pvpc?.change_pct ?? null,
+      color: '#FCD34D',
+      footer: arrow(ind.pvpc?.change_pct),
     },
     {
       label: 'Petróleo Brent',
       value: brent?.available ? brent.last_price ?? null : null,
       unit: '$/bbl',
-      accent: '#FDBA74',
-      chg: brent?.change_pct ?? null,
-      pending: brent?.available ? undefined : 'sin dato ahora',
-    },
-    {
-      label: 'Gas TTF (hub UE)',
-      value: null,
-      unit: '€/MWh',
-      accent: '#93C5FD',
-      pending: 'pendiente S7/S8',
+      color: '#FDBA74',
+      footer: brent?.available ? arrow(brent.change_pct) : 'sin dato ahora',
     },
     {
       label: 'Gas Henry Hub',
       value: henry?.available ? henry.last_price ?? null : null,
       unit: '$/MMBtu',
-      accent: '#A5B4FC',
-      chg: henry?.change_pct ?? null,
-      pending: henry?.available ? undefined : 'sin dato ahora',
+      color: '#A5B4FC',
+      footer: henry?.available ? arrow(henry.change_pct) : 'sin dato ahora',
     },
     {
       label: 'CO2 · EUA',
       value: ind.precio_co2_eua?.latest?.value ?? null,
       unit: '€/t',
-      accent: '#C4B5FD',
-      chg: ind.precio_co2_eua?.change_pct ?? null,
+      color: '#C4B5FD',
+      footer: arrow(ind.precio_co2_eua?.change_pct),
+    },
+    { label: 'Intensidad CO2 elec. ES', value: ind.emisiones_co2?.latest?.value ?? null, unit: 'gCO2/kWh', color: '#FCA5A5' },
+    {
+      label: 'Spot OMIE',
+      value: ind.mercado_spot?.latest?.value ?? null,
+      unit: '€/MWh',
+      color: '#86EFAC',
+      footer: arrow(ind.mercado_spot?.change_pct),
+    },
+  ]
+
+  // ── Snapshot de commodities (valor + cambio %, SIN series) ────────────────
+  // De-dup: las series largas de Brent/WTI/Henry Hub viven en Petróleo/Gas.
+  const snap = (label: string, slug: string, unit: string, color: string): CommoditySnapshotItem => {
+    const c = com(slug)
+    return {
+      label,
+      value: c?.available ? c.last_price ?? null : null,
+      unit,
+      change: c?.change_pct ?? null,
+      color,
+    }
+  }
+  const commoditySnapshots: CommoditySnapshotItem[] = [
+    snap('Brent', 'crude-oil-brent', '$/bbl', '#0F766E'),
+    snap('WTI', 'crude-oil-wti', '$/bbl', '#0F766E'),
+    snap('Henry Hub', 'natural-gas-henryhub', '$/MMBtu', '#0EA5E9'),
+    // Eléctrico/CO2 desde ESIOS (snapshot, no serie).
+    {
+      label: 'Spot OMIE',
+      value: ind.mercado_spot?.latest?.value ?? null,
+      unit: '€/MWh',
+      change: ind.mercado_spot?.change_pct ?? null,
+      color: '#16A34A',
     },
     {
-      label: 'Intensidad CO2 elec. ES',
-      value: ind.emisiones_co2?.latest?.value ?? null,
-      unit: 'gCO2/kWh',
-      accent: '#FCA5A5',
+      label: 'PVPC',
+      value: ind.pvpc?.latest?.value ?? null,
+      unit: '€/MWh',
+      change: ind.pvpc?.change_pct ?? null,
+      color: '#16A34A',
+    },
+    {
+      label: 'CO2 · EUA',
+      value: ind.precio_co2_eua?.latest?.value ?? null,
+      unit: '€/t',
+      change: ind.precio_co2_eua?.change_pct ?? null,
+      color: '#7C3AED',
     },
   ]
 
@@ -199,9 +232,9 @@ export function VisionGlobalView() {
               El sistema energético <em style={{ fontWeight: 300, fontStyle: 'italic', opacity: 0.75 }}>de un vistazo</em>
             </h1>
             <p style={{ fontSize: 13, opacity: 0.82, margin: 0, lineHeight: 1.5 }}>
-              Foto cross-energía: electricidad, petróleo, gas y CO2. Datos del sistema eléctrico español
-              en vivo (ESIOS/REE), mapa global de electricidad (Ember) y precios de mercado. Navega a
-              cada tipo de energía desde la barra superior.
+              Cuadro de mando ejecutivo: estado del sistema, snapshots de precios, inflación energética
+              y riesgo de suministro. El detalle de cada commodity y sus series vive en su pestaña
+              (Petróleo, Gas, Eléctrico…). Navega desde la barra superior.
             </p>
           </div>
           {updatedAt && (
@@ -227,26 +260,60 @@ export function VisionGlobalView() {
           )}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
-          {kpis.map((k) => (
-            <HeroKPI key={k.label} {...k} />
-          ))}
-        </div>
+        <HeroKpis items={kpis} loading={loading && !updatedAt} />
       </section>
 
-      {/* ───── Matriz de precios cross-energía ───── */}
+      {/* ───── Semáforo cross-energía · estado sintético + 1 línea ───── */}
       <div style={{ marginBottom: 14 }}>
-        <EnergyPriceMatrix />
+        <GlobalEnergyStatus
+          petroleoGeoRisk={geoRisk?.petroleoGeoRisk ?? null}
+          gasGeoRisk={geoRisk?.gasGeoRisk ?? null}
+        />
       </div>
+
+      {/* ───── Snapshot de commodities (valor + cambio %, SIN series) ───── */}
+      <section
+        style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px', marginBottom: 14 }}
+      >
+        <header style={{ marginBottom: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 8 }}>
+          <div>
+            <h2 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 14.5, fontWeight: 600, letterSpacing: '-0.013em', color: '#1d1d1f' }}>
+              Snapshot de precios energéticos
+            </h2>
+            <p style={{ margin: '3px 0 0', fontSize: 11, color: '#6e6e73' }}>
+              Valor actual + cambio 24h · las series completas viven en Petróleo, Gas y Eléctrico
+            </p>
+          </div>
+          <Link href="/sector-energia/petroleo" style={{ fontSize: 11, color: ACCENT, textDecoration: 'none', fontWeight: 600 }}>
+            Series y forward curve ⟶
+          </Link>
+        </header>
+        <CommoditySnapshot items={commoditySnapshots} />
+      </section>
 
       {/* ───── Mapa mundial de electricidad (Ember · S2) ───── */}
       <div style={{ marginBottom: 14 }}>
         <WorldEnergyMap />
       </div>
 
-      {/* ───── Semáforo de seguridad de suministro ───── */}
+      {/* ───── Semáforo de dimensiones · ENRIQUECIDO con riesgo país proveedores ───── */}
       <div style={{ marginBottom: 14 }}>
-        <SupplyRiskGauge />
+        <SupplyRiskGauge
+          petroleoGeoRisk={geoRisk?.petroleoGeoRisk ?? null}
+          gasGeoRisk={geoRisk?.gasGeoRisk ?? null}
+          petroleoCuotaIdentificada={geoRisk?.petroleoCuotaIdentificada ?? null}
+          gasCuotaIdentificada={geoRisk?.gasCuotaIdentificada ?? null}
+        />
+      </div>
+
+      {/* ───── Tabla proveedores por riesgo país (alimenta el gauge vía onData) ───── */}
+      <div style={{ marginBottom: 14 }}>
+        <GlobalSupplyRiskBoard onData={setGeoRisk} />
+      </div>
+
+      {/* ───── Inflación energética · cruce Macro ↔ Energía ───── */}
+      <div style={{ marginBottom: 14 }}>
+        <GlobalEnergyInflation />
       </div>
 
       {/* ───── Análisis IA · riesgo de suministro (Gemini → heurístico) ───── */}
@@ -303,36 +370,6 @@ export function VisionGlobalView() {
 }
 
 export default VisionGlobalView
-
-// ─── HeroKPI ──────────────────────────────────────────────────────────────
-function HeroKPI({ label, value, unit, accent, chg, pending }: KpiData) {
-  const display = value == null ? '—' : value.toLocaleString('es-ES', { maximumFractionDigits: 2 })
-  return (
-    <div
-      style={{
-        background: 'rgba(255,255,255,0.08)',
-        border: '1px solid rgba(255,255,255,0.18)',
-        borderRadius: 12,
-        padding: '12px 14px',
-      }}
-    >
-      <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.72, marginBottom: 4 }}>
-        {label}
-      </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: accent }}>
-        {display}
-        <span style={{ fontSize: 10.5, fontWeight: 600, marginLeft: 5, opacity: 0.85 }}>{unit}</span>
-      </div>
-      {value == null && pending ? (
-        <div style={{ fontSize: 9.5, opacity: 0.6, marginTop: 2 }}>{pending}</div>
-      ) : chg != null ? (
-        <div style={{ fontSize: 10, marginTop: 2, color: chg >= 0 ? '#86EFAC' : '#FCA5A5', fontWeight: 700 }}>
-          {chg >= 0 ? '⇡' : '⇣'} {Math.abs(chg).toFixed(1)}% · 24h
-        </div>
-      ) : null}
-    </div>
-  )
-}
 
 // ─── Strip de cotización · majors + utilities ───────────────────────────────
 interface Quote {

@@ -28,18 +28,18 @@ import { useEffect, useState } from 'react'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
-import {
-  REACTORES_ES,
-  URANIO_REF,
-  NUCLEAR_GLOBAL_CONTEXT,
-} from '@/lib/energia/catalog'
+import { REACTORES_ES } from '@/lib/energia/catalog'
 import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 import {
   summarizeFleet,
   fleetLoadFactor,
-  buildClosureSchedule,
 } from '@/lib/energia/nuclear-calc'
 import ReactorFleet from './ReactorFleet'
+import NuclearGantt from './NuclearGantt'
+import NuclearMap from './NuclearMap'
+import NuclearLoadFactor from './NuclearLoadFactor'
+import NuclearDecommissioning from './NuclearDecommissioning'
+import NuclearGlobalContext from './NuclearGlobalContext'
 
 const ACCENT = '#16A34A'
 const NUCLEAR = '#7c3aed'
@@ -177,32 +177,72 @@ export function NuclearView() {
         <NuclearGenChart tech={nuclearTech ?? null} cuota={cuotaNuclear} totalNow={mix?.total_now_mw ?? null} noKey={noKey} />
       </Panel>
 
-      {/* ───── ROW 3: Calendario de cierre 2027-2035 ───── */}
+      {/* ───── ROW 3: Factor de carga real de la flota (gauge) ───── */}
       <Panel
-        title="Calendario de cierre · 2027-2035"
-        subtitle="Cese escalonado pactado en 2019 (Enresa + titulares) · potencia que sale del sistema"
+        title="Factor de carga de la flota nuclear"
+        subtitle="Generación nuclear media (ESIOS) ÷ potencia instalada operativa (catálogo CSN)"
         marginBottom
-        sourceUrl="https://www.enresa.es/"
-        sourceTooltip="Enresa · plan de desmantelamiento"
+        sourceUrl="https://www.esios.ree.es/"
+        sourceTooltip="ESIOS · REE · generación nuclear"
       >
-        <ClosureTimeline />
+        <NuclearLoadFactor
+          genMedia24hMw={nuclearTech?.avg_24h_mw ?? null}
+          genNowMw={nuclearMwNow}
+          noKey={noKey}
+        />
       </Panel>
 
-      {/* ───── ROW 4: Contexto global nuclear (Ember) ───── */}
+      {/* ───── ROW 4: Mapa de centrales ES ───── */}
+      <Panel
+        title="Mapa de centrales nucleares · España"
+        subtitle="5 emplazamientos · tamaño ∝ potencia · color por tecnología (PWR/BWR)"
+        marginBottom
+        sourceUrl="https://www.foronuclear.org/"
+        sourceTooltip="Foro Nuclear · centrales nucleares en España"
+      >
+        <NuclearMap />
+      </Panel>
+
+      {/* ───── ROW 5: Gantt de cierre 2027-2035 ───── */}
+      <Panel
+        title="Gantt de cierre · vida útil restante por reactor (2027-2035)"
+        subtitle="Barra hoy → cese pactado por reactor, agrupado por central · hito ◆ de cierre"
+        marginBottom
+        sourceUrl="https://www.enresa.es/"
+        sourceTooltip="Enresa · calendario de cierre pactado 2019"
+      >
+        <NuclearGantt />
+      </Panel>
+
+      {/* ───── ROW 6: Coste de desmantelamiento (Enresa / 7.º PGRR) ───── */}
+      <Panel
+        title="Coste de desmantelamiento y residuos · fondo Enresa"
+        subtitle="Cifras curadas del 7.º Plan General de Residuos Radiactivos (dic. 2023)"
+        marginBottom
+        sourceUrl="https://www.enresa.es/"
+        sourceTooltip="Enresa · 7.º Plan General de Residuos Radiactivos"
+      >
+        <NuclearDecommissioning />
+      </Panel>
+
+      {/* ───── ROW 7: Contexto internacional (IAEA PRIS) + uranio ───── */}
+      <Panel
+        title="Contexto internacional · IAEA PRIS y uranio"
+        subtitle="Parque mundial, nueva construcción, SMR y posición de España · referencia uranio U3O8"
+        marginBottom
+        sourceUrl="https://pris.iaea.org/PRIS/home.aspx"
+        sourceTooltip="IAEA PRIS · Power Reactor Information System"
+      >
+        <NuclearGlobalContext />
+      </Panel>
+
+      {/* ───── ROW 8: Generación nuclear por país (Ember) ───── */}
       <div style={{ marginBottom: 14 }}>
         <NuclearGlobal />
       </div>
 
-      {/* ───── ROW 5: Precio uranio (referencia curada) + empresas ───── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 14, marginBottom: 14 }}>
-        <Panel
-          title="Precio del uranio (U3O8)"
-          subtitle="Referencia spot yellowcake · sin dataset en vivo"
-          sourceUrl={URANIO_REF.source_url}
-          sourceTooltip="UxC · precio spot del uranio"
-        >
-          <UranioRefBox />
-        </Panel>
+      {/* ───── ROW 9: Empresas copropietarias del parque ───── */}
+      <div style={{ marginBottom: 14 }}>
         <CompanyQuotePanel
           energias={['nuclear']}
           title="Empresas copropietarias del parque"
@@ -361,67 +401,6 @@ function fmtHour(iso: string): string {
   return iso.slice(5, 16).replace('T', ' ')
 }
 
-// ─── Calendario de cierre · timeline horizontal ──────────────────────────────
-function ClosureTimeline() {
-  const schedule = buildClosureSchedule(REACTORES_ES)
-  if (schedule.length === 0) {
-    return <div style={{ fontSize: 12, color: '#86868b' }}>Sin datos de calendario de cierre.</div>
-  }
-  const years = schedule.map((s) => s.year)
-  const minY = Math.min(...years)
-  const maxY = Math.max(...years)
-  const totalMw = REACTORES_ES.reduce((s, r) => s + r.potencia_mw, 0)
-  const maxYearMw = Math.max(1, ...schedule.map((s) => s.potencia_mw))
-
-  // Potencia operativa acumulada que va quedando tras cada año de cierre.
-  let restante = totalMw
-
-  return (
-    <div>
-      {/* Eje + barras por año */}
-      <div style={{ display: 'flex', gap: 8, alignItems: 'stretch', overflowX: 'auto', paddingBottom: 4 }}>
-        {schedule.map((s) => {
-          restante -= s.potencia_mw
-          const barH = Math.round((s.potencia_mw / maxYearMw) * 90) + 30
-          return (
-            <div key={s.year} style={{ flex: '1 1 0', minWidth: 130, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              {/* Reactores que cierran */}
-              <div style={{ fontSize: 10.5, color: '#3a3a3d', textAlign: 'center', marginBottom: 6, minHeight: 30, lineHeight: 1.3 }}>
-                {s.reactores.map((r) => r.nombre).join(' · ')}
-              </div>
-              {/* Barra de potencia */}
-              <div
-                title={`${s.potencia_mw.toLocaleString('es-ES')} MW cierran en ${s.year}`}
-                style={{
-                  width: '70%', height: barH, borderRadius: '8px 8px 0 0',
-                  background: `linear-gradient(180deg, ${NUCLEAR}, ${NUCLEAR_DARK})`,
-                  display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 6,
-                }}
-              >
-                <span style={{ fontSize: 10.5, fontWeight: 700, color: '#fff', fontFamily: 'var(--font-display)' }}>
-                  {(s.potencia_mw / 1000).toFixed(2)} GW
-                </span>
-              </div>
-              {/* Año */}
-              <div style={{ width: '100%', borderTop: '2px solid #ECECEF', marginTop: 0, paddingTop: 6, textAlign: 'center' }}>
-                <div style={{ fontSize: 15, fontWeight: 700, fontFamily: 'var(--font-display)', color: '#1d1d1f' }}>{s.year}</div>
-                <div style={{ fontSize: 9.5, color: '#86868b' }}>
-                  quedan {(restante / 1000).toFixed(2)} GW
-                </div>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-      <p style={{ margin: '14px 0 0', fontSize: 10.5, color: '#86868b', lineHeight: 1.5 }}>
-        Desde {minY} hasta {maxY} salen del sistema los {(totalMw / 1000).toFixed(1)} GW nucleares actuales según el
-        protocolo firmado en 2019 entre Enresa y las titulares (Iberdrola, Endesa, Naturgy, EDP). Almaraz I/II abren
-        el calendario; Vandellós II y Trillo lo cierran en {maxY}. El debate sobre una posible revisión sigue abierto.
-      </p>
-    </div>
-  )
-}
-
 // ─── Contexto global nuclear (Ember) ─────────────────────────────────────────
 interface CountryNuclear {
   code: string
@@ -525,42 +504,23 @@ function NuclearGlobal() {
             </ul>
           )}
         </div>
-        {/* Notas curadas de contexto */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {NUCLEAR_GLOBAL_CONTEXT.map((n) => (
-            <div key={n.titular} style={{ background: '#FAFAFA', border: '1px solid #ECECEF', borderRadius: 10, padding: '10px 12px' }}>
-              <div style={{ fontSize: 11.5, fontWeight: 700, color: NUCLEAR, marginBottom: 3 }}>{n.titular}</div>
-              <div style={{ fontSize: 11, color: '#3a3a3d', lineHeight: 1.45 }}>{n.detalle}</div>
-              <div style={{ fontSize: 9, color: '#A0A0A5', marginTop: 4 }}>{n.fuente}</div>
+        {/* Lectura del ranking (las notas curadas viven en el panel IAEA PRIS) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, justifyContent: 'center' }}>
+          <div style={{ background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: 10, padding: '12px 14px' }}>
+            <div style={{ fontSize: 11.5, fontWeight: 700, color: NUCLEAR, marginBottom: 4 }}>Cómo leer el ranking</div>
+            <div style={{ fontSize: 11, color: '#3a3a3d', lineHeight: 1.5 }}>
+              Generación nuclear anual (TWh) por país, con España resaltada. EE. UU., Francia y China lideran por
+              volumen; Francia destaca además por la cuota nuclear en su mix (~70 %). El contexto cualitativo
+              (parque mundial, nueva construcción, SMR, posición de España) está en el panel «Contexto internacional ·
+              IAEA PRIS y uranio».
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </Panel>
   )
 }
 
-// ─── Precio uranio (referencia curada) ───────────────────────────────────────
-function UranioRefBox() {
-  return (
-    <div>
-      <div style={{ fontSize: 32, fontWeight: 700, fontFamily: 'var(--font-display)', color: URANIO_REF.precio_usd_lb != null ? NUCLEAR : '#C0C0C5', letterSpacing: '-0.02em' }}>
-        {URANIO_REF.precio_usd_lb != null ? `${URANIO_REF.precio_usd_lb.toLocaleString('es-ES')} ` : '— '}
-        <span style={{ fontSize: 13, fontWeight: 600, color: '#86868b' }}>USD/lb U3O8</span>
-      </div>
-      <div style={{ marginTop: 8, display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 600, color: '#B45309', background: '#FEF3C7', borderRadius: 8, padding: '5px 10px' }}>
-        <span aria-hidden="true">⟶</span> {URANIO_REF.tendencia}
-      </div>
-      <p style={{ margin: '12px 0 0', fontSize: 10.5, color: '#86868b', lineHeight: 1.5 }}>
-        {URANIO_REF.fuente} Referencia: {URANIO_REF.fecha_ref}.
-      </p>
-      <p style={{ margin: '8px 0 0', fontSize: 10, color: '#A0A0A5', lineHeight: 1.5 }}>
-        No hay dataset de uranio en las fuentes en vivo configuradas (Nasdaq Data Link cubre crudo/metales, no U3O8).
-        Se mostraría una serie si se incorpora un proveedor con API pública.
-      </p>
-    </div>
-  )
-}
-
-// Empresas copropietarias del parque → ahora vía
-// <CompanyQuotePanel energias={['nuclear']} /> (shared · Energía v3 E1).
+// Uranio + contexto IAEA PRIS curado → <NuclearGlobalContext /> (panel propio).
+// Empresas copropietarias del parque → <CompanyQuotePanel energias={['nuclear']} />
+// (shared · Energía v3 E1).

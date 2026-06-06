@@ -31,6 +31,9 @@ import {
   H2_BACKBONE,
 } from '@/lib/energia/catalog'
 import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
+import { H2ProjectsMap } from './H2ProjectsMap'
+import { H2LcohModel } from './H2LcohModel'
+import { H2Roadmap } from './H2Roadmap'
 
 const H2 = '#0D9488' // teal-cyan · hidrógeno
 const H2_DARK = '#115E59'
@@ -125,6 +128,12 @@ export function HidrogenoView() {
         <ProyectosGrid />
       </Panel>
 
+      {/* ───── ROW 1b: Mapa de proyectos por fase (E8 · consume endpoint) ───── */}
+      <H2ProjectsMap />
+
+      {/* ───── ROW 1c: Modelo de coste LCOH (E8 · precio luz live REE) ───── */}
+      <H2LcohModel />
+
       {/* ───── ROW 2: EU Hydrogen Bank (subastas €/kg) ───── */}
       <Panel
         title="European Hydrogen Bank · subastas de prima fija"
@@ -135,6 +144,9 @@ export function HidrogenoView() {
       >
         <SubastasEU />
       </Panel>
+
+      {/* ───── ROW 2b: Roadmap regulatorio UE · RFNBO (E8 · curado EUR-Lex) ───── */}
+      <H2Roadmap />
 
       {/* ───── ROW 3: Corredor H2Med / backbone ───── */}
       <Panel

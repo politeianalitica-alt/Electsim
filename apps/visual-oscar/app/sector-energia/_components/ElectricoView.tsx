@@ -34,6 +34,10 @@ import { EuPowerContextPanel } from './EuPowerContextPanel'
 // Sprint Energía S3 · contexto europeo ENTSO-E (fuente ADICIONAL · requiere token)
 import { EntsoeEuContextPanel } from './EntsoeEuContextPanel'
 import { EsiosTabsSection } from '@/components/energy/EsiosTabsSection'
+// Energía v3 · E3 (Eléctrico profundo) · sección "Mercado financiero eléctrico"
+// consume el endpoint NUEVO /api/energia/esios-financial (servicios de ajuste,
+// restricciones técnicas, gestión de desvíos, intercambios bilaterales).
+import { ElectricoMercadoFinanciero } from './ElectricoMercadoFinanciero'
 import { NasdaqMacroSnapshot } from '@/components/macro/NasdaqMacroSnapshot'
 // Sprint Cuaderno N2-wire · notas que mencionan al sector energía (registry slug 'energia')
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
@@ -186,6 +190,19 @@ export function ElectricoView() {
           Cero deps · todo SVG inline. Si ESIOS_API_KEY no configurada en
           Vercel env vars → empty state honesto en cada vista. */}
       <EsiosTabsSection />
+
+      {/* ───── Mercado financiero eléctrico · Energía v3 · E3 ─────
+          Sección NUEVA que consume /api/energia/esios-financial (indicadores
+          ESIOS de mercado de ajuste que las vistas no usaban): servicios de
+          ajuste (banda secundaria/terciaria), restricciones técnicas
+          (congestión de red), gestión de desvíos e intercambios bilaterales por
+          frontera. KPIs (último valor + cambio 24h) + gráficos de serie por
+          indicador + tabla de saldos bilaterales. Degradación HONESTA
+          por-indicador: un indicador caído deja su tarjeta vacía
+          ("sin datos · requiere ESIOS_API_KEY" / error) sin romper el resto. */}
+      <div style={{ marginBottom: 14 }}>
+        <ElectricoMercadoFinanciero />
+      </div>
 
       {/* ───── Commodities globales · OPEC oil + LBMA gold + US 10Y ─────
           Sprint Nasdaq-Wire · contexto global de precios energéticos y

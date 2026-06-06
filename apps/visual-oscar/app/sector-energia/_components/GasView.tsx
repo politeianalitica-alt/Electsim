@@ -40,6 +40,10 @@ import type {
   LngStorageResponse,
 } from '@/lib/energia/types'
 import CommodityStrip from './CommodityStrip'
+import { GasGnlTerminals } from './GasGnlTerminals'
+import { GasStorageEuCompare } from './GasStorageEuCompare'
+import { GasLogistics } from './GasLogistics'
+import { GasTtfStructure } from './GasTtfStructure'
 
 const GAS = '#1D4ED8'
 const GAS_DARK = '#1E3A8A'
@@ -175,6 +179,17 @@ export function GasView() {
         <GasPricesChart henry={henry} ttf={ttf} loading={loading} />
       </Panel>
 
+      {/* ───── ROW 1b: Estructura temporal TTF (sin inventar contango) ───── */}
+      <Panel
+        title="Estructura temporal del TTF"
+        subtitle="Tendencia del gas europeo · curva de futuros solo con datos reales (no se infiere contango del spot)"
+        marginBottom
+        sourceUrl="https://www.alphavantage.co/documentation/#commodities"
+        sourceTooltip="TTF spot vía cascada de APIs · forward curve (ICE/EEX) sin fuente gratuita conectada"
+      >
+        <GasTtfStructure ttf={ttf} loading={loading} />
+      </Panel>
+
       {/* ───── ROW 2: Almacenamiento gas (AGSI) ───── */}
       <Panel
         title="Almacenamiento de gas · Europa y España"
@@ -184,6 +199,17 @@ export function GasView() {
         sourceTooltip="GIE AGSI+ · Aggregated Gas Storage Inventory"
       >
         <StoragePanel eu={euStorage} es={esStorage} err={storageErr} loading={loading} />
+      </Panel>
+
+      {/* ───── ROW 2b: Comparativa almacenamiento UE + objetivo 90% ───── */}
+      <Panel
+        title="Comparativa de almacenamiento · UE y principales países"
+        subtitle="% de llenado España vs UE, DE, FR, IT, NL · línea de objetivo regulatorio 90% a 1-nov (Reg. UE 2022/1032) · GIE AGSI+"
+        marginBottom
+        sourceUrl="https://agsi.gie.eu"
+        sourceTooltip="GIE AGSI+ · % de llenado por país · objetivo Reg. UE 2022/1032"
+      >
+        <GasStorageEuCompare />
       </Panel>
 
       {/* ───── ROW 3a: GNL live (GIE ALSI · almacenamiento de GNL) ───── */}
@@ -197,27 +223,28 @@ export function GasView() {
         <LngStoragePanel es={esLng} eu={euLng} err={lngErr} loading={loading} />
       </Panel>
 
-      {/* ───── ROW 3b: GNL ES (plantas) + Dependencia/diversificación ───── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 14, marginBottom: 14 }}>
-        <Panel
-          title="Importaciones de GNL · plantas de regasificación"
-          subtitle={`${GNL_ESPANA.plantas.filter((p) => p.estado === 'operativa').length} plantas operativas · España, mayor capacidad de la UE · ${GNL_ESPANA.ano_ref}`}
-          sourceUrl={GNL_ESPANA.fuente_url}
-          sourceTooltip="Enagás · operador del sistema gasista español"
-        >
-          <PlantasGnl />
-        </Panel>
-        <Panel
-          title="Diversificación · orígenes del GNL"
-          subtitle={`~${GNL_ESPANA.cuota_gnl_pct}% del gas llega como GNL · resto por gasoducto (Argelia)`}
-          sourceUrl={GNL_ESPANA.fuente_url}
-          sourceTooltip="Enagás / CORES · estadística de hidrocarburos"
-        >
-          <OrigenesGnl />
-        </Panel>
-      </div>
+      {/* ───── ROW 3b: GNL ES · terminales (send-out live) + orígenes por país ───── */}
+      <Panel
+        title="Orígenes y terminales de GNL · estado en vivo"
+        subtitle={`Send-out por terminal (prorrateo del agregado vivo ALSI) + orígenes por país · ${GNL_ESPANA.plantas.filter((p) => p.estado === 'operativa').length} terminales operativas · GIE ALSI + CORES/Enagás`}
+        marginBottom
+        sourceUrl="https://alsi.gie.eu"
+        sourceTooltip="GIE ALSI (send-out vivo) + Enagás/CORES (terminales + orígenes curados)"
+      >
+        <GasGnlTerminals />
+      </Panel>
 
-      {/* ───── ROW 3c: Inside information · eventos de mercado gasista (IIP) ───── */}
+      {/* ───── ROW 3c: Logística marítima del gas (enfoque GNL/metaneros) ───── */}
+      <Panel
+        title="Logística marítima del gas · metaneros y corredores"
+        subtitle="Conteo de metaneros (GNL) + fletes (Baltic Dry) + corredores del GNL que importa España · cruce Puertos↔Energía"
+        marginBottom
+        sourceTooltip="Puertos (standalone) · conteo de buques de catálogo · BDI y risk_score seed/heurísticos"
+      >
+        <GasLogistics />
+      </Panel>
+
+      {/* ───── ROW 3d: Inside information · eventos de mercado gasista (IIP) ───── */}
       <Panel
         title="Inside information · eventos de mercado gasista"
         subtitle="Indisponibilidades planificadas y no planificadas de infraestructura gasista (UMM) · GIE Inside Information Platform"
@@ -565,73 +592,8 @@ function FillSeriesChart({ series }: { series: GasStorage['series'] }) {
   return <LineChart series={pts} color={GAS} unit="% lleno" yMax={100} yMin={0} />
 }
 
-// ─── GNL · plantas de regasificación (catálogo) ──────────────────────────────
-function PlantasGnl() {
-  const plantas = GNL_ESPANA.plantas
-  const maxEmision = Math.max(...plantas.map((p) => p.emision_gwh_dia ?? 0), 1)
-  return (
-    <div>
-      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {plantas.map((p) => {
-          const op = p.estado === 'operativa'
-          return (
-            <li key={p.nombre} style={{ display: 'grid', gridTemplateColumns: '150px 1fr 86px', alignItems: 'center', gap: 10 }}>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: op ? '#1d1d1f' : '#94A3B8' }}>{p.nombre}</div>
-                <div style={{ fontSize: 9.5, color: '#86868b' }}>{p.ubicacion}</div>
-              </div>
-              <div style={{ height: 9, background: '#F1F5F9', borderRadius: 5, overflow: 'hidden' }}>
-                <div
-                  style={{
-                    width: `${((p.emision_gwh_dia ?? 0) / maxEmision) * 100}%`,
-                    height: '100%',
-                    background: op ? GAS : '#CBD5E1',
-                    transition: 'width 250ms ease',
-                  }}
-                />
-              </div>
-              <span style={{ fontSize: 11, fontFamily: 'var(--font-display)', fontWeight: 700, color: op ? '#1d1d1f' : '#94A3B8', textAlign: 'right' }}>
-                {p.emision_gwh_dia != null ? `${p.emision_gwh_dia} GWh/d` : 'puesta en marcha'}
-              </span>
-            </li>
-          )
-        })}
-      </ul>
-      <p style={{ margin: '12px 0 0', fontSize: 10, color: '#A0A0A5', lineHeight: 1.5 }}>
-        Capacidad de emisión (regasificación) en GWh/día, orden de magnitud · {GNL_ESPANA.fuente}
-        {' '}España concentra ~1/3 de la capacidad de regasificación de la UE, pero su escasa
-        interconexión por gasoducto con el centro de Europa limita su papel como puerta de entrada.
-      </p>
-    </div>
-  )
-}
-
-// ─── GNL · orígenes (catálogo) ───────────────────────────────────────────────
-function OrigenesGnl() {
-  const d = GNL_ESPANA
-  const max = Math.max(...d.origenes.map((o) => o.cuota_pct))
-  return (
-    <div>
-      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {d.origenes.map((o) => {
-          const resto = o.pais === 'Resto'
-          return (
-            <li key={o.pais} style={{ display: 'grid', gridTemplateColumns: '128px 1fr 40px', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontSize: 11.5, color: resto ? '#9CA3AF' : '#3a3a3d', fontWeight: resto ? 500 : 600 }}>{o.pais}</span>
-              <div style={{ height: 9, background: '#F1F5F9', borderRadius: 5, overflow: 'hidden' }}>
-                <div style={{ width: `${(o.cuota_pct / max) * 100}%`, height: '100%', background: resto ? '#CBD5E1' : GAS, transition: 'width 250ms ease' }} />
-              </div>
-              <span style={{ fontSize: 11.5, fontFamily: 'var(--font-display)', fontWeight: 700, color: '#1d1d1f', textAlign: 'right' }}>{o.cuota_pct}%</span>
-            </li>
-          )
-        })}
-      </ul>
-      <p style={{ margin: '12px 0 0', fontSize: 10, color: '#A0A0A5', lineHeight: 1.5 }}>
-        {d.nota}
-      </p>
-    </div>
-  )
-}
+// GNL · plantas + orígenes (catálogo) → ahora vía <GasGnlTerminals /> (estado
+// vivo ALSI por terminal + donut de orígenes por país), montado en ROW 3b.
 
 // ─── GNL live (GIE ALSI) · fullness ES + EU + inventario + send-out ──────────
 function LngStoragePanel({
