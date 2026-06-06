@@ -466,6 +466,52 @@ export function DependenciasExternasTab() {
   })()
 
   // ──────────────────────────────────────────────────────────────────
+  // C5 · Estructura exportadora · top productos HS + concentración (HHI)
+  // Shape consumido (UN Comtrade by-hs): { items: [{ hs_code, description?/label?, share_pct?/value? }] }
+  // ──────────────────────────────────────────────────────────────────
+  interface HsItem { code: string; label: string; share: number }
+  const normalizeHsItems = (raw: any): HsItem[] =>
+    (Array.isArray(raw?.items) ? raw.items : [])
+      .map((p: any): HsItem => ({
+        code: String(p?.hs_code ?? p?.code ?? '—'),
+        label: String(p?.description ?? p?.label ?? '—'),
+        share: Number(p?.share_pct ?? p?.value ?? NaN),
+      }))
+      .filter((p: HsItem) => Number.isFinite(p.share) && p.share > 0)
+      .sort((a: HsItem, b: HsItem) => b.share - a.share)
+
+  const hsExpItems = normalizeHsItems(topHsExp)
+  const hsImpItems = normalizeHsItems(topHsImp)
+
+  // HHI = Σ(share_i²) con shares en puntos porcentuales (0-10000).
+  const computeHHI = (items: HsItem[]): number | null =>
+    items.length > 0 ? items.reduce((acc, it) => acc + it.share * it.share, 0) : null
+  const hhiLabel = (hhi: number | null): { text: string; color: string } => {
+    if (hhi == null) return { text: '—', color: '#94a3b8' }
+    if (hhi < 1500) return { text: 'diversificada', color: '#16a34a' }
+    if (hhi <= 2500) return { text: 'concentración moderada', color: '#f97316' }
+    return { text: 'alta concentración', color: '#dc2626' }
+  }
+  const hhiExp = computeHHI(hsExpItems)
+  const hhiImp = computeHHI(hsImpItems)
+  const hhiExpInfo = hhiLabel(hhiExp)
+  const hhiImpInfo = hhiLabel(hhiImp)
+  const maxShareExp = hsExpItems.length > 0 ? Math.max(...hsExpItems.map((i) => i.share)) : 0
+  const maxShareImp = hsImpItems.length > 0 ? Math.max(...hsImpItems.map((i) => i.share)) : 0
+
+  // C8 · Riesgo comercial por socio bilateral (texto sobrio, sin emojis).
+  // iso3 → enlaces profundos OEC; nota de exposición específica.
+  const tradeRisks: Record<string, { country: string; iso3: string; note: string }> = {
+    de: { country: 'Alemania', iso3: 'deu', note: 'socio industrial nº1 UE · exposición a ciclo manufacturero alemán y automoción' },
+    fr: { country: 'Francia', iso3: 'fra', note: 'mayor mercado exportador · sensible a frontera energética y agroalimentaria' },
+    cn: { country: 'China', iso3: 'chn', note: 'dependencia importadora · electrónica + tierras raras + bienes intermedios' },
+    us: { country: 'EEUU', iso3: 'usa', note: 'socio dolarizado · exposición a aranceles y a tipo de cambio EUR/USD' },
+  }
+  const oecBilateralUrl = (iso3: string) =>
+    `https://oec.world/en/profile/bilateral-country/esp/partner/${iso3}`
+  const comtradeUrl = 'https://comtradeplus.un.org/'
+
+  // ──────────────────────────────────────────────────────────────────
   // 15 Drill functions · uno por Hero KPI
   // ──────────────────────────────────────────────────────────────────
 
@@ -1184,6 +1230,120 @@ export function DependenciasExternasTab() {
             ].filter((s): s is { id: string; label: string; color: string; points: { period: string; value: number | null }[]; dashed?: boolean } => s != null)}
             height={220} yLabel="€ bn"
             formatValue={(v) => `${(v / 1000).toFixed(1)}B`} />
+
+          {/* C8 · Riesgo comercial por socio + enlaces OEC / UN Comtrade */}
+          <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#1e40af', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+              Riesgo comercial por socio · fichas
+            </p>
+            {[
+              comercioDE?.series?.length > 3 ? tradeRisks.de : null,
+              comercioFR?.series?.length > 3 ? tradeRisks.fr : null,
+              comercioChina?.series?.length > 3 ? tradeRisks.cn : null,
+              comercioEEUU?.series?.length > 3 ? tradeRisks.us : null,
+            ].filter((r): r is { country: string; iso3: string; note: string } => r != null).map((r) => (
+              <div key={r.iso3} style={{
+                background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 8, padding: '8px 12px',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: '#0f172a' }}>{r.country}</span>
+                  <span style={{ display: 'inline-flex', gap: 12 }}>
+                    <a href={oecBilateralUrl(r.iso3)} target="_blank" rel="noopener noreferrer"
+                      style={{ fontSize: 10, fontWeight: 600, color: '#2563eb', textDecoration: 'none', borderBottom: '1px solid #bfdbfe' }}>
+                      OEC ⟶
+                    </a>
+                    <a href={comtradeUrl} target="_blank" rel="noopener noreferrer"
+                      style={{ fontSize: 10, fontWeight: 600, color: '#2563eb', textDecoration: 'none', borderBottom: '1px solid #bfdbfe' }}>
+                      UN Comtrade ⟶
+                    </a>
+                  </span>
+                </div>
+                <p style={{ margin: '4px 0 0', fontSize: 11, color: '#475569', lineHeight: 1.5 }}>
+                  {r.note ?? '—'}
+                </p>
+              </div>
+            ))}
+          </div>
+        </MacroPanel>
+      )}
+
+      {/* C5 · PANEL · Estructura exportadora · top productos HS + concentración (HHI) */}
+      {hsExpItems.length >= 2 && (
+        <MacroPanel
+          accent="#16a34a"
+          title="Estructura exportadora · top productos + concentración"
+          subtitle="UN Comtrade · clasificación HS (capítulos HS2) · índice Herfindahl-Hirschman"
+          status="live"
+        >
+          {/* HHI exportador · dato destacado */}
+          <div style={{
+            display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap',
+            background: '#f0fdf4', border: '1px solid #86efac', borderRadius: 8, padding: '10px 14px', marginBottom: 14,
+          }}>
+            <span style={{ fontSize: 11, fontWeight: 700, color: '#166534', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+              HHI exportador
+            </span>
+            <span style={{ fontSize: 22, fontWeight: 800, color: hhiExpInfo.color }}>{hhiExp != null ? Math.round(hhiExp) : '—'}</span>
+            <span style={{
+              fontSize: 11, fontWeight: 700, color: '#fff', background: hhiExpInfo.color,
+              borderRadius: 999, padding: '2px 10px',
+            }}>
+              {hhiExpInfo.text}
+            </span>
+            <span style={{ fontSize: 10, color: '#64748b' }}>
+              &lt;1500 diversificada · 1500-2500 moderada · &gt;2500 alta
+            </span>
+          </div>
+          {/* Barras horizontales · top HS exportación */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {hsExpItems.slice(0, 10).map((it) => (
+              <div key={`x-${it.code}`} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ flex: '0 0 150px', fontSize: 11, color: '#166534', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                  title={`HS${it.code} · ${it.label}`}>
+                  HS{it.code} {it.label}
+                </span>
+                <span style={{ flex: 1, height: 10, background: '#dcfce7', borderRadius: 999, overflow: 'hidden' }}>
+                  <span style={{ display: 'block', height: '100%', width: `${maxShareExp > 0 ? (it.share / maxShareExp) * 100 : 0}%`, background: '#16a34a', borderRadius: 999 }} />
+                </span>
+                <span style={{ flex: '0 0 48px', textAlign: 'right', fontSize: 11, fontWeight: 600, color: '#16a34a' }}>{it.share.toFixed(1)}%</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Segunda sección · estructura importadora (topHsImp · no renderizado en otro panel) */}
+          {hsImpItems.length >= 2 && (
+            <div style={{ marginTop: 18, paddingTop: 14, borderTop: '1px solid #e2e8f0' }}>
+              <div style={{
+                display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap',
+                background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '10px 14px', marginBottom: 14,
+              }}>
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#991b1b', textTransform: 'uppercase', letterSpacing: 0.4 }}>
+                  HHI importador
+                </span>
+                <span style={{ fontSize: 22, fontWeight: 800, color: hhiImpInfo.color }}>{hhiImp != null ? Math.round(hhiImp) : '—'}</span>
+                <span style={{
+                  fontSize: 11, fontWeight: 700, color: '#fff', background: hhiImpInfo.color,
+                  borderRadius: 999, padding: '2px 10px',
+                }}>
+                  {hhiImpInfo.text}
+                </span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {hsImpItems.slice(0, 10).map((it) => (
+                  <div key={`m-${it.code}`} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ flex: '0 0 150px', fontSize: 11, color: '#991b1b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                      title={`HS${it.code} · ${it.label}`}>
+                      HS{it.code} {it.label}
+                    </span>
+                    <span style={{ flex: 1, height: 10, background: '#fee2e2', borderRadius: 999, overflow: 'hidden' }}>
+                      <span style={{ display: 'block', height: '100%', width: `${maxShareImp > 0 ? (it.share / maxShareImp) * 100 : 0}%`, background: '#dc2626', borderRadius: 999 }} />
+                    </span>
+                    <span style={{ flex: '0 0 48px', textAlign: 'right', fontSize: 11, fontWeight: 600, color: '#dc2626' }}>{it.share.toFixed(1)}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </MacroPanel>
       )}
 
@@ -1262,7 +1422,8 @@ export function DependenciasExternasTab() {
           NIVEL 1 · 15 Hero KPIs en grid arriba (+ semáforo + alerta energética)
           NIVEL 2 (30) · inline en drill correspondiente:
             2A Geografía → drill 1 Balanza (top destinos + UE vs extra-UE) + drill 12 China + drill 13 Rusia
-            2B Producto HS → drill 2 Exportaciones (top HS + Herfindahl) + drill 3 Importaciones (críticas)
+                          + C8 panel bilateral (tradeRisks por socio + enlaces OEC / UN Comtrade)
+            2B Producto HS → C5 panel "Estructura exportadora" (barras top HS X+M + HHI) + drill 2 (top HS) + drill 3 (críticas)
             2C Energía → drill 5 Dep energética (mix ESIOS + renovable + gas origen + CORES)
           NIVEL 3 (55) · inline en sub-blocks:
             3A Cadenas + Portwatch → drill 11 Portwatch (4 puertos + congestion + GSCPI)
