@@ -166,7 +166,7 @@ const LAYER_GROUPS = [
     color: '#00E5FF',
     layers: [
       { key: 'infrastructure', label: 'Instalaciones nucleares', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure', sectionLabel: 'INFRAESTRUCTURA' },
-      { key: 'critical_infra', label: 'Refinerías · presas · críticas', icon: Building2, color: '#00E5FF', dataKey: 'critical_infra' },
+      { key: 'critical_infra', label: 'Refinerías y presas (red completa)', icon: Fuel, color: '#FF6D00', dataKey: '' },
       { key: 'military_bases', label: 'Bases militares', icon: Shield, color: '#EF5350', dataKey: 'military_bases' },
       { key: 'submarine_cables', label: 'Cables submarinos', icon: Cable, color: '#00BCD4', dataKey: 'cables' },
       { key: 'ixps', label: 'Puntos de intercambio (IXP)', icon: Network, color: '#AB47BC', dataKey: '', sectionLabel: 'CONECTIVIDAD' },

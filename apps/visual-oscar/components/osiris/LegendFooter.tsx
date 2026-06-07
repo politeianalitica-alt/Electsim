@@ -68,6 +68,8 @@ const LEGENDS: Legend[] = [
   { id: 'fabs', title: 'Semiconductores', active: (a) => a.fabs, items: [ { c: '#00E5FF', l: 'Fábrica de chips' } ] },
   { id: 'nuclearp', title: 'Centrales nucleares', active: (a) => a.nuclear_plants, items: [ { c: '#FFD600', l: 'Central (tamaño = MW)' } ] },
   { id: 'dams', title: 'Presas hidroeléctricas', active: (a) => a.dams, items: [ { c: '#4FC3F7', l: 'Presa (tamaño = MW)' } ] },
+  { id: 'criticalinfra', title: 'Refinerías y presas (red completa)', active: (a) => a.critical_infra, items: [
+    { c: '#FF6D00', l: 'Refinería' }, { c: '#2979FF', l: 'Presa' } ] },
   // ── Lote C: conectividad ──
   { id: 'ixps', title: 'Puntos de intercambio (IXP)', active: (a) => a.ixps, items: [ { c: '#AB47BC', l: 'IXP (tamaño = tráfico)' } ] },
   { id: 'landings', title: 'Cables submarinos', active: (a) => a.cable_landings, items: [ { c: '#26C6DA', l: 'Estación de aterrizaje' } ] },

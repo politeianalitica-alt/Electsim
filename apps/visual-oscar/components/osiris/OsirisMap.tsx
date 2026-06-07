@@ -2146,7 +2146,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
   useEffect(() => {
     if (!mapReady) return;
-    setGeo('critical-infra', activeLayers.critical_infra && data.critical_infra ? data.critical_infra.map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, type: i.type, country: i.country } })) : []);
+    setGeo('critical-infra', activeLayers.critical_infra && data.critical_infra ? data.critical_infra.filter((i: any) => i.type !== 'airport').map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, type: i.type, country: i.country } })) : []);
   }, [mapReady, data.critical_infra, activeLayers.critical_infra, setGeo]);
 
   useEffect(() => {
