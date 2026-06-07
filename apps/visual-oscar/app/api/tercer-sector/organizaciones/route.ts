@@ -22,7 +22,7 @@ import {
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 15
+export const maxDuration = 30
 
 function clampInt(v: string | null, def: number, min: number, max: number): number {
   const n = Number(v)

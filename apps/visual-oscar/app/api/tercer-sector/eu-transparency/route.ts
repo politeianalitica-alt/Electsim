@@ -12,7 +12,7 @@ import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 15
+// maxDuration omitido → usa el default ({}) para reducir configuraciones Vercel
 
 export async function GET() {
   const fetched_at = new Date().toISOString()
