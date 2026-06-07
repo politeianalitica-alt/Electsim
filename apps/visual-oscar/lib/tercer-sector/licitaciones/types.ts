@@ -43,6 +43,27 @@ export interface DocumentoLicitacion {
 }
 
 /**
+ * Etiqueta de encaje para tercer sector (output del scoring de oportunidades).
+ * `incierta` cuando faltan datos clave (no se inventa aptitud).
+ */
+export type ScoreLabel = 'alta' | 'media' | 'baja' | 'incierta'
+
+/** Tramo de valor estimado (para chips/filtros rápidos en la UI). */
+export type ValorBucket = 'micro' | 'pequena' | 'media' | 'grande' | 'mega' | 'desconocido'
+
+/** Naturaleza del comprador / órgano de contratación (derivada de nombre + nivel). */
+export type CompradorTipo =
+  | 'ayuntamiento' // entidad local española (ayuntamiento, concello, ajuntament, diputación)
+  | 'ccaa' // comunidad autónoma / consejería / ente autonómico
+  | 'age' // administración general del Estado (ES)
+  | 'ue' // instituciones de la Unión Europea
+  | 'org_internacional' // organización internacional (World Bank, BID, UNGM…)
+  | 'otro'
+
+/** Riesgo del pliego según el scoring (reutiliza el de OportunidadTS). */
+export type RiesgoPliego = 'bajo' | 'medio' | 'alto' | 'incierto'
+
+/**
  * Licitación normalizada — shape común del agregador.
  *
  * `id` es estable y prefijado por fuente (ej. `place:19627132`, `ted:123-2026`)
@@ -77,6 +98,28 @@ export interface LicitacionNormalizada {
   documentos: DocumentoLicitacion[]
   /** Idioma principal del anuncio (ISO-639-1, ej. "es", "en"). */
   idioma: string
+
+  // ── Enriquecimiento de analista (OPCIONAL · lo rellena `enrichLicitacionTS`) ──
+  // Todos opcionales para no romper a los conectores: una licitación cruda (sin
+  // enriquecer) sigue siendo un `LicitacionNormalizada` válido. La fuente de
+  // verdad del scoring es `lib/tercer-sector/oportunidades/scoring.ts`.
+
+  /** Categoría de tercer sector inferida (servicios sociales, infancia…). null si no encaja. */
+  categoria_ts?: string | null
+  /** Puntuación de encaje ONG 0-100 (del scoring). null si no se pudo calcular. */
+  score_ong?: number | null
+  /** Etiqueta de encaje derivada del score. */
+  score_label?: ScoreLabel
+  /** Motivos legibles del score (por qué encaja / no encaja). */
+  razones_score?: string[]
+  /** Días naturales hasta el plazo (negativo = vencida). null si no hay plazo. */
+  dias_restantes?: number | null
+  /** Tramo de valor estimado (para chips/filtros rápidos). */
+  valor_bucket?: ValorBucket
+  /** Naturaleza del comprador (ayuntamiento, ccaa, age…). */
+  comprador_tipo?: CompradorTipo
+  /** Riesgo del pliego (reusa el `riesgo` del scoring). */
+  riesgo_pliego?: RiesgoPliego
 }
 
 /** Identificador canónico de cada conector / fuente. */
@@ -123,6 +166,24 @@ export interface LicitacionesFiltros {
   page?: number
   /** Tamaño de página (default 30, clamp 1-100). */
   pageSize?: number
+
+  // ── Filtros de analista (sobre el enriquecimiento) ──
+  /** Encaje ONG mínimo: filtra por `score_label` (alta/media/baja/incierta). */
+  aptoOng?: ScoreLabel
+  /** Días máximos hasta el plazo (descarta vencidas y demasiado lejanas). */
+  diasMax?: number
+  /** Valor estimado mínimo en EUR. */
+  valorMin?: number
+  /** Valor estimado máximo en EUR. */
+  valorMax?: number
+  /** Solo licitaciones con al menos un documento adjunto. */
+  soloConDocs?: boolean
+  /** Solo licitaciones con algún documento analizable (pdf/docx/xlsx/html). */
+  soloAnalizable?: boolean
+  /** Categoría de tercer sector (substring sobre `categoria_ts`). */
+  sectorTs?: string
+  /** Naturaleza del comprador (ayuntamiento, ccaa, age, ue, org_internacional, otro). */
+  compradorTipo?: CompradorTipo
 }
 
 /** Respuesta del endpoint `/api/tercer-sector/licitaciones`. */

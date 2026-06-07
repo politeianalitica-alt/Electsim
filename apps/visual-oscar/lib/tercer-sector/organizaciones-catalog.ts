@@ -52,6 +52,53 @@ export interface Organizacion {
   fuente: string
   /** Año/fecha de referencia del dato económico (YYYY o YYYY-MM-DD). */
   fecha_ref: string
+
+  // ── Campos OPCIONALES de enriquecimiento (Sprint TS-Cockpit W1d) ──────────
+  // Solo se rellenan en entidades verificadas; ausentes en el resto (no se
+  // inventan). El endpoint /inteligencia los usa para construir el dossier.
+
+  /** Identificadores en registros oficiales (los conocidos; el resto ausente). */
+  registro_ids?: {
+    /** Registro de ONGD de la AECID (cooperación). */
+    aecid_ongd?: string
+    /** Registro Nacional de Asociaciones (Ministerio del Interior). */
+    registro_nacional_asociaciones?: string
+    /** Registro de Fundaciones de competencia estatal. */
+    registro_fundaciones?: string
+    /** EU Transparency Register (registro de transparencia de la UE). */
+    eu_transparency_register?: string
+  }
+  /** Acreditaciones/sellos de transparencia y pertenencia a entidades cumbre. */
+  acreditaciones?: {
+    /** Analizada/acreditada por Fundación Lealtad (transparencia). */
+    fundacion_lealtad?: boolean
+    /** Socia de la Coordinadora de ONGD (CONGDE). */
+    coordinadora_ongd?: boolean
+    /** Miembro de la Plataforma del Tercer Sector. */
+    plataforma_tercer_sector?: boolean
+    /** Miembro de CEPES (economía social). */
+    cepes?: boolean
+  }
+  /** Presencia geográfica de la entidad. */
+  actividad_territorial?: {
+    /** Claves de CCAA donde tiene presencia (claves de CCAA en shared). */
+    ccaa_presencia?: string[]
+    /** Países de intervención (cooperación), nombres legibles. */
+    paises_intervencion?: string[]
+  }
+  /** Enlaces de transparencia/rendición de cuentas (URLs reales). */
+  transparencia?: {
+    memoria_url?: string
+    cuentas_url?: string
+    auditoria_url?: string
+    portal_transparencia_url?: string
+    /** Último ejercicio publicado (YYYY). */
+    ultimo_ejercicio?: string
+  }
+  /** Identificadores IATI (reporting_org_ref) para cruzar cooperación. */
+  iati_refs?: string[]
+  /** Etiquetas internas del analista (no normativas). */
+  tags_analista?: string[]
 }
 
 /**
@@ -61,8 +108,20 @@ export interface Organizacion {
  */
 export const ORGANIZACIONES: Organizacion[] = [
   // ─── Acción social y asistencia · grandes entidades estatales ──────────────
-  { slug: 'caritas-espanola', nombre: 'Cáritas Española', nif: 'R2800032B', tipo: 'asociacion_dup', sector: 'asistencia_social', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 386_000_000, empleados: 5800, irpf_07: true, website: 'https://www.caritas.es', fuente: 'Memoria Cáritas Confederal', fecha_ref: '2023' },
-  { slug: 'cruz-roja-espanola', nombre: 'Cruz Roja Española', nif: 'Q2866001G', tipo: 'asociacion_dup', sector: 'humanitario', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 942_000_000, empleados: 12500, irpf_07: true, website: 'https://www.cruzroja.es', fuente: 'Memoria Cruz Roja Española', fecha_ref: '2023' },
+  { slug: 'caritas-espanola', nombre: 'Cáritas Española', nif: 'R2800032B', tipo: 'asociacion_dup', sector: 'asistencia_social', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 386_000_000, empleados: 5800, irpf_07: true, website: 'https://www.caritas.es', fuente: 'Memoria Cáritas Confederal', fecha_ref: '2023',
+    registro_ids: { aecid_ongd: 'Sí (entidad inscrita AECID)' },
+    acreditaciones: { plataforma_tercer_sector: true, coordinadora_ongd: true },
+    actividad_territorial: { ccaa_presencia: ['andalucia', 'aragon', 'asturias', 'baleares', 'canarias', 'cantabria', 'castilla-la-mancha', 'castilla-leon', 'cataluna', 'comunidad-valenciana', 'extremadura', 'galicia', 'la-rioja', 'madrid', 'murcia', 'navarra', 'pais-vasco', 'ceuta', 'melilla'] },
+    transparencia: { portal_transparencia_url: 'https://www.caritas.es/que-hacemos/transparencia/', memoria_url: 'https://www.caritas.es/que-hacemos/transparencia/', ultimo_ejercicio: '2023' },
+    iati_refs: ['ES-CIF-G28160124'],
+    tags_analista: ['gran_entidad', 'red_territorial', 'base_diocesana', 'pobreza'] },
+  { slug: 'cruz-roja-espanola', nombre: 'Cruz Roja Española', nif: 'Q2866001G', tipo: 'asociacion_dup', sector: 'humanitario', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 942_000_000, empleados: 12500, irpf_07: true, website: 'https://www.cruzroja.es', fuente: 'Memoria Cruz Roja Española', fecha_ref: '2023',
+    registro_ids: { aecid_ongd: 'Sí (entidad inscrita AECID)' },
+    acreditaciones: { fundacion_lealtad: true, plataforma_tercer_sector: true, coordinadora_ongd: true },
+    actividad_territorial: { ccaa_presencia: ['andalucia', 'aragon', 'asturias', 'baleares', 'canarias', 'cantabria', 'castilla-la-mancha', 'castilla-leon', 'cataluna', 'comunidad-valenciana', 'extremadura', 'galicia', 'la-rioja', 'madrid', 'murcia', 'navarra', 'pais-vasco', 'ceuta', 'melilla'], paises_intervencion: ['América Latina', 'África', 'Oriente Medio'] },
+    transparencia: { portal_transparencia_url: 'https://www2.cruzroja.es/web/ahora/transparencia', memoria_url: 'https://www2.cruzroja.es/web/ahora/memorias', ultimo_ejercicio: '2023' },
+    iati_refs: ['ES-CIF-G28021679'],
+    tags_analista: ['gran_entidad', 'humanitario', 'red_territorial', 'mayor_base_voluntaria'] },
   { slug: 'fundacion-la-caixa', nombre: 'Fundación Bancaria "la Caixa"', nif: 'G58899998', tipo: 'fundacion', sector: 'obra_social_bancaria', ambito: 'estatal', ccaa: 'cataluna', ingresos_eur: 505_000_000, empleados: 800, irpf_07: false, website: 'https://fundacionlacaixa.org', fuente: 'Presupuesto Obra Social "la Caixa"', fecha_ref: '2024' },
   { slug: 'fundacion-once', nombre: 'Fundación ONCE', nif: 'G78661923', tipo: 'fundacion', sector: 'discapacidad', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 87_000_000, empleados: 1500, irpf_07: true, website: 'https://www.fundaciononce.es', fuente: 'Memoria Fundación ONCE', fecha_ref: '2023' },
   { slug: 'fundacion-secretariado-gitano', nombre: 'Fundación Secretariado Gitano', nif: 'G83117374', tipo: 'fundacion', sector: 'inclusion_social', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 70_000_000, empleados: 1450, irpf_07: true, website: 'https://www.gitanos.org', fuente: 'Memoria FSG', fecha_ref: '2023' },
@@ -74,12 +133,35 @@ export const ORGANIZACIONES: Organizacion[] = [
   { slug: 'rais-hogar-si', nombre: 'Provivienda / Hogar Sí (RAIS)', nif: 'G82037076', tipo: 'fundacion', sector: 'vivienda', ambito: 'estatal', ccaa: 'madrid', ingresos_eur: 14_000_000, empleados: 220, irpf_07: true, website: 'https://hogarsi.org', fuente: 'Memoria Hogar Sí', fecha_ref: '2023' },
 
   // ─── Cooperación internacional / ONGD ──────────────────────────────────────
-  { slug: 'oxfam-intermon', nombre: 'Oxfam Intermón', nif: 'G58236803', tipo: 'ongd', sector: 'cooperacion_internacional', ambito: 'internacional', ccaa: 'cataluna', ingresos_eur: 78_000_000, empleados: 700, irpf_07: true, website: 'https://www.oxfamintermon.org', fuente: 'Memoria Oxfam Intermón · IATI ES-CIF-G58236803', fecha_ref: '2023' },
-  { slug: 'msf-espana', nombre: 'Médicos Sin Fronteras España', nif: 'G79205337', tipo: 'ongd', sector: 'humanitario', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 138_000_000, empleados: 320, irpf_07: true, website: 'https://www.msf.es', fuente: 'Memoria MSF España', fecha_ref: '2023' },
-  { slug: 'accion-contra-hambre', nombre: 'Acción contra el Hambre', nif: 'G81164105', tipo: 'ongd', sector: 'humanitario', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 95_000_000, empleados: 600, irpf_07: true, website: 'https://www.accioncontraelhambre.org', fuente: 'Memoria ACH · IATI ES-CIF-G81164105', fecha_ref: '2023' },
+  { slug: 'oxfam-intermon', nombre: 'Oxfam Intermón', nif: 'G58236803', tipo: 'ongd', sector: 'cooperacion_internacional', ambito: 'internacional', ccaa: 'cataluna', ingresos_eur: 78_000_000, empleados: 700, irpf_07: true, website: 'https://www.oxfamintermon.org', fuente: 'Memoria Oxfam Intermón · IATI ES-CIF-G58236803', fecha_ref: '2023',
+    registro_ids: { aecid_ongd: 'Sí (entidad inscrita AECID)' },
+    acreditaciones: { fundacion_lealtad: true, coordinadora_ongd: true, plataforma_tercer_sector: true },
+    actividad_territorial: { ccaa_presencia: ['cataluna', 'madrid', 'andalucia', 'comunidad-valenciana', 'pais-vasco', 'galicia'], paises_intervencion: ['América Latina', 'África Occidental', 'Cuerno de África', 'Oriente Medio'] },
+    transparencia: { portal_transparencia_url: 'https://www.oxfamintermon.org/es/transparencia-y-buen-gobierno', memoria_url: 'https://www.oxfamintermon.org/es/publicaciones', ultimo_ejercicio: '2023' },
+    iati_refs: ['ES-CIF-G58236803'],
+    tags_analista: ['ongd', 'cooperacion', 'desigualdad', 'iati_publisher'] },
+  { slug: 'msf-espana', nombre: 'Médicos Sin Fronteras España', nif: 'G79205337', tipo: 'ongd', sector: 'humanitario', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 138_000_000, empleados: 320, irpf_07: true, website: 'https://www.msf.es', fuente: 'Memoria MSF España', fecha_ref: '2023',
+    acreditaciones: { coordinadora_ongd: true },
+    actividad_territorial: { ccaa_presencia: ['madrid', 'cataluna', 'andalucia', 'pais-vasco'], paises_intervencion: ['África Subsahariana', 'Oriente Medio', 'Asia', 'América Latina'] },
+    transparencia: { portal_transparencia_url: 'https://www.msf.es/conocenos/transparencia', memoria_url: 'https://www.msf.es/conocenos/cuentas-claras', ultimo_ejercicio: '2023' },
+    iati_refs: ['ES-CIF-G80345349'],
+    tags_analista: ['ongd', 'humanitario', 'sanitario', 'financiacion_privada_alta', 'iati_publisher'] },
+  { slug: 'accion-contra-hambre', nombre: 'Acción contra el Hambre', nif: 'G81164105', tipo: 'ongd', sector: 'humanitario', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 95_000_000, empleados: 600, irpf_07: true, website: 'https://www.accioncontraelhambre.org', fuente: 'Memoria ACH · IATI ES-CIF-G81164105', fecha_ref: '2023',
+    registro_ids: { aecid_ongd: 'Sí (entidad inscrita AECID)' },
+    acreditaciones: { fundacion_lealtad: true, coordinadora_ongd: true },
+    actividad_territorial: { ccaa_presencia: ['madrid', 'cataluna', 'andalucia', 'comunidad-valenciana'], paises_intervencion: ['Sahel', 'Cuerno de África', 'Oriente Medio', 'América Latina', 'Asia'] },
+    transparencia: { portal_transparencia_url: 'https://www.accioncontraelhambre.org/es/transparencia', memoria_url: 'https://www.accioncontraelhambre.org/es/conocenos/quienes-somos/memorias-de-actividades', ultimo_ejercicio: '2023' },
+    iati_refs: ['ES-CIF-G81164105'],
+    tags_analista: ['ongd', 'humanitario', 'hambre', 'iati_publisher'] },
   { slug: 'manos-unidas', nombre: 'Manos Unidas', nif: 'G28567790', tipo: 'ongd', sector: 'cooperacion_internacional', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 51_000_000, empleados: 170, irpf_07: true, website: 'https://www.manosunidas.org', fuente: 'Memoria Manos Unidas', fecha_ref: '2023' },
   { slug: 'unicef-espana', nombre: 'UNICEF Comité Español', nif: 'G84451087', tipo: 'fundacion', sector: 'infancia', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 71_000_000, empleados: 250, irpf_07: true, website: 'https://www.unicef.es', fuente: 'Memoria UNICEF España', fecha_ref: '2023' },
-  { slug: 'save-the-children', nombre: 'Save the Children España', nif: 'G79362497', tipo: 'ongd', sector: 'infancia', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 56_000_000, empleados: 400, irpf_07: true, website: 'https://www.savethechildren.es', fuente: 'Memoria Save the Children', fecha_ref: '2023' },
+  { slug: 'save-the-children', nombre: 'Save the Children España', nif: 'G79362497', tipo: 'ongd', sector: 'infancia', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 56_000_000, empleados: 400, irpf_07: true, website: 'https://www.savethechildren.es', fuente: 'Memoria Save the Children', fecha_ref: '2023',
+    registro_ids: { aecid_ongd: 'Sí (entidad inscrita AECID)' },
+    acreditaciones: { fundacion_lealtad: true, coordinadora_ongd: true },
+    actividad_territorial: { ccaa_presencia: ['madrid', 'cataluna', 'andalucia', 'comunidad-valenciana', 'pais-vasco', 'galicia', 'baleares'], paises_intervencion: ['África', 'América Latina', 'Oriente Medio', 'Asia'] },
+    transparencia: { portal_transparencia_url: 'https://www.savethechildren.es/transparencia', memoria_url: 'https://www.savethechildren.es/publicaciones', ultimo_ejercicio: '2023' },
+    iati_refs: ['ES-CIF-G81787493'],
+    tags_analista: ['ongd', 'infancia', 'derechos', 'iati_publisher'] },
   { slug: 'eacnur', nombre: 'España con ACNUR', nif: 'G81846825', tipo: 'fundacion', sector: 'refugiados', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 60_000_000, empleados: 120, irpf_07: true, website: 'https://eacnur.org', fuente: 'Memoria España con ACNUR', fecha_ref: '2023' },
   { slug: 'plan-international', nombre: 'Plan International España', nif: 'G85044048', tipo: 'ongd', sector: 'infancia', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 38_000_000, empleados: 150, irpf_07: true, website: 'https://plan-international.es', fuente: 'Memoria Plan International', fecha_ref: '2023' },
   { slug: 'ayuda-en-accion', nombre: 'Ayuda en Acción', nif: 'G82257064', tipo: 'ongd', sector: 'cooperacion_internacional', ambito: 'internacional', ccaa: 'madrid', ingresos_eur: 56_000_000, empleados: 350, irpf_07: true, website: 'https://ayudaenaccion.org', fuente: 'Memoria Ayuda en Acción', fecha_ref: '2023' },
@@ -198,4 +280,92 @@ export function catalogCcaa(): string[] {
   return Array.from(
     new Set(ORGANIZACIONES.map((o) => o.ccaa).filter((c): c is string => !!c)),
   ).sort()
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+// Matching helpers (dossier /inteligencia) · PUROS · testeables
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Índice NIF (mayúsculas) → organización, solo para entradas con `nif`. */
+export const ORG_BY_NIF: Record<string, Organizacion> = (() => {
+  const m: Record<string, Organizacion> = {}
+  for (const o of ORGANIZACIONES) {
+    if (o.nif) m[o.nif.toUpperCase()] = o
+  }
+  return m
+})()
+
+/**
+ * Normaliza un nombre de entidad para matching laxo: minúsculas, sin acentos,
+ * sin formas jurídicas/ruido frecuente y sin puntuación. Pura.
+ * Ej. "FUNDACIÓN, SECRETARIADO GITANO" → "secretariado gitano".
+ */
+export function normOrgName(s: string | null | undefined): string {
+  let t = (s ?? '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+  // Quita formas jurídicas / ruido habitual (como palabras sueltas).
+  t = t.replace(
+    /\b(fundacion|fundacio|asociacion|associacio|asoc|ong|ongd|federacion|federacio|confederacion|plataforma|comite|espanola|espana|de\s+espana|spain|the)\b/g,
+    ' ',
+  )
+  // Colapsa no-alfanuméricos a espacio y recorta.
+  return t.replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+/** Índice nombre-normalizado → organización (solo claves no vacías). */
+export const ORG_BY_NORM_NAME: Record<string, Organizacion> = (() => {
+  const m: Record<string, Organizacion> = {}
+  for (const o of ORGANIZACIONES) {
+    const k = normOrgName(o.nombre)
+    if (k && !(k in m)) m[k] = o
+  }
+  return m
+})()
+
+/**
+ * Resuelve la organización del catálogo que corresponde a un beneficiario
+ * (de BDNS, IATI, etc.). Estrategia, en orden de confianza:
+ *   1. NIF exacto.
+ *   2. iati_ref exacto (cualquiera de los refs de la org).
+ *   3. Nombre normalizado exacto.
+ *   4. Inclusión de nombre normalizado (el más largo no vacío que case).
+ * Devuelve `null` si nada casa con confianza (degradación honesta, no inventa).
+ */
+export function matchOrganizacion(opts: {
+  nif?: string | null
+  nombre?: string | null
+  iatiRef?: string | null
+}): Organizacion | null {
+  const nif = (opts.nif ?? '').toUpperCase().trim()
+  if (nif && ORG_BY_NIF[nif]) return ORG_BY_NIF[nif]
+
+  const ref = (opts.iatiRef ?? '').trim()
+  if (ref) {
+    for (const o of ORGANIZACIONES) {
+      if (o.iati_refs?.some((r) => r.trim() === ref)) return o
+    }
+  }
+
+  const key = normOrgName(opts.nombre)
+  if (key) {
+    if (ORG_BY_NORM_NAME[key]) return ORG_BY_NORM_NAME[key]
+    // Inclusión bidireccional con guarda de longitud (evita falsos positivos
+    // por palabras muy cortas/genéricas).
+    if (key.length >= 5) {
+      let best: Organizacion | null = null
+      let bestLen = 0
+      for (const o of ORGANIZACIONES) {
+        const k = normOrgName(o.nombre)
+        if (k.length < 5) continue
+        if ((key.includes(k) || k.includes(key)) && k.length > bestLen) {
+          best = o
+          bestLen = k.length
+        }
+      }
+      if (best) return best
+    }
+  }
+  return null
 }
