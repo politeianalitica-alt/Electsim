@@ -127,7 +127,11 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       // Sources
       const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
         'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
-      sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
+      // Las capas más densas se agrupan en clusters (rendimiento + claridad).
+      const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
+      sources.forEach(s => map.addSource(s, CLUSTERED.has(s)
+        ? { type: 'geojson', data: EMPTY_FC, cluster: true, clusterRadius: 48, clusterMaxZoom: 7 }
+        : { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
       const _d = new Date(Date.now() - 36 * 3600 * 1000); // ~ayer (GIBS publica con retraso)
@@ -355,7 +359,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'powerlines-line', type: 'line', source: 'powerlines',
         layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
         paint: {
-          'line-color': '#FFD600',
+          // Color por voltaje (kV): <300 amarillo · 300-499 ámbar · >=500 rojo (EHV/UHV)
+          'line-color': ['step', ['coalesce', ['get','v'], 220], '#FFD600', 300, '#FFA000', 500, '#FF5722'],
           'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.4, 6,0.7, 10,0.9],
           'line-width': ['interpolate',['linear'],['zoom'], 2,0.4, 6,1, 10,1.8],
         }});
@@ -376,6 +381,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         }});
       // Campos de petróleo y gas (curado) — color por tipo
       map.addLayer({ id: 'oilgas-dots', type: 'circle', source: 'oilgas',
+        filter: ['!', ['has', 'point_count']],
         layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate',['linear'],['zoom'], 1,3.5, 5,6, 9,9],
           'circle-color': ['coalesce', ['get','color'], '#8D6E63'], 'circle-opacity': 0.85,
@@ -386,6 +392,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': '#D7CCC8', 'text-halo-color': '#000', 'text-halo-width': 1 }});
       // Minerales críticos (curado) — color por materia prima
       map.addLayer({ id: 'minerals-dots', type: 'circle', source: 'minerals',
+        filter: ['!', ['has', 'point_count']],
         layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate',['linear'],['zoom'], 1,3.5, 5,6, 9,9],
           'circle-color': ['coalesce', ['get','color'], '#26A69A'], 'circle-opacity': 0.85,
@@ -394,6 +401,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'minerals-label', type: 'symbol', source: 'minerals', minzoom: 4, filter: ['==', ['get','major'], 1], layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#B2DFDB', 'text-halo-color': '#000', 'text-halo-width': 1 }});
+      // ── Clusters de las capas más densas (rendimiento + claridad) ──
+      const addClusters = (src: string, color: string) => {
+        map.addLayer({ id: `${src}-clusters`, type: 'circle', source: src, filter: ['has', 'point_count'],
+          layout: { visibility: 'none' }, paint: {
+            'circle-color': color, 'circle-opacity': 0.45,
+            'circle-radius': ['step', ['get', 'point_count'], 11, 50, 15, 200, 20, 1000, 27, 5000, 34],
+            'circle-stroke-color': color, 'circle-stroke-width': 1.4, 'circle-stroke-opacity': 0.85,
+          }});
+        map.addLayer({ id: `${src}-cluster-count`, type: 'symbol', source: src, filter: ['has', 'point_count'],
+          layout: { visibility: 'none', 'text-field': ['get', 'point_count_abbreviated'], 'text-font': ['Open Sans Bold'], 'text-size': 11 },
+          paint: { 'text-color': '#fff', 'text-halo-color': '#0C0E1A', 'text-halo-width': 1.2 } });
+      };
+      addClusters('oilgas', '#8D6E63');
+      addClusters('minerals', '#26C6DA');
+      addClusters('military-bases', '#FF5350');
+      addClusters('power-plants', '#FFD54F');
       // Disputas territoriales — rombos rojos
       map.addLayer({ id: 'disputes-dots', type: 'circle', source: 'disputes',
         layout: { visibility: 'none' }, paint: {
@@ -515,7 +538,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': '#CE93D8', 'text-halo-color': '#000', 'text-halo-width': 1 }});
 
       // ── Bases militares ──
-      map.addLayer({ id: 'milbase-dots', type: 'circle', source: 'military-bases', paint: {
+      map.addLayer({ id: 'milbase-dots', type: 'circle', source: 'military-bases', filter: ['!', ['has', 'point_count']], paint: {
         'circle-radius': ['interpolate',['linear'],['zoom'], 3,1.8, 7,3.5, 11,6], 'circle-color': '#EF5350', 'circle-opacity': 0.8, 'circle-stroke-width': 0.6, 'circle-stroke-color': '#3A0000',
       }});
       map.addLayer({ id: 'milbase-label', type: 'symbol', source: 'military-bases', minzoom: 7, layout: {
@@ -714,8 +737,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': ['case', ['in', 'SEISMIC RISK', ['get', 'status']], '#FF9500', '#76FF03'], 'text-halo-color': '#000', 'text-halo-width': 1, 'text-opacity': 0.7 }});
 
       // Centrales eléctricas (color por fuente de energía)
-      map.addLayer({ id: 'power-plants-dots', type: 'circle', source: 'power-plants', paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 2,1.8, 6,4, 11,8],
+      map.addLayer({ id: 'power-plants-dots', type: 'circle', source: 'power-plants', filter: ['!', ['has', 'point_count']], paint: {
+        // Radio según zoom Y capacidad (MW): las centrales grandes destacan.
+        'circle-radius': ['interpolate',['linear'],['zoom'],
+          2,  ['interpolate',['linear'],['coalesce',['to-number',['get','mw']],300], 50,1,   2000,2,   8000,3.5],
+          6,  ['interpolate',['linear'],['coalesce',['to-number',['get','mw']],300], 50,2.5, 2000,5,   8000,8],
+          11, ['interpolate',['linear'],['coalesce',['to-number',['get','mw']],300], 50,5,   2000,10,  8000,18]],
         'circle-color': ['match', ['get','fuel'],
           'Solar','#FFD600', 'Wind','#4FC3F7', 'Hydro','#2979FF', 'Nuclear','#FF1744',
           'Coal','#455A64', 'Gas','#FF9100', 'Oil','#8D6E63', 'Biomass','#8BC34A',
@@ -1833,6 +1860,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
     // ── Bases militares ──
     const MILBASE_TYPE: Record<string, string> = { base: 'Base militar', naval_base: 'Base naval', airfield: 'Aeródromo militar', barracks: 'Cuartel', training_area: 'Campo de entrenamiento', depot: 'Depósito militar', bunker: 'Búnker', zone: 'Recinto militar', wikidata: 'Instalación militar' };
+    // Clic en un cluster → zoom para expandirlo en puntos individuales
+    ['oilgas', 'minerals', 'military-bases', 'power-plants'].forEach(src => {
+      map.on('click', `${src}-clusters`, (e: any) => {
+        const fs = map.queryRenderedFeatures(e.point, { layers: [`${src}-clusters`] });
+        const cid = fs[0]?.properties?.cluster_id;
+        const source: any = map.getSource(src);
+        if (cid == null || !source?.getClusterExpansionZoom) return;
+        source.getClusterExpansionZoom(cid, (err: any, zoom: number) => {
+          if (err) return;
+          map.easeTo({ center: (fs[0].geometry as any).coordinates, zoom: Math.min(zoom, 9) });
+        });
+      });
+      map.on('mouseenter', `${src}-clusters`, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', `${src}-clusters`, () => { map.getCanvas().style.cursor = ''; });
+    });
+
     map.on('click', 'milbase-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
       const coords = (e.features![0].geometry as any).coordinates;
@@ -2626,8 +2669,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['pipelines-line'], activeLayers.pipelines);
     setVis(['powerlines-line'], activeLayers.powerlines);
     setVis(['datacenters-dots'], activeLayers.datacenters);
-    setVis(['oilgas-dots','oilgas-label'], activeLayers.oilgas);
-    setVis(['minerals-dots','minerals-label'], activeLayers.minerals);
+    setVis(['oilgas-dots','oilgas-label','oilgas-clusters','oilgas-cluster-count'], activeLayers.oilgas);
+    setVis(['minerals-dots','minerals-label','minerals-clusters','minerals-cluster-count'], activeLayers.minerals);
     setVis(['agriculture-fill','agriculture-outline','agriculture-label'], activeLayers.agriculture);
     setVis(['alliances-fill','alliances-outline'], activeLayers.alliances);
     setVis(['sanctions-fill'], activeLayers.sanctions);
@@ -2640,7 +2683,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['lighthouses-dots'], activeLayers.lighthouses);
     setVis(['piracy-glow','piracy-dots','piracy-label'], activeLayers.piracy);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
-    setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
+    setVis(['milbase-dots','milbase-label','military-bases-clusters','military-bases-cluster-count'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);
     setVis(['gibs-layer'], activeLayers.gibs);
     setVis(['nightlights-layer'], activeLayers.nightlights);
@@ -2652,7 +2695,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['fires-heat'], activeLayers.fires);
     setVis(['weather-glow','weather-dots','weather-label'], activeLayers.weather);
     setVis(['infra-glow','infra-dots','infra-label'], activeLayers.infrastructure);
-    setVis(['power-plants-dots'], activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other);
+    setVis(['power-plants-dots','power-plants-clusters','power-plants-cluster-count'], activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other);
     setVis(['critical-infra-dots'], activeLayers.critical_infra);
     setVis(['cables-lines'], activeLayers.submarine_cables);
     const mShowPorts = activeLayers.maritime || activeLayers.port_container || activeLayers.port_energy || activeLayers.port_naval || activeLayers.port_commercial;

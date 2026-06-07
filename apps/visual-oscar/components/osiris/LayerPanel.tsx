@@ -148,6 +148,7 @@ const LAYER_GROUPS = [
       { key: 'power_oil', label: 'Petróleo', icon: Zap, color: '#A1887F', dataKey: '' },
       { key: 'power_other', label: 'Otras (biomasa, geotérmica…)', icon: Zap, color: '#BDBDBD', dataKey: '' },
       { key: 'pipelines', label: 'Oleoductos y gasoductos', icon: Fuel, color: '#42A5F5', dataKey: '', sectionLabel: 'RECURSOS Y REDES' },
+      { key: 'powerlines', label: 'Líneas eléctricas (alta tensión)', icon: Zap, color: '#FFD600', dataKey: '' },
       { key: 'datacenters', label: 'Centros de datos', icon: Server, color: '#00E5FF', dataKey: 'datacenters' },
       { key: 'oilgas', label: 'Campos de petróleo y gas', icon: Fuel, color: '#8D6E63', dataKey: 'oilgas' },
       { key: 'minerals', label: 'Minerales críticos', icon: Gem, color: '#26C6DA', dataKey: 'minerals' },
@@ -291,6 +292,8 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
       : layer.key.startsWith('port_') ? portCount(layer.key)
       : layer.key.startsWith('geo_') ? geoCount(layer.key)
       : layer.key === 'railways' ? (data?.railways_fc?.features?.length ?? null)
+      : layer.key === 'powerlines' ? (data?.powerlines_fc?.features?.length ?? null)
+      : layer.key === 'pipelines' ? (data?.pipelines_fc?.features?.length ?? null)
       : getCount(layer.dataKey);
   const totalEntities = ALL_LAYERS.reduce((s: number, l: any) => s + (getCount(l.dataKey) || 0), 0);
   const activeCount = Object.values(activeLayers).filter(Boolean).length;

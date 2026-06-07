@@ -26,6 +26,8 @@ const LEGENDS: Legend[] = [
     { c: '#8D6E63', l: 'Petróleo' }, { c: '#42A5F5', l: 'Gas' }, { c: '#AB47BC', l: 'Mixto' } ] },
   { id: 'pipelines', title: 'Oleoductos/gasoductos', active: (a) => a.pipelines, items: [
     { c: '#8D6E63', l: 'Petróleo' }, { c: '#42A5F5', l: 'Gas' } ] },
+  { id: 'powerlines', title: 'Líneas eléctricas (kV)', active: (a) => a.powerlines, items: [
+    { c: '#FFD600', l: '220–299 kV' }, { c: '#FFA000', l: '300–499 kV' }, { c: '#FF5722', l: '≥500 kV (EHV/UHV)' } ] },
   { id: 'minerals', title: 'Minerales', active: (a) => a.minerals, items: [
     { c: '#FFB300', l: 'Oro' }, { c: '#FF7043', l: 'Cobre' }, { c: '#8D6E63', l: 'Hierro' }, { c: '#37474F', l: 'Carbón' }, { c: '#26C6DA', l: 'Litio' }, { c: '#5C6BC0', l: 'Cobalto' }, { c: '#FFCA28', l: 'Tierras raras' }, { c: '#66BB6A', l: 'Uranio' }, { c: '#A1887F', l: 'Níquel' }, { c: '#B0BEC5', l: 'Plata' }, { c: '#7E57C2', l: 'Manganeso' }, { c: '#90A4AE', l: 'Otros' } ] },
   { id: 'alliances', title: 'Bloques militares', active: (a) => a.alliances, items: [
