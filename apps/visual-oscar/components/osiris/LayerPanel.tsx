@@ -15,7 +15,24 @@ interface LayerPanelProps {
   data: any;
   activeLayers: any;
   setActiveLayers: React.Dispatch<React.SetStateAction<any>>;
+  mineralFilter?: string;
+  setMineralFilter?: (v: string) => void;
 }
+
+// Tipos de mineral seleccionables (el valor = campo `m` del dato OSM).
+const MINERAL_TYPES: { v: string; l: string }[] = [
+  { v: 'todos', l: 'Todos los minerales' },
+  { v: 'litio', l: 'Litio' }, { v: 'cobalto', l: 'Cobalto' }, { v: 'wolframio', l: 'Wolframio' },
+  { v: 'grafito', l: 'Grafito' }, { v: 'uranio', l: 'Uranio' }, { v: 'fosfato', l: 'Fosfato' },
+  { v: 'potasa', l: 'Potasa' },
+  { v: 'oro', l: 'Oro' }, { v: 'cobre', l: 'Cobre' }, { v: 'hierro', l: 'Hierro' },
+  { v: 'plata', l: 'Plata' }, { v: 'plomo', l: 'Plomo' }, { v: 'zinc', l: 'Zinc' },
+  { v: 'estaño', l: 'Estaño' }, { v: 'níquel', l: 'Níquel' }, { v: 'bauxita', l: 'Bauxita' },
+  { v: 'mercury', l: 'Mercurio' }, { v: 'diamante', l: 'Diamante' },
+  { v: 'carbón', l: 'Carbón' }, { v: 'oil', l: 'Petróleo' }, { v: 'sal', l: 'Sal' },
+  { v: 'caliza', l: 'Caliza' }, { v: 'áridos', l: 'Áridos' }, { v: 'mármol', l: 'Mármol' },
+  { v: 'granito', l: 'Granito' },
+];
 
 // ── Paleta Politeia (alineada con tokens.css + AppHeader) ──
 const POL = {
@@ -228,7 +245,7 @@ const LAYER_GROUPS = [
 // Flat list for backward compat
 const ALL_LAYERS = LAYER_GROUPS.flatMap(g => g.layers);
 
-function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
+function LayerPanel({ data, activeLayers, setActiveLayers, mineralFilter = 'todos', setMineralFilter }: LayerPanelProps) {
   // Al abrir la página todos los grupos arrancan RECOGIDOS (colapsados).
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
@@ -450,6 +467,20 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                             )}
                             <Toggle on={!!isActive} />
                           </button>
+                          {layer.key === 'minerals' && isActive && setMineralFilter && (
+                            <select
+                              value={mineralFilter}
+                              onChange={e => setMineralFilter(e.target.value)}
+                              title="Filtrar por tipo de mineral"
+                              style={{
+                                margin: '1px 4px 4px 30px', width: 'calc(100% - 34px)', fontSize: 11,
+                                padding: '5px 8px', borderRadius: 7, background: POL.surfaceRaised,
+                                color: POL.ink, border: `1px solid ${POL.hairlineSoft}`, cursor: 'pointer', outline: 'none',
+                              }}
+                            >
+                              {MINERAL_TYPES.map(t => <option key={t.v} value={t.v}>{t.l}</option>)}
+                            </select>
+                          )}
                           </Fragment>
                         );
                       })}

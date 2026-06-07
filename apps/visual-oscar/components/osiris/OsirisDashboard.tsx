@@ -185,6 +185,7 @@ export default function Dashboard() {
   const [showIntel, setShowIntel] = useState(true);
   const [showRecon, setShowRecon] = useState(false); // panel de Reconocimiento (flotante)
   const [embed, setEmbed] = useState(false); // modo embebido (iframe sectorial): oculta el chrome
+  const [mineralFilter, setMineralFilter] = useState('todos'); // filtro de tipo de mineral
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [mobilePanel, setMobilePanel] = useState<'layers'|'markets'|'intel'|'search'|'recon'|null>(null);
   const [mapProjection, setMapProjection] = useState<'globe'|'mercator'>('globe');
@@ -1058,10 +1059,11 @@ export default function Dashboard() {
 
       {/* ── MAP ── */}
       <ErrorBoundary name="Map">
-        <OsirisMap 
-          data={data} 
-          activeLayers={activeLayers} 
-          projection={mapProjection} 
+        <OsirisMap
+          data={data}
+          activeLayers={activeLayers}
+          mineralFilter={mineralFilter}
+          projection={mapProjection}
           mapStyle={mapStyle}
           visualMode={visualMode}
           muteLabels={muteMap}
@@ -1179,7 +1181,7 @@ export default function Dashboard() {
         {/* Capas — única sección con scroll */}
         {showLayers && (
           <div className="flex-1 min-h-0 overflow-y-auto styled-scrollbar pr-1 pointer-events-auto">
-            <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
+            <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} mineralFilter={mineralFilter} setMineralFilter={setMineralFilter} />
           </div>
         )}
         {/* Selectores de tipo de mapa — debajo de las capas */}
@@ -1376,7 +1378,7 @@ export default function Dashboard() {
                           <div><div className="hud-label" style={{fontSize:'6px'}}>NUC</div><div className="hud-value text-[9px]" style={{color:'var(--accent-nuclear)'}}>{(data.infrastructure?.length||0)}</div></div>
                         </div>
                       </div>
-                      <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
+                      <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} mineralFilter={mineralFilter} setMineralFilter={setMineralFilter} />
                     </>
                   )}
                   {mobilePanel === 'intel' && <IntelFeed data={data} onLocate={(lat, lng) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMobilePanel(null); }} />}
