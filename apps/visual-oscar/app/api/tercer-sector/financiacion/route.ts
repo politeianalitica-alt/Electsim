@@ -53,7 +53,8 @@ export async function GET(req: Request) {
     if (!sedia?.ok) fuentes_error.push({ fuente: 'sedia', error: sedia?.error || 'error' })
 
     const total_concedido_eur = concesiones.reduce(
-      (s, c: { importe?: number | null }) => s + (typeof c.importe === 'number' ? c.importe : 0),
+      (s, c: { importe_eur?: number | null }) =>
+        s + (typeof c.importe_eur === 'number' ? c.importe_eur : 0),
       0,
     )
 

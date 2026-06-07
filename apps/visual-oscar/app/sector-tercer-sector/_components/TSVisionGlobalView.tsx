@@ -2,41 +2,58 @@
 /**
  * <TSVisionGlobalView /> · Tercer Sector v3 · TercerSectorShell · sección por defecto
  *
- * VISIÓN GLOBAL del tercer sector. En el Sprint TS1 esta vista PRESERVA la
- * funcionalidad viva de la página plana anterior para no perder nada:
- *   - Los KPIs agregados de cabecera, ahora vía la primitiva compartida
- *     <HeroKpis> dentro de <SectorHero> (entidades · ingresos agregados ·
- *     empleo directo · adheridas al IRPF 0,7%).
- *   - El panel IATI en vivo (`/api/iati/spain-overview`, caché 1h): top orgs
- *     reportantes, top países beneficiarios y top sectores DAC.
+ * CUADRO EJECUTIVO del tercer sector (re-enfocado en Sprint TS3). Principio de
+ * diseño igual que la Visión Global de Energía/Turismo: SNAPSHOTS, NO detalle.
+ * Esta vista da los titulares y el veredicto; el detalle vive en sus pestañas y
+ * aquí NO se replica:
+ *   - directorio dinámico de ONGs, fichas, filtros → pestaña «Organizaciones».
+ *   - mapa-mundi de receptores, timeline de desembolsos, sectores DAC, ONGD
+ *     reportantes → pestaña «Cooperación».
+ *   - convocatorias/concesiones BDNS, grants UE, IRPF a fondo → «Financiación».
+ *   - buscador multinivel + análisis de pliegos por IA → «Licitaciones».
+ *   - macro, marco regulatorio, transparencia → «Contexto e impacto».
  *
- * El Sprint TS3 (Ola 2) la re-enfocará como cuadro ejecutivo con snapshots
- * cross-vista (financiación, cooperación, top licitaciones) y de-hardcodeará el
- * cómputo de KPIs hacia fuentes vivas. Mientras tanto, los KPIs agregados se
- * calculan sobre un seed mínimo de entidades cumbre representativas (curado,
- * datado por fuente), idéntico al comportamiento previo de la página.
+ * Lo que SÍ vive aquí (cabecera ejecutiva):
+ *   - Fila de KPIs hero (<HeroKpis>): entidades del tercer sector (catálogo
+ *     vivo), empleo e ingresos agregados (seed curado · no hay fuente viva),
+ *     total subvenciones (BDNS), actividades IATI y total desembolsado (IATI).
+ *   - <TSGlobalExecRead /> · lectura ejecutiva que sintetiza el cuadro.
+ *   - 3 tarjetas-snapshot (<TSGlobalCoopSnapshot>, <TSGlobalFinanciacionSnapshot>,
+ *     <TSGlobalLicitacionesSnapshot>), cada una con «ver detalle →» a su pestaña.
+ *   - El mapa OSINT del sector + el widget de Cuaderno (preservados).
  *
- * Principio de diseño: SNAPSHOTS, NO detalle (el directorio completo de ONGs vive
- * en «Organizaciones»; la cooperación a fondo en «Cooperación»). Degradación
- * honesta (CLAUDE.md): IATI sin clave → mensaje honesto, nunca datos inventados.
- * Cero emojis · Unicode geométrico.
+ * UN SOLO Promise.all alimenta toda la vista (4 endpoints) y reparte los
+ * envelopes a los snapshots por props (sin re-fetch). El panel IATI legacy
+ * (`/api/iati/spain-overview`) se sustituye por el snapshot de cooperación, que
+ * consume el endpoint CANÓNICO de TS v3 (`/api/tercer-sector/iati/overview`):
+ * misma información de cabecera, una sola fuente de verdad, sin duplicar.
+ *
+ * Degradación honesta (CLAUDE.md): IATI sin clave → aviso del envelope, valores
+ * null → '—', nunca datos inventados. Cero emojis · Unicode geométrico.
  */
 import { useEffect, useState } from 'react'
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import { SectorMapPreview } from '@/components/SectorMapPreview'
-import { Panel, SectorHero } from '@/components/SectorialWidgets'
+import { SectorHero } from '@/components/SectorialWidgets'
+import { useUrlState } from '@/lib/useUrlState'
 // Primitiva GENÉRICA reutilizada del sector energía (CLAUDE.md: una sola
 // implementación; el spec pide importar/reusar HeroKpis, no duplicarla).
 import { HeroKpis, type HeroKpiItem } from '../../sector-energia/_components/shared/HeroKpis'
+import type { TercerSectorTab } from './TercerSectorShell'
+import { TS_ACCENT, TS_ACCENT_DARK } from './TSGlobalShared'
+import { TSGlobalExecRead, type ExecReadSignals } from './TSGlobalExecRead'
+import { TSGlobalCoopSnapshot, type IatiOverviewEnvelope } from './TSGlobalCoopSnapshot'
+import { TSGlobalFinanciacionSnapshot, type FinanciacionEnvelope } from './TSGlobalFinanciacionSnapshot'
+import { TSGlobalLicitacionesSnapshot, type LicitacionesResponse } from './TSGlobalLicitacionesSnapshot'
 
-const ACCENT = '#16A34A'
-const ACCENT_DARK = '#15803D'
+const REFRESH_MS = 60 * 60 * 1000
 
 // ─────────────────────────────────────────────────────────────────
-// Seed mínimo de entidades cumbre (curado · datado por fuente) — solo para los
-// KPIs AGREGADOS de cabecera, replicando el comportamiento de la página plana.
-// El directorio dinámico completo (de-hardcode) lo construye TS4 en la pestaña
-// «Organizaciones». No es un listado exhaustivo: es la base de los titulares.
+// Seed mínimo de entidades cumbre (curado · datado por fuente) — SOLO para los
+// agregados de EMPLEO e INGRESOS de cabecera, para los que no hay un endpoint
+// vivo (las memorias anuales no son una API). El nº de entidades, las
+// subvenciones, las actividades IATI y los desembolsos SÍ son en vivo. El
+// directorio dinámico completo (de-hardcode) lo sirve «Organizaciones» (TS4).
 // ─────────────────────────────────────────────────────────────────
 interface SeedOrg {
   short_name: string
@@ -78,246 +95,191 @@ const SEED: SeedOrg[] = [
   { short_name: 'CONGDE', irpf_07: false, ingresos_anuales_eur: 2_100_000, empleados: 25 },
 ]
 
-// ─────────────────────────────────────────────────────────────────
-// Panel IATI · Cooperación internacional declarada (preservado de la página plana)
-// ─────────────────────────────────────────────────────────────────
-interface IatiData {
-  total_activities: number
-  by_org: Array<{ ref: string; count: number; name?: string }>
-  top_countries: Array<{ iso2: string; count: number }>
-  top_sectors: Array<{ code: string; count: number }>
-  fetched_at: string
-  data_quality: { source_type: string; source_name: string; note?: string }
+// Shape mínimo del envelope de /organizaciones (solo lo que usa la cabecera: el
+// nº total de entidades del catálogo). Las facetas se explotan en la pestaña
+// «Organizaciones», no aquí.
+interface OrganizacionesEnvelope {
+  ok: boolean
+  data: { catalogo_total?: number } | null
 }
 
-// IATI DAC 3-digit sector codes · subset más común en cooperación ES
-const IATI_SECTOR_NAMES: Record<string, string> = {
-  '111': 'Educación',
-  '112': 'Educación básica',
-  '121': 'Salud general',
-  '122': 'Salud básica',
-  '130': 'Población y salud reproductiva',
-  '140': 'Agua y saneamiento',
-  '151': 'Gobierno y sociedad civil',
-  '152': 'Prevención de conflictos',
-  '160': 'Otros sociales',
-  '210': 'Transporte',
-  '230': 'Energía',
-  '240': 'Servicios bancarios',
-  '311': 'Agricultura',
-  '410': 'Medio ambiente',
-  '430': 'Otros productivos',
-  '510': 'Ayuda presupuestaria',
-  '520': 'Ayuda alimentaria',
-  '720': 'Ayuda de emergencia',
-  '730': 'Reconstrucción',
-  '740': 'Prevención de desastres',
-  '910': 'Costes administrativos',
-  '998': 'Sin asignación',
-}
-
-// ISO-2 → nombre país (subset cooperación)
+/** País receptor #1 legible (para la lectura ejecutiva). */
 const COUNTRY_NAMES: Record<string, string> = {
-  UA: 'Ucrania', MA: 'Marruecos', SN: 'Senegal', HT: 'Haití',
-  CO: 'Colombia', PE: 'Perú', NI: 'Nicaragua', GT: 'Guatemala',
-  ET: 'Etiopía', MZ: 'Mozambique', BO: 'Bolivia', PS: 'Palestina',
-  SY: 'Siria', YE: 'Yemen', AF: 'Afganistán', MM: 'Myanmar',
-  CD: 'RD Congo', SS: 'Sudán del Sur', CU: 'Cuba', DO: 'R. Dominicana',
-  EC: 'Ecuador', SV: 'El Salvador', HN: 'Honduras', PY: 'Paraguay',
-  LB: 'Líbano', JO: 'Jordania', TN: 'Túnez', DZ: 'Argelia',
-  MR: 'Mauritania', BF: 'Burkina Faso', ML: 'Malí', NE: 'Níger',
-  MX: 'México', BR: 'Brasil', AR: 'Argentina', CL: 'Chile',
-}
-
-function IatiCooperationPanel() {
-  const [data, setData] = useState<IatiData | null>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    let alive = true
-    fetch('/api/iati/spain-overview', { cache: 'force-cache' })
-      .then((r) => r.json())
-      .then((j: IatiData) => alive && setData(j))
-      .catch(() => alive && setData(null))
-      .finally(() => alive && setLoading(false))
-    return () => {
-      alive = false
-    }
-  }, [])
-
-  const isLive = data?.data_quality?.source_type === 'live'
-  const subtitle = isLive
-    ? `Datos en vivo · ${data?.total_activities.toLocaleString('es-ES')} actividades reportadas por orgs españolas a IATI · cache 1h`
-    : 'IATI · International Aid Transparency Initiative'
-
-  return (
-    <Panel
-      title="Cooperación internacional · IATI"
-      subtitle={subtitle}
-      sourceUrl="https://iatistandard.org"
-      sourceLabel="IATI"
-      sourceTooltip="IATI Datastore · actividades de organizaciones reportantes españolas"
-      apiUrl="/api/iati/spain-overview"
-    >
-      {loading && <p style={{ fontSize: 12, color: '#94a3b8' }}>Cargando datos IATI…</p>}
-      {!loading && !isLive && (
-        <p style={{ fontSize: 12, color: '#94a3b8' }}>
-          IATI no disponible · {data?.data_quality?.note ?? 'configurar IATI_API_KEY'}
-        </p>
-      )}
-      {!loading && isLive && data && (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: 12,
-          }}
-        >
-          {/* Top organizaciones */}
-          <div style={{ background: '#f8fafc', borderRadius: 8, padding: 12 }}>
-            <p style={{ fontSize: 11, letterSpacing: 0.6, color: '#475569', fontWeight: 700, margin: 0 }}>
-              TOP ORGS REPORTANTES (ES)
-            </p>
-            <ul style={{ margin: '8px 0 0', padding: 0, listStyle: 'none', fontSize: 12 }}>
-              {data.by_org.slice(0, 8).map((o) => (
-                <li key={o.ref} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #e5e7eb' }}>
-                  <span style={{ color: '#0f172a', fontWeight: 600 }}>{o.name ?? o.ref}</span>
-                  <span style={{ color: ACCENT_DARK, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
-                    {o.count.toLocaleString('es-ES')}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Top países beneficiarios */}
-          <div style={{ background: '#f8fafc', borderRadius: 8, padding: 12 }}>
-            <p style={{ fontSize: 11, letterSpacing: 0.6, color: '#475569', fontWeight: 700, margin: 0 }}>
-              TOP PAÍSES BENEFICIARIOS
-            </p>
-            <ul style={{ margin: '8px 0 0', padding: 0, listStyle: 'none', fontSize: 12 }}>
-              {data.top_countries.slice(0, 10).map((c) => (
-                <li key={c.iso2} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #e5e7eb' }}>
-                  <span style={{ color: '#0f172a' }}>
-                    <code style={{ fontSize: 10, background: '#e2e8f0', padding: '1px 4px', borderRadius: 3, marginRight: 6 }}>
-                      {c.iso2}
-                    </code>
-                    {COUNTRY_NAMES[c.iso2] ?? c.iso2}
-                  </span>
-                  <span style={{ color: '#475569', fontVariantNumeric: 'tabular-nums' }}>
-                    {c.count.toLocaleString('es-ES')}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Top sectores */}
-          <div style={{ background: '#f8fafc', borderRadius: 8, padding: 12 }}>
-            <p style={{ fontSize: 11, letterSpacing: 0.6, color: '#475569', fontWeight: 700, margin: 0 }}>
-              TOP SECTORES DAC (CAD)
-            </p>
-            <ul style={{ margin: '8px 0 0', padding: 0, listStyle: 'none', fontSize: 12 }}>
-              {data.top_sectors.slice(0, 10).map((s) => {
-                const sectorRoot = s.code.slice(0, 3)
-                const sectorName = IATI_SECTOR_NAMES[sectorRoot] || IATI_SECTOR_NAMES[s.code] || `Sector ${s.code}`
-                return (
-                  <li key={s.code} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid #e5e7eb' }}>
-                    <span style={{ color: '#0f172a' }}>
-                      <code style={{ fontSize: 10, background: '#e2e8f0', padding: '1px 4px', borderRadius: 3, marginRight: 6 }}>
-                        {s.code}
-                      </code>
-                      {sectorName}
-                    </span>
-                    <span style={{ color: '#475569', fontVariantNumeric: 'tabular-nums' }}>
-                      {s.count.toLocaleString('es-ES')}
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        </div>
-      )}
-      {data?.fetched_at && (
-        <p style={{ fontSize: 10, color: '#94a3b8', marginTop: 8, textAlign: 'right' }}>
-          Última actualización · {new Date(data.fetched_at).toLocaleString('es-ES')} ·{' '}
-          <a
-            href="https://iatistandard.org"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: ACCENT, textDecoration: 'none' }}
-          >
-            iatistandard.org →
-          </a>
-        </p>
-      )}
-    </Panel>
-  )
+  UA: 'Ucrania', MA: 'Marruecos', SN: 'Senegal', HT: 'Haití', CO: 'Colombia',
+  PE: 'Perú', NI: 'Nicaragua', GT: 'Guatemala', ET: 'Etiopía', MZ: 'Mozambique',
+  BO: 'Bolivia', PS: 'Palestina', SY: 'Siria', YE: 'Yemen', CD: 'RD Congo',
 }
 
 export function TSVisionGlobalView() {
-  // KPIs agregados (preservados): entidades · ingresos · empleo · IRPF 0,7%.
-  const totalEntidades = SEED.length
-  const totalIngresos = SEED.reduce((s, o) => s + (o.ingresos_anuales_eur ?? 0), 0)
-  const totalEmpleados = SEED.reduce((s, o) => s + (o.empleados ?? 0), 0)
-  const orgsIrpf = SEED.filter((o) => o.irpf_07).length
+  // Navegación a otras pestañas del shell (mismo searchParam `?ts=`).
+  const [, setTab] = useUrlState<TercerSectorTab>('ts', 'global')
+  const onNavigate = (t: TercerSectorTab) => setTab(t)
+
+  // Envelopes vivos (un solo origen de datos para todo el cuadro).
+  const [orgs, setOrgs] = useState<OrganizacionesEnvelope | null>(null)
+  const [iati, setIati] = useState<IatiOverviewEnvelope | null>(null)
+  const [financiacion, setFinanciacion] = useState<FinanciacionEnvelope | null>(null)
+  const [licitaciones, setLicitaciones] = useState<LicitacionesResponse | null>(null)
+  const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
+  const [loaded, setLoaded] = useState(false)
+
+  const refresh = async () => {
+    const [o, i, f, l] = await Promise.all([
+      fetch('/api/tercer-sector/organizaciones?pageSize=1', { cache: 'no-store' })
+        .then((r) => (r.ok ? (r.json() as Promise<OrganizacionesEnvelope>) : null))
+        .catch(() => null),
+      fetch('/api/tercer-sector/iati/overview', { cache: 'no-store' })
+        .then((r) => (r.ok ? (r.json() as Promise<IatiOverviewEnvelope>) : null))
+        .catch(() => null),
+      fetch('/api/tercer-sector/financiacion', { cache: 'no-store' })
+        .then((r) => (r.ok ? (r.json() as Promise<FinanciacionEnvelope>) : null))
+        .catch(() => null),
+      fetch('/api/tercer-sector/licitaciones?pageSize=5', { cache: 'no-store' })
+        .then((r) => (r.ok ? (r.json() as Promise<LicitacionesResponse>) : null))
+        .catch(() => null),
+    ])
+    setOrgs(o)
+    setIati(i)
+    setFinanciacion(f)
+    setLicitaciones(l)
+    setUpdatedAt(new Date())
+    setLoaded(true)
+  }
+
+  useEffect(() => {
+    refresh()
+    const t = setInterval(refresh, REFRESH_MS)
+    return () => clearInterval(t)
+  }, [])
+
+  // ── Señales derivadas (vivas) ───────────────────────────────────────────
+  const entidades = orgs?.ok ? orgs.data?.catalogo_total ?? null : null
+
+  const iatiData = iati?.ok ? iati.data : null
+  const iatiActividades = iatiData?.mode === 'datastore' ? iatiData.total_activities : null
+  const iatiDesembolsado = iatiData?.total_disbursed_eur ?? null
+  const iatiMode = iatiData?.mode ?? null
+  const topCountryFacet = iatiData?.top_recipient_countries?.[0] ?? null
+  const topPaisCoop = topCountryFacet
+    ? topCountryFacet.name && topCountryFacet.name !== topCountryFacet.code
+      ? topCountryFacet.name
+      : COUNTRY_NAMES[topCountryFacet.code] ?? topCountryFacet.code
+    : null
+
+  // Total subvenciones robusto: sumar importe_eur del conector BDNS; respaldo en
+  // el resumen del endpoint (que puede venir a 0 por leer otro campo).
+  const fdata = financiacion?.data ?? null
+  const sumImporte = (fdata?.concesiones ?? []).reduce(
+    (s, c) => s + (typeof c.importe_eur === 'number' ? c.importe_eur : 0),
+    0,
+  )
+  const totalSubvenciones = sumImporte > 0 ? sumImporte : fdata?.resumen?.total_concedido_eur ?? null
+
+  const licitacionesTotal = typeof licitaciones?.total === 'number' ? licitaciones.total : null
+
+  // ── KPIs hero · entidades (vivo) · ingresos/empleo (seed) · subvenciones,
+  //    actividades IATI y desembolsos (vivo). Solo titulares.
+  const seedIngresos = SEED.reduce((s, o) => s + (o.ingresos_anuales_eur ?? 0), 0)
+  const seedEmpleados = SEED.reduce((s, o) => s + (o.empleados ?? 0), 0)
 
   const heroItems: HeroKpiItem[] = [
     {
-      label: 'Entidades cumbre',
-      value: totalEntidades,
+      label: 'Entidades (catálogo)',
+      value: entidades,
       decimals: 0,
       color: '#86EFAC',
-      footer: 'Seed curado · base de titulares',
+      footer: 'Directorio vivo · TS Organizaciones',
     },
     {
       label: 'Ingresos agregados',
-      value: Math.round(totalIngresos / 1_000_000),
+      value: Math.round(seedIngresos / 1_000_000),
       unit: 'M€',
       decimals: 0,
       color: '#FCD34D',
-      footer: 'Memorias anuales · curado',
+      footer: 'Entidades cumbre · memorias (curado)',
     },
     {
       label: 'Empleo directo',
-      value: totalEmpleados,
+      value: seedEmpleados,
       decimals: 0,
       color: '#7DD3FC',
-      footer: 'Plantilla declarada',
+      footer: 'Entidades cumbre · plantilla (curado)',
     },
     {
-      label: 'Adheridas IRPF 0,7%',
-      value: `${orgsIrpf} / ${totalEntidades}`,
+      label: 'Subvenciones (BDNS)',
+      value: totalSubvenciones != null ? Math.round(totalSubvenciones / 1_000_000) : null,
+      unit: 'M€',
+      decimals: 0,
+      color: '#FDBA74',
+      footer: 'Concesiones recientes al tercer sector',
+    },
+    {
+      label: 'Actividades IATI',
+      value: iatiActividades,
+      decimals: 0,
       color: '#C4B5FD',
-      footer: 'Convenio fines sociales',
+      footer: iatiMode === 'registry' ? 'Requiere Datastore (IATI_API_KEY)' : 'Cooperación declarada',
+    },
+    {
+      label: 'Desembolsado cooperación',
+      value: iatiDesembolsado != null ? Math.round(iatiDesembolsado / 1_000_000) : null,
+      unit: 'M€',
+      decimals: 0,
+      color: '#FCA5A5',
+      footer: 'IATI · transacciones tipo 3',
     },
   ]
+
+  const execSignals: ExecReadSignals = {
+    entidades,
+    totalSubvenciones,
+    iatiActividades,
+    iatiDesembolsado,
+    iatiMode,
+    licitacionesTotal,
+    topPaisCoop,
+  }
 
   return (
     <div>
       <SectorHero
-        accent={ACCENT}
-        accentDark={ACCENT_DARK}
-        eyebrow="SECTORIAL · TERCER SECTOR · ECONOMÍA SOCIAL · ONGs"
+        accent={TS_ACCENT}
+        accentDark={TS_ACCENT_DARK}
+        eyebrow="SECTORIAL · TERCER SECTOR · ECONOMÍA SOCIAL · ONGs · CUADRO EJECUTIVO"
         title="Tercer sector y ONGs · visión global"
-        sub="Titulares del ecosistema (entidades cumbre, ingresos, empleo, IRPF 0,7%) y cooperación internacional declarada a IATI en vivo. El directorio dinámico de ONGs, la financiación, las licitaciones multinivel y el contexto de impacto viven en las pestañas superiores."
-        updatedAt={null}
-        onRefresh={() => {}}
+        sub="Titulares en vivo (catálogo de entidades · subvenciones BDNS · cooperación IATI · licitaciones multinivel). El directorio dinámico de ONGs, la cooperación a fondo, la financiación detallada, las licitaciones con análisis de pliegos y el contexto de impacto viven en las pestañas superiores."
+        updatedAt={updatedAt}
+        onRefresh={refresh}
         kpis={
           <div style={{ gridColumn: '1 / -1' }}>
-            <HeroKpis items={heroItems} />
+            <HeroKpis items={heroItems} loading={!loaded} />
           </div>
         }
       />
 
-      {/* Vista inicial del mapa OSINT con las capas del sector + ampliar */}
+      {/* ───── Lectura ejecutiva · veredicto de cabecera ───── */}
       <div style={{ marginBottom: 14 }}>
-        <SectorMapPreview sector="tercer-sector" accent={ACCENT} height={320} />
+        <TSGlobalExecRead signals={execSignals} loading={!loaded} />
       </div>
 
-      {/* IATI · Cooperación internacional declarada (panel preservado · en vivo) */}
-      <IatiCooperationPanel />
+      {/* ───── Tarjetas-snapshot (cada una enlaza a su pestaña) ───── */}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: 14,
+          marginBottom: 14,
+        }}
+      >
+        <TSGlobalCoopSnapshot env={iati} loading={!loaded} onNavigate={onNavigate} />
+        <TSGlobalFinanciacionSnapshot env={financiacion} loading={!loaded} onNavigate={onNavigate} />
+        <TSGlobalLicitacionesSnapshot res={licitaciones} loading={!loaded} onNavigate={onNavigate} />
+      </div>
+
+      {/* ───── Mapa OSINT del sector (preservado) ───── */}
+      <div style={{ marginBottom: 14 }}>
+        <SectorMapPreview sector="tercer-sector" accent={TS_ACCENT} height={320} />
+      </div>
 
       {/* Cuaderno · notas que mencionan el sector Tercer Sector */}
       <div style={{ marginTop: 18 }}>
