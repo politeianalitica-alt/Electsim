@@ -141,8 +141,11 @@ export function FinConvocatoriasTable({
             </tr>
           </thead>
           <tbody>
-            {rows.map((c) => (
-              <tr key={c.id}>
+            {rows.map((c, i) => (
+              // Fallback a clave combinada: BDNS puede devolver id '' si faltan
+              // tanto id como codConcesion/numeroConvocatoria, lo que duplicaría
+              // claves React entre filas. El índice garantiza unicidad.
+              <tr key={`${c.id || 'sin-id'}-${i}`}>
                 <td style={{ ...td, maxWidth: 360 }}>
                   <a
                     href={convocatoriaUrl(c)}

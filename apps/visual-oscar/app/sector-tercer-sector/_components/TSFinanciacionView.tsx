@@ -67,9 +67,10 @@ export function TSFinanciacionView() {
     }
   }, [reloadKey])
 
-  // total concedido: el endpoint lo calcula sobre un campo distinto al real
-  // (`importe` vs `importe_eur`), así que lo recomputamos en cliente desde
-  // `importe_eur` y caemos al valor del resumen solo si no hay concesiones.
+  // total concedido: sumamos `importe_eur` de las concesiones en cliente y
+  // caemos al valor del resumen del endpoint solo si no hay concesiones. (El
+  // endpoint ya calcula `resumen.total_concedido_eur` sobre `importe_eur`, así
+  // que ambos coinciden; este recompute es solo un respaldo defensivo.)
   const totalConcedido = useMemo(() => {
     if (!data) return null
     const fromConcesiones = sumImportes(data.concesiones)

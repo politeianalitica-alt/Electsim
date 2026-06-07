@@ -10,7 +10,7 @@ export const SECTOR_MAP_LAYERS: Record<string, string[]> = {
   banca: ["ixps", "datacenters", "sanctions", "corruption", "gdp_pc", "econ_blocs"],
   farma: ["air_quality", "hdi", "gdp_pc", "regime", "sanctions"],
   vivienda: ["gdp_pc", "hdi", "sea_state", "rainfall"],
-  turismo: ["airports", "flights", "maritime", "ship_passenger", "port_commercial", "conflict_zones", "sea_state", "air_quality"],
+  turismo: ["airports", "maritime", "ship_passenger", "port_commercial", "conflict_zones", "sea_state", "air_quality"],
   "tercer-sector": ["refugee_camps", "conflict_zones", "war_sudan", "war_congo", "war_sahel", "gdacs", "deforestation", "hdi"],
   // Vista de inicio: situación mundial (conflictos, guerras, desastres, sanciones)
   inicio: ["conflict_zones", "war_ukraine", "war_gaza", "war_iran", "war_sudan", "gdacs", "sanctions", "alliances"],

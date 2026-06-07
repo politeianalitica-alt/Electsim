@@ -20,6 +20,25 @@ import { SectorIntelPanel } from '@/components/SectorIntelPanel'
 const ACCENT = '#F97316'
 const ACCENT_DARK = '#7c2d12'
 
+/** Estado de carga/error/vacío para los paneles de gráficas (tarea B2). */
+function ChartFallback({ status, onRetry }: { status: 'loading' | 'ok' | 'error'; onRetry: () => void }) {
+  if (status === 'error') {
+    return (
+      <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:8, minHeight:160, color:'#86868b', fontSize:12.5, textAlign:'center' }}>
+        <span>No se pudo cargar la serie. Comprueba tu conexión e inténtalo de nuevo.</span>
+        <button onClick={onRetry} style={{ fontSize:11.5, fontWeight:700, padding:'5px 12px', borderRadius:8, border:'1px solid #ECECEF', background:'#FAFAFA', color:'#1d1d1f', cursor:'pointer' }}>
+          Reintentar
+        </button>
+      </div>
+    )
+  }
+  return (
+    <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:160, color:'#9ca3af', fontSize:12.5 }}>
+      Cargando serie…
+    </div>
+  )
+}
+
 interface Resumen {
   kpis: {
     pasajeros_aereo: number | null; pasajeros_year?: number
@@ -36,10 +55,13 @@ export default function SectorInfraestructurasPage() {
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
   const [data, setData] = useState<Resumen | null>(null)
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
+  const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading')
 
   const refresh = async () => {
+    setStatus(s => (s === 'ok' ? 'ok' : 'loading'))
     const r = await fetch('/api/sectores/infraestructuras/resumen').then(r => r.ok ? r.json() : null).catch(() => null)
-    setData(r); setUpdatedAt(new Date())
+    if (r) { setData(r); setStatus('ok') } else { setStatus('error') }
+    setUpdatedAt(new Date())
   }
   useEffect(() => { refresh(); const t = setInterval(refresh, 60 * 60 * 1000); return () => clearInterval(t) }, [])
 
@@ -57,9 +79,9 @@ export default function SectorInfraestructurasPage() {
           kpis={<>
             <HeroKPI label={`Pasajeros aéreos (${data?.kpis.pasajeros_year || ''})`}
               value={data?.kpis.pasajeros_aereo != null ? Math.round(data.kpis.pasajeros_aereo / 1_000_000) : null}
-              unit="M" accent="#7DD3FC"/>
+              unit="M" accent="#7DD3FC" sub="Último dato disponible (Banco Mundial)"/>
             <HeroKPI label={`Carga aérea (${data?.kpis.carga_year || ''})`}
-              value={data?.kpis.carga_aerea_mtonkm} unit="M ton-km" decimals={0} accent="#86EFAC"/>
+              value={data?.kpis.carga_aerea_mtonkm} unit="M ton-km" decimals={0} accent="#86EFAC" sub="Último dato disponible (Banco Mundial)"/>
             <HeroKPI label={`IPCO ingeniería civil (${data?.kpis.ipco_periodo || ''})`}
               value={data?.kpis.ipco_indice} unit="" decimals={1} accent="#FCD34D" sub="Base 2021=100"/>
             <HeroKPI label="Empresas tractoras" value={EMPRESAS_INFRA.length} unit="" accent="#FCA5A5"/>
@@ -73,10 +95,11 @@ export default function SectorInfraestructurasPage() {
             sourceLabel="Banco Mundial"
             sourceTooltip="Air transport · passengers carried · serie España"
             apiUrl="/api/sectores/infraestructuras/resumen">
-            {data && <SerieLineChart
+            {data ? <SerieLineChart
               points={data.serie_pasajeros.map(p => ({ t: p.t, v: p.v != null ? p.v / 1_000_000 : null }))}
               color={ACCENT}
-              formatY={n => `${n.toFixed(0)}M`}/>}
+              formatY={n => `${n.toFixed(0)}M`}/>
+              : <ChartFallback status={status} onRetry={refresh}/>}
           </Panel>
           <Panel title="IPCO · Índice Producción Construcción"
             subtitle="INE · ingeniería civil mensual base 2021=100"
@@ -84,7 +107,8 @@ export default function SectorInfraestructurasPage() {
             sourceLabel="INE"
             sourceTooltip="Índice Producción Construcción · INE · mensual"
             apiUrl="/api/sectores/infraestructuras/resumen">
-            {data && <SerieLineChart points={data.serie_ipco} color="#7C3AED" formatY={n => n.toFixed(1)}/>}
+            {data ? <SerieLineChart points={data.serie_ipco} color="#7C3AED" formatY={n => n.toFixed(1)}/>
+              : <ChartFallback status={status} onRetry={refresh}/>}
           </Panel>
         </div>
 

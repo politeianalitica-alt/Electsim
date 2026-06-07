@@ -17,11 +17,12 @@ import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { EMPRESAS_FARMA, REGULADORES_FARMA } from '@/lib/sources/aemps'
-// Sprint Cuaderno N2-wire · notas que mencionan "Farmacéutico" (registry slug 'farma')
+// Notas del Cuaderno que mencionan "Farmacéutico" (registry slug 'farma')
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import PillSelect, { PillInput } from '@/components/PillSelect'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
+import DemoBadge from '@/components/DemoBadge'
 
 interface ResumenResp {
   kpis: {
@@ -68,6 +69,9 @@ export default function SectorFarmaPage() {
   const [atc, setAtc] = useState<AtcResp | null>(null)
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
+  // Pasa a true tras el primer refresh, para distinguir "cargando" de
+  // "terminó pero la fuente devolvió null" (error/vacío) en cada panel.
+  const [loaded, setLoaded] = useState(false)
 
   const refresh = async () => {
     setLoading(true)
@@ -78,7 +82,7 @@ export default function SectorFarmaPage() {
       fetch('/api/sectores/farma/atc').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
     setResumen(r); setDesabast(d); setLabs(l); setAtc(a)
-    setUpdatedAt(new Date()); setLoading(false)
+    setUpdatedAt(new Date()); setLoading(false); setLoaded(true)
   }
 
   useEffect(() => {
@@ -133,37 +137,37 @@ export default function SectorFarmaPage() {
  <div style={{ display:'grid', gridTemplateColumns:'1.6fr 1fr', gap:14, marginBottom:14 }}>
  <Panel
             title="Desabastecimientos · evolución últimos 4 meses"
-            subtitle={desabast ? `${desabast.total.toLocaleString('es-ES')} problemas en el periodo` : 'Cargando…'}
+            subtitle={desabast ? `${desabast.total.toLocaleString('es-ES')} problemas en el periodo` : (loaded ? 'No disponible' : 'Cargando…')}
             sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
             sourceLabel="AEMPS CIMA"
             sourceTooltip="Listado oficial de problemas de suministro · AEMPS"
           >
-            {desabast && <DesabastTimeline data={desabast.por_mes}/>}
+            {desabast ? <DesabastTimeline data={desabast.por_mes}/> : <PanelState loaded={loaded}/>}
  </Panel>
  <Panel title="Tipo de problema de suministro"
             subtitle="Distribución por clasificación AEMPS"
             sourceUrl="https://cima.aemps.es/cima/publico/listadesabastecimiento.html"
             sourceLabel="AEMPS CIMA"
             sourceTooltip="Clasificación de problemas de suministro · AEMPS">
-            {desabast && <TipoBreakdown items={desabast.por_tipo}/>}
+            {desabast ? <TipoBreakdown items={desabast.por_tipo}/> : <PanelState loaded={loaded}/>}
  </Panel>
  </div>
 
         {/* ROW 2: Top laboratorios + Distribución ATC */}
  <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
  <Panel title="Top laboratorios titulares"
-            subtitle={labs ? `${labs.total_unique_labs.toLocaleString('es-ES')} únicos · sample ${labs.sample_size}` : 'Cargando…'}
+            subtitle={labs ? `${labs.total_unique_labs.toLocaleString('es-ES')} únicos · sample ${labs.sample_size}` : (loaded ? 'No disponible' : 'Cargando…')}
             sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
             sourceLabel="AEMPS CIMA"
             sourceTooltip="Buscador de medicamentos · titulares · AEMPS">
-            {labs && <LabsRanking items={labs.items}/>}
+            {labs ? <LabsRanking items={labs.items}/> : <PanelState loaded={loaded}/>}
  </Panel>
  <Panel title="Distribución por clase terapéutica"
-            subtitle="Sistema de Clasificación ATC nivel 1"
+            subtitle={atc ? `Clasificación ATC nivel 1 · muestra de ${atc.total.toLocaleString('es-ES')}` : (loaded ? 'No disponible' : 'Sistema de Clasificación ATC nivel 1')}
             sourceUrl="https://cima.aemps.es/cima/publico/lista.html"
             sourceLabel="AEMPS CIMA"
             sourceTooltip="Clasificación ATC · nivel 1 · medicamentos">
-            {atc && <AtcDonut items={atc.items}/>}
+            {atc ? <AtcDonut items={atc.items}/> : <PanelState loaded={loaded}/>}
  </Panel>
  </div>
 
@@ -176,7 +180,7 @@ export default function SectorFarmaPage() {
           sourceLabel="AEMPS CIMA"
           sourceTooltip="Problemas de suministro · listado completo · AEMPS"
         >
-          {desabast && <DesabastList items={desabast.items}/>}
+          {desabast ? <DesabastList items={desabast.items}/> : <PanelState loaded={loaded}/>}
  </Panel>
 
         {/* ROW 4: Buscador de medicamentos */}
@@ -214,9 +218,9 @@ export default function SectorFarmaPage() {
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos AEMPS…</div>}
 
-        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Farma */}
+        {/* Notas del Cuaderno sobre el sector Farma */}
         <div style={{ marginTop: 18 }}>
-          <CuadernoEntityWidget slug="farma" name="Sector Farmacéutico" accentColor="#EC4899" />
+          <CuadernoEntityWidget slug="farma" name="Sector Farmacéutico" accentColor="#0EA5E9" />
         </div>
  </main>
  </div>
@@ -482,8 +486,8 @@ function BuscadorMedicamentos() {
  <strong>{data.total.toLocaleString('es-ES')}</strong> medicamentos encontrados · mostrando {visible.length} · {data.fetch_ms} ms
  </div>
  <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:6 }}>
-              {visible.map(m => (
- <li key={m.nregistro} style={{
+              {visible.map((m, i) => (
+ <li key={`${m.nregistro}-${i}`} style={{
                   padding:'10px 12px', background:'#FAFAFA', borderRadius:10, border:'1px solid #ECECEF',
                   display:'grid', gridTemplateColumns:'1fr auto', gap:10, alignItems:'center',
                 }}>
@@ -557,7 +561,10 @@ function EmpresasGrid() {
  <span style={{ fontWeight:700, fontFamily:'var(--font-display)', fontSize:13.5, color:'#1d1d1f' }}>{e.nombre}</span>
               {e.ibex && <span style={{ fontSize:8.5, fontWeight:800, padding:'2px 6px', borderRadius:4, background:'#FCD34D', color:'#92400E' }}>IBEX 35</span>}
  </div>
- <div style={{ fontSize:10, color:'#86868b', fontFamily:'monospace', marginTop:2 }}>{e.ticker} · {e.capitalizacion_b}b€</div>
+ <div style={{ fontSize:10, color:'#86868b', fontFamily:'monospace', marginTop:2, display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
+ <span>{e.ticker} · {e.capitalizacion_b}b€ aprox.</span>
+ <DemoBadge title="Capitalización orientativa · valor estático, no cotización en vivo" />
+ </div>
  <div style={{ fontSize:11, color:'#3a3a3d', marginTop:4, lineHeight:1.4 }}>{e.descripcion}</div>
  <div style={{ fontSize:9.5, color:'#0EA5E9', fontWeight:700, marginTop:5, letterSpacing:'0.04em', textTransform:'uppercase' }}>{e.segmento}</div>
  </a>
@@ -670,4 +677,22 @@ function Th({ children }: { children: React.ReactNode }) {
 }
 function Td({ children }: { children: React.ReactNode }) {
   return <td style={{ padding:'8px 8px', verticalAlign:'top' }}>{children}</td>
+}
+
+// Estado de un panel de datos en vivo cuando aún no hay datos: "Cargando…"
+// mientras carga, o un mensaje de error/vacío una vez terminado el fetch sin
+// resultado (en lugar de quedarse mudo o en "Cargando…" para siempre).
+function PanelState({ loaded }: { loaded: boolean }) {
+  if (!loaded) {
+    return <div style={{ color:'#86868b', fontSize:12, padding:'8px 2px' }}>Cargando datos de AEMPS…</div>
+  }
+  return (
+ <div style={{
+      fontSize:12, color:'#6e6e73', padding:'14px 12px',
+      background:'#FAFAFA', border:'1px dashed #E5E7EB', borderRadius:10, lineHeight:1.5,
+    }}>
+      No se pudieron cargar los datos de AEMPS en este momento. La fuente CIMA
+      puede estar temporalmente no disponible; se reintenta automáticamente.
+ </div>
+  )
 }

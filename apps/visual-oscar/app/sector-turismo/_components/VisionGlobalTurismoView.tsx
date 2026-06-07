@@ -155,7 +155,7 @@ export function VisionGlobalTurismoView() {
     },
     {
       label: `Gasto total (${egatur?.last_period || '—'})`,
-      value: gastoTotal != null ? Math.round(gastoTotal / 1000) : null,
+      value: gastoTotal != null ? gastoTotal / 1000 : null,
       unit: 'mil M€',
       color: '#FCD34D',
       decimals: 1,

@@ -19,6 +19,7 @@ import { EMPRESAS_VIVIENDA, REGULADORES_VIVIENDA, PROGRAMAS_VIVIENDA } from '@/l
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
+import DemoBadge from '@/components/DemoBadge'
 
 interface ResumenResp {
   kpis: {
@@ -137,7 +138,7 @@ export default function SectorViviendaPage() {
           </Panel>
           <Panel
             title="Compraventas mensuales · Total nacional"
-            subtitle={compras ? `Suma 18 meses: ${compras.totales.total.toLocaleString('es-ES')} viviendas` : 'Cargando…'}
+            subtitle={compras ? `Suma ${compras.points.length} meses: ${compras.totales.total.toLocaleString('es-ES')} viviendas` : 'Cargando…'}
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=8169"
             sourceLabel="INE"
             sourceTooltip="Estadística Transmisiones Derechos Propiedad · INE"
@@ -150,7 +151,7 @@ export default function SectorViviendaPage() {
         {/* ROW 2: Distribución compraventas + IPVA Alquiler */}
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, marginBottom:14 }}>
           <Panel
-            title="Distribución de compraventas · 18 meses"
+            title={`Distribución de compraventas · ${compras ? compras.points.length : 18} meses`}
             subtitle="Por tipología de vivienda"
             sourceUrl="https://www.ine.es/dynt3/inebase/index.htm?padre=8169"
             sourceLabel="INE"
@@ -197,13 +198,13 @@ export default function SectorViviendaPage() {
         </div>
 
         {/* Politeia intel · housing_markets ZMT + tensión */}
-        <SectorIntelPanel sector="vivienda" />
+        <SectorIntelPanel sector="vivienda" accent={ACCENT} />
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos INE…</div>}
 
         {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre sector Vivienda */}
         <div style={{ marginTop: 18 }}>
-          <CuadernoEntityWidget slug="vivienda" name="Sector Vivienda" accentColor="#DC2626" />
+          <CuadernoEntityWidget slug="vivienda" name="Sector Vivienda" accentColor={ACCENT} />
         </div>
       </main>
     </div>
@@ -274,14 +275,17 @@ function PreciosLineChart({ points }: { points: Array<{ t: string; indice: numbe
             </span>
           )}
         </span>
-        {varValid.length > 0 && (
-          <span style={{ display:'flex', alignItems:'center', gap:6 }}>
-            <span style={{ color:'#86868b' }}>· Var. anual último periodo:</span>
-            <span style={{ color:'#16A34A', fontFamily:'var(--font-display)', fontWeight:700 }}>
-              +{varValid[varValid.length - 1].var_anual?.toFixed(1)}%
+        {varValid.length > 0 && (() => {
+          const lastVar = varValid[varValid.length - 1].var_anual ?? 0
+          return (
+            <span style={{ display:'flex', alignItems:'center', gap:6 }}>
+              <span style={{ color:'#86868b' }}>· Var. anual último periodo:</span>
+              <span style={{ color: lastVar > 0 ? '#16A34A' : '#DC2626', fontFamily:'var(--font-display)', fontWeight:700 }}>
+                {lastVar > 0 ? '+' : ''}{lastVar.toFixed(1)}%
+              </span>
             </span>
-          </span>
-        )}
+          )
+        })()}
       </div>
     </div>
   )
@@ -339,6 +343,7 @@ function CompraventasDonut({ totales }: { totales: { libre: number; protegida: n
   const stroke = 18
   const circ = 2 * Math.PI * radius
   const total1 = totales.libre + totales.protegida
+  if (total1 <= 0) return <div style={{ color:'#86868b', fontSize:12 }}>Sin datos</div>
   const segments1 = [
     { label: 'Libre', value: totales.libre, color:'#DB2777' },
     { label: 'Protegida', value: totales.protegida, color:'#FCA5A5' },
@@ -439,6 +444,10 @@ function AlquilerLineChart({ points }: { points: Array<{ t: string; indice: numb
 
 function ProgramasGrid() {
   return (
+    <>
+    <div style={{ marginBottom:8 }}>
+      <DemoBadge title="Programas y presupuestos · datos curados, no en vivo" />
+    </div>
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
       {PROGRAMAS_VIVIENDA.map(p => (
         <li key={p.programa} style={{
@@ -461,11 +470,16 @@ function ProgramasGrid() {
         </li>
       ))}
     </ul>
+    </>
   )
 }
 
 function EmpresasGrid() {
   return (
+    <>
+    <div style={{ marginBottom:8 }}>
+      <DemoBadge title="Capitalizaciones y fichas · datos curados, no en vivo" />
+    </div>
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:10 }}>
       {EMPRESAS_VIVIENDA.map(e => (
         <li key={e.nombre}>
@@ -484,11 +498,16 @@ function EmpresasGrid() {
         </li>
       ))}
     </ul>
+    </>
   )
 }
 
 function RegLista() {
   return (
+    <>
+    <div style={{ marginBottom:8 }}>
+      <DemoBadge title="Marco institucional · datos curados, no en vivo" />
+    </div>
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:8 }}>
       {REGULADORES_VIVIENDA.map(r => (
         <li key={r.nombre}>
@@ -505,6 +524,7 @@ function RegLista() {
         </li>
       ))}
     </ul>
+    </>
   )
 }
 
@@ -566,6 +586,10 @@ function AreasTematicas() {
     { titulo: 'Suelo finalista y urbanismo', desc: 'PGOU · revisiones LOTUR · transformación CT/MD · costas', color:'#0F766E' },
   ]
   return (
+    <>
+    <div style={{ marginBottom:8 }}>
+      <DemoBadge title="Taxonomía temática · datos curados, no en vivo" />
+    </div>
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:10 }}>
       {areas.map(a => (
         <li key={a.titulo} style={{
@@ -577,5 +601,6 @@ function AreasTematicas() {
         </li>
       ))}
     </ul>
+    </>
   )
 }

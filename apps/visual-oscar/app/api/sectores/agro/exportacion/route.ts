@@ -16,9 +16,11 @@ export async function GET() {
     getSerie('ESP', 'TX.VAL.AGRI.ZS.UN', 2000),
     getCrossCountry(PAISES, 'TX.VAL.AGRI.ZS.UN', year),
   ])
+  const esp = comparativa.find(c => c.iso3 === 'ESP')
   return NextResponse.json({
     serie_exp_esp: serie.filter(p => p.value != null).map(p => ({ t: String(p.year), v: p.value })),
     comparativa: comparativa.sort((a, b) => (b.value ?? 0) - (a.value ?? 0)),
+    year: esp?.year ?? year,
     fuente: 'World Bank · TX.VAL.AGRI.ZS.UN agricultural exports',
   }, { headers: { 'Cache-Control': 's-maxage=86400, stale-while-revalidate=172800' } })
 }

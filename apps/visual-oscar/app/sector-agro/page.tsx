@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
-// Sprint Cuaderno N2-wire · notas que mencionan "Agroalimentario"
+// Notas del Cuaderno que mencionan "Agroalimentario"
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import {
   EMPRESAS_AGRO, REGULADORES_AGRO, AREAS_AGRO, PROGRAMAS_AGRO,
@@ -66,6 +66,7 @@ interface RendimientoResp {
 interface ExportacionResp {
   serie_exp_esp: Array<{ t: string; v: number | null }>
   comparativa: Array<{ iso3: string; country: string; value: number | null }>
+  year?: number
 }
 
 export default function SectorAgroPage() {
@@ -79,6 +80,7 @@ export default function SectorAgroPage() {
   const [exportacion, setExportacion] = useState<ExportacionResp | null>(null)
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   const refresh = async () => {
     setLoading(true)
@@ -90,6 +92,7 @@ export default function SectorAgroPage() {
       fetch('/api/sectores/agro/exportacion').then(r => r.ok ? r.json() : null).catch(() => null),
     ])
     setResumen(r); setProduccion(p); setComparativa(c); setRendimiento(rd); setExportacion(e)
+    setError(!r && !p && !c && !rd && !e)
     setUpdatedAt(new Date()); setLoading(false)
   }
 
@@ -121,6 +124,20 @@ export default function SectorAgroPage() {
               value={resumen?.kpis.exportacion_agr_pct} unit="% total" decimals={2} accent="#FCA5A5"/>
           </>}
         />
+
+        {error && !loading && (
+          <div style={{
+            display:'flex', alignItems:'center', justifyContent:'space-between', gap:12,
+            background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:10,
+            padding:'12px 16px', margin:'0 0 14px', fontSize:13, color:'#991B1B',
+          }}>
+            <span>! No se pudieron cargar los datos de World Bank. Comprueba la conexión e inténtalo de nuevo.</span>
+            <button onClick={refresh} style={{
+              flexShrink:0, background:'#DC2626', color:'#fff', border:'none', borderRadius:7,
+              padding:'7px 14px', fontSize:12, fontWeight:700, cursor:'pointer',
+            }}>↻ Reintentar</button>
+          </div>
+        )}
 
         {/* ROW 1: Producción triple + Cereales */}
         <div style={{ display:'grid', gridTemplateColumns:'1.4fr 1fr', gap:14, marginBottom:14 }}>
@@ -173,7 +190,7 @@ export default function SectorAgroPage() {
             {exportacion && <ExportLineChart points={exportacion.serie_exp_esp}/>}
           </Panel>
           <Panel title="Comparativa exportaciones agro · % total"
-            subtitle={exportacion ? `Año ${exportacion.comparativa[0]?.value ? '2024' : '—'} · ranking 10 países` : 'Cargando…'}
+            subtitle={exportacion ? `Año ${exportacion.year ?? '—'} · ranking 10 países` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/TX.VAL.AGRI.ZS.UN"
             sourceLabel="Banco Mundial"
             sourceTooltip="Exportaciones agro · ranking comparativo"
@@ -218,7 +235,7 @@ export default function SectorAgroPage() {
 
         {loading && <div style={{ textAlign:'center', marginTop:14, fontSize:12, color:'#86868b' }}>Cargando datos World Bank…</div>}
 
-        {/* Sprint Cuaderno N2-wire · notas del Cuaderno sobre Agro */}
+        {/* Notas del Cuaderno sobre Agro */}
         <div style={{ marginTop: 18 }}>
           <CuadernoEntityWidget slug="agroalimentario" name="Sector Agroalimentario" accentColor="#16A34A" />
         </div>
@@ -347,6 +364,7 @@ function CerealChart({ points }: { points: Array<{ t: string; v: number | null }
 }
 
 function ComparativaTable({ items }: { items: ComparativaResp['items'] }) {
+  if (!items.length) return <div style={{ color:'#86868b', fontSize:12 }}>Sin datos</div>
   const maxPib = Math.max(...items.map(i => i.agro_pib_pct ?? 0))
   return (
     <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11.5 }}>
@@ -480,6 +498,7 @@ function ExportLineChart({ points }: { points: Array<{ t: string; v: number | nu
 }
 
 function ExportComparativa({ items }: { items: Array<{ iso3: string; country: string; value: number | null }> }) {
+  if (!items.length) return <div style={{ color:'#86868b', fontSize:12 }}>Sin datos</div>
   const max = Math.max(...items.map(i => i.value ?? 0))
   return (
     <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:7 }}>

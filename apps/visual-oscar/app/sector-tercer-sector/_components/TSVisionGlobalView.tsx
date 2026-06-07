@@ -168,8 +168,9 @@ export function TSVisionGlobalView() {
       : COUNTRY_NAMES[topCountryFacet.code] ?? topCountryFacet.code
     : null
 
-  // Total subvenciones robusto: sumar importe_eur del conector BDNS; respaldo en
-  // el resumen del endpoint (que puede venir a 0 por leer otro campo).
+  // Total subvenciones robusto: sumamos importe_eur de las concesiones BDNS;
+  // respaldo en el resumen del endpoint (que ya calcula el total sobre el mismo
+  // campo, así que coincide — el recompute es solo defensivo).
   const fdata = financiacion?.data ?? null
   const sumImporte = (fdata?.concesiones ?? []).reduce(
     (s, c) => s + (typeof c.importe_eur === 'number' ? c.importe_eur : 0),
@@ -193,19 +194,19 @@ export function TSVisionGlobalView() {
       footer: 'Directorio vivo · TS Organizaciones',
     },
     {
-      label: 'Ingresos agregados',
+      label: 'Ingresos agregados (est.)',
       value: Math.round(seedIngresos / 1_000_000),
       unit: 'M€',
       decimals: 0,
       color: '#FCD34D',
-      footer: 'Entidades cumbre · memorias (curado)',
+      footer: 'Estimación curada · entidades cumbre · memorias (no en vivo)',
     },
     {
-      label: 'Empleo directo',
+      label: 'Empleo directo (est.)',
       value: seedEmpleados,
       decimals: 0,
       color: '#7DD3FC',
-      footer: 'Entidades cumbre · plantilla (curado)',
+      footer: 'Estimación curada · entidades cumbre · plantilla (no en vivo)',
     },
     {
       label: 'Subvenciones (BDNS)',

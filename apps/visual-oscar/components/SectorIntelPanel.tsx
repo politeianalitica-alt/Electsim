@@ -84,8 +84,8 @@ export function SectorIntelPanel({
           color: '#6b7280',
         }}
       >
-        Sin inteligencia operativa disponible para <strong>{sector}</strong>. Ejecuta
-        el seed correspondiente (S7-S15) para poblar el tracker.
+        Sin datos operativos en vivo para este sector ahora mismo. El resto de
+        paneles de la página siguen activos.
       </div>
     )
   }

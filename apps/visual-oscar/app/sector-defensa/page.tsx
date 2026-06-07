@@ -176,8 +176,8 @@ export default function SectorDefensaPage() {
           nContratosUltimos90d: resumen.kpis.contratos_defensa_90d,
           importeContratos90dM: contratos.stats.importe_total_M,
           nSancionesRelevantes: 0,
-          nProgramasActivos: PROGRAMAS_DEFENSA.filter(p => p.estado === 'activo').length,
-          nProgramasEnRiesgo: PROGRAMAS_DEFENSA.filter(p => p.estado !== 'activo').length,
+          nProgramasActivos: PROGRAMAS_DEFENSA.filter(p => ['Operativo', 'En órbita', 'En entrega', 'Adjudicado'].includes(p.estado)).length,
+          nProgramasEnRiesgo: PROGRAMAS_DEFENSA.filter(p => ['En desarrollo', 'En construcción'].includes(p.estado)).length,
           cumplenOtanPct: otan?.cumplen_pct || 0,
           mediaOtan: otan?.media_otan || 0,
         })
@@ -189,7 +189,7 @@ export default function SectorDefensaPage() {
         })
         const topContrato = contratos.items.filter(c => c.importe_adjudicacion || c.importe_licitacion)
           .sort((a, b) => (b.importe_adjudicacion || b.importe_licitacion || 0) - (a.importe_adjudicacion || a.importe_licitacion || 0))[0]
-        const programaCritico = PROGRAMAS_DEFENSA.find(p => p.estado !== 'activo')
+        const programaCritico = PROGRAMAS_DEFENSA.find(p => ['En desarrollo', 'En construcción'].includes(p.estado))
         const briefing = generarBriefingDiario({
           posicionamiento: pos,
           threatRadar: radar,

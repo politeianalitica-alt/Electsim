@@ -89,7 +89,7 @@ export function NatoComplianceTable({ items, year, media_otan, cumplen_pct }: Pr
               </td>
               <td style={{ padding: '9px 10px', textAlign: 'center' }}>
                 <span style={{ fontSize: 11 }}>
-                  {it.pct_pib != null ? (it.pct_pib >= 2 ? '✓ Cumple' : `−0.${Math.abs(2 - (it.pct_pib ?? 0)).toFixed(2).replace('0.','').padStart(2,'0')} pp`) : '—'}
+                  {it.pct_pib != null ? (it.pct_pib >= 2 ? '✓ Cumple' : `−${(2 - it.pct_pib).toFixed(2)} pp`) : '—'}
                 </span>
               </td>
               <td style={{ padding: '9px 10px', textAlign: 'center' }}>

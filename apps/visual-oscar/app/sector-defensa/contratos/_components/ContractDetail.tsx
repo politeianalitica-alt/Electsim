@@ -137,7 +137,7 @@ export function ContractDetail({ contrato: c, onClose }: Props) {
           Análisis IA · Próximamente
         </div>
         <div style={{ fontSize: 11.5, color: '#6e6e73', lineHeight: 1.5 }}>
-          En Sprint 3 este panel mostrará un resumen generado automáticamente con contexto estratégico,
+          Próximamente este panel mostrará un resumen generado automáticamente con contexto estratégico,
           empresa adjudicataria y relevancia competitiva.
         </div>
       </div>

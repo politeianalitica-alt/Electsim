@@ -38,8 +38,6 @@ interface ResumenResp {
     mro_ecb: number | null
     bond_10y_esp: number | null; bond_10y_t?: string
     credito_pib_pct: number | null; credito_pib_year?: number
-    npl_pct: number | null; npl_year?: number
-    bank_capital_pct: number | null; bank_capital_year?: number
   }
   fetch_ms: number
 }
@@ -54,7 +52,6 @@ interface CreditoResp {
   serie_credito_pib: Array<{ t: string; v: number | null }>
   serie_npl: Array<{ t: string; v: number | null }>
   serie_capital: Array<{ t: string; v: number | null }>
-  serie_deuda_publica: Array<{ t: string; v: number | null }>
 }
 interface ComparativaResp {
   items: Array<{
@@ -104,7 +101,7 @@ export default function SectorBancaPage() {
           accent={ACCENT} accentDark={ACCENT_DARK}
           eyebrow="SECTORIAL · BANCA & SEGUROS · ECB SDW + WORLD BANK EN VIVO"
           title="Sistema financiero español en datos abiertos"
-          sub="Tipos del BCE (DFR, MRO) · EURIBOR 12M y 6M · Bono 10Y España · crédito al sector privado · NPL y capital bancario · comparativa europea · 10 entidades cotizadas (Santander, BBVA, CaixaBank, Sabadell, Bankinter, Mapfre, Catalana Occ., Línea Directa, Renta 4) y 7 reguladores (BdE, CNMV, DGSFP, BCE, EBA, EIOPA, AEB)."
+          sub="Tipos del BCE (DFR, MRO) · EURIBOR 12M y 6M · Bono 10Y España · crédito al sector privado · NPL y capital bancario · comparativa europea · 10 entidades cotizadas (Santander, BBVA, CaixaBank, Sabadell, Bankinter, Unicaja, Mapfre, Catalana Occ., Línea Directa, Renta 4) y 7 reguladores (BdE, CNMV, DGSFP, BCE, EBA, EIOPA, AEB)."
           updatedAt={updatedAt} fetchMs={resumen?.fetch_ms}
           onRefresh={refresh}
           kpis={<>
@@ -112,7 +109,7 @@ export default function SectorBancaPage() {
               label={`EURIBOR 12M (${resumen?.kpis.euribor_12m_t?.slice(0, 7) || ''})`}
               value={resumen?.kpis.euribor_12m} unit="%" decimals={3} accent="#FCD34D"/>
  <HeroKPI
-              label={`Tipo depósito BCE (${resumen?.kpis.dfr_ecb_t || ''})`}
+              label={`Tipo depósito BCE (${resumen?.kpis.dfr_ecb_t?.slice(0, 7) || ''})`}
               value={resumen?.kpis.dfr_ecb} unit="%" decimals={2} accent="#7DD3FC"
               sub={resumen?.kpis.mro_ecb != null ? `MRO ${resumen.kpis.mro_ecb}%` : ''}/>
  <HeroKPI
@@ -181,7 +178,7 @@ export default function SectorBancaPage() {
             {credito && <CreditoChart series={credito}/>}
  </Panel>
  <Panel title="Comparativa europea"
-            subtitle={comparativa ? `Año ${comparativa.year} · crédito %PIB y NPL` : 'Cargando…'}
+            subtitle={comparativa ? `Última observación disponible por país · crédito %PIB y NPL` : 'Cargando…'}
             sourceUrl="https://datos.bancomundial.org/indicador/FS.AST.PRVT.GD.ZS"
             sourceLabel="Banco Mundial"
             sourceTooltip="Comparativa europea · crédito y morosidad">
@@ -504,7 +501,7 @@ function CapitalChart({ points }: { points: Array<{ t: string; v: number | null 
 }
 
 function ComparativaTable({ items }: { items: ComparativaResp['items'] }) {
-  const maxCredito = Math.max(...items.map(i => i.credito_pib ?? 0))
+  const maxCredito = Math.max(...items.map(i => i.credito_pib ?? 0)) || 1
   return (
  <table style={{ width:'100%', borderCollapse:'collapse', fontSize:11.5 }}>
  <thead>
@@ -534,12 +531,20 @@ function ComparativaTable({ items }: { items: ComparativaResp['items'] }) {
  <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color:'#1F4E8C' }}>
                   {credito.toFixed(1)}%
  </span>
+                {it.credito_year != null && (
+ <span style={{ fontSize:9, color:'#86868b', fontFamily:'monospace', marginLeft:5 }}>{it.credito_year}</span>
+                )}
  </Td>
  <Td align="right">
                 {it.npl_pct != null ? (
+ <>
  <span style={{ fontFamily:'var(--font-display)', fontWeight:700, color: it.npl_pct < 3 ? '#16A34A' : it.npl_pct < 6 ? '#F97316' : '#DC2626' }}>
                     {it.npl_pct.toFixed(2)}%
  </span>
+                  {it.npl_year != null && (
+ <span style={{ fontSize:9, color:'#86868b', fontFamily:'monospace', marginLeft:5 }}>{it.npl_year}</span>
+                  )}
+ </>
                 ) : <span style={{ color:'#86868b' }}>—</span>}
  </Td>
  <Td>

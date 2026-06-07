@@ -134,10 +134,11 @@ export async function GET(req: NextRequest) {
   }
 
   items.sort((a,b) => (b.fecha_publicacion||'').localeCompare(a.fecha_publicacion||''))
+  const total = items.length
   items = items.slice(0, limit)
 
   return NextResponse.json({
-    items, total: items.length,
+    items, total, mostrados: items.length,
     stats: {
       importe_total_M: Math.round(items.reduce((s,it) => s + (it.importe_adjudicacion ?? it.importe_licitacion ?? 0), 0) / 100_000) / 10,
       por_fuente: items.reduce((acc: Record<string,number>, it) => { acc[it.fuente] = (acc[it.fuente]||0)+1; return acc }, {}),

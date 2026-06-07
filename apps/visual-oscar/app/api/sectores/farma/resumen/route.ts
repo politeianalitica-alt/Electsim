@@ -4,8 +4,8 @@
  * KPIs en vivo del sector farmacéutico para el hero del dashboard:
  *   - medicamentos_total       · total registrados en CIMA
  *   - medicamentos_comerc      · % comercializados
- *   - desabastecimientos_act   · problemas suministro activos
  *   - desabastecimientos_30d   · nuevos en últimos 30 días
+ *   - desabastecimientos_90d   · nuevos en últimos 90 días
  *
  * Cache CDN 30 min.
  */
