@@ -36,9 +36,11 @@ import type {
 import { ACCENT, ACCENT_DARK, formatEur } from './LicShared'
 import { LicFiltros } from './LicFiltros'
 import { LicResumen } from './LicResumen'
+import { LicRadarOportunidades } from './LicRadarOportunidades'
 import { LicResultados } from './LicResultados'
 import { LicFicha } from './LicFicha'
 import { LicMapaMundi } from './LicMapaMundi'
+import { LicCoberturaGlobal } from './LicCoberturaGlobal'
 
 const PAGE_SIZE = 30
 
@@ -74,6 +76,15 @@ function buildQuery(f: LicitacionesFiltros): string {
   if (f.q) sp.set('q', f.q)
   if (f.desde) sp.set('desde', f.desde)
   if (f.hasta) sp.set('hasta', f.hasta)
+  // Filtros de analista (sobre el enriquecimiento) — el endpoint ya los acepta.
+  if (f.aptoOng) sp.set('aptoOng', f.aptoOng)
+  if (f.diasMax != null) sp.set('diasMax', String(f.diasMax))
+  if (f.valorMin != null) sp.set('valorMin', String(f.valorMin))
+  if (f.valorMax != null) sp.set('valorMax', String(f.valorMax))
+  if (f.soloConDocs) sp.set('soloConDocs', '1')
+  if (f.soloAnalizable) sp.set('soloAnalizable', '1')
+  if (f.sectorTs) sp.set('sectorTs', f.sectorTs)
+  if (f.compradorTipo) sp.set('compradorTipo', f.compradorTipo)
   sp.set('page', String(f.page ?? 1))
   sp.set('pageSize', String(f.pageSize ?? PAGE_SIZE))
   return sp.toString()
@@ -253,6 +264,16 @@ export function TSLicitacionesView() {
         />
       )}
 
+      {/* Radar de oportunidades accionable (sobre la muestra cargada, sin re-fetch) */}
+      {!loading && data.licitaciones.length > 0 && (
+        <LicRadarOportunidades
+          items={data.licitaciones}
+          total={data.total}
+          onSelect={setSelectedId}
+          onApply={onChange}
+        />
+      )}
+
       {/* Mapa mundi de internacionales (solo si hay) */}
       <LicMapaMundi items={data.licitaciones} onPais={onPaisFromMap} />
 
@@ -275,6 +296,11 @@ export function TSLicitacionesView() {
             <LicFicha lic={selected} onClose={() => setSelectedId(null)} />
           </div>
         )}
+      </div>
+
+      {/* Cobertura de fuentes del agregador (Opportunity Graph) · contexto al final */}
+      <div style={{ marginTop: 14 }}>
+        <LicCoberturaGlobal />
       </div>
     </div>
   )

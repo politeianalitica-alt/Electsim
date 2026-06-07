@@ -51,6 +51,7 @@ import { IatiActivitiesPanel } from './IatiActivitiesPanel'
 import { CoopOrgProfile } from './CoopOrgProfile'
 import { CoopYearlyHeatmap } from './CoopYearlyHeatmap'
 import { CoopTopFlows } from './CoopTopFlows'
+import { CoopOportunidadesRelacionadas } from './CoopOportunidadesRelacionadas'
 
 interface FilterState {
   country: { iso: string; name: string } | null
@@ -212,6 +213,29 @@ export function TSCooperacionView() {
           </button>
         </div>
       )}
+
+      {/* Puente contextual · oportunidades relacionadas (cockpit). Reacciona al
+          filtro de país receptor / sector DAC activo; sin filtro, CTA genérico a
+          Licitaciones. */}
+      <Panel
+        title="Oportunidades relacionadas"
+        subtitle={
+          filters.country
+            ? `Puente al agregador de oportunidades · subvenciones, licitaciones y grants de cooperación con ${filters.country.name}`
+            : filters.sector
+              ? `Puente al agregador de oportunidades · sector CAD/DAC ${filters.sector.name}`
+              : 'Selecciona un país receptor o un sector CAD/DAC para ver oportunidades de financiación relacionadas'
+        }
+        sourceUrl="https://www.infosubvenciones.es"
+        sourceLabel="Agregador oportunidades"
+        sourceTooltip="BDNS subvenciones + licitaciones (PLACE/TED/SEDIA/WorldBank) · scoring de aptitud ONG"
+        apiUrl="/api/tercer-sector/oportunidades"
+      >
+        <CoopOportunidadesRelacionadas
+          pais={filters.country?.name ?? null}
+          sector={filters.sector?.name ?? null}
+        />
+      </Panel>
 
       {/* 2 · Países receptores: mapa + ranking. */}
       <Panel

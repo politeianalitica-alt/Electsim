@@ -42,9 +42,11 @@ import { HeroKpis, type HeroKpiItem } from '../../sector-energia/_components/sha
 import type { TercerSectorTab } from './TercerSectorShell'
 import { TS_ACCENT, TS_ACCENT_DARK } from './TSGlobalShared'
 import { TSGlobalExecRead, type ExecReadSignals } from './TSGlobalExecRead'
+import { TSGlobalAlertasAnalista } from './TSGlobalAlertasAnalista'
 import { TSGlobalCoopSnapshot, type IatiOverviewEnvelope } from './TSGlobalCoopSnapshot'
 import { TSGlobalFinanciacionSnapshot, type FinanciacionEnvelope } from './TSGlobalFinanciacionSnapshot'
 import { TSGlobalLicitacionesSnapshot, type LicitacionesResponse } from './TSGlobalLicitacionesSnapshot'
+import { TSGlobalTerritorioSnapshot } from './TSGlobalTerritorioSnapshot'
 
 const REFRESH_MS = 60 * 60 * 1000
 
@@ -257,6 +259,13 @@ export function TSVisionGlobalView() {
         }
       />
 
+      {/* ───── Fila de alertas accionables del analista (lo primero) ─────
+          Hace su propio fetch (oportunidades scoreMin=55 + territorio); cada
+          tarjeta enlaza a la pestaña accionable vía onNavigate (?ts=). ───── */}
+      <div style={{ marginBottom: 14 }}>
+        <TSGlobalAlertasAnalista onNavigate={onNavigate} />
+      </div>
+
       {/* ───── Lectura ejecutiva · veredicto de cabecera ───── */}
       <div style={{ marginBottom: 14 }}>
         <TSGlobalExecRead signals={execSignals} loading={!loaded} />
@@ -274,6 +283,8 @@ export function TSVisionGlobalView() {
         <TSGlobalCoopSnapshot env={iati} loading={!loaded} onNavigate={onNavigate} />
         <TSGlobalFinanciacionSnapshot env={financiacion} loading={!loaded} onNavigate={onNavigate} />
         <TSGlobalLicitacionesSnapshot res={licitaciones} loading={!loaded} onNavigate={onNavigate} />
+        {/* Snapshot territorial (top-5 CCAA · fetch propio a /territorio) ───── */}
+        <TSGlobalTerritorioSnapshot onNavigate={onNavigate} />
       </div>
 
       {/* ───── Mapa OSINT del sector (preservado) ───── */}

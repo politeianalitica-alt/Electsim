@@ -33,6 +33,8 @@ import { FinConvocatoriasTable } from './FinConvocatoriasTable'
 import { FinConcesiones } from './FinConcesiones'
 import { FinGrantsUe } from './FinGrantsUe'
 import { FinIrpfCard } from './FinIrpfCard'
+import { FinPipelineOportunidades } from './FinPipelineOportunidades'
+import { FinanciadoresActivos } from './FinanciadoresActivos'
 
 const ENDPOINT = '/api/tercer-sector/financiacion?pages=2'
 
@@ -140,6 +142,9 @@ export function TSFinanciacionView() {
         }
       />
 
+      {/* Pipeline de oportunidades · panel superior del cockpit (fuente propia) */}
+      <FinPipelineOportunidades />
+
       {/* Degradación honesta por fuente */}
       <FinFuentesError errores={fuentesError} />
 
@@ -190,6 +195,19 @@ export function TSFinanciacionView() {
           ) : (
             <FinConcesiones concesiones={concesiones} />
           )}
+        </Panel>
+      </div>
+
+      {/* Financiadores activos · quién financia más AHORA (group by organismo) */}
+      <div style={{ marginBottom: 14 }}>
+        <Panel
+          title="Financiadores activos · quién financia más ahora"
+          subtitle="Agregado por organismo · oportunidades abiertas + concesiones recientes"
+          sourceUrl="https://www.infosubvenciones.es/bdnstrans/GE/es/index"
+          sourceLabel="BDNS · SEDIA · cooperación"
+          sourceTooltip="Agregación de oportunidades del cockpit + concesiones BDNS"
+        >
+          <FinanciadoresActivos concesiones={concesiones} />
         </Panel>
       </div>
 
