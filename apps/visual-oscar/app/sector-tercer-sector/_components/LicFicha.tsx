@@ -17,7 +17,7 @@
  *
  * Cero emojis · Unicode geométrico.
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { LicitacionNormalizada } from '@/lib/tercer-sector/licitaciones/types'
 import type { AnalizarPliegoResponse } from '@/lib/tercer-sector/analizar-pliego'
 import {
@@ -52,10 +52,21 @@ export function LicFicha({ lic, onClose }: Props) {
   // Estado de análisis por URL de documento.
   const [analisis, setAnalisis] = useState<Record<string, AnalisisState>>({})
 
+  // Guards de carrera: el POST de análisis puede tardar; descartamos la
+  // respuesta si se cambió de licitación o se desmontó el componente entretanto.
+  const activeLicId = useRef(lic?.id)
+  const mounted = useRef(true)
   // Al cambiar de licitación, limpia los análisis previos.
   useEffect(() => {
+    activeLicId.current = lic?.id
     setAnalisis({})
   }, [lic?.id])
+  useEffect(
+    () => () => {
+      mounted.current = false
+    },
+    [],
+  )
 
   if (!lic) {
     return (
@@ -68,6 +79,7 @@ export function LicFicha({ lic, onClose }: Props) {
   }
 
   const analizar = async (url: string, noCache: boolean) => {
+    const myLic = lic.id
     setAnalisis((prev) => ({ ...prev, [url]: { loading: true, res: prev[url]?.res ?? null, netError: null } }))
     try {
       const r = await fetch('/api/tercer-sector/licitaciones/analizar', {
@@ -76,13 +88,16 @@ export function LicFicha({ lic, onClose }: Props) {
         body: JSON.stringify({ url, titulo: lic.titulo, comprador: lic.comprador, noCache }),
       })
       const j = (await r.json()) as AnalizarPliegoResponse
+      if (!mounted.current || activeLicId.current !== myLic) return
       setAnalisis((prev) => ({ ...prev, [url]: { loading: false, res: j, netError: null } }))
     } catch (e: unknown) {
+      if (!mounted.current || activeLicId.current !== myLic) return
       setAnalisis((prev) => ({ ...prev, [url]: { loading: false, res: null, netError: String((e as Error)?.message ?? e) } }))
     }
   }
 
   const fuenteUrl = (FUENTES as Record<string, { url: string }>)[lic.fuente]?.url
+  const docs = lic.documentos ?? []
 
   return (
     <section
@@ -145,16 +160,16 @@ export function LicFicha({ lic, onClose }: Props) {
       {/* Documentos */}
       <div>
         <p style={{ margin: '0 0 8px', fontSize: 10.5, color: '#64748b', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-          Documentos {lic.documentos.length > 0 ? `(${lic.documentos.length})` : ''}
+          Documentos {docs.length > 0 ? `(${docs.length})` : ''}
         </p>
 
-        {lic.documentos.length === 0 ? (
+        {docs.length === 0 ? (
           <p style={{ margin: 0, fontSize: 11.5, color: '#94a3b8' }}>
             Esta fuente no expone documentos descargables en el listado. Abre la ficha oficial para acceder a los pliegos.
           </p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {lic.documentos.map((doc, i) => {
+            {docs.map((doc, i) => {
               const st = analisis[doc.url]
               const fmt = (doc.formato || '').toLowerCase()
               const analizable = ANALIZABLE.has(fmt)
