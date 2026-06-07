@@ -28,11 +28,13 @@ interface IatiOrgsTableProps {
   orgs: IatiOrg[]
   selectedOrgRef?: string | null
   onSelectOrg?: (ref: string, name: string) => void
+  /** Sprint IATI-MAX · abre el drawer de perfil de la ONGD (separado del drill). */
+  onOpenProfile?: (ref: string, name: string) => void
 }
 
 type SortKey = 'datasets' | 'name'
 
-export function IatiOrgsTable({ orgs, selectedOrgRef, onSelectOrg }: IatiOrgsTableProps) {
+export function IatiOrgsTable({ orgs, selectedOrgRef, onSelectOrg, onOpenProfile }: IatiOrgsTableProps) {
   const [q, setQ] = useState('')
   const [sort, setSort] = useState<SortKey>('datasets')
 
@@ -112,6 +114,7 @@ export function IatiOrgsTable({ orgs, selectedOrgRef, onSelectOrg }: IatiOrgsTab
               <Th style={{ textAlign: 'left' }}>Ref. IATI</Th>
               <Th style={{ textAlign: 'left' }}>Tipo</Th>
               <Th style={{ textAlign: 'right' }}>Datasets</Th>
+              {onOpenProfile && <Th style={{ textAlign: 'right' }}>Perfil</Th>}
             </tr>
           </thead>
           <tbody>
@@ -158,12 +161,39 @@ export function IatiOrgsTable({ orgs, selectedOrgRef, onSelectOrg }: IatiOrgsTab
                       {fmtInt(o.dataset_count)}
                     </span>
                   </Td>
+                  {onOpenProfile && (
+                    <Td style={{ textAlign: 'right' }}>
+                      {o.iati_ref ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            if (o.iati_ref) onOpenProfile(o.iati_ref, o.name)
+                          }}
+                          aria-label={`Abrir perfil de ${o.name}`}
+                          style={{
+                            background: '#fff',
+                            border: '1px solid ' + ACCENT,
+                            color: ACCENT_DARK,
+                            borderRadius: 6,
+                            padding: '3px 8px',
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Ver
+                        </button>
+                      ) : (
+                        <span style={{ fontSize: 10, color: '#CBD5E1' }}>—</span>
+                      )}
+                    </Td>
+                  )}
                 </tr>
               )
             })}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={4} style={{ padding: 20, textAlign: 'center', color: '#94A3B8', fontSize: 12 }}>
+                <td colSpan={onOpenProfile ? 5 : 4} style={{ padding: 20, textAlign: 'center', color: '#94A3B8', fontSize: 12 }}>
                   Sin coincidencias para “{q}”.
                 </td>
               </tr>

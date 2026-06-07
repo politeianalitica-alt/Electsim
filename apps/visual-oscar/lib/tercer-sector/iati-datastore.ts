@@ -59,6 +59,15 @@ import {
   resolveCountryName,
   resolveSectorName,
 } from './iati-codelists'
+import {
+  acquireSlot,
+  dedupeInFlight,
+  noteCacheHit,
+  noteError,
+  noteRateLimited429,
+  noteRequest,
+  withRetry,
+} from './iati-rate-limit'
 
 const BASE = 'https://api.iatistandard.org/datastore'
 const PUBLIC_URL = 'https://iatistandard.org/en/using-data/iati-tools-and-resources/iati-datastore/'
@@ -84,7 +93,10 @@ export function _clearDatastoreCache(): void {
 
 function getCached<T>(key: string): T | null {
   const hit = _cache.get(key)
-  if (hit && Date.now() <= hit.expires) return hit.value as T
+  if (hit && Date.now() <= hit.expires) {
+    noteCacheHit()
+    return hit.value as T
+  }
   return null
 }
 function setCached(key: string, value: unknown): void {
@@ -316,10 +328,12 @@ interface SolrFetchResult {
   json?: unknown
   /** Código de error normalizado para la degradación honesta. */
   error?: string
+  /** Flag para `withRetry()` (true = 429/5xx/timeout, reintenta). */
+  retryable?: boolean
 }
 
 /** Una llamada Solr cruda con auth + manejo de 401/403/429. Nunca lanza. */
-async function solrFetch(
+async function _solrFetchRaw(
   core: 'activity' | 'transaction' | 'budget',
   params: URLSearchParams,
   apiKey: string,
@@ -340,19 +354,55 @@ async function solrFetch(
     clearTimeout(t)
 
     if (r.status === 401 || r.status === 403) {
+      noteError()
       return { ok: false, error: `unauthorized · HTTP ${r.status} · IATI_API_KEY inválida o sin permisos` }
     }
-    if (r.status === 429) return { ok: false, error: 'rate_limited · IATI Datastore (tier Exploratory 5/min)' }
-    if (!r.ok) return { ok: false, error: `http_${r.status}` }
+    if (r.status === 429) {
+      noteRateLimited429()
+      return { ok: false, error: 'rate_limited · IATI Datastore', retryable: true }
+    }
+    if (r.status >= 500 && r.status < 600) {
+      noteError()
+      return { ok: false, error: `http_${r.status}`, retryable: true }
+    }
+    if (!r.ok) {
+      noteError()
+      return { ok: false, error: `http_${r.status}` }
+    }
     const json: unknown = await r.json()
     return { ok: true, json }
   } catch (e: unknown) {
-    const msg =
-      (e as Error)?.name === 'AbortError'
-        ? 'timeout'
-        : String((e as Error)?.message ?? e).slice(0, 160)
-    return { ok: false, error: msg }
+    noteError()
+    const isAbort = (e as Error)?.name === 'AbortError'
+    const msg = isAbort ? 'timeout' : String((e as Error)?.message ?? e).slice(0, 160)
+    return { ok: false, error: msg, retryable: isAbort }
   }
+}
+
+/**
+ * Wrapper alrededor de `_solrFetchRaw` que aplica RESPETO de los Terms of Use
+ * IATI: token bucket (rate-limit), dedupe in-flight y reintentos con backoff
+ * exponencial en 429/5xx. Garantiza que dos peticiones idénticas concurrentes
+ * solo golpean la API una vez, y que respetamos los límites declarados en
+ * `IATI_RATE_PER_SEC` / `IATI_RATE_PER_MIN`.
+ */
+async function solrFetch(
+  core: 'activity' | 'transaction' | 'budget',
+  params: URLSearchParams,
+  apiKey: string,
+  timeoutMs: number,
+): Promise<SolrFetchResult> {
+  noteRequest()
+  const queryKey = `${core}?${params.toString()}`
+  return dedupeInFlight<SolrFetchResult>(queryKey, () =>
+    withRetry<SolrFetchResult>(
+      async () => {
+        await acquireSlot()
+        return _solrFetchRaw(core, params, apiKey, timeoutMs)
+      },
+      { maxRetries: 3, baseMs: 1_000, factor: 2, jitter: 0.3 },
+    ),
+  )
 }
 
 /** Clampa rows al rango Solr [1,1000]. */

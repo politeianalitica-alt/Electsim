@@ -48,6 +48,9 @@ import { IatiSectoresChart } from './IatiSectoresChart'
 import { IatiOrgsTable } from './IatiOrgsTable'
 import { IatiTimelineChart } from './IatiTimelineChart'
 import { IatiActivitiesPanel } from './IatiActivitiesPanel'
+import { CoopOrgProfile } from './CoopOrgProfile'
+import { CoopYearlyHeatmap } from './CoopYearlyHeatmap'
+import { CoopTopFlows } from './CoopTopFlows'
 
 interface FilterState {
   country: { iso: string; name: string } | null
@@ -66,6 +69,8 @@ export function TSCooperacionView() {
   const [reloadKey, setReloadKey] = useState(0)
 
   const [filters, setFilters] = useState<FilterState>({ country: null, sector: null, org: null })
+  // Sprint IATI-MAX · drawer del perfil ONGD (al doble-click en la tabla).
+  const [profileOrg, setProfileOrg] = useState<{ ref: string; name: string } | null>(null)
 
   // Carga inicial: overview + orgs (keyless) + codelists (keyless), en paralelo.
   useEffect(() => {
@@ -288,6 +293,7 @@ export function TSCooperacionView() {
             orgs={orgs?.orgs ?? []}
             selectedOrgRef={filters.org?.ref ?? null}
             onSelectOrg={setOrg}
+            onOpenProfile={(ref, name) => setProfileOrg({ ref, name })}
           />
         )}
       </Panel>
@@ -305,6 +311,42 @@ export function TSCooperacionView() {
           reportingOrg={filters.org?.ref ?? null}
           recipientCountry={filters.country?.iso ?? null}
         />
+      </Panel>
+
+      {/* 5b · Heatmap años × países · Sprint IATI-MAX (Full Access). */}
+      <Panel
+        title="Heatmap años × países"
+        subtitle={
+          datastoreMode
+            ? 'Desembolsos EUR por (año × país receptor) · top países por importe acumulado · refleja el filtro de ONGD si lo hay'
+            : 'Requiere IATI_API_KEY (Datastore) para el heatmap por año × país'
+        }
+        sourceUrl="https://iatistandard.org"
+        sourceLabel="IATI Datastore"
+        sourceTooltip="IATI Datastore · transaction core · agregado por (año, país)"
+        apiUrl="/api/tercer-sector/iati/yearly-disbursements"
+      >
+        <CoopYearlyHeatmap
+          reportingOrg={filters.org?.ref ?? null}
+          yearsBack={8}
+          topN={12}
+        />
+      </Panel>
+
+      {/* 5c · Top flujos donante→receptor · Sprint IATI-MAX (Full Access). */}
+      <Panel
+        title="Top flujos ONGD ES → país receptor"
+        subtitle={
+          datastoreMode
+            ? 'Top 20 flujos por importe EUR desembolsado · barras proporcionales (escala log)'
+            : 'Requiere IATI_API_KEY (Datastore) para el ranking de flujos'
+        }
+        sourceUrl="https://iatistandard.org"
+        sourceLabel="IATI Datastore"
+        sourceTooltip="IATI Datastore · transaction core · top (donor_ref → recipient_country)"
+        apiUrl="/api/tercer-sector/iati/top-flows"
+      >
+        <CoopTopFlows topN={20} />
       </Panel>
 
       {/* 6 · Actividades (drill). */}
@@ -334,6 +376,15 @@ export function TSCooperacionView() {
         Codelists (Sector DAC, Country · keyless). {nOrgsReportantes != null && <>Directorio: {fmtInt(nOrgsReportantes)} ONGD españolas reportantes. </>}
         Los importes EUR son un mínimo comparable: solo se agregan valores ya en EUR (no se convierte divisa).
       </p>
+
+      {/* Drawer perfil ONGD · Sprint IATI-MAX. */}
+      {profileOrg && (
+        <CoopOrgProfile
+          orgRef={profileOrg.ref}
+          orgName={profileOrg.name}
+          onClose={() => setProfileOrg(null)}
+        />
+      )}
     </div>
   )
 }
