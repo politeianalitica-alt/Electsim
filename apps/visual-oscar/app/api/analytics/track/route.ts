@@ -3,7 +3,7 @@ import { track } from "@/lib/analytics/analytics-client";
 import { currentUser } from "@/lib/auth/auth-server";
 
 export const runtime = "nodejs";
-export const maxDuration = 10;
+// maxDuration omitido → usa el default ({}) para reducir configuraciones Vercel
 
 /**
  * POST /api/analytics/track — recibe eventos del cliente, los enriquece con

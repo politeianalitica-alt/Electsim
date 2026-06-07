@@ -1,0 +1,214 @@
+/**
+ * Tipos del agregador multinivel de licitaciones · Tercer Sector v3 · TS2-lic-src
+ *
+ * Shape COMÚN al que todos los conectores normalizan. La pieza central de la
+ * vista de Licitaciones es un buscador exhaustivo que va de CCAA a organismos
+ * internacionales, así que el modelo tiene que ser lo bastante genérico para
+ * absorber: ATOM CODICE/UBL (PLACE), JSON de subvenciones (BDNS), OCDS (UK,
+ * Tenders.guru, World Bank), search-api de SEDIA, y TED v3.
+ *
+ * Principio: NUNCA inventar campos. Lo que la fuente no da → null / []. Cada
+ * conector devuelve un `SourceResult` (envelope honesto con ok/error) para que
+ * el endpoint pueda reportar `fuentes_ok` / `fuentes_error` sin adivinar.
+ */
+
+/**
+ * Nivel administrativo de la licitación. Determina el "ángulo" en la UI
+ * (chips de filtro) y permite priorizar el ángulo tercer sector / cooperación.
+ */
+export type NivelLicitacion =
+  | 'ccaa' // comunidad autónoma / entidad local española
+  | 'nacional_es' // administración general del Estado (ES)
+  | 'ue' // instituciones de la Unión Europea (TED, SEDIA grants)
+  | 'pais_extranjero' // gobierno central de otro país (UK, etc.)
+  | 'regional_extranjero' // estado/provincia/región fuera de España
+  | 'org_internacional' // organización internacional (World Bank, UNGM, BID…)
+
+/** Tipo de documento adjunto a una licitación (pliego, anexo, etc.). */
+export type TipoDocumento =
+  | 'pliego' // pliego de cláusulas administrativas / técnicas
+  | 'anuncio' // anuncio de licitación / nota
+  | 'anexo' // anexos, formularios, modelos
+  | 'aclaracion' // aclaraciones, preguntas y respuestas
+  | 'adjudicacion' // resolución de adjudicación
+  | 'otro'
+
+/** Documento de pliego/anuncio. `formato` es la extensión normalizada (pdf, docx…). */
+export interface DocumentoLicitacion {
+  nombre: string
+  url: string
+  /** Extensión normalizada en minúsculas: pdf, docx, odt, xlsx, html, xml, zip, desconocido. */
+  formato: string
+  tipo: TipoDocumento
+}
+
+/**
+ * Etiqueta de encaje para tercer sector (output del scoring de oportunidades).
+ * `incierta` cuando faltan datos clave (no se inventa aptitud).
+ */
+export type ScoreLabel = 'alta' | 'media' | 'baja' | 'incierta'
+
+/** Tramo de valor estimado (para chips/filtros rápidos en la UI). */
+export type ValorBucket = 'micro' | 'pequena' | 'media' | 'grande' | 'mega' | 'desconocido'
+
+/** Naturaleza del comprador / órgano de contratación (derivada de nombre + nivel). */
+export type CompradorTipo =
+  | 'ayuntamiento' // entidad local española (ayuntamiento, concello, ajuntament, diputación)
+  | 'ccaa' // comunidad autónoma / consejería / ente autonómico
+  | 'age' // administración general del Estado (ES)
+  | 'ue' // instituciones de la Unión Europea
+  | 'org_internacional' // organización internacional (World Bank, BID, UNGM…)
+  | 'otro'
+
+/** Riesgo del pliego según el scoring (reutiliza el de OportunidadTS). */
+export type RiesgoPliego = 'bajo' | 'medio' | 'alto' | 'incierto'
+
+/**
+ * Licitación normalizada — shape común del agregador.
+ *
+ * `id` es estable y prefijado por fuente (ej. `place:19627132`, `ted:123-2026`)
+ * para dedup determinista cross-source. `valor_eur` es el importe ya convertido
+ * a euros cuando se conoce la moneda (si no, null y se conserva `moneda`).
+ */
+export interface LicitacionNormalizada {
+  id: string
+  titulo: string
+  /** Órgano de contratación / comprador. */
+  comprador: string
+  nivel: NivelLicitacion
+  /** Nombre de país legible (ej. "España", "Reino Unido"). */
+  pais: string
+  /** Región / CCAA / estado subnacional, si la fuente lo da. */
+  region: string | null
+  /** Valor estimado en EUR (convertido si hace falta). null si desconocido. */
+  valor_eur: number | null
+  /** Moneda original del importe (ISO-4217, ej. "EUR", "GBP", "USD"). */
+  moneda: string
+  /** Código CPV principal (8 dígitos) si está disponible. */
+  cpv: string | null
+  /** Fecha/plazo límite de presentación (ISO-8601) si se conoce. */
+  plazo: string | null
+  /** Fecha de publicación (ISO-8601). */
+  fecha_pub: string | null
+  /** URL al detalle / ficha de la licitación. */
+  url: string
+  /** Identificador de la fuente (ver `FuenteLicitacion`). */
+  fuente: FuenteLicitacion
+  /** Documentos de pliego/anuncio detectados. */
+  documentos: DocumentoLicitacion[]
+  /** Idioma principal del anuncio (ISO-639-1, ej. "es", "en"). */
+  idioma: string
+
+  // ── Enriquecimiento de analista (OPCIONAL · lo rellena `enrichLicitacionTS`) ──
+  // Todos opcionales para no romper a los conectores: una licitación cruda (sin
+  // enriquecer) sigue siendo un `LicitacionNormalizada` válido. La fuente de
+  // verdad del scoring es `lib/tercer-sector/oportunidades/scoring.ts`.
+
+  /** Categoría de tercer sector inferida (servicios sociales, infancia…). null si no encaja. */
+  categoria_ts?: string | null
+  /** Puntuación de encaje ONG 0-100 (del scoring). null si no se pudo calcular. */
+  score_ong?: number | null
+  /** Etiqueta de encaje derivada del score. */
+  score_label?: ScoreLabel
+  /** Motivos legibles del score (por qué encaja / no encaja). */
+  razones_score?: string[]
+  /** Días naturales hasta el plazo (negativo = vencida). null si no hay plazo. */
+  dias_restantes?: number | null
+  /** Tramo de valor estimado (para chips/filtros rápidos). */
+  valor_bucket?: ValorBucket
+  /** Naturaleza del comprador (ayuntamiento, ccaa, age…). */
+  comprador_tipo?: CompradorTipo
+  /** Riesgo del pliego (reusa el `riesgo` del scoring). */
+  riesgo_pliego?: RiesgoPliego
+}
+
+/** Identificador canónico de cada conector / fuente. */
+export type FuenteLicitacion =
+  | 'place' // PLACE/PLACSP ATOM (ES + CCAA)
+  | 'bdns' // BDNS subvenciones (ES)
+  | 'ted' // TED — Tenders Electronic Daily (UE)
+  | 'sedia' // EU Funding & Tenders (SEDIA grants)
+  | 'worldbank' // World Bank procurement notices
+  | 'uk-ocds' // UK Find a Tender (OCDS)
+  | 'tendersguru' // Tenders.guru (multi-país)
+  | 'opentender' // OpenTender.eu
+  | 'grantsgov' // Grants.gov — US federal grants (keyless)
+  | 'prozorro' // Prozorro — Ucrania (keyless)
+  | 'austender' // AusTender — Australia (OCDS, keyless)
+  | 'secop' // SECOP II — Colombia (Socrata, keyless)
+  | 'dncp' // DNCP — Paraguay (OCDS)
+
+/**
+ * Envelope por-fuente. Cada conector devuelve esto: o bien `ok:true` con sus
+ * licitaciones normalizadas, o `ok:false` con un error legible (degradación
+ * honesta — sin lanzar, sin inventar). `fetched_at` y `source_url` para trazas.
+ */
+export interface SourceResult {
+  fuente: FuenteLicitacion
+  ok: boolean
+  licitaciones: LicitacionNormalizada[]
+  error?: string
+  fetched_at: string
+  source_url: string
+  /** Total reportado por la fuente (puede ser > licitaciones.length por paginación). */
+  total_reported?: number
+}
+
+/** Filtros del agregador (mapean 1:1 a los query params del endpoint). */
+export interface LicitacionesFiltros {
+  nivel?: NivelLicitacion
+  /** Código de país ISO-2 (ej. "es", "gb") o nombre; el conector decide. */
+  pais?: string
+  /** Código/categoría CPV (prefijo, ej. "85" salud, "853" servicios sociales). */
+  cpv?: string
+  /** Texto libre (busca en título + comprador). */
+  q?: string
+  /** Fecha desde (YYYY-MM-DD) sobre fecha de publicación. */
+  desde?: string
+  /** Fecha hasta (YYYY-MM-DD) sobre fecha de publicación. */
+  hasta?: string
+  /** Página 1-based para la respuesta paginada. */
+  page?: number
+  /** Tamaño de página (default 30, clamp 1-100). */
+  pageSize?: number
+
+  // ── Filtros de analista (sobre el enriquecimiento) ──
+  /** Encaje ONG mínimo: filtra por `score_label` (alta/media/baja/incierta). */
+  aptoOng?: ScoreLabel
+  /** Días máximos hasta el plazo (descarta vencidas y demasiado lejanas). */
+  diasMax?: number
+  /** Valor estimado mínimo en EUR. */
+  valorMin?: number
+  /** Valor estimado máximo en EUR. */
+  valorMax?: number
+  /** Solo licitaciones con al menos un documento adjunto. */
+  soloConDocs?: boolean
+  /** Solo licitaciones con algún documento analizable (pdf/docx/xlsx/html). */
+  soloAnalizable?: boolean
+  /** Categoría de tercer sector (substring sobre `categoria_ts`). */
+  sectorTs?: string
+  /** Naturaleza del comprador (ayuntamiento, ccaa, age, ue, org_internacional, otro). */
+  compradorTipo?: CompradorTipo
+}
+
+/** Respuesta del endpoint `/api/tercer-sector/licitaciones`. */
+export interface LicitacionesResponse {
+  licitaciones: LicitacionNormalizada[]
+  total: number
+  page: number
+  page_size: number
+  por_nivel: Record<string, number>
+  por_fuente: Record<string, number>
+  fuentes_ok: FuenteLicitacion[]
+  fuentes_error: { fuente: FuenteLicitacion; error: string }[]
+  fetched_at: string
+}
+
+/** Opciones comunes de fetch para los conectores. */
+export interface ConnectorOpts {
+  filtros?: LicitacionesFiltros
+  /** Timeout por fuente en ms (default corto · 8s). El fan-out es paralelo. */
+  timeoutMs?: number
+  /** Saltar caché en memoria. */
+  noCache?: boolean
+}

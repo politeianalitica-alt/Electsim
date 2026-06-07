@@ -1,11 +1,19 @@
+# CONFIG CANÓNICA Railway · servicio `api` (Sprint Railway R1).
+# Se eliminó railway.json para acabar con la deriva de config: discrepaban en
+# healthcheck (/health vs /api/system/health) y en --workers. El endpoint real
+# es /health (api/main.py:152). Arquitectura completa: docs/RAILWAY.md.
+
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile.railway"
 
 [deploy]
-startCommand = "sh -c 'uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers 2'"
+# Nº de workers controlado por env (WEB_CONCURRENCY) para right-sizing según la
+# CPU del plan sin tocar el repo. Default 2.
+startCommand = "sh -c 'uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8000} --workers ${WEB_CONCURRENCY:-2}'"
 healthcheckPath = "/health"
-healthcheckTimeout = 30
+# 100s de gracia en deploy: el arranque carga 27 routers; /health es liveness.
+healthcheckTimeout = 100
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5
 
@@ -15,12 +23,12 @@ restartPolicyMaxRetries = 5
 minInstances = 1
 maxInstances = 2
 
-# Variables que se setean desde el dashboard Railway · documentadas en
-# docs/FICHAS_DINAMICAS_SETUP.md
-#
-#   DATABASE_URL              · Postgres conexión
+# Variables que se setean desde el dashboard Railway (ver docs/RAILWAY.md):
+#   DATABASE_URL              · Postgres interno (postgres.railway.internal)
 #   OPENAI_API_KEY            · clave Groq
 #   OPENAI_BASE_URL           · https://api.groq.com/openai/v1
 #   ELECTSIM_OPENAI_MODEL     · llama-3.3-70b-versatile
+#   WEB_CONCURRENCY           · nº workers uvicorn (default 2)
+#   DB_POOL_SIZE / DB_MAX_OVERFLOW · pool por instancia (default 5/10)
 #   OPENCORPORATES_API_KEY    · opcional (subir limit gratuito)
 #   SABI_API_KEY              · opcional (cuando se contrate)

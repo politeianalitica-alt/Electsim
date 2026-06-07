@@ -6,7 +6,7 @@ import { EMPRESAS_COTIZADAS, fetchAllQuotes } from '@/lib/defense/empresas-cotiz
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 25
+export const maxDuration = 20
 
 export async function GET() {
   const tickers = EMPRESAS_COTIZADAS.map(e => e.ticker).filter(t => !t.includes('-NR'))

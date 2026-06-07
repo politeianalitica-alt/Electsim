@@ -1,0 +1,6 @@
+# Dependencias del servicio worker/beat de Railway (Sprint Railway R2).
+# El worker ejecuta el pipeline pesado (ingesta, NLP, Ollama, intelligence),
+# así que necesita TODO requirements.txt + Celery + Redis.
+-r requirements.txt
+celery[redis]>=5.3
+redis>=5.0

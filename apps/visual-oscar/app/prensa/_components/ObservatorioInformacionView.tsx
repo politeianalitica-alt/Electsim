@@ -22,6 +22,7 @@
  */
 import { useEffect, useState } from 'react'
 import { DesinformacionLive } from './DesinformacionLive'
+import { DsaTransparencyPanel } from './DsaTransparencyPanel'
 
 const ACCENT = '#B91C1C'
 
@@ -74,6 +75,11 @@ export function ObservatorioInformacionView() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       {/* Sumario agregado */}
       <SummarySection summary={summary} loading={loading} error={error} />
+
+      {/* Transparencia de plataformas · moderación DSA (Comisión Europea) ·
+          complementa a los fact-checkers: aquéllos miden qué bulos circulan,
+          éste mide cómo responden las plataformas (cuánto retiran/restringen). */}
+      <DsaTransparencyPanel />
 
       {/* Buscador puntual · Google Fact Check */}
       <DesinformacionLive />
