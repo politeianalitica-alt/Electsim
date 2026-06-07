@@ -132,6 +132,11 @@ export type FuenteLicitacion =
   | 'uk-ocds' // UK Find a Tender (OCDS)
   | 'tendersguru' // Tenders.guru (multi-país)
   | 'opentender' // OpenTender.eu
+  | 'grantsgov' // Grants.gov — US federal grants (keyless)
+  | 'prozorro' // Prozorro — Ucrania (keyless)
+  | 'austender' // AusTender — Australia (OCDS, keyless)
+  | 'secop' // SECOP II — Colombia (Socrata, keyless)
+  | 'dncp' // DNCP — Paraguay (OCDS)
 
 /**
  * Envelope por-fuente. Cada conector devuelve esto: o bien `ok:true` con sus

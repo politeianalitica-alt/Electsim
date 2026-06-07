@@ -38,6 +38,11 @@ import { fetchSedia } from '@/lib/tercer-sector/licitaciones/sedia'
 import { fetchWorldbank } from '@/lib/tercer-sector/licitaciones/worldbank'
 import { fetchUkOcds } from '@/lib/tercer-sector/licitaciones/uk-ocds'
 import { fetchTendersGuru } from '@/lib/tercer-sector/licitaciones/tendersguru'
+import { fetchGrantsGov } from '@/lib/tercer-sector/licitaciones/grantsgov'
+import { fetchProzorro } from '@/lib/tercer-sector/licitaciones/prozorro'
+import { fetchAustender } from '@/lib/tercer-sector/licitaciones/austender'
+import { fetchSecop } from '@/lib/tercer-sector/licitaciones/secop'
+import { fetchDncp } from '@/lib/tercer-sector/licitaciones/dncp'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -63,6 +68,16 @@ const CONNECTORS: ConnectorDef[] = [
     fn: fetchTendersGuru as ConnFn,
     niveles: ['pais_extranjero', 'regional_extranjero'],
   },
+  // ── Global Opportunity Graph (Gb) · conectores LIVE gratuitos nuevos ──
+  { fuente: 'grantsgov', fn: fetchGrantsGov as ConnFn, niveles: ['pais_extranjero'] },
+  { fuente: 'prozorro', fn: fetchProzorro as ConnFn, niveles: ['pais_extranjero'] },
+  { fuente: 'austender', fn: fetchAustender as ConnFn, niveles: ['pais_extranjero'] },
+  {
+    fuente: 'secop',
+    fn: fetchSecop as ConnFn,
+    niveles: ['pais_extranjero', 'regional_extranjero'],
+  },
+  { fuente: 'dncp', fn: fetchDncp as ConnFn, niveles: ['pais_extranjero'] },
 ]
 
 const NIVELES: NivelLicitacion[] = [
@@ -243,7 +258,8 @@ export async function GET(req: Request) {
         ...body,
         _meta: {
           source: 'tercer-sector/licitaciones',
-          source_label: 'Agregador multinivel (PLACE/BDNS/TED/SEDIA/WorldBank/UK-OCDS/Tenders.guru)',
+          source_label:
+            'Agregador multinivel (PLACE/BDNS/TED/SEDIA/WorldBank/UK-OCDS/Tenders.guru/Grants.gov/Prozorro/AusTender/SECOP/DNCP)',
           niveles_disponibles: NIVELES,
           fuentes_consultadas: selected.map((c) => c.fuente),
           filtros_aceptados: [
