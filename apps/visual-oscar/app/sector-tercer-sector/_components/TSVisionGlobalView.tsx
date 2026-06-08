@@ -168,14 +168,15 @@ export function TSVisionGlobalView() {
       : COUNTRY_NAMES[topCountryFacet.code] ?? topCountryFacet.code
     : null
 
-  // Total subvenciones robusto: sumar importe_eur del conector BDNS; respaldo en
-  // el resumen del endpoint (que puede venir a 0 por leer otro campo).
+  // Total subvenciones robusto: prefer TS-specific total from enriched endpoint,
+  // fallback to raw sum, then resumen.
   const fdata = financiacion?.data ?? null
   const sumImporte = (fdata?.concesiones ?? []).reduce(
     (s, c) => s + (typeof c.importe_eur === 'number' ? c.importe_eur : 0),
     0,
   )
-  const totalSubvenciones = sumImporte > 0 ? sumImporte : fdata?.resumen?.total_concedido_eur ?? null
+  const totalSubvencionesTs = fdata?.resumen?.total_concedido_ts_eur ?? null
+  const totalSubvenciones = totalSubvencionesTs ?? (sumImporte > 0 ? sumImporte : fdata?.resumen?.total_concedido_eur ?? null)
 
   const licitacionesTotal = typeof licitaciones?.total === 'number' ? licitaciones.total : null
 
@@ -208,12 +209,14 @@ export function TSVisionGlobalView() {
       footer: 'Entidades cumbre · plantilla (curado)',
     },
     {
-      label: 'Subvenciones (BDNS)',
+      label: 'Subvenciones TS',
       value: totalSubvenciones != null ? Math.round(totalSubvenciones / 1_000_000) : null,
       unit: 'M€',
       decimals: 0,
       color: '#FDBA74',
-      footer: 'Concesiones recientes al tercer sector',
+      footer: totalSubvencionesTs != null
+        ? 'Concesiones TS filtradas (NIF+keyword)'
+        : 'Concesiones recientes al tercer sector',
     },
     {
       label: 'Actividades IATI',
