@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "descripcion": "Reguladores, supervisores y operadores institucionales del sistema de vivienda y suelo en España.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Vivienda v3"
+  },
+  "reguladores": [
+    {
+      "id": "min_vivienda",
+      "nombre": "Ministerio de Vivienda y Agenda Urbana",
+      "siglas": "MIVAU",
+      "competencias": "Política estatal de vivienda · Plan Estatal · Bono Joven · vivienda social · suelo · planificación urbana · coordinación con CCAA",
+      "web": "https://www.mivau.gob.es/",
+      "categoria": "ministerio",
+      "ambito": "estatal"
+    },
+    {
+      "id": "mitma",
+      "nombre": "Ministerio de Transportes y Movilidad Sostenible",
+      "siglas": "MITMA",
+      "competencias": "Observatorio Estatal de Vivienda y Suelo · estadísticas trimestrales precios, stock y demanda · PRTR Componente 2 rehabilitación",
+      "web": "https://www.mitma.gob.es/",
+      "categoria": "ministerio",
+      "ambito": "estatal"
+    },
+    {
+      "id": "sareb",
+      "nombre": "Sareb · Sociedad de Gestión de Activos procedentes de la Reestructuración Bancaria",
+      "siglas": "SAREB",
+      "competencias": "Liquidación de activos inmobiliarios procedentes de la reestructuración bancaria. Desde 2022 mayoría pública (FROB 50,1%). Cesiones a CCAA y tercer sector para vivienda social.",
+      "web": "https://www.sareb.es/",
+      "categoria": "sociedad_publica",
+      "ambito": "estatal"
+    },
+    {
+      "id": "sepes",
+      "nombre": "SEPES Entidad Pública Empresarial de Suelo",
+      "siglas": "SEPES",
+      "competencias": "Promoción, adquisición y preparación de suelo público. Catálogo abierto de parcelas disponibles. Gestión de actuaciones estratégicas residenciales y de actividad económica.",
+      "web": "https://www.sepes.es/",
+      "categoria": "sociedad_publica",
+      "ambito": "estatal"
+    },
+    {
+      "id": "bde",
+      "nombre": "Banco de España",
+      "siglas": "BdE",
+      "competencias": "Supervisión hipotecaria · estadísticas crédito vivienda (mora, stock, nuevas concesiones) · precio real deflactado (tabla 25.10) · supervisión IRPH · macroprudencial",
+      "web": "https://www.bde.es/",
+      "categoria": "supervisor",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cnmv",
+      "nombre": "Comisión Nacional del Mercado de Valores",
+      "siglas": "CNMV",
+      "competencias": "Supervisión SOCIMIs cotizadas y fondos de inversión inmobiliaria · transparencia emisiones bonos verdes inmobiliario · folletos y hechos relevantes",
+      "web": "https://www.cnmv.es/",
+      "categoria": "supervisor",
+      "ambito": "estatal"
+    },
+    {
+      "id": "avs",
+      "nombre": "AVS · Asociación Española de Promotores Públicos de Vivienda y Suelo",
+      "siglas": "AVS",
+      "competencias": "Representación de empresas y entidades públicas de vivienda y suelo de CCAA y ayuntamientos. Publica el indicador del parque público de alquiler.",
+      "web": "https://www.a-v-s.org/",
+      "categoria": "asociacion_publica",
+      "ambito": "estatal"
+    },
+    {
+      "id": "ahe",
+      "nombre": "Asociación Hipotecaria Española",
+      "siglas": "AHE",
+      "competencias": "Estadística sectorial hipotecas, EURIBOR comentado, datos crédito vivienda agregados, observatorio mensual.",
+      "web": "https://www.ahe.es/",
+      "categoria": "asociacion_privada",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cgn",
+      "nombre": "Consejo General del Notariado",
+      "siglas": "CGN",
+      "competencias": "Estadística notarial de compraventas, hipotecas, escrituras de obra nueva y novaciones. Centro de Información Estadística del Notariado (CIEN).",
+      "web": "https://www.notariado.org/",
+      "categoria": "corporacion_publica",
+      "ambito": "estatal"
+    },
+    {
+      "id": "colegio_registradores",
+      "nombre": "Colegio de Registradores de la Propiedad",
+      "siglas": "RegistradoresES",
+      "competencias": "Estadística Registral Inmobiliaria trimestral · operaciones registradas (compraventas, hipotecas) · % compradores extranjeros · datos por CCAA y municipio.",
+      "web": "https://www.registradores.org/",
+      "categoria": "corporacion_publica",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cgpj",
+      "nombre": "Consejo General del Poder Judicial",
+      "siglas": "CGPJ",
+      "competencias": "Estadística sobre ejecuciones hipotecarias y lanzamientos derivados de procesos hipotecarios y de arrendamiento (impagos). Datos trimestrales por CCAA y partido judicial.",
+      "web": "https://www.poderjudicial.es/cgpj/es/Temas/Estadistica-Judicial/",
+      "categoria": "supervisor",
+      "ambito": "estatal"
+    },
+    {
+      "id": "idae",
+      "nombre": "Instituto para la Diversificación y Ahorro de la Energía",
+      "siglas": "IDAE",
+      "competencias": "Certificados de eficiencia energética de edificios residenciales · gestión convocatorias rehabilitación energética del PRTR · datos calificación A-G por CCAA.",
+      "web": "https://www.idae.es/",
+      "categoria": "agencia_publica",
+      "ambito": "estatal"
+    }
+  ]
+}
