@@ -189,6 +189,9 @@ export const MODULES: NavModule[] = [
     id: 'config',
     label: 'Configuración',
     full: 'Configuración y Sistema de Alertas',
+    // Movido al icono de herramientas del header (AppHeader); no se muestra como
+    // pestaña en la barra superior. El módulo se conserva para resolver rutas.
+    hideFromTopBar: true,
     items: [
       { label: 'Configuración de Cliente', href: '/config-cliente' },
       { label: 'Sistema de Alertas',       href: '/alertas-config' },

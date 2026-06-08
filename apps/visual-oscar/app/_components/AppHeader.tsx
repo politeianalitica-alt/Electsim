@@ -12,6 +12,12 @@ export default function AppHeader() {
   const banner = activeItem?.banner
   const [menuOpen, setMenuOpen] = useState(false)
   const [wsOpen, setWsOpen] = useState(false)
+  const [cfgOpen, setCfgOpen] = useState(false)
+
+  // Configuración + Salir movidos al icono de herramientas del header.
+  const cfgModule = MODULES.find(m => m.id === 'config')
+  const cfgOptions = (cfgModule?.items || []).filter(it => !it.hidden)
+  const cfgActive = (cfgModule?.items || []).some(it => path === it.href || path.startsWith(it.href + '/'))
 
   // Workspace unificado en el botón azul: Command Center + opciones del módulo
   // 'workspace' (Estudio, War Room, Toolbox, Cuaderno). Las dos ubicaciones
@@ -35,7 +41,7 @@ export default function AppHeader() {
   }, [path, activeItem, activeModule])
 
   // Cierra los menús al cambiar de ruta.
-  useEffect(() => { setMenuOpen(false); setWsOpen(false) }, [path])
+  useEffect(() => { setMenuOpen(false); setWsOpen(false); setCfgOpen(false) }, [path])
 
   return (
  <>
@@ -157,7 +163,52 @@ export default function AppHeader() {
  </>
             )}
  </div>
- <Link href="/login" className="ah-salir" style={{fontSize:12,color:'#6e6e73',textDecoration:'none'}}>Salir</Link>
+ <div className="ah-salir" style={{position:'relative',display:'inline-flex'}}>
+ <button
+              onClick={() => setCfgOpen(o => !o)}
+              aria-expanded={cfgOpen}
+              aria-haspopup="menu"
+              aria-label="Herramientas y configuración"
+              title="Herramientas"
+              style={{
+              display:'inline-flex',alignItems:'center',justifyContent:'center',
+              width:30,height:30,borderRadius:8,cursor:'pointer',padding:0,
+              background:(cfgActive||cfgOpen)?'#1F4E8C':'#fff',
+              color:(cfgActive||cfgOpen)?'#fff':'#1F4E8C',
+              border:'1px solid #1F4E8C33',transition:'all 150ms',
+            }}>
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+ <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+ </svg>
+ </button>
+            {cfgOpen && (
+ <>
+ <div onClick={() => setCfgOpen(false)} style={{position:'fixed',inset:0,zIndex:60}} aria-hidden="true"/>
+ <div role="menu" style={{
+                position:'absolute',top:'calc(100% + 7px)',right:0,zIndex:61,minWidth:212,
+                background:'#fff',border:'1px solid rgba(0,0,0,0.08)',borderRadius:12,
+                boxShadow:'0 10px 34px rgba(0,0,0,0.18)',padding:6,
+              }}>
+ <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.08em',color:'#aeaeb2',textTransform:'uppercase',padding:'4px 12px 6px'}}>Configuración</div>
+                {cfgOptions.map(o => {
+                  const a = path === o.href || path.startsWith(o.href + '/')
+                  return (
+ <Link key={o.href} href={o.href} role="menuitem" onClick={() => setCfgOpen(false)} style={{
+                      display:'block',padding:'9px 12px',borderRadius:8,fontSize:13,
+                      fontWeight:a?600:500,color:a?'#1F4E8C':'#1d1d1f',
+                      background:a?'rgba(31,78,140,0.08)':'transparent',textDecoration:'none',
+                    }}>{o.label}</Link>
+                  )
+                })}
+ <div style={{height:1,background:'rgba(0,0,0,0.07)',margin:'6px 8px'}}/>
+ <Link href="/login" role="menuitem" onClick={() => setCfgOpen(false)} style={{
+                  display:'block',padding:'9px 12px',borderRadius:8,fontSize:13,fontWeight:500,
+                  color:'#c0392b',textDecoration:'none',
+                }}>Salir</Link>
+ </div>
+ </>
+            )}
+ </div>
             {/* Botón de menú · solo visible en móvil (CSS .ah-burger) */}
  <button
               className="ah-burger"
@@ -211,8 +262,16 @@ export default function AppHeader() {
               ))}
  </div>
  </div>
+ <div style={{marginTop:12}}>
+ <div style={{fontSize:10.5,fontWeight:700,letterSpacing:'0.08em',color:'#6e6e73',textTransform:'uppercase',padding:'2px 2px 7px'}}>Configuración</div>
+ <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+              {cfgOptions.map(o => (
+ <Link key={o.href} href={o.href} onClick={() => setMenuOpen(false)} style={{flex:'1 1 45%',minWidth:0,padding:'10px 12px',borderRadius:8,fontSize:12.5,fontWeight:500,color:'#1d1d1f',background:'#F5F5F7',textDecoration:'none',textAlign:'center'}}>{o.label}</Link>
+              ))}
+ </div>
+ </div>
  <div style={{display:'flex',gap:8,marginTop:10}}>
- <Link href="/login" onClick={() => setMenuOpen(false)} style={{flex:1,textAlign:'center',padding:'11px',borderRadius:8,background:'#F5F5F7',color:'#1d1d1f',fontWeight:600,fontSize:13,textDecoration:'none'}}>Salir</Link>
+ <Link href="/login" onClick={() => setMenuOpen(false)} style={{flex:1,textAlign:'center',padding:'11px',borderRadius:8,background:'#F5F5F7',color:'#c0392b',fontWeight:600,fontSize:13,textDecoration:'none'}}>Salir</Link>
  </div>
  </div>
       )}
