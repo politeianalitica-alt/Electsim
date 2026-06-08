@@ -82,6 +82,8 @@ const LEGENDS: Legend[] = [
   { id: 'defor', title: 'Deforestación', active: (a) => a.deforestation, items: [ { c: '#E53935', l: 'Pérdida de cobertura arbórea' } ] },
   { id: 'gdacs', title: 'Alertas de desastres', active: (a) => a.gdacs, items: [
     { c: '#EF5350', l: 'Roja' }, { c: '#FFA726', l: 'Naranja' }, { c: '#66BB6A', l: 'Verde' } ] },
+  { id: 'eonet', title: 'Eventos naturales (NASA)', active: (a) => a.eonet, items: [
+    { c: '#FF6B00', l: 'Incendios' }, { c: '#E040FB', l: 'Tormentas' }, { c: '#FF7043', l: 'Volcanes' }, { c: '#4FC3F7', l: 'Hielo/icebergs' }, { c: '#2979FF', l: 'Inundaciones' }, { c: '#8D6E63', l: 'Deslizamientos' }, { c: '#FBC02D', l: 'Sequía' } ] },
   { id: 'energy', title: 'Energía por fuente', active: (a) => has(a, ['power_solar', 'power_wind', 'power_hydro', 'power_nuclear', 'power_coal', 'power_gas', 'power_oil', 'power_other']), items: [
     { c: '#FFD600', l: 'Solar' }, { c: '#4FC3F7', l: 'Eólica' }, { c: '#2979FF', l: 'Hidro' }, { c: '#FF1744', l: 'Nuclear' }, { c: '#90A4AE', l: 'Carbón' }, { c: '#FF9100', l: 'Gas' }, { c: '#A1887F', l: 'Petróleo' }, { c: '#BDBDBD', l: 'Otras' } ] },
 ];

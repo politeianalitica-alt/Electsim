@@ -126,7 +126,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
         'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
       // Las capas más densas se agrupan en clusters (rendimiento + claridad).
       const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
@@ -468,6 +468,18 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       }});
       map.addLayer({ id: 'gdacs-label', type: 'symbol', source: 'gdacs', minzoom: 3, layout: {
         'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Eventos naturales (NASA EONET) ──
+      const eonetColor: any = ['coalesce', ['get','color'], '#FFD54F'];
+      map.addLayer({ id: 'eonet-glow', type: 'circle', source: 'eonet', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,7, 6,14], 'circle-color': eonetColor, 'circle-opacity': 0.16, 'circle-blur': 0.7,
+      }});
+      map.addLayer({ id: 'eonet-dots', type: 'circle', source: 'eonet', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,3.2, 6,5.5], 'circle-color': eonetColor, 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#000',
+      }});
+      map.addLayer({ id: 'eonet-label', type: 'symbol', source: 'eonet', minzoom: 4, layout: {
+        'text-field': ['get','title'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
 
       // ── Ciclones tropicales (NHC) ──
@@ -1569,7 +1581,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1748,6 +1760,20 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
         ${p.description ? `<div style="font-size:9.5px;color:#aaa;line-height:1.6;">${p.description}</div>` : ''}
         ${p.country ? `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${p.country}</div>` : ''}
         ${p.url ? `<a href="${p.url}" target="_blank" style="${linkStyle}margin-top:7px;color:${col};border:1px solid ${col}66;background:${col}1a;">GDACS</a>` : ''}
+      </div>`);
+    });
+
+    // ── Eventos naturales (NASA EONET) ──
+    map.on('click', 'eonet-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const col = p.color || '#FFD54F';
+      popup(coords, `<div style="${pStyle}border:1px solid ${col}55;min-width:200px;">
+        <div style="color:${col};font-size:13px;font-weight:700;margin-bottom:3px;">${p.title || 'Evento natural'}</div>
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${col};background:${col}1a;border:1px solid ${col}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">${String(p.category || '').toUpperCase()}</div>
+        ${p.magnitude ? `<div style="font-size:9.5px;color:#aaa;">Magnitud: ${p.magnitude}</div>` : ''}
+        ${p.date ? `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${new Date(p.date).toLocaleString('es-ES')}</div>` : ''}
+        ${p.url ? `<a href="${p.url}" target="_blank" style="${linkStyle}margin-top:7px;color:${col};border:1px solid ${col}66;background:${col}1a;">NASA EONET</a>` : ''}
       </div>`);
     });
 
@@ -2269,6 +2295,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
   useEffect(() => {
     if (!mapReady) return;
     setGeo('gdacs', activeLayers.gdacs && Array.isArray(data.gdacs) ? data.gdacs.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { name: e.name, type_es: e.type_es, alert: e.alert, description: e.description, country: e.country, date: e.date, url: e.url } })) : []);
+    setGeo('eonet', activeLayers.eonet && Array.isArray(data.eonet) ? data.eonet.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { title: e.title, category: e.category, color: e.color, date: e.date, magnitude: e.magnitude, url: e.url } })) : []);
     setGeo('hurricanes', activeLayers.hurricanes && Array.isArray(data.hurricanes) ? data.hurricanes.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, class_es: s.class_es, wind_kt: s.wind_kt, pressure_mb: s.pressure_mb, movement: s.movement } })) : []);
     setGeo('volcanoes', activeLayers.volcanoes && Array.isArray(data.volcanoes) ? data.volcanoes.map((v: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [v.lng, v.lat] }, properties: { name: v.name, vtype: v.type, elev: v.elev, country: v.country, last: v.last } })) : []);
     setGeo('airports', activeLayers.airports && Array.isArray(data.airports) ? data.airports.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, iata: a.iata, atype: a.type, country: a.country, city: a.city } })) : []);
@@ -2284,7 +2311,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
     setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name, t: b.t || '' } })) : []);
     setGeo('air-quality', activeLayers.air_quality && Array.isArray(data.air_quality) ? data.air_quality.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, aqi: a.aqi, pm25: a.pm25, level: a.level, color: a.color } })) : []);
-  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.railways_hs_fc, data.railways_commuter_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
+  }, [mapReady, data.gdacs, data.eonet, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.railways_hs_fc, data.railways_commuter_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.eonet, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
@@ -2662,6 +2689,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     // Otros relieves: áreas sombreadas + cascadas/otros puntuales
     setVis(['geo-features','geo-features-label','geo-other-fill','geo-other-outline','geo-other-label'], activeLayers.geo_features);
     setVis(['gdacs-glow','gdacs-dots','gdacs-label'], activeLayers.gdacs);
+    setVis(['eonet-glow','eonet-dots','eonet-label'], activeLayers.eonet);
     setVis(['hurricane-glow','hurricane-dots','hurricane-label'], activeLayers.hurricanes);
     setVis(['volcanoes-dots','volcanoes-label'], activeLayers.volcanoes);
     setVis(['airports-dots','airports-label'], activeLayers.airports);

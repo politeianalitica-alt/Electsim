@@ -254,6 +254,7 @@ export default function Dashboard() {
     geo_deserts: false,
     geo_features: false,
     gdacs: false,
+    eonet: false,
     hurricanes: false,
     volcanoes: false,
     airports: false,
@@ -575,6 +576,11 @@ export default function Dashboard() {
     if (activeLayers.gdacs && !layerFetchedRef.current.has('gdacs')) {
       fetchEndpoint('/api/osiris/gdacs', d => ({ gdacs: d.events }));
       layerFetchedRef.current.add('gdacs');
+    }
+    // EONET — eventos naturales (NASA)
+    if (activeLayers.eonet && !layerFetchedRef.current.has('eonet')) {
+      fetchEndpoint('/api/osiris/eonet', d => ({ eonet: d.events }));
+      layerFetchedRef.current.add('eonet');
     }
     // Ciclones tropicales (NHC)
     if (activeLayers.hurricanes && !layerFetchedRef.current.has('hurricanes')) {
