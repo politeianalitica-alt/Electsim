@@ -17,19 +17,17 @@ export const maxDuration = 30;
 // adsb.lol nos limite (timeouts → MENOS vuelos). Con pocos círculos GRANDES no
 // limita y, además, deja ancho de banda para que OpenSky (cobertura global)
 // rellene los huecos. El dedupe por hex elimina los solapes.
+// 6 círculos GRANDES (radio 2.200-2.500 nm) que se solapan y cubren el mundo
+// sin saturar adsb.lol. NO añadir más: con >~6 llamadas en paralelo adsb.lol
+// rate-limita y deja regiones vacías (p.ej. Europa). La densidad en
+// Asia/África/océanos depende de OpenSky (OAuth2), no de más círculos.
 const REGIONS = [
   { lat: 39.8, lon: -98.5, dist: 2200 },    // Norteamérica
   { lat: 50.0, lon: 15.0, dist: 2200 },     // Europa
-  { lat: 35.0, lon: 105.0, dist: 2300 },    // Asia (China central)
+  { lat: 35.0, lon: 105.0, dist: 2300 },    // Asia
   { lat: -25.0, lon: 133.0, dist: 2200 },   // Australia / SE Asia
   { lat: 5.0, lon: 22.0, dist: 2500 },      // África / Oriente Medio
   { lat: -15.0, lon: -58.0, dist: 2300 },   // Sudamérica
-  // Regiones extra para rellenar huecos donde adsb.lol sí tiene cobertura
-  { lat: 22.0, lon: 78.0, dist: 1500 },     // India / subcontinente
-  { lat: 13.0, lon: 106.0, dist: 1400 },    // Sudeste Asiático (Indochina/Indonesia)
-  { lat: 36.0, lon: 137.0, dist: 1300 },    // Japón / Corea
-  { lat: 28.0, lon: 50.0, dist: 1500 },     // Oriente Medio / Golfo
-  { lat: 55.0, lon: -100.0, dist: 1800 },   // Canadá
 ];
 
 // Helicopter type codes
