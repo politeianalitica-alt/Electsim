@@ -83,8 +83,8 @@ export default function MapViewPresets() {
               key={p.id}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 5,
-                fontSize: 10.5, color: '#cdd6e6',
-                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)',
+                fontSize: 10.5, color: '#1F4E8C', fontWeight: 600,
+                background: '#eef2f8', border: '1px solid #c7d2e0',
                 borderRadius: 999, padding: '3px 6px 3px 9px',
               }}
             >
@@ -97,7 +97,7 @@ export default function MapViewPresets() {
                 onClick={() => setPresets(deletePreset(p.id))}
                 aria-label={`Eliminar vista ${p.name}`}
                 title="Eliminar"
-                style={{ background: 'none', border: 'none', color: 'var(--text-muted, #8893a7)', cursor: 'pointer', padding: 0, lineHeight: 1, fontSize: 13 }}
+                style={{ background: 'none', border: 'none', color: '#5a6b85', cursor: 'pointer', padding: 0, lineHeight: 1, fontSize: 13 }}
               >×</button>
             </span>
           ))}

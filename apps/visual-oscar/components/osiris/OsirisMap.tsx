@@ -1202,6 +1202,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           </div>
           <div class="pol-route" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);font-size:10px;color:#aaa;">◴ Buscando ruta…</div>
           <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+            <a href="https://www.flightradar24.com/${encodeURIComponent(cs || (p.registration||'').trim())}" target="_blank" style="${linkStyle}color:#FECA00;border:1px solid rgba(254,202,0,0.55);background:rgba(254,202,0,0.14);font-weight:700;">FLIGHTRADAR24</a>
             <a href="https://www.flightaware.com/live/flight/${cs}" target="_blank" style="${linkStyle}color:#D4AF37;border:1px solid rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);">FLIGHTAWARE</a>
             <a href="https://globe.adsbexchange.com/?icao=${p.icao24||''}" target="_blank" style="${linkStyle}color:#00E5FF;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.1);">ADS-B</a>
             <a href="https://www.radarbox.com/data/flights/${cs}" target="_blank" style="${linkStyle}color:#FF69B4;border:1px solid rgba(255,105,180,0.4);background:rgba(255,105,180,0.1);">RADARBOX</a>
