@@ -126,7 +126,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'displacement', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
         'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
       // Las capas más densas se agrupan en clusters (rendimiento + claridad).
       const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
@@ -480,6 +480,16 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       }});
       map.addLayer({ id: 'eonet-label', type: 'symbol', source: 'eonet', minzoom: 4, layout: {
         'text-field': ['get','title'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Refugiados y desplazados (UNHCR) ──
+      const dispColor: any = ['interpolate',['linear'],['get','total'], 10000,'#FFD54F', 500000,'#FF9800', 2000000,'#EF5350', 5000000,'#B71C1C'];
+      map.addLayer({ id: 'displacement-bubble', type: 'circle', source: 'displacement', paint: {
+        'circle-radius': ['interpolate',['linear'],['get','total'], 5000,4, 200000,9, 1000000,16, 3000000,26, 6500000,40],
+        'circle-color': dispColor, 'circle-opacity': 0.42, 'circle-stroke-width': 1.2, 'circle-stroke-color': dispColor, 'circle-stroke-opacity': 0.9,
+      }});
+      map.addLayer({ id: 'displacement-label', type: 'symbol', source: 'displacement', minzoom: 3, layout: {
+        'text-field': ['get','country'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.2], 'text-allow-overlap': false,
       }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
 
       // ── Ciclones tropicales (NHC) ──
@@ -1581,7 +1591,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1774,6 +1784,20 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
         ${p.magnitude ? `<div style="font-size:9.5px;color:#aaa;">Magnitud: ${p.magnitude}</div>` : ''}
         ${p.date ? `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${new Date(p.date).toLocaleString('es-ES')}</div>` : ''}
         ${p.url ? `<a href="${p.url}" target="_blank" style="${linkStyle}margin-top:7px;color:${col};border:1px solid ${col}66;background:${col}1a;">NASA EONET</a>` : ''}
+      </div>`);
+    });
+
+    // ── Refugiados y desplazados (UNHCR) ──
+    map.on('click', 'displacement-bubble', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const fmt = (n: any) => Number(n).toLocaleString('es-ES');
+      popup(coords, `<div style="${pStyle}border:1px solid #FF980055;min-width:200px;">
+        <div style="color:#FF9800;font-size:13px;font-weight:700;margin-bottom:4px;">${p.country || ''}</div>
+        <div style="font-size:11px;color:#E8E6E0;margin-bottom:2px;">Desplazados totales: <b>${fmt(p.total)}</b></div>
+        <div style="font-size:9.5px;color:#aaa;">Refugiados + asilo: ${fmt(p.refugees)}</div>
+        <div style="font-size:9.5px;color:#aaa;">Desplazados internos: ${fmt(p.idps)}</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:5px;">Fuente: ACNUR/UNHCR · 2024</div>
       </div>`);
     });
 
@@ -2318,6 +2342,11 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setGeo('radiation', activeLayers.radiation && data.radiation ? data.radiation.map((r: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [r.lng, r.lat] }, properties: { name: r.name, city: r.city, country: r.country, reading: r.reading, status: r.status, network: r.network } })) : []);
   }, [mapReady, data.radiation, activeLayers.radiation, setGeo]);
 
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('displacement', activeLayers.displacement && Array.isArray(data.displacement) ? data.displacement.map((d: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [d.lng, d.lat] }, properties: { country: d.country, total: d.total, refugees: d.refugees, idps: d.idps } })) : []);
+  }, [mapReady, data.displacement, activeLayers.displacement, setGeo]);
+
   // ══ Politeia SDK — Lattice Sensor Mesh ══
   // Multi-waypoint routes tracing real-world shipping lanes, air corridors, and intel lines
   useEffect(() => {
@@ -2690,6 +2719,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setVis(['geo-features','geo-features-label','geo-other-fill','geo-other-outline','geo-other-label'], activeLayers.geo_features);
     setVis(['gdacs-glow','gdacs-dots','gdacs-label'], activeLayers.gdacs);
     setVis(['eonet-glow','eonet-dots','eonet-label'], activeLayers.eonet);
+    setVis(['displacement-bubble','displacement-label'], activeLayers.displacement);
     setVis(['hurricane-glow','hurricane-dots','hurricane-label'], activeLayers.hurricanes);
     setVis(['volcanoes-dots','volcanoes-label'], activeLayers.volcanoes);
     setVis(['airports-dots','airports-label'], activeLayers.airports);

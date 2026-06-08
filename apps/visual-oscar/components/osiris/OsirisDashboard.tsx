@@ -255,6 +255,7 @@ export default function Dashboard() {
     geo_features: false,
     gdacs: false,
     eonet: false,
+    displacement: false,
     hurricanes: false,
     volcanoes: false,
     airports: false,
@@ -581,6 +582,11 @@ export default function Dashboard() {
     if (activeLayers.eonet && !layerFetchedRef.current.has('eonet')) {
       fetchEndpoint('/api/osiris/eonet', d => ({ eonet: d.events }));
       layerFetchedRef.current.add('eonet');
+    }
+    // Refugiados y desplazados (UNHCR)
+    if (activeLayers.displacement && !layerFetchedRef.current.has('displacement')) {
+      fetchEndpoint('/api/osiris/displacement', d => ({ displacement: d.displacement }));
+      layerFetchedRef.current.add('displacement');
     }
     // Ciclones tropicales (NHC)
     if (activeLayers.hurricanes && !layerFetchedRef.current.has('hurricanes')) {

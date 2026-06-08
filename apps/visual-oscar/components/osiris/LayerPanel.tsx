@@ -240,6 +240,7 @@ const LAYER_GROUPS = [
       { key: 'geo_features', label: 'Otros (mesetas, cuencas, deltas…)', icon: Droplets, color: '#26A69A', dataKey: '' },
       { key: 'agriculture', label: 'Agricultura (cultivos)', icon: Sprout, color: '#9CCC65', dataKey: '' },
       { key: 'refugee_camps', label: 'Campos de refugiados (ACNUR)', icon: AlertOctagon, color: '#FF9800', dataKey: '', sectionLabel: 'HUMANITARIO Y AMBIENTAL' },
+      { key: 'displacement', label: 'Refugiados y desplazados (UNHCR)', icon: AlertOctagon, color: '#FF6D00', dataKey: 'displacement' },
       { key: 'deforestation', label: 'Deforestación (pérdida forestal)', icon: Sprout, color: '#E53935', dataKey: '' },
     ],
   },
