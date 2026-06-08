@@ -11,6 +11,19 @@ export default function AppHeader() {
   const activeItem = itemOfPath(path)
   const banner = activeItem?.banner
   const [menuOpen, setMenuOpen] = useState(false)
+  const [wsOpen, setWsOpen] = useState(false)
+
+  // Workspace unificado en el botón azul: Command Center + opciones del módulo
+  // 'workspace' (Estudio, War Room, Toolbox, Cuaderno). Las dos ubicaciones
+  // antiguas (pestaña de nav + botón) quedan fundidas aquí.
+  const wsModule = MODULES.find(m => m.id === 'workspace')
+  const wsOptions = [
+    { label: 'Command Center · España 2026', href: '/workspaces/ws_espana_2026/overview' },
+    { label: 'Mis workspaces', href: '/workspaces' },
+    ...((wsModule?.items || []).filter(it => !it.hidden)),
+  ]
+  const wsActive = path.startsWith('/workspaces') || path === '/workspace' || path === '/operaciones'
+    || (wsModule?.items || []).some(it => path === it.href || path.startsWith(it.href + '/'))
 
   // Registra la página visitada para el bloque "Recientes" del inicio.
   // Excluimos el propio inicio y el login (no son destinos de "volver a").
@@ -21,8 +34,8 @@ export default function AppHeader() {
     if (label) recordModuleVisit(href, label)
   }, [path, activeItem, activeModule])
 
-  // Cierra el menú móvil al cambiar de ruta.
-  useEffect(() => { setMenuOpen(false) }, [path])
+  // Cierra los menús al cambiar de ruta.
+  useEffect(() => { setMenuOpen(false); setWsOpen(false) }, [path])
 
   return (
  <>
@@ -95,23 +108,55 @@ export default function AppHeader() {
                 Morning Brief, Issues críticos, Acciones, Equipo y Foco).
                 /operaciones (Centro de Operaciones del Analista) sigue
                 accesible desde el módulo 'Operaciones' del nav. */}
- <Link href="/workspaces/ws_espana_2026/overview" style={{
+ <div style={{position:'relative',display:'inline-flex'}}>
+ <button
+              onClick={() => setWsOpen(o => !o)}
+              aria-expanded={wsOpen}
+              aria-haspopup="menu"
+              style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
-              color:'#fff',background:(path.startsWith('/workspaces')||path==='/workspace'||path==='/operaciones')?'#0F2A4F':'#1F4E8C',
-              padding:'5px 12px',borderRadius:999,textDecoration:'none',
-              boxShadow:'0 1px 2px rgba(31,78,140,0.25)',
-              transition:'all 160ms',
+              color:'#fff',background:(wsActive||wsOpen)?'#0F2A4F':'#1F4E8C',
+              padding:'5px 12px',borderRadius:999,border:'none',cursor:'pointer',
+              boxShadow:'0 1px 2px rgba(31,78,140,0.25)',transition:'all 160ms',
+              fontFamily:'inherit',
             }}>
  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
-                {/* Icono grid 2x2 = workspace · decorativo · texto adyacente etiqueta */}
+                {/* Icono grid 2x2 = workspace · decorativo */}
  <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1"/>
  <rect x="9" y="1.5" width="5.5" height="5.5" rx="1"/>
  <rect x="1.5" y="9" width="5.5" height="5.5" rx="1"/>
  <rect x="9" y="9" width="5.5" height="5.5" rx="1"/>
  </svg>
               Workspace
- </Link>
+ <svg aria-hidden="true" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{transform:wsOpen?'rotate(180deg)':'none',transition:'transform 160ms'}}>
+ <polyline points="6 9 12 15 18 9"/>
+ </svg>
+ </button>
+            {wsOpen && (
+ <>
+ <div onClick={() => setWsOpen(false)} style={{position:'fixed',inset:0,zIndex:60}} aria-hidden="true"/>
+ <div role="menu" style={{
+                position:'absolute',top:'calc(100% + 7px)',right:0,zIndex:61,minWidth:236,
+                background:'#fff',border:'1px solid rgba(0,0,0,0.08)',borderRadius:12,
+                boxShadow:'0 10px 34px rgba(0,0,0,0.18)',padding:6,
+              }}>
+                {wsOptions.map(o => {
+                  const a = path === o.href || path.startsWith(o.href + '/')
+                  return (
+ <Link key={o.href} href={o.href} role="menuitem" onClick={() => setWsOpen(false)} style={{
+                      display:'block',padding:'9px 12px',borderRadius:8,
+                      fontSize:13,fontWeight:a?600:500,
+                      color:a?'#1F4E8C':'#1d1d1f',
+                      background:a?'rgba(31,78,140,0.08)':'transparent',
+                      textDecoration:'none',
+                    }}>{o.label}</Link>
+                  )
+                })}
+ </div>
+ </>
+            )}
+ </div>
  <Link href="/login" className="ah-salir" style={{fontSize:12,color:'#6e6e73',textDecoration:'none'}}>Salir</Link>
             {/* Botón de menú · solo visible en móvil (CSS .ah-burger) */}
  <button
@@ -158,8 +203,15 @@ export default function AppHeader() {
               )
             })}
  </div>
+ <div style={{marginTop:12}}>
+ <div style={{fontSize:10.5,fontWeight:700,letterSpacing:'0.08em',color:'#6e6e73',textTransform:'uppercase',padding:'2px 2px 7px'}}>Workspace</div>
+ <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
+              {wsOptions.map(o => (
+ <Link key={o.href} href={o.href} onClick={() => setMenuOpen(false)} style={{flex:'1 1 45%',minWidth:0,padding:'10px 12px',borderRadius:8,fontSize:12.5,fontWeight:500,color:'#fff',background:'#1F4E8C',textDecoration:'none',textAlign:'center'}}>{o.label}</Link>
+              ))}
+ </div>
+ </div>
  <div style={{display:'flex',gap:8,marginTop:10}}>
- <Link href="/workspaces/ws_espana_2026/overview" onClick={() => setMenuOpen(false)} style={{flex:1,textAlign:'center',padding:'11px',borderRadius:8,background:'#1F4E8C',color:'#fff',fontWeight:600,fontSize:13,textDecoration:'none'}}>Workspace</Link>
  <Link href="/login" onClick={() => setMenuOpen(false)} style={{flex:1,textAlign:'center',padding:'11px',borderRadius:8,background:'#F5F5F7',color:'#1d1d1f',fontWeight:600,fontSize:13,textDecoration:'none'}}>Salir</Link>
  </div>
  </div>
