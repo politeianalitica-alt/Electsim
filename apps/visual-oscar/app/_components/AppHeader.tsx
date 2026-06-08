@@ -100,15 +100,6 @@ export default function AppHeader() {
             })}
  </div>
  <div className="ah-right" style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
- <span className="ah-live" style={{display:'inline-flex',alignItems:'center',gap:5,fontSize:11,color:'#6e6e73',fontWeight:500}}>
- <span style={{
-                width:5,height:5,borderRadius:'50%',background:'#2d8a39',
-                boxShadow:'0 0 0 2px rgba(45,138,57,0.2)',flexShrink:0,
-                animation:'pulseDot 2.4s ease-in-out infinite',
-              }}/>
-              Actualizado hace 2 min
- </span>
- <style>{`@keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }`}</style>
             {/* Botón Workspace — apunta al Command Center del workspace
                 España 2026 (vista por defecto del workspace, donde están
                 Morning Brief, Issues críticos, Acciones, Equipo y Foco).
