@@ -19,7 +19,7 @@
  * si el agregador falla, cae a solo concesiones. Cero emojis · Unicode geométrico.
  */
 import { useEffect, useMemo, useState } from 'react'
-import { ACCENT, fmtEur, nivelLabel, type FinConcesion } from './FinShared'
+import { ACCENT, fmtEur, nivelLabel, type FinConcesion, type FinanciadorActivoRow } from './FinShared'
 
 // ── Shape de oportunidad consumido (eco del contrato, plano) ──────────────────
 
@@ -104,10 +104,13 @@ type Orden = 'num' | 'importe'
 
 export function FinanciadoresActivos({
   concesiones = [],
+  precomputed,
   limit = 12,
 }: {
   /** Concesiones BDNS ya cargadas por la vista (dinero concedido). */
   concesiones?: FinConcesion[]
+  /** Pre-computed financiadores from enriched endpoint (TS-Deep B6). */
+  precomputed?: FinanciadorActivoRow[]
   limit?: number
 }) {
   const [oportunidades, setOportunidades] = useState<OportunidadTS[]>([])
@@ -137,8 +140,22 @@ export function FinanciadoresActivos({
   }, [])
 
   // Agregación combinada: oportunidades (organismo) + concesiones BDNS (organo).
+  // TS-Deep B6: if pre-computed financiadores are available from the enriched
+  // endpoint, seed them as a primary source (avoids depending on the separate
+  // oportunidades fetch for the core ranking).
   const rows = useMemo(() => {
     const map = new Map<string, FinanciadorRow>()
+
+    // Seed from pre-computed endpoint data (TS-Deep B6)
+    if (precomputed && precomputed.length > 0) {
+      for (const p of precomputed) {
+        const row = ensureRow(map, p.organo)
+        row.num += p.count
+        addImporte(row, p.total_eur)
+        row.fuentes.add('bdns')
+        if (p.nivel) row.territorios.add(p.nivel)
+      }
+    }
 
     for (const o of oportunidades) {
       const row = ensureRow(map, o.organismo)
@@ -150,14 +167,16 @@ export function FinanciadoresActivos({
       addSector(row, o.sector_ts)
     }
 
-    for (const c of concesiones) {
-      // El financiador de una concesión es su órgano (cae a nivel administrativo).
-      const organismo = c.organo || (c.nivel ? nivelLabel(c.nivel) : '') || '(sin organismo)'
-      const row = ensureRow(map, organismo)
-      row.num += 1
-      addImporte(row, c.importe_eur)
-      row.fuentes.add('bdns')
-      if (c.territorio) row.territorios.add(c.territorio)
+    // Only add concesiones if no precomputed data (avoid double-counting)
+    if (!precomputed || precomputed.length === 0) {
+      for (const c of concesiones) {
+        const organismo = c.organo || (c.nivel ? nivelLabel(c.nivel) : '') || '(sin organismo)'
+        const row = ensureRow(map, organismo)
+        row.num += 1
+        addImporte(row, c.importe_eur)
+        row.fuentes.add('bdns')
+        if (c.territorio) row.territorios.add(c.territorio)
+      }
     }
 
     const arr = Array.from(map.values())
@@ -173,7 +192,7 @@ export function FinanciadoresActivos({
       return (b.total_eur ?? 0) - (a.total_eur ?? 0)
     })
     return arr
-  }, [oportunidades, concesiones, orden])
+  }, [oportunidades, concesiones, precomputed, orden])
 
   const top = rows.slice(0, limit)
   const totalFinanciadores = rows.length

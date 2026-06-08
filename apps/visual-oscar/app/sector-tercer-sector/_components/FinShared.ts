@@ -65,8 +65,11 @@ export interface FinIrpf07 {
 export interface FinResumen {
   n_convocatorias: number
   n_concesiones: number
+  n_concesiones_ts?: number
   n_grants_ue: number
   total_concedido_eur: number | null
+  /** Total concedido solo a entidades del tercer sector (NIF+keyword). */
+  total_concedido_ts_eur?: number | null
 }
 
 export interface FinFuenteError {
@@ -74,11 +77,46 @@ export interface FinFuenteError {
   error: string
 }
 
+/** Concesion enriquecida por bdns-enrichment (NIF classification, territory). */
+export interface FinConcesionEnriched {
+  codigo: string
+  beneficiario: string
+  nif: string | null
+  nif_tipo: string | null
+  importe_eur: number | null
+  organo: string
+  es_tercer_sector: boolean
+  ccaa: string | null
+  nivel: string
+}
+
+/** Financiador activo pre-computado por el endpoint (group by organo). */
+export interface FinanciadorActivoRow {
+  organo: string
+  count: number
+  total_eur: number
+  nivel: string
+}
+
+/** Desglose territorial pre-computado por el endpoint. */
+export interface TerritorioFinRow {
+  count: number
+  total_eur: number
+}
+
 export interface FinPayload {
   convocatorias: FinConvocatoria[]
   concesiones: FinConcesion[]
+  /** Concesiones filtradas a tercer sector + enriquecidas (NIF, CCAA). */
+  concesiones_ts?: FinConcesionEnriched[]
   grants_ue: FinGrantUe[]
   irpf_07: FinIrpf07
+  /** Top 20 financiadores activos pre-computados por el endpoint. */
+  financiadores_activos?: FinanciadorActivoRow[]
+  /** Ranking top 20 beneficiarios TS pre-computado por el endpoint. */
+  ranking_beneficiarios?: RankItem[]
+  /** Desglose territorial (CCAA -> count+total_eur). */
+  por_territorio?: Record<string, TerritorioFinRow>
   resumen: FinResumen
   fuentes_error: FinFuenteError[]
 }

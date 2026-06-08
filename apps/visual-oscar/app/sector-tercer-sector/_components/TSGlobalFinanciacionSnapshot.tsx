@@ -35,9 +35,12 @@ export interface FinanciacionData {
   resumen?: {
     n_convocatorias?: number
     n_concesiones?: number
+    n_concesiones_ts?: number
     n_grants_ue?: number
     total_concedido_eur?: number | null
+    total_concedido_ts_eur?: number | null
   }
+  financiadores_activos?: Array<{ organo: string; count: number; total_eur: number }>
   fuentes_error?: Array<{ fuente: string; error: string }>
 }
 export interface FinanciacionEnvelope {
@@ -95,10 +98,13 @@ export function TSGlobalFinanciacionSnapshot({
       degradedNote={degradedNote}
     >
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8, marginBottom: 8 }}>
-        <SnapStat label="Concesiones (recientes)" value={fmtInt(resumen.n_concesiones ?? null)} color={TS_ACCENT_DARK} />
-        <SnapStat label="Total concedido" value={fmtEur(totalConcedido)} color="#B45309" />
+        <SnapStat label="Concesiones TS" value={fmtInt(resumen.n_concesiones_ts ?? resumen.n_concesiones ?? null)} color={TS_ACCENT_DARK} />
+        <SnapStat label="Total al tercer sector" value={fmtEur(resumen.total_concedido_ts_eur ?? totalConcedido)} color="#B45309" />
         <SnapStat label="Convocatorias abiertas" value={fmtInt(resumen.n_convocatorias ?? null)} />
-        <SnapStat label="Grants UE (SEDIA)" value={fmtInt(resumen.n_grants_ue ?? null)} />
+        <SnapStat
+          label="Financiadores activos"
+          value={fmtInt((data?.financiadores_activos ?? []).length || (resumen.n_grants_ue ?? null))}
+        />
       </div>
 
       {/* IRPF 0,7% Fines Sociales · dato curado+datado */}

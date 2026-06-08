@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "descripcion": "Programas y políticas activas de vivienda en España. Cada entrada incluye fuente oficial, fecha de actualización y link al boletín/portal donde se publica la información.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Vivienda v3",
+    "principio": "Cada presupuesto y fecha tiene fuente verificable. Cero datos inventados. Si una cifra no puede verificarse, queda como null y se marca 'no_disponible'."
+  },
+  "programas": [
+    {
+      "id": "plan_estatal_22_25",
+      "programa": "Plan Estatal de Vivienda 2022-2025",
+      "estado": "vigente",
+      "descripcion": "Plan plurianual con 7 ejes (alquiler asequible, jóvenes, rehabilitación, accesibilidad, ámbito rural, despoblación, especial vulnerabilidad). Cofinanciado entre el Estado y las CCAA mediante convenios bilaterales.",
+      "presupuesto_eur": 1701000000,
+      "presupuesto_descripcion": "Aportación estatal del periodo (4 años, distribución por CCAA vía convenios)",
+      "eje": "politica_general",
+      "color": "#1F4E8C",
+      "fuente_url": "https://www.boe.es/eli/es/rd/2022/01/18/42/con",
+      "fuente_label": "Real Decreto 42/2022 · BOE",
+      "fecha_inicio": "2022-01-19",
+      "fecha_fin": "2025-12-31",
+      "ministerio": "Ministerio de Vivienda y Agenda Urbana"
+    },
+    {
+      "id": "bono_alquiler_joven",
+      "programa": "Bono Alquiler Joven",
+      "estado": "vigente",
+      "descripcion": "Ayuda de 250 €/mes durante 24 meses para jóvenes de 18 a 35 años con rentas inferiores a 25.200 €/año (3xIPREM) que paguen alquiler. Gestionado por las CCAA con cofinanciación estatal.",
+      "presupuesto_eur": 200000000,
+      "presupuesto_descripcion": "Aportación estatal por anualidad (200 M€)",
+      "eje": "vivienda_joven",
+      "color": "#0EA5E9",
+      "fuente_url": "https://www.boe.es/eli/es/rd/2022/01/18/42/con",
+      "fuente_label": "Real Decreto 42/2022 · capítulo IV · BOE",
+      "fecha_inicio": "2022-01-19",
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Vivienda y Agenda Urbana"
+    },
+    {
+      "id": "ley_vivienda_12_2023",
+      "programa": "Ley 12/2023 por el derecho a la vivienda",
+      "estado": "vigente",
+      "descripcion": "Primera ley estatal de vivienda desde la Constitución. Define zonas de mercado residencial tensionado (ZMT), regula gran tenedor (≥10 viviendas, ≥5 en ZMT), introduce IRAV como índice de referencia del alquiler y limita actualizaciones. Aplicación voluntaria por las CCAA.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Sin presupuesto directo · norma regulatoria",
+      "eje": "regulacion",
+      "color": "#DC2626",
+      "fuente_url": "https://www.boe.es/eli/es/l/2023/05/24/12/con",
+      "fuente_label": "Ley 12/2023 de 24 de mayo · BOE",
+      "fecha_inicio": "2023-05-26",
+      "fecha_fin": null,
+      "ministerio": "Cortes Generales · Ministerio de Vivienda y Agenda Urbana"
+    },
+    {
+      "id": "sareb_cesion_50k",
+      "programa": "Cesión SAREB de viviendas a CCAA y tercer sector",
+      "estado": "vigente",
+      "descripcion": "SAREB cede viviendas de su balance a CCAA, ayuntamientos y entidades del tercer sector para vivienda social en alquiler asequible o cesión de uso. El compromiso público es ceder hasta 50.000 viviendas durante el horizonte de la sociedad.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Cesión en especie (parque inmobiliario), no presupuesto monetario directo",
+      "eje": "vivienda_social",
+      "color": "#16A34A",
+      "fuente_url": "https://www.sareb.es/es/responsabilidad-social/vivienda-social/",
+      "fuente_label": "SAREB · Vivienda social · portal oficial",
+      "fecha_inicio": "2013-01-01",
+      "fecha_fin": null,
+      "ministerio": "SAREB (sociedad pública vinculada al FROB / Min. Economía)"
+    },
+    {
+      "id": "perte_rehabilitacion",
+      "programa": "PRTR · Rehabilitación residencial y NextGen vivienda",
+      "estado": "vigente",
+      "descripcion": "Componente 2 del Plan de Recuperación destinado a rehabilitación energética de edificios residenciales. Incluye programa de ayudas a actuaciones de rehabilitación a nivel de edificio, vivienda individual y barrios. Meta declarada: 510.000 actuaciones acumuladas al 2026.",
+      "presupuesto_eur": 3420000000,
+      "presupuesto_descripcion": "Asignación PRTR Componente 2 (Mecanismo NextGenerationEU)",
+      "eje": "rehabilitacion",
+      "color": "#F97316",
+      "fuente_url": "https://www.mitma.gob.es/recuperacion-transformacion-resiliencia/prtr-vivienda",
+      "fuente_label": "MITMA · PRTR Vivienda",
+      "fecha_inicio": "2021-07-01",
+      "fecha_fin": "2026-06-30",
+      "ministerio": "MITMA · Ministerio de Vivienda y Agenda Urbana"
+    },
+    {
+      "id": "btr_promocion_alquiler",
+      "programa": "Build to Rent · promoción para alquiler institucional",
+      "estado": "mercado",
+      "descripcion": "Pipeline de vivienda nueva construida específicamente para alquiler (BTR), promovida por SOCIMIs, fondos institucionales y promotoras (Aedas Homes, Neinor, Stoneshield, Patrizia, AXA IM). No es un programa público sino una tendencia de mercado relevante para el equilibrio oferta/demanda.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Iniciativa privada · sin presupuesto público directo",
+      "eje": "oferta_privada",
+      "color": "#7C3AED",
+      "fuente_url": "https://www.cnmv.es/portal/Consultas/SOCIMIs.aspx",
+      "fuente_label": "CNMV · listado SOCIMIs (BME Growth y mercado continuo)",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "ministerio": null
+    }
+  ]
+}

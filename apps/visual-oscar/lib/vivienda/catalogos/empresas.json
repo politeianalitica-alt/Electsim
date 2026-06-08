@@ -1,0 +1,119 @@
+{
+  "_meta": {
+    "descripcion": "Empresas cotizadas y operadores institucionales con exposición material al mercado residencial español: SOCIMIs, promotoras, servicers, gestoras especializadas. Cada entrada cita el ticker y enlace a CNMV / portal del emisor.",
+    "actualizado": "2026-06-08",
+    "principio": "Sin capitalización inventada · si la cifra no se ha verificado en el último Cierre el día de actualización, queda como null y se recupera en V6/V8 vía endpoint dinámico."
+  },
+  "empresas": [
+    {
+      "id": "colonial",
+      "nombre": "Inmobiliaria Colonial",
+      "ticker": "COL.MC",
+      "segmento": "SOCIMI · oficinas prime CBD",
+      "descripcion": "SOCIMI líder europea en oficinas prime (Madrid, Barcelona, París). IBEX 35. Operadora histórica con foco en activos premium para alquiler institucional.",
+      "ibex": true,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A28027399",
+      "web": "https://www.inmocolonial.com/"
+    },
+    {
+      "id": "merlin",
+      "nombre": "Merlin Properties",
+      "ticker": "MRL.MC",
+      "segmento": "SOCIMI · diversificada (oficinas, logística, data centers)",
+      "descripcion": "SOCIMI diversificada con cartera de oficinas, logística, data centers y centros comerciales. IBEX 35. Mayor SOCIMI por capitalización en España.",
+      "ibex": true,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A86977790",
+      "web": "https://www.merlinproperties.com/"
+    },
+    {
+      "id": "lar_espana",
+      "nombre": "Lar España Real Estate",
+      "ticker": "LRE.MC",
+      "segmento": "SOCIMI · retail (centros comerciales)",
+      "descripcion": "SOCIMI especializada en retail. Gestiona una cartera de centros comerciales en España con foco en value-add. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A86918307",
+      "web": "https://www.larespana.com/"
+    },
+    {
+      "id": "aedas",
+      "nombre": "Aedas Homes",
+      "ticker": "AEDAS.MC",
+      "segmento": "Promotora residencial · vivienda nueva",
+      "descripcion": "Promotora residencial con pipeline en principales mercados españoles. Producción de vivienda nueva libre y BTR. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A87154085",
+      "web": "https://www.aedashomes.com/"
+    },
+    {
+      "id": "neinor",
+      "nombre": "Neinor Homes",
+      "ticker": "HOME.MC",
+      "segmento": "Promotora residencial · vivienda nueva + BTR",
+      "descripcion": "Promotora residencial con plataforma de BTR (Build to Rent) en desarrollo. Industrialización constructiva. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A05477215",
+      "web": "https://www.neinorhomes.com/"
+    },
+    {
+      "id": "metrovacesa",
+      "nombre": "Metrovacesa",
+      "ticker": "MVC.MC",
+      "segmento": "Promotora residencial · banco de suelo histórico",
+      "descripcion": "Promotora residencial con cartera de suelo finalista histórica. Origen banco de suelo de la antigua Metrovacesa. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A87471264",
+      "web": "https://www.metrovacesa.com/"
+    },
+    {
+      "id": "insur",
+      "nombre": "Grupo Insur",
+      "ticker": "ISUR.MC",
+      "segmento": "Promotora residencial + patrimonio · foco Andalucía",
+      "descripcion": "Grupo promotor patrimonialista con fuerte presencia en Andalucía. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A41010382",
+      "web": "https://www.grupoinsur.com/"
+    },
+    {
+      "id": "realia",
+      "nombre": "Realia Business",
+      "ticker": "RLIA.MC",
+      "segmento": "Diversificada · suelo, patrimonio y promoción",
+      "descripcion": "Grupo cotizado con cartera diversificada de suelo, patrimonio en alquiler y promoción residencial. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A78783856",
+      "web": "https://www.realia.es/"
+    },
+    {
+      "id": "renta_corp",
+      "nombre": "Renta Corporación Real Estate",
+      "ticker": "REN.MC",
+      "segmento": "Reposicionamiento de activos",
+      "descripcion": "Compañía dedicada al reposicionamiento de activos inmobiliarios para inversores institucionales. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A62385729",
+      "web": "https://www.rentacorporacion.com/"
+    },
+    {
+      "id": "quabit",
+      "nombre": "Quabit Inmobiliaria · Activos Egeo",
+      "ticker": "AEGO.MC",
+      "segmento": "Promoción residencial · suelo",
+      "descripcion": "Compañía con cartera de suelo y promoción residencial. Cotiza en el Mercado Continuo. Histórico vinculado a Quabit.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionEmisores.aspx",
+      "web": null
+    }
+  ]
+}

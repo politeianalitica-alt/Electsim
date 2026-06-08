@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "descripcion": "Áreas estratégicas (topic taxonomy) del sector vivienda. Cada área tiene keywords para cruce con BDNS, BOE, prensa y entidades.",
+    "actualizado": "2026-06-08"
+  },
+  "areas": [
+    {
+      "id": "acceso_joven",
+      "titulo": "Acceso a la vivienda · jóvenes",
+      "descripcion": "Bono Alquiler Joven, avales ICO 20% para primer acceso, programas autonómicos de emancipación.",
+      "color": "#0EA5E9",
+      "keywords": ["bono alquiler joven", "primer acceso", "aval ICO", "jovenes 18-35", "emancipacion"],
+      "tab_destino": "politica"
+    },
+    {
+      "id": "ley_12_2023",
+      "titulo": "Ley 12/2023 · ZMT y gran tenedor",
+      "descripcion": "Zonas de mercado residencial tensionado, índice IRAV, definición y obligaciones del gran tenedor, limitación a la actualización de rentas.",
+      "color": "#DC2626",
+      "keywords": ["ley vivienda", "zona tensionada", "irav", "gran tenedor", "limitacion alquiler"],
+      "tab_destino": "alquiler"
+    },
+    {
+      "id": "vivienda_social",
+      "titulo": "Vivienda social · SAREB y tercer sector",
+      "descripcion": "Cesión de SAREB a CCAA y entidades del tercer sector, parque público de alquiler asequible, gestión por ONGs especializadas.",
+      "color": "#16A34A",
+      "keywords": ["vivienda social", "sareb cesion", "alquiler asequible", "vivienda protegida", "vpo"],
+      "tab_destino": "social"
+    },
+    {
+      "id": "btr",
+      "titulo": "Build to Rent · alquiler institucional",
+      "descripcion": "Promoción residencial para alquiler institucional (Aedas, Neinor, Stoneshield, Patrizia, AXA IM). Pipeline declarado supera las 25.000 viviendas.",
+      "color": "#7C3AED",
+      "keywords": ["build to rent", "btr", "alquiler institucional", "vivienda nueva alquiler"],
+      "tab_destino": "mercado"
+    },
+    {
+      "id": "rehabilitacion_nextgen",
+      "titulo": "Rehabilitación · PRTR NextGen",
+      "descripcion": "Componente 2 del Plan de Recuperación. 510.000 actuaciones declaradas. Foco en eficiencia energética A-B-C, accesibilidad, ITE, digitalización del hogar.",
+      "color": "#F97316",
+      "keywords": ["rehabilitacion", "next generation", "prtr", "eficiencia energetica", "ite"],
+      "tab_destino": "sostenibilidad"
+    },
+    {
+      "id": "socimis_mercado",
+      "titulo": "SOCIMIs y mercado financiero",
+      "descripcion": "Colonial, Merlin, Lar España y resto de SOCIMIs cotizadas. BME Growth segmento SOCIMI. Bonos verdes inmobiliarios.",
+      "color": "#5B21B6",
+      "keywords": ["socimi", "bme growth", "bonos verdes", "real estate financiero", "ibex inmobiliario"],
+      "tab_destino": "mercado"
+    },
+    {
+      "id": "hipotecas_tipos",
+      "titulo": "Hipotecas, tipos y supervisión",
+      "descripcion": "EURIBOR, IRPH, supervisión BdE, subrogaciones, novaciones, ratios crédito vivienda, mora hipotecaria.",
+      "color": "#1F4E8C",
+      "keywords": ["hipoteca", "euribor", "irph", "credito vivienda", "morosidad hipotecaria"],
+      "tab_destino": "mercado"
+    },
+    {
+      "id": "suelo_urbanismo",
+      "titulo": "Suelo finalista y urbanismo",
+      "descripcion": "Suelo público SEPES, PGOU, revisiones, transformación CT/MD, costas, suelo finalista vs no urbanizable.",
+      "color": "#0F766E",
+      "keywords": ["suelo", "urbanismo", "pgou", "sepes", "suelo finalista"],
+      "tab_destino": "politica"
+    },
+    {
+      "id": "sinhogarismo",
+      "titulo": "Sinhogarismo y exclusión residencial",
+      "descripcion": "Personas en situación sin hogar (FEANTSA ETHOS), desahucios CGPJ, ONGs Hogar Sí · Provivienda · Cáritas · RAIS, estrategia nacional.",
+      "color": "#B45309",
+      "keywords": ["sinhogarismo", "sin hogar", "ethos", "desahucios", "exclusion residencial", "housing first"],
+      "tab_destino": "social"
+    },
+    {
+      "id": "vivienda_turistica",
+      "titulo": "Vivienda de uso turístico",
+      "descripcion": "Tasas, regulación CCAA, datos de plataformas (DSA Transparency, Booking, Airbnb), competencia con alquiler residencial.",
+      "color": "#EAB308",
+      "keywords": ["vivienda turistica", "vut", "alquiler turistico", "airbnb", "booking", "dsa"],
+      "tab_destino": "turistica"
+    }
+  ]
+}

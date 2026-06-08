@@ -23,10 +23,13 @@ import { HeroKpis, type HeroKpiItem } from '../../sector-energia/_components/sha
 import {
   ACCENT,
   ACCENT_DARK,
+  fmtEur as fmtEurShared,
   sumImportes,
   toMeur,
   type FinEnvelope,
   type FinPayload,
+  type FinanciadorActivoRow,
+  type TerritorioFinRow,
 } from './FinShared'
 import { FinFuentesError } from './FinFuentesError'
 import { FinConvocatoriasTable } from './FinConvocatoriasTable'
@@ -78,6 +81,13 @@ export function TSFinanciacionView() {
     return data.resumen?.total_concedido_eur ?? null
   }, [data])
 
+  // TS-Deep B6: enriched data from endpoint
+  const totalConcedidoTs = data?.resumen?.total_concedido_ts_eur ?? null
+  const financiadoresActivos = data?.financiadores_activos ?? []
+  const porTerritorio = data?.por_territorio ?? {}
+  const rankingBeneficiarios = data?.ranking_beneficiarios ?? []
+  const nConcesionesTs = data?.resumen?.n_concesiones_ts ?? null
+
   const heroItems: HeroKpiItem[] = useMemo(() => {
     const r = data?.resumen
     return [
@@ -90,18 +100,19 @@ export function TSFinanciacionView() {
         footer: 'BDNS · muestra reciente',
       },
       {
+        label: 'Al tercer sector',
+        value: toMeur(totalConcedidoTs),
+        unit: 'M€',
+        decimals: 1,
+        color: '#86EFAC',
+        footer: nConcesionesTs != null ? `${nConcesionesTs} concesiones TS (NIF+keyword)` : 'Filtrado NIF/keyword',
+      },
+      {
         label: 'Convocatorias',
         value: r?.n_convocatorias ?? null,
         decimals: 0,
-        color: '#86EFAC',
-        footer: 'BDNS · abiertas recientes',
-      },
-      {
-        label: 'Concesiones',
-        value: r?.n_concesiones ?? null,
-        decimals: 0,
         color: '#7DD3FC',
-        footer: 'BDNS · resoluciones',
+        footer: 'BDNS · abiertas recientes',
       },
       {
         label: 'Grants UE',
@@ -109,6 +120,13 @@ export function TSFinanciacionView() {
         decimals: 0,
         color: '#C4B5FD',
         footer: 'SEDIA · CERV/ESF+/Horizon',
+      },
+      {
+        label: 'Financiadores activos',
+        value: financiadoresActivos.length > 0 ? financiadoresActivos.length : null,
+        decimals: 0,
+        color: '#FDBA74',
+        footer: 'Organismos que financian TS ahora',
       },
       {
         label: 'IRPF 0,7%',
@@ -119,7 +137,7 @@ export function TSFinanciacionView() {
         footer: data?.irpf_07 ? `≈ ${data.irpf_07.beneficiarias_aprox.toLocaleString('es-ES')} entidades` : 'fines sociales',
       },
     ]
-  }, [data, totalConcedido])
+  }, [data, totalConcedido, totalConcedidoTs, nConcesionesTs, financiadoresActivos.length])
 
   const convocatorias = data?.convocatorias ?? []
   const concesiones = data?.concesiones ?? []
@@ -208,9 +226,27 @@ export function TSFinanciacionView() {
           sourceLabel="BDNS · SEDIA · cooperación"
           sourceTooltip="Agregación de oportunidades del cockpit + concesiones BDNS"
         >
-          <FinanciadoresActivos concesiones={concesiones} />
+          <FinanciadoresActivos
+            concesiones={concesiones}
+            precomputed={financiadoresActivos}
+          />
         </Panel>
       </div>
+
+      {/* TS-Deep B6: Territorio — desglose CCAA del dinero al tercer sector */}
+      {Object.keys(porTerritorio).length > 0 && (
+        <div style={{ marginBottom: 14 }}>
+          <Panel
+            title="Distribucion territorial · concesiones al tercer sector"
+            subtitle="Desglose CCAA por numero de concesiones e importe"
+            sourceUrl="https://www.infosubvenciones.es/bdnstrans/GE/es/index"
+            sourceLabel="BDNS"
+            sourceTooltip="Concesiones BDNS enriquecidas · clasificacion NIF + keyword + territorio"
+          >
+            <TerritorioFinTable porTerritorio={porTerritorio} />
+          </Panel>
+        </div>
+      )}
 
       {/* Grants UE + IRPF 0,7%, en paralelo */}
       <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)', gap: 14, marginBottom: 14 }}>
@@ -290,6 +326,69 @@ export function TSFinanciacionView() {
           el de contratación pública viven en sus propias secciones.
         </span>
       </div>
+    </div>
+  )
+}
+
+/** TS-Deep B6: Territory breakdown table (CCAA) from enriched endpoint data. */
+function TerritorioFinTable({ porTerritorio }: { porTerritorio: Record<string, TerritorioFinRow> }) {
+  const rows = Object.entries(porTerritorio)
+    .map(([ccaa, v]) => ({ ccaa, count: v.count, total_eur: v.total_eur }))
+    .sort((a, b) => b.total_eur - a.total_eur)
+
+  if (rows.length === 0) {
+    return <div style={{ fontSize: 12, color: '#9CA3AF', padding: '8px 0' }}>Sin desglose territorial.</div>
+  }
+
+  const maxEur = Math.max(1, ...rows.map((r) => r.total_eur))
+
+  return (
+    <div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {rows.map((r) => {
+          const pct = Math.round((r.total_eur / maxEur) * 100)
+          return (
+            <div key={r.ccaa} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span
+                style={{
+                  fontSize: 11.5,
+                  fontWeight: 600,
+                  color: '#0f172a',
+                  minWidth: 140,
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                title={r.ccaa}
+              >
+                {r.ccaa}
+              </span>
+              <span style={{ flex: 1, height: 8, background: '#F1F5F9', borderRadius: 999, overflow: 'hidden' }}>
+                <span
+                  style={{
+                    display: 'block',
+                    width: `${pct}%`,
+                    height: '100%',
+                    background: ACCENT,
+                    borderRadius: 999,
+                    minWidth: pct > 0 ? 4 : 0,
+                  }}
+                />
+              </span>
+              <span style={{ fontSize: 10.5, color: '#475569', fontVariantNumeric: 'tabular-nums', minWidth: 80, textAlign: 'right' }}>
+                {fmtEurShared(r.total_eur)}
+              </span>
+              <span style={{ fontSize: 10, color: '#94A3B8', minWidth: 50, textAlign: 'right' }}>
+                {r.count} conc.
+              </span>
+            </div>
+          )
+        })}
+      </div>
+      <p style={{ margin: '10px 0 0', fontSize: 9.5, color: '#9CA3AF', lineHeight: 1.5 }}>
+        Concesiones clasificadas como tercer sector (NIF G/R/F/V + terminos clave en razon social).
+        La CCAA se detecta automaticamente del organo convocante. Heuristico documentado, no oficial.
+      </p>
     </div>
   )
 }

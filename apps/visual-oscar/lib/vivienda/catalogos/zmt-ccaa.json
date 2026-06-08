@@ -1,0 +1,179 @@
+{
+  "_meta": {
+    "descripcion": "Estado de implantación de la Ley 12/2023 por CCAA · zonas de mercado residencial tensionado (ZMT), índice de referencia, regulación complementaria autonómica. Las CCAA tienen competencia exclusiva en vivienda y la Ley 12/2023 se aplica por opt-in territorial.",
+    "actualizado": "2026-06-08",
+    "principio": "Cada estado tiene su fuente normativa con link al boletín oficial autonómico cuando consta. Si el estado cambia (CCAA cambia de gobierno, declara nuevas ZMT, etc.) este catálogo se actualiza."
+  },
+  "ccaa": [
+    {
+      "id": "cataluna",
+      "nombre": "Cataluña",
+      "estado": "activa",
+      "zmt_declaradas": 271,
+      "comentario": "Pionera en aplicación. Aprobó la primera lista oficial de municipios tensionados a marzo de 2024 con 140 municipios; ampliación posterior. Uso del Índice de Referencia del Precio del Alquiler propio (IRP).",
+      "fuente_url": "https://habitatge.gencat.cat/ca/ambits/lloguer/lloguer-zones-mercat-residencial-tensionat/",
+      "fuente_label": "Generalitat de Catalunya · Departament d'Habitatge",
+      "color": "#16A34A"
+    },
+    {
+      "id": "pais_vasco",
+      "nombre": "País Vasco",
+      "estado": "activa",
+      "zmt_declaradas": null,
+      "comentario": "Aplicación parcial vía decreto autonómico de aplicación. Ha activado mecanismos de contención del alquiler en municipios concretos (Bilbao y Donostia).",
+      "fuente_url": "https://www.euskadi.eus/gobierno-vasco/departamento-vivienda-asuntos-sociales-agenda-2030/",
+      "fuente_label": "Gobierno Vasco · Departamento de Vivienda",
+      "color": "#16A34A"
+    },
+    {
+      "id": "navarra",
+      "nombre": "Navarra",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Trabajos de diagnóstico territoriales. Sin declaraciones formales de ZMT a fecha de actualización del catálogo.",
+      "fuente_url": "https://www.navarra.es/es/temas/vivienda",
+      "fuente_label": "Gobierno de Navarra · vivienda",
+      "color": "#EAB308"
+    },
+    {
+      "id": "madrid",
+      "nombre": "Comunidad de Madrid",
+      "estado": "rechaza",
+      "zmt_declaradas": 0,
+      "comentario": "Gobierno autonómico ha declarado públicamente que no aplicará la Ley 12/2023 en los términos previstos. Sin declaraciones de ZMT.",
+      "fuente_url": "https://www.comunidad.madrid/transparencia/normativa/ley-vivienda",
+      "fuente_label": "Comunidad de Madrid · normativa de vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "andalucia",
+      "nombre": "Andalucía",
+      "estado": "rechaza",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública contraria a la aplicación de la Ley 12/2023. Sin declaraciones de ZMT.",
+      "fuente_url": "https://www.juntadeandalucia.es/organismos/fomentoarticulacionterritorioyvivienda.html",
+      "fuente_label": "Junta de Andalucía · Consejería de Fomento y Vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "valencia",
+      "nombre": "Comunidad Valenciana",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Cambio de gobierno autonómico modificó la posición previa. En revisión.",
+      "fuente_url": "https://habitatge.gva.es/",
+      "fuente_label": "Generalitat Valenciana · Habitatge",
+      "color": "#EAB308"
+    },
+    {
+      "id": "galicia",
+      "nombre": "Galicia",
+      "estado": "no_aplica",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública de no aplicación. Sin ZMT declaradas.",
+      "fuente_url": "https://igvs.xunta.gal/",
+      "fuente_label": "IGVS · Instituto Galego da Vivenda e Solo",
+      "color": "#DC2626"
+    },
+    {
+      "id": "baleares",
+      "nombre": "Illes Balears",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Trabajos preliminares. Foco en presión turística sobre el residencial.",
+      "fuente_url": "https://www.caib.es/sites/habitatge/",
+      "fuente_label": "Govern de les Illes Balears · Habitatge",
+      "color": "#EAB308"
+    },
+    {
+      "id": "canarias",
+      "nombre": "Canarias",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Diagnóstico en curso. Comparte con Baleares el factor turístico.",
+      "fuente_url": "https://www.gobiernodecanarias.org/viviendayarquitectura/",
+      "fuente_label": "Gobierno de Canarias · Vivienda y Arquitectura",
+      "color": "#EAB308"
+    },
+    {
+      "id": "asturias",
+      "nombre": "Asturias",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Sin ZMT declaradas. Diagnóstico territorial en curso.",
+      "fuente_url": "https://www.asturias.es/portal/site/Asturias",
+      "fuente_label": "Gobierno del Principado de Asturias",
+      "color": "#EAB308"
+    },
+    {
+      "id": "aragon",
+      "nombre": "Aragón",
+      "estado": "no_aplica",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública de no aplicación.",
+      "fuente_url": "https://www.aragon.es/-/vivienda",
+      "fuente_label": "Gobierno de Aragón · vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "castilla_leon",
+      "nombre": "Castilla y León",
+      "estado": "no_aplica",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública de no aplicación.",
+      "fuente_url": "https://www.jcyl.es/web/jcyl/CulturaTurismoyDeporte/es",
+      "fuente_label": "Junta de Castilla y León · vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "castilla_la_mancha",
+      "nombre": "Castilla-La Mancha",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Sin ZMT declaradas a fecha de actualización.",
+      "fuente_url": "https://vivienda.castillalamancha.es/",
+      "fuente_label": "JCCM · vivienda",
+      "color": "#EAB308"
+    },
+    {
+      "id": "extremadura",
+      "nombre": "Extremadura",
+      "estado": "no_aplica",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública de no aplicación.",
+      "fuente_url": "https://www.juntaex.es/temas/movilidad-territorio-y-vivienda",
+      "fuente_label": "Junta de Extremadura · vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "murcia",
+      "nombre": "Región de Murcia",
+      "estado": "no_aplica",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública de no aplicación.",
+      "fuente_url": "https://www.carm.es/web/pagina?IDCONTENIDO=2253&IDTIPO=140&RASTRO=c$m22720",
+      "fuente_label": "CARM · vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "la_rioja",
+      "nombre": "La Rioja",
+      "estado": "no_aplica",
+      "zmt_declaradas": 0,
+      "comentario": "Posición pública de no aplicación.",
+      "fuente_url": "https://www.larioja.org/vivienda/es",
+      "fuente_label": "Gobierno de La Rioja · vivienda",
+      "color": "#DC2626"
+    },
+    {
+      "id": "cantabria",
+      "nombre": "Cantabria",
+      "estado": "en_estudio",
+      "zmt_declaradas": null,
+      "comentario": "Diagnóstico en curso.",
+      "fuente_url": "https://gobcantabria.es/desarrollorural/-/info/45620/vivienda",
+      "fuente_label": "Gobierno de Cantabria · vivienda",
+      "color": "#EAB308"
+    }
+  ]
+}

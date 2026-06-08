@@ -29,6 +29,7 @@ import type {
 } from '@/lib/tercer-sector/oportunidades/types'
 import { scoreOportunidad, diasRestantes } from '@/lib/tercer-sector/oportunidades/scoring'
 import { fetchConvocatorias, type BdnsConvocatoria } from '@/lib/tercer-sector/bdns'
+import { enrichConvocatoria } from '@/lib/tercer-sector/bdns-enrichment'
 import { ccaaKey } from '@/lib/tercer-sector/shared'
 import type {
   FuenteLicitacion,
@@ -83,14 +84,68 @@ function tipoDesdeLicitacion(l: LicitacionNormalizada): TipoOportunidad {
   return 'licitacion'
 }
 
-/** Convocatoria BDNS → OportunidadTS (tipo 'subvencion'). */
-function fromBdnsConvocatoria(c: BdnsConvocatoria, now: Date): OportunidadTS {
+/**
+ * Convocatoria BDNS → OportunidadTS (tipo 'subvencion').
+ * TS-Deep: enriquece con bdns-enrichment (sector, colectivo, beneficiarios, scoring profundo).
+ * skipFicha=true para no bloquear el agregador con fetches a infosubvenciones.
+ */
+async function fromBdnsConvocatoria(c: BdnsConvocatoria, now: Date): Promise<OportunidadTS> {
+  // Attempt enrichment (skipFicha for speed in aggregator)
+  let enriched: Awaited<ReturnType<typeof enrichConvocatoria>> | null = null
+  try {
+    enriched = await enrichConvocatoria(
+      {
+        numero: c.numero ?? undefined,
+        titulo: c.titulo,
+        organo: c.organo ?? undefined,
+        fecha_recepcion: c.fecha ?? undefined,
+      },
+      { skipFicha: true },
+    )
+  } catch {
+    // Enrichment failed - fall back to basic scoring
+  }
+
+  // Use enriched scoring if available, else fall back to basic
+  if (enriched) {
+    return {
+      id: enriched.id || `bdns-conv:${c.id || c.numero || c.titulo.slice(0, 40)}`,
+      tipo: 'subvencion',
+      titulo: c.titulo,
+      organismo: c.organo || c.territorio || c.nivel || 'Administracion (BDNS)',
+      fuente: 'bdns',
+      fuente_url: BDNS_PUBLIC,
+      url: enriched.url_ficha || BDNS_PUBLIC,
+      pais: 'Espana',
+      region: enriched.territorio || c.territorio || null,
+      ccaa: ccaaKey(enriched.territorio || c.territorio),
+      fecha_publicacion: c.fecha,
+      fecha_limite: enriched.fecha_fin_solicitud,
+      dias_restantes: enriched.dias_restantes,
+      importe_eur: enriched.importe_total_eur,
+      moneda: 'EUR',
+      sector_ts: enriched.sectores_ts[0] || null,
+      cpv: null,
+      dac_sector: null,
+      beneficiarios_objetivo: enriched.colectivo_objetivo,
+      requisitos_resumen: enriched.beneficiarios_elegibles.length > 0
+        ? `Beneficiarios: ${enriched.beneficiarios_elegibles.join(', ')}`
+        : null,
+      documentos: [],
+      score_ong: enriched.score_ong,
+      score_label: enriched.score_label,
+      razones_score: enriched.razones_score,
+      riesgo: enriched.score_label === 'alta' ? 'bajo' : enriched.score_label === 'incierta' ? 'incierto' : 'medio',
+    }
+  }
+
+  // Fallback: basic scoring (no enrichment available)
   const dias = diasRestantes(c.fecha, now)
   const sc = scoreOportunidad({
     titulo: c.titulo,
     cpv: null,
     tipo: 'subvencion',
-    importe_eur: null, // la búsqueda de convocatorias no informa importe → no se inventa
+    importe_eur: null,
     fecha_limite: c.fecha,
     documentos: null,
     moneda: 'EUR',
@@ -101,17 +156,17 @@ function fromBdnsConvocatoria(c: BdnsConvocatoria, now: Date): OportunidadTS {
     id: `bdns-conv:${c.id || c.numero || c.titulo.slice(0, 40)}`,
     tipo: 'subvencion',
     titulo: c.titulo,
-    organismo: c.organo || c.territorio || c.nivel || 'Administración (BDNS)',
+    organismo: c.organo || c.territorio || c.nivel || 'Administracion (BDNS)',
     fuente: 'bdns',
     fuente_url: BDNS_PUBLIC,
     url: c.numero
       ? `https://www.infosubvenciones.es/bdnstrans/GE/es/convocatoria/${encodeURIComponent(c.numero)}`
       : BDNS_PUBLIC,
-    pais: 'España',
+    pais: 'Espana',
     region: c.territorio || null,
     ccaa: ccaaKey(c.territorio),
     fecha_publicacion: c.fecha,
-    fecha_limite: null, // BDNS búsqueda no da plazo de presentación fiable → null
+    fecha_limite: null,
     dias_restantes: dias,
     importe_eur: null,
     moneda: 'EUR',
@@ -237,10 +292,13 @@ export async function GET(req: Request) {
       ),
     ])
 
-    // BDNS convocatorias → subvenciones.
+    // BDNS convocatorias → subvenciones (with enrichment).
     if (bdnsRes.ok && Array.isArray(bdnsRes.data)) {
       fuentes_ok.push('bdns-convocatorias')
-      for (const c of bdnsRes.data) all.push(fromBdnsConvocatoria(c, now))
+      const enrichedConvs = await Promise.all(
+        bdnsRes.data.map((c) => fromBdnsConvocatoria(c, now)),
+      )
+      for (const o of enrichedConvs) all.push(o)
     } else {
       fuentes_error.push({
         fuente: 'bdns-convocatorias',
