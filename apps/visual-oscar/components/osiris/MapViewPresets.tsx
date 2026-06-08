@@ -57,8 +57,9 @@ export default function MapViewPresets() {
             autoFocus
             maxLength={48}
             style={{
-              flex: 1, minWidth: 0, fontSize: 11, color: '#e8edf6',
-              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.14)',
+              flex: 1, minWidth: 0, fontSize: 11, fontWeight: 600,
+              color: '#14315C', caretColor: '#14315C',
+              background: '#ffffff', border: '1px solid #d2d2d7',
               borderRadius: 5, padding: '4px 8px', outline: 'none',
             }}
           />
