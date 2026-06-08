@@ -1039,9 +1039,11 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           'icon-rotate': ['coalesce', ['get','heading'], ['get','course'], 0],
           'icon-rotation-alignment': 'map',
           'icon-allow-overlap': true, 'icon-ignore-placement': true,
-          'icon-size': ['*',
-            ['interpolate', ['linear'], ['zoom'], 2, 0.45, 6, 0.78, 11, 1.1, 14, 1.4],
-            shipSizeFactor],
+          'icon-size': ['interpolate', ['linear'], ['zoom'],
+            2, ['*', 0.45, shipSizeFactor],
+            6, ['*', 0.78, shipSizeFactor],
+            11, ['*', 1.1, shipSizeFactor],
+            14, ['*', 1.4, shipSizeFactor]],
         }});
       map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 8, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
@@ -1203,7 +1205,6 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           <div class="pol-route" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);font-size:10px;color:#aaa;">◴ Buscando ruta…</div>
           <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
             <a href="https://www.flightradar24.com/${encodeURIComponent(cs || (p.registration||'').trim())}" target="_blank" style="${linkStyle}color:#FECA00;border:1px solid rgba(254,202,0,0.55);background:rgba(254,202,0,0.14);font-weight:700;">FLIGHTRADAR24</a>
-            <a href="https://www.flightaware.com/live/flight/${cs}" target="_blank" style="${linkStyle}color:#D4AF37;border:1px solid rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);">FLIGHTAWARE</a>
             <a href="https://globe.adsbexchange.com/?icao=${p.icao24||''}" target="_blank" style="${linkStyle}color:#00E5FF;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.1);">ADS-B</a>
             <a href="https://www.radarbox.com/data/flights/${cs}" target="_blank" style="${linkStyle}color:#FF69B4;border:1px solid rgba(255,105,180,0.4);background:rgba(255,105,180,0.1);">RADARBOX</a>
           </div>
