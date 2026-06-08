@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "descripcion": "Reguladores, supervisores y organismos institucionales del sistema farmacéutico en España y Europa. Cada entrada con competencias delimitadas + URL oficial.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Farma v3",
+    "principio": "Las competencias se describen con base normativa, no según interpretaciones de prensa."
+  },
+  "reguladores": [
+    {
+      "id": "aemps",
+      "nombre": "Agencia Española de Medicamentos y Productos Sanitarios",
+      "siglas": "AEMPS",
+      "competencias": "Autorización de medicamentos · farmacovigilancia · vigilancia de productos sanitarios · alertas de calidad y seguridad · gestión del CIMA (catálogo nacional) · evaluación clínica nacional.",
+      "web": "https://www.aemps.gob.es/",
+      "categoria": "agencia_publica",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cipm",
+      "nombre": "Comisión Interministerial de Precios de los Medicamentos",
+      "siglas": "CIPM",
+      "competencias": "Fijación del precio industrial de los medicamentos sujetos a prescripción · negociación con titulares de autorización · revisión anual de precios.",
+      "web": "https://www.sanidad.gob.es/areas/farmacia/financiacionPrecios/CIPM/home.htm",
+      "categoria": "comision_interministerial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "min_sanidad",
+      "nombre": "Ministerio de Sanidad",
+      "siglas": "SANIDAD",
+      "competencias": "Política farmacéutica nacional · cartera común de prestaciones del SNS · financiación pública de medicamentos · planes estratégicos (PERTE Salud Vanguardia) · coordinación con CCAA.",
+      "web": "https://www.sanidad.gob.es/",
+      "categoria": "ministerio",
+      "ambito": "estatal"
+    },
+    {
+      "id": "csm",
+      "nombre": "Consejo Interterritorial del Sistema Nacional de Salud",
+      "siglas": "CISNS",
+      "competencias": "Órgano de coordinación entre Estado y CCAA en materia sanitaria · acuerdos sobre cartera de servicios y prestación farmacéutica · cohesión del sistema.",
+      "web": "https://www.sanidad.gob.es/areas/calidadAsistencial/cisns/home.htm",
+      "categoria": "organo_coordinacion",
+      "ambito": "estatal"
+    },
+    {
+      "id": "ema",
+      "nombre": "European Medicines Agency",
+      "siglas": "EMA",
+      "competencias": "Evaluación científica y supervisión de medicamentos en la Unión Europea · autorización centralizada · farmacovigilancia europea · gestión de desabastecimientos críticos · referrals de seguridad.",
+      "web": "https://www.ema.europa.eu/",
+      "categoria": "agencia_ue",
+      "ambito": "ue"
+    },
+    {
+      "id": "dg_sante",
+      "nombre": "DG SANTE · Dirección General de Salud y Seguridad Alimentaria",
+      "siglas": "DG SANTE",
+      "competencias": "Política farmacéutica de la Comisión Europea · Reglamento Farmacéutico UE (en negociación) · estrategia farmacéutica para Europa · acceso a medicamentos.",
+      "web": "https://health.ec.europa.eu/",
+      "categoria": "direccion_ue",
+      "ambito": "ue"
+    },
+    {
+      "id": "hma",
+      "nombre": "Heads of Medicines Agencies",
+      "siglas": "HMA",
+      "competencias": "Red de agencias nacionales del Espacio Económico Europeo · coordina la implementación regulatoria y prepara las decisiones que se canalizan vía EMA o procedimientos descentralizados.",
+      "web": "https://www.hma.eu/",
+      "categoria": "red_agencias",
+      "ambito": "ue"
+    },
+    {
+      "id": "cnmv_farma",
+      "nombre": "Comisión Nacional del Mercado de Valores",
+      "siglas": "CNMV",
+      "competencias": "Supervisión de las empresas farmacéuticas cotizadas (Grifols, Almirall, Rovi…) · hechos relevantes · folletos de emisión · transparencia ESG y bonos verdes.",
+      "web": "https://www.cnmv.es/",
+      "categoria": "supervisor_financiero",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cnmc_farma",
+      "nombre": "Comisión Nacional de los Mercados y la Competencia",
+      "siglas": "CNMC",
+      "competencias": "Análisis del mercado farmacéutico (concentración, prácticas restrictivas), expedientes sancionadores y estudios sobre competencia en distribución y oficina de farmacia.",
+      "web": "https://www.cnmc.es/",
+      "categoria": "supervisor_mercado",
+      "ambito": "estatal"
+    },
+    {
+      "id": "farmaindustria",
+      "nombre": "Farmaindustria",
+      "siglas": "FARMAINDUSTRIA",
+      "competencias": "Asociación de la industria farmacéutica innovadora en España · informe anual sectorial · interlocución con AEMPS y Sanidad · código deontológico del sector.",
+      "web": "https://www.farmaindustria.es/",
+      "categoria": "asociacion_sectorial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "asebio",
+      "nombre": "Asociación Española de Bioempresas",
+      "siglas": "ASEBIO",
+      "competencias": "Asociación que aglutina al sector biotecnológico español · informe anual del estado del sector · relación con AEMPS, ASEN y Estado para política I+D biotech.",
+      "web": "https://www.asebio.com/",
+      "categoria": "asociacion_sectorial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "fed_fedfarma",
+      "nombre": "FEDIFAR · Federación de Distribución Farmacéutica",
+      "siglas": "FEDIFAR",
+      "competencias": "Federación de los distribuidores farmacéuticos mayoristas · datos sectoriales de distribución · interlocución sobre desabastecimiento y trazabilidad.",
+      "web": "https://www.fedifar.org/",
+      "categoria": "asociacion_sectorial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cgcof",
+      "nombre": "Consejo General de Colegios Oficiales de Farmacéuticos",
+      "siglas": "CGCOF",
+      "competencias": "Organización colegial farmacéutica · regulación de la oficina de farmacia · BOTplus base de datos · datos del sector oficina de farmacia.",
+      "web": "https://www.farmaceuticos.com/",
+      "categoria": "corporacion_publica",
+      "ambito": "estatal"
+    }
+  ]
+}
