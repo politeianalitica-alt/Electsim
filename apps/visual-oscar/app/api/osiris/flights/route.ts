@@ -94,6 +94,21 @@ async function fetchOpenSky(): Promise<any[]> {
   }
 }
 
+// Feed dedicado de aeronaves militares (airplanes.live /v2/mil): devuelve en una
+// sola llamada TODAS las colas etiquetadas como militares en el mundo, con el
+// mismo formato {ac:[...]} que adsb.lol. Cubre los huecos del muestreo regional
+// (cazas, ISR, cisternas, AWACS sobre océanos y zonas sin región propia).
+async function fetchMil(): Promise<any[]> {
+  try {
+    const res = await fetch('https://api.airplanes.live/v2/mil', {
+      signal: AbortSignal.timeout(8000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (PoliteiaOSINT)' },
+    });
+    if (res.ok) { const data = await res.json(); return data.ac || []; }
+  } catch { /* sin feed militar: quedan los detectados por región/heurística */ }
+  return [];
+}
+
 const MIL_CALLSIGN_RE = /^(RCH|REACH|KING|DUKE|EVAC|JAKE|CONVOY|RRR|ASCOT|NAVY|ARMY|HERKY|FORTE|GRZLY|HOMER|SENTRY|SLAM|VADER|BAF|CFC|NATO|AWACS)\d*/i;
 
 // Clasifica un state-vector de OpenSky (array) heurísticamente por callsign.
@@ -221,9 +236,10 @@ export async function GET() {
   // Start new global fetch
   fetchPromise = (async () => {
     // Fetch all regions (adsb.lol) + OpenSky global en paralelo
-    const [regionResults, openskyStates] = await Promise.all([
+    const [regionResults, openskyStates, milAc] = await Promise.all([
       Promise.allSettled(REGIONS.map(r => fetchRegion(r))),
       fetchOpenSky(),
+      fetchMil(),
     ]);
 
     const allRaw: any[] = [];
@@ -270,6 +286,21 @@ export async function GET() {
       }
     }
 
+    // Feed militar GLOBAL (airplanes.live /v2/mil): añade colas militares que el
+    // muestreo regional de adsb.lol no captura. Vienen del endpoint /mil, así que
+    // se fuerzan a categoría 'military' (dedupe por hex).
+    let milAdded = 0;
+    for (const ac of milAc) {
+      const hex = (ac.hex || '').toLowerCase().trim();
+      if (!hex || seenHex.has(hex)) continue;
+      const flight = classifyFlight(ac);
+      if (!flight) continue;
+      seenHex.add(hex);
+      flight.category = 'military';
+      military.push(flight);
+      milAdded++;
+    }
+
     // Merge OpenSky (best-effort): añade vuelos que adsb.lol no tiene (huecos
     // oceánicos, regiones sin cobertura). Clasificación heurística por callsign.
     let openskyAdded = 0;
@@ -295,7 +326,7 @@ export async function GET() {
       military_flights: military,
       gps_jamming: jammingZones,
       total: seenHex.size,
-      sources: { adsblol: allRaw.length, opensky_added: openskyAdded },
+      sources: { adsblol: allRaw.length, opensky_added: openskyAdded, mil_added: milAdded },
       timestamp: new Date().toISOString(),
     };
   })();

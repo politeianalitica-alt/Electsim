@@ -138,11 +138,25 @@ export async function GET() {
     // Fallback to static list if API fails
   }
 
+  // Cables submarinos en vivo (TeleGeography Submarine Cable Map, ~712 cables
+  // actuales con nombre y color); fallback al JSON local si la API falla.
+  let cables: any = cablesData;
+  try {
+    const rc = await fetch('https://www.submarinecablemap.com/api/v3/cable/cable-geo.json', {
+      signal: AbortSignal.timeout(8000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (PoliteiaOSINT)' },
+    });
+    if (rc.ok) {
+      const jc = await rc.json();
+      if (jc && Array.isArray(jc.features) && jc.features.length > 0) cables = jc;
+    }
+  } catch { /* fallback al JSON local */ }
+
   return NextResponse.json({
     infrastructure: dynamicFacilities,
     power_plants: POWER_PLANTS,
     critical_infra: criticalInfra,
-    cables: cablesData,
+    cables,
     total: dynamicFacilities.length,
     total_power_plants: POWER_PLANTS.length,
     total_critical_infra: (criticalInfra as any[]).length,
