@@ -987,24 +987,17 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
         'cargo','ship-arrow-cargo', 'tanker','ship-arrow-tanker', 'passenger','ship-arrow-passenger',
         'fishing','ship-arrow-fishing', 'tug','ship-arrow-tug', 'highspeed','ship-arrow-highspeed',
         'military','ship-arrow-military', /* other */ 'ship-arrow-other'];
-      // Barcos en movimiento → flecha orientada al rumbo
+      // Render UNIFICADO: TODOS los barcos se dibujan como flecha orientada a
+      // su rumbo (en movimiento o atracados), para un único estilo coherente.
+      // Antes los parados eran círculos y, además, no eran clicables (el click
+      // solo estaba en ship-arrows). Ahora todos son flecha y todos clicables.
       map.addLayer({ id: 'ship-arrows', type: 'symbol', source: 'maritime-ships',
-        filter: ['>', ['get','speed'], 0.5],
         layout: {
           'icon-image': shipArrowImg,
-          'icon-rotate': ['coalesce', ['get','heading'], 0],
+          'icon-rotate': ['coalesce', ['get','heading'], ['get','course'], 0],
           'icon-rotation-alignment': 'map',
           'icon-allow-overlap': true, 'icon-ignore-placement': true,
           'icon-size': ['interpolate',['linear'],['zoom'], 2,0.6, 6,0.95, 11,1.35, 14,1.7],
-        }});
-      // Barcos parados (fondeados / amarrados) → punto
-      map.addLayer({ id: 'ship-dots', type: 'circle', source: 'maritime-ships',
-        filter: ['<=', ['get','speed'], 0.5],
-        paint: {
-          'circle-radius': ['interpolate',['linear'],['zoom'], 1,2.4, 5,4.5, 10,7],
-          'circle-color': shipColorExpr,
-          'circle-opacity': 0.85,
-          'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
         }});
       map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 8, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
@@ -1563,7 +1556,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -2703,7 +2696,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     const mShowShips = activeLayers.maritime || activeLayers.ship_cargo || activeLayers.ship_tanker || activeLayers.ship_passenger || activeLayers.ship_fishing || activeLayers.ship_tug || activeLayers.ship_highspeed || activeLayers.ship_military || activeLayers.ship_other;
     setVis(['maritime-glow','maritime-dots','maritime-label'], mShowPorts);
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
-    setVis(['ship-dots','ship-arrows','ship-label'], mShowShips);
+    setVis(['ship-arrows','ship-label'], mShowShips);
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
     setVis(['conflict-icons'], !!activeLayers.conflict_zones);

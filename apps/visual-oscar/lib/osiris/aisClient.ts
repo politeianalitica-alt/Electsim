@@ -52,7 +52,7 @@ export interface AisStreamOptions {
  * Devuelve una función stop() para cerrarlo.
  */
 export function startAisStream(opts: AisStreamOptions): () => void {
-  const cap = opts.cap ?? 15000;
+  const cap = opts.cap ?? 30000;
   const flushMs = opts.flushMs ?? 4000;
   const positions = new Map<number, any>();
   const statics = new Map<number, any>();
