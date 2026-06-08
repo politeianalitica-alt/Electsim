@@ -172,6 +172,10 @@ export const MODULES: NavModule[] = [
     id: 'workspace',
     label: 'Workspace',
     full: 'Workspace · Centro de operaciones del analista',
+    // Unificado en el botón azul del header (AppHeader); no se muestra como
+    // pestaña en la barra superior para no duplicar. El módulo se conserva para
+    // resolver rutas (/estudio, /war-room, /cuaderno, /extras) y su subnav.
+    hideFromTopBar: true,
     items: [
       { label: 'Estudio',  href: '/estudio'  },  // 1ª — workspace de datos y paneles
       { label: 'War Room', href: '/war-room' },  // 2ª — sala de operaciones
@@ -185,6 +189,9 @@ export const MODULES: NavModule[] = [
     id: 'config',
     label: 'Configuración',
     full: 'Configuración y Sistema de Alertas',
+    // Movido al icono de herramientas del header (AppHeader); no se muestra como
+    // pestaña en la barra superior. El módulo se conserva para resolver rutas.
+    hideFromTopBar: true,
     items: [
       { label: 'Configuración de Cliente', href: '/config-cliente' },
       { label: 'Sistema de Alertas',       href: '/alertas-config' },
@@ -196,11 +203,10 @@ export const MODULES: NavModule[] = [
   // Tab único → sin subnav. Estilos OSIRIS aislados bajo .osiris-root.
   {
     id: 'osint-global',
-    label: 'MAPA POLITEIA',
-    full: 'MAPA POLITEIA · Inteligencia en tiempo real',
+    label: 'Mapa',
+    full: 'Mapa · Inteligencia en tiempo real',
     items: [
       { label: 'Mapa Politeia', href: '/osint-global' },
-      { label: 'Mapa España', href: '/mapa-espana' },
     ],
   },
 ]
