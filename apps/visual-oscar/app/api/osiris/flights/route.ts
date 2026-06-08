@@ -87,11 +87,44 @@ async function fetchRegion(region: typeof REGIONS[0]): Promise<any[]> {
 
 // OpenSky /states/all: TODOS los vuelos del mundo en una sola llamada
 // (best-effort; si falla o limita, se ignora y quedan los de adsb.lol).
-async function fetchOpenSky(): Promise<any[]> {
-  // Timeout corto: desde la IP de Vercel suele estar limitado y colgarse; así no
-  // ralentiza la capa. Cuando responde (≈0,5 s) rellena huecos oceánicos.
+// OpenSky OAuth2 (client_credentials): con credenciales el cupo va ligado a la
+// CUENTA, no a la IP compartida de Vercel → fetch global fiable (~12k aviones).
+// Sin credenciales, intento anónimo best-effort (suele limitar desde Vercel).
+let openskyTok: { token: string; exp: number } | null = null;
+async function getOpenSkyToken(): Promise<string | null> {
+  const id = process.env.OPENSKY_CLIENT_ID;
+  const secret = process.env.OPENSKY_CLIENT_SECRET;
+  if (!id || !secret) return null;
+  if (openskyTok && Date.now() < openskyTok.exp) return openskyTok.token;
   try {
-    const res = await fetch('https://opensky-network.org/api/states/all', { signal: AbortSignal.timeout(3500) });
+    const res = await fetch(
+      'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
+        signal: AbortSignal.timeout(8000),
+      },
+    );
+    if (!res.ok) return null;
+    const j = await res.json();
+    if (!j.access_token) return null;
+    openskyTok = { token: j.access_token, exp: Date.now() + ((j.expires_in || 1800) - 60) * 1000 };
+    return openskyTok.token;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchOpenSky(): Promise<any[]> {
+  const token = await getOpenSkyToken();
+  // Con token: timeout amplio (fiable). Sin token: corto best-effort (suele
+  // limitar desde la IP de Vercel; cuando responde rellena huecos oceánicos).
+  try {
+    const res = await fetch('https://opensky-network.org/api/states/all', {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      signal: AbortSignal.timeout(token ? 9000 : 3500),
+    });
     if (!res.ok) return [];
     const data = await res.json();
     return data.states || [];
