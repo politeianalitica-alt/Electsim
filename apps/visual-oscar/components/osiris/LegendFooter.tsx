@@ -86,6 +86,8 @@ const LEGENDS: Legend[] = [
     { c: '#FF6B00', l: 'Incendios' }, { c: '#E040FB', l: 'Tormentas' }, { c: '#FF7043', l: 'Volcanes' }, { c: '#4FC3F7', l: 'Hielo/icebergs' }, { c: '#2979FF', l: 'Inundaciones' }, { c: '#8D6E63', l: 'Deslizamientos' }, { c: '#FBC02D', l: 'Sequía' } ] },
   { id: 'displacement', title: 'Desplazados (UNHCR, por origen)', active: (a) => a.displacement, items: [
     { c: '#FFD54F', l: '< 0,5 M' }, { c: '#FF9800', l: '0,5–2 M' }, { c: '#EF5350', l: '2–5 M' }, { c: '#B71C1C', l: '> 5 M' } ] },
+  { id: 'heat', title: 'Temperatura máx. hoy', active: (a) => a.heat, items: [
+    { c: '#2979FF', l: '< 12°' }, { c: '#66BB6A', l: '~22°' }, { c: '#FBC02D', l: '~30°' }, { c: '#FF6B00', l: '~36°' }, { c: '#D32F2F', l: '≥ 42°' } ] },
   { id: 'energy', title: 'Energía por fuente', active: (a) => has(a, ['power_solar', 'power_wind', 'power_hydro', 'power_nuclear', 'power_coal', 'power_gas', 'power_oil', 'power_other']), items: [
     { c: '#FFD600', l: 'Solar' }, { c: '#4FC3F7', l: 'Eólica' }, { c: '#2979FF', l: 'Hidro' }, { c: '#FF1744', l: 'Nuclear' }, { c: '#90A4AE', l: 'Carbón' }, { c: '#FF9100', l: 'Gas' }, { c: '#A1887F', l: 'Petróleo' }, { c: '#BDBDBD', l: 'Otras' } ] },
 ];

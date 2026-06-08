@@ -256,6 +256,7 @@ export default function Dashboard() {
     gdacs: false,
     eonet: false,
     displacement: false,
+    heat: false,
     hurricanes: false,
     volcanoes: false,
     airports: false,
@@ -587,6 +588,11 @@ export default function Dashboard() {
     if (activeLayers.displacement && !layerFetchedRef.current.has('displacement')) {
       fetchEndpoint('/api/osiris/displacement', d => ({ displacement: d.displacement }));
       layerFetchedRef.current.add('displacement');
+    }
+    // Temperatura / calor extremo (Open-Meteo)
+    if (activeLayers.heat && !layerFetchedRef.current.has('heat')) {
+      fetchEndpoint('/api/osiris/heat', d => ({ heat: d.heat }));
+      layerFetchedRef.current.add('heat');
     }
     // Ciclones tropicales (NHC)
     if (activeLayers.hurricanes && !layerFetchedRef.current.has('hurricanes')) {
