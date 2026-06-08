@@ -134,25 +134,7 @@ export function ViviendaMercadoView() {
 
 // ViviendaAlquilerView ya tiene su propia implementación en V7 · no usa el stub.
 
-export function ViviendaPoliticaView() {
-  return (
-    <ViviendaStub
-      glyph="⊟"
-      sprint="Sprint V8"
-      titulo="Política y Programas"
-      subtitulo="Mapa de las políticas públicas que afectan al sector: presupuesto, ejes, ejecución por CCAA. Cruza Plan Estatal, NextGen, PERTE Vivienda y convocatorias BDNS abiertas."
-      proximamente={[
-        'Plan Estatal de Vivienda 2022-2025 · presupuesto, ejes, ejecución por CCAA',
-        'PRTR Componente 2 · NextGen rehabilitación · % ejecución',
-        'PERTE Vivienda · estado por CCAA',
-        'BDNS · ayudas vivienda LIVE (cruce con /api/tercer-sector/oportunidades)',
-        'Calendario de hitos normativos (Ley 12/2023, IRAV, bono joven…)',
-        'Vivienda protegida construida histórica · ES vs UE (AVS + Eurostat)',
-        'FinanciadoresActivos del sector vivienda (reuso de Tercer Sector)',
-      ]}
-    />
-  )
-}
+// ViviendaPoliticaView ya tiene su propia implementación en V8 · no usa el stub.
 
 export function ViviendaTuristicaView() {
   return (

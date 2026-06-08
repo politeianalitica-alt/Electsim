@@ -31,12 +31,8 @@ import { ViviendaGlobalView } from './ViviendaGlobalView'
 import { ViviendaSocialView } from './ViviendaSocialView'
 import { ViviendaPreciosView } from './ViviendaPreciosView'
 import { ViviendaAlquilerView } from './ViviendaAlquilerView'
-import {
-  ViviendaMercadoView,
-  ViviendaPoliticaView,
-  ViviendaTuristicaView,
-  ViviendaSostenibilidadView,
-} from './ViviendaStub'
+import { ViviendaPoliticaView } from './ViviendaPoliticaView'
+import { ViviendaMercadoView, ViviendaTuristicaView, ViviendaSostenibilidadView } from './ViviendaStub'
 import type { ViviendaTabId } from '@/lib/vivienda/catalogos'
 
 const ACCENT = '#DB2777' // pink-600 · color histórico del sector vivienda
