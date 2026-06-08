@@ -30,9 +30,9 @@ import { isAuthenticated } from '@/lib/auth'
 import { ViviendaGlobalView } from './ViviendaGlobalView'
 import { ViviendaSocialView } from './ViviendaSocialView'
 import { ViviendaPreciosView } from './ViviendaPreciosView'
+import { ViviendaAlquilerView } from './ViviendaAlquilerView'
 import {
   ViviendaMercadoView,
-  ViviendaAlquilerView,
   ViviendaPoliticaView,
   ViviendaTuristicaView,
   ViviendaSostenibilidadView,

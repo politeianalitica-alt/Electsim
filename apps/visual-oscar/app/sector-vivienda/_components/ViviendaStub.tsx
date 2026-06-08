@@ -132,25 +132,7 @@ export function ViviendaMercadoView() {
   )
 }
 
-export function ViviendaAlquilerView() {
-  return (
-    <ViviendaStub
-      glyph="◑"
-      sprint="Sprint V7"
-      titulo="Alquiler y Zonas Tensionadas"
-      subtitulo="Estado del alquiler en España y aplicación territorial de la Ley 12/2023 (zonas de mercado residencial tensionado, IRAV, limitación de actualizaciones, gran tenedor)."
-      proximamente={[
-        'IPVA general + variación anual (10 años) — INE',
-        'IPVA por CCAA · heatmap',
-        'Cost overburden (% hogares > 40% renta) — Eurostat ilc_mdho06',
-        'Mapa ZMT declaradas · estado de implantación por CCAA (Ley 12/2023)',
-        'SIMA Cataluña · índice de precios de referencia',
-        'Lanzamientos por arrendamiento — CGPJ',
-        'Tabla viva de regulación CCAA con link al boletín oficial',
-      ]}
-    />
-  )
-}
+// ViviendaAlquilerView ya tiene su propia implementación en V7 · no usa el stub.
 
 export function ViviendaPoliticaView() {
   return (
