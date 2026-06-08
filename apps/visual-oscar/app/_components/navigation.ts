@@ -200,6 +200,7 @@ export const MODULES: NavModule[] = [
     full: 'MAPA POLITEIA · Inteligencia en tiempo real',
     items: [
       { label: 'Mapa Politeia', href: '/osint-global' },
+      { label: 'Mapa España', href: '/mapa-espana' },
     ],
   },
 ]
