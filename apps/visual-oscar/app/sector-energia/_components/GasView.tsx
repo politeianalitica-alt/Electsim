@@ -47,6 +47,7 @@ import { GasTtfStructure } from './GasTtfStructure'
 
 const GAS = '#1D4ED8'
 const GAS_DARK = '#1E3A8A'
+const REFRESH_MS = 5 * 60 * 1000
 
 type DataMap = Record<string, EnergyCommodityResponse>
 
@@ -114,6 +115,8 @@ export function GasView() {
 
   useEffect(() => {
     refresh()
+    const t = setInterval(refresh, REFRESH_MS)
+    return () => clearInterval(t)
   }, [])
 
   const henry = seriesOf(commodities, 'henry-hub')

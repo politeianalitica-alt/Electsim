@@ -75,6 +75,10 @@ export function VisionGlobalView() {
   const [commod, setCommod] = useState<Map<string, CommoditySnapshotDto>>(new Map())
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
   const [loading, setLoading] = useState(true)
+  // True cuando AMBAS fuentes principales (ESIOS + commodities) fallan a la vez:
+  // los KPIs y el snapshot degradan a "—" y mostramos una línea de estado que
+  // explica que no es un dato cero, sino datos no disponibles ahora.
+  const [bothDown, setBothDown] = useState(false)
   // Resumen del riesgo país de proveedores (lo calcula <GlobalSupplyRiskBoard>
   // tras su fetch; lo elevamos aquí para alimentar el semáforo y el gauge sin
   // volver a pegar al endpoint).
@@ -94,6 +98,7 @@ export function VisionGlobalView() {
     const m = new Map<string, CommoditySnapshotDto>()
     for (const it of c?.items ?? []) m.set(it.slug, it)
     setCommod(m)
+    setBothDown(e == null && c == null)
     setUpdatedAt(new Date())
     setLoading(false)
   }
@@ -260,6 +265,24 @@ export function VisionGlobalView() {
           )}
         </div>
 
+        {bothDown && !loading && (
+          <div
+            role="status"
+            style={{
+              marginBottom: 14,
+              fontSize: 11.5,
+              padding: '8px 12px',
+              borderRadius: 8,
+              background: 'rgba(255,255,255,0.12)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              color: '#fff',
+            }}
+          >
+            ● Datos no disponibles ahora: las fuentes de mercado (ESIOS y commodities) no respondieron.
+            Puede ser un fallo transitorio o falta de configuración de claves. Reintenta con ↻ Actualizar.
+          </div>
+        )}
+
         <HeroKpis items={kpis} loading={loading && !updatedAt} />
       </section>
 
@@ -284,7 +307,7 @@ export function VisionGlobalView() {
               Valor actual + cambio 24h · las series completas viven en Petróleo, Gas y Eléctrico
             </p>
           </div>
-          <Link href="/sector-energia/petroleo" style={{ fontSize: 11, color: ACCENT, textDecoration: 'none', fontWeight: 600 }}>
+          <Link href="/sector-energia?energia=petroleo" style={{ fontSize: 11, color: ACCENT, textDecoration: 'none', fontWeight: 600 }}>
             Series y forward curve ⟶
           </Link>
         </header>

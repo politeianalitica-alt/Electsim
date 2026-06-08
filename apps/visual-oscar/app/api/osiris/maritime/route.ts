@@ -151,6 +151,32 @@ const CHOKEPOINTS = [
 // Diagnóstico de la última recogida AIS (sin secretos), para depurar en preview.
 let aisDiag: any = { keyLen: 0 };
 
+// ── Caché persistente de datos estáticos AIS (MMSI → tipo/nombre/…) ──
+// Los mensajes estáticos (AIS msg tipo 5/24, que llevan el ShipType) se emiten
+// solo cada ~6 min por barco; en la ventana de recogida de ~12 s apenas un ~3 %
+// de los barcos los envía. Sin caché, el otro ~97 % se queda sin tipo y cae en
+// 'other'. Acumulando los estáticos entre peticiones (la instancia serverless
+// se mantiene caliente con el polling del mapa), el tipo se resuelve para la
+// mayoría de barcos activos en pocos minutos. El tipo de un barco no cambia, así
+// que un valor cacheado sigue siendo válido (TTL largo).
+interface AisStatic { type?: number; name?: string; dest?: string; draught?: number; dim?: any; imo?: number; cs?: string; ts: number }
+const aisStaticCache = new Map<number, AisStatic>();
+const AIS_STATIC_MAX = 400000; // tope de seguridad de memoria
+
+/** Funde los estáticos recién recogidos en la caché persistente y recorta. */
+function mergeStaticCache(statics: Map<number, any>): void {
+  const now = Date.now();
+  for (const [mmsi, sd] of statics) {
+    if (sd && (sd.type != null || sd.name || sd.dest)) aisStaticCache.set(mmsi, { ...sd, ts: now });
+  }
+  if (aisStaticCache.size > AIS_STATIC_MAX) {
+    // Recorta el 25 % más antiguo de golpe (poco frecuente).
+    const entries = [...aisStaticCache.entries()].sort((a, b) => a[1].ts - b[1].ts);
+    const drop = Math.floor(aisStaticCache.size * 0.25);
+    for (let i = 0; i < drop; i++) aisStaticCache.delete(entries[i][0]);
+  }
+}
+
 function fetchShipsAisStream(): Promise<{ ships: any[]; counts: ShipCounts } | null> {
   const key = process.env.AISSTREAM_API_KEY;
   const t0 = Date.now();
@@ -172,9 +198,13 @@ function fetchShipsAisStream(): Promise<{ ships: any[]; counts: ShipCounts } | n
       if (!ok || positions.size === 0) { resolve(null); return; }
       const ships: any[] = [];
       const counts = emptyCounts();
+      // Funde los estáticos de esta recogida en la caché persistente y úsala
+      // como respaldo para los barcos que no enviaron su msg estático ahora.
+      mergeStaticCache(statics);
+      aisDiag.cacheSize = aisStaticCache.size;
       for (const [mmsi, p] of positions) {
         if (!Number.isFinite(p.lat) || !Number.isFinite(p.lng)) continue;
-        const s = statics.get(mmsi);
+        const s = statics.get(mmsi) || aisStaticCache.get(mmsi);
         const cat = shipCategory(s?.type);
         counts[cat] = (counts[cat] || 0) + 1;
         const moored = p.nav === 1 || p.nav === 5;
@@ -236,13 +266,17 @@ function fetchShipsAisStream(): Promise<{ ships: any[]; counts: ShipCounts } | n
       const mmsi = md.MMSI;
       if (!mmsi) return;
       if (m.MessageType === 'PositionReport') {
-        const pr = (m.Message && m.Message.PositionReport) || {};
-        positions.set(mmsi, {
-          lat: md.latitude, lng: md.longitude,
-          sog: pr.Sog, cog: pr.Cog, hdg: pr.TrueHeading, nav: pr.NavigationalStatus,
-          name: (md.ShipName || '').trim(),
-        });
-        if (positions.size >= AIS_CAP) { clearTimeout(timer); finish(true); }
+        // Cap de posiciones, pero NO cerramos el WS al llenarse: seguimos
+        // escuchando ShipStaticData hasta el timer para rellenar la caché de
+        // tipos (antes se cerraba de golpe y casi no llegaban estáticos).
+        if (positions.size < AIS_CAP || positions.has(mmsi)) {
+          const pr = (m.Message && m.Message.PositionReport) || {};
+          positions.set(mmsi, {
+            lat: md.latitude, lng: md.longitude,
+            sog: pr.Sog, cog: pr.Cog, hdg: pr.TrueHeading, nav: pr.NavigationalStatus,
+            name: (md.ShipName || '').trim(),
+          });
+        }
       } else if (m.MessageType === 'ShipStaticData') {
         const sd = (m.Message && m.Message.ShipStaticData) || {};
         statics.set(mmsi, {

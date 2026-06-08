@@ -81,15 +81,9 @@ const CACHE_TTL_MS = 12 * 3600_000
 
 export const GASTO_PUBLICO_PERTE: PerteProgram[] = [
   {
-    programa: 'PERTE Economía Circular aplicada al turismo · Planes de Sostenibilidad Turística en Destino (PSTD)',
+    programa: 'Plan de Modernización y Competitividad del Sector Turístico · Componente 14 (PSTD)',
     presupuesto_meur: 3_400,
     fuente: 'Plan de Recuperación · Componente 14 (Turismo) · Mintur',
-    fecha: '2024',
-  },
-  {
-    programa: 'Plan de Modernización y Competitividad del Sector Turístico (C14)',
-    presupuesto_meur: 3_400,
-    fuente: 'planderecuperacion.gob.es · Componente 14',
     fecha: '2024',
   },
   {

@@ -120,7 +120,7 @@ export function ContractAlerts() {
       </div>
 
       <div style={{ marginTop: 14, fontSize: 11, color: '#86868b', padding: '8px 12px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 8 }}>
-        Las notificaciones por email se activarán cuando el ContractRadar Agent esté operativo (Sprint 3).
+        Las notificaciones por email se activarán cuando el ContractRadar Agent esté operativo (próximamente).
       </div>
     </div>
   )

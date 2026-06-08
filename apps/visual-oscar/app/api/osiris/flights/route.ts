@@ -17,6 +17,10 @@ export const maxDuration = 30;
 // adsb.lol nos limite (timeouts → MENOS vuelos). Con pocos círculos GRANDES no
 // limita y, además, deja ancho de banda para que OpenSky (cobertura global)
 // rellene los huecos. El dedupe por hex elimina los solapes.
+// 6 círculos GRANDES (radio 2.200-2.500 nm) que se solapan y cubren el mundo
+// sin saturar adsb.lol. NO añadir más: con >~6 llamadas en paralelo adsb.lol
+// rate-limita y deja regiones vacías (p.ej. Europa). La densidad en
+// Asia/África/océanos depende de OpenSky (OAuth2), no de más círculos.
 const REGIONS = [
   { lat: 39.8, lon: -98.5, dist: 2200 },    // Norteamérica
   { lat: 50.0, lon: 15.0, dist: 2200 },     // Europa
@@ -81,17 +85,65 @@ async function fetchRegion(region: typeof REGIONS[0]): Promise<any[]> {
 
 // OpenSky /states/all: TODOS los vuelos del mundo en una sola llamada
 // (best-effort; si falla o limita, se ignora y quedan los de adsb.lol).
-async function fetchOpenSky(): Promise<any[]> {
-  // Timeout corto: desde la IP de Vercel suele estar limitado y colgarse; así no
-  // ralentiza la capa. Cuando responde (≈0,5 s) rellena huecos oceánicos.
+// OpenSky OAuth2 (client_credentials): con credenciales el cupo va ligado a la
+// CUENTA, no a la IP compartida de Vercel → fetch global fiable (~12k aviones).
+// Sin credenciales, intento anónimo best-effort (suele limitar desde Vercel).
+let openskyTok: { token: string; exp: number } | null = null;
+async function getOpenSkyToken(): Promise<string | null> {
+  const id = process.env.OPENSKY_CLIENT_ID;
+  const secret = process.env.OPENSKY_CLIENT_SECRET;
+  if (!id || !secret) return null;
+  if (openskyTok && Date.now() < openskyTok.exp) return openskyTok.token;
   try {
-    const res = await fetch('https://opensky-network.org/api/states/all', { signal: AbortSignal.timeout(3500) });
+    const res = await fetch(
+      'https://auth.opensky-network.org/auth/realms/opensky-network/protocol/openid-connect/token',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
+        signal: AbortSignal.timeout(8000),
+      },
+    );
+    if (!res.ok) return null;
+    const j = await res.json();
+    if (!j.access_token) return null;
+    openskyTok = { token: j.access_token, exp: Date.now() + ((j.expires_in || 1800) - 60) * 1000 };
+    return openskyTok.token;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchOpenSky(): Promise<any[]> {
+  const token = await getOpenSkyToken();
+  // Con token: timeout amplio (fiable). Sin token: corto best-effort (suele
+  // limitar desde la IP de Vercel; cuando responde rellena huecos oceánicos).
+  try {
+    const res = await fetch('https://opensky-network.org/api/states/all', {
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      signal: AbortSignal.timeout(token ? 9000 : 3500),
+    });
     if (!res.ok) return [];
     const data = await res.json();
     return data.states || [];
   } catch {
     return [];
   }
+}
+
+// Feed dedicado de aeronaves militares (airplanes.live /v2/mil): devuelve en una
+// sola llamada TODAS las colas etiquetadas como militares en el mundo, con el
+// mismo formato {ac:[...]} que adsb.lol. Cubre los huecos del muestreo regional
+// (cazas, ISR, cisternas, AWACS sobre océanos y zonas sin región propia).
+async function fetchMil(): Promise<any[]> {
+  try {
+    const res = await fetch('https://api.airplanes.live/v2/mil', {
+      signal: AbortSignal.timeout(8000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (PoliteiaOSINT)' },
+    });
+    if (res.ok) { const data = await res.json(); return data.ac || []; }
+  } catch { /* sin feed militar: quedan los detectados por región/heurística */ }
+  return [];
 }
 
 const MIL_CALLSIGN_RE = /^(RCH|REACH|KING|DUKE|EVAC|JAKE|CONVOY|RRR|ASCOT|NAVY|ARMY|HERKY|FORTE|GRZLY|HOMER|SENTRY|SLAM|VADER|BAF|CFC|NATO|AWACS)\d*/i;
@@ -221,9 +273,10 @@ export async function GET() {
   // Start new global fetch
   fetchPromise = (async () => {
     // Fetch all regions (adsb.lol) + OpenSky global en paralelo
-    const [regionResults, openskyStates] = await Promise.all([
+    const [regionResults, openskyStates, milAc] = await Promise.all([
       Promise.allSettled(REGIONS.map(r => fetchRegion(r))),
       fetchOpenSky(),
+      fetchMil(),
     ]);
 
     const allRaw: any[] = [];
@@ -270,6 +323,21 @@ export async function GET() {
       }
     }
 
+    // Feed militar GLOBAL (airplanes.live /v2/mil): añade colas militares que el
+    // muestreo regional de adsb.lol no captura. Vienen del endpoint /mil, así que
+    // se fuerzan a categoría 'military' (dedupe por hex).
+    let milAdded = 0;
+    for (const ac of milAc) {
+      const hex = (ac.hex || '').toLowerCase().trim();
+      if (!hex || seenHex.has(hex)) continue;
+      const flight = classifyFlight(ac);
+      if (!flight) continue;
+      seenHex.add(hex);
+      flight.category = 'military';
+      military.push(flight);
+      milAdded++;
+    }
+
     // Merge OpenSky (best-effort): añade vuelos que adsb.lol no tiene (huecos
     // oceánicos, regiones sin cobertura). Clasificación heurística por callsign.
     let openskyAdded = 0;
@@ -295,7 +363,7 @@ export async function GET() {
       military_flights: military,
       gps_jamming: jammingZones,
       total: seenHex.size,
-      sources: { adsblol: allRaw.length, opensky_added: openskyAdded },
+      sources: { adsblol: allRaw.length, opensky_added: openskyAdded, mil_added: milAdded },
       timestamp: new Date().toISOString(),
     };
   })();

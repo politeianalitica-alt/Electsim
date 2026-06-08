@@ -2,13 +2,13 @@
  * Catálogo militar mundial · perfil estilo IISS Military Balance.
  *
  * Datos cargados desde JSON externos en data/defense/:
- *   - paises.json       (16 países core: ESP, USA, CHN, FRA, DEU, GBR, RUS,
+ *   - paises.json       (17 países core: ESP, USA, CHN, FRA, DEU, GBR, RUS,
  *                        ITA, POL, IND, JPN, KOR, SAU, TUR, AUS, ISR, UKR)
- *   - paises-extra.json (35 países adicionales: NLD, BEL, PRT, GRC, NOR, SWE,
+ *   - paises-extra.json (26 países adicionales: NLD, BEL, PRT, GRC, NOR, SWE,
  *                        FIN, DNK, ROU, CZE, CAN, BRA, IRN, PAK, EGY, ARE,
  *                        TWN, IDN, ZAF, MAR, ARG, MEX, VNM, DZA, NGA, SGP, ...)
  *
- * Total: 36 países cubriendo ~95% del gasto militar mundial.
+ * Total: 43 países cubriendo ~95% del gasto militar mundial.
  * Datos públicos verificables. Actualizable editando los JSON.
  */
 

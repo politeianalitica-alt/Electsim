@@ -8,6 +8,7 @@ import { saveToInbox } from '@/lib/workspace/map-inbox';
 interface OsirisMapProps {
   data: any;
   activeLayers: Record<string, boolean>;
+  mineralFilter?: string;
   onEntityClick?: (entity: any) => void;
   onMouseCoords?: (coords: { lat: number; lng: number }) => void;
   onRightClick?: (coords: { lat: number; lng: number }) => void;
@@ -43,7 +44,7 @@ function computeSolarTerminator(): [number, number][] {
 
 const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
-function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', muteLabels = false, sweepData, scanTargets = [] }: OsirisMapProps) {
+function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', muteLabels = false, sweepData, scanTargets = [] }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const basemapLabelsRef = useRef<string[]>([]);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -125,9 +126,13 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
+      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'displacement', 'heat', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
         'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
-      sources.forEach(s => map.addSource(s, { type: 'geojson', data: EMPTY_FC }));
+      // Las capas más densas se agrupan en clusters (rendimiento + claridad).
+      const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
+      sources.forEach(s => map.addSource(s, CLUSTERED.has(s)
+        ? { type: 'geojson', data: EMPTY_FC, cluster: true, clusterRadius: 48, clusterMaxZoom: 7 }
+        : { type: 'geojson', data: EMPTY_FC }));
 
       // ── Capas raster (imágenes de satélite) ── NASA GIBS
       const _d = new Date(Date.now() - 36 * 3600 * 1000); // ~ayer (GIBS publica con retraso)
@@ -355,7 +360,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'powerlines-line', type: 'line', source: 'powerlines',
         layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' },
         paint: {
-          'line-color': '#FFD600',
+          // Color por voltaje (kV): <300 amarillo · 300-499 ámbar · >=500 rojo (EHV/UHV)
+          'line-color': ['step', ['coalesce', ['get','v'], 220], '#FFD600', 300, '#FFA000', 500, '#FF5722'],
           'line-opacity': ['interpolate',['linear'],['zoom'], 2,0.4, 6,0.7, 10,0.9],
           'line-width': ['interpolate',['linear'],['zoom'], 2,0.4, 6,1, 10,1.8],
         }});
@@ -376,6 +382,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         }});
       // Campos de petróleo y gas (curado) — color por tipo
       map.addLayer({ id: 'oilgas-dots', type: 'circle', source: 'oilgas',
+        filter: ['!', ['has', 'point_count']],
         layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate',['linear'],['zoom'], 1,3.5, 5,6, 9,9],
           'circle-color': ['coalesce', ['get','color'], '#8D6E63'], 'circle-opacity': 0.85,
@@ -386,6 +393,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': '#D7CCC8', 'text-halo-color': '#000', 'text-halo-width': 1 }});
       // Minerales críticos (curado) — color por materia prima
       map.addLayer({ id: 'minerals-dots', type: 'circle', source: 'minerals',
+        filter: ['!', ['has', 'point_count']],
         layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate',['linear'],['zoom'], 1,3.5, 5,6, 9,9],
           'circle-color': ['coalesce', ['get','color'], '#26A69A'], 'circle-opacity': 0.85,
@@ -394,6 +402,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       map.addLayer({ id: 'minerals-label', type: 'symbol', source: 'minerals', minzoom: 4, filter: ['==', ['get','major'], 1], layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0, 1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
       }, paint: { 'text-color': '#B2DFDB', 'text-halo-color': '#000', 'text-halo-width': 1 }});
+      // ── Clusters de las capas más densas (rendimiento + claridad) ──
+      const addClusters = (src: string, color: string) => {
+        map.addLayer({ id: `${src}-clusters`, type: 'circle', source: src, filter: ['has', 'point_count'],
+          layout: { visibility: 'none' }, paint: {
+            'circle-color': color, 'circle-opacity': 0.45,
+            'circle-radius': ['step', ['get', 'point_count'], 11, 50, 15, 200, 20, 1000, 27, 5000, 34],
+            'circle-stroke-color': color, 'circle-stroke-width': 1.4, 'circle-stroke-opacity': 0.85,
+          }});
+        map.addLayer({ id: `${src}-cluster-count`, type: 'symbol', source: src, filter: ['has', 'point_count'],
+          layout: { visibility: 'none', 'text-field': ['get', 'point_count_abbreviated'], 'text-font': ['Open Sans Bold'], 'text-size': 11 },
+          paint: { 'text-color': '#fff', 'text-halo-color': '#0C0E1A', 'text-halo-width': 1.2 } });
+      };
+      addClusters('oilgas', '#8D6E63');
+      addClusters('minerals', '#26C6DA');
+      addClusters('military-bases', '#FF5350');
+      addClusters('power-plants', '#FFD54F');
       // Disputas territoriales — rombos rojos
       map.addLayer({ id: 'disputes-dots', type: 'circle', source: 'disputes',
         layout: { visibility: 'none' }, paint: {
@@ -444,6 +468,37 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }});
       map.addLayer({ id: 'gdacs-label', type: 'symbol', source: 'gdacs', minzoom: 3, layout: {
         'text-field': ['get','name'], 'text-size': 10, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Eventos naturales (NASA EONET) ──
+      const eonetColor: any = ['coalesce', ['get','color'], '#FFD54F'];
+      map.addLayer({ id: 'eonet-glow', type: 'circle', source: 'eonet', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,7, 6,14], 'circle-color': eonetColor, 'circle-opacity': 0.16, 'circle-blur': 0.7,
+      }});
+      map.addLayer({ id: 'eonet-dots', type: 'circle', source: 'eonet', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,3.2, 6,5.5], 'circle-color': eonetColor, 'circle-opacity': 0.9, 'circle-stroke-width': 1, 'circle-stroke-color': '#000',
+      }});
+      map.addLayer({ id: 'eonet-label', type: 'symbol', source: 'eonet', minzoom: 4, layout: {
+        'text-field': ['get','title'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-anchor': 'top', 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Refugiados y desplazados (UNHCR) ──
+      const dispColor: any = ['interpolate',['linear'],['get','total'], 10000,'#FFD54F', 500000,'#FF9800', 2000000,'#EF5350', 5000000,'#B71C1C'];
+      map.addLayer({ id: 'displacement-bubble', type: 'circle', source: 'displacement', paint: {
+        'circle-radius': ['interpolate',['linear'],['get','total'], 5000,4, 200000,9, 1000000,16, 3000000,26, 6500000,40],
+        'circle-color': dispColor, 'circle-opacity': 0.42, 'circle-stroke-width': 1.2, 'circle-stroke-color': dispColor, 'circle-stroke-opacity': 0.9,
+      }});
+      map.addLayer({ id: 'displacement-label', type: 'symbol', source: 'displacement', minzoom: 3, layout: {
+        'text-field': ['get','country'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.2], 'text-allow-overlap': false,
+      }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
+
+      // ── Temperatura máx. / calor extremo (Open-Meteo) ──
+      const heatColor: any = ['interpolate',['linear'],['get','tmax'], 0,'#2979FF', 12,'#4FC3F7', 22,'#66BB6A', 30,'#FBC02D', 36,'#FF6B00', 42,'#D32F2F', 48,'#7B1FA2'];
+      map.addLayer({ id: 'heat-dots', type: 'circle', source: 'heat', paint: {
+        'circle-radius': ['interpolate',['linear'],['zoom'], 2,5, 6,9, 10,13], 'circle-color': heatColor, 'circle-opacity': 0.82, 'circle-stroke-width': 1, 'circle-stroke-color': '#000', 'circle-stroke-opacity': 0.4,
+      }});
+      map.addLayer({ id: 'heat-label', type: 'symbol', source: 'heat', minzoom: 3, layout: {
+        'text-field': ['concat', ['to-string', ['get','tmax']], '°'], 'text-size': 9, 'text-font': ['Open Sans Regular'], 'text-offset': [0,1.1], 'text-allow-overlap': false,
       }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': '#000', 'text-halo-width': 1.2 }});
 
       // ── Ciclones tropicales (NHC) ──
@@ -515,7 +570,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': '#CE93D8', 'text-halo-color': '#000', 'text-halo-width': 1 }});
 
       // ── Bases militares ──
-      map.addLayer({ id: 'milbase-dots', type: 'circle', source: 'military-bases', paint: {
+      map.addLayer({ id: 'milbase-dots', type: 'circle', source: 'military-bases', filter: ['!', ['has', 'point_count']], paint: {
         'circle-radius': ['interpolate',['linear'],['zoom'], 3,1.8, 7,3.5, 11,6], 'circle-color': '#EF5350', 'circle-opacity': 0.8, 'circle-stroke-width': 0.6, 'circle-stroke-color': '#3A0000',
       }});
       map.addLayer({ id: 'milbase-label', type: 'symbol', source: 'military-bases', minzoom: 7, layout: {
@@ -714,8 +769,12 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       }, paint: { 'text-color': ['case', ['in', 'SEISMIC RISK', ['get', 'status']], '#FF9500', '#76FF03'], 'text-halo-color': '#000', 'text-halo-width': 1, 'text-opacity': 0.7 }});
 
       // Centrales eléctricas (color por fuente de energía)
-      map.addLayer({ id: 'power-plants-dots', type: 'circle', source: 'power-plants', paint: {
-        'circle-radius': ['interpolate',['linear'],['zoom'], 2,1.8, 6,4, 11,8],
+      map.addLayer({ id: 'power-plants-dots', type: 'circle', source: 'power-plants', filter: ['!', ['has', 'point_count']], paint: {
+        // Radio según zoom Y capacidad (MW): las centrales grandes destacan.
+        'circle-radius': ['interpolate',['linear'],['zoom'],
+          2,  ['interpolate',['linear'],['coalesce',['to-number',['get','mw']],300], 50,1,   2000,2,   8000,3.5],
+          6,  ['interpolate',['linear'],['coalesce',['to-number',['get','mw']],300], 50,2.5, 2000,5,   8000,8],
+          11, ['interpolate',['linear'],['coalesce',['to-number',['get','mw']],300], 50,5,   2000,10,  8000,18]],
         'circle-color': ['match', ['get','fuel'],
           'Solar','#FFD600', 'Wind','#4FC3F7', 'Hydro','#2979FF', 'Nuclear','#FF1744',
           'Coal','#455A64', 'Gas','#FF9100', 'Oil','#8D6E63', 'Biomass','#8BC34A',
@@ -959,24 +1018,32 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
         'cargo','ship-arrow-cargo', 'tanker','ship-arrow-tanker', 'passenger','ship-arrow-passenger',
         'fishing','ship-arrow-fishing', 'tug','ship-arrow-tug', 'highspeed','ship-arrow-highspeed',
         'military','ship-arrow-military', /* other */ 'ship-arrow-other'];
-      // Barcos en movimiento → flecha orientada al rumbo
+      // Render UNIFICADO: TODOS los barcos se dibujan como flecha orientada a
+      // su rumbo (en movimiento o atracados), para un único estilo coherente.
+      // Antes los parados eran círculos y, además, no eran clicables (el click
+      // solo estaba en ship-arrows). Ahora todos son flecha y todos clicables.
+      // Tamaño de la flecha proporcional al tamaño del barco (estilo MarineTraffic):
+      // usa la eslora real del AIS (get length) cuando existe; si no, la estima por
+      // tipo (petrolero/carga grandes, pesca/remolcador pequeños). El factor se
+      // multiplica por una base que depende del zoom.
+      const shipLen: any = ['coalesce', ['get', 'length'],
+        ['match', ['get', 'type'],
+          'cargo', 180, 'tanker', 210, 'passenger', 160, 'fishing', 26,
+          'tug', 28, 'highspeed', 50, 'military', 120,
+          /* other */ 70]];
+      const shipSizeFactor: any = ['interpolate', ['linear'], shipLen,
+        20, 0.55, 100, 0.9, 200, 1.35, 300, 1.75, 400, 2.2];
       map.addLayer({ id: 'ship-arrows', type: 'symbol', source: 'maritime-ships',
-        filter: ['>', ['get','speed'], 0.5],
         layout: {
           'icon-image': shipArrowImg,
-          'icon-rotate': ['coalesce', ['get','heading'], 0],
+          'icon-rotate': ['coalesce', ['get','heading'], ['get','course'], 0],
           'icon-rotation-alignment': 'map',
           'icon-allow-overlap': true, 'icon-ignore-placement': true,
-          'icon-size': ['interpolate',['linear'],['zoom'], 2,0.6, 6,0.95, 11,1.35, 14,1.7],
-        }});
-      // Barcos parados (fondeados / amarrados) → punto
-      map.addLayer({ id: 'ship-dots', type: 'circle', source: 'maritime-ships',
-        filter: ['<=', ['get','speed'], 0.5],
-        paint: {
-          'circle-radius': ['interpolate',['linear'],['zoom'], 1,2.4, 5,4.5, 10,7],
-          'circle-color': shipColorExpr,
-          'circle-opacity': 0.85,
-          'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
+          'icon-size': ['interpolate', ['linear'], ['zoom'],
+            2, ['*', 0.45, shipSizeFactor],
+            6, ['*', 0.78, shipSizeFactor],
+            11, ['*', 1.1, shipSizeFactor],
+            14, ['*', 1.4, shipSizeFactor]],
         }});
       map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 8, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
@@ -1137,7 +1204,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
           </div>
           <div class="pol-route" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);font-size:10px;color:#aaa;">◴ Buscando ruta…</div>
           <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
-            <a href="https://www.flightaware.com/live/flight/${cs}" target="_blank" style="${linkStyle}color:#D4AF37;border:1px solid rgba(212,175,55,0.4);background:rgba(212,175,55,0.1);">FLIGHTAWARE</a>
+            <a href="https://www.flightradar24.com/${encodeURIComponent(cs || (p.registration||'').trim())}" target="_blank" style="${linkStyle}color:#FECA00;border:1px solid rgba(254,202,0,0.55);background:rgba(254,202,0,0.14);font-weight:700;">FLIGHTRADAR24</a>
             <a href="https://globe.adsbexchange.com/?icao=${p.icao24||''}" target="_blank" style="${linkStyle}color:#00E5FF;border:1px solid rgba(0,229,255,0.4);background:rgba(0,229,255,0.1);">ADS-B</a>
             <a href="https://www.radarbox.com/data/flights/${cs}" target="_blank" style="${linkStyle}color:#FF69B4;border:1px solid rgba(255,105,180,0.4);background:rgba(255,105,180,0.1);">RADARBOX</a>
           </div>
@@ -1535,7 +1602,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -1717,6 +1784,45 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       </div>`);
     });
 
+    // ── Eventos naturales (NASA EONET) ──
+    map.on('click', 'eonet-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const col = p.color || '#FFD54F';
+      popup(coords, `<div style="${pStyle}border:1px solid ${col}55;min-width:200px;">
+        <div style="color:${col};font-size:13px;font-weight:700;margin-bottom:3px;">${p.title || 'Evento natural'}</div>
+        <div style="display:inline-block;font-size:9px;font-weight:700;color:${col};background:${col}1a;border:1px solid ${col}55;border-radius:4px;padding:1px 6px;margin-bottom:6px;">${String(p.category || '').toUpperCase()}</div>
+        ${p.magnitude ? `<div style="font-size:9.5px;color:#aaa;">Magnitud: ${p.magnitude}</div>` : ''}
+        ${p.date ? `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${new Date(p.date).toLocaleString('es-ES')}</div>` : ''}
+        ${p.url ? `<a href="${p.url}" target="_blank" style="${linkStyle}margin-top:7px;color:${col};border:1px solid ${col}66;background:${col}1a;">NASA EONET</a>` : ''}
+      </div>`);
+    });
+
+    // ── Refugiados y desplazados (UNHCR) ──
+    map.on('click', 'displacement-bubble', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const fmt = (n: any) => Number(n).toLocaleString('es-ES');
+      popup(coords, `<div style="${pStyle}border:1px solid #FF980055;min-width:200px;">
+        <div style="color:#FF9800;font-size:13px;font-weight:700;margin-bottom:4px;">${p.country || ''}</div>
+        <div style="font-size:11px;color:#E8E6E0;margin-bottom:2px;">Desplazados totales: <b>${fmt(p.total)}</b></div>
+        <div style="font-size:9.5px;color:#aaa;">Refugiados + asilo: ${fmt(p.refugees)}</div>
+        <div style="font-size:9.5px;color:#aaa;">Desplazados internos: ${fmt(p.idps)}</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:5px;">Fuente: ACNUR/UNHCR · 2024</div>
+      </div>`);
+    });
+
+    // ── Temperatura / calor extremo ──
+    map.on('click', 'heat-dots', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      popup(coords, `<div style="${pStyle}min-width:160px;">
+        <div style="font-size:13px;font-weight:700;color:#E8E6E0;margin-bottom:3px;">${p.country || ''}</div>
+        <div style="font-size:15px;font-weight:800;color:#FF6B00;">${p.tmax}°C</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:4px;">Máx. de hoy · Open-Meteo</div>
+      </div>`);
+    });
+
     // ── Ciclones tropicales ──
     map.on('click', 'hurricane-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
@@ -1833,6 +1939,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
     // ── Bases militares ──
     const MILBASE_TYPE: Record<string, string> = { base: 'Base militar', naval_base: 'Base naval', airfield: 'Aeródromo militar', barracks: 'Cuartel', training_area: 'Campo de entrenamiento', depot: 'Depósito militar', bunker: 'Búnker', zone: 'Recinto militar', wikidata: 'Instalación militar' };
+    // Clic en un cluster → zoom para expandirlo en puntos individuales
+    ['oilgas', 'minerals', 'military-bases', 'power-plants'].forEach(src => {
+      map.on('click', `${src}-clusters`, (e: any) => {
+        const fs = map.queryRenderedFeatures(e.point, { layers: [`${src}-clusters`] });
+        const cid = fs[0]?.properties?.cluster_id;
+        const source: any = map.getSource(src);
+        if (cid == null || !source?.getClusterExpansionZoom) return;
+        source.getClusterExpansionZoom(cid, (err: any, zoom: number) => {
+          if (err) return;
+          map.easeTo({ center: (fs[0].geometry as any).coordinates, zoom: Math.min(zoom, 9) });
+        });
+      });
+      map.on('mouseenter', `${src}-clusters`, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', `${src}-clusters`, () => { map.getCanvas().style.cursor = ''; });
+    });
+
     map.on('click', 'milbase-dots', e => {
       const p = e.features?.[0]?.properties; if (!p) return;
       const coords = (e.features![0].geometry as any).coordinates;
@@ -2103,7 +2225,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
 
   useEffect(() => {
     if (!mapReady) return;
-    setGeo('critical-infra', activeLayers.critical_infra && data.critical_infra ? data.critical_infra.map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, type: i.type, country: i.country } })) : []);
+    setGeo('critical-infra', activeLayers.critical_infra && data.critical_infra ? data.critical_infra.filter((i: any) => i.type !== 'airport').map((i: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [i.lng, i.lat] }, properties: { name: i.name, type: i.type, country: i.country } })) : []);
   }, [mapReady, data.critical_infra, activeLayers.critical_infra, setGeo]);
 
   useEffect(() => {
@@ -2129,7 +2251,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('oilgas', activeLayers.oilgas && Array.isArray(data.oilgas)
       ? data.oilgas.map((f: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [f.lng, f.lat] }, properties: { name: f.name, type: f.type, color: f.color, country: f.country, major: f.major || 0 } })) : []);
     setGeo('minerals', activeLayers.minerals && Array.isArray(data.minerals)
-      ? data.minerals.map((m: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [m.lng, m.lat] }, properties: { name: m.name, m: m.m, color: m.color, country: m.country, major: m.major || 0 } })) : []);
+      ? data.minerals.filter((m: any) => mineralFilter === 'todos' || m.m === mineralFilter).map((m: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [m.lng, m.lat] }, properties: { name: m.name, m: m.m, color: m.color, country: m.country, major: m.major || 0 } })) : []);
     setGeo('agriculture', activeLayers.agriculture && data.agriculture_fc?.features ? data.agriculture_fc.features : []);
     // Lote Geopolítica
     setGeo('countries', (activeLayers.alliances || activeLayers.sanctions || activeLayers.milspend || activeLayers.regime || activeLayers.nukes || activeLayers.election || activeLayers.press_freedom || activeLayers.corruption || activeLayers.hdi || activeLayers.gdp_pc || activeLayers.econ_blocs) && data.geopolitics_fc?.features ? data.geopolitics_fc.features : []);
@@ -2143,7 +2265,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
       ? data.lighthouses.map((l: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [l.lng, l.lat] }, properties: { name: l.name } })) : []);
     setGeo('piracy', activeLayers.piracy && Array.isArray(data.piracy)
       ? data.piracy.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, risk: p.risk, color: p.color } })) : []);
-  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.milspend, activeLayers.regime, activeLayers.nukes, activeLayers.election, activeLayers.press_freedom, activeLayers.corruption, activeLayers.hdi, activeLayers.gdp_pc, activeLayers.econ_blocs, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
+  }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, mineralFilter, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.milspend, activeLayers.regime, activeLayers.nukes, activeLayers.election, activeLayers.press_freedom, activeLayers.corruption, activeLayers.hdi, activeLayers.gdp_pc, activeLayers.econ_blocs, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
 
   // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
   useEffect(() => {
@@ -2219,6 +2341,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
   useEffect(() => {
     if (!mapReady) return;
     setGeo('gdacs', activeLayers.gdacs && Array.isArray(data.gdacs) ? data.gdacs.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { name: e.name, type_es: e.type_es, alert: e.alert, description: e.description, country: e.country, date: e.date, url: e.url } })) : []);
+    setGeo('eonet', activeLayers.eonet && Array.isArray(data.eonet) ? data.eonet.map((e: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [e.lng, e.lat] }, properties: { title: e.title, category: e.category, color: e.color, date: e.date, magnitude: e.magnitude, url: e.url } })) : []);
     setGeo('hurricanes', activeLayers.hurricanes && Array.isArray(data.hurricanes) ? data.hurricanes.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, class_es: s.class_es, wind_kt: s.wind_kt, pressure_mb: s.pressure_mb, movement: s.movement } })) : []);
     setGeo('volcanoes', activeLayers.volcanoes && Array.isArray(data.volcanoes) ? data.volcanoes.map((v: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [v.lng, v.lat] }, properties: { name: v.name, vtype: v.type, elev: v.elev, country: v.country, last: v.last } })) : []);
     setGeo('airports', activeLayers.airports && Array.isArray(data.airports) ? data.airports.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, iata: a.iata, atype: a.type, country: a.country, city: a.city } })) : []);
@@ -2234,12 +2357,22 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setGeo('satnogs', activeLayers.satnogs && Array.isArray(data.satnogs) ? data.satnogs.map((s: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [s.lng, s.lat] }, properties: { name: s.name, status: s.status, bands: s.bands, altitude: s.altitude } })) : []);
     setGeo('military-bases', activeLayers.military_bases && Array.isArray(data.military_bases) ? data.military_bases.map((b: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [b.lng, b.lat] }, properties: { name: b.name, t: b.t || '' } })) : []);
     setGeo('air-quality', activeLayers.air_quality && Array.isArray(data.air_quality) ? data.air_quality.map((a: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [a.lng, a.lat] }, properties: { name: a.name, aqi: a.aqi, pm25: a.pm25, level: a.level, color: a.color } })) : []);
-  }, [mapReady, data.gdacs, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.railways_hs_fc, data.railways_commuter_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
+  }, [mapReady, data.gdacs, data.eonet, data.hurricanes, data.volcanoes, data.airports, data.launches, data.iss, data.frontline_fc, data.trains, data.railways_fc, data.railways_hs_fc, data.railways_commuter_fc, data.satnogs, data.military_bases, data.air_quality, activeLayers.gdacs, activeLayers.eonet, activeLayers.hurricanes, activeLayers.volcanoes, activeLayers.airports, activeLayers.launches, activeLayers.iss, activeLayers.frontline, activeLayers.trains, activeLayers.railways, activeLayers.satnogs, activeLayers.military_bases, activeLayers.air_quality, setGeo]);
 
   useEffect(() => {
     if (!mapReady) return;
     setGeo('radiation', activeLayers.radiation && data.radiation ? data.radiation.map((r: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [r.lng, r.lat] }, properties: { name: r.name, city: r.city, country: r.country, reading: r.reading, status: r.status, network: r.network } })) : []);
   }, [mapReady, data.radiation, activeLayers.radiation, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('displacement', activeLayers.displacement && Array.isArray(data.displacement) ? data.displacement.map((d: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [d.lng, d.lat] }, properties: { country: d.country, total: d.total, refugees: d.refugees, idps: d.idps } })) : []);
+  }, [mapReady, data.displacement, activeLayers.displacement, setGeo]);
+
+  useEffect(() => {
+    if (!mapReady) return;
+    setGeo('heat', activeLayers.heat && Array.isArray(data.heat) ? data.heat.map((h: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [h.lng, h.lat] }, properties: { country: h.country, tmax: h.tmax } })) : []);
+  }, [mapReady, data.heat, activeLayers.heat, setGeo]);
 
   // ══ Politeia SDK — Lattice Sensor Mesh ══
   // Multi-waypoint routes tracing real-world shipping lanes, air corridors, and intel lines
@@ -2612,6 +2745,9 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     // Otros relieves: áreas sombreadas + cascadas/otros puntuales
     setVis(['geo-features','geo-features-label','geo-other-fill','geo-other-outline','geo-other-label'], activeLayers.geo_features);
     setVis(['gdacs-glow','gdacs-dots','gdacs-label'], activeLayers.gdacs);
+    setVis(['eonet-glow','eonet-dots','eonet-label'], activeLayers.eonet);
+    setVis(['displacement-bubble','displacement-label'], activeLayers.displacement);
+    setVis(['heat-dots','heat-label'], activeLayers.heat);
     setVis(['hurricane-glow','hurricane-dots','hurricane-label'], activeLayers.hurricanes);
     setVis(['volcanoes-dots','volcanoes-label'], activeLayers.volcanoes);
     setVis(['airports-dots','airports-label'], activeLayers.airports);
@@ -2626,8 +2762,8 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['pipelines-line'], activeLayers.pipelines);
     setVis(['powerlines-line'], activeLayers.powerlines);
     setVis(['datacenters-dots'], activeLayers.datacenters);
-    setVis(['oilgas-dots','oilgas-label'], activeLayers.oilgas);
-    setVis(['minerals-dots','minerals-label'], activeLayers.minerals);
+    setVis(['oilgas-dots','oilgas-label','oilgas-clusters','oilgas-cluster-count'], activeLayers.oilgas);
+    setVis(['minerals-dots','minerals-label','minerals-clusters','minerals-cluster-count'], activeLayers.minerals);
     setVis(['agriculture-fill','agriculture-outline','agriculture-label'], activeLayers.agriculture);
     setVis(['alliances-fill','alliances-outline'], activeLayers.alliances);
     setVis(['sanctions-fill'], activeLayers.sanctions);
@@ -2640,7 +2776,7 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['lighthouses-dots'], activeLayers.lighthouses);
     setVis(['piracy-glow','piracy-dots','piracy-label'], activeLayers.piracy);
     setVis(['satnogs-dots','satnogs-label'], activeLayers.satnogs);
-    setVis(['milbase-dots','milbase-label'], activeLayers.military_bases);
+    setVis(['milbase-dots','milbase-label','military-bases-clusters','military-bases-cluster-count'], activeLayers.military_bases);
     setVis(['aq-glow','aq-dots','aq-label'], activeLayers.air_quality);
     setVis(['gibs-layer'], activeLayers.gibs);
     setVis(['nightlights-layer'], activeLayers.nightlights);
@@ -2652,14 +2788,14 @@ function OsirisMap({ data, activeLayers, onEntityClick, onMouseCoords, onRightCl
     setVis(['fires-heat'], activeLayers.fires);
     setVis(['weather-glow','weather-dots','weather-label'], activeLayers.weather);
     setVis(['infra-glow','infra-dots','infra-label'], activeLayers.infrastructure);
-    setVis(['power-plants-dots'], activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other);
+    setVis(['power-plants-dots','power-plants-clusters','power-plants-cluster-count'], activeLayers.power_solar || activeLayers.power_wind || activeLayers.power_hydro || activeLayers.power_nuclear || activeLayers.power_coal || activeLayers.power_gas || activeLayers.power_oil || activeLayers.power_other);
     setVis(['critical-infra-dots'], activeLayers.critical_infra);
     setVis(['cables-lines'], activeLayers.submarine_cables);
     const mShowPorts = activeLayers.maritime || activeLayers.port_container || activeLayers.port_energy || activeLayers.port_naval || activeLayers.port_commercial;
     const mShowShips = activeLayers.maritime || activeLayers.ship_cargo || activeLayers.ship_tanker || activeLayers.ship_passenger || activeLayers.ship_fishing || activeLayers.ship_tug || activeLayers.ship_highspeed || activeLayers.ship_military || activeLayers.ship_other;
     setVis(['maritime-glow','maritime-dots','maritime-label'], mShowPorts);
     setVis(['choke-glow','choke-dots','choke-label'], activeLayers.maritime);
-    setVis(['ship-dots','ship-arrows','ship-label'], mShowShips);
+    setVis(['ship-arrows','ship-label'], mShowShips);
     setVis(['news-glow','news-dots','news-label'], activeLayers.live_news);
     setVis(['sigint-news-glow','sigint-news-dots','sigint-news-label'], activeLayers.news_intel);
     setVis(['conflict-icons'], !!activeLayers.conflict_zones);

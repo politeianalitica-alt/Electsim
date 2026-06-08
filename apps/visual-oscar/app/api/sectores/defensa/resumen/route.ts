@@ -28,7 +28,7 @@ export async function GET() {
     searchTed({
       cpv_div: '35',
       desde: new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
-      limit: 1,
+      limit: 200,
     }, 6000),
   ])
 

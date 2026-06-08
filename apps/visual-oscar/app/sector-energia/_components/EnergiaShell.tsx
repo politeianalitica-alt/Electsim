@@ -46,18 +46,16 @@ interface TipoTab {
   /** Marca Unicode (no emoji) para la barra. */
   glyph: string
   desc: string
-  /** Sprint en el que se construye la vista (para el placeholder). */
-  sprint: string
 }
 
 const TIPOS: TipoTab[] = [
-  { id: 'global',     label: 'Visión Global', glyph: '◉', desc: 'Overview cross-energía',           sprint: 'S4' },
-  { id: 'electrico',  label: 'Eléctrico',     glyph: '◆', desc: 'ESIOS · red · mercado',            sprint: 'S1' },
-  { id: 'renovables', label: 'Renovables',    glyph: '⬡', desc: 'Eólica · solar · PNIEC',           sprint: 'S5' },
-  { id: 'nuclear',    label: 'Nuclear',       glyph: '◈', desc: 'Parque ES · calendario cierre',    sprint: 'S6' },
-  { id: 'petroleo',   label: 'Petróleo',      glyph: '◐', desc: 'Brent · WTI · refino',             sprint: 'S7' },
-  { id: 'gas',        label: 'Gas',           glyph: '◇', desc: 'TTF · MIBGAS · almacenamiento',    sprint: 'S8' },
-  { id: 'hidrogeno',  label: 'Hidrógeno',     glyph: '⬢', desc: 'PERTE H2 · electrolizadores',      sprint: 'S9' },
+  { id: 'global',     label: 'Visión Global', glyph: '◉', desc: 'Overview cross-energía'         },
+  { id: 'electrico',  label: 'Eléctrico',     glyph: '◆', desc: 'ESIOS · red · mercado'          },
+  { id: 'renovables', label: 'Renovables',    glyph: '⬡', desc: 'Eólica · solar · PNIEC'         },
+  { id: 'nuclear',    label: 'Nuclear',       glyph: '◈', desc: 'Parque ES · calendario cierre'  },
+  { id: 'petroleo',   label: 'Petróleo',      glyph: '◐', desc: 'Brent · WTI · refino'           },
+  { id: 'gas',        label: 'Gas',           glyph: '◇', desc: 'TTF · MIBGAS · almacenamiento'  },
+  { id: 'hidrogeno',  label: 'Hidrógeno',     glyph: '⬢', desc: 'PERTE H2 · electrolizadores'    },
 ]
 
 export default function EnergiaShell() {
@@ -127,39 +125,8 @@ export default function EnergiaShell() {
                   ? <PetroleoView />
                   : activo.id === 'gas'
                     ? <GasView />
-                    : activo.id === 'hidrogeno'
-                      ? <HidrogenoView />
-                      : <EnergiaComingSoon tipo={activo} />}
+                    : <HidrogenoView />}
  </main>
  </div>
-  )
-}
-
-/**
- * Empty-state "en construcción" para los tipos de energía aún no implementados.
- * Mismo lenguaje visual que los paneles existentes (SectorPanel). Sin emojis.
- */
-function EnergiaComingSoon({ tipo }: { tipo: TipoTab }) {
-  return (
- <section style={{
-      background:'#fff', border:'1px solid #ECECEF', borderRadius:14,
-      padding:'64px 28px', textAlign:'center',
-    }}>
- <div aria-hidden="true" style={{ fontSize:42, color:ACCENT, opacity:0.85, lineHeight:1 }}>{tipo.glyph}</div>
- <h2 style={{
-        margin:'18px 0 6px', fontFamily:'var(--font-display)', fontSize:22, fontWeight:700,
-        letterSpacing:'-0.02em', color:'#1d1d1f',
-      }}>
-        Sección {tipo.label}
- </h2>
- <p style={{ margin:'0 0 4px', fontSize:13, color:'#6e6e73' }}>
-        En construcción · Sprint {tipo.sprint}
- </p>
- <p style={{ margin:'0 auto', maxWidth:520, fontSize:12, color:'#86868b', lineHeight:1.5 }}>
-        Esta vista formará parte del overhaul del sector energía: {tipo.desc.toLowerCase()}.
-        Mientras tanto, la pestaña <strong>Eléctrico</strong> ya ofrece el sistema eléctrico
-        español en directo (ESIOS, REE, intercambios y mercado).
- </p>
- </section>
   )
 }

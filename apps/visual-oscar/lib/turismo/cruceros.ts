@@ -146,7 +146,9 @@ export function enrichCruisePorts(
         source: 'ports+catalog' as const,
       }
     }
-    return { ...c, port_slug: slug ?? null }
+    // Sin cruce confirmado con el módulo Puertos: NO emitir port_slug, para
+    // no renderizar deep-links /puertos/[slug] hacia puertos no garantizados.
+    return { ...c, port_slug: null }
   })
   return { puertos, cruzados }
 }

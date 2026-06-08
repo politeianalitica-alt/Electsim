@@ -291,17 +291,17 @@ export function SectorHero({ accent, accentDark, eyebrow, title, sub, updatedAt,
           {title}
  </h1>
  <p style={{ fontSize:13.5, opacity:0.8, margin:0, lineHeight:1.5 }}>{sub}</p>
-        {updatedAt && (
- <div style={{ marginTop:14, display:'flex', gap:10, alignItems:'center', fontSize:11, opacity:0.7 }}>
- <span style={{ width:6, height:6, borderRadius:'50%', background:'#86EFAC', boxShadow:'0 0 8px #86EFAC' }}/>
-            Última actualización · {updatedAt.toLocaleTimeString('es-ES')}{fetchMs ? ` · ${fetchMs} ms` : ''}
+        <div style={{ marginTop:14, display:'flex', gap:10, alignItems:'center', fontSize:11, opacity:0.7 }}>
+ <span style={{ width:6, height:6, borderRadius:'50%', background: updatedAt ? '#86EFAC' : '#FCD34D', boxShadow:`0 0 8px ${updatedAt ? '#86EFAC' : '#FCD34D'}` }}/>
+            {updatedAt
+              ? `Última actualización · ${updatedAt.toLocaleTimeString('es-ES')}${fetchMs ? ` · ${fetchMs} ms` : ''}`
+              : 'Sin datos en vivo todavía'}
  <button onClick={onRefresh} style={{
               marginLeft:8, fontSize:10.5, padding:'4px 12px', borderRadius:999,
               border:'1px solid rgba(255,255,255,0.35)', background:'transparent', color:'#fff',
               cursor:'pointer', fontFamily:'inherit',
             }}>↻ Actualizar</button>
  </div>
-        )}
  </div>
  <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap:8 }}>{kpis}</div>
  </section>

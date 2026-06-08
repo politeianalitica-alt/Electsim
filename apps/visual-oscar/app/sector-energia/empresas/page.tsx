@@ -12,7 +12,7 @@
  */
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import AppHeader from '../../_components/AppHeader'
 import { Panel } from '@/components/SectorPanel'
@@ -33,12 +33,22 @@ const ENERGIA_OPTS: Array<{ id: EnergiaTipo | 'todas'; label: string }> = [
 
 export default function EnergiaEmpresasPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
+
+  // Deep-link `?energia=`: si llega un tipo de energía válido (p. ej. desde
+  // HidrogenoView → "/sector-energia/empresas?energia=hidrogeno"), el grid
+  // arranca ya filtrado a ese tipo en lugar de mostrar todas.
+  const energiaParam = searchParams.get('energia')
+  const initialEnergia: EnergiaTipo | 'todas' =
+    energiaParam && ENERGIA_OPTS.some((o) => o.id === energiaParam)
+      ? (energiaParam as EnergiaTipo | 'todas')
+      : 'todas'
 
   const [companies, setCompanies] = useState<EnergyCompanyListItem[]>([])
   const [loading, setLoading] = useState(true)
   const [filterPais, setFilterPais] = useState('todos')
-  const [filterEnergia, setFilterEnergia] = useState<EnergiaTipo | 'todas'>('todas')
+  const [filterEnergia, setFilterEnergia] = useState<EnergiaTipo | 'todas'>(initialEnergia)
   const [q, setQ] = useState('')
 
   useEffect(() => {
@@ -98,7 +108,10 @@ export default function EnergiaEmpresasPage() {
             Empresas del sector energético
           </h1>
           <p style={{ fontSize: 12.5, color: '#86868b', margin: '6px 0 0', lineHeight: 1.5 }}>
-            {companies.length} compañías españolas tier-1 + majors globales · cotización en vivo (Finnhub) ·
+            {filtered.length === companies.length
+              ? `${companies.length} compañías`
+              : `${filtered.length} de ${companies.length} compañías`}{' '}
+            españolas tier-1 + majors globales · cotización en vivo (Finnhub) ·
             click en una ficha para estructura societaria (OpenCorporates) y energías en que opera.
           </p>
         </div>

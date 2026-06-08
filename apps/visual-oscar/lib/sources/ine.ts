@@ -165,7 +165,7 @@ export const EMPRESAS_VIVIENDA = [
     segmento: 'Promotor · fondos',
   },
   {
-    nombre: 'AzoraN', ticker: 'AZRT.MC', ibex: false,
+    nombre: 'Azora', ticker: 'AZRT.MC', ibex: false,
     descripcion: 'Gestora de activos inmobiliarios · BTR, residencial, hoteles.',
     capitalizacion_b: 0.4,
     web: 'https://www.azora.com',

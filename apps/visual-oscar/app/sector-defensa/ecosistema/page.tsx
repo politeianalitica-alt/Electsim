@@ -12,7 +12,7 @@ const SUBPAGES = [
   { href: '/sector-defensa/grupos-trabajo',        label: 'Grupos · Eventos · Calls', descripcion: '16 CapTechs EDA · 6 NATO STO RTGs · 9 eventos 2026 · 7 calls activas (EDF 1bn€, EDIP 500M€, PERTE 800M€)', color: '#1F4E8C', icon: '◈' },
   { href: '/sector-defensa/briefing',              label: 'Briefing medios defensa',  descripcion: '8 medios RSS especializados · Infodefensa · Revista Ejércitos · Defense News · TWZ · EDA · NATO',     color: '#DC2626', icon: '◆' },
   { href: '/sector-defensa/teatros',               label: 'Teatros operacionales',    descripcion: 'Balance de poder por 6 áreas: Indo-Pacífico · OTAN flanco oriental · MENA · EU · LATAM · África',     color: '#F97316', icon: '⊞' },
-  { href: '/sector-defensa/ministerios',           label: 'Ministerios de defensa',   descripcion: '36 ministerios · ministros + presupuestos + agencias clave (DARPA · DGAM · BAAINBw · MAFAT...)',       color: '#5D4037', icon: '⊟' },
+  { href: '/sector-defensa/ministerios',           label: 'Ministerios de defensa',   descripcion: '43 ministerios · ministros + presupuestos + agencias clave (DARPA · DGAM · BAAINBw · MAFAT...)',       color: '#5D4037', icon: '⊟' },
   { href: '/sector-defensa/estrategia-industrial', label: 'Estrategia industrial',    descripcion: 'Documentos estratégicos oficiales + organigramas + base industrial 8 países (LPM · NDS · NSS · PERTE)', color: '#7C3AED', icon: '◉' },
 ]
 

@@ -44,9 +44,14 @@ export async function GET() {
     }
   }).sort((a, b) => (b.pct_pib ?? 0) - (a.pct_pib ?? 0))
 
+  const conDato = items.filter(i => i.pct_pib != null)
+  const media_otan = conDato.length > 0
+    ? conDato.reduce((a, i) => a + (i.pct_pib || 0), 0) / conDato.length
+    : null
+
   return NextResponse.json({
     items, year,
-    media_otan: items.filter(i => i.pct_pib != null).reduce((a, i) => a + (i.pct_pib || 0), 0) / items.filter(i => i.pct_pib != null).length,
+    media_otan,
     cumplen_pct: items.filter(i => i.cumple_otan).length,
     no_cumplen_pct: items.filter(i => i.cumple_otan === false).length,
     fetch_ms: Date.now() - t0,

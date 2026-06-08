@@ -52,6 +52,7 @@ import { PetroleoReservasES } from './PetroleoReservasES'
 
 const OIL = '#0F766E'
 const OIL_DARK = '#134E4A'
+const REFRESH_MS = 5 * 60 * 1000
 
 type DataMap = Record<string, EnergyCommodityResponse>
 
@@ -72,6 +73,8 @@ export function PetroleoView() {
 
   useEffect(() => {
     refresh()
+    const t = setInterval(refresh, REFRESH_MS)
+    return () => clearInterval(t)
   }, [])
 
   const brent = seriesOf(data, 'brent')

@@ -26,6 +26,8 @@ const LEGENDS: Legend[] = [
     { c: '#8D6E63', l: 'Petróleo' }, { c: '#42A5F5', l: 'Gas' }, { c: '#AB47BC', l: 'Mixto' } ] },
   { id: 'pipelines', title: 'Oleoductos/gasoductos', active: (a) => a.pipelines, items: [
     { c: '#8D6E63', l: 'Petróleo' }, { c: '#42A5F5', l: 'Gas' } ] },
+  { id: 'powerlines', title: 'Líneas eléctricas (kV)', active: (a) => a.powerlines, items: [
+    { c: '#FFD600', l: '220–299 kV' }, { c: '#FFA000', l: '300–499 kV' }, { c: '#FF5722', l: '≥500 kV (EHV/UHV)' } ] },
   { id: 'minerals', title: 'Minerales', active: (a) => a.minerals, items: [
     { c: '#FFB300', l: 'Oro' }, { c: '#FF7043', l: 'Cobre' }, { c: '#8D6E63', l: 'Hierro' }, { c: '#37474F', l: 'Carbón' }, { c: '#26C6DA', l: 'Litio' }, { c: '#5C6BC0', l: 'Cobalto' }, { c: '#FFCA28', l: 'Tierras raras' }, { c: '#66BB6A', l: 'Uranio' }, { c: '#A1887F', l: 'Níquel' }, { c: '#B0BEC5', l: 'Plata' }, { c: '#7E57C2', l: 'Manganeso' }, { c: '#90A4AE', l: 'Otros' } ] },
   { id: 'alliances', title: 'Bloques militares', active: (a) => a.alliances, items: [
@@ -66,6 +68,8 @@ const LEGENDS: Legend[] = [
   { id: 'fabs', title: 'Semiconductores', active: (a) => a.fabs, items: [ { c: '#00E5FF', l: 'Fábrica de chips' } ] },
   { id: 'nuclearp', title: 'Centrales nucleares', active: (a) => a.nuclear_plants, items: [ { c: '#FFD600', l: 'Central (tamaño = MW)' } ] },
   { id: 'dams', title: 'Presas hidroeléctricas', active: (a) => a.dams, items: [ { c: '#4FC3F7', l: 'Presa (tamaño = MW)' } ] },
+  { id: 'criticalinfra', title: 'Refinerías y presas (red completa)', active: (a) => a.critical_infra, items: [
+    { c: '#FF6D00', l: 'Refinería' }, { c: '#2979FF', l: 'Presa' } ] },
   // ── Lote C: conectividad ──
   { id: 'ixps', title: 'Puntos de intercambio (IXP)', active: (a) => a.ixps, items: [ { c: '#AB47BC', l: 'IXP (tamaño = tráfico)' } ] },
   { id: 'landings', title: 'Cables submarinos', active: (a) => a.cable_landings, items: [ { c: '#26C6DA', l: 'Estación de aterrizaje' } ] },
@@ -78,6 +82,12 @@ const LEGENDS: Legend[] = [
   { id: 'defor', title: 'Deforestación', active: (a) => a.deforestation, items: [ { c: '#E53935', l: 'Pérdida de cobertura arbórea' } ] },
   { id: 'gdacs', title: 'Alertas de desastres', active: (a) => a.gdacs, items: [
     { c: '#EF5350', l: 'Roja' }, { c: '#FFA726', l: 'Naranja' }, { c: '#66BB6A', l: 'Verde' } ] },
+  { id: 'eonet', title: 'Eventos naturales (NASA)', active: (a) => a.eonet, items: [
+    { c: '#FF6B00', l: 'Incendios' }, { c: '#E040FB', l: 'Tormentas' }, { c: '#FF7043', l: 'Volcanes' }, { c: '#4FC3F7', l: 'Hielo/icebergs' }, { c: '#2979FF', l: 'Inundaciones' }, { c: '#8D6E63', l: 'Deslizamientos' }, { c: '#FBC02D', l: 'Sequía' } ] },
+  { id: 'displacement', title: 'Desplazados (UNHCR, por origen)', active: (a) => a.displacement, items: [
+    { c: '#FFD54F', l: '< 0,5 M' }, { c: '#FF9800', l: '0,5–2 M' }, { c: '#EF5350', l: '2–5 M' }, { c: '#B71C1C', l: '> 5 M' } ] },
+  { id: 'heat', title: 'Temperatura máx. hoy', active: (a) => a.heat, items: [
+    { c: '#2979FF', l: '< 12°' }, { c: '#66BB6A', l: '~22°' }, { c: '#FBC02D', l: '~30°' }, { c: '#FF6B00', l: '~36°' }, { c: '#D32F2F', l: '≥ 42°' } ] },
   { id: 'energy', title: 'Energía por fuente', active: (a) => has(a, ['power_solar', 'power_wind', 'power_hydro', 'power_nuclear', 'power_coal', 'power_gas', 'power_oil', 'power_other']), items: [
     { c: '#FFD600', l: 'Solar' }, { c: '#4FC3F7', l: 'Eólica' }, { c: '#2979FF', l: 'Hidro' }, { c: '#FF1744', l: 'Nuclear' }, { c: '#90A4AE', l: 'Carbón' }, { c: '#FF9100', l: 'Gas' }, { c: '#A1887F', l: 'Petróleo' }, { c: '#BDBDBD', l: 'Otras' } ] },
 ];

@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const r = await searchDesabastecimientos(days, page, pageSize)
   if (!r.ok) return NextResponse.json({ error: 'fetch failed', items: [] }, { status: 200 })
 
-  const items = r.items.map(it => ({
+  const mapItem = (it: Awaited<ReturnType<typeof searchDesabastecimientos>>['items'][number]) => ({
     cn: it.cn,
     nombre: it.nombre,
     tipo: it.tipoProblemaSuministro,
@@ -32,12 +32,32 @@ export async function GET(req: NextRequest) {
     permanente: it.ffin == null,
     activo: it.activo === true,
     motivo: it.observ?.trim(),
-  }))
+  })
+
+  // `items` = página pedida (para el listado reciente).
+  const items = r.items.map(mapItem)
+
+  // Agregados (por_tipo / por_mes) sobre el TOTAL del periodo, no solo la
+  // primera página: CIMA tope a 200 filas por página, así que paginamos hasta
+  // cubrir `total` para que el timeline y el desglose por tipo no estén
+  // truncados (hay ~829 problemas vs ~200 de una sola página).
+  const CIMA_MAX_PAGE = 200
+  const aggAll = [...r.items]
+  const totalPages = Math.min(8, Math.ceil((r.total || 0) / CIMA_MAX_PAGE))
+  if (totalPages > 1) {
+    const extra = await Promise.all(
+      Array.from({ length: totalPages - 1 }, (_, i) => i + 2).map(p =>
+        searchDesabastecimientos(days, p, CIMA_MAX_PAGE).then(res => (res.ok ? res.items : [])),
+      ),
+    )
+    for (const chunk of extra) aggAll.push(...chunk)
+  }
+  const aggItems = aggAll.map(mapItem)
 
   // Agregados
   const por_tipo: Record<string, number> = {}
   const por_mes: Record<string, number> = {}
-  for (const it of items) {
+  for (const it of aggItems) {
     const k = String(it.tipo_label)
     por_tipo[k] = (por_tipo[k] || 0) + 1
     if (it.fini) {
@@ -53,7 +73,7 @@ export async function GET(req: NextRequest) {
     por_tipo: Object.entries(por_tipo)
       .map(([label, n]) => ({
         label, n,
-        color: items.find(i => i.tipo_label === label)?.tipo_color || '#525258',
+        color: aggItems.find(i => i.tipo_label === label)?.tipo_color || '#525258',
       }))
       .sort((a, b) => b.n - a.n),
     por_mes: Object.entries(por_mes)

@@ -92,6 +92,13 @@ export function TSOrganizacionesView() {
 
   const page = Math.max(1, Number(pageUrl) || 1)
 
+  // Refresco manual del hero: bump de clave que re-dispara los fetches + hora
+  // de última actualización (el catálogo es estático/cache, pero el botón de
+  // «Actualizar» deja de ser inerte y vuelve a pedir el directorio).
+  const [reloadKey, setReloadKey] = useState(0)
+  const [updatedAt, setUpdatedAt] = useState<Date | null>(null)
+  const onRefresh = useCallback(() => setReloadKey((k) => k + 1), [])
+
   // Patch de filtros: aplica los cambios y resetea la página (salvo la propia q,
   // que el debounce gestiona).
   const onChange = useCallback(
@@ -145,7 +152,7 @@ export function TSOrganizacionesView() {
     return () => {
       alive = false
     }
-  }, [serverFilters, page])
+  }, [serverFilters, page, reloadKey])
 
   // ── Fetch del CONJUNTO filtrado completo (KPIs + distribución) ─────────────
   const [fullRows, setFullRows] = useState<OrgRow[]>([])
@@ -163,6 +170,7 @@ export function TSOrganizacionesView() {
       .then((r) => r.json() as Promise<Envelope<OrgsData>>)
       .then((j) => {
         if (!alive) return
+        setUpdatedAt(new Date())
         if (j.ok && j.data) {
           setFullRows(j.data.organizaciones)
           setFilteredTotal(j.data.total)
@@ -186,7 +194,7 @@ export function TSOrganizacionesView() {
     return () => {
       alive = false
     }
-  }, [serverFilters])
+  }, [serverFilters, reloadKey])
 
   // ── KPIs hero (sobre el conjunto filtrado completo) ────────────────────────
   const heroItems: HeroKpiItem[] = useMemo(() => {
@@ -255,8 +263,8 @@ export function TSOrganizacionesView() {
         eyebrow="SECTORIAL · TERCER SECTOR · DIRECTORIO DE ORGANIZACIONES"
         title="Organizaciones del tercer sector"
         sub="Directorio dinámico de ONGs, fundaciones y entidades de economía social. Filtra por tipo, sector, CCAA y ámbito; abre la ficha de cualquier entidad para ver sus datos económicos, IRPF 0,7%, actividades de cooperación (IATI) y financiación pública relacionada. Datos curados y datados por fuente; los importes no publicados se muestran como «n/d», nunca se inventan."
-        updatedAt={null}
-        onRefresh={() => {}}
+        updatedAt={updatedAt}
+        onRefresh={onRefresh}
         kpis={
           <div style={{ gridColumn: '1 / -1' }}>
             <HeroKpis items={heroItems} loading={fullLoading && fullRows.length === 0} />

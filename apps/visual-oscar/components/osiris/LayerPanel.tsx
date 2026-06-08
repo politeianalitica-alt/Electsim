@@ -9,13 +9,31 @@ import {
   ChevronDown, ChevronUp, Network, Construction, Zap, Building2, Cable,
   Mountain, Waves, Droplets, Wind, Rocket, AlertOctagon,
   Train, TrainTrack, Swords, Image, Moon, CloudRain, Sparkles, Fuel, Server, Gem, Sprout, Ban, Landmark, Route, Skull, Navigation, Coins, Vote,
+  Search, Power, X,
 } from 'lucide-react';
 
 interface LayerPanelProps {
   data: any;
   activeLayers: any;
   setActiveLayers: React.Dispatch<React.SetStateAction<any>>;
+  mineralFilter?: string;
+  setMineralFilter?: (v: string) => void;
 }
+
+// Tipos de mineral seleccionables (el valor = campo `m` del dato OSM).
+const MINERAL_TYPES: { v: string; l: string }[] = [
+  { v: 'todos', l: 'Todos los minerales' },
+  { v: 'litio', l: 'Litio' }, { v: 'cobalto', l: 'Cobalto' }, { v: 'wolframio', l: 'Wolframio' },
+  { v: 'grafito', l: 'Grafito' }, { v: 'uranio', l: 'Uranio' }, { v: 'fosfato', l: 'Fosfato' },
+  { v: 'potasa', l: 'Potasa' },
+  { v: 'oro', l: 'Oro' }, { v: 'cobre', l: 'Cobre' }, { v: 'hierro', l: 'Hierro' },
+  { v: 'plata', l: 'Plata' }, { v: 'plomo', l: 'Plomo' }, { v: 'zinc', l: 'Zinc' },
+  { v: 'estaño', l: 'Estaño' }, { v: 'níquel', l: 'Níquel' }, { v: 'bauxita', l: 'Bauxita' },
+  { v: 'mercury', l: 'Mercurio' }, { v: 'diamante', l: 'Diamante' },
+  { v: 'carbón', l: 'Carbón' }, { v: 'oil', l: 'Petróleo' }, { v: 'sal', l: 'Sal' },
+  { v: 'caliza', l: 'Caliza' }, { v: 'áridos', l: 'Áridos' }, { v: 'mármol', l: 'Mármol' },
+  { v: 'granito', l: 'Granito' },
+];
 
 // ── Paleta Politeia (alineada con tokens.css + AppHeader) ──
 const POL = {
@@ -34,6 +52,10 @@ const POL = {
   accentBorder: 'rgba(31,78,140,0.22)',
 };
 
+// Normaliza texto para búsqueda: minúsculas + sin acentos.
+const DIACRITICS = new RegExp('[\\u0300-\\u036f]', 'g');
+const norm = (s: string) => s.normalize('NFD').replace(DIACRITICS, '').toLowerCase();
+
 function Toggle({ on }: { on: boolean }) {
   return (
     <div style={{
@@ -50,23 +72,38 @@ function Toggle({ on }: { on: boolean }) {
   );
 }
 
-// Orden lógico por dominio: primero lo que se mueve en directo (aéreo, marítimo,
-// espacio), luego instalaciones fijas (energía, infraestructura), después
-// eventos y seguridad (conflicto, tráfico, vigilancia), naturaleza (riesgos,
-// geografía) y, al final, capas meta y de fondo (SDK, visualización del mapa).
+// ── Taxonomía reordenada (9 grupos coherentes) ──
+// Orden por dominio mental del analista: primero lo que se mueve en directo
+// (aire, mar, tierra), luego el marco geopolítico y el conflicto, después las
+// instalaciones fijas (energía, infraestructura crítica/digital), la naturaleza
+// y, al final, la capa meta (vigilancia/medios) y la base del mapa.
+// IMPORTANTE: las 104 claves (key) no cambian — solo su agrupación — para no
+// romper ningún handler de OsirisMap ni los presets de sector-map-layers.
 const LAYER_GROUPS = [
-  // ═══════════════ 1 · MOVILIDAD ═══════════════
+  // ═══════════════ 1 · AIRE Y AVIACIÓN ═══════════════
   {
-    label: 'MOVILIDAD',
+    label: 'AIRE Y AVIACIÓN',
     icon: Plane,
     color: '#00E5FF',
     layers: [
-      { key: 'flights', label: 'Comercial', icon: Plane, color: '#00E5FF', dataKey: 'commercial_flights', sectionLabel: 'AVIACIÓN' },
+      { key: 'flights', label: 'Comercial', icon: Plane, color: '#00E5FF', dataKey: 'commercial_flights', sectionLabel: 'AVIACIÓN EN VIVO' },
       { key: 'private', label: 'Privada', icon: Plane, color: '#00E676', dataKey: 'private_flights' },
       { key: 'jets', label: 'Jets privados', icon: Plane, color: '#FF69B4', dataKey: 'private_jets' },
       { key: 'military', label: 'Militar', icon: Shield, color: '#FF3D3D', dataKey: 'military_flights' },
-      { key: 'airports', label: 'Aeropuertos del mundo', icon: Plane, color: '#42A5F5', dataKey: 'airports' },
-      { key: 'maritime', label: 'Todo el tráfico marítimo', icon: Ship, color: '#00BCD4', dataKey: 'maritime_ships,maritime_ports,maritime_chokepoints', sectionLabel: 'MARÍTIMO · TRÁFICO' },
+      { key: 'airports', label: 'Aeropuertos del mundo', icon: Plane, color: '#42A5F5', dataKey: 'airports', sectionLabel: 'INFRAESTRUCTURA AÉREA' },
+      { key: 'satellites', label: 'Satélites', icon: Satellite, color: '#D4AF37', dataKey: 'satellites', sectionLabel: 'ESPACIO' },
+      { key: 'iss', label: 'ISS (en directo)', icon: Satellite, color: '#FFFFFF', dataKey: '' },
+      { key: 'launches', label: 'Lanzamientos espaciales', icon: Rocket, color: '#FFD54F', dataKey: 'launches' },
+      { key: 'satnogs', label: 'Estaciones terrestres (SatNOGS)', icon: Radio, color: '#AB47BC', dataKey: 'satnogs' },
+    ],
+  },
+  // ═══════════════ 2 · MARÍTIMO ═══════════════
+  {
+    label: 'MARÍTIMO',
+    icon: Ship,
+    color: '#00BCD4',
+    layers: [
+      { key: 'maritime', label: 'Todo el tráfico marítimo', icon: Ship, color: '#00BCD4', dataKey: 'maritime_ships,maritime_ports,maritime_chokepoints', sectionLabel: 'TRÁFICO' },
       { key: 'ship_cargo', label: 'Carga', icon: Ship, color: '#00BCD4', dataKey: '', sectionLabel: 'BARCOS POR TIPO' },
       { key: 'ship_tanker', label: 'Petroleros / tanque', icon: Ship, color: '#FF9500', dataKey: '' },
       { key: 'ship_passenger', label: 'Pasaje / ferry', icon: Ship, color: '#B388FF', dataKey: '' },
@@ -79,40 +116,44 @@ const LAYER_GROUPS = [
       { key: 'port_energy', label: 'Energéticos crudo/gas', icon: Anchor, color: '#FF9500', dataKey: '' },
       { key: 'port_naval', label: 'Bases navales', icon: Anchor, color: '#FF3D3D', dataKey: '' },
       { key: 'port_commercial', label: 'Comerciales', icon: Anchor, color: '#26A69A', dataKey: '' },
-      { key: 'maritime_routes', label: 'Rutas comerciales marítimas', icon: Route, color: '#26C6DA', dataKey: '', sectionLabel: 'RUTAS Y NAVEGACIÓN' },
+      { key: 'maritime_routes', label: 'Rutas comerciales marítimas', icon: Route, color: '#26C6DA', dataKey: '', sectionLabel: 'RUTAS Y RIESGO' },
       { key: 'piracy', label: 'Piratería (zonas de riesgo)', icon: Skull, color: '#EF5350', dataKey: '' },
       { key: 'lighthouses', label: 'Faros', icon: Navigation, color: '#FFEE58', dataKey: 'lighthouses' },
-      { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents', sectionLabel: 'FERROVIARIO Y TRÁFICO' },
-      { key: 'trains', label: 'Trenes en directo (FI·IE·US)', icon: Train, color: '#FFCA28', dataKey: 'trains' },
-      { key: 'railways', label: 'Líneas ferroviarias (por tipo)', icon: TrainTrack, color: '#FFC23C', dataKey: '' },
-      { key: 'satellites', label: 'Satélites', icon: Satellite, color: '#D4AF37', dataKey: 'satellites', sectionLabel: 'ESPACIO' },
-      { key: 'iss', label: 'ISS (en directo)', icon: Satellite, color: '#FFFFFF', dataKey: '' },
-      { key: 'launches', label: 'Lanzamientos espaciales', icon: Rocket, color: '#FFD54F', dataKey: 'launches' },
-      { key: 'satnogs', label: 'Estaciones terrestres (SatNOGS)', icon: Radio, color: '#AB47BC', dataKey: 'satnogs' },
     ],
   },
-  // ═══════════════ 2 · GEOPOLÍTICA Y POLÍTICA ═══════════════
+  // ═══════════════ 3 · TIERRA Y TRANSPORTE ═══════════════
   {
-    label: 'GEOPOLÍTICA Y POLÍTICA',
+    label: 'TIERRA Y TRANSPORTE',
+    icon: Train,
+    color: '#FFC23C',
+    layers: [
+      { key: 'trains', label: 'Trenes en directo (FI·IE·US)', icon: Train, color: '#FFCA28', dataKey: 'trains', sectionLabel: 'FERROVIARIO' },
+      { key: 'railways', label: 'Líneas ferroviarias (por tipo)', icon: TrainTrack, color: '#FFC23C', dataKey: '' },
+      { key: 'traffic_incidents', label: 'Incidencias de tráfico', icon: Construction, color: '#FFB300', dataKey: 'traffic_incidents', sectionLabel: 'CARRETERA' },
+    ],
+  },
+  // ═══════════════ 4 · GEOPOLÍTICA E ÍNDICES ═══════════════
+  {
+    label: 'GEOPOLÍTICA E ÍNDICES',
     icon: Globe,
     color: '#1565C0',
     layers: [
-      { key: 'alliances', label: 'Bloques militares (OTAN/OTSC)', icon: Shield, color: '#1565C0', dataKey: '', sectionLabel: 'GEOPOLÍTICA' },
+      { key: 'alliances', label: 'Bloques militares (OTAN/OTSC)', icon: Shield, color: '#1565C0', dataKey: '', sectionLabel: 'BLOQUES Y PODER' },
+      { key: 'econ_blocs', label: 'Bloques económicos', icon: Globe, color: '#1565C0', dataKey: '' },
       { key: 'milspend', label: 'Gasto militar', icon: Coins, color: '#E65100', dataKey: '' },
       { key: 'nukes', label: 'Armas nucleares', icon: Radiation, color: '#D32F2F', dataKey: '' },
-      { key: 'sanctions', label: 'Países sancionados', icon: Ban, color: '#EF5350', dataKey: '' },
-      { key: 'regime', label: 'Régimen político', icon: Vote, color: '#2E7D32', dataKey: '' },
-      { key: 'disputes', label: 'Disputas territoriales', icon: Swords, color: '#FF1744', dataKey: '' },
       { key: 'orgs', label: 'Organismos internacionales', icon: Landmark, color: '#448AFF', dataKey: '' },
-      { key: 'election', label: 'Calendario electoral (2026-28)', icon: Vote, color: '#EF5350', dataKey: '', sectionLabel: 'POLÍTICA E ÍNDICES' },
-      { key: 'econ_blocs', label: 'Bloques económicos', icon: Globe, color: '#1565C0', dataKey: '' },
-      { key: 'press_freedom', label: 'Libertad de prensa (RSF)', icon: Newspaper, color: '#9CCC65', dataKey: '' },
+      { key: 'regime', label: 'Régimen político', icon: Vote, color: '#2E7D32', dataKey: '', sectionLabel: 'ESTADO DEL PAÍS' },
+      { key: 'sanctions', label: 'Países sancionados', icon: Ban, color: '#EF5350', dataKey: '' },
+      { key: 'disputes', label: 'Disputas territoriales', icon: Swords, color: '#FF1744', dataKey: '' },
+      { key: 'election', label: 'Calendario electoral (2026-28)', icon: Vote, color: '#EF5350', dataKey: '' },
+      { key: 'press_freedom', label: 'Libertad de prensa (RSF)', icon: Newspaper, color: '#9CCC65', dataKey: '', sectionLabel: 'ÍNDICES' },
       { key: 'corruption', label: 'Corrupción (CPI)', icon: Landmark, color: '#FFA726', dataKey: '' },
       { key: 'hdi', label: 'Desarrollo humano (IDH)', icon: Activity, color: '#2E7D32', dataKey: '' },
       { key: 'gdp_pc', label: 'PIB per cápita', icon: Coins, color: '#26A69A', dataKey: '' },
     ],
   },
-  // ═══════════════ 3 · CONFLICTO Y SEGURIDAD ═══════════════
+  // ═══════════════ 5 · CONFLICTO Y SEGURIDAD ═══════════════
   {
     label: 'CONFLICTO Y SEGURIDAD',
     icon: Swords,
@@ -122,6 +163,7 @@ const LAYER_GROUPS = [
       { key: 'frontline', label: 'Frente de Ucrania (DeepState)', icon: Swords, color: '#FF1744', dataKey: '' },
       { key: 'global_incidents', label: 'Incidentes globales', icon: AlertTriangle, color: '#FF3D3D', dataKey: 'gdelt' },
       { key: 'gps_jamming', label: 'Interferencia GPS', icon: Radio, color: '#FF4444', dataKey: 'gps_jamming' },
+      { key: 'military_bases', label: 'Bases militares', icon: Shield, color: '#EF5350', dataKey: 'military_bases', sectionLabel: 'DEFENSA' },
       { key: 'war_ukraine', label: 'Rusia–Ucrania', icon: Target, color: '#4FC3F7', dataKey: '', sectionLabel: 'SUCESOS POR GUERRA' },
       { key: 'war_gaza', label: 'Israel–Gaza', icon: Target, color: '#EF5350', dataKey: '' },
       { key: 'war_lebanon', label: 'Israel–Hezbolá (Líbano)', icon: Target, color: '#FF7043', dataKey: '' },
@@ -133,13 +175,13 @@ const LAYER_GROUPS = [
       { key: 'war_syria', label: 'Siria (post-Ásad)', icon: Target, color: '#EC407A', dataKey: '' },
     ],
   },
-  // ═══════════════ 4 · ENERGÍA E INDUSTRIA ═══════════════
+  // ═══════════════ 6 · ENERGÍA ═══════════════
   {
-    label: 'ENERGÍA E INDUSTRIA',
+    label: 'ENERGÍA',
     icon: Zap,
     color: '#FFD600',
     layers: [
-      { key: 'power_solar', label: 'Solar', icon: Zap, color: '#FFD600', dataKey: '', sectionLabel: 'ENERGÍA (POR FUENTE)' },
+      { key: 'power_solar', label: 'Solar', icon: Zap, color: '#FFD600', dataKey: '', sectionLabel: 'GENERACIÓN (POR FUENTE)' },
       { key: 'power_wind', label: 'Eólica', icon: Zap, color: '#4FC3F7', dataKey: '' },
       { key: 'power_hydro', label: 'Hidroeléctrica', icon: Zap, color: '#2979FF', dataKey: '' },
       { key: 'power_nuclear', label: 'Nuclear', icon: Zap, color: '#FF1744', dataKey: '' },
@@ -147,77 +189,72 @@ const LAYER_GROUPS = [
       { key: 'power_gas', label: 'Gas natural', icon: Zap, color: '#FF9100', dataKey: '' },
       { key: 'power_oil', label: 'Petróleo', icon: Zap, color: '#A1887F', dataKey: '' },
       { key: 'power_other', label: 'Otras (biomasa, geotérmica…)', icon: Zap, color: '#BDBDBD', dataKey: '' },
-      { key: 'pipelines', label: 'Oleoductos y gasoductos', icon: Fuel, color: '#42A5F5', dataKey: '', sectionLabel: 'RECURSOS Y REDES' },
-      { key: 'datacenters', label: 'Centros de datos', icon: Server, color: '#00E5FF', dataKey: 'datacenters' },
-      { key: 'oilgas', label: 'Campos de petróleo y gas', icon: Fuel, color: '#8D6E63', dataKey: 'oilgas' },
-      { key: 'minerals', label: 'Minerales críticos', icon: Gem, color: '#26C6DA', dataKey: 'minerals' },
-      { key: 'refineries', label: 'Refinerías de petróleo', icon: Fuel, color: '#A1887F', dataKey: '', sectionLabel: 'INDUSTRIA ESTRATÉGICA' },
+      { key: 'powerlines', label: 'Líneas eléctricas (alta tensión)', icon: Zap, color: '#FFD600', dataKey: '', sectionLabel: 'REDES DE TRANSPORTE' },
+      { key: 'pipelines', label: 'Oleoductos y gasoductos', icon: Fuel, color: '#42A5F5', dataKey: '' },
+      { key: 'oilgas', label: 'Campos de petróleo y gas', icon: Fuel, color: '#8D6E63', dataKey: 'oilgas', sectionLabel: 'RECURSOS' },
+      { key: 'refineries', label: 'Refinerías de petróleo', icon: Fuel, color: '#A1887F', dataKey: '' },
       { key: 'lng_terminals', label: 'Terminales de GNL', icon: Flame, color: '#42A5F5', dataKey: '' },
-      { key: 'fabs', label: 'Fábricas de semiconductores', icon: Server, color: '#00E5FF', dataKey: '' },
-      { key: 'nuclear_plants', label: 'Centrales nucleares', icon: Radiation, color: '#FFD600', dataKey: '' },
+      { key: 'minerals', label: 'Minerales críticos', icon: Gem, color: '#26C6DA', dataKey: 'minerals' },
+      { key: 'nuclear_plants', label: 'Centrales nucleares', icon: Radiation, color: '#FFD600', dataKey: '', sectionLabel: 'NUCLEAR E HIDRÁULICA' },
       { key: 'dams', label: 'Presas hidroeléctricas (>1 GW)', icon: Waves, color: '#4FC3F7', dataKey: '' },
+      { key: 'infrastructure', label: 'Instalaciones nucleares (red)', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure' },
     ],
   },
-  // ═══════════════ 5 · INFRAESTRUCTURA Y CONECTIVIDAD ═══════════════
+  // ═══════════════ 7 · INFRAESTRUCTURA CRÍTICA Y DIGITAL ═══════════════
   {
-    label: 'INFRAESTRUCTURA Y CONECTIVIDAD',
+    label: 'INFRAESTRUCTURA CRÍTICA Y DIGITAL',
     icon: Building2,
     color: '#00E5FF',
     layers: [
-      { key: 'infrastructure', label: 'Instalaciones nucleares', icon: Radiation, color: '#76FF03', dataKey: 'infrastructure', sectionLabel: 'INFRAESTRUCTURA' },
-      { key: 'critical_infra', label: 'Refinerías · presas · críticas', icon: Building2, color: '#00E5FF', dataKey: 'critical_infra' },
-      { key: 'military_bases', label: 'Bases militares', icon: Shield, color: '#EF5350', dataKey: 'military_bases' },
-      { key: 'submarine_cables', label: 'Cables submarinos', icon: Cable, color: '#00BCD4', dataKey: 'cables' },
-      { key: 'ixps', label: 'Puntos de intercambio (IXP)', icon: Network, color: '#AB47BC', dataKey: '', sectionLabel: 'CONECTIVIDAD' },
+      { key: 'critical_infra', label: 'Refinerías y presas (red completa)', icon: Fuel, color: '#FF6D00', dataKey: '', sectionLabel: 'INFRAESTRUCTURA CRÍTICA' },
+      { key: 'datacenters', label: 'Centros de datos', icon: Server, color: '#00E5FF', dataKey: 'datacenters' },
+      { key: 'fabs', label: 'Fábricas de semiconductores', icon: Server, color: '#00E5FF', dataKey: '' },
+      { key: 'submarine_cables', label: 'Cables submarinos', icon: Cable, color: '#00BCD4', dataKey: 'cables', sectionLabel: 'CONECTIVIDAD DIGITAL' },
       { key: 'cable_landings', label: 'Aterrizajes de cable submarino', icon: Cable, color: '#26C6DA', dataKey: '' },
-      { key: 'net_shutdowns', label: 'Apagones de internet', icon: Zap, color: '#EF5350', dataKey: '' },
+      { key: 'ixps', label: 'Puntos de intercambio (IXP)', icon: Network, color: '#AB47BC', dataKey: '' },
       { key: 'mobile_coverage', label: 'Cobertura móvil (Ookla)', icon: Radio, color: '#43A047', dataKey: '' },
+      { key: 'net_shutdowns', label: 'Apagones de internet', icon: Zap, color: '#EF5350', dataKey: '' },
     ],
   },
-  // ═══════════════ 6 · MEDIO AMBIENTE Y RIESGOS ═══════════════
+  // ═══════════════ 8 · NATURALEZA Y RIESGOS ═══════════════
   {
-    label: 'MEDIO AMBIENTE Y RIESGOS',
+    label: 'NATURALEZA Y RIESGOS',
     icon: CloudRain,
     color: '#29B6F6',
     layers: [
       { key: 'earthquakes', label: 'Terremotos (24h)', icon: Activity, color: '#FF9500', dataKey: 'earthquakes', sectionLabel: 'RIESGOS NATURALES' },
-      { key: 'fires', label: 'Incendios activos', icon: Flame, color: '#FF6B00', dataKey: 'fires' },
-      { key: 'weather', label: 'Clima severo', icon: CloudLightning, color: '#E040FB', dataKey: 'weather_events' },
-      { key: 'gdacs', label: 'Alertas de desastres (GDACS)', icon: AlertOctagon, color: '#EF5350', dataKey: 'gdacs' },
-      { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
       { key: 'volcanoes', label: 'Volcanes', icon: Flame, color: '#FF7043', dataKey: 'volcanoes' },
+      { key: 'fires', label: 'Incendios activos', icon: Flame, color: '#FF6B00', dataKey: 'fires' },
+      { key: 'gdacs', label: 'Alertas de desastres (GDACS)', icon: AlertOctagon, color: '#EF5350', dataKey: 'gdacs' },
+      { key: 'eonet', label: 'Eventos naturales (NASA EONET)', icon: Activity, color: '#FFD54F', dataKey: 'eonet' },
+      { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
+      { key: 'weather', label: 'Clima severo', icon: CloudLightning, color: '#E040FB', dataKey: 'weather_events' },
+      { key: 'rainfall', label: 'Radar de lluvia (tiempo real)', icon: CloudRain, color: '#29B6F6', dataKey: '', sectionLabel: 'CLIMA Y MAR' },
       { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
-      { key: 'rainfall', label: 'Radar de lluvia (tiempo real)', icon: CloudRain, color: '#29B6F6', dataKey: '', sectionLabel: 'CLIMA Y TIERRA' },
+      { key: 'heat', label: 'Temperatura / calor extremo', icon: Sun, color: '#FF6B00', dataKey: 'heat' },
       { key: 'aurora', label: 'Auroras (boreal/austral)', icon: Sparkles, color: '#76FF03', dataKey: 'aurora' },
-      { key: 'tectonics', label: 'Placas tectónicas', icon: Mountain, color: '#FF7043', dataKey: '' },
       { key: 'sea_state', label: 'Estado del mar (olas)', icon: Waves, color: '#26C6DA', dataKey: 'sea_state' },
-      { key: 'agriculture', label: 'Agricultura (cultivos)', icon: Sprout, color: '#9CCC65', dataKey: '' },
+      { key: 'tectonics', label: 'Placas tectónicas', icon: Mountain, color: '#FF7043', dataKey: '' },
       { key: 'geo_rivers', label: 'Ríos', icon: Waves, color: '#29B6F6', dataKey: '', sectionLabel: 'RELIEVE Y GEOGRAFÍA' },
       { key: 'geo_mountains', label: 'Montañas y cordilleras', icon: Mountain, color: '#8D6E63', dataKey: '' },
       { key: 'geo_deserts', label: 'Desiertos', icon: Sun, color: '#E0A82E', dataKey: '' },
       { key: 'geo_features', label: 'Otros (mesetas, cuencas, deltas…)', icon: Droplets, color: '#26A69A', dataKey: '' },
-      { key: 'refugee_camps', label: 'Campos de refugiados (ACNUR)', icon: AlertOctagon, color: '#FF9800', dataKey: '', sectionLabel: 'HUMANITARIO' },
+      { key: 'agriculture', label: 'Agricultura (cultivos)', icon: Sprout, color: '#9CCC65', dataKey: '' },
+      { key: 'refugee_camps', label: 'Campos de refugiados (ACNUR)', icon: AlertOctagon, color: '#FF9800', dataKey: '', sectionLabel: 'HUMANITARIO Y AMBIENTAL' },
+      { key: 'displacement', label: 'Refugiados y desplazados (UNHCR)', icon: AlertOctagon, color: '#FF6D00', dataKey: 'displacement' },
       { key: 'deforestation', label: 'Deforestación (pérdida forestal)', icon: Sprout, color: '#E53935', dataKey: '' },
     ],
   },
-  // ═══════════════ 7 · VIGILANCIA Y MEDIOS ═══════════════
+  // ═══════════════ 9 · VIGILANCIA, MEDIOS Y BASE ═══════════════
   {
-    label: 'VIGILANCIA Y MEDIOS',
+    label: 'VIGILANCIA, MEDIOS Y BASE',
     icon: Camera,
     color: '#39FF14',
     layers: [
-      { key: 'cctv', label: 'Cámaras CCTV', icon: Camera, color: '#39FF14', dataKey: 'cameras' },
+      { key: 'cctv', label: 'Cámaras CCTV', icon: Camera, color: '#39FF14', dataKey: 'cameras', sectionLabel: 'FUENTES OSINT' },
       { key: 'live_news', label: 'Noticias en directo', icon: Tv, color: '#FF4081', dataKey: 'live_feeds' },
-      { key: 'sdk_stream', label: 'Flujo de inteligencia', icon: Network, color: '#1565C0', dataKey: 'sdk_entities', sectionLabel: 'INTELIGENCIA SDK' },
-    ],
-  },
-  // ═══════════════ 8 · FONDO Y VISUALIZACIÓN ═══════════════
-  {
-    label: 'FONDO Y VISUALIZACIÓN',
-    icon: Sun,
-    color: '#448AFF',
-    layers: [
-      { key: 'day_night', label: 'Ciclo día / noche', icon: Sun, color: '#448AFF', dataKey: '' },
+      { key: 'sdk_stream', label: 'Flujo de inteligencia', icon: Network, color: '#1565C0', dataKey: 'sdk_entities' },
+      { key: 'day_night', label: 'Ciclo día / noche', icon: Sun, color: '#448AFF', dataKey: '', sectionLabel: 'BASE DEL MAPA' },
       { key: 'gibs', label: 'Imagen satélite (NASA MODIS)', icon: Image, color: '#66BB6A', dataKey: '' },
       { key: 'nightlights', label: 'Luces nocturnas (VIIRS)', icon: Moon, color: '#FFD54F', dataKey: '' },
     ],
@@ -227,13 +264,16 @@ const LAYER_GROUPS = [
 // Flat list for backward compat
 const ALL_LAYERS = LAYER_GROUPS.flatMap(g => g.layers);
 
-function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
+function LayerPanel({ data, activeLayers, setActiveLayers, mineralFilter = 'todos', setMineralFilter }: LayerPanelProps) {
   // Al abrir la página todos los grupos arrancan RECOGIDOS (colapsados).
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
     LAYER_GROUPS.forEach(g => { initial[g.label] = false; });
     return initial;
   });
+  // Buscador de capas (filtra por etiqueta normalizada sin acentos).
+  const [query, setQuery] = useState('');
+  const q = norm(query.trim());
 
   const toggle = (key: string) => setActiveLayers((prev: any) => ({ ...prev, [key]: !prev[key] }));
   const getCount = (dk: string): number | null => {
@@ -291,9 +331,11 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
       : layer.key.startsWith('port_') ? portCount(layer.key)
       : layer.key.startsWith('geo_') ? geoCount(layer.key)
       : layer.key === 'railways' ? (data?.railways_fc?.features?.length ?? null)
+      : layer.key === 'powerlines' ? (data?.powerlines_fc?.features?.length ?? null)
+      : layer.key === 'pipelines' ? (data?.pipelines_fc?.features?.length ?? null)
       : getCount(layer.dataKey);
   const totalEntities = ALL_LAYERS.reduce((s: number, l: any) => s + (getCount(l.dataKey) || 0), 0);
-  const activeCount = Object.values(activeLayers).filter(Boolean).length;
+  const activeCount = ALL_LAYERS.reduce((n, l) => n + (activeLayers[l.key] ? 1 : 0), 0);
 
   const toggleGroup = (groupLabel: string) => {
     setExpandedGroups(prev => ({ ...prev, [groupLabel]: !prev[groupLabel] }));
@@ -306,7 +348,14 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     return next;
   });
 
-  const toggleAllInGroup = (group: typeof LAYER_GROUPS[0]) => {
+  // Apaga todas las capas de datos de golpe.
+  const clearAllLayers = () => setActiveLayers((prev: any) => {
+    const next = { ...prev };
+    ALL_LAYERS.forEach(l => { next[l.key] = false; });
+    return next;
+  });
+
+  const toggleAllInGroup = (group: { layers: { key: string }[] }) => {
     const allActive = group.layers.every(l => activeLayers[l.key]);
     setActiveLayers((prev: any) => {
       const next = { ...prev };
@@ -322,6 +371,14 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
     background: tone === 'accent' ? POL.accentSubtle : POL.surfaceRaised,
   });
 
+  // Grupos a renderizar: si hay búsqueda, filtra capas por etiqueta y deja
+  // solo los grupos con coincidencias (y los expande automáticamente).
+  const groupsToRender = q
+    ? LAYER_GROUPS
+        .map(g => ({ ...g, layers: g.layers.filter(l => norm(l.label).includes(q) || norm(g.label).includes(q)) }))
+        .filter(g => g.layers.length > 0)
+    : LAYER_GROUPS;
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3, duration: 0.6 }}
@@ -336,7 +393,7 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
       }}
     >
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, paddingLeft: 2 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, paddingLeft: 2 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
           <Eye style={{ width: 14, height: 14, color: POL.accent }} strokeWidth={1.8} />
           <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', color: POL.ink }}>CAPAS DE DATOS</span>
@@ -344,6 +401,21 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
           <span style={pill(`${activeCount}/${ALL_LAYERS.length}`, 'accent')}>{activeCount}/{ALL_LAYERS.length}</span>
           <span style={pill(`${totalEntities} ENT`, 'muted')}>{totalEntities.toLocaleString()}</span>
+          {activeCount > 0 && (
+            <button
+              onClick={clearAllLayers}
+              title="Apagar todas las capas"
+              aria-label="Apagar todas las capas activas"
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 3,
+                borderRadius: 6, background: 'none', border: `1px solid ${POL.hairline}`, cursor: 'pointer',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.background = POL.surfaceRaised)}
+              onMouseLeave={e => (e.currentTarget.style.background = 'none')}
+            >
+              <Power style={{ width: 13, height: 13, color: POL.ink4 }} strokeWidth={2} />
+            </button>
+          )}
           <button
             onClick={() => setAllGroups(!anyExpanded)}
             title={anyExpanded ? 'Recoger todo' : 'Desplegar todo'}
@@ -362,10 +434,41 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
         </div>
       </div>
 
+      {/* Buscador de capas */}
+      <div style={{ position: 'relative', marginBottom: 10 }}>
+        <Search style={{ position: 'absolute', left: 9, top: '50%', transform: 'translateY(-50%)', width: 13, height: 13, color: POL.ink5, pointerEvents: 'none' }} strokeWidth={2} />
+        <input
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Buscar capa…  (p. ej. nuclear, cables, IDH)"
+          aria-label="Buscar capa por nombre"
+          style={{
+            width: '100%', boxSizing: 'border-box', fontFamily: POL.font, fontSize: 12,
+            padding: '7px 28px 7px 28px', borderRadius: 9, outline: 'none',
+            background: POL.surfaceRaised, color: POL.ink, border: `1px solid ${POL.hairlineSoft}`,
+          }}
+        />
+        {query && (
+          <button
+            onClick={() => setQuery('')}
+            title="Limpiar búsqueda"
+            aria-label="Limpiar búsqueda"
+            style={{ position: 'absolute', right: 6, top: '50%', transform: 'translateY(-50%)', display: 'flex', padding: 2, border: 0, background: 'none', cursor: 'pointer' }}
+          >
+            <X style={{ width: 13, height: 13, color: POL.ink4 }} strokeWidth={2} />
+          </button>
+        )}
+      </div>
+
       {/* Groups */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-        {LAYER_GROUPS.map((group) => {
-          const isExpanded = expandedGroups[group.label];
+        {groupsToRender.length === 0 && (
+          <div style={{ padding: '14px 6px', fontSize: 11.5, color: POL.ink4, textAlign: 'center' }}>
+            Sin capas que coincidan con «{query}».
+          </div>
+        )}
+        {groupsToRender.map((group) => {
+          const isExpanded = q ? true : expandedGroups[group.label];
           const groupActiveCount = group.layers.filter(l => activeLayers[l.key]).length;
           const allActive = groupActiveCount === group.layers.length;
           const GroupIcon = group.icon;
@@ -376,11 +479,12 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                 <button
                   onClick={() => toggleGroup(group.label)}
+                  disabled={!!q}
                   style={{
                     flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '6px 6px',
-                    borderRadius: 8, background: 'none', border: 0, cursor: 'pointer', textAlign: 'left',
+                    borderRadius: 8, background: 'none', border: 0, cursor: q ? 'default' : 'pointer', textAlign: 'left',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.background = POL.surfaceRaised)}
+                  onMouseEnter={e => { if (!q) e.currentTarget.style.background = POL.surfaceRaised; }}
                   onMouseLeave={e => (e.currentTarget.style.background = 'none')}
                 >
                   <GroupIcon style={{ width: 13, height: 13, color: group.color, flexShrink: 0 }} strokeWidth={2} />
@@ -388,13 +492,14 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                   <span style={{ fontSize: 9, fontWeight: 700, fontVariantNumeric: 'tabular-nums', color: groupActiveCount > 0 ? POL.accentText : POL.ink5 }}>
                     {groupActiveCount}/{group.layers.length}
                   </span>
-                  {isExpanded
+                  {!q && (isExpanded
                     ? <ChevronUp style={{ width: 13, height: 13, color: POL.ink5 }} strokeWidth={2} />
-                    : <ChevronDown style={{ width: 13, height: 13, color: POL.ink5 }} strokeWidth={2} />}
+                    : <ChevronDown style={{ width: 13, height: 13, color: POL.ink5 }} strokeWidth={2} />)}
                 </button>
                 <button
                   onClick={() => toggleAllInGroup(group)}
                   title={allActive ? 'Desactivar todo' : 'Activar todo'}
+                  aria-label={allActive ? `Desactivar grupo ${group.label}` : `Activar grupo ${group.label}`}
                   style={{ padding: 3, borderRadius: 6, background: 'none', border: 0, cursor: 'pointer', display: 'flex' }}
                 >
                   <Toggle on={allActive} />
@@ -402,7 +507,7 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
               </div>
 
               {/* Layer items */}
-              <AnimatePresence>
+              <AnimatePresence initial={false}>
                 {isExpanded && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}
@@ -413,7 +518,9 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                         const Icon = layer.icon;
                         const isActive = activeLayers[layer.key];
                         const count = countFor(layer);
-                        const sectionLabel = (layer as any).sectionLabel as string | undefined;
+                        // Oculta los rótulos de sub-sección durante la búsqueda
+                        // (la lista filtrada es corta y los rótulos quedarían huérfanos).
+                        const sectionLabel = q ? undefined : (layer as any).sectionLabel as string | undefined;
                         return (
                           <Fragment key={layer.key}>
                           {sectionLabel && (
@@ -423,6 +530,8 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                           )}
                           <button
                             onClick={() => toggle(layer.key)}
+                            aria-pressed={!!isActive}
+                            aria-label={layer.label}
                             style={{
                               width: '100%', display: 'flex', alignItems: 'center', gap: 9, padding: '6px 8px',
                               borderRadius: 9, cursor: 'pointer', transition: 'background .15s ease',
@@ -447,6 +556,20 @@ function LayerPanel({ data, activeLayers, setActiveLayers }: LayerPanelProps) {
                             )}
                             <Toggle on={!!isActive} />
                           </button>
+                          {layer.key === 'minerals' && isActive && setMineralFilter && (
+                            <select
+                              value={mineralFilter}
+                              onChange={e => setMineralFilter(e.target.value)}
+                              title="Filtrar por tipo de mineral"
+                              style={{
+                                margin: '1px 4px 4px 30px', width: 'calc(100% - 34px)', fontSize: 11,
+                                padding: '5px 8px', borderRadius: 7, background: POL.surfaceRaised,
+                                color: POL.ink, border: `1px solid ${POL.hairlineSoft}`, cursor: 'pointer', outline: 'none',
+                              }}
+                            >
+                              {MINERAL_TYPES.map(t => <option key={t.v} value={t.v}>{t.l}</option>)}
+                            </select>
+                          )}
                           </Fragment>
                         );
                       })}
