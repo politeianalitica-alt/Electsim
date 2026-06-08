@@ -991,13 +991,26 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       // su rumbo (en movimiento o atracados), para un único estilo coherente.
       // Antes los parados eran círculos y, además, no eran clicables (el click
       // solo estaba en ship-arrows). Ahora todos son flecha y todos clicables.
+      // Tamaño de la flecha proporcional al tamaño del barco (estilo MarineTraffic):
+      // usa la eslora real del AIS (get length) cuando existe; si no, la estima por
+      // tipo (petrolero/carga grandes, pesca/remolcador pequeños). El factor se
+      // multiplica por una base que depende del zoom.
+      const shipLen: any = ['coalesce', ['get', 'length'],
+        ['match', ['get', 'type'],
+          'cargo', 180, 'tanker', 210, 'passenger', 160, 'fishing', 26,
+          'tug', 28, 'highspeed', 50, 'military', 120,
+          /* other */ 70]];
+      const shipSizeFactor: any = ['interpolate', ['linear'], shipLen,
+        20, 0.55, 100, 0.9, 200, 1.35, 300, 1.75, 400, 2.2];
       map.addLayer({ id: 'ship-arrows', type: 'symbol', source: 'maritime-ships',
         layout: {
           'icon-image': shipArrowImg,
           'icon-rotate': ['coalesce', ['get','heading'], ['get','course'], 0],
           'icon-rotation-alignment': 'map',
           'icon-allow-overlap': true, 'icon-ignore-placement': true,
-          'icon-size': ['interpolate',['linear'],['zoom'], 2,0.6, 6,0.95, 11,1.35, 14,1.7],
+          'icon-size': ['*',
+            ['interpolate', ['linear'], ['zoom'], 2, 0.45, 6, 0.78, 11, 1.1, 14, 1.4],
+            shipSizeFactor],
         }});
       map.addLayer({ id: 'ship-label', type: 'symbol', source: 'maritime-ships', minzoom: 8, layout: {
         'text-field': ['get','name'], 'text-size': 9, 'text-font': ['Open Sans Regular'],
