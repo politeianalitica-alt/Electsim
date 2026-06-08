@@ -29,8 +29,8 @@ import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { ViviendaGlobalView } from './ViviendaGlobalView'
 import { ViviendaSocialView } from './ViviendaSocialView'
+import { ViviendaPreciosView } from './ViviendaPreciosView'
 import {
-  ViviendaPreciosView,
   ViviendaMercadoView,
   ViviendaAlquilerView,
   ViviendaPoliticaView,

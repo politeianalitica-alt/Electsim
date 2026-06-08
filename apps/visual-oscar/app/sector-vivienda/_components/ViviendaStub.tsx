@@ -110,25 +110,7 @@ export function ViviendaStub({ glyph, titulo, subtitulo, proximamente, sprint }:
 
 // ─── Vistas de sub-tab que delegan en el stub ─────────────────────
 
-export function ViviendaPreciosView() {
-  return (
-    <ViviendaStub
-      glyph="⬡"
-      sprint="Sprint V5"
-      titulo="Precios"
-      subtitulo="Vista profunda de precios. Combina IPV, IPVA, índice real BdE deflactado, comparativa Eurostat y esfuerzo financiero por CCAA para responder: ¿están subiendo los precios donde más duele?"
-      proximamente={[
-        'IPV histórico 10 años · serie completa + var anual + interpretación',
-        'IPV desagregado por CCAA · heatmap',
-        'BdE precio real deflactado (tabla 25.10) vs nominal',
-        'Eurostat HOUSE_PRICE_INDEX · España vs UE-27 / grupo de pares',
-        'Esfuerzo financiero por CCAA (precio/renta) usando INE renta CCAA',
-        'Bubble chart precio m² vs alquiler m² por capital de provincia',
-        'Drill-down provincia · ranking + histórico 5 años',
-      ]}
-    />
-  )
-}
+// ViviendaPreciosView ya tiene su propia implementación en V5 · no usa el stub.
 
 export function ViviendaMercadoView() {
   return (
