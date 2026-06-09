@@ -21,6 +21,7 @@ import { AgroGlobalView } from './AgroGlobalView'
 import { AgroPreciosView } from './AgroPreciosView'
 import { AgroCadenaView } from './AgroCadenaView'
 import { AgroProduccionView } from './AgroProduccionStub'
+import { AgroDemandaView } from './AgroDemandaView'
 import { AgroPoliticaView } from './AgroPoliticaView'
 import { AgroSequiaView } from './AgroSequiaView'
 import { SectorMapPreview } from '@/components/SectorMapPreview'
@@ -37,7 +38,8 @@ const SECCIONES: SeccionTab[] = [
   { id: 'global',     label: 'Visión Global',        glyph: '◉', desc: 'World Bank · empresas · áreas' },
   { id: 'precios',    label: 'Lonjas y Precios',     glyph: '⊞', desc: 'Vesper agrícola + análisis Gemini' },
   { id: 'cadena',     label: 'Cadena de Valor',      glyph: '◍', desc: 'Origen · mayorista · PVP · AICA' },
-  { id: 'produccion', label: 'Producción',           glyph: '⬡', desc: 'MAPA + Eurostat + Comext' },
+  { id: 'produccion', label: 'Producción',           glyph: '⬡', desc: 'Coropleta CCAA · Eurostat NUTS2' },
+  { id: 'demanda',    label: 'Demanda y Mercados',   glyph: '⇡', desc: 'Países destino + oferta regional' },
   { id: 'politica',   label: 'PAC y Política',       glyph: '⊟', desc: '47 bn € · PERTE · Ley Cadena' },
   { id: 'sequia',     label: 'Sequía y Agua',        glyph: '◐', desc: 'MITECO · ENESA · embalses' },
 ]
@@ -118,6 +120,8 @@ export default function AgroShell() {
           <AgroCadenaView />
         ) : activa.id === 'produccion' ? (
           <AgroProduccionView />
+        ) : activa.id === 'demanda' ? (
+          <AgroDemandaView />
         ) : activa.id === 'politica' ? (
           <AgroPoliticaView />
         ) : (

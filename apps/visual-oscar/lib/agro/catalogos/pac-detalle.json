@@ -1,0 +1,31 @@
+{
+  "_meta": {
+    "descripcion": "Detalle del Plan Estratégico de la PAC 2023-2027 de España: dotación por pilares e instrumentos, y los ecorregímenes (eco-schemes) que retribuyen prácticas sostenibles. Cifras aproximadas del marco financiero plurianual de España publicadas por FEGA/MAPA y la Comisión Europea.",
+    "actualizado": "2026-06-09",
+    "mantenedor": "Politeia · Agro v5",
+    "periodo": "2023-2027",
+    "total_eur": 47700000000,
+    "total_nota": "≈47.700 M€ para España en el periodo 2023-2027 (fondos UE FEAGA+FEADER más cofinanciación nacional).",
+    "fuentes": [
+      "FEGA · https://www.fega.gob.es/",
+      "MAPA · Plan Estratégico de la PAC · https://www.mapa.gob.es/es/pac/pac-2023-2027/",
+      "Comisión Europea · CAP Strategic Plans · https://agriculture.ec.europa.eu/cap-my-country/cap-strategic-plans_es"
+    ]
+  },
+  "pilares": [
+    { "nombre": "Pilar I · Ayudas directas (FEAGA)", "eur": 24300000000, "nota": "Pago básico a la renta, pago redistributivo, ayuda a jóvenes y ayudas asociadas. ≈4.860 M€/año." },
+    { "nombre": "Ecorregímenes (dentro del Pilar I)", "eur": 5500000000, "nota": "≈1.107 M€/año (en torno al 23% de los pagos directos) que retribuyen prácticas climáticas y medioambientales voluntarias." },
+    { "nombre": "Intervenciones sectoriales", "eur": 3500000000, "nota": "Frutas y hortalizas, vino, apicultura, aceite de oliva y otros sectores con programas operativos propios." },
+    { "nombre": "Pilar II · Desarrollo rural (FEADER)", "eur": 14400000000, "nota": "≈7.000 M€ UE + cofinanciación nacional/autonómica. Gestionado por las CCAA: regadíos, incorporación de jóvenes, zonas con limitaciones, LEADER." }
+  ],
+  "ecorregimenes": [
+    { "nombre": "Pastoreo extensivo", "practica": "Aprovechamiento a diente de pastos permanentes; reduce riesgo de incendio y fija CO₂ en el suelo." },
+    { "nombre": "Siega sostenible y biodiversidad en pastos", "practica": "Siega tardía y mantenimiento de la biodiversidad en pastos de siega." },
+    { "nombre": "Rotación de cultivos con especies mejorantes", "practica": "Rotaciones en tierras de cultivo de secano y regadío con leguminosas/mejorantes." },
+    { "nombre": "Siembra directa (agricultura de conservación)", "practica": "Mínimo laboreo y cobertura del suelo para frenar la erosión y mejorar la materia orgánica." },
+    { "nombre": "Cubiertas vegetales en cultivos leñosos", "practica": "Cubiertas vivas espontáneas o sembradas entre líneas de olivar, viñedo y frutales." },
+    { "nombre": "Cubiertas inertes en cultivos leñosos", "practica": "Restos de poda triturados como cubierta del suelo en leñosos de pendiente." },
+    { "nombre": "Espacios de biodiversidad en tierras de cultivo", "practica": "Superficies y elementos no productivos (barbechos, márgenes) que favorecen la fauna auxiliar." },
+    { "nombre": "Espacios de biodiversidad en cultivos permanentes", "practica": "Islas y márgenes de biodiversidad en leñosos." }
+  ]
+}
