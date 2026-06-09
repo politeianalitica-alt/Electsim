@@ -1,9 +1,62 @@
 'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { MODULES, moduleOfPath, itemOfPath } from './navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
+import { MODULES, moduleOfPath, itemOfPath, type NavItem } from './navigation'
 import { recordModuleVisit } from '@/lib/home/modules-access'
+import { migrateLegacyTab } from '@/lib/medios/sources-matrix'
+
+// ── Subnav pills (nivel 2) · resaltado consciente del query `?tab=` ──────────
+// Las entradas de Medios apuntan a /prensa?tab=X (Búsqueda, Narrativas…).
+// usePathname() NO incluye el query string, así que sin esto todas las pills de
+// /prensa resaltarían "Pulso de Prensa". Este subcomponente lee el param `tab`
+// con useSearchParams y por eso va envuelto en <Suspense> (requisito de Next
+// para no de-optar el build de las páginas que no lo necesitan).
+function subItemMatchesTab(href: string, path: string, currentTab: string | null): boolean {
+  const [hrefPath, hrefQuery] = href.split('?')
+  const pathOk = path === hrefPath || path.startsWith(hrefPath + '/')
+  if (!pathOk) return false
+  // En /prensa los tabs tienen aliases legacy (actores→tendencias, etc.) y el
+  // default sin ?tab= equivale a 'pulso'. Normalizamos ambos lados con
+  // migrateLegacyTab para que la pill activa coincida con el contenido mostrado.
+  const onPrensa = path === '/prensa'
+  if (hrefQuery) {
+    const hrefTab = new URLSearchParams(hrefQuery).get('tab')
+    return onPrensa
+      ? migrateLegacyTab(hrefTab) === migrateLegacyTab(currentTab)
+      : hrefTab === currentTab
+  }
+  // Item sin query (ej. /prensa = Pulso, /think-tanks…)
+  if (onPrensa) return migrateLegacyTab(currentTab) === 'pulso'
+  return !currentTab
+}
+
+function SubnavPills({ subItems, fallbackActive }: { subItems: NavItem[]; fallbackActive: NavItem | undefined }) {
+  const path = usePathname() || ''
+  const currentTab = useSearchParams().get('tab')
+  // 1º intento: match consciente del tab. Si ninguno casa (módulos sin ?tab= en
+  // sus hrefs, o un tab interno no promovido al menú), cae al fallback por
+  // pathname que ya calcula AppHeader (incluye match por children nivel 3).
+  let active = subItems.find((it) => subItemMatchesTab(it.href, path, currentTab))
+  if (!active) active = fallbackActive
+  return (
+    <div style={{ display: 'flex', gap: 2, overflowX: 'auto', scrollbarWidth: 'none' }}>
+      {subItems.map((it) => {
+        const isActive = it === active
+        return (
+          <Link key={it.href} href={it.href} style={{
+            display: 'flex', alignItems: 'center', padding: '6px 12px',
+            borderRadius: 8, whiteSpace: 'nowrap',
+            fontSize: 12, fontWeight: isActive ? 600 : 500,
+            color: isActive ? '#fff' : '#3a3a3d',
+            background: isActive ? '#1F4E8C' : 'transparent',
+            textDecoration: 'none', transition: 'all 150ms',
+          }}>{it.label}</Link>
+        )
+      })}
+    </div>
+  )
+}
 
 export default function AppHeader() {
   const path = usePathname() || ''
@@ -293,21 +346,9 @@ export default function AppHeader() {
  <span style={{fontSize:11,fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',color:'#6e6e73',flexShrink:0}}>
               {activeModule.label}
  </span>
- <div style={{display:'flex',gap:2,overflowX:'auto',scrollbarWidth:'none'}}>
-              {subItems.map(it=>{
-                const active = it === activeSubItem
-                return (
- <Link key={it.href} href={it.href} style={{
-                    display:'flex',alignItems:'center',padding:'6px 12px',
-                    borderRadius:8,whiteSpace:'nowrap',
-                    fontSize:12,fontWeight:active?600:500,
-                    color:active?'#fff':'#3a3a3d',
-                    background:active?'#1F4E8C':'transparent',
-                    textDecoration:'none',transition:'all 150ms',
-                  }}>{it.label}</Link>
-                )
-              })}
- </div>
+ <Suspense fallback={<div aria-hidden="true" style={{display:'flex',gap:2,height:24}} />}>
+                <SubnavPills subItems={subItems} fallbackActive={activeSubItem} />
+ </Suspense>
  </div>
  </nav>
       )}

@@ -1175,6 +1175,7 @@ function ArticleReadingPanel({ reading }: { reading: any }) {
       <table style={{ width: '100%', fontSize: 11, borderCollapse: 'collapse' }}>
         <tbody>
           <Row label="Frame narrativo" value={<strong>{reading.frame || '—'}</strong>} />
+          <Row label="Sector" value={<strong>{reading.sector_label || reading.sector || '—'}</strong>} />
           <Row label="Tema principal" value={reading.main_topic} />
           <Row label="Temas secundarios" value={list(reading.secondary_topics)} />
           <Row label="Acción · verbo" value={reading.action_verb} />

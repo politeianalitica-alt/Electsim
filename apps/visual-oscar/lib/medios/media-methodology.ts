@@ -22,6 +22,12 @@
  */
 
 import type { CatalogMedio, AggregatedArticle } from '../news-aggregator'
+// Clasificación por SECTOR (taxonomía compartida) · para el sector dominante de
+// cada narrativa y el filtro de sector del workbench de Narrativas.
+// Extensión .ts explícita: este módulo lo carga también el runner de tests
+// `node --experimental-strip-types` (test:unit), que exige extensión al resolver
+// imports de VALOR (no-type). tsconfig tiene allowImportingTsExtensions:true.
+import { classifySector, SECTOR_LABELS, type SectorKey } from './sector-taxonomy.ts'
 
 export const METHODOLOGY_VERSION = 'media-intel-v2'
 
@@ -218,6 +224,8 @@ export interface NarrativeCluster {
   frame_type: FrameType
   main_topic: string
   secondary_topics: string[]
+  dominant_sector?: SectorKey | null   // sector dominante (taxonomía sector-taxonomy)
+  sector_label?: string | null         // etiqueta legible del sector dominante
   articles: string[]                // ids de ArticleReading
   representative_titles: string[]
   first_seen: string                // ISO
@@ -1442,7 +1450,7 @@ export function buildNarrativeClustersDetailed(
   // Clasificar cada cluster: narrative real vs emerging signal
   for (let i = 0; i < rawClusters.length; i++) {
     const arts = rawClusters[i]
-    const distinctMedia = new Set(arts.map((a) => a.medium?.id || a.medium?.name)).size
+    const distinctMedia = new Set(arts.map((a) => a.medium_id || a.medium)).size
     const { strong, reasons } = hasStrongSignal(arts)
     const isNarrative =
       arts.length >= 3 &&
@@ -1500,6 +1508,18 @@ function narrativeFromArticles(
   const allActors = arts.flatMap((a) => a.actors)
   const allParties = arts.flatMap((a) => a.parties)
   const allSectors = arts.flatMap((a) => a.sectors)
+  // Sector dominante (taxonomía nueva) · suma el `score` de classifySector por
+  // artículo y elige el sector de mayor peso acumulado. Rompe empates de
+  // frecuencia por la fuerza de clasificación (entidades/leyes/términos), no por
+  // el orden de clustering. null si ningún artículo encaja en un sector.
+  const sectorWeights = new Map<SectorKey, number>()
+  for (const a of arts) {
+    const r = classifySector(`${a.headline} ${a.summary}`)
+    if (r.sector !== 'otro') sectorWeights.set(r.sector, (sectorWeights.get(r.sector) || 0) + r.score)
+  }
+  let dominantSector: SectorKey | null = null
+  let bestSectorWeight = 0
+  for (const [k, w] of sectorWeights) { if (w > bestSectorWeight) { dominantSector = k; bestSectorWeight = w } }
   const allInstitutions = arts.flatMap((a) => a.institutions)
   const allFrames = arts.map((a) => a.frame)
   const allTopics = arts.map((a) => a.main_topic)
@@ -1643,6 +1663,8 @@ function narrativeFromArticles(
     frame_type: dominantFrame,
     main_topic: mainTopic,
     secondary_topics: topNByCount(secondaryTopics, 4),
+    dominant_sector: dominantSector,
+    sector_label: dominantSector ? SECTOR_LABELS[dominantSector] : null,
     articles: arts.map((a) => a.id),
     representative_titles,
     first_seen,
@@ -1670,9 +1692,9 @@ function narrativeFromArticles(
     target_audiences: inferTargetAudiences(arts, allTerritories, dominantFrame, mainTopic),
     supporting_news: arts.slice(0, 8).map((a) => ({
       title: a.headline,
-      medium: a.medium?.name || 'Desconocido',
+      medium: a.medium || 'Desconocido',
       url: a.url,
-      ideology: a.medium?.ideology_bucket || 'center',
+      ideology: a.medium_ideology_bucket || 'center',
       published_at: a.pub_date,
     })),
     impact_summary: {
@@ -1776,10 +1798,10 @@ function extractTopicTags(arts: ArticleReading[]): string[] {
 function extractChannels(arts: ArticleReading[]): Array<{ channel: string; weight: number; examples: string[] }> {
   const byChannel = new Map<string, { count: number; examples: Set<string> }>()
   for (const a of arts) {
-    const type = a.medium?.type || 'otro'
+    const type = a.medium_type || 'otro'
     const cur = byChannel.get(type) || { count: 0, examples: new Set<string>() }
     cur.count++
-    if (a.medium?.name) cur.examples.add(a.medium.name)
+    if (a.medium) cur.examples.add(a.medium)
     byChannel.set(type, cur)
   }
   const total = arts.length

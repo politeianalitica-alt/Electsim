@@ -16,6 +16,7 @@
 
 import { useMemo, useState } from 'react'
 import type { TieredFeed, Tier, TieredArticle, DynamicCategory } from '@/lib/news-intel'
+import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
   nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '' },
@@ -51,6 +52,7 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
   const [search, setSearch] = useState('')
   const [sentFilter, setSentFilter] = useState<'all'|'positive'|'negative'|'neutral'>('all')
   const [catFilter, setCatFilter] = useState<string>('all')
+  const [sectorFilter, setSectorFilter] = useState<string>('all')
 
   const allArticles: TieredArticle[] = useMemo(() => {
     if (!feed) return []
@@ -65,14 +67,18 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
     }
     if (sentFilter !== 'all') list = list.filter(a => a.sentiment === sentFilter)
     if (catFilter !== 'all')  list = list.filter(a => a.category === catFilter)
+    if (sectorFilter !== 'all') list = list.filter(a => a.sector === sectorFilter)
     return list
-  }, [activeTier, search, sentFilter, catFilter, allArticles, feed])
+  }, [activeTier, search, sentFilter, catFilter, sectorFilter, allArticles, feed])
 
   if (!feed) {
     return <div style={{ padding: 60, textAlign: 'center', color: '#9ca3af', fontSize: 13 }}>Cargando feed…</div>
   }
 
   const categories = feed.categories
+  // Sectores con contenido · 'Otros' siempre al final aunque tenga más volumen.
+  const sectorFacets = (feed.sectorFacets ?? []).filter(s => s.count > 0)
+  const sectorsSorted = [...sectorFacets.filter(s => s.id !== 'otro'), ...sectorFacets.filter(s => s.id === 'otro')]
 
   return (
     <div>
@@ -112,6 +118,24 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
         ))}
       </div>
 
+      {/* ── Sector (clasificación automática) ─────────────────── */}
+      {sectorsSorted.length > 0 && (
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginBottom: 12, background: '#FAFAFB', padding: '10px 14px', borderRadius: 12, border: '1px solid #ECECEF' }}>
+          <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginRight: 4 }}>
+            Sector:
+          </span>
+          <button onClick={() => setSectorFilter('all')} style={chipStyle(sectorFilter === 'all', '#1d1d1f')}>
+            Todos <ChipNum n={allArticles.length} active={sectorFilter === 'all'} />
+          </button>
+          {sectorsSorted.map(s => (
+            <button key={s.id} onClick={() => setSectorFilter(s.id)} style={chipStyle(sectorFilter === s.id, SECTOR_COLORS[s.id as SectorKey] ?? '#6e6e73')}>
+              {s.label}
+              <ChipNum n={s.count} active={sectorFilter === s.id} />
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* ── Filtros (búsqueda + tono) ────────────────────────── */}
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center', marginBottom: 14 }}>
         <input
@@ -140,7 +164,7 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
       </div>
 
       {/* ── Lista ───────────────────────────────────────────────── */}
-      {activeTier === 'todos' && catFilter === 'all' && sentFilter === 'all' && !search ? (
+      {activeTier === 'todos' && catFilter === 'all' && sentFilter === 'all' && sectorFilter === 'all' && !search ? (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
           {(Object.keys(TIER_META) as Tier[]).map(t => {
             const items = feed.tiers[t].slice(0, 8)

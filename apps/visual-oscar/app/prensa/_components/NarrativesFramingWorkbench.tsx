@@ -54,6 +54,8 @@ export interface WorkbenchNarrative {
   frame_type: string
   main_topic: string
   secondary_topics: string[]
+  dominant_sector?: string | null
+  sector_label?: string | null
   representative_titles: string[]
   first_seen: string
   last_seen: string
@@ -111,6 +113,7 @@ export function NarrativesFramingWorkbench({
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filterFrame, setFilterFrame] = useState<string>('all')
   const [filterTrend, setFilterTrend] = useState<string>('all')
+  const [filterSector, setFilterSector] = useState<string>('all')
   const [minConfidence, setMinConfidence] = useState<number>(0)
 
   const list = useMemo(() => {
@@ -118,10 +121,11 @@ export function NarrativesFramingWorkbench({
     return narratives.filter((n) => {
       if (filterFrame !== 'all' && n.frame_type !== filterFrame) return false
       if (filterTrend !== 'all' && n.trend?.label !== filterTrend) return false
+      if (filterSector !== 'all' && n.dominant_sector !== filterSector) return false
       if (n.confidence.overall < minConfidence) return false
       return true
     })
-  }, [narratives, filterFrame, filterTrend, minConfidence])
+  }, [narratives, filterFrame, filterTrend, filterSector, minConfidence])
 
   // KPIs ejecutivos
   const kpis = useMemo(() => {
@@ -144,6 +148,15 @@ export function NarrativesFramingWorkbench({
     const set = new Set<string>()
     for (const n of narratives || []) set.add(n.frame_type)
     return Array.from(set).sort()
+  }, [narratives])
+
+  // Sectores presentes (sector dominante de cada narrativa) para el selector
+  const sectors = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const n of narratives || []) {
+      if (n.dominant_sector) m.set(n.dominant_sector, n.sector_label || n.dominant_sector)
+    }
+    return Array.from(m.entries()).map(([key, label]) => ({ key, label })).sort((a, b) => a.label.localeCompare(b.label))
   }, [narratives])
 
   if (loading) {
@@ -200,14 +213,22 @@ export function NarrativesFramingWorkbench({
             <option value="en retroceso">En retroceso</option>
           </select>
         </Filter>
+        {sectors.length > 0 && (
+          <Filter label="Sector">
+            <select value={filterSector} onChange={(e) => setFilterSector(e.target.value)} style={selectStyle}>
+              <option value="all">Todos</option>
+              {sectors.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
+            </select>
+          </Filter>
+        )}
         <Filter label={`Confianza mín. ${Math.round(minConfidence * 100)}%`}>
           <input type="range" min={0} max={1} step={0.05} value={minConfidence}
             onChange={(e) => setMinConfidence(Number(e.target.value))}
             style={{ width: 120 }}
           />
         </Filter>
-        {(filterFrame !== 'all' || filterTrend !== 'all' || minConfidence > 0) && (
-          <button onClick={() => { setFilterFrame('all'); setFilterTrend('all'); setMinConfidence(0) }} style={{
+        {(filterFrame !== 'all' || filterTrend !== 'all' || filterSector !== 'all' || minConfidence > 0) && (
+          <button onClick={() => { setFilterFrame('all'); setFilterTrend('all'); setFilterSector('all'); setMinConfidence(0) }} style={{
             background: 'transparent', border: 'none', color: '#7C3AED', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
           }}>Limpiar filtros</button>
         )}

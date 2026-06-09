@@ -48,13 +48,17 @@ import { PipelineHealthBadge } from './_components/PipelineHealthBadge'
 import { SourceStatusPanel } from './_components/SourceStatusPanel'
 
 import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
-import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
+// MediosTabsNav (barra de tabs interna) eliminado: los 6 tabs ahora viven en el
+// subnav global del módulo "Medios" (AppHeader), evitando la barra duplicada.
+// Se conserva MediosSourceBadges (se usa en el hero).
+import { MediosSourceBadges } from './_components/MediosTabsNav'
 import { BusquedaPuntual } from './_components/BusquedaPuntual'
 import { ViralidadDifusion } from './_components/ViralidadDifusion'
 // InformesAlertas ya no se importa aquí · vive embebido dentro de MapaMediosView.
 import { MapaMediosView } from './_components/MapaMediosView'
-// DesinformacionLive ya no se importa aquí · ahora vive embebido en ObservatorioInformacionView.
-import { ObservatorioInformacionView } from './_components/ObservatorioInformacionView'
+// Observatorio de Información eliminado de /prensa (reorg medios 2026) · su función
+// (verificaciones, bulos, fact-check) vive en la entrada de menú Desinformación →
+// /desinformacion. ObservatorioInformacionView se conserva en _components/ por si se reusa.
 import { GdeltGlobalPanel } from './_components/GdeltGlobalPanel'
 import {
   MEDIOS_TAB_IDS, getMediosTab, MediosTabId, migrateLegacyTab,
@@ -108,6 +112,8 @@ interface NarrativeClusterShape {
   frame_type: string
   main_topic: string
   secondary_topics: string[]
+  dominant_sector?: string | null
+  sector_label?: string | null
   articles: string[]
   representative_titles: string[]
   first_seen: string
@@ -311,18 +317,18 @@ export default function PrensaPage() {
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
   // Sprint M3 · estado con migración legacy automática
-  const [activeTab, setActiveTab] = useUrlState<MediosTabId>('tab', 'pulso')
+  // El setter ya no se usa aquí: la navegación entre tabs la hace el subnav del
+  // header (links a /prensa?tab=…). La página solo LEE el tab del query.
+  const [activeTab] = useUrlState<MediosTabId>('tab', 'pulso')
   const safeActiveTab: MediosTabId = migrateLegacyTab(activeTab)
   const tab = getMediosTab(safeActiveTab)
 
   const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
   const [balanceMode, setBalanceMode] = useUrlState<BalanceMode>('balance', 'pluralism')
   const [showMethodology, setShowMethodology] = useState(false)
-  // Sprint G15 FASE B · IDs renombrados: actores→tendencias · desinformacion→
-  // observatorio-informacion · informes→mapa-medios.
+  // Sprint G15 FASE B · IDs renombrados: actores→tendencias · informes→mapa-medios.
   // Tabs que necesitan el endpoint /intel (resto autónomas):
   // - mapa-medios va a /api/medios (catálogo), no a /intel
-  // - observatorio-informacion va a sus propios endpoints (factcheck + desinformacion)
   // - busqueda usa NewsAPI por demanda dentro de BusquedaPuntual
   //
   // Sprint G15-FIX C1 · mapas SÍ necesita el intel para alimentar MapasImpacto
@@ -402,7 +408,7 @@ export default function PrensaPage() {
               <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.14, textTransform: 'uppercase', opacity: 0.86, margin: 0, display: 'flex', gap: 8, alignItems: 'center' }}>
                 <LiveDot color={isFresh ? '#86efac' : '#fde68a'} />
                 {/* Sprint Q-C.1 · "INTELLIGENCE" → ES */}
-                <span>INTELIGENCIA DE MEDIOS · Tab {tab.number}/7 · {tab.label}</span>
+                <span>INTELIGENCIA DE MEDIOS · Tab {tab.number}/6 · {tab.label}</span>
                 {source === 'mock' && <span style={{ background: 'rgba(255,255,255,0.20)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
               </p>
               <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22, margin: '6px 0 0', lineHeight: 1.1, maxWidth: 820 }}>
@@ -496,8 +502,8 @@ export default function PrensaPage() {
             <SourceStatusPanel />
           </div>
 
-          {/* Sub-nav 7 tabs */}
-          <MediosTabsNav activeId={safeActiveTab} onTabChange={setActiveTab} />
+          {/* Sub-nav de los 6 tabs: ahora vive en el subnav global del módulo
+              "Medios" (AppHeader). Aquí ya no se renderiza para evitar duplicado. */}
 
           {/* Contenido */}
           {loading && !data && needsIntel ? (
@@ -693,30 +699,10 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 6 · Observatorio de Información · Sprint G15 FASE G · ObservatorioInformacionView
-                  reemplaza el render mínimo de DesinformacionLive solo. Ahora incluye:
-                    - Sumario agregado EFE+Newtral+Maldita (KPIs + tendencia 7d vs 7d previos)
-                    - Top temas con desinformación
-                    - Actores más perjudicados (con tendencia)
-                    - Buscador puntual Google Fact Check (DesinformacionLive embebido)
-                    - Link al observatorio dedicado /prensa/desinformacion */}
-              {safeActiveTab === 'observatorio-informacion' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                  <TabExplainerBlock
-                    question="¿Qué claims, bulos, operaciones informativas o patrones de desinformación están activos?"
-                    answer="Verificaciones recientes + claims + bulos + sin contexto + tendencia temporal + actores afectados + conexión con narrativas activas. Google Fact Check integrado como buscador interno."
-                  />
-                  <LecturaPoliteiaPanel
-                    tabId="desinformacion"
-                    context={lecturaCtx}
-                    title="Lectura Politeia · Observatorio de Información"
-                    collapsedByDefault
-                  />
-                  <ObservatorioInformacionView />
-                </div>
-              )}
+              {/* Tab "Observatorio de Información" eliminado (reorg medios 2026) ·
+                  su función vive en la entrada de menú Desinformación → /desinformacion. */}
 
-              {/* Tab 7 · Mapa de medios · Sprint G15 FASE H · MapaMediosView reemplaza
+              {/* Tab 6 · Mapa de medios · Sprint G15 FASE H · MapaMediosView reemplaza
                   el render legacy (sólo InformesAlertas). Ahora la tab muestra:
                     - Sumario panorama mediático (6 KPIs)
                     - Concentración por grupo (top 12 grupos empresariales)

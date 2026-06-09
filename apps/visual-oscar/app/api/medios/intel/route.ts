@@ -42,6 +42,9 @@ import {
   framingComparison, coverageGapsAnalysis, mediaAnalysisWarnings,
   computeMethodologyConfidence, suggestedFollowupQueries,
 } from '@/lib/medios/media-analysis'
+// Clasificación por SECTOR · híbrido heurístico + LLM (solo para 'otro')
+import { detectSector, type SectorKey } from '@/lib/medios/sector-taxonomy'
+import { classifySectorsWithLLM } from '@/lib/medios/sector-taxonomy-llm'  // server-only
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -97,7 +100,30 @@ export async function GET(req: NextRequest) {
       meta: { updatedAt, total: articles.length, hours, sources },
     }
 
-    if (include.includes('feed'))       out.feed       = tieredFeed(articles, 25)
+    if (include.includes('feed')) {
+      // Clasificación por sector · heurístico para todos + fallback LLM acotado
+      // (con presupuesto de tiempo) solo para los que caen en 'otro'. Keyado por
+      // ÍNDICE de artículo (no por link, que puede venir vacío/duplicado en RSS).
+      const sectorMap = new Map<number, SectorKey>()
+      articles.forEach((a, i) => sectorMap.set(i, detectSector(`${a.title} ${a.description || ''}`)))
+      const otros = articles
+        .map((a, i) => ({ a, i }))
+        .filter(({ i }) => sectorMap.get(i) === 'otro')
+      if (otros.length > 0) {
+        // Presupuesto duro: si el proveedor LLM (gemini/groq) cuelga, degradamos a
+        // heurístico al expirar para no agotar maxDuration del endpoint del Pulso.
+        const LLM_BUDGET_MS = 8000
+        const llm = await Promise.race([
+          classifySectorsWithLLM(
+            otros.map(({ a }, j) => ({ idx: j, title: a.title, description: a.description || '' })),
+            50,
+          ),
+          new Promise<Map<number, SectorKey>>((res) => setTimeout(() => res(new Map()), LLM_BUDGET_MS)),
+        ])
+        otros.forEach(({ i }, j) => { const s = llm.get(j); if (s) sectorMap.set(i, s) })
+      }
+      out.feed = tieredFeed(articles, 25, sectorMap)
+    }
     // Sprint G15 FASE C · topicImportance opt-in (no incluido por defecto para no
     // pagar el coste si el cliente no lo pide; pulso lo incluye explícito).
     if (include.includes('topic_importance')) out.topic_importance = topicImportance(articles, 14)

@@ -95,9 +95,17 @@ export const MODULES: NavModule[] = [
     label: 'Medios',
     full: 'Medios y Narrativa Pública',
     items: [
-      { label: 'Pulso de Prensa', href: '/prensa' },
-      { label: 'Mapa de Medios',  href: '/medios-narrativa' },
-      { label: 'Desinformación',  href: '/desinformacion' },
+      // Subpestañas de /prensa promovidas a la barra de Medios · cada una abre
+      // /prensa con ese tab ya seleccionado (useUrlState lee ?tab=).
+      { label: 'Pulso de Prensa',       href: '/prensa' },
+      { label: 'Búsqueda',              href: '/prensa?tab=busqueda' },
+      { label: 'Narrativas & framing',  href: '/prensa?tab=narrativas' },
+      { label: 'Tendencias e impacto',  href: '/prensa?tab=tendencias' },
+      { label: 'Mapas de impacto',      href: '/prensa?tab=mapas' },
+      { label: 'Catálogo de medios',    href: '/prensa?tab=mapa-medios' },
+      { label: 'Think Tanks',           href: '/think-tanks' },
+      { label: 'Mapa de Medios',        href: '/medios-narrativa' },
+      { label: 'Desinformación',        href: '/desinformacion' },
     ],
   },
 

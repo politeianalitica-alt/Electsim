@@ -1,0 +1,319 @@
+'use client'
+
+/**
+ * /think-tanks · Tablón de artículos de los principales think tanks del mundo,
+ * de todos los bloques geopolíticos. Entrada del menú "Medios".
+ *
+ * Fuente: /api/medios/think-tanks (agrega ~27 feeds RSS/Atom verificados).
+ * Selector de filtros por: Bloque geopolítico · Tema · País mencionado.
+ *
+ * Sin emojis (CLAUDE.md §0.5) · marcadores Unicode (◆ ◉ ⬡ ↗ ▲).
+ */
+import { useEffect, useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import AppHeader from '../_components/AppHeader'
+import { isAuthenticated } from '@/lib/auth'
+import { useApi } from '@/lib/useApi'
+import LiveStatusBadge from '@/components/LiveStatusBadge'
+import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
+
+interface TTItem {
+  id: string
+  titulo: string
+  fuente: string
+  fuente_key: string
+  bloque: string
+  bloque_label: string
+  fecha: string
+  url: string
+  resumen: string
+  urgencia: number
+  relevancia_espana: number
+  paises_detectados: string[]
+  temas_detectados: string[]
+  sector: string
+  sector_label: string
+}
+interface Facet { key?: string; label: string; count: number }
+interface ThinkTankResponse {
+  items: TTItem[]
+  facets: { bloques: Facet[]; temas: Facet[]; paises: Facet[]; sectores: Facet[] }
+  source: 'live' | 'mock'
+  generated_at: string
+  feeds_ok: number
+  feeds_total: number
+  warnings: string[]
+}
+
+const URGENCIA: Record<number, { label: string; color: string; bg: string }> = {
+  5: { label: 'Crítica', color: '#fff',    bg: '#dc2626' },
+  4: { label: 'Alta',    color: '#fff',    bg: '#ea580c' },
+  3: { label: 'Media',   color: '#92400e', bg: '#fef3c7' },
+  2: { label: 'Baja',    color: '#475569', bg: '#f1f5f9' },
+  1: { label: 'Info',    color: '#64748b', bg: '#f8fafc' },
+}
+
+const BLOQUE_COLOR: Record<string, string> = {
+  espana: '#C8102E', ue: '#1F4E8C', anglo: '#5B21B6', china: '#B91C1C',
+  rusia: '#475569', india: '#EA580C', asia_pacifico: '#0891B2', latam: '#15803D',
+  global: '#0F766E',
+}
+
+function hace(iso: string): string {
+  const t = new Date(iso).getTime()
+  if (!Number.isFinite(t)) return ''
+  const min = Math.max(1, Math.round((Date.now() - t) / 60_000))
+  if (min < 60) return `hace ${min} min`
+  const h = Math.round(min / 60)
+  if (h < 24) return `hace ${h} h`
+  const d = Math.round(h / 24)
+  return `hace ${d} d`
+}
+
+export default function ThinkTanksPage() {
+  const router = useRouter()
+  useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
+
+  const { data, source, loading, updatedAt, refresh } = useApi<ThinkTankResponse>(
+    '/api/medios/think-tanks',
+    { refreshInterval: 900_000 },
+  )
+
+  const [bloque, setBloque] = useState<string>('all')
+  const [sector, setSector] = useState<string>('all')
+  const [tema, setTema] = useState<string>('all')
+  const [pais, setPais] = useState<string>('all')
+
+  const items = data?.items ?? []
+  const facets = data?.facets
+
+  // Mapa tema_key → label (de las facets) para mostrar tags legibles
+  const temaLabel = useMemo(() => {
+    const m: Record<string, string> = {}
+    for (const t of facets?.temas ?? []) if (t.key) m[t.key] = t.label
+    return m
+  }, [facets])
+
+  const filtered = useMemo(() => items.filter((it) =>
+    (bloque === 'all' || it.bloque === bloque) &&
+    (sector === 'all' || it.sector === sector) &&
+    (tema === 'all' || it.temas_detectados.includes(tema)) &&
+    (pais === 'all' || it.paises_detectados.includes(pais)),
+  ), [items, bloque, sector, tema, pais])
+
+  const nBloques = facets?.bloques.length ?? 0
+
+  return (
+    <div style={{ background: '#fbfbfd', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
+      <AppHeader />
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '20px 28px 80px' }}>
+
+        {/* Hero */}
+        <section style={{
+          background: 'linear-gradient(135deg,#0F766E 0%,#134E4A 100%)',
+          borderRadius: 16, padding: '22px 28px', marginBottom: 16, color: '#fff',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16,
+        }}>
+          <div>
+            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.82, margin: 0, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+              <span>⬡ INTELIGENCIA DE THINK TANKS · TODOS LOS BLOQUES</span>
+              {data?.source === 'mock' && <span style={{ background: 'rgba(255,255,255,0.2)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
+              <LiveStatusBadge updatedAt={updatedAt} source={data?.source ?? source} refreshIntervalSec={900} onRefresh={refresh} />
+            </p>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 24, margin: '8px 0 0', lineHeight: 1.1, maxWidth: 820 }}>
+              Análisis de los principales centros de pensamiento del mundo
+            </h1>
+            <p style={{ fontSize: 12, opacity: 0.85, margin: '6px 0 0', maxWidth: 880 }}>
+              España, UE, mundo anglosajón, China, Rusia, India, Asia-Pacífico, Latinoamérica y multilaterales.
+              Filtra por bloque, tema o país mencionado. Ordenado por urgencia y relevancia para España.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
+            <MiniK label="ARTÍCULOS" n={items.length} />
+            <MiniK label="THINK TANKS" n={data?.feeds_ok ?? 0} sub={`/${data?.feeds_total ?? '—'}`} />
+            <MiniK label="BLOQUES" n={nBloques} />
+          </div>
+        </section>
+
+        {/* Selector de filtros */}
+        <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '14px 18px', marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+          <FilterRow
+            title="Bloque"
+            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.bloques.map((b) => ({ key: b.key!, label: b.label, count: b.count })) ?? [])]}
+            value={bloque}
+            onChange={setBloque}
+            colorOf={(k) => BLOQUE_COLOR[k] ?? '#1F4E8C'}
+          />
+          <FilterRow
+            title="Sector"
+            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.sectores.map((s) => ({ key: s.key!, label: s.label, count: s.count })) ?? [])]}
+            value={sector}
+            onChange={setSector}
+            colorOf={(k) => SECTOR_COLORS[k as SectorKey] ?? '#0F766E'}
+          />
+          <FilterRow
+            title="Tema"
+            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.temas.map((t) => ({ key: t.key!, label: t.label, count: t.count })) ?? [])]}
+            value={tema}
+            onChange={setTema}
+          />
+          <FilterRow
+            title="País"
+            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.paises.map((p) => ({ key: p.label, label: p.label, count: p.count })) ?? [])]}
+            value={pais}
+            onChange={setPais}
+            last
+          />
+        </section>
+
+        {/* Resultados */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10, flexWrap: 'wrap', gap: 8 }}>
+          <span style={{ fontSize: 12, color: '#6e6e73' }}>
+            {loading && !data ? 'Cargando feeds de think tanks…' : `${filtered.length} artículo${filtered.length === 1 ? '' : 's'}`}
+            {(bloque !== 'all' || sector !== 'all' || tema !== 'all' || pais !== 'all') && (
+              <button onClick={() => { setBloque('all'); setSector('all'); setTema('all'); setPais('all') }}
+                style={{ marginLeft: 10, background: 'transparent', border: 'none', color: '#0F766E', cursor: 'pointer', fontSize: 12, fontWeight: 600, textDecoration: 'underline', fontFamily: 'inherit' }}>
+                limpiar filtros
+              </button>
+            )}
+          </span>
+          {data?.warnings && data.warnings.length > 0 && (
+            <span title={data.warnings.join(' · ')} style={{ fontSize: 10.5, color: '#b45309', background: '#fffbeb', border: '1px solid #fde68a', padding: '3px 9px', borderRadius: 999, fontWeight: 600 }}>
+              ! {data.warnings.length} aviso{data.warnings.length === 1 ? '' : 's'} de cobertura
+            </span>
+          )}
+        </div>
+
+        {loading && !data ? (
+          <div style={{ padding: 60, textAlign: 'center', color: '#9ca3af', fontSize: 13 }}>
+            Agregando feeds RSS/Atom de think tanks de todos los bloques…
+          </div>
+        ) : filtered.length === 0 ? (
+          <div style={{ padding: 50, textAlign: 'center', color: '#9ca3af', fontSize: 13, background: '#fff', border: '1px dashed #e5e7eb', borderRadius: 14 }}>
+            No hay artículos con estos filtros. Prueba a ampliar la selección.
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(360px,1fr))', gap: 12 }}>
+            {filtered.map((it) => (
+              <ArticleCard key={it.id} item={it} temaLabel={temaLabel} />
+            ))}
+          </div>
+        )}
+      </main>
+
+      <footer style={{ borderTop: '1px solid var(--hairline,#ECECEF)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4,#86868b)', fontSize: 11.5 }}>
+        Think Tanks · Inteligencia de Medios · Politeia Analítica · {new Date().getFullYear()}
+      </footer>
+    </div>
+  )
+}
+
+// ─────────────────────────────────────────────────────────────────────────
+function MiniK({ label, n, sub }: { label: string; n: number; sub?: string }) {
+  return (
+    <div style={{ textAlign: 'center', padding: '10px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', minWidth: 78 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1, color: '#fff' }}>
+        {n}{sub && <span style={{ fontSize: 12, opacity: 0.7, fontWeight: 600 }}>{sub}</span>}
+      </div>
+      <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.78, marginTop: 4 }}>{label}</div>
+    </div>
+  )
+}
+
+function FilterRow({
+  title, options, value, onChange, colorOf, last,
+}: {
+  title: string
+  options: { key: string; label: string; count: number }[]
+  value: string
+  onChange: (v: string) => void
+  colorOf?: (k: string) => string
+  last?: boolean
+}) {
+  return (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center', paddingBottom: last ? 0 : 10, marginBottom: last ? 0 : 10, borderBottom: last ? 'none' : '1px solid #F5F5F7' }}>
+      <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', flexShrink: 0, width: 56 }}>{title}</span>
+      <div style={{ display: 'flex', gap: 6, overflowX: 'auto', scrollbarWidth: 'none', flexWrap: 'wrap' }}>
+        {options.map((o) => {
+          const active = value === o.key
+          const accent = colorOf ? colorOf(o.key) : '#0F766E'
+          return (
+            <button key={o.key} onClick={() => onChange(o.key)} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              padding: '4px 11px', borderRadius: 999, whiteSpace: 'nowrap',
+              fontSize: 11.5, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
+              color: active ? '#fff' : '#3a3a3d',
+              background: active ? accent : '#F5F5F7',
+              border: `1px solid ${active ? accent : 'transparent'}`,
+              transition: 'all 140ms',
+            }}>
+              {o.key !== 'all' && colorOf && <span style={{ width: 7, height: 7, borderRadius: '50%', background: active ? 'rgba(255,255,255,0.8)' : accent }} />}
+              {o.label}
+              <span style={{ fontSize: 10, opacity: active ? 0.8 : 0.5, fontWeight: 600 }}>{o.count}</span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+function ArticleCard({ item, temaLabel }: { item: TTItem; temaLabel: Record<string, string> }) {
+  const u = URGENCIA[item.urgencia] ?? URGENCIA[1]
+  const bloqueColor = BLOQUE_COLOR[item.bloque] ?? '#0F766E'
+  const hasLink = item.url && item.url !== '#'
+  return (
+    <article style={{
+      background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 16,
+      display: 'flex', flexDirection: 'column', gap: 10, boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+    }}>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
+          <span style={{ width: 9, height: 9, borderRadius: '50%', background: bloqueColor, flexShrink: 0 }} />
+          <span style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.fuente}</span>
+        </div>
+        <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '2px 7px', borderRadius: 999, background: `${bloqueColor}14`, color: bloqueColor, flexShrink: 0 }}>
+          {item.bloque_label}
+        </span>
+      </header>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: 6, background: u.bg, color: u.color }}>
+          {item.urgencia >= 4 ? '▲ ' : ''}{u.label}
+        </span>
+        <span style={{ fontSize: 10.5, color: '#9ca3af' }}>{hace(item.fecha)}</span>
+      </div>
+
+      {hasLink ? (
+        <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <h3 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, lineHeight: 1.35, color: '#0f172a' }}>
+            {item.titulo} <span style={{ fontSize: 11, color: '#9ca3af' }}>↗</span>
+          </h3>
+        </a>
+      ) : (
+        <h3 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, lineHeight: 1.35, color: '#0f172a' }}>{item.titulo}</h3>
+      )}
+
+      {item.resumen && (
+        <p style={{ margin: 0, fontSize: 12, color: '#475569', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+          {item.resumen}
+        </p>
+      )}
+
+      {(item.temas_detectados.length > 0 || item.paises_detectados.length > 0) && (
+        <footer style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 'auto', paddingTop: 6, borderTop: '1px solid #F5F5F7' }}>
+          {item.temas_detectados.slice(0, 4).map((t) => (
+            <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 6, background: '#ECFEFF', color: '#0E7490' }}>
+              {temaLabel[t] ?? t}
+            </span>
+          ))}
+          {item.paises_detectados.slice(0, 4).map((p) => (
+            <span key={p} style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 6, background: '#F5F5F7', color: '#475569' }}>
+              {p}
+            </span>
+          ))}
+        </footer>
+      )}
+    </article>
+  )
+}

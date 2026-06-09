@@ -2,11 +2,11 @@
  * Sprint G15 FASE I · smoke tests para el refactor de /prensa.
  *
  * Cubre las 4 piezas que más fácil pueden romper en una regresión:
- *   1. Las 7 tabs nuevas cargan sin error (pulso · busqueda · narrativas ·
- *      tendencias · mapas · observatorio-informacion · mapa-medios).
+ *   1. Las 6 tabs cargan sin error (pulso · busqueda · narrativas ·
+ *      tendencias · mapas · mapa-medios).
  *   2. Los aliases legacy redirigen al tab nuevo:
  *        actores → tendencias
- *        desinformacion → observatorio-informacion
+ *        desinformacion → pulso (Observatorio eliminado; vive en /desinformacion)
  *        informes → mapa-medios
  *   3. La tab "Mapa de medios" muestra el catálogo y la tabla filtrable.
  *   4. /api/medios responde con stats enriquecidas (por_grupo, por_scope).
@@ -18,14 +18,13 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Prensa · Sprint G15 refactor', () => {
-  test('todas las 7 tabs renderizan el heading sin error', async ({ page }) => {
+  test('todas las 6 tabs renderizan el heading sin error', async ({ page }) => {
     const tabs = [
       'pulso',
       'busqueda',
       'narrativas',
       'tendencias',
       'mapas',
-      'observatorio-informacion',
       'mapa-medios',
     ]
     for (const t of tabs) {
@@ -43,9 +42,10 @@ test.describe('Prensa · Sprint G15 refactor', () => {
     await expect(page.getByText(/A quién aparece|beneficia o perjudica/i).first()).toBeVisible({ timeout: 8_000 })
   })
 
-  test('alias legacy desinformacion → observatorio-informacion', async ({ page }) => {
+  test('alias legacy desinformacion → pulso', async ({ page }) => {
     await page.goto('/prensa?tab=desinformacion')
-    await expect(page.getByText(/Observatorio|claims|bulos/i).first()).toBeVisible({ timeout: 8_000 })
+    // Observatorio de Información se eliminó de /prensa · el alias cae en pulso.
+    await expect(page.getByText(/dominando ahora mismo la agenda|Esta tab responde/i).first()).toBeVisible({ timeout: 8_000 })
   })
 
   test('alias legacy informes → mapa-medios', async ({ page }) => {
