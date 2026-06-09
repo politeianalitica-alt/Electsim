@@ -14,6 +14,7 @@ export type NavItem = {
   href: string
   banner?: Banner
   hidden?: boolean        // true = no aparece como pill en el subnav, pero el path sigue resolviendo el módulo
+  children?: NavItem[]    // 3er nivel: sub-pestañas anidadas (p. ej. Política dentro de Sectorial)
 }
 export type NavModule = {
   id: string
@@ -37,26 +38,7 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 2. Inteligencia Política ─────────────────────────────────────────
-  {
-    id: 'politica',
-    label: 'Política',
-    full: 'Inteligencia Política',
-    items: [
-      { label: 'Mapa de Actores',                href: '/mapa-actores' },
-      // Apartado único de fichas individuales:
-      // unifica los 3.342 políticos del fixture + 145 dossieres IBEX 35 +
-      // 87 dossieres de Diputaciones Provinciales y Forales.
-      // Filtrado interno por tipo (Políticos / Empresarios / Lobby /
-      // Casa Real / Casos / Otros) y subbarra por partido/empresa.
-      { label: 'Personas',                       href: '/dosieres' },
-      { label: 'Partidos y Grupos',              href: '/partidos' },
-      { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
-      { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
-    ],
-  },
-
-  // ─── 3. Monitor Legislativo y Regulatorio ─────────────────────────────
+  // ─── 2. Monitor Legislativo y Regulatorio ─────────────────────────────
   {
     id: 'legislativo',
     label: 'Legislativo',
@@ -88,34 +70,20 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 5. Electoral, Opinión Pública y Campañas ─────────────────────────
+  // ─── 5. Inteligencia Geopolítica y Macroeconómica ─────────────────────
   {
-    id: 'electoral',
-    label: 'Electoral',
-    full: 'Electoral, Opinión Pública y Campañas',
-    items: [
-      { label: 'Módulo Electoral',           href: '/nowcasting' },
-      { label: 'Simulador Estratégico',      href: '/escenarios' },
-      { label: 'Perfiles de Votante',        href: '/microdatos' },
-      {
-        label: 'Inteligencia Adversarios',
-        href: '/adversarios',
-        banner: {
-          eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
-          title: 'Perfiles estratégicos rivales',
-          colorFrom: '#B45309', colorTo: '#5C2310',
-        },
-      },
-    ],
-  },
-
-  // ─── 6. Inteligencia Geopolítica y Macroeconómica ─────────────────────
-  {
-    id: 'macro-geo',
-    label: 'Macro & Geo',
-    full: 'Inteligencia Geopolítica y Macroeconómica',
+    id: 'geopolitica',
+    label: 'Geopolítica',
+    full: 'Inteligencia Geopolítica y Relaciones Internacionales',
     items: [
       { label: 'Geopolítica y RRII',         href: '/geopolitica' },
+    ],
+  },
+  {
+    id: 'macro',
+    label: 'Macroeconomía',
+    full: 'Inteligencia Macroeconómica',
+    items: [
       { label: 'Economía',                   href: '/macro' },
       { label: 'Fuentes globales',           href: '/datos' },
     ],
@@ -139,26 +107,50 @@ export const MODULES: NavModule[] = [
     label: 'Sectoriales',
     full: 'Sectoriales y Contratación Pública',
     items: [
-      // — Página base · primer item del subnav (hub de contratación) —
-      { label: 'Licitaciones',                 href: '/licitaciones' },
-      // — 9 industrias verticales (con diseño Apple-Newsroom uniforme) —
-      { label: 'Energía & Utilities',          href: '/sector-energia' },
-      { label: 'Farma & Salud',                href: '/sector-farma' },
-      { label: 'Defensa & Industria',          href: '/sector-defensa' },
-      { label: 'Vivienda & Inmobiliario',      href: '/sector-vivienda' },
-      { label: 'Banca & Seguros',              href: '/sector-banca' },
-      { label: 'Agroalimentario & Rural',      href: '/sector-agro' },
-      { label: 'Telecom & Digital',            href: '/sector-telecom' },
-      { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
-      { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
-      { label: 'Puertos & Comercio Global',    href: '/puertos' },
+      // — Política (1ª sub-pestaña · con sub-pestañas anidadas, nivel 3) —
+      {
+        label: 'Política',
+        href: '/mapa-actores',
+        children: [
+          { label: 'Mapa de Actores',                href: '/mapa-actores' },
+          { label: 'Personas',                       href: '/dosieres' },
+          { label: 'Partidos y Grupos',              href: '/partidos' },
+          { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
+          { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
+          { label: 'Módulo Electoral',               href: '/nowcasting' },
+          { label: 'Simulador Estratégico',          href: '/escenarios' },
+          { label: 'Perfiles de Votante',            href: '/microdatos' },
+          {
+            label: 'Inteligencia Adversarios',
+            href: '/adversarios',
+            banner: {
+              eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
+              title: 'Perfiles estratégicos rivales',
+              colorFrom: '#B45309', colorTo: '#5C2310',
+            },
+          },
+        ],
+      },
+      // — 11 industrias verticales (con diseño Apple-Newsroom uniforme) —
+      { label: 'Energía',            href: '/sector-energia' },
+      { label: 'Salud',              href: '/sector-farma' },
+      { label: 'Defensa',            href: '/sector-defensa' },
+      { label: 'Inmobiliario',       href: '/sector-vivienda' },
+      { label: 'Banca',              href: '/sector-banca' },
+      { label: 'Agroalimentario',    href: '/sector-agro' },
+      { label: 'Telecomunicaciones', href: '/sector-telecom' },
+      { label: 'Movilidad',          href: '/sector-infraestructuras' },
+      { label: 'Turismo',            href: '/sector-turismo' },
+      { label: 'Marítimo',           href: '/puertos' },
       { label: 'Tercer Sector & ONGs',         href: '/sector-tercer-sector' },
-      // — Resto de contratación (más abajo, agrupado) —
+      // — Contratación —
       { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
       { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes' },
       { label: 'Inteligencia Competitiva',     href: '/competidores' },
       { label: 'Fondos Europeos y PRTR',       href: '/fondos-europeos' },
       { label: 'Riesgo y Litigios',            href: '/litigios-contratacion' },
+      // — Licitaciones · hub de contratación (movido al final) —
+      { label: 'Licitaciones',                 href: '/licitaciones' },
     ],
   },
 
@@ -218,6 +210,12 @@ for (const m of MODULES) {
   for (const it of m.items) {
     HREF_TO_MODULE[it.href] = m
     HREF_TO_ITEM[it.href] = it
+    if (it.children) {
+      for (const c of it.children) {
+        HREF_TO_MODULE[c.href] = m
+        HREF_TO_ITEM[c.href] = c
+      }
+    }
   }
 }
 export function moduleOfPath(path: string): NavModule | null {

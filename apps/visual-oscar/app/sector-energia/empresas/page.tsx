@@ -16,6 +16,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import AppHeader from '../../_components/AppHeader'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { EnergyCompanyCard } from '../_components/EnergyCompanyCard'
 import type { EnergyCompanyListItem, EnergiaTipo } from '@/lib/energia/types'
 
@@ -173,6 +174,8 @@ export default function EnergiaEmpresasPage() {
             )}
           </Panel>
         )}
+
+        <SectorMapPreview sector="energia" accent={ACCENT} marginTop={28} />
       </main>
     </div>
   )

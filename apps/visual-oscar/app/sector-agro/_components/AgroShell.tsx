@@ -24,9 +24,8 @@ import { AgroProduccionView } from './AgroProduccionStub'
 import { AgroDemandaView } from './AgroDemandaView'
 import { AgroPoliticaView } from './AgroPoliticaView'
 import { AgroSequiaView } from './AgroSequiaView'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import type { AgroTabId } from '@/lib/agro/catalogos'
-
-const ACCENT = '#16A34A'
 
 interface SeccionTab {
   id: AgroTabId
@@ -57,18 +56,28 @@ export default function AgroShell() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
       <AppHeader />
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
-        <nav
-          aria-label="Sección del sector agroalimentario"
+      <nav
+        aria-label="Sección del sector agroalimentario"
+        style={{
+          position: 'sticky',
+          top: 44,
+          zIndex: 40,
+          background: 'rgba(251,251,253,0.92)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: '1px solid rgba(0,0,0,0.07)',
+        }}
+      >
+        <div
           style={{
+            maxWidth: 1500,
+            margin: '0 auto',
+            padding: '0 28px',
             display: 'flex',
+            alignItems: 'stretch',
             gap: 0,
-            marginBottom: 18,
             overflowX: 'auto',
-            background: '#fff',
-            border: '1px solid #ECECEF',
-            borderRadius: 14,
-            padding: 4,
+            scrollbarWidth: 'none',
           }}
         >
           {SECCIONES.map((s) => {
@@ -77,53 +86,32 @@ export default function AgroShell() {
               <button
                 key={s.id}
                 onClick={() => setTab(s.id)}
+                title={s.desc}
                 aria-current={active ? 'page' : undefined}
                 style={{
-                  flex: '1 1 0',
-                  minWidth: 138,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  fontSize: 12,
+                  fontWeight: active ? 600 : 400,
+                  color: active ? '#1d1d1f' : '#6e6e73',
+                  background: 'none',
                   border: 'none',
+                  borderBottom: active ? '2px solid #1d1d1f' : '2px solid transparent',
+                  whiteSpace: 'nowrap',
+                  marginBottom: -1,
                   cursor: 'pointer',
-                  background: active ? ACCENT : 'transparent',
-                  borderRadius: 10,
-                  padding: '10px 12px',
-                  textAlign: 'left',
-                  fontFamily: 'inherit',
-                  transition: 'background 150ms ease',
+                  fontFamily: 'var(--font-text)',
+                  transition: 'color 0.15s, border-color 0.15s',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <span aria-hidden="true" style={{ fontSize: 13, color: active ? '#fff' : ACCENT, opacity: active ? 1 : 0.85 }}>
-                    {s.glyph}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: 12.5,
-                      fontWeight: 700,
-                      fontFamily: 'var(--font-display)',
-                      letterSpacing: '-0.01em',
-                      color: active ? '#fff' : '#1d1d1f',
-                    }}
-                  >
-                    {s.label}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    fontSize: 9.5,
-                    marginTop: 2,
-                    color: active ? 'rgba(255,255,255,0.85)' : '#86868b',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {s.desc}
-                </div>
+                {s.label}
               </button>
             )
           })}
-        </nav>
-
+        </div>
+      </nav>
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
         {activa.id === 'global' ? (
           <AgroGlobalView />
         ) : activa.id === 'precios' ? (
@@ -138,6 +126,12 @@ export default function AgroShell() {
           <AgroPoliticaView />
         ) : (
           <AgroSequiaView />
+        )}
+        {/* Mapa Politeia · en 'global' ya hay mapa (SectorIntelPanel); aquí cubre el resto de sub-tabs */}
+        {activa.id !== 'global' && (
+          <div style={{ marginTop: 28 }}>
+            <SectorMapPreview sector="agro" />
+          </div>
         )}
       </main>
     </div>

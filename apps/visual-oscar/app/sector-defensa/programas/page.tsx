@@ -9,6 +9,7 @@ import { ProgramGantt } from './_components/ProgramGantt'
 import { ProgramDetail } from './_components/ProgramDetail'
 import { CapabilityMatrix } from './_components/CapabilityMatrix'
 import { SupplyChainGraph } from './_components/SupplyChainGraph'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface Programa {
   id: string; nombre: string; nombre_corto: string; descripcion: string
@@ -182,6 +183,8 @@ export default function ProgramasPage() {
           <CapabilityMatrix />
         </Panel>
       )}
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

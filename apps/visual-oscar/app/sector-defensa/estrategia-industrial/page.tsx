@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { ESTRATEGIAS } from '@/lib/defense/estrategias'
 
 export default function EstrategiaPage() {
@@ -80,6 +81,8 @@ export default function EstrategiaPage() {
           ))}
         </div>
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

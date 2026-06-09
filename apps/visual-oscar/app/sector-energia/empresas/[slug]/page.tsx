@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import AppHeader from '../../../_components/AppHeader'
 import { EnergyCompanyFicha } from '../../_components/EnergyCompanyFicha'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import type { EnergyCompanyFichaData } from '@/lib/energia/types'
 
 export default function EnergiaEmpresaFichaPage({ params }: { params: { slug: string } }) {
@@ -79,6 +80,8 @@ export default function EnergiaEmpresaFichaPage({ params }: { params: { slug: st
         )}
 
         {status === 'ok' && data && <EnergyCompanyFicha company={data} />}
+
+        <SectorMapPreview sector="energia" accent="#16A34A" marginTop={28} />
       </main>
     </div>
   )

@@ -33,9 +33,8 @@ import { ViviendaPreciosView } from './ViviendaPreciosView'
 import { ViviendaAlquilerView } from './ViviendaAlquilerView'
 import { ViviendaPoliticaView } from './ViviendaPoliticaView'
 import { ViviendaMercadoView, ViviendaTuristicaView, ViviendaSostenibilidadView } from './ViviendaStub'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import type { ViviendaTabId } from '@/lib/vivienda/catalogos'
-
-const ACCENT = '#DB2777' // pink-600 · color histórico del sector vivienda
 
 interface SeccionTab {
   id: ViviendaTabId
@@ -67,19 +66,29 @@ export default function ViviendaShell() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-text)', color: '#1d1d1f' }}>
       <AppHeader />
-      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
-        {/* ───── Barra superior · sección de vivienda (nivel 1) ───── */}
-        <nav
-          aria-label="Sección del sector vivienda"
+      {/* ───── Barra de subpestañas · sección de vivienda (nivel 1) · estilo subrayado limpio ───── */}
+      <nav
+        aria-label="Sección del sector vivienda"
+        style={{
+          position: 'sticky',
+          top: 44,
+          zIndex: 40,
+          background: 'rgba(251,251,253,0.92)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: '1px solid rgba(0,0,0,0.07)',
+        }}
+      >
+        <div
           style={{
+            maxWidth: 1500,
+            margin: '0 auto',
+            padding: '0 28px',
             display: 'flex',
+            alignItems: 'stretch',
             gap: 0,
-            marginBottom: 18,
             overflowX: 'auto',
-            background: '#fff',
-            border: '1px solid #ECECEF',
-            borderRadius: 14,
-            padding: 4,
+            scrollbarWidth: 'none',
           }}
         >
           {SECCIONES.map((s) => {
@@ -90,51 +99,30 @@ export default function ViviendaShell() {
                 onClick={() => setTab(s.id)}
                 aria-current={active ? 'page' : undefined}
                 style={{
-                  flex: '1 1 0',
-                  minWidth: 132,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  fontSize: 12,
+                  fontWeight: active ? 600 : 400,
+                  color: active ? '#1d1d1f' : '#6e6e73',
+                  background: 'none',
                   border: 'none',
+                  borderBottom: active ? '2px solid #1d1d1f' : '2px solid transparent',
+                  whiteSpace: 'nowrap',
+                  marginBottom: -1,
                   cursor: 'pointer',
-                  background: active ? ACCENT : 'transparent',
-                  borderRadius: 10,
-                  padding: '10px 12px',
-                  textAlign: 'left',
-                  fontFamily: 'inherit',
-                  transition: 'background 150ms ease',
+                  fontFamily: 'var(--font-text)',
+                  transition: 'color 0.15s, border-color 0.15s',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <span aria-hidden="true" style={{ fontSize: 13, color: active ? '#fff' : ACCENT, opacity: active ? 1 : 0.85 }}>
-                    {s.glyph}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: 12.5,
-                      fontWeight: 700,
-                      fontFamily: 'var(--font-display)',
-                      letterSpacing: '-0.01em',
-                      color: active ? '#fff' : '#1d1d1f',
-                    }}
-                  >
-                    {s.label}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    fontSize: 9.5,
-                    marginTop: 2,
-                    color: active ? 'rgba(255,255,255,0.85)' : '#86868b',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                >
-                  {s.desc}
-                </div>
+                {s.label}
               </button>
             )
           })}
-        </nav>
+        </div>
+      </nav>
 
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
         {/* ───── Contenido de la sección activa (nivel 2 · lazy) ───── */}
         {activa.id === 'global' ? (
           <ViviendaGlobalView onNavigate={setTab} />
@@ -152,6 +140,12 @@ export default function ViviendaShell() {
           <ViviendaTuristicaView />
         ) : (
           <ViviendaSostenibilidadView />
+        )}
+
+        {/* Mapa OSINT del sector · se muestra al final de cualquier sub-pestaña
+            salvo en 'global', donde el <SectorIntelPanel> ya incluye su propio mapa. */}
+        {activa.id !== 'global' && (
+          <SectorMapPreview sector="vivienda" marginTop={28} />
         )}
       </main>
     </div>

@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { getPaisByIso3, type PaisMilitar } from '@/lib/defense/military-catalog'
 
 export default function PaisFichaPage({ params }: { params: { iso3: string } }) {
@@ -259,6 +260,8 @@ export default function PaisFichaPage({ params }: { params: { iso3: string } }) 
         </div>
         <span>Última actualización: <strong>{pais.actualizado}</strong></span>
       </div>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

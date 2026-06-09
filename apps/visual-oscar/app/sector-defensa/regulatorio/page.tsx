@@ -9,6 +9,7 @@ import { ExportControlHeatmap } from './_components/ExportControlHeatmap'
 import { RegulatoryTimeline } from './_components/RegulatoryTimeline'
 import { ComplianceChecker } from './_components/ComplianceChecker'
 import { ExposureScoringCard } from './_components/ExposureScoring'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 type Subtab = 'heatmap' | 'timeline' | 'sanciones' | 'compliance' | 'exposicion'
 
@@ -122,6 +123,8 @@ export default function RegulatorioPage() {
           <ComplianceChecker />
         </Panel>
       )}
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

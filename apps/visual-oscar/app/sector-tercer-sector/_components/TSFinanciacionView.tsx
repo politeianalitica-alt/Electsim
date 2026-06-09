@@ -38,6 +38,7 @@ import { FinGrantsUe } from './FinGrantsUe'
 import { FinIrpfCard } from './FinIrpfCard'
 import { FinPipelineOportunidades } from './FinPipelineOportunidades'
 import { FinanciadoresActivos } from './FinanciadoresActivos'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 const ENDPOINT = '/api/tercer-sector/financiacion?pages=2'
 
@@ -326,6 +327,9 @@ export function TSFinanciacionView() {
           el de contratación pública viven en sus propias secciones.
         </span>
       </div>
+
+      {/* Mapa OSINT del sector (último · abajo del todo). */}
+      <SectorMapPreview sector="tercer-sector" marginTop={28} />
     </div>
   )
 }

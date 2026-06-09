@@ -10,6 +10,7 @@ import { NatoComplianceTable } from './_components/NatoComplianceTable'
 import { BudgetChoropleth } from './_components/BudgetChoropleth'
 import { BudgetProjectionChart } from './_components/BudgetProjection'
 import { proyectarPresupuesto } from '@/lib/defense/analisis-defensa'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface MultiSeries {
   series: Array<{ iso3: string; label: string; color: string; data: Array<{ year: number; value: number | null }> }>
@@ -171,6 +172,8 @@ export default function PresupuestosPage() {
       </Panel>
 
       {loading && <div style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: '#86868b' }}>Cargando datos…</div>}
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

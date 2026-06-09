@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { getEmpresaByTicker } from '@/lib/defense/empresas-cotizadas'
 
 interface Quote { precio: number | null; variacion_pct: number | null; variacion_abs: number | null; moneda: string; mercadoAbierto: boolean | null; ultima_actualizacion: string }
@@ -208,6 +209,8 @@ export default function EmpresaFichaPage({ params }: { params: { ticker: string 
         <span>Web oficial: <a href={e.web} target="_blank" rel="noopener noreferrer" style={{ color: '#1F4E8C', fontWeight: 600 }}>{e.web}</a></span>
         <span>Cotización: Yahoo Finance · Datos corporativos: informes anuales + SIPRI 2024</span>
       </div>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

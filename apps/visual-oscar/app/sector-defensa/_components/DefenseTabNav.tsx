@@ -54,7 +54,7 @@ export function DefenseTabNav() {
                 alignItems: 'center',
                 gap: 6,
                 padding: '13px 16px',
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: active ? 600 : 400,
                 color: active ? '#1d1d1f' : '#6e6e73',
                 textDecoration: 'none',

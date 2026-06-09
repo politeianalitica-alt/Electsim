@@ -16,13 +16,13 @@ export function MediosTabsNav({
     <nav
       style={{
         display: 'flex',
-        gap: 4,
+        gap: 2,
         position: 'sticky',
         top: 60,
         zIndex: 20,
-        background: '#fbfbfd',
-        padding: '10px 0',
-        borderBottom: '1px solid #ECECEF',
+        background: '#fff',
+        padding: '8px 0',
+        borderBottom: '1px solid rgba(0,0,0,0.06)',
         overflowX: 'auto',
         scrollSnapType: 'x mandatory',
         marginBottom: 16,
@@ -36,42 +36,23 @@ export function MediosTabsNav({
             onClick={() => onTabChange(t.id)}
             title={t.description}
             style={{
-              background: active ? '#fff' : 'transparent',
-              color: active ? t.themeAccent : '#475569',
-              border: active ? `1.5px solid ${t.themeAccent}` : '1px solid transparent',
-              borderRadius: 999,
-              padding: '7px 14px',
-              fontSize: 12,
-              fontWeight: active ? 700 : 500,
-              cursor: 'pointer',
-              fontFamily: 'inherit',
-              whiteSpace: 'nowrap',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 8,
+              padding: '6px 12px',
+              borderRadius: 8,
+              whiteSpace: 'nowrap',
+              fontSize: 12,
+              fontWeight: active ? 600 : 500,
+              color: active ? '#fff' : '#3a3a3d',
+              background: active ? '#1F4E8C' : 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
               scrollSnapAlign: 'start',
-              transition: 'all 120ms ease',
-              boxShadow: active ? `0 2px 8px ${t.themeAccent}22` : 'none',
+              transition: 'all 150ms',
             }}
           >
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 18,
-                height: 18,
-                borderRadius: '50%',
-                background: active ? t.themeAccent : '#e2e8f0',
-                color: active ? '#fff' : '#64748b',
-                fontSize: 10,
-                fontWeight: 700,
-                fontVariantNumeric: 'tabular-nums',
-              }}
-            >
-              {t.number}
-            </span>
-            <span>{t.label}</span>
+            {t.label}
           </button>
         )
       })}

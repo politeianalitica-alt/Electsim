@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { getEstrategiaPorIso3, type OrgNode } from '@/lib/defense/estrategias'
 
 const TIPO_COLOR: Record<string, string> = {
@@ -212,6 +213,8 @@ export default function EstrategiaFichaPage({ params }: { params: { iso3: string
           ))}
         </div>
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

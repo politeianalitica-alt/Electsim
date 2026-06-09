@@ -34,6 +34,7 @@ import { OrgDistribucion } from './OrgDistribucion'
 import { OrgDirectorio } from './OrgDirectorio'
 import { OrgFicha } from './OrgFicha'
 import { ACCENT, ACCENT_DARK, type Envelope, type OrgRow, type OrgsData } from './OrgShared'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 const PAGE_SIZE = 24
 // El catálogo es pequeño (~75 entidades) y el server clampa pageSize a 100; con
@@ -302,6 +303,9 @@ export function TSOrganizacionesView() {
 
       {/* Ficha de la entidad seleccionada (drawer + enriquecimiento vivo) */}
       <OrgFicha org={selected} onClose={onCloseFicha} />
+
+      {/* Mapa OSINT del sector (último · abajo del todo). */}
+      <SectorMapPreview sector="tercer-sector" marginTop={28} />
     </div>
   )
 }
