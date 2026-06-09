@@ -14,6 +14,7 @@ export type NavItem = {
   href: string
   banner?: Banner
   hidden?: boolean        // true = no aparece como pill en el subnav, pero el path sigue resolviendo el módulo
+  children?: NavItem[]    // 3er nivel: sub-pestañas anidadas (p. ej. Política dentro de Sectorial)
 }
 export type NavModule = {
   id: string
@@ -71,11 +72,18 @@ export const MODULES: NavModule[] = [
 
   // ─── 5. Inteligencia Geopolítica y Macroeconómica ─────────────────────
   {
-    id: 'macro-geo',
-    label: 'Macro & Geo',
-    full: 'Inteligencia Geopolítica y Macroeconómica',
+    id: 'geopolitica',
+    label: 'Geopolítica',
+    full: 'Inteligencia Geopolítica y Relaciones Internacionales',
     items: [
       { label: 'Geopolítica y RRII',         href: '/geopolitica' },
+    ],
+  },
+  {
+    id: 'macro',
+    label: 'Macroeconomía',
+    full: 'Inteligencia Macroeconómica',
+    items: [
       { label: 'Economía',                   href: '/macro' },
       { label: 'Fuentes globales',           href: '/datos' },
     ],
@@ -99,23 +107,29 @@ export const MODULES: NavModule[] = [
     label: 'Sectoriales',
     full: 'Sectoriales y Contratación Pública',
     items: [
-      // — Política (movida aquí · primeros apartados del subnav) —
-      { label: 'Mapa de Actores',                href: '/mapa-actores' },
-      { label: 'Personas',                       href: '/dosieres' },
-      { label: 'Partidos y Grupos',              href: '/partidos' },
-      { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
-      { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
-      { label: 'Módulo Electoral',               href: '/nowcasting' },
-      { label: 'Simulador Estratégico',          href: '/escenarios' },
-      { label: 'Perfiles de Votante',            href: '/microdatos' },
+      // — Política (1ª sub-pestaña · con sub-pestañas anidadas, nivel 3) —
       {
-        label: 'Inteligencia Adversarios',
-        href: '/adversarios',
-        banner: {
-          eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
-          title: 'Perfiles estratégicos rivales',
-          colorFrom: '#B45309', colorTo: '#5C2310',
-        },
+        label: 'Política',
+        href: '/mapa-actores',
+        children: [
+          { label: 'Mapa de Actores',                href: '/mapa-actores' },
+          { label: 'Personas',                       href: '/dosieres' },
+          { label: 'Partidos y Grupos',              href: '/partidos' },
+          { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
+          { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
+          { label: 'Módulo Electoral',               href: '/nowcasting' },
+          { label: 'Simulador Estratégico',          href: '/escenarios' },
+          { label: 'Perfiles de Votante',            href: '/microdatos' },
+          {
+            label: 'Inteligencia Adversarios',
+            href: '/adversarios',
+            banner: {
+              eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
+              title: 'Perfiles estratégicos rivales',
+              colorFrom: '#B45309', colorTo: '#5C2310',
+            },
+          },
+        ],
       },
       // — 11 industrias verticales (con diseño Apple-Newsroom uniforme) —
       { label: 'Energía',            href: '/sector-energia' },
@@ -196,6 +210,12 @@ for (const m of MODULES) {
   for (const it of m.items) {
     HREF_TO_MODULE[it.href] = m
     HREF_TO_ITEM[it.href] = it
+    if (it.children) {
+      for (const c of it.children) {
+        HREF_TO_MODULE[c.href] = m
+        HREF_TO_ITEM[c.href] = c
+      }
+    }
   }
 }
 export function moduleOfPath(path: string): NavModule | null {

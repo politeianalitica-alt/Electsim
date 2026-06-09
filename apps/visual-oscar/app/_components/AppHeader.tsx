@@ -19,6 +19,15 @@ export default function AppHeader() {
   const cfgOptions = (cfgModule?.items || []).filter(it => !it.hidden)
   const cfgActive = (cfgModule?.items || []).some(it => path === it.href || path.startsWith(it.href + '/'))
 
+  // Subnav de 2 niveles: items del módulo activo (nivel 2) y, si el item activo
+  // tiene children (p. ej. 'Política'), una tercera barra con esos children.
+  const subItems = activeModule ? activeModule.items.filter(it => !it.hidden) : []
+  const activeSubItem = subItems.find(it =>
+    path === it.href || path.startsWith(it.href + '/')
+    || (it.children?.some(c => path === c.href || path.startsWith(c.href + '/'))),
+  )
+  const level3Items = (activeSubItem?.children || []).filter(c => !c.hidden)
+
   // Workspace unificado en el botón azul: Command Center + opciones del módulo
   // 'workspace' (Estudio, War Room, Toolbox, Cuaderno). Las dos ubicaciones
   // antiguas (pestaña de nav + botón) quedan fundidas aquí.
@@ -285,8 +294,8 @@ export default function AppHeader() {
               {activeModule.label}
  </span>
  <div style={{display:'flex',gap:2,overflowX:'auto',scrollbarWidth:'none'}}>
-              {activeModule.items.filter(it => !it.hidden).map(it=>{
-                const active = path === it.href
+              {subItems.map(it=>{
+                const active = it === activeSubItem
                 return (
  <Link key={it.href} href={it.href} style={{
                     display:'flex',alignItems:'center',padding:'6px 12px',
@@ -296,6 +305,39 @@ export default function AppHeader() {
                     background:active?'#1F4E8C':'transparent',
                     textDecoration:'none',transition:'all 150ms',
                   }}>{it.label}</Link>
+                )
+              })}
+ </div>
+ </div>
+ </nav>
+      )}
+
+      {/* ── Sub-subnav (nivel 3) · sub-pestañas del item activo con children ── */}
+      {level3Items.length > 1 && (
+ <nav aria-label={`Sub-apartados de ${activeSubItem?.label || ''}`} style={{
+          position:'sticky',top:82,zIndex:48,height:36,
+          background:'#fafafa',borderBottom:'1px solid rgba(0,0,0,0.06)',
+        }}>
+ <div style={{
+            maxWidth:1600,margin:'0 auto',padding:'0 20px',
+            display:'flex',alignItems:'center',height:'100%',gap:14,
+            fontFamily:'var(--font-text,-apple-system,system-ui)',
+          }}>
+ <span style={{fontSize:10.5,fontWeight:700,letterSpacing:'0.08em',textTransform:'uppercase',color:'#aeaeb2',flexShrink:0}}>
+              {activeSubItem?.label}
+ </span>
+ <div style={{display:'flex',gap:2,overflowX:'auto',scrollbarWidth:'none'}}>
+              {level3Items.map(c=>{
+                const active = path === c.href || path.startsWith(c.href + '/')
+                return (
+ <Link key={c.href} href={c.href} style={{
+                    display:'flex',alignItems:'center',padding:'5px 11px',
+                    borderRadius:8,whiteSpace:'nowrap',
+                    fontSize:12,fontWeight:active?600:500,
+                    color:active?'#fff':'#3a3a3d',
+                    background:active?'#1F4E8C':'transparent',
+                    textDecoration:'none',transition:'all 150ms',
+                  }}>{c.label}</Link>
                 )
               })}
  </div>
