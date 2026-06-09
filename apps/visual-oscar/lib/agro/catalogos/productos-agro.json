@@ -1,0 +1,210 @@
+{
+  "_meta": {
+    "descripcion": "Productos agrícolas relevantes para España: cereales, oleaginosas, ganado, softs (azúcar, café, cacao, zumo), lácteos, fertilizantes. Cada uno con su ticker en Yahoo Finance (futuros CME / Euronext / commodities globales), unidad, contexto España (exportador / importador / referencia), categoría y descripción del contrato.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Agro v3",
+    "principio": "Si Yahoo no devuelve el ticker, el producto se muestra como `sin cotización en vivo` · NO se inventan precios.",
+    "fuente_precio": "Yahoo Finance · futuros CME / Euronext / ICE",
+    "moneda_default": "USD"
+  },
+  "categorias": [
+    { "id": "cereales", "nombre": "Cereales", "color": "#F59E0B" },
+    { "id": "oleaginosas", "nombre": "Oleaginosas y aceites", "color": "#16A34A" },
+    { "id": "ganado", "nombre": "Ganado en pie", "color": "#B45309" },
+    { "id": "softs", "nombre": "Softs (azúcar, café, cacao, zumo, algodón)", "color": "#7C3AED" },
+    { "id": "lacteos", "nombre": "Lácteos", "color": "#0EA5E9" },
+    { "id": "inputs", "nombre": "Inputs (fertilizantes, energía)", "color": "#DC2626" }
+  ],
+  "productos": [
+    {
+      "id": "trigo_cbot",
+      "nombre": "Trigo CBOT (Chicago)",
+      "ticker": "ZW=F",
+      "categoria": "cereales",
+      "unidad": "USD/bushel",
+      "contrato": "Wheat Futures · Chicago Board of Trade · referencia mundial del trigo blando",
+      "rol_espana": "Importador neto en años de mala cosecha · referencia para piensos compuestos",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "trigo_euronext",
+      "nombre": "Trigo molinero Euronext (París)",
+      "ticker": "EBM.PA",
+      "categoria": "cereales",
+      "unidad": "EUR/tonelada",
+      "contrato": "Milling Wheat · Euronext · referencia europea del trigo panificable",
+      "rol_espana": "Referencia directa para mercado peninsular y compra industrial harinera",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "maiz_cbot",
+      "nombre": "Maíz CBOT (Chicago)",
+      "ticker": "ZC=F",
+      "categoria": "cereales",
+      "unidad": "USD/bushel",
+      "contrato": "Corn Futures · Chicago Board of Trade",
+      "rol_espana": "Importador neto · imprescindible para piensos (porcino, avícola) · sequía empuja importación",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "cebada",
+      "nombre": "Cebada UE (proxy maíz Euronext)",
+      "ticker": "EMA.PA",
+      "categoria": "cereales",
+      "unidad": "EUR/tonelada",
+      "contrato": "Corn Futures Euronext · usado como proxy de cebada cuando no hay contrato directo",
+      "rol_espana": "España es el mayor productor europeo de cebada · base de piensos y cebada cervecera",
+      "color": "#F59E0B"
+    },
+    {
+      "id": "soja_cbot",
+      "nombre": "Soja CBOT (grano)",
+      "ticker": "ZS=F",
+      "categoria": "oleaginosas",
+      "unidad": "USD/bushel",
+      "contrato": "Soybeans Futures · Chicago Board of Trade",
+      "rol_espana": "Importador masivo (>3 Mt/año) para harina de soja en piensos",
+      "color": "#16A34A"
+    },
+    {
+      "id": "harina_soja",
+      "nombre": "Harina de soja CBOT",
+      "ticker": "ZM=F",
+      "categoria": "oleaginosas",
+      "unidad": "USD/tonelada corta",
+      "contrato": "Soybean Meal Futures · CBOT · clave para coste de piensos",
+      "rol_espana": "Principal input proteico de la cabaña ganadera española",
+      "color": "#16A34A"
+    },
+    {
+      "id": "aceite_soja",
+      "nombre": "Aceite de soja CBOT",
+      "ticker": "ZL=F",
+      "categoria": "oleaginosas",
+      "unidad": "USD/lb",
+      "contrato": "Soybean Oil Futures · CBOT · proxy aceites vegetales",
+      "rol_espana": "Sustituto en la industria + competencia para el aceite de oliva refinado",
+      "color": "#16A34A"
+    },
+    {
+      "id": "colza",
+      "nombre": "Colza Euronext",
+      "ticker": "RPS.PA",
+      "categoria": "oleaginosas",
+      "unidad": "EUR/tonelada",
+      "contrato": "Rapeseed Futures · Euronext París",
+      "rol_espana": "Cultivo en expansión en Castilla y León y Cuenca · biodiesel + aceite",
+      "color": "#16A34A"
+    },
+    {
+      "id": "ganado_vacuno",
+      "nombre": "Vacuno vivo (Live Cattle CME)",
+      "ticker": "LE=F",
+      "categoria": "ganado",
+      "unidad": "USD/lb",
+      "contrato": "Live Cattle Futures · CME · referencia internacional vacuno",
+      "rol_espana": "Exportador relevante · 7º productor UE · top exportador a Argelia y norte de África",
+      "color": "#B45309"
+    },
+    {
+      "id": "vacuno_engorde",
+      "nombre": "Vacuno engorde (Feeder Cattle CME)",
+      "ticker": "GF=F",
+      "categoria": "ganado",
+      "unidad": "USD/lb",
+      "contrato": "Feeder Cattle Futures · CME",
+      "rol_espana": "Indicador de coste de reposición para cebaderos · sensible al precio del maíz",
+      "color": "#B45309"
+    },
+    {
+      "id": "porcino",
+      "nombre": "Porcino magro (Lean Hogs CME)",
+      "ticker": "HE=F",
+      "categoria": "ganado",
+      "unidad": "USD/lb",
+      "contrato": "Lean Hogs Futures · CME · referencia internacional carne porcina",
+      "rol_espana": "Top productor UE · top exportador mundial · 50% destinado a exportación (China, Filipinas, Japón)",
+      "color": "#B45309"
+    },
+    {
+      "id": "azucar",
+      "nombre": "Azúcar nº 11 (ICE NY)",
+      "ticker": "SB=F",
+      "categoria": "softs",
+      "unidad": "USD¢/lb",
+      "contrato": "Sugar #11 Futures · ICE Nueva York · azúcar de caña referencia mundial",
+      "rol_espana": "Productor remolacha (zona Duero) · cuotas eliminadas en 2017 · sensible a precios mundiales",
+      "color": "#7C3AED"
+    },
+    {
+      "id": "cafe",
+      "nombre": "Café Arabica (ICE NY)",
+      "ticker": "KC=F",
+      "categoria": "softs",
+      "unidad": "USD¢/lb",
+      "contrato": "Coffee C Arabica Futures · ICE Nueva York",
+      "rol_espana": "Importador puro · referencia para tostadores y distribución (DIA, Mercadona, …)",
+      "color": "#7C3AED"
+    },
+    {
+      "id": "cacao",
+      "nombre": "Cacao (ICE NY)",
+      "ticker": "CC=F",
+      "categoria": "softs",
+      "unidad": "USD/tonelada",
+      "contrato": "Cocoa Futures · ICE Nueva York · referencia chocolatería mundial",
+      "rol_espana": "Importador para industria chocolatera (Lindt, Nestlé, Valor, Chocolates Trapa)",
+      "color": "#7C3AED"
+    },
+    {
+      "id": "zumo_naranja",
+      "nombre": "Zumo de naranja concentrado (ICE NY)",
+      "ticker": "OJ=F",
+      "categoria": "softs",
+      "unidad": "USD¢/lb",
+      "contrato": "Orange Juice (FCOJ) Futures · ICE Nueva York",
+      "rol_espana": "España es el mayor productor europeo de naranja · referencia internacional para industria de zumos",
+      "color": "#7C3AED"
+    },
+    {
+      "id": "algodon",
+      "nombre": "Algodón (ICE NY)",
+      "ticker": "CT=F",
+      "categoria": "softs",
+      "unidad": "USD¢/lb",
+      "contrato": "Cotton #2 Futures · ICE Nueva York",
+      "rol_espana": "Productor en Andalucía (Sevilla, Córdoba, Cádiz) · subvencionado por ayuda PAC específica",
+      "color": "#7C3AED"
+    },
+    {
+      "id": "leche_clase3",
+      "nombre": "Leche Clase III (CME)",
+      "ticker": "DC=F",
+      "categoria": "lacteos",
+      "unidad": "USD/cwt",
+      "contrato": "Class III Milk Futures · CME · usado para quesos curados",
+      "rol_espana": "Referencia internacional · España es deficitario lácteo y exporta queso (manchego, oveja)",
+      "color": "#0EA5E9"
+    },
+    {
+      "id": "gas_natural",
+      "nombre": "Gas Natural Henry Hub (CME)",
+      "ticker": "NG=F",
+      "categoria": "inputs",
+      "unidad": "USD/MMBtu",
+      "contrato": "Natural Gas Futures · CME · referencia mundial",
+      "rol_espana": "Input crítico para fertilizantes nitrogenados · invernaderos · industria láctea",
+      "color": "#DC2626"
+    },
+    {
+      "id": "brent",
+      "nombre": "Petróleo Brent (ICE)",
+      "ticker": "BZ=F",
+      "categoria": "inputs",
+      "unidad": "USD/barril",
+      "contrato": "Brent Crude Oil Futures · ICE Londres",
+      "rol_espana": "Coste de gasóleo agrícola (subvencionado vía B), maquinaria y logística agroalimentaria",
+      "color": "#DC2626"
+    }
+  ]
+}

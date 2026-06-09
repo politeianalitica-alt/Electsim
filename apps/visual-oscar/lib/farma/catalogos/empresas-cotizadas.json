@@ -1,0 +1,130 @@
+{
+  "_meta": {
+    "descripcion": "Empresas farmacéuticas y biotecnológicas cotizadas en mercados españoles (Mercado Continuo + BME Growth). Cada entrada cita el ticker y enlace a CNMV / portal del emisor. Capitalización queda null hasta integrar fetch dinámico CNMV / Yahoo — no se inventan cifras.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Farma v3",
+    "principio": "Sin capitalización ni precio inventado · si una cifra no se ha verificado en el último Cierre el día de actualización, queda como null."
+  },
+  "empresas": [
+    {
+      "id": "grifols",
+      "nombre": "Grifols",
+      "ticker": "GRF.MC",
+      "segmento": "Hemoderivados · plasma · diagnóstico",
+      "descripcion": "Multinacional española líder mundial en hemoderivados (proteínas plasmáticas para terapias). Cuatro divisiones: Bioscience, Diagnostic, Hospital, Biosupplies. IBEX 35.",
+      "ibex": true,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A58389123",
+      "web": "https://www.grifols.com/",
+      "area_terapeutica": ["hemoderivados", "diagnostico"]
+    },
+    {
+      "id": "almirall",
+      "nombre": "Almirall",
+      "ticker": "ALM.MC",
+      "segmento": "Dermatología · I+D especializada",
+      "descripcion": "Compañía farmacéutica internacional con foco en dermatología médica. Pipeline en psoriasis, hidradenitis supurativa, dermatitis atópica. Sede Barcelona.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A58869389",
+      "web": "https://www.almirall.com/",
+      "area_terapeutica": ["dermatologia"]
+    },
+    {
+      "id": "rovi",
+      "nombre": "Laboratorios Rovi",
+      "ticker": "ROVI.MC",
+      "segmento": "Heparinas · fabricación a terceros · vacunas",
+      "descripcion": "Especializada en heparinas de bajo peso molecular y fabricación a terceros (CDMO) — produjo la vacuna Moderna en España. Pipeline en antipsicóticos de liberación prolongada.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A28041482",
+      "web": "https://www.rovi.es/",
+      "area_terapeutica": ["heparinas", "cdmo", "neurologia"]
+    },
+    {
+      "id": "faes_farma",
+      "nombre": "Faes Farma",
+      "ticker": "FAE.MC",
+      "segmento": "Antihistamínicos · respiratorio · OTC",
+      "descripcion": "Histórica española con sede en Bilbao. Producto estrella: bilastina (antihistamínico). Cartera diversificada respiratorio, cardiovascular, OTC.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A48027678",
+      "web": "https://www.faes.es/",
+      "area_terapeutica": ["respiratorio", "antihistaminicos"]
+    },
+    {
+      "id": "pharmamar",
+      "nombre": "PharmaMar",
+      "ticker": "PHM.MC",
+      "segmento": "Biotecnología oncológica · origen marino",
+      "descripcion": "Biotecnológica especializada en descubrir y desarrollar fármacos antitumorales a partir de compuestos de organismos marinos. Aplidin, Yondelis, Zepzelca.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A36930324",
+      "web": "https://www.pharmamar.com/",
+      "area_terapeutica": ["oncologia"]
+    },
+    {
+      "id": "reig_jofre",
+      "nombre": "Reig Jofre",
+      "ticker": "RJF.MC",
+      "segmento": "Antibióticos · inyectables · CDMO",
+      "descripcion": "Especialista en penicilinas y cefalosporinas inyectables. División CDMO consolidada. Sede Barcelona.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A08017912",
+      "web": "https://www.reigjofre.com/",
+      "area_terapeutica": ["antibioticos", "cdmo"]
+    },
+    {
+      "id": "atrys",
+      "nombre": "Atrys Health",
+      "ticker": "ATRY.MC",
+      "segmento": "Diagnóstico oncológico · radioterapia · telemedicina",
+      "descripcion": "Compañía de oncología de precisión y telemedicina. Diagnóstico avanzado y tratamiento radioterapia. Cotiza en BME Growth originalmente.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A85785489",
+      "web": "https://atryshealth.com/",
+      "area_terapeutica": ["oncologia", "diagnostico"]
+    },
+    {
+      "id": "oryzon",
+      "nombre": "Oryzon Genomics",
+      "ticker": "ORY.MC",
+      "segmento": "Biotecnología epigenética · oncología y SNC",
+      "descripcion": "Empresa de biotecnología clínica especializada en epigenética. Iadademstat (oncología) y vafidemstat (psiquiatría/neurología) en pipeline.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A62313964",
+      "web": "https://www.oryzon.com/",
+      "area_terapeutica": ["oncologia", "snc"]
+    },
+    {
+      "id": "pangaea",
+      "nombre": "Pangaea Oncology",
+      "ticker": "PANG.MC",
+      "segmento": "Oncología de precisión · biomarcadores",
+      "descripcion": "Compañía de oncología de precisión con tecnologías de detección de biomarcadores tumorales para selección personalizada de tratamientos.",
+      "ibex": false,
+      "mercado": "BME Growth",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionEmisores.aspx",
+      "web": "https://www.pangaeaoncology.com/",
+      "area_terapeutica": ["oncologia"]
+    },
+    {
+      "id": "biosearch",
+      "nombre": "Biosearch",
+      "ticker": "BIO.MC",
+      "segmento": "Nutracéuticos · probióticos",
+      "descripcion": "Compañía de nutracéuticos con cartera de probióticos y nutrientes funcionales para industria farmacéutica y alimentaria. Sede Granada.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A18065767",
+      "web": "https://www.biosearchlife.com/",
+      "area_terapeutica": ["nutraceuticos"]
+    }
+  ]
+}

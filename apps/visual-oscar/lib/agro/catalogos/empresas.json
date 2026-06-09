@@ -1,0 +1,154 @@
+{
+  "_meta": {
+    "descripcion": "Empresas representativas del sector agroalimentario español: cotizadas + cooperativas líderes + grandes distribuidoras. Capitalización solo cuando se ha verificado en cierres trimestrales; el resto queda null.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Agro v3",
+    "principio": "Sin capitalización inventada. Cuotas de mercado solo si están publicadas por la propia compañía o por Nielsen/Kantar."
+  },
+  "empresas": [
+    {
+      "id": "ebro_foods",
+      "nombre": "Ebro Foods",
+      "ticker": "EBRO.MC",
+      "segmento": "Alimentación · arroz y pasta",
+      "descripcion": "Líder mundial en arroz y segundo mundial en pasta. Marcas SOS, Brillante, La Fallera, Panzani, Lustucru, Garofalo. Mercado Continuo Madrid.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A47412333",
+      "web": "https://www.ebrofoods.es/",
+      "cooperativa": false
+    },
+    {
+      "id": "viscofan",
+      "nombre": "Viscofan",
+      "ticker": "VIS.MC",
+      "segmento": "Cárnico · envolturas y colágeno",
+      "descripcion": "Líder mundial en envolturas de cárnicas (celulósica, colágeno, fibrosa, plástico). Plantas en 6 continentes. IBEX 35.",
+      "ibex": true,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A31065501",
+      "web": "https://www.viscofan.com/",
+      "cooperativa": false
+    },
+    {
+      "id": "deoleo",
+      "nombre": "Deoleo",
+      "ticker": "OLE.MC",
+      "segmento": "Aceite de oliva · líder mundial embotellado",
+      "descripcion": "Mayor envasador mundial de aceite de oliva. Marcas Carbonell, Hojiblanca, Bertolli, Carapelli. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A48077220",
+      "web": "https://www.deoleo.com/",
+      "cooperativa": false
+    },
+    {
+      "id": "borges",
+      "nombre": "Borges Agricultural & Industrial Nuts",
+      "ticker": "BAIN.MC",
+      "segmento": "Frutos secos · aceite de oliva",
+      "descripcion": "Grupo Borges. Aceite de oliva, frutos secos, vinagres. Marcas Borges, Capricho Andaluz. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A25086509",
+      "web": "https://www.borges.es/",
+      "cooperativa": false
+    },
+    {
+      "id": "naturhouse",
+      "nombre": "Naturhouse Health",
+      "ticker": "NTH.MC",
+      "segmento": "Distribución dietética · alimentación funcional",
+      "descripcion": "Cadena especializada en dietética y nutrición. Productos propios + asesoramiento. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A60510846",
+      "web": "https://www.naturhouse.com/",
+      "cooperativa": false
+    },
+    {
+      "id": "dia",
+      "nombre": "Distribuidora Internacional de Alimentación (DIA)",
+      "ticker": "DIA.MC",
+      "segmento": "Distribución alimentaria · descuento",
+      "descripcion": "Cadena de descuento. Tras OPA Letterone (2019) y reestructuración, foco en España, Portugal, Argentina, Brasil. Mercado Continuo.",
+      "ibex": false,
+      "mercado": "Mercado Continuo Madrid",
+      "cnmv_url": "https://www.cnmv.es/portal/Consultas/EE/InformacionPaginas.aspx?nif=A28164754",
+      "web": "https://www.dia.es/",
+      "cooperativa": false
+    },
+    {
+      "id": "mercadona",
+      "nombre": "Mercadona",
+      "ticker": null,
+      "segmento": "Distribución alimentaria · líder España",
+      "descripcion": "Mayor cadena de distribución alimentaria en España por cuota de mercado. Empresa familiar no cotizada (Roig). +1.700 tiendas + apuesta por marca blanca Hacendado / Bosque Verde.",
+      "ibex": false,
+      "mercado": "No cotizada",
+      "cnmv_url": "https://www.mercadona.es/es/sobre-mercadona/transparencia",
+      "web": "https://www.mercadona.es/",
+      "cooperativa": false
+    },
+    {
+      "id": "coren",
+      "nombre": "Coren",
+      "ticker": null,
+      "segmento": "Cárnico cooperativa · pollo, porcino, vacuno",
+      "descripcion": "Primera cooperativa cárnica de España. Sede en Ourense. Integración vertical desde pienso hasta producto final.",
+      "ibex": false,
+      "mercado": "Cooperativa · no cotizada",
+      "cnmv_url": "https://www.coren.es/transparencia",
+      "web": "https://www.coren.es/",
+      "cooperativa": true
+    },
+    {
+      "id": "covap",
+      "nombre": "COVAP · Cooperativa Valle de los Pedroches",
+      "ticker": null,
+      "segmento": "Cooperativa multisectorial · lácteo, ibérico, vacuno",
+      "descripcion": "Cooperativa andaluza líder en lácteo y derivados del ibérico. Marca COVAP en lineales. Cooperativa de cooperativas.",
+      "ibex": false,
+      "mercado": "Cooperativa · no cotizada",
+      "cnmv_url": "https://www.covap.es/",
+      "web": "https://www.covap.es/",
+      "cooperativa": true
+    },
+    {
+      "id": "anecoop",
+      "nombre": "Anecoop",
+      "ticker": null,
+      "segmento": "Cooperativa frutas y hortalizas · líder UE",
+      "descripcion": "Cooperativa valenciana de segundo grado. Mayor cooperativa hortofrutícola de Europa por volumen. Marca Bouquet.",
+      "ibex": false,
+      "mercado": "Cooperativa · no cotizada",
+      "cnmv_url": "https://www.anecoop.com/",
+      "web": "https://www.anecoop.com/",
+      "cooperativa": true
+    },
+    {
+      "id": "damm",
+      "nombre": "Damm",
+      "ticker": null,
+      "segmento": "Bebidas · cerveza y aguas",
+      "descripcion": "Segunda cervecera de España. Marcas Estrella Damm, Voll-Damm, Inedit, Cacaolat, Veri (agua). Sede Barcelona. No cotiza.",
+      "ibex": false,
+      "mercado": "No cotizada",
+      "cnmv_url": "https://www.damm.com/es/transparencia",
+      "web": "https://www.damm.com/",
+      "cooperativa": false
+    },
+    {
+      "id": "calvo",
+      "nombre": "Grupo Calvo",
+      "ticker": null,
+      "segmento": "Conservas pesca · atún en lata",
+      "descripcion": "Conservas Calvo. Líder español en atún en lata. Plantas en Carballo (Galicia), El Salvador, Brasil. Marca Calvo + Gomes da Costa (BR).",
+      "ibex": false,
+      "mercado": "No cotizada",
+      "cnmv_url": "https://www.calvo.es/",
+      "web": "https://www.calvo.es/",
+      "cooperativa": false
+    }
+  ]
+}

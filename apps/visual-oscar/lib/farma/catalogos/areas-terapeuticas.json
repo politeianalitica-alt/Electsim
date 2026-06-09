@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "descripcion": "Áreas terapéuticas con mayor peso en el sector farmacéutico español: pipeline I+D, ensayos clínicos activos, cotizadas con foco, política nacional asociada (PERTE Salud Vanguardia).",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Farma v3"
+  },
+  "areas": [
+    {
+      "id": "oncologia",
+      "titulo": "Oncología",
+      "descripcion": "Área dominante del pipeline I+D. PharmaMar (origen marino), Oryzon Genomics (epigenética), Atrys Health (precisión), Pangaea Oncology (biomarcadores). PERTE Salud Vanguardia con eje específico oncológico.",
+      "color": "#DC2626",
+      "keywords": ["oncologia", "cancer", "tumor", "antitumoral", "oncologico"],
+      "tab_destino": "pipeline"
+    },
+    {
+      "id": "biotecnologia",
+      "titulo": "Biotecnología avanzada",
+      "descripcion": "Terapias avanzadas (génicas, celulares, ARN). ASEBIO publica informe anual del sector. Foco creciente en CAR-T, CRISPR, vacunas ARNm.",
+      "color": "#7C3AED",
+      "keywords": ["biotecnologia", "biotech", "terapia avanzada", "arnm", "car-t", "crispr"],
+      "tab_destino": "pipeline"
+    },
+    {
+      "id": "neurologia_snc",
+      "titulo": "Neurología y SNC",
+      "descripcion": "Alzheimer, esquizofrenia, depresión, esclerosis múltiple. Rovi (antipsicóticos liberación prolongada), Oryzon (vafidemstat). Área con alta tasa de fracaso clínico pero alto retorno.",
+      "color": "#1F4E8C",
+      "keywords": ["neurologia", "snc", "alzheimer", "parkinson", "esquizofrenia", "psiquiatria"],
+      "tab_destino": "pipeline"
+    },
+    {
+      "id": "autoinmune_inflamatorio",
+      "titulo": "Autoinmune e inflamatorio",
+      "descripcion": "Psoriasis, dermatitis atópica, artritis, EII. Almirall líder en dermatología médica. Biológicos y small molecules en pipeline.",
+      "color": "#0EA5E9",
+      "keywords": ["autoinmune", "inflamatorio", "psoriasis", "artritis", "dermatitis"],
+      "tab_destino": "pipeline"
+    },
+    {
+      "id": "respiratorio",
+      "titulo": "Respiratorio",
+      "descripcion": "Alergia, asma, EPOC. Faes Farma con bilastina (antihistamínico) como producto estrella. Mercado estable con foco en biosimilares.",
+      "color": "#16A34A",
+      "keywords": ["respiratorio", "asma", "epoc", "alergia", "antihistaminico"],
+      "tab_destino": "catalogo"
+    },
+    {
+      "id": "hemoderivados",
+      "titulo": "Hemoderivados y diagnóstico",
+      "descripcion": "Grifols líder mundial en proteínas plasmáticas. Negocio diferenciado del resto del sector farma — depende del suministro de plasma y de regulación específica FDA / EMA.",
+      "color": "#B45309",
+      "keywords": ["hemoderivado", "plasma", "albumina", "inmunoglobulina"],
+      "tab_destino": "mercado"
+    },
+    {
+      "id": "antibioticos_infecciosas",
+      "titulo": "Antibióticos e infecciosas",
+      "descripcion": "Reig Jofre líder en penicilinas y cefalosporinas inyectables. Sector con presión por resistencias y baja rentabilidad relativa.",
+      "color": "#EAB308",
+      "keywords": ["antibiotico", "antimicrobiano", "infeccioso", "penicilina", "cefalosporina"],
+      "tab_destino": "catalogo"
+    },
+    {
+      "id": "vacunas",
+      "titulo": "Vacunas y CDMO",
+      "descripcion": "Producción a terceros (CDMO) con Rovi y Reig Jofre como referencias. Rovi produjo la vacuna Moderna ARNm en España. PERTE Salud Vanguardia incluye eje vacunas.",
+      "color": "#0F766E",
+      "keywords": ["vacuna", "cdmo", "fill and finish", "produccion contrato"],
+      "tab_destino": "mercado"
+    },
+    {
+      "id": "genericos_biosimilares",
+      "titulo": "Genéricos y biosimilares",
+      "descripcion": "Mercado regulado por la Comisión Interministerial de Precios. España con cuota inferior a la media UE en biosimilares. PERTE Salud Vanguardia incluye eje genéricos y biosimilares.",
+      "color": "#9D174D",
+      "keywords": ["generico", "biosimilar", "patente", "vencimiento patente"],
+      "tab_destino": "mercado"
+    },
+    {
+      "id": "desabastecimientos",
+      "titulo": "Desabastecimientos y supply chain",
+      "descripcion": "Problemas de suministro publicados por AEMPS (CIMA Psuministro) y EMA (Medicine Shortages). Foco crítico tras la pandemia y conflictos geopolíticos en cadenas de API.",
+      "color": "#F97316",
+      "keywords": ["desabastecimiento", "suministro", "shortage", "falta medicamento"],
+      "tab_destino": "desabastecimientos"
+    }
+  ]
+}

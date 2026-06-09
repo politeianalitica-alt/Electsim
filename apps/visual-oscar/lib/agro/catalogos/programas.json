@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "descripcion": "Programas y políticas activas del sector agroalimentario en España y la UE. Cada entrada con fuente oficial (BOE, DOUE, portal ministerial) y enlace verificable.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Agro v3",
+    "principio": "Presupuestos solo si están publicados oficialmente. Si una cifra no está consolidada, queda null."
+  },
+  "programas": [
+    {
+      "id": "pac_2023_2027",
+      "programa": "Política Agraria Común (PAC) 2023-2027",
+      "estado": "vigente",
+      "descripcion": "Plan Estratégico Nacional español de la PAC. Pagos directos (Pilar 1) + desarrollo rural (Pilar 2) + ecorregímenes (23% de pagos directos sujetos a condicionalidad ambiental).",
+      "presupuesto_eur": 47720000000,
+      "presupuesto_descripcion": "Asignación para España del periodo 2023-2027 (47,72 bn €)",
+      "eje": "pac",
+      "color": "#16A34A",
+      "fuente_url": "https://www.fega.gob.es/es/intervenciones-de-la-PAC-2023-2027",
+      "fuente_label": "FEGA · PAC 2023-2027",
+      "fecha_inicio": "2023-01-01",
+      "fecha_fin": "2027-12-31",
+      "ministerio": "Ministerio de Agricultura, Pesca y Alimentación · FEGA"
+    },
+    {
+      "id": "perte_agroalimentario",
+      "programa": "PERTE Agroalimentario",
+      "estado": "vigente",
+      "descripcion": "Proyecto Estratégico para la Recuperación y Transformación Económica del sector agroalimentario. Ejes: tractor digital, sostenibilidad ambiental, eficiencia energética, capacitación. Cofinanciado por NextGenerationEU.",
+      "presupuesto_eur": 1800000000,
+      "presupuesto_descripcion": "Movilización pública+privada prevista (Plan de Recuperación)",
+      "eje": "modernizacion",
+      "color": "#7C3AED",
+      "fuente_url": "https://planderecuperacion.gob.es/como-acceder-a-los-fondos/pertes/perte-agroalimentario",
+      "fuente_label": "Plan de Recuperación · PERTE Agroalimentario",
+      "fecha_inicio": "2022-02-08",
+      "fecha_fin": "2026-12-31",
+      "ministerio": "Ministerio de Agricultura, Pesca y Alimentación"
+    },
+    {
+      "id": "ley_cadena_alimentaria",
+      "programa": "Ley 12/2013 de la Cadena Alimentaria (reformada en 2020 y 2022)",
+      "estado": "vigente",
+      "descripcion": "Marco regulatorio de las relaciones comerciales en la cadena alimentaria. Prohibición de la venta a pérdidas a lo largo de toda la cadena, obligación de contratos por escrito, régimen sancionador AICA.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Sin presupuesto directo · norma regulatoria",
+      "eje": "regulacion",
+      "color": "#F97316",
+      "fuente_url": "https://www.boe.es/eli/es/l/2013/08/02/12/con",
+      "fuente_label": "Ley 12/2013 de la cadena alimentaria · BOE",
+      "fecha_inicio": "2013-08-03",
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Agricultura, Pesca y Alimentación · AICA"
+    },
+    {
+      "id": "estrategia_farm_to_fork",
+      "programa": "Estrategia Farm to Fork (De la Granja a la Mesa)",
+      "estado": "vigente",
+      "descripcion": "Pilar agroalimentario del Pacto Verde europeo. Objetivos a 2030: -50% uso pesticidas, -20% fertilizantes, 25% superficie ecológica, antibióticos -50% en animales y acuicultura.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Sin presupuesto directo · marco político",
+      "eje": "regulacion_ue",
+      "color": "#0EA5E9",
+      "fuente_url": "https://food.ec.europa.eu/horizontal-topics/farm-fork-strategy_en",
+      "fuente_label": "Comisión Europea · Farm to Fork",
+      "fecha_inicio": "2020-05-20",
+      "fecha_fin": null,
+      "ministerio": "Comisión Europea · DG SANTE + DG AGRI"
+    },
+    {
+      "id": "seguros_agrarios_combinados",
+      "programa": "Sistema español de seguros agrarios combinados",
+      "estado": "vigente",
+      "descripcion": "Cobertura subvencionada para sequía, helada, pedrisco, granizo, viento, plagas. Gestionado por Agroseguro (pool privado) con supervisión y subvención de ENESA + Consorcio de Compensación de Seguros.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Subvención pública variable según ejercicio (~350 M€/año)",
+      "eje": "riesgos",
+      "color": "#DC2626",
+      "fuente_url": "https://www.enesa.gob.es/",
+      "fuente_label": "ENESA · sistema de seguros agrarios",
+      "fecha_inicio": "1980-01-01",
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Agricultura · ENESA · Consorcio de Compensación"
+    },
+    {
+      "id": "plan_choque_sequia",
+      "programa": "Real Decreto-ley de respuesta a la sequía",
+      "estado": "vigente",
+      "descripcion": "Paquete de medidas para regantes, ganaderos y consumidores frente a la sequía estructural: ayudas directas, flexibilidad PAC, infraestructuras de desalación, transferencias hidrológicas.",
+      "presupuesto_eur": 2780000000,
+      "presupuesto_descripcion": "Movilización prevista del Real Decreto-ley + planes complementarios",
+      "eje": "sequia",
+      "color": "#B45309",
+      "fuente_url": "https://www.boe.es/eli/es/rdl/2023/05/11/4/con",
+      "fuente_label": "Real Decreto-ley 4/2023 (sequía) · BOE",
+      "fecha_inicio": "2023-05-12",
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Agricultura · MITECO"
+    }
+  ]
+}

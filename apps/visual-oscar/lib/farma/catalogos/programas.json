@@ -1,0 +1,100 @@
+{
+  "_meta": {
+    "descripcion": "Programas y políticas activas del sector farmacéutico en España. Cada entrada con fuente oficial (BOE / portal ministerial), fecha y enlace.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Farma v3",
+    "principio": "Presupuestos solo si están publicados en BOE u órgano oficial. Si una cifra no está consolidada, queda null."
+  },
+  "programas": [
+    {
+      "id": "perte_salud_vanguardia",
+      "programa": "PERTE para la Salud de Vanguardia",
+      "estado": "vigente",
+      "descripcion": "Proyecto Estratégico de Recuperación y Transformación Económica enfocado en salud. Ejes: terapias avanzadas (ATMP), vacunas, biosimilares, fabricación industrial farmacéutica, datos sanitarios. Cofinanciado con NextGenerationEU.",
+      "presupuesto_eur": 1469000000,
+      "presupuesto_descripcion": "Inversión pública prevista del PERTE (componente público de NextGen EU)",
+      "eje": "politica_industrial",
+      "color": "#1F4E8C",
+      "fuente_url": "https://planderecuperacion.gob.es/como-acceder-a-los-fondos/pertes/perte-salud-vanguardia",
+      "fuente_label": "Plan de Recuperación · PERTE Salud Vanguardia",
+      "fecha_inicio": "2021-12-01",
+      "fecha_fin": "2026-08-31",
+      "ministerio": "Ministerio de Ciencia, Innovación y Universidades · Ministerio de Sanidad"
+    },
+    {
+      "id": "estrategia_farmaceutica_europa",
+      "programa": "Estrategia Farmacéutica para Europa",
+      "estado": "vigente",
+      "descripcion": "Marco político de la Comisión Europea para garantizar el acceso a medicamentos asequibles, fortalecer la autonomía estratégica de la UE en suministro y promover la innovación. Base del Reglamento Farmacéutico UE en negociación.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Sin presupuesto directo · marco político",
+      "eje": "regulacion_ue",
+      "color": "#0EA5E9",
+      "fuente_url": "https://health.ec.europa.eu/medicinal-products/pharmaceutical-strategy-europe_en",
+      "fuente_label": "Comisión Europea · Pharmaceutical Strategy for Europe",
+      "fecha_inicio": "2020-11-25",
+      "fecha_fin": null,
+      "ministerio": "Comisión Europea · DG SANTE"
+    },
+    {
+      "id": "reglamento_farmaceutico_ue",
+      "programa": "Reglamento y Directiva Farmacéutica UE (paquete farmacéutico)",
+      "estado": "en_negociacion",
+      "descripcion": "Mayor reforma del marco farmacéutico europeo en 20 años. Reduce exclusividad regulatoria de 8 a 6 años (con incentivos a quien comercialice en todos los EM), refuerza la lucha contra desabastecimientos y crea régimen para medicamentos prioritarios.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Sin presupuesto directo · norma regulatoria",
+      "eje": "regulacion_ue",
+      "color": "#DC2626",
+      "fuente_url": "https://health.ec.europa.eu/medicinal-products/pharmaceutical-strategy-europe/reform-eu-pharmaceutical-legislation_en",
+      "fuente_label": "DG SANTE · Reform of EU pharmaceutical legislation",
+      "fecha_inicio": "2023-04-26",
+      "fecha_fin": null,
+      "ministerio": "Comisión Europea · Parlamento Europeo · Consejo"
+    },
+    {
+      "id": "plan_resistencia_antimicrobianos",
+      "programa": "Plan Nacional frente a la Resistencia a los Antibióticos (PRAN)",
+      "estado": "vigente",
+      "descripcion": "Plan estratégico de la AEMPS para reducir el riesgo de selección y diseminación de bacterias resistentes a los antibióticos. Incluye vigilancia, formación, comunicación y medidas regulatorias.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Plan operativo sin asignación pública directa",
+      "eje": "salud_publica",
+      "color": "#F97316",
+      "fuente_url": "https://www.resistenciaantibioticos.es/",
+      "fuente_label": "AEMPS · PRAN",
+      "fecha_inicio": "2014-06-01",
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Sanidad · AEMPS"
+    },
+    {
+      "id": "real_decreto_1090_2015",
+      "programa": "RD 1090/2015 ensayos clínicos",
+      "estado": "vigente",
+      "descripcion": "Marco regulatorio español para la autorización y supervisión de ensayos clínicos con medicamentos. Implementa el Reglamento UE 536/2014 y atribuye la coordinación a la AEMPS.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Sin presupuesto · marco regulatorio",
+      "eje": "regulacion_clinica",
+      "color": "#7C3AED",
+      "fuente_url": "https://www.boe.es/eli/es/rd/2015/12/04/1090/con",
+      "fuente_label": "RD 1090/2015 · BOE",
+      "fecha_inicio": "2016-01-13",
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Sanidad · AEMPS"
+    },
+    {
+      "id": "cofinanciacion_innovadores",
+      "programa": "Cofinanciación pública-privada de medicamentos innovadores",
+      "estado": "vigente",
+      "descripcion": "Modelos de acceso temprano y compartido para medicamentos innovadores de alto coste (oncológicos, terapias avanzadas, enfermedades raras). Acuerdos por resultados (pago por valor) y techo de gasto.",
+      "presupuesto_eur": null,
+      "presupuesto_descripcion": "Negociación caso a caso vía CIPM · cifras agregadas no publicadas",
+      "eje": "acceso",
+      "color": "#16A34A",
+      "fuente_url": "https://www.sanidad.gob.es/areas/farmacia/financiacionPrecios/CIPM/home.htm",
+      "fuente_label": "Ministerio de Sanidad · CIPM",
+      "fecha_inicio": null,
+      "fecha_fin": null,
+      "ministerio": "Ministerio de Sanidad · CIPM"
+    }
+  ]
+}
