@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { ContractsTable } from './_components/ContractsTable'
 import { ContractDetail } from './_components/ContractDetail'
 import { ContractAlerts } from './_components/ContractAlerts'
@@ -201,6 +202,8 @@ export default function ContratosPage() {
           <ContractAlerts />
         </Panel>
       )}
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

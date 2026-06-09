@@ -41,6 +41,7 @@ import { LicResultados } from './LicResultados'
 import { LicFicha } from './LicFicha'
 import { LicMapaMundi } from './LicMapaMundi'
 import { LicCoberturaGlobal } from './LicCoberturaGlobal'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 const PAGE_SIZE = 30
 
@@ -302,6 +303,9 @@ export function TSLicitacionesView() {
       <div style={{ marginTop: 14 }}>
         <LicCoberturaGlobal />
       </div>
+
+      {/* Mapa OSINT del sector (último · abajo del todo). */}
+      <SectorMapPreview sector="tercer-sector" marginTop={28} />
     </div>
   )
 }

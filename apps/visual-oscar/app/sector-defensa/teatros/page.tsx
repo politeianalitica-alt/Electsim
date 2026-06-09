@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { TEATROS, getPaisesEnTeatro, type PaisMilitar } from '@/lib/defense/military-catalog'
 
 const TEATRO_INFO: Record<keyof typeof TEATROS, { color: string; descripcion: string; tensiones: string[] }> = {
@@ -91,6 +92,8 @@ export default function TeatrosPage() {
       </div>
 
       <TeatroDetalle teatro={teatroActivo}/>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

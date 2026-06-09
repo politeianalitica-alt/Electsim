@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import grupos from '@/data/defense/grupos-trabajo.json'
 
 interface CapTech { id: string; nombre: string; dominio: string; relevancia_es: string; descripcion: string; actividades_2026?: string[] }
@@ -98,6 +99,8 @@ export default function GruposPage() {
       {tab === 'otan' && <OtanView comites={data.comites_otan}/>}
       {tab === 'sto' && <StoView grupos={data.sto_rtg}/>}
       {tab === 'osce' && <OsceView foros={data.osce_foros}/>}
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

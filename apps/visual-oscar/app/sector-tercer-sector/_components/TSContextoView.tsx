@@ -30,6 +30,7 @@ import { CtxInformesBiblioteca } from './CtxInformesBiblioteca'
 import { CtxMarcoRegulatorio } from './CtxMarcoRegulatorio'
 import { CtxTransparencia } from './CtxTransparencia'
 import { CtxLecturaAnalista } from './CtxLecturaAnalista'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 export function TSContextoView() {
   return (
@@ -51,6 +52,9 @@ export function TSContextoView() {
 
       {/* 6 · Lectura para el analista · dependencia y riesgos. */}
       <CtxLecturaAnalista />
+
+      {/* Mapa OSINT del sector (último · abajo del todo). */}
+      <SectorMapPreview sector="tercer-sector" marginTop={28} />
     </div>
   )
 }

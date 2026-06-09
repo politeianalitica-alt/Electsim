@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import Link from 'next/link'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 type SubTab = 'contratos' | 'programas' | 'presupuestos' | 'oportunidades' | 'regulatorio' | 'analisis'
 
@@ -102,6 +103,8 @@ export default function LicitacionesHub() {
           </div>
         </div>
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

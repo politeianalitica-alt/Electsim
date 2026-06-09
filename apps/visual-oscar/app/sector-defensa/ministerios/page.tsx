@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { PAISES_MILITARES, type Alianza } from '@/lib/defense/military-catalog'
 
 const REGIONES = ['todas', 'Europa Occidental', 'Europa Oriental', 'Norteamérica', 'Latinoamérica', 'Oriente Medio', 'Asia-Pacífico', 'África', 'Oceanía']
@@ -142,6 +143,8 @@ export default function MinisteriosPage() {
           <div style={{ textAlign: 'center', padding: 30, color: '#86868b', fontSize: 12 }}>Sin ministerios para los filtros</div>
         )}
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

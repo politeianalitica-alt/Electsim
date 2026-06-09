@@ -23,6 +23,7 @@ import { AgroCadenaView } from './AgroCadenaView'
 import { AgroProduccionView } from './AgroProduccionStub'
 import { AgroPoliticaView } from './AgroPoliticaView'
 import { AgroSequiaView } from './AgroSequiaView'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import type { AgroTabId } from '@/lib/agro/catalogos'
 
 interface SeccionTab {
@@ -121,6 +122,12 @@ export default function AgroShell() {
           <AgroPoliticaView />
         ) : (
           <AgroSequiaView />
+        )}
+        {/* Mapa Politeia · en 'global' ya hay mapa (SectorIntelPanel); aquí cubre el resto de sub-tabs */}
+        {activa.id !== 'global' && (
+          <div style={{ marginTop: 28 }}>
+            <SectorMapPreview sector="agro" />
+          </div>
         )}
       </main>
     </div>

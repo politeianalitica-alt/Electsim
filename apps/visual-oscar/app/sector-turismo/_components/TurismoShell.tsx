@@ -28,6 +28,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import AppHeader from '../../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { VisionGlobalTurismoView } from './VisionGlobalTurismoView'
 import { DemandaMercadosView } from './DemandaMercadosView'
 import { AlojamientoView } from './AlojamientoView'
@@ -149,6 +150,11 @@ export default function TurismoShell() {
         ) : (
           <ImpactoEconomicoView />
         )}
+
+        {/* ───── Mapa Politeia (OSINT) · último elemento bajo cualquier pestaña ─────
+            Excepto «Visión Global»: esa vista ya renderiza el mapa vía
+            <SectorIntelPanel sector="turismo" />, así que no se duplica. */}
+        {activa.id !== 'global' && <SectorMapPreview sector="turismo" marginTop={28} />}
       </main>
     </div>
   )

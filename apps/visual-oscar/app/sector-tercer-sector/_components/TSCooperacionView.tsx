@@ -52,6 +52,7 @@ import { CoopOrgProfile } from './CoopOrgProfile'
 import { CoopYearlyHeatmap } from './CoopYearlyHeatmap'
 import { CoopTopFlows } from './CoopTopFlows'
 import { CoopOportunidadesRelacionadas } from './CoopOportunidadesRelacionadas'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface FilterState {
   country: { iso: string; name: string } | null
@@ -409,6 +410,9 @@ export function TSCooperacionView() {
           onClose={() => setProfileOrg(null)}
         />
       )}
+
+      {/* Mapa OSINT del sector (último · abajo del todo). */}
+      <SectorMapPreview sector="tercer-sector" marginTop={28} />
     </div>
   )
 }

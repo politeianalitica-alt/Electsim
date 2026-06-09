@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { PAISES_MILITARES, type Alianza, type PaisMilitar } from '@/lib/defense/military-catalog'
 
 const REGIONES: Array<PaisMilitar['region'] | 'todas'> = [
@@ -244,6 +245,8 @@ export default function PaisesPage() {
         <span style={{ color: '#7C3AED' }}><strong>%PIB en violeta</strong> = ≥ 5% (objetivo OTAN 2024)</span>
         <span style={{ color: '#16A34A' }}><strong>verde</strong> = ≥ 2% (OTAN clásico)</span>
       </div>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

@@ -31,6 +31,7 @@ import { FarmaMercadoView } from './FarmaMercadoView'
 import { FarmaGastoView } from './FarmaGastoView'
 import { FarmaRegulacionView } from './FarmaRegulacionView'
 import { FarmaCatalogoView, FarmaDesabastecimientosView } from './FarmaStub'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import type { FarmaTabId } from '@/lib/farma/catalogos'
 
 interface SeccionTab {
@@ -136,6 +137,11 @@ export default function FarmaShell() {
         ) : (
           <FarmaRegulacionView />
         )}
+
+        {/* Mapa Politeia · último elemento bajo cualquier sub-pestaña.
+            La pestaña 'global' ya incluye su mapa vía <SectorIntelPanel /> en
+            <FarmaGlobalView />, así que ahí no se duplica. */}
+        {activa.id !== 'global' && <SectorMapPreview sector="farma" marginTop={28} />}
       </main>
     </div>
   )

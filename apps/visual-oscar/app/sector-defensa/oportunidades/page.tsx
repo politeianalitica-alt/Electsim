@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import { PAISES_MILITARES, type PaisMilitar, type ProgramaActivo } from '@/lib/defense/military-catalog'
 
 interface OportunidadEnriquecida extends ProgramaActivo {
@@ -224,6 +225,8 @@ export default function OportunidadesPage() {
           <div style={{ textAlign: 'center', padding: 40, color: '#86868b', fontSize: 12 }}>Sin oportunidades para los filtros seleccionados</div>
         )}
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

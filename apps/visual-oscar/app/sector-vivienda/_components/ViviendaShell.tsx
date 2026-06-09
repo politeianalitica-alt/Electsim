@@ -33,6 +33,7 @@ import { ViviendaPreciosView } from './ViviendaPreciosView'
 import { ViviendaAlquilerView } from './ViviendaAlquilerView'
 import { ViviendaPoliticaView } from './ViviendaPoliticaView'
 import { ViviendaMercadoView, ViviendaTuristicaView, ViviendaSostenibilidadView } from './ViviendaStub'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 import type { ViviendaTabId } from '@/lib/vivienda/catalogos'
 
 interface SeccionTab {
@@ -139,6 +140,12 @@ export default function ViviendaShell() {
           <ViviendaTuristicaView />
         ) : (
           <ViviendaSostenibilidadView />
+        )}
+
+        {/* Mapa OSINT del sector · se muestra al final de cualquier sub-pestaña
+            salvo en 'global', donde el <SectorIntelPanel> ya incluye su propio mapa. */}
+        {activa.id !== 'global' && (
+          <SectorMapPreview sector="vivienda" marginTop={28} />
         )}
       </main>
     </div>

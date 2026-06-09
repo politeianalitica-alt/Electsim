@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import Link from 'next/link'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 const SUBPAGES = [
   { href: '/sector-defensa/grupos-trabajo',        label: 'Grupos · Eventos · Calls', descripcion: '16 CapTechs EDA · 6 NATO STO RTGs · 9 eventos 2026 · 7 calls activas (EDF 1bn€, EDIP 500M€, PERTE 800M€)', color: '#1F4E8C', icon: '◈' },
@@ -51,6 +52,8 @@ export default function EcosistemaHub() {
           ))}
         </div>
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

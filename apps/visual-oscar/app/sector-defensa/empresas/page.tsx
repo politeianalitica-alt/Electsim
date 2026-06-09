@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface Quote { precio: number | null; variacion_pct: number | null; variacion_abs: number | null; moneda: string; mercadoAbierto: boolean | null }
 interface Empresa {
@@ -88,6 +89,8 @@ export default function EmpresasPage() {
           {filtered.map(e => <EmpresaCard key={e.ticker} e={e}/>)}
         </div>
       </Panel>
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }

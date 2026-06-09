@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import { Panel } from '@/components/SectorPanel'
+import { SectorMapPreview } from '@/components/SectorMapPreview'
 
 interface ArticuloDefensa {
   id: string; titulo: string; url: string; medio_id: string; medio_nombre: string; medio_color: string
@@ -167,6 +168,8 @@ export default function BriefingPage() {
           </div>
         </div>
       )}
+
+      <SectorMapPreview sector="defensa" marginTop={28} />
     </div>
   )
 }
