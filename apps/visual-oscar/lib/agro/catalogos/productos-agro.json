@@ -1,10 +1,13 @@
 {
   "_meta": {
-    "descripcion": "Productos agrícolas relevantes para España: cereales, oleaginosas, ganado, softs (azúcar, café, cacao, zumo), lácteos, fertilizantes. Cada uno con su ticker en Yahoo Finance (futuros CME / Euronext / commodities globales), unidad, contexto España (exportador / importador / referencia), categoría y descripción del contrato.",
-    "actualizado": "2026-06-08",
-    "mantenedor": "Politeia · Agro v3",
-    "principio": "Si Yahoo no devuelve el ticker, el producto se muestra como `sin cotización en vivo` · NO se inventan precios.",
-    "fuente_precio": "Yahoo Finance · futuros CME / Euronext / ICE",
+    "descripcion": "Productos agrícolas relevantes para España: cereales, oleaginosas, ganado, softs (azúcar, café, cacao, zumo), lácteos, fertilizantes. Cada uno con su ticker en Yahoo Finance (futuros CME / Euronext / commodities globales), unidad, contexto España (exportador / importador / referencia), categoría y descripción del contrato. Agro v4 añade: serie histórica larga FRED (IMF Global Price), precio físico europeo EU Agri-food Data Portal, y códigos HS (capítulo + HS4) para análisis de demanda por país-destino vía OEC/Comtrade.",
+    "actualizado": "2026-06-09",
+    "mantenedor": "Politeia · Agro v4",
+    "principio": "Si una fuente no devuelve el dato, el producto se muestra como `sin dato en vivo` en esa faceta · NO se inventan precios ni volúmenes.",
+    "fuente_precio_futuro": "Yahoo Finance · futuros CME / Euronext / ICE",
+    "fuente_precio_historico": "FRED · IMF Global Price Index (mensual, USD nominal)",
+    "fuente_precio_fisico": "EU Agri-food Data Portal · precios físicos representativos €",
+    "fuente_demanda": "OEC (BACI HS4) + UN Comtrade · exportaciones España por país-destino",
     "moneda_default": "USD"
   },
   "categorias": [
@@ -24,7 +27,12 @@
       "unidad": "USD/bushel",
       "contrato": "Wheat Futures · Chicago Board of Trade · referencia mundial del trigo blando",
       "rol_espana": "Importador neto en años de mala cosecha · referencia para piensos compuestos",
-      "color": "#F59E0B"
+      "color": "#F59E0B",
+      "fred_slug": "trigo_cbot",
+      "agrifood_sector": "cereal",
+      "hs_chapter": "10",
+      "hs4": "1001",
+      "demanda_label": "Trigo (HS 1001)"
     },
     {
       "id": "trigo_euronext",
@@ -34,7 +42,12 @@
       "unidad": "EUR/tonelada",
       "contrato": "Milling Wheat · Euronext · referencia europea del trigo panificable",
       "rol_espana": "Referencia directa para mercado peninsular y compra industrial harinera",
-      "color": "#F59E0B"
+      "color": "#F59E0B",
+      "fred_slug": "trigo_euronext",
+      "agrifood_sector": "cereal",
+      "hs_chapter": "10",
+      "hs4": "1001",
+      "demanda_label": "Trigo (HS 1001)"
     },
     {
       "id": "maiz_cbot",
@@ -44,7 +57,12 @@
       "unidad": "USD/bushel",
       "contrato": "Corn Futures · Chicago Board of Trade",
       "rol_espana": "Importador neto · imprescindible para piensos (porcino, avícola) · sequía empuja importación",
-      "color": "#F59E0B"
+      "color": "#F59E0B",
+      "fred_slug": "maiz_cbot",
+      "agrifood_sector": "cereal",
+      "hs_chapter": "10",
+      "hs4": "1005",
+      "demanda_label": "Maíz (HS 1005)"
     },
     {
       "id": "cebada",
@@ -54,7 +72,12 @@
       "unidad": "EUR/tonelada",
       "contrato": "Corn Futures Euronext · usado como proxy de cebada cuando no hay contrato directo",
       "rol_espana": "España es el mayor productor europeo de cebada · base de piensos y cebada cervecera",
-      "color": "#F59E0B"
+      "color": "#F59E0B",
+      "fred_slug": "cebada",
+      "agrifood_sector": "cereal",
+      "hs_chapter": "10",
+      "hs4": "1003",
+      "demanda_label": "Cebada (HS 1003)"
     },
     {
       "id": "soja_cbot",
@@ -64,7 +87,12 @@
       "unidad": "USD/bushel",
       "contrato": "Soybeans Futures · Chicago Board of Trade",
       "rol_espana": "Importador masivo (>3 Mt/año) para harina de soja en piensos",
-      "color": "#16A34A"
+      "color": "#16A34A",
+      "fred_slug": "soja_cbot",
+      "agrifood_sector": "oilseeds",
+      "hs_chapter": "12",
+      "hs4": "1201",
+      "demanda_label": "Soja en grano (HS 1201)"
     },
     {
       "id": "harina_soja",
@@ -74,7 +102,12 @@
       "unidad": "USD/tonelada corta",
       "contrato": "Soybean Meal Futures · CBOT · clave para coste de piensos",
       "rol_espana": "Principal input proteico de la cabaña ganadera española",
-      "color": "#16A34A"
+      "color": "#16A34A",
+      "fred_slug": null,
+      "agrifood_sector": "oilseeds",
+      "hs_chapter": "23",
+      "hs4": "2304",
+      "demanda_label": "Tortas/harina de soja (HS 2304)"
     },
     {
       "id": "aceite_soja",
@@ -84,7 +117,12 @@
       "unidad": "USD/lb",
       "contrato": "Soybean Oil Futures · CBOT · proxy aceites vegetales",
       "rol_espana": "Sustituto en la industria + competencia para el aceite de oliva refinado",
-      "color": "#16A34A"
+      "color": "#16A34A",
+      "fred_slug": "aceite_soja",
+      "agrifood_sector": "oilseeds",
+      "hs_chapter": "15",
+      "hs4": "1507",
+      "demanda_label": "Aceite de soja (HS 1507)"
     },
     {
       "id": "colza",
@@ -94,7 +132,12 @@
       "unidad": "EUR/tonelada",
       "contrato": "Rapeseed Futures · Euronext París",
       "rol_espana": "Cultivo en expansión en Castilla y León y Cuenca · biodiesel + aceite",
-      "color": "#16A34A"
+      "color": "#16A34A",
+      "fred_slug": "colza",
+      "agrifood_sector": "oilseeds",
+      "hs_chapter": "12",
+      "hs4": "1205",
+      "demanda_label": "Semilla de colza (HS 1205)"
     },
     {
       "id": "ganado_vacuno",
@@ -104,7 +147,12 @@
       "unidad": "USD/lb",
       "contrato": "Live Cattle Futures · CME · referencia internacional vacuno",
       "rol_espana": "Exportador relevante · 7º productor UE · top exportador a Argelia y norte de África",
-      "color": "#B45309"
+      "color": "#B45309",
+      "fred_slug": "ganado_vacuno",
+      "agrifood_sector": "beef",
+      "hs_chapter": "02",
+      "hs4": "0201",
+      "demanda_label": "Carne de vacuno fresca (HS 0201)"
     },
     {
       "id": "vacuno_engorde",
@@ -114,7 +162,12 @@
       "unidad": "USD/lb",
       "contrato": "Feeder Cattle Futures · CME",
       "rol_espana": "Indicador de coste de reposición para cebaderos · sensible al precio del maíz",
-      "color": "#B45309"
+      "color": "#B45309",
+      "fred_slug": null,
+      "agrifood_sector": "beef",
+      "hs_chapter": "01",
+      "hs4": "0102",
+      "demanda_label": "Bovino vivo (HS 0102)"
     },
     {
       "id": "porcino",
@@ -124,7 +177,12 @@
       "unidad": "USD/lb",
       "contrato": "Lean Hogs Futures · CME · referencia internacional carne porcina",
       "rol_espana": "Top productor UE · top exportador mundial · 50% destinado a exportación (China, Filipinas, Japón)",
-      "color": "#B45309"
+      "color": "#B45309",
+      "fred_slug": "porcino",
+      "agrifood_sector": "pigmeat",
+      "hs_chapter": "02",
+      "hs4": "0203",
+      "demanda_label": "Carne de porcino (HS 0203)"
     },
     {
       "id": "azucar",
@@ -134,7 +192,12 @@
       "unidad": "USD¢/lb",
       "contrato": "Sugar #11 Futures · ICE Nueva York · azúcar de caña referencia mundial",
       "rol_espana": "Productor remolacha (zona Duero) · cuotas eliminadas en 2017 · sensible a precios mundiales",
-      "color": "#7C3AED"
+      "color": "#7C3AED",
+      "fred_slug": "azucar",
+      "agrifood_sector": "sugar",
+      "hs_chapter": "17",
+      "hs4": "1701",
+      "demanda_label": "Azúcar (HS 1701)"
     },
     {
       "id": "cafe",
@@ -144,7 +207,12 @@
       "unidad": "USD¢/lb",
       "contrato": "Coffee C Arabica Futures · ICE Nueva York",
       "rol_espana": "Importador puro · referencia para tostadores y distribución (DIA, Mercadona, …)",
-      "color": "#7C3AED"
+      "color": "#7C3AED",
+      "fred_slug": "cafe",
+      "agrifood_sector": null,
+      "hs_chapter": "09",
+      "hs4": "0901",
+      "demanda_label": "Café (HS 0901)"
     },
     {
       "id": "cacao",
@@ -154,7 +222,12 @@
       "unidad": "USD/tonelada",
       "contrato": "Cocoa Futures · ICE Nueva York · referencia chocolatería mundial",
       "rol_espana": "Importador para industria chocolatera (Lindt, Nestlé, Valor, Chocolates Trapa)",
-      "color": "#7C3AED"
+      "color": "#7C3AED",
+      "fred_slug": "cacao",
+      "agrifood_sector": null,
+      "hs_chapter": "18",
+      "hs4": "1801",
+      "demanda_label": "Cacao en grano (HS 1801)"
     },
     {
       "id": "zumo_naranja",
@@ -164,7 +237,12 @@
       "unidad": "USD¢/lb",
       "contrato": "Orange Juice (FCOJ) Futures · ICE Nueva York",
       "rol_espana": "España es el mayor productor europeo de naranja · referencia internacional para industria de zumos",
-      "color": "#7C3AED"
+      "color": "#7C3AED",
+      "fred_slug": null,
+      "agrifood_sector": "fruitAndVegetable",
+      "hs_chapter": "20",
+      "hs4": "2009",
+      "demanda_label": "Zumos de fruta (HS 2009)"
     },
     {
       "id": "algodon",
@@ -174,7 +252,12 @@
       "unidad": "USD¢/lb",
       "contrato": "Cotton #2 Futures · ICE Nueva York",
       "rol_espana": "Productor en Andalucía (Sevilla, Córdoba, Cádiz) · subvencionado por ayuda PAC específica",
-      "color": "#7C3AED"
+      "color": "#7C3AED",
+      "fred_slug": "algodon",
+      "agrifood_sector": null,
+      "hs_chapter": "52",
+      "hs4": "5201",
+      "demanda_label": "Algodón sin cardar (HS 5201)"
     },
     {
       "id": "leche_clase3",
@@ -184,7 +267,12 @@
       "unidad": "USD/cwt",
       "contrato": "Class III Milk Futures · CME · usado para quesos curados",
       "rol_espana": "Referencia internacional · España es deficitario lácteo y exporta queso (manchego, oveja)",
-      "color": "#0EA5E9"
+      "color": "#0EA5E9",
+      "fred_slug": null,
+      "agrifood_sector": "dairy",
+      "hs_chapter": "04",
+      "hs4": "0406",
+      "demanda_label": "Quesos (HS 0406)"
     },
     {
       "id": "gas_natural",
@@ -194,7 +282,12 @@
       "unidad": "USD/MMBtu",
       "contrato": "Natural Gas Futures · CME · referencia mundial",
       "rol_espana": "Input crítico para fertilizantes nitrogenados · invernaderos · industria láctea",
-      "color": "#DC2626"
+      "color": "#DC2626",
+      "fred_slug": "gas_natural",
+      "agrifood_sector": null,
+      "hs_chapter": null,
+      "hs4": null,
+      "demanda_label": null
     },
     {
       "id": "brent",
@@ -204,7 +297,12 @@
       "unidad": "USD/barril",
       "contrato": "Brent Crude Oil Futures · ICE Londres",
       "rol_espana": "Coste de gasóleo agrícola (subvencionado vía B), maquinaria y logística agroalimentaria",
-      "color": "#DC2626"
+      "color": "#DC2626",
+      "fred_slug": "brent",
+      "agrifood_sector": null,
+      "hs_chapter": null,
+      "hs4": null,
+      "demanda_label": null
     }
   ]
 }

@@ -19,7 +19,10 @@ interface Empresa { id: string; nombre: string; ticker: string | null; segmento:
 interface Regulador { id: string; siglas: string; web: string; competencias: string; categoria: string; ambito: 'estatal' | 'autonomico' | 'ue' }
 interface Programa { id: string; programa: string; estado: string; descripcion: string; presupuesto_eur: number | null; fuente_url: string; fuente_label: string; color: string }
 interface Area { id: string; titulo: string; descripcion: string; color: string; keywords: string[]; tab_destino: string }
-interface Producto { id: string; nombre: string; ticker: string | null; categoria: string; unidad: string; contrato: string; rol_espana: string; color: string }
+interface Producto {
+  id: string; nombre: string; ticker: string | null; categoria: string; unidad: string; contrato: string; rol_espana: string; color: string
+  fred_slug?: string | null; agrifood_sector?: string | null; hs_chapter?: string | null; hs4?: string | null; demanda_label?: string | null
+}
 
 const empresasJson = loadJson<{ _meta: { descripcion?: string; actualizado?: string }; empresas: Empresa[] }>('empresas.json')
 const reguladoresJson = loadJson<{ _meta: { descripcion?: string; actualizado?: string }; reguladores: Regulador[] }>('reguladores.json')
@@ -76,7 +79,7 @@ ok(pac != null && pac.presupuesto_eur != null && pac.presupuesto_eur > 40_000_00
 // ─── Áreas ───────────────────────────────────────────
 const AREAS = areasJson.areas
 ok(AREAS.length >= 8, `Áreas: al menos 8 (${AREAS.length})`)
-const TABS_VALIDOS = ['global', 'precios', 'cadena', 'produccion', 'politica', 'sequia']
+const TABS_VALIDOS = ['global', 'precios', 'cadena', 'produccion', 'demanda', 'politica', 'sequia']
 for (const a of AREAS) {
   ok(TABS_VALIDOS.includes(a.tab_destino), `Área ${a.id}: tab_destino válido (${a.tab_destino})`)
   ok(Array.isArray(a.keywords) && a.keywords.length >= 2, `Área ${a.id}: al menos 2 keywords`)
@@ -100,6 +103,32 @@ for (const p of PROD) {
   ok(typeof p.color === 'string' && /^#[0-9A-Fa-f]{6}$/.test(p.color), `Producto ${p.id}: color hex`)
 }
 ok(PROD.filter((p) => p.ticker != null).length >= 12, 'Productos: al menos 12 con ticker Yahoo')
+
+// ─── Agro v4 · campos de fuentes adicionales (FRED, EU agri-food, HS comercio) ─
+const AGRIFOOD_SECTORS = ['cereal', 'oilseeds', 'beef', 'pigmeat', 'poultry', 'eggs', 'dairy', 'sugar', 'oliveoil', 'wine', 'fruitAndVegetable', 'rice']
+for (const p of PROD) {
+  // Las 5 claves nuevas deben EXISTIR (aunque sean null) para una forma homogénea.
+  for (const k of ['fred_slug', 'agrifood_sector', 'hs_chapter', 'hs4', 'demanda_label'] as const) {
+    ok(k in p, `Producto ${p.id}: campo v4 '${k}' presente`)
+  }
+  if (p.hs4 != null) {
+    ok(/^\d{4}$/.test(p.hs4), `Producto ${p.id}: hs4 es código de 4 dígitos (${p.hs4})`)
+    ok(typeof p.demanda_label === 'string' && p.demanda_label!.length > 3, `Producto ${p.id}: con hs4 → demanda_label descrito`)
+    ok(typeof p.hs_chapter === 'string' && /^\d{2}$/.test(p.hs_chapter!), `Producto ${p.id}: hs_chapter de 2 dígitos`)
+  }
+  if (p.agrifood_sector != null) {
+    ok(AGRIFOOD_SECTORS.includes(p.agrifood_sector), `Producto ${p.id}: agrifood_sector válido (${p.agrifood_sector})`)
+  }
+}
+// Cobertura mínima de comercio: la mayoría de productos agro-comerciables tienen HS4.
+ok(PROD.filter((p) => p.hs4 != null).length >= 14, 'Productos: al menos 14 con código HS4 para demanda por país')
+// Cobertura FRED para histórico largo.
+ok(PROD.filter((p) => p.fred_slug != null).length >= 10, 'Productos: al menos 10 con serie FRED (histórico IMF)')
+// Los inputs energéticos (gas, brent) NO deben tener HS agro (no son agroalimentarios).
+const gas = PROD.find((p) => p.id === 'gas_natural')
+const brent = PROD.find((p) => p.id === 'brent')
+ok(gas != null && gas.hs4 == null, 'gas_natural: sin HS4 (input energético, no agroalimentario)')
+ok(brent != null && brent.hs4 == null, 'brent: sin HS4 (input energético, no agroalimentario)')
 
 // ─── Meta global ─────────────────────────────────────
 for (const [k, m] of [

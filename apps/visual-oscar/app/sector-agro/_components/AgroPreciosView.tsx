@@ -1,21 +1,35 @@
 'use client'
 /**
- * <AgroPreciosView /> · Agro v3 · Sprint A4
+ * <AgroPreciosView /> · Agro v4 · Lonjas y Precios (cockpit fusionado)
  *
- * Mini-Vesper de precios agrícolas: grid de tarjetas por producto con precio
- * actual + variación diaria + sparkline + meta del contrato + rol España.
- * Click en una tarjeta → drawer inferior con análisis Gemini bajo demanda
- * (qué pasa, factores, riesgo, oportunidad, efecto en España).
+ * Fusiona el cockpit de commodities estilo Vesper DENTRO de Lonjas y Precios,
+ * funcionando 100% standalone (sin backend Python). Tres niveles:
  *
- * Cero datos inventados. Si Yahoo no responde para un ticker, la tarjeta
- * se muestra "sin cotización en vivo" y se desactiva el botón de análisis.
+ *   1) Selector de FUENTE de precio: Futuros (Yahoo) · Histórico IMF (FRED) ·
+ *      Físico € (EU Agri-food). Cambia /api/agro/precios?fuente=…
+ *   2) Grid por categoría con precio + variación + sparkline (tarjetas).
+ *   3) Drill por producto: candlestick OHLC (Yahoo) + medias móviles +
+ *      Bollinger + RSI + máximos/mínimos + análisis Gemini de impacto.
+ *
+ * Cero datos inventados: cada faceta degrada por separado si su fuente cae.
  */
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { CATEGORIAS_PRODUCTOS } from '@/lib/agro/catalogos'
-import { Panel, SectorHero, Skeleton, Vacio, Th, Td } from '@/lib/sectores/charts'
+import { Panel, SectorHero, Skeleton, Vacio } from '@/lib/sectores/charts'
+import { OHLCChart } from '@/components/commodities/OHLCChart'
+import { sma, bollinger, rsi } from '@/lib/sma'
+import type { OHLCPoint } from '@/types/commodities'
 
 const ACCENT = '#16A34A'
+
+type FuenteId = 'yahoo' | 'fred' | 'eu'
+
+const FUENTES: Array<{ id: FuenteId; label: string; sub: string }> = [
+  { id: 'yahoo', label: 'Futuros', sub: 'CME · Euronext · ICE (Yahoo)' },
+  { id: 'fred', label: 'Histórico IMF', sub: 'IMF Global Price (FRED)' },
+  { id: 'eu', label: 'Físico €', sub: 'EU Agri-food Data Portal' },
+]
 
 interface YahooSnap {
   symbol: string
@@ -26,6 +40,7 @@ interface YahooSnap {
   currency: string | null
   ts: number | null
   spark: number[]
+  periodo?: string | null
 }
 
 interface ProductoPrecio {
@@ -42,7 +57,7 @@ interface ProductoPrecio {
 
 interface PreciosEnvelope {
   ok: boolean
-  data: { productos: ProductoPrecio[]; n_total: number; n_con_precio: number } | null
+  data: { productos: ProductoPrecio[]; n_total: number; n_con_precio: number; fuente_id: FuenteId } | null
   fuente: string
   fuente_url: string
   fuentes_error: string[]
@@ -72,14 +87,31 @@ interface ImpactoEnvelope {
   modelo?: string
 }
 
+interface OhlcEnvelope {
+  ok: boolean
+  data: {
+    producto: { id: string; nombre: string; ticker: string; unidad: string; categoria: string; color: string }
+    range: string
+    interval: string
+    currency: string | null
+    bars: OHLCPoint[]
+    n_bars: number
+  } | null
+  fuente: string
+  fuente_url: string
+  fuentes_error?: string[]
+}
+
 export function AgroPreciosView() {
+  const [fuente, setFuente] = useState<FuenteId>('yahoo')
   const [env, setEnv] = useState<PreciosEnvelope | null>(null)
   const [loading, setLoading] = useState(true)
   const [seleccionado, setSeleccionado] = useState<string | null>(null)
 
   useEffect(() => {
     let alive = true
-    fetch('/api/agro/precios', { cache: 'no-store' })
+    setLoading(true)
+    fetch(`/api/agro/precios?fuente=${fuente}`, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
       .then((j: PreciosEnvelope | null) => alive && setEnv(j))
       .catch(() => {})
@@ -87,7 +119,7 @@ export function AgroPreciosView() {
     return () => {
       alive = false
     }
-  }, [])
+  }, [fuente])
 
   const productos = env?.data?.productos ?? []
   const porCategoria = useMemo(() => {
@@ -99,27 +131,73 @@ export function AgroPreciosView() {
     return acc
   }, [productos])
 
-  // Resumen por categoría: %verdes vs %rojos
   const resumen = useMemo(() => {
-    const out: Array<{ id: string; nombre: string; color: string; total: number; verdes: number; rojos: number }> = []
+    const out: Array<{ id: string; nombre: string; color: string; total: number; verdes: number; rojos: number; conPrecio: number }> = []
     for (const c of CATEGORIAS_PRODUCTOS) {
       const arr = porCategoria[c.id] || []
       const verdes = arr.filter((p) => (p.snapshot?.change_pct ?? 0) > 0).length
       const rojos = arr.filter((p) => (p.snapshot?.change_pct ?? 0) < 0).length
-      out.push({ id: c.id, nombre: c.nombre, color: c.color, total: arr.length, verdes, rojos })
+      const conPrecio = arr.filter((p) => p.snapshot?.price != null).length
+      out.push({ id: c.id, nombre: c.nombre, color: c.color, total: arr.length, verdes, rojos, conPrecio })
     }
     return out
   }, [porCategoria])
 
+  const seleccionadoProd = productos.find((p) => p.id === seleccionado) || null
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <SectorHero
-        tag="AGRO · LONJAS Y PRECIOS · YAHOO + GEMINI"
-        titulo="Mini-Vesper agrícola con análisis de impacto"
-        descripcion="Precios en vivo de los principales productos agrícolas relevantes para España (cereales, oleaginosas, ganado, softs, lácteos, inputs energéticos). Click en cualquier tarjeta para abrir el análisis Gemini: qué le está pasando al precio, qué factores lo explican y cómo afecta a la agricultura española según su rol (productor / exportador / importador)."
+        tag="AGRO · LONJAS Y PRECIOS · COCKPIT"
+        titulo="Cockpit de precios agrícolas con análisis de impacto"
+        descripcion="Precios de los principales productos agrícolas relevantes para España desde tres fuentes complementarias: futuros internacionales (Yahoo), histórico largo IMF (FRED) y precio físico europeo (EU Agri-food Data Portal). Click en cualquier tarjeta para abrir el detalle: velas OHLC, medias móviles, Bollinger, RSI, máximos/mínimos y el análisis Gemini de cómo afecta a la agricultura española."
         colorFrom={ACCENT}
         colorTo="#166534"
       />
+
+      {/* Selector de fuente */}
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          background: '#fff',
+          border: '1px solid #ECECEF',
+          borderRadius: 12,
+          padding: '10px 12px',
+        }}
+      >
+        <span style={{ fontSize: 10, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#86868b', marginRight: 4 }}>
+          Fuente de precio
+        </span>
+        {FUENTES.map((f) => {
+          const active = fuente === f.id
+          return (
+            <button
+              key={f.id}
+              type="button"
+              onClick={() => setFuente(f.id)}
+              style={{
+                cursor: 'pointer',
+                border: `1px solid ${active ? ACCENT : '#ECECEF'}`,
+                background: active ? '#F0FDF4' : '#FAFAFA',
+                borderRadius: 999,
+                padding: '6px 14px',
+                fontFamily: 'inherit',
+                textAlign: 'left',
+              }}
+            >
+              <div style={{ fontSize: 12, fontWeight: 700, color: active ? '#166534' : '#1d1d1f' }}>{f.label}</div>
+              <div style={{ fontSize: 9.5, color: '#86868b' }}>{f.sub}</div>
+            </button>
+          )
+        })}
+        <span style={{ flex: 1 }} />
+        <span style={{ fontSize: 10.5, color: '#86868b' }}>
+          {env?.data ? `${env.data.n_con_precio}/${env.data.n_total} con dato` : '—'}
+        </span>
+      </div>
 
       <Panel
         titulo="Resumen por categoría · tono del día"
@@ -129,7 +207,7 @@ export function AgroPreciosView() {
         {loading ? (
           <Skeleton h={80} />
         ) : productos.length === 0 ? (
-          <Vacio msg={`Yahoo Finance no responde · ${env?.fuentes_error?.join(' · ') || 'sin detalle'}`} />
+          <Vacio msg={`Fuente sin respuesta · ${env?.fuentes_error?.join(' · ') || 'sin detalle'}`} />
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 10 }}>
             {resumen.map((r) => (
@@ -148,7 +226,7 @@ export function AgroPreciosView() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 4 }}>
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: r.color }}>
-                    {r.total}
+                    {r.conPrecio}/{r.total}
                   </span>
                   <span style={{ fontSize: 11 }}>
                     <span style={{ color: '#16A34A', fontWeight: 700 }}>↑{r.verdes}</span>
@@ -162,71 +240,64 @@ export function AgroPreciosView() {
         )}
       </Panel>
 
-      {CATEGORIAS_PRODUCTOS.map((c) => {
-        const arr = porCategoria[c.id] || []
-        if (arr.length === 0) return null
-        return (
-          <Panel
-            key={c.id}
-            titulo={c.nombre}
-            fuente="Yahoo Finance · cotizaciones diarias"
-            url="https://finance.yahoo.com/commodities"
-          >
-            <ul
-              style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                gap: 10,
-              }}
-            >
-              {arr.map((p) => (
-                <li key={p.id}>
-                  <button
-                    type="button"
-                    onClick={() => setSeleccionado(p.id)}
-                    style={{
-                      width: '100%',
-                      textAlign: 'left',
-                      cursor: 'pointer',
-                      background: seleccionado === p.id ? '#F0FDF4' : '#FAFAFA',
-                      border: '1px solid #ECECEF',
-                      borderLeft: `3px solid ${c.color}`,
-                      borderRadius: 10,
-                      padding: '12px 14px',
-                      fontFamily: 'inherit',
-                    }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 }}>
-                      <span style={{ fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: 13, color: '#1d1d1f' }}>
-                        {p.nombre}
-                      </span>
-                      <PrecioBadge snap={p.snapshot} />
-                    </div>
-                    <div style={{ fontSize: 10, color: '#86868b', fontFamily: 'monospace', marginBottom: 4 }}>
-                      {p.ticker || 'sin ticker'} · {p.unidad}
-                    </div>
-                    <Sparkline data={p.snapshot?.spark || []} color={p.color} />
-                    <div style={{ fontSize: 10.5, color: '#3a3a3d', marginTop: 4, lineHeight: 1.4 }}>{p.rol_espana}</div>
-                    <div style={{ fontSize: 10, color: c.color, fontWeight: 700, marginTop: 6, letterSpacing: '0.04em' }}>
-                      VER ANÁLISIS GEMINI ›
-                    </div>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </Panel>
-        )
-      })}
-
-      {seleccionado && (
-        <ImpactoDrawer
-          slug={seleccionado}
-          onClose={() => setSeleccionado(null)}
-        />
+      {loading ? (
+        <Skeleton h={200} />
+      ) : (
+        CATEGORIAS_PRODUCTOS.map((c) => {
+          const arr = porCategoria[c.id] || []
+          if (arr.length === 0) return null
+          return (
+            <Panel key={c.id} titulo={c.nombre} fuente={env?.fuente || 'Yahoo Finance'} url={env?.fuente_url || 'https://finance.yahoo.com/commodities'}>
+              <ul
+                style={{
+                  listStyle: 'none',
+                  margin: 0,
+                  padding: 0,
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+                  gap: 10,
+                }}
+              >
+                {arr.map((p) => (
+                  <li key={p.id}>
+                    <button
+                      type="button"
+                      onClick={() => setSeleccionado(p.id === seleccionado ? null : p.id)}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        cursor: 'pointer',
+                        background: seleccionado === p.id ? '#F0FDF4' : '#FAFAFA',
+                        border: '1px solid #ECECEF',
+                        borderLeft: `3px solid ${c.color}`,
+                        borderRadius: 10,
+                        padding: '12px 14px',
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 4 }}>
+                        <span style={{ fontWeight: 700, fontFamily: 'var(--font-display)', fontSize: 13, color: '#1d1d1f' }}>{p.nombre}</span>
+                        <PrecioBadge snap={p.snapshot} />
+                      </div>
+                      <div style={{ fontSize: 10, color: '#86868b', fontFamily: 'monospace', marginBottom: 4 }}>
+                        {p.snapshot?.periodo ? `${p.snapshot.periodo} · ` : ''}
+                        {p.ticker || 'sin ticker'} · {p.unidad}
+                      </div>
+                      <Sparkline data={p.snapshot?.spark || []} color={p.color} />
+                      <div style={{ fontSize: 10.5, color: '#3a3a3d', marginTop: 4, lineHeight: 1.4 }}>{p.rol_espana}</div>
+                      <div style={{ fontSize: 10, color: c.color, fontWeight: 700, marginTop: 6, letterSpacing: '0.04em' }}>
+                        {seleccionado === p.id ? 'OCULTAR DETALLE ▾' : 'VER DETALLE · OHLC + GEMINI ›'}
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+          )
+        })
       )}
+
+      {seleccionadoProd && <ProductDrill producto={seleccionadoProd} onClose={() => setSeleccionado(null)} />}
 
       <CtaVesper />
     </div>
@@ -235,7 +306,7 @@ export function AgroPreciosView() {
 
 function PrecioBadge({ snap }: { snap: YahooSnap | null }) {
   if (!snap || snap.price == null) {
-    return <span style={{ fontSize: 11, color: '#9CA3AF', fontStyle: 'italic' }}>sin precio</span>
+    return <span style={{ fontSize: 11, color: '#9CA3AF', fontStyle: 'italic' }}>sin dato</span>
   }
   const up = (snap.change_pct ?? 0) > 0
   const flat = (snap.change_pct ?? 0) === 0
@@ -275,21 +346,80 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
   )
 }
 
-function ImpactoDrawer({ slug, onClose }: { slug: string; onClose: () => void }) {
-  const [env, setEnv] = useState<ImpactoEnvelope | null>(null)
-  const [loading, setLoading] = useState(true)
+const RANGES: Array<{ id: string; label: string }> = [
+  { id: '3mo', label: '3M' },
+  { id: '6mo', label: '6M' },
+  { id: '1y', label: '1A' },
+  { id: '2y', label: '2A' },
+  { id: '5y', label: '5A' },
+]
+
+function ProductDrill({ producto, onClose }: { producto: ProductoPrecio; onClose: () => void }) {
+  const [range, setRange] = useState('1y')
+  const [ohlc, setOhlc] = useState<OhlcEnvelope | null>(null)
+  const [loadingOhlc, setLoadingOhlc] = useState(true)
+  const [asLine, setAsLine] = useState(false)
+
+  const [imp, setImp] = useState<ImpactoEnvelope | null>(null)
+  const [loadingImp, setLoadingImp] = useState(true)
+
   useEffect(() => {
     let alive = true
-    setLoading(true)
-    fetch(`/api/agro/impacto-producto/${encodeURIComponent(slug)}`, { cache: 'no-store' })
+    setLoadingOhlc(true)
+    fetch(`/api/agro/ohlc/${encodeURIComponent(producto.id)}?range=${range}`, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
-      .then((j: ImpactoEnvelope | null) => alive && setEnv(j))
+      .then((j: OhlcEnvelope | null) => alive && setOhlc(j))
       .catch(() => {})
-      .finally(() => alive && setLoading(false))
+      .finally(() => alive && setLoadingOhlc(false))
     return () => {
       alive = false
     }
-  }, [slug])
+  }, [producto.id, range])
+
+  useEffect(() => {
+    let alive = true
+    setLoadingImp(true)
+    fetch(`/api/agro/impacto-producto/${encodeURIComponent(producto.id)}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: ImpactoEnvelope | null) => alive && setImp(j))
+      .catch(() => {})
+      .finally(() => alive && setLoadingImp(false))
+    return () => {
+      alive = false
+    }
+  }, [producto.id])
+
+  const bars = ohlc?.data?.bars ?? []
+  const tech = useMemo(() => {
+    const closes = bars.map((b) => b.close)
+    const sma20 = sma(closes, 20)
+    const sma50 = sma(closes, 50)
+    const boll = bollinger(closes, 20, 2)
+    const rsiSerie = rsi(closes, 14)
+    const lastRsi = [...rsiSerie].reverse().find((v) => v != null) ?? null
+    const valid = closes.filter((c): c is number => c != null)
+    const lastClose = valid[valid.length - 1] ?? null
+    const hi = valid.length ? Math.max(...valid) : null
+    const lo = valid.length ? Math.min(...valid) : null
+    const pctFromHigh = lastClose != null && hi ? ((lastClose - hi) / hi) * 100 : null
+    const lastSma20 = [...sma20].reverse().find((v) => v != null) ?? null
+    const lastSma50 = [...sma50].reverse().find((v) => v != null) ?? null
+    return { sma20, sma50, boll, lastRsi, lastClose, hi, lo, pctFromHigh, lastSma20, lastSma50 }
+  }, [bars])
+
+  const overlays = useMemo(
+    () => [
+      { name: 'SMA 20', values: tech.sma20, color: '#1F4E8C' },
+      { name: 'SMA 50', values: tech.sma50, color: '#B45309' },
+      { name: 'Bollinger sup.', values: tech.boll.upper, color: '#9CA3AF' },
+      { name: 'Bollinger inf.', values: tech.boll.lower, color: '#9CA3AF' },
+    ],
+    [tech]
+  )
+
+  const cur = ohlc?.data?.currency ?? producto.snapshot?.currency ?? ''
+  const rsiZona = tech.lastRsi == null ? '—' : tech.lastRsi >= 70 ? 'sobrecompra' : tech.lastRsi <= 30 ? 'sobreventa' : 'neutral'
+  const rsiColor = tech.lastRsi == null ? '#86868b' : tech.lastRsi >= 70 ? '#DC2626' : tech.lastRsi <= 30 ? '#16A34A' : '#86868b'
 
   return (
     <section
@@ -298,51 +428,138 @@ function ImpactoDrawer({ slug, onClose }: { slug: string; onClose: () => void })
         border: '1px solid #BBF7D0',
         borderRadius: 14,
         padding: '20px 22px',
-        position: 'sticky',
-        bottom: 16,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
       }}
     >
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, marginBottom: 8 }}>
-        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, letterSpacing: '-0.015em', margin: 0 }}>
-          {env?.data?.producto?.nombre || 'Análisis Gemini'}
-        </h3>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <a
-            href={env?.fuente_url || 'https://finance.yahoo.com/commodities'}
-            target="_blank"
-            rel="noreferrer"
-            style={{ fontSize: 10.5, color: '#166534', textDecoration: 'none', fontWeight: 700 }}
-          >
-            {env?.fuente || 'Yahoo + Gemini'} ›
-          </a>
-          <button
-            onClick={onClose}
-            style={{
-              background: 'transparent',
-              border: '1px solid #BBF7D0',
-              borderRadius: 999,
-              padding: '4px 12px',
-              fontSize: 11,
-              fontWeight: 700,
-              color: '#166534',
-              cursor: 'pointer',
-            }}
-          >
-            Cerrar
-          </button>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
+        <div>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, letterSpacing: '-0.015em', margin: 0 }}>
+            {producto.nombre}
+          </h3>
+          <div style={{ fontSize: 10.5, color: '#86868b', fontFamily: 'monospace', marginTop: 2 }}>
+            {producto.ticker} · {producto.unidad} · {producto.contrato}
+          </div>
         </div>
+        <button
+          onClick={onClose}
+          style={{
+            background: 'transparent',
+            border: '1px solid #BBF7D0',
+            borderRadius: 999,
+            padding: '4px 12px',
+            fontSize: 11,
+            fontWeight: 700,
+            color: '#166534',
+            cursor: 'pointer',
+          }}
+        >
+          Cerrar
+        </button>
       </header>
 
-      {loading ? (
-        <Skeleton h={140} />
-      ) : !env?.ok || !env.data?.analisis ? (
-        <Vacio
-          msg={`Análisis no disponible · ${env?.fuentes_error?.join(' · ') || 'Gemini sin respuesta o producto sin precio'}`}
-        />
-      ) : (
-        <AnalisisCard data={env.data} modelo={env.modelo} />
+      {/* Gráfico OHLC + controles */}
+      <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 12, padding: '12px 14px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 10, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+            {RANGES.map((r) => (
+              <button
+                key={r.id}
+                type="button"
+                onClick={() => setRange(r.id)}
+                style={{
+                  cursor: 'pointer',
+                  border: `1px solid ${range === r.id ? ACCENT : '#ECECEF'}`,
+                  background: range === r.id ? '#F0FDF4' : '#fff',
+                  color: range === r.id ? '#166534' : '#3a3a3d',
+                  borderRadius: 8,
+                  padding: '4px 10px',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  fontFamily: 'inherit',
+                }}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setAsLine((v) => !v)}
+            style={{
+              cursor: 'pointer',
+              border: '1px solid #ECECEF',
+              background: '#fff',
+              color: '#3a3a3d',
+              borderRadius: 8,
+              padding: '4px 10px',
+              fontSize: 11,
+              fontWeight: 700,
+              fontFamily: 'inherit',
+            }}
+          >
+            {asLine ? 'Ver velas ◫' : 'Ver línea ⟋'}
+          </button>
+        </div>
+
+        {loadingOhlc ? (
+          <Skeleton h={320} />
+        ) : !ohlc?.ok || bars.length === 0 ? (
+          <Vacio msg={`Sin serie OHLC · ${ohlc?.fuentes_error?.join(' · ') || 'Yahoo sin respuesta'}`} />
+        ) : (
+          <OHLCChart data={bars} overlays={overlays} asLine={asLine} height={340} />
+        )}
+      </div>
+
+      {/* Lectura técnica */}
+      {bars.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8 }}>
+          <IndicatorBox label="Último cierre" value={fmt(tech.lastClose, cur)} />
+          <IndicatorBox label="SMA 20" value={fmt(tech.lastSma20, cur)} color="#1F4E8C" />
+          <IndicatorBox label="SMA 50" value={fmt(tech.lastSma50, cur)} color="#B45309" />
+          <IndicatorBox label={`RSI(14) · ${rsiZona}`} value={tech.lastRsi != null ? tech.lastRsi.toFixed(0) : '—'} color={rsiColor} />
+          <IndicatorBox label={`Máx ${rangeLabel(range)}`} value={fmt(tech.hi, cur)} />
+          <IndicatorBox label={`Mín ${rangeLabel(range)}`} value={fmt(tech.lo, cur)} />
+          <IndicatorBox
+            label="Desde máximo"
+            value={tech.pctFromHigh != null ? `${tech.pctFromHigh.toFixed(1)}%` : '—'}
+            color={(tech.pctFromHigh ?? 0) < -10 ? '#DC2626' : '#16A34A'}
+          />
+        </div>
       )}
+
+      {/* Análisis Gemini */}
+      <div>
+        <div style={{ fontSize: 9.5, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#86868b', marginBottom: 8 }}>
+          Análisis de impacto · Gemini
+        </div>
+        {loadingImp ? (
+          <Skeleton h={140} />
+        ) : !imp?.ok || !imp.data?.analisis ? (
+          <Vacio msg={`Análisis no disponible · ${imp?.fuentes_error?.join(' · ') || 'Gemini sin respuesta o producto sin precio'}`} />
+        ) : (
+          <AnalisisCard data={imp.data} modelo={imp.modelo} />
+        )}
+      </div>
     </section>
+  )
+}
+
+function fmt(v: number | null, cur: string): string {
+  if (v == null) return '—'
+  return `${v.toLocaleString('es-ES', { maximumFractionDigits: 2 })}${cur ? ` ${cur}` : ''}`
+}
+function rangeLabel(id: string): string {
+  return RANGES.find((r) => r.id === id)?.label ?? id
+}
+
+function IndicatorBox({ label, value, color = '#1d1d1f' }: { label: string; value: string; color?: string }) {
+  return (
+    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 8, padding: '8px 10px' }}>
+      <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: '#86868b' }}>{label}</div>
+      <div style={{ fontSize: 13, fontWeight: 700, color, marginTop: 3, fontFamily: 'var(--font-display)' }}>{value}</div>
+    </div>
   )
 }
 
@@ -352,16 +569,7 @@ function AnalisisCard({ data, modelo }: { data: NonNullable<ImpactoEnvelope['dat
   const confColor = a.confianza === 'alta' ? '#16A34A' : a.confianza === 'media' ? '#F59E0B' : '#DC2626'
   return (
     <div>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'baseline',
-          gap: 12,
-          marginBottom: 12,
-          flexWrap: 'wrap',
-        }}
-      >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, marginBottom: 12, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 14, fontWeight: 700, color: '#1d1d1f', maxWidth: 720 }}>{a.titular}</span>
         <span
           style={{
@@ -404,21 +612,10 @@ function AnalisisCard({ data, modelo }: { data: NonNullable<ImpactoEnvelope['dat
         <p style={{ margin: 0, fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.5 }}>{a.efecto_en_espana}</p>
       </CardBlock>
 
-      <div style={{ marginTop: 12, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
-        <FactBox label="Precio actual" value={`${s.price?.toLocaleString('es-ES', { maximumFractionDigits: 2 })} ${s.currency ?? ''}`} />
-        <FactBox label="Cierre anterior" value={`${s.previous_close?.toLocaleString('es-ES', { maximumFractionDigits: 2 }) ?? '—'}`} />
-        <FactBox
-          label="Variación diaria"
-          value={s.change_pct != null ? `${s.change_pct > 0 ? '+' : ''}${s.change_pct.toFixed(2)}%` : '—'}
-          color={(s.change_pct ?? 0) > 0 ? '#16A34A' : (s.change_pct ?? 0) < 0 ? '#DC2626' : '#86868b'}
-        />
-        <FactBox label="Ticker Yahoo" value={data.producto.ticker} mono />
-      </div>
-
       <p style={{ fontSize: 10, color: '#86868b', margin: '10px 0 0', lineHeight: 1.5 }}>
         Análisis generado por LLM ({modelo || 'gemini-2.0-flash-lite'}) a partir del snapshot Yahoo Finance + contexto del catálogo.
-        Sigue el principio Politeia: las cifras vienen de la API; el análisis es interpretativo. Verifica las afirmaciones críticas
-        en su fuente primaria antes de operar.
+        Precio de referencia: {s.price?.toLocaleString('es-ES', { maximumFractionDigits: 2 })} {s.currency ?? ''}. Las cifras vienen de la
+        API; el análisis es interpretativo. Verifica las afirmaciones críticas en su fuente primaria antes de operar.
       </p>
     </div>
   )
@@ -435,26 +632,16 @@ function CardBlock({ titulo, color, children }: { titulo: string; color: string;
   )
 }
 
-function FactBox({ label, value, color = '#1d1d1f', mono = false }: { label: string; value: string; color?: string; mono?: boolean }) {
-  return (
-    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 8, padding: '6px 10px' }}>
-      <div style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#86868b' }}>{label}</div>
-      <div style={{ fontSize: 12, fontWeight: 700, color, fontFamily: mono ? 'monospace' : 'inherit', marginTop: 2 }}>{value}</div>
-    </div>
-  )
-}
-
 function CtaVesper() {
   return (
     <section style={{ background: '#FEFCE8', border: '1px solid #FDE68A', borderRadius: 14, padding: '16px 20px' }}>
-      <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700 }}>¿Necesitas análisis profundo por commodity?</p>
+      <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 700 }}>¿Necesitas el cockpit global multi-sector?</p>
       <p style={{ margin: '0 0 12px', fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.5, maxWidth: 760 }}>
-        El cockpit completo de commodities (OHLC, forecast IA, supply/demand, recipe cost, alertas, técnico
-        + geopolítica, watchlist) vive en{' '}
+        El cockpit completo de commodities (forecast IA, supply/demand, recipe cost, alertas, watchlist multi-mercado) vive en{' '}
         <Link href="/commodities" style={{ color: '#854D0E', fontWeight: 700 }}>
           /commodities
         </Link>
-        . Aquí mostramos sólo el subset relevante para España y el análisis Gemini de impacto sectorial.
+        . Aquí tienes ya el subset agrícola relevante para España con velas, técnico y análisis Gemini integrados.
       </p>
       <Link
         href="/commodities"
@@ -469,7 +656,7 @@ function CtaVesper() {
           fontSize: 12,
         }}
       >
-        Abrir cockpit de commodities ›
+        Abrir cockpit global ›
       </Link>
     </section>
   )

@@ -40,6 +40,41 @@ export function ema(values: (number | null)[], window: number): (number | null)[
   return out
 }
 
+/**
+ * RSI (Relative Strength Index) con suavizado de Wilder. Devuelve una serie
+ * alineada con `values` (los primeros `window` puntos son null). Saltos por
+ * valores null se tratan como sin variación (delta 0) para no romper el índice.
+ */
+export function rsi(values: (number | null)[], window = 14): (number | null)[] {
+  const out: (number | null)[] = values.map(() => null)
+  if (values.length <= window) return out
+  let avgGain = 0
+  let avgLoss = 0
+  // Primera media simple sobre las primeras `window` variaciones.
+  for (let i = 1; i <= window; i++) {
+    const cur = values[i]
+    const prev = values[i - 1]
+    const delta = cur != null && prev != null ? cur - prev : 0
+    if (delta >= 0) avgGain += delta
+    else avgLoss += -delta
+  }
+  avgGain /= window
+  avgLoss /= window
+  out[window] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss)
+  // Suavizado de Wilder para el resto.
+  for (let i = window + 1; i < values.length; i++) {
+    const cur = values[i]
+    const prev = values[i - 1]
+    const delta = cur != null && prev != null ? cur - prev : 0
+    const gain = delta > 0 ? delta : 0
+    const loss = delta < 0 ? -delta : 0
+    avgGain = (avgGain * (window - 1) + gain) / window
+    avgLoss = (avgLoss * (window - 1) + loss) / window
+    out[i] = avgLoss === 0 ? 100 : 100 - 100 / (1 + avgGain / avgLoss)
+  }
+  return out
+}
+
 export function bollinger(values: (number | null)[], window = 20, k = 2): {
   upper: (number | null)[]
   middle: (number | null)[]

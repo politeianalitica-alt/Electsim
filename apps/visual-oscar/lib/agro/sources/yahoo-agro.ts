@@ -120,3 +120,85 @@ export async function fetchYahooSnapshots(
   )
   return results
 }
+
+// ─── OHLC histórico (para drill-down candlestick) ────────────────────────
+
+/** Punto OHLC compatible con components/commodities/OHLCChart.tsx (types/commodities OHLCPoint). */
+export interface OHLCBar {
+  date: string
+  open: number | null
+  high: number | null
+  low: number | null
+  close: number | null
+  volume: number | null
+}
+
+interface YahooOHLCResponse {
+  chart?: {
+    result?: Array<{
+      meta?: { currency?: string }
+      timestamp?: number[]
+      indicators?: {
+        quote?: Array<{
+          open?: Array<number | null>
+          high?: Array<number | null>
+          low?: Array<number | null>
+          close?: Array<number | null>
+          volume?: Array<number | null>
+        }>
+      }
+    }>
+    error?: { code?: string; description?: string } | null
+  }
+}
+
+/**
+ * Serie OHLC histórica completa de un ticker Yahoo. range/interval siguen la
+ * convención Yahoo (range: 1mo|3mo|6mo|1y|2y|5y · interval: 1d|1wk|1mo).
+ * Devuelve `null` si falla; el caller degrada honestamente (sin candlestick).
+ */
+export async function fetchYahooOHLC(
+  symbol: string,
+  range = '1y',
+  interval = '1d',
+  timeoutMs = 8000
+): Promise<{ bars: OHLCBar[]; currency: string | null } | null> {
+  const params = new URLSearchParams({ range, interval })
+  const url = `${BASE}/${encodeURIComponent(symbol)}?${params.toString()}`
+  const ctrl = new AbortController()
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs)
+  try {
+    const res = await fetch(url, {
+      headers: { 'User-Agent': UA, Accept: 'application/json' },
+      signal: ctrl.signal,
+      next: { revalidate: 1800 }, // 30 min
+    })
+    clearTimeout(timer)
+    if (!res.ok) return null
+    const txt = await res.text()
+    if (!txt || txt.length < 20) return null
+    const data = JSON.parse(txt) as YahooOHLCResponse
+    if (data.chart?.error) return null
+    const r = data.chart?.result?.[0]
+    if (!r || !r.timestamp) return null
+    const ts = r.timestamp
+    const q = r.indicators?.quote?.[0]
+    if (!q) return null
+    const bars: OHLCBar[] = ts.map((t, i) => ({
+      date: new Date(t * 1000).toISOString().slice(0, 10),
+      open: numOrNull(q.open?.[i]),
+      high: numOrNull(q.high?.[i]),
+      low: numOrNull(q.low?.[i]),
+      close: numOrNull(q.close?.[i]),
+      volume: numOrNull(q.volume?.[i]),
+    })).filter((b) => b.close != null)
+    return { bars, currency: r.meta?.currency ?? null }
+  } catch {
+    clearTimeout(timer)
+    return null
+  }
+}
+
+function numOrNull(v: number | null | undefined): number | null {
+  return typeof v === 'number' && Number.isFinite(v) ? v : null
+}

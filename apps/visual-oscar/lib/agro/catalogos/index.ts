@@ -12,6 +12,7 @@ export type AgroTabId =
   | 'precios'
   | 'cadena'
   | 'produccion'
+  | 'demanda'
   | 'politica'
   | 'sequia'
 
@@ -78,6 +79,16 @@ export interface ProductoAgro {
   contrato: string
   rol_espana: string
   color: string
+  /** Slug en FRED_AGRO_IDS para histórico largo IMF (null si no hay serie). */
+  fred_slug?: string | null
+  /** Sector EU Agri-food Data Portal para precio físico (null si no aplica). */
+  agrifood_sector?: string | null
+  /** Capítulo HS (2 dígitos) para comercio (null si no es producto agro comerciable). */
+  hs_chapter?: string | null
+  /** Código HS4 para demanda por país-destino vía OEC/Comtrade. */
+  hs4?: string | null
+  /** Etiqueta honesta de qué representa el código HS en la vista de demanda. */
+  demanda_label?: string | null
 }
 
 export const EMPRESAS_AGRO: EmpresaAgro[] = empresasJson.empresas as EmpresaAgro[]
