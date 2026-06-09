@@ -15,15 +15,19 @@
 import { fetchEurostatDataset, type EurostatPoint } from '@/lib/vivienda/sources/eurostat-vivienda'
 import { NUTS2_AGRICOLAS, NUTS2_TO_NOMBRE } from '@/lib/agro/catalogos/ccaa-map'
 
-/** Catálogo de cultivos agregados (código Eurostat strucpro/crops). */
+/**
+ * Catálogo de cultivos (código Eurostat `crops` de apro_cpshr).
+ * Códigos verificados contra la API (2026-06): todos existen y devuelven datos.
+ */
 export const CULTIVOS_EUROSTAT: Array<{ code: string; nombre: string; color: string }> = [
   { code: 'C1110', nombre: 'Trigo blando y escanda', color: '#F59E0B' },
   { code: 'C1300', nombre: 'Cebada', color: '#D97706' },
   { code: 'C1500', nombre: 'Maíz en grano', color: '#FBBF24' },
+  { code: 'C0000', nombre: 'Cereales (total grano)', color: '#B45309' },
   { code: 'R1000', nombre: 'Patata', color: '#A16207' },
-  { code: 'I1110', nombre: 'Girasol', color: '#16A34A' },
-  { code: 'G1000', nombre: 'Hortalizas frescas', color: '#0EA5E9' },
-  { code: 'W1000', nombre: 'Viñedo (uva)', color: '#831843' },
+  { code: 'I1110', nombre: 'Colza y nabina', color: '#16A34A' },
+  // Nota: W1000 (uva) y G-hortícolas no tienen producción por NUTS2 en
+  // apro_cpshr (0 celdas) → se omiten para no mostrar mapas vacíos.
 ]
 
 export interface RegionalValue {
@@ -48,8 +52,10 @@ export async function fetchProduccionRegional(
     time,
     filters: {
       crops: crop,
-      strucpro: 'PR', // Harvested production
-      unit: 'T', // toneladas
+      // apro_cpshr NO tiene dimensión `unit`. strucpro válidos: AR_THS_HA,
+      // MAR_THS_HA, HUMD_EU_PC, HPRD_HUMD_EU_THS_T, YLD_HUMD_EU_T_HA.
+      // Producción cosechada (humedad estándar UE) en MILES de toneladas:
+      strucpro: 'HPRD_HUMD_EU_THS_T',
     },
   })
   if (!r.ok) return { ok: false, error: r.error }
@@ -64,10 +70,11 @@ export async function fetchProduccionRegional(
   const years = Array.from(byYear.keys()).sort().reverse()
   const bestYear = years[0]
   if (!bestYear) return { ok: false, error: 'sin datos regionales para el cultivo' }
+  // strucpro=HPRD_HUMD_EU_THS_T viene en MILES de toneladas → ×1000 para t.
   const values: RegionalValue[] = (byYear.get(bestYear) || []).map((p) => ({
     nuts2: p.geo,
     nombre: NUTS2_TO_NOMBRE[p.geo] ?? p.geo,
-    value: p.value,
+    value: p.value != null ? Math.round(p.value * 1000) : null,
     time: p.time,
   }))
   return { ok: true, values, year: bestYear }

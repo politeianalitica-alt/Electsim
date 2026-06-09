@@ -11,12 +11,40 @@
  * mensaje honesto.
  */
 import { useEffect, useMemo, useState } from 'react'
-import { AREAS_AGRO } from '@/lib/agro/catalogos'
+import { AREAS_AGRO, EMPRESAS_PRODUCTORAS } from '@/lib/agro/catalogos'
 import { NUTS2_TO_INE } from '@/lib/agro/catalogos/ccaa-map'
 import { Panel, SectorHero, Skeleton, Vacio, RankChart } from '@/lib/sectores/charts'
 import ChoroplethCCAA, { type ChoroplethValue } from '@/components/maps/ChoroplethCCAA'
 
 const ACCENT = '#16A34A'
+
+interface CosechaCultivo {
+  code: string
+  nombre: string
+  color: string
+  anio: string | null
+  produccion_t: number | null
+  produccion_yoy_pct: number | null
+  rendimiento_t_ha: number | null
+  rendimiento_yoy_pct: number | null
+  estado: string
+  estado_label: string
+}
+interface CosechaEnvelope {
+  ok: boolean
+  data: { cultivos: CosechaCultivo[]; n_con_dato: number } | null
+  fuente: string
+  fuente_url: string
+  fuentes_error?: string[]
+}
+const ESTADO_COLOR: Record<string, string> = {
+  record: '#15803D',
+  buena: '#16A34A',
+  normal: '#86868b',
+  floja: '#F59E0B',
+  mala: '#DC2626',
+  sin_dato: '#9CA3AF',
+}
 
 interface CultivoMeta {
   code: string
@@ -59,6 +87,9 @@ export function AgroProduccionView() {
   const [env, setEnv] = useState<RegionalEnvelope | null>(null)
   const [loading, setLoading] = useState(true)
   const [cultivos, setCultivos] = useState<CultivoMeta[]>([])
+  const [cosecha, setCosecha] = useState<CosechaEnvelope | null>(null)
+  const [loadingCos, setLoadingCos] = useState(true)
+  const [empFiltro, setEmpFiltro] = useState<string>('todas')
 
   useEffect(() => {
     let alive = true
@@ -76,6 +107,18 @@ export function AgroProduccionView() {
       alive = false
     }
   }, [crop])
+
+  useEffect(() => {
+    let alive = true
+    fetch('/api/agro/cosecha', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: CosechaEnvelope | null) => alive && setCosecha(j))
+      .catch(() => {})
+      .finally(() => alive && setLoadingCos(false))
+    return () => {
+      alive = false
+    }
+  }, [])
 
   const values = env?.data?.values ?? []
   const choroValues: ChoroplethValue[] = useMemo(
@@ -107,6 +150,52 @@ export function AgroProduccionView() {
         colorFrom={ACCENT}
         colorTo="#14532D"
       />
+
+      {/* Cómo ha ido la cosecha (derivado de producción nacional YoY) */}
+      <Panel
+        titulo="¿Cómo ha ido la cosecha? · producción y rendimiento nacional"
+        fuente={cosecha?.fuente || 'Eurostat · apro_cpshr'}
+        url={cosecha?.fuente_url || 'https://ec.europa.eu/eurostat/databrowser/view/apro_cpshr'}
+      >
+        {loadingCos ? (
+          <Skeleton h={180} />
+        ) : !cosecha?.ok || !cosecha.data ? (
+          <Vacio msg={`Eurostat sin datos de cosecha · ${cosecha?.fuentes_error?.join(' · ') || 'sin detalle'}`} />
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: 10 }}>
+            {cosecha.data.cultivos.filter((c) => c.produccion_t != null).map((c) => {
+              const col = ESTADO_COLOR[c.estado] || '#86868b'
+              const up = (c.produccion_yoy_pct ?? 0) >= 0
+              return (
+                <div key={c.code} style={{ background: '#FAFAFA', border: '1px solid #ECECEF', borderLeft: `3px solid ${col}`, borderRadius: 10, padding: '11px 13px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
+                    <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{c.nombre}</span>
+                    <span style={{ fontSize: 9, fontWeight: 800, color: col, background: `${col}1A`, padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+                      {c.estado_label}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 6 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 700, color: '#1d1d1f' }}>
+                      {c.produccion_t != null ? (c.produccion_t >= 1e6 ? `${(c.produccion_t / 1e6).toFixed(2)} Mt` : `${(c.produccion_t / 1e3).toFixed(0)} kt`) : '—'}
+                    </span>
+                    <span style={{ fontSize: 12, fontWeight: 700, color: up ? '#16A34A' : '#DC2626' }}>
+                      {c.produccion_yoy_pct != null ? `${up ? '↑' : '↓'} ${up ? '+' : ''}${c.produccion_yoy_pct}%` : '—'}
+                    </span>
+                  </div>
+                  <div style={{ fontSize: 10, color: '#86868b', marginTop: 4 }}>
+                    Producción {c.anio ?? ''} · rendimiento {c.rendimiento_t_ha != null ? `${c.rendimiento_t_ha} t/ha` : '—'}
+                    {c.rendimiento_yoy_pct != null ? ` (${c.rendimiento_yoy_pct > 0 ? '+' : ''}${c.rendimiento_yoy_pct}%)` : ''}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+        <p style={{ fontSize: 10, color: '#86868b', marginTop: 8, lineHeight: 1.5 }}>
+          El estado de la cosecha se calcula a partir de la variación interanual de la producción nacional (Eurostat), no de
+          una valoración cualitativa. Una caída fuerte señala mala campaña (sequía, calor); una subida, recuperación o récord.
+        </p>
+      </Panel>
 
       <Panel
         titulo="Producción por Comunidad Autónoma"
@@ -164,6 +253,56 @@ export function AgroProduccionView() {
             </div>
           </div>
         )}
+      </Panel>
+
+      {/* Quién cosecha · empresas y cooperativas */}
+      <Panel titulo="¿Quién cosecha? · empresas y cooperativas productoras" fuente="Catálogo Politeia · entidades reales" url="https://www.agro-alimentarias.coop">
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 12 }}>
+          {[
+            { id: 'todas', label: 'Todas' },
+            { id: 'cooperativa', label: 'Cooperativas' },
+            { id: 'sa', label: 'Empresas (S.A.)' },
+            { id: 'federacion', label: 'Federaciones' },
+          ].map((f) => {
+            const active = empFiltro === f.id
+            return (
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => setEmpFiltro(f.id)}
+                style={{ cursor: 'pointer', border: `1px solid ${active ? ACCENT : '#ECECEF'}`, background: active ? '#F0FDF4' : '#fff', color: active ? '#166534' : '#3a3a3d', borderRadius: 999, padding: '5px 12px', fontSize: 11, fontWeight: 700, fontFamily: 'inherit' }}
+              >
+                {f.label}
+              </button>
+            )
+          })}
+          <span style={{ flex: 1 }} />
+          <span style={{ fontSize: 10.5, color: '#86868b', alignSelf: 'center' }}>{EMPRESAS_PRODUCTORAS.length} entidades</span>
+        </div>
+        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
+          {EMPRESAS_PRODUCTORAS.filter((e) => empFiltro === 'todas' || e.tipo === empFiltro).map((e) => (
+            <li key={e.id} style={{ background: '#FAFAFA', border: '1px solid #ECECEF', borderLeft: `3px solid ${e.tipo === 'cooperativa' ? '#16A34A' : e.tipo === 'federacion' ? '#7C3AED' : '#1F4E8C'}`, borderRadius: 10, padding: '11px 13px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
+                <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{e.nombre}</span>
+                <span style={{ fontSize: 8.5, fontWeight: 800, color: e.tipo === 'cooperativa' ? '#16A34A' : e.tipo === 'federacion' ? '#7C3AED' : '#1F4E8C', textTransform: 'uppercase', letterSpacing: '0.04em', whiteSpace: 'nowrap' }}>
+                  {e.tipo === 'sa' ? 'S.A.' : e.tipo}
+                </span>
+              </div>
+              <div style={{ fontSize: 9.5, color: '#86868b', marginTop: 1 }}>{e.ccaa}</div>
+              <div style={{ fontSize: 11, color: '#3a3a3d', marginTop: 5, lineHeight: 1.45 }}>{e.rol}</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
+                {e.productos.slice(0, 4).map((p) => (
+                  <span key={p} style={{ fontSize: 8.5, fontWeight: 700, background: '#ECECEF', color: '#3a3a3d', padding: '2px 7px', borderRadius: 999 }}>{p}</span>
+                ))}
+              </div>
+              {e.web && (
+                <a href={e.web} target="_blank" rel="noreferrer" style={{ fontSize: 10, color: ACCENT, fontWeight: 700, marginTop: 6, display: 'inline-block', textDecoration: 'none' }}>
+                  {e.web.replace('https://www.', '').replace('https://', '')} ›
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
       </Panel>
 
       <Panel titulo="Áreas estratégicas de producción" fuente="Catálogo Politeia" url="https://www.mapa.gob.es/es/estadistica/">

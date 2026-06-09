@@ -34,12 +34,33 @@ interface InflEnvelope {
   fuentes_error: string[]
 }
 
+interface GrupoInflacion {
+  coicop: string
+  nombre: string
+  productos: string
+  es_series: Array<{ time: string; value: number | null }>
+  es_latest: number | null
+  eu_latest: number | null
+  es_periodo: string | null
+  causa: string | null
+}
+interface PorProductoEnvelope {
+  ok: boolean
+  data: { grupos: GrupoInflacion[]; resumen: string; n_con_dato: number } | null
+  fuente: string
+  fuente_url: string
+  generated_by_llm?: boolean
+  modelo?: string | null
+}
+
 export function AgroCadenaView() {
   const relevantes = AREAS_AGRO.filter((a) =>
     ['cadena_alimentaria', 'aceite_oliva', 'porcino_export', 'frutas_hortalizas'].includes(a.id)
   )
   const [infl, setInfl] = useState<InflEnvelope | null>(null)
   const [loading, setLoading] = useState(true)
+  const [porProd, setPorProd] = useState<PorProductoEnvelope | null>(null)
+  const [loadingPP, setLoadingPP] = useState(true)
 
   useEffect(() => {
     let alive = true
@@ -48,12 +69,18 @@ export function AgroCadenaView() {
       .then((j: InflEnvelope | null) => alive && setInfl(j))
       .catch(() => {})
       .finally(() => alive && setLoading(false))
+    fetch('/api/agro/inflacion-producto', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j: PorProductoEnvelope | null) => alive && setPorProd(j))
+      .catch(() => {})
+      .finally(() => alive && setLoadingPP(false))
     return () => {
       alive = false
     }
   }, [])
 
   const l = infl?.data?.latest
+  const grupos = porProd?.data?.grupos ?? []
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -103,6 +130,56 @@ export function AgroCadenaView() {
         )}
       </Panel>
 
+      {/* Inflación por producto + causas */}
+      <Panel
+        titulo="Inflación por producto · qué sube y por qué"
+        fuente={porProd?.fuente || 'Eurostat HICP + Gemini'}
+        url={porProd?.fuente_url || 'https://ec.europa.eu/eurostat/databrowser/view/prc_hicp_manr'}
+      >
+        {loadingPP ? (
+          <Skeleton h={260} />
+        ) : !porProd?.ok || grupos.length === 0 ? (
+          <Vacio msg="Eurostat HICP por grupo sin respuesta" />
+        ) : (
+          <>
+            {porProd.data?.resumen && (
+              <p style={{ fontSize: 12.5, color: '#1d1d1f', margin: '0 0 12px', lineHeight: 1.55, background: '#F5F3FF', border: '1px solid #DDD6FE', borderRadius: 10, padding: '10px 14px' }}>
+                {porProd.data.resumen}
+              </p>
+            )}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
+              {[...grupos].sort((a, b) => (b.es_latest ?? -99) - (a.es_latest ?? -99)).map((g) => {
+                const up = (g.es_latest ?? 0) > 0
+                const col = g.es_latest == null ? '#86868b' : up ? '#DC2626' : '#16A34A'
+                return (
+                  <div key={g.coicop} style={{ background: '#FAFAFA', border: '1px solid #ECECEF', borderLeft: `3px solid ${col}`, borderRadius: 10, padding: '11px 13px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
+                      <span style={{ fontSize: 12.5, fontWeight: 700, color: '#1d1d1f' }}>{g.nombre}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 700, color: col }}>
+                        {g.es_latest != null ? `${up ? '+' : ''}${g.es_latest}%` : '—'}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 2 }}>
+                      <span style={{ fontSize: 9.5, color: '#86868b' }}>
+                        {g.productos} {g.es_periodo ? `· ${g.es_periodo}` : ''}
+                      </span>
+                      <span style={{ fontSize: 10, color: '#86868b' }}>UE {g.eu_latest != null ? `${g.eu_latest > 0 ? '+' : ''}${g.eu_latest}%` : 's/d'}</span>
+                    </div>
+                    <MiniSpark serie={g.es_series} color={col} />
+                    {g.causa && <div style={{ fontSize: 11, color: '#3a3a3d', marginTop: 6, lineHeight: 1.45 }}>{g.causa}</div>}
+                  </div>
+                )
+              })}
+            </div>
+            {porProd.generated_by_llm && (
+              <p style={{ fontSize: 10, color: '#86868b', marginTop: 10 }}>
+                Tasas: Eurostat HICP (verificable). Causas: análisis LLM ({porProd.modelo}) interpretativo sobre las tasas reales; verifica las afirmaciones críticas.
+              </p>
+            )}
+          </>
+        )}
+      </Panel>
+
       <Panel titulo="Áreas estratégicas en la cadena" fuente="Catálogo Politeia · áreas-agro" url="https://www.mapa.gob.es/es/alimentacion/temas/observatorio-precios/">
         <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
           {relevantes.map((a) => (
@@ -144,6 +221,27 @@ export function AgroCadenaView() {
         </p>
       </Panel>
     </div>
+  )
+}
+
+function MiniSpark({ serie, color }: { serie: Array<{ time: string; value: number | null }>; color: string }) {
+  const data = serie.map((p) => p.value).filter((v): v is number => v != null)
+  if (data.length < 2) return <div style={{ height: 22, marginTop: 6 }} />
+  const W = 120
+  const H = 22
+  const min = Math.min(...data)
+  const max = Math.max(...data)
+  const span = max - min || 1
+  const path = data
+    .map((v, i) => `${i === 0 ? 'M' : 'L'}${((i / (data.length - 1)) * W).toFixed(1)},${(H - ((v - min) / span) * H).toFixed(1)}`)
+    .join(' ')
+  // línea cero si el rango cruza 0
+  const zeroY = min < 0 && max > 0 ? H - ((0 - min) / span) * H : null
+  return (
+    <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display: 'block', overflow: 'visible', marginTop: 6 }}>
+      {zeroY != null && <line x1={0} x2={W} y1={zeroY} y2={zeroY} stroke="#D1D5DB" strokeWidth={0.5} strokeDasharray="2 2" />}
+      <path d={path} fill="none" stroke={color} strokeWidth={1.5} />
+    </svg>
   )
 }
 

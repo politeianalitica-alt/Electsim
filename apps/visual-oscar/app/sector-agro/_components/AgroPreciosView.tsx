@@ -16,7 +16,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { CATEGORIAS_PRODUCTOS } from '@/lib/agro/catalogos'
-import { Panel, SectorHero, Skeleton, Vacio } from '@/lib/sectores/charts'
+import { Panel, SectorHero, Skeleton, Vacio, LineChart } from '@/lib/sectores/charts'
 import { OHLCChart } from '@/components/commodities/OHLCChart'
 import { sma, bollinger, rsi } from '@/lib/sma'
 import type { OHLCPoint } from '@/types/commodities'
@@ -113,7 +113,16 @@ export function AgroPreciosView() {
     setLoading(true)
     fetch(`/api/agro/precios?fuente=${fuente}`, { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : null))
-      .then((j: PreciosEnvelope | null) => alive && setEnv(j))
+      .then((j: PreciosEnvelope | null) => {
+        if (!alive) return
+        setEnv(j)
+        // Si los futuros (Yahoo) no devuelven ningún precio (p.ej. bloqueo de IP
+        // del datacenter), conmutamos automáticamente al histórico FRED para que
+        // la pestaña nunca aparezca vacía.
+        if (fuente === 'yahoo' && j?.data && j.data.n_con_precio === 0) {
+          setFuente('fred')
+        }
+      })
       .catch(() => {})
       .finally(() => alive && setLoading(false))
     return () => {
@@ -363,6 +372,9 @@ function ProductDrill({ producto, onClose }: { producto: ProductoPrecio; onClose
   const [imp, setImp] = useState<ImpactoEnvelope | null>(null)
   const [loadingImp, setLoadingImp] = useState(true)
 
+  // Fallback histórico FRED (si Yahoo OHLC no responde desde el datacenter).
+  const [histo, setHisto] = useState<{ ok: boolean; data: { label: string; unidad: string; points: Array<{ t: string; value: number | null }> } | null; fuente: string; fuente_url: string } | null>(null)
+
   useEffect(() => {
     let alive = true
     setLoadingOhlc(true)
@@ -375,6 +387,19 @@ function ProductDrill({ producto, onClose }: { producto: ProductoPrecio; onClose
       alive = false
     }
   }, [producto.id, range])
+
+  // Histórico FRED una vez por producto (fallback de gráfico).
+  useEffect(() => {
+    let alive = true
+    setHisto(null)
+    fetch(`/api/agro/historico/${encodeURIComponent(producto.id)}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => alive && setHisto(j))
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [producto.id])
 
   useEffect(() => {
     let alive = true
@@ -505,10 +530,17 @@ function ProductDrill({ producto, onClose }: { producto: ProductoPrecio; onClose
 
         {loadingOhlc ? (
           <Skeleton h={320} />
-        ) : !ohlc?.ok || bars.length === 0 ? (
-          <Vacio msg={`Sin serie OHLC · ${ohlc?.fuentes_error?.join(' · ') || 'Yahoo sin respuesta'}`} />
-        ) : (
+        ) : ohlc?.ok && bars.length > 0 ? (
           <OHLCChart data={bars} overlays={overlays} asLine={asLine} height={340} />
+        ) : histo?.ok && histo.data && histo.data.points.length > 0 ? (
+          <div>
+            <div style={{ fontSize: 10.5, color: '#B45309', background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: 8, padding: '6px 10px', marginBottom: 8 }}>
+              Futuros en vivo (Yahoo) no disponibles ahora · mostrando histórico mensual de referencia (FRED · {histo.data.label}).
+            </div>
+            <LineChart points={histo.data.points} color={producto.color} height={300} />
+          </div>
+        ) : (
+          <Vacio msg={`Sin serie de precios · ${ohlc?.fuentes_error?.join(' · ') || histo?.fuente || 'Yahoo y FRED sin respuesta'}`} />
         )}
       </div>
 

@@ -13,12 +13,53 @@
  * la UI muestra un mensaje claro · NO se inventa análisis.
  */
 import { NextRequest, NextResponse } from 'next/server'
-import { PRODUCTOS_AGRO } from '@/lib/agro/catalogos'
-import { fetchYahooSnapshot } from '@/lib/agro/sources/yahoo-agro'
+import { PRODUCTOS_AGRO, type ProductoAgro } from '@/lib/agro/catalogos'
+import { fetchYahooSnapshot, type YahooQuoteSnapshot } from '@/lib/agro/sources/yahoo-agro'
+import { fetchFredAgro } from '@/lib/agro/sources/fred-agro'
 import { generateJSON } from '@/lib/ai/gemini-client'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
+
+/**
+ * Snapshot de precio multi-fuente: intenta Yahoo (futuros, en vivo); si falla
+ * (p.ej. bloqueo de IP del datacenter), cae a FRED (IMF Global Price mensual).
+ * Garantiza que el análisis Gemini siempre tenga una cifra de referencia.
+ */
+async function obtenerSnapshot(
+  producto: ProductoAgro
+): Promise<{ snap: YahooQuoteSnapshot; fuente: string } | null> {
+  if (producto.ticker) {
+    const y = await fetchYahooSnapshot(producto.ticker)
+    if (y && y.price != null) return { snap: y, fuente: 'Yahoo Finance · futuros' }
+  }
+  if (producto.fred_slug) {
+    const serie = await fetchFredAgro(producto.fred_slug)
+    const pts = serie?.points.filter((p) => p.value != null) ?? []
+    const last = pts[pts.length - 1]
+    const prev = pts[pts.length - 2]
+    if (last) {
+      const price = last.value as number
+      const previous = (prev?.value as number) ?? null
+      const change = previous != null ? Number((price - previous).toFixed(2)) : null
+      const change_pct = previous != null && previous !== 0 ? Number((((price - previous) / previous) * 100).toFixed(2)) : null
+      return {
+        snap: {
+          symbol: serie!.id,
+          price,
+          previous_close: previous,
+          change,
+          change_pct,
+          currency: serie!.unidad.startsWith('USD') ? 'USD' : serie!.unidad,
+          ts: null,
+          spark: pts.slice(-6).map((p) => p.value as number),
+        },
+        fuente: `FRED · ${serie!.label}`,
+      }
+    }
+  }
+  return null
+}
 
 interface ImpactoOutput {
   titular: string
@@ -71,24 +112,22 @@ export async function GET(_req: NextRequest, { params }: { params: { slug: strin
       { status: 404 }
     )
   }
-  const snap = producto.ticker ? await fetchYahooSnapshot(producto.ticker) : null
-  if (!producto.ticker || !snap || snap.price == null) {
+  const snapRes = await obtenerSnapshot(producto)
+  if (!snapRes) {
     return NextResponse.json(
       {
         ok: false,
         data: null,
-        fuente: 'Yahoo Finance + Gemini',
+        fuente: 'Yahoo/FRED + Gemini',
         fuente_url: 'https://finance.yahoo.com/commodities',
-        fuentes_error: [
-          producto.ticker
-            ? `Yahoo no devuelve precio para ${producto.ticker}`
-            : 'producto sin ticker · sin cotización en vivo',
-        ],
+        fuentes_error: ['sin precio en vivo (Yahoo) ni histórico (FRED) para este producto'],
         producto: { id: producto.id, nombre: producto.nombre, ticker: producto.ticker },
       },
       { headers: { 'Cache-Control': 's-maxage=600, stale-while-revalidate=1800' } }
     )
   }
+  const snap = snapRes.snap
+  const snapFuente = snapRes.fuente
 
   const prompt = [
     `Producto: ${producto.nombre}`,
@@ -129,8 +168,10 @@ export async function GET(_req: NextRequest, { params }: { params: { slug: strin
           snapshot: snap,
           analisis: analysis,
         },
-        fuente: 'Yahoo Finance + Google Gemini · gemini-2.0-flash-lite',
-        fuente_url: `https://finance.yahoo.com/quote/${encodeURIComponent(producto.ticker)}`,
+        fuente: `${snapFuente} + Google Gemini · gemini-2.0-flash-lite`,
+        fuente_url: producto.ticker
+          ? `https://finance.yahoo.com/quote/${encodeURIComponent(producto.ticker)}`
+          : 'https://fred.stlouisfed.org',
         generated_by_llm: true,
         modelo: process.env.GEMINI_MODEL || 'gemini-2.0-flash-lite',
         generado_en: 'ISR · cache 4h',
