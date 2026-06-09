@@ -37,39 +37,7 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 2. Inteligencia Política ─────────────────────────────────────────
-  {
-    id: 'politica',
-    label: 'Política',
-    full: 'Inteligencia Política',
-    items: [
-      { label: 'Mapa de Actores',                href: '/mapa-actores' },
-      // Apartado único de fichas individuales:
-      // unifica los 3.342 políticos del fixture + 145 dossieres IBEX 35 +
-      // 87 dossieres de Diputaciones Provinciales y Forales.
-      // Filtrado interno por tipo (Políticos / Empresarios / Lobby /
-      // Casa Real / Casos / Otros) y subbarra por partido/empresa.
-      { label: 'Personas',                       href: '/dosieres' },
-      { label: 'Partidos y Grupos',              href: '/partidos' },
-      { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
-      { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
-      // — Electoral, Opinión Pública y Campañas (fusionado en Política) —
-      { label: 'Módulo Electoral',               href: '/nowcasting' },
-      { label: 'Simulador Estratégico',          href: '/escenarios' },
-      { label: 'Perfiles de Votante',            href: '/microdatos' },
-      {
-        label: 'Inteligencia Adversarios',
-        href: '/adversarios',
-        banner: {
-          eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
-          title: 'Perfiles estratégicos rivales',
-          colorFrom: '#B45309', colorTo: '#5C2310',
-        },
-      },
-    ],
-  },
-
-  // ─── 3. Monitor Legislativo y Regulatorio ─────────────────────────────
+  // ─── 2. Monitor Legislativo y Regulatorio ─────────────────────────────
   {
     id: 'legislativo',
     label: 'Legislativo',
@@ -131,9 +99,25 @@ export const MODULES: NavModule[] = [
     label: 'Sectoriales',
     full: 'Sectoriales y Contratación Pública',
     items: [
-      // — Página base · primer item del subnav (hub de contratación) —
-      { label: 'Licitaciones',                 href: '/licitaciones' },
-      // — 9 industrias verticales (con diseño Apple-Newsroom uniforme) —
+      // — Política (movida aquí · primeros apartados del subnav) —
+      { label: 'Mapa de Actores',                href: '/mapa-actores' },
+      { label: 'Personas',                       href: '/dosieres' },
+      { label: 'Partidos y Grupos',              href: '/partidos' },
+      { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
+      { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
+      { label: 'Módulo Electoral',               href: '/nowcasting' },
+      { label: 'Simulador Estratégico',          href: '/escenarios' },
+      { label: 'Perfiles de Votante',            href: '/microdatos' },
+      {
+        label: 'Inteligencia Adversarios',
+        href: '/adversarios',
+        banner: {
+          eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
+          title: 'Perfiles estratégicos rivales',
+          colorFrom: '#B45309', colorTo: '#5C2310',
+        },
+      },
+      // — 11 industrias verticales (con diseño Apple-Newsroom uniforme) —
       { label: 'Energía',            href: '/sector-energia' },
       { label: 'Salud',              href: '/sector-farma' },
       { label: 'Defensa',            href: '/sector-defensa' },
@@ -145,12 +129,14 @@ export const MODULES: NavModule[] = [
       { label: 'Turismo',            href: '/sector-turismo' },
       { label: 'Marítimo',           href: '/puertos' },
       { label: 'Tercer Sector & ONGs',         href: '/sector-tercer-sector' },
-      // — Resto de contratación (más abajo, agrupado) —
+      // — Contratación —
       { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
       { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes' },
       { label: 'Inteligencia Competitiva',     href: '/competidores' },
       { label: 'Fondos Europeos y PRTR',       href: '/fondos-europeos' },
       { label: 'Riesgo y Litigios',            href: '/litigios-contratacion' },
+      // — Licitaciones · hub de contratación (movido al final) —
+      { label: 'Licitaciones',                 href: '/licitaciones' },
     ],
   },
 
