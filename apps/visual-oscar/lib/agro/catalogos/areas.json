@@ -1,0 +1,88 @@
+{
+  "_meta": {
+    "descripcion": "Áreas estratégicas (topic taxonomy) del sector agroalimentario.",
+    "actualizado": "2026-06-08"
+  },
+  "areas": [
+    {
+      "id": "pac_ecoesquemas",
+      "titulo": "PAC 2023-2027 y ecorregímenes",
+      "descripcion": "47,72 bn € para España · 23% de pagos directos condicionados a ecoesquemas · transición a una agricultura más sostenible.",
+      "color": "#16A34A",
+      "keywords": ["pac", "ecorregimenes", "ecoesquema", "condicionalidad", "pagos directos"],
+      "tab_destino": "politica"
+    },
+    {
+      "id": "sequia_agua",
+      "titulo": "Sequía estructural y agua",
+      "descripcion": "Estado de embalses, declaraciones de emergencia hídrica, trasvase Tajo-Segura, regadíos modernizados.",
+      "color": "#DC2626",
+      "keywords": ["sequia", "embalses", "regadio", "agua", "trasvase"],
+      "tab_destino": "sequia"
+    },
+    {
+      "id": "aceite_oliva",
+      "titulo": "Aceite de oliva · liderazgo y volatilidad",
+      "descripcion": "España representa cerca del 50% del aceite de oliva mundial. Volatilidad extrema tras dos campañas con sequía.",
+      "color": "#F97316",
+      "keywords": ["aceite oliva", "olivar", "andalucia"],
+      "tab_destino": "precios"
+    },
+    {
+      "id": "ganaderia_extensiva",
+      "titulo": "Ganadería extensiva y bienestar animal",
+      "descripcion": "Dehesa, montaña, transhumancia. Ley de Bienestar Animal y transición a proteína vegetal.",
+      "color": "#7C3AED",
+      "keywords": ["ganaderia", "extensiva", "dehesa", "bienestar animal"],
+      "tab_destino": "produccion"
+    },
+    {
+      "id": "porcino_export",
+      "titulo": "Porcino · campeón exportador",
+      "descripcion": "España es top productor UE y top exportador mundial. China, Filipinas, Japón como destinos. Riesgo de aranceles chinos.",
+      "color": "#B45309",
+      "keywords": ["porcino", "cerdo", "exportacion", "china"],
+      "tab_destino": "precios"
+    },
+    {
+      "id": "frutas_hortalizas",
+      "titulo": "Frutas y hortalizas · huerta de Europa",
+      "descripcion": "Almería, Murcia, Valencia, Huelva. Mayor exportador de la UE. Tensión con países terceros (Marruecos).",
+      "color": "#0EA5E9",
+      "keywords": ["frutas", "hortalizas", "almeria", "murcia", "huelva"],
+      "tab_destino": "produccion"
+    },
+    {
+      "id": "cadena_alimentaria",
+      "titulo": "Cadena alimentaria · precio origen vs destino",
+      "descripcion": "AICA · prohibición venta a pérdidas · observatorio precios MAPA. Tensión productor vs distribución.",
+      "color": "#5B21B6",
+      "keywords": ["cadena", "aica", "ley cadena", "precio origen"],
+      "tab_destino": "cadena"
+    },
+    {
+      "id": "perte_industrial",
+      "titulo": "PERTE Agroalimentario · industria 4.0",
+      "descripcion": "Digitalización + descarbonización + capacitación en la industria de la alimentación. 1,8 bn € movilización pública+privada.",
+      "color": "#1F4E8C",
+      "keywords": ["perte", "industria alimentaria", "digitalizacion"],
+      "tab_destino": "politica"
+    },
+    {
+      "id": "vino_do",
+      "titulo": "Vino y denominaciones de origen",
+      "descripcion": "España, primer viñedo del mundo. 70+ DO. Exportación creciente con alto valor añadido.",
+      "color": "#831843",
+      "keywords": ["vino", "do", "denominacion", "viñedo"],
+      "tab_destino": "produccion"
+    },
+    {
+      "id": "despoblacion_rural",
+      "titulo": "Despoblación rural",
+      "descripcion": "Reto demográfico estructural · 53% municipios <500 hab · Plan 130 medidas frente a la despoblación.",
+      "color": "#0F766E",
+      "keywords": ["despoblacion", "rural", "vacia"],
+      "tab_destino": "politica"
+    }
+  ]
+}

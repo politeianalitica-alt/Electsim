@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "descripcion": "Reguladores, organismos y asociaciones del sistema agroalimentario español y europeo. Competencias delimitadas con base normativa.",
+    "actualizado": "2026-06-08",
+    "mantenedor": "Politeia · Agro v3",
+    "principio": "Las competencias se describen con base normativa, no según interpretaciones de prensa."
+  },
+  "reguladores": [
+    {
+      "id": "mapa",
+      "nombre": "Ministerio de Agricultura, Pesca y Alimentación",
+      "siglas": "MAPA",
+      "competencias": "Política agraria y pesquera nacional · cartera PAC · regulación de mercados agrarios · sanidad vegetal y animal · estadísticas sectoriales · observatorios de precios.",
+      "web": "https://www.mapa.gob.es/",
+      "categoria": "ministerio",
+      "ambito": "estatal"
+    },
+    {
+      "id": "fega",
+      "nombre": "Fondo Español de Garantía Agraria",
+      "siglas": "FEGA",
+      "competencias": "Organismo Pagador de los fondos europeos agrarios FEAGA y FEADER. Gestión de pagos directos PAC, ecorregímenes, intervención de mercados, Plan Estratégico PAC 2023-2027.",
+      "web": "https://www.fega.gob.es/",
+      "categoria": "organismo_publico",
+      "ambito": "estatal"
+    },
+    {
+      "id": "aica",
+      "nombre": "Agencia de Información y Control Alimentarios",
+      "siglas": "AICA",
+      "competencias": "Vigilancia de la cadena alimentaria · Ley 12/2013 modificada en 2020 y 2022 · prohibición de venta a pérdidas · contratos por escrito · régimen sancionador.",
+      "web": "https://www.aica.gob.es/",
+      "categoria": "organismo_publico",
+      "ambito": "estatal"
+    },
+    {
+      "id": "aesan",
+      "nombre": "Agencia Española de Seguridad Alimentaria y Nutrición",
+      "siglas": "AESAN",
+      "competencias": "Seguridad alimentaria · alertas (RASFF nacional) · etiquetado · NutriScore · nutrición y dietas · evaluación científica de riesgos alimentarios.",
+      "web": "https://www.aesan.gob.es/",
+      "categoria": "organismo_publico",
+      "ambito": "estatal"
+    },
+    {
+      "id": "enesa",
+      "nombre": "Entidad Estatal de Seguros Agrarios",
+      "siglas": "ENESA",
+      "competencias": "Gestión del sistema español de seguros agrarios combinados. Subvención de pólizas · indemnizaciones por sequía, helada, granizo, pedrisco · estadísticas de siniestralidad.",
+      "web": "https://www.enesa.gob.es/",
+      "categoria": "organismo_publico",
+      "ambito": "estatal"
+    },
+    {
+      "id": "miteco",
+      "nombre": "Ministerio para la Transición Ecológica y el Reto Demográfico",
+      "siglas": "MITECO",
+      "competencias": "Política hídrica · confederaciones hidrográficas · estado de embalses · declaración de sequía estructural · planes hidrológicos · trasvase Tajo-Segura.",
+      "web": "https://www.miteco.gob.es/",
+      "categoria": "ministerio",
+      "ambito": "estatal"
+    },
+    {
+      "id": "dg_agri",
+      "nombre": "Dirección General de Agricultura y Desarrollo Rural · Comisión Europea",
+      "siglas": "DG AGRI",
+      "competencias": "Política Agraria Común (PAC) 2023-2027 · 387 bn € presupuesto plurianual · regulaciones de mercado · indicaciones de calidad (DOP/IGP) · precios europeos.",
+      "web": "https://agriculture.ec.europa.eu/",
+      "categoria": "direccion_ue",
+      "ambito": "ue"
+    },
+    {
+      "id": "dg_sante_agro",
+      "nombre": "DG SANTE · Sanidad alimentaria y vegetal UE",
+      "siglas": "DG SANTE",
+      "competencias": "Marco europeo de seguridad alimentaria · estrategia Farm to Fork · pesticidas, fitosanitarios · bienestar animal · etiquetado nutricional armonizado.",
+      "web": "https://health.ec.europa.eu/food-safety_en",
+      "categoria": "direccion_ue",
+      "ambito": "ue"
+    },
+    {
+      "id": "efsa",
+      "nombre": "European Food Safety Authority",
+      "siglas": "EFSA",
+      "competencias": "Evaluación científica de riesgos alimentarios en la UE · dictámenes sobre pesticidas, OMG, aditivos · evaluación de zoonosis y resistencias antimicrobianas.",
+      "web": "https://www.efsa.europa.eu/",
+      "categoria": "agencia_ue",
+      "ambito": "ue"
+    },
+    {
+      "id": "asaja",
+      "nombre": "Asociación Agraria de Jóvenes Agricultores",
+      "siglas": "ASAJA",
+      "competencias": "Organización profesional agraria mayoritaria en España. Representación de intereses sectoriales, negociación de PAC, contratación, jornadas técnicas.",
+      "web": "https://www.asaja.com/",
+      "categoria": "asociacion_sectorial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "coag",
+      "nombre": "Coordinadora de Organizaciones de Agricultores y Ganaderos",
+      "siglas": "COAG",
+      "competencias": "Organización profesional agraria. Defensa de la agricultura familiar y profesional, observatorio AICA, movilizaciones sectoriales.",
+      "web": "https://www.coag.org/",
+      "categoria": "asociacion_sectorial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "upa",
+      "nombre": "Unión de Pequeños Agricultores y Ganaderos",
+      "siglas": "UPA",
+      "competencias": "Organización profesional agraria. Foco en pequeño productor y agricultura familiar. Defensa de la PAC redistributiva.",
+      "web": "https://www.upa.es/",
+      "categoria": "asociacion_sectorial",
+      "ambito": "estatal"
+    },
+    {
+      "id": "cooperativas_agroalimentarias",
+      "nombre": "Cooperativas Agroalimentarias de España",
+      "siglas": "CAE",
+      "competencias": "Confederación nacional de cooperativas agroalimentarias. Representa a más de 3.700 cooperativas. Interlocución con MAPA y DG AGRI.",
+      "web": "https://www.agro-alimentarias.coop/",
+      "categoria": "confederacion_sectorial",
+      "ambito": "estatal"
+    }
+  ]
+}
