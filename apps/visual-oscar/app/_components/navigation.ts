@@ -53,6 +53,19 @@ export const MODULES: NavModule[] = [
       { label: 'Partidos y Grupos',              href: '/partidos' },
       { label: 'Gobierno y Coaliciones',         href: '/gobierno-coalicion' },
       { label: 'Instituciones Locales y Reg.',   href: '/instituciones' },
+      // — Electoral, Opinión Pública y Campañas (fusionado en Política) —
+      { label: 'Módulo Electoral',               href: '/nowcasting' },
+      { label: 'Simulador Estratégico',          href: '/escenarios' },
+      { label: 'Perfiles de Votante',            href: '/microdatos' },
+      {
+        label: 'Inteligencia Adversarios',
+        href: '/adversarios',
+        banner: {
+          eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
+          title: 'Perfiles estratégicos rivales',
+          colorFrom: '#B45309', colorTo: '#5C2310',
+        },
+      },
     ],
   },
 
@@ -88,28 +101,7 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 5. Electoral, Opinión Pública y Campañas ─────────────────────────
-  {
-    id: 'electoral',
-    label: 'Electoral',
-    full: 'Electoral, Opinión Pública y Campañas',
-    items: [
-      { label: 'Módulo Electoral',           href: '/nowcasting' },
-      { label: 'Simulador Estratégico',      href: '/escenarios' },
-      { label: 'Perfiles de Votante',        href: '/microdatos' },
-      {
-        label: 'Inteligencia Adversarios',
-        href: '/adversarios',
-        banner: {
-          eyebrow: 'ELECTORAL · INTELLIGENCE SOBRE ADVERSARIOS',
-          title: 'Perfiles estratégicos rivales',
-          colorFrom: '#B45309', colorTo: '#5C2310',
-        },
-      },
-    ],
-  },
-
-  // ─── 6. Inteligencia Geopolítica y Macroeconómica ─────────────────────
+  // ─── 5. Inteligencia Geopolítica y Macroeconómica ─────────────────────
   {
     id: 'macro-geo',
     label: 'Macro & Geo',
@@ -142,16 +134,16 @@ export const MODULES: NavModule[] = [
       // — Página base · primer item del subnav (hub de contratación) —
       { label: 'Licitaciones',                 href: '/licitaciones' },
       // — 9 industrias verticales (con diseño Apple-Newsroom uniforme) —
-      { label: 'Energía & Utilities',          href: '/sector-energia' },
-      { label: 'Farma & Salud',                href: '/sector-farma' },
-      { label: 'Defensa & Industria',          href: '/sector-defensa' },
-      { label: 'Vivienda & Inmobiliario',      href: '/sector-vivienda' },
-      { label: 'Banca & Seguros',              href: '/sector-banca' },
-      { label: 'Agroalimentario & Rural',      href: '/sector-agro' },
-      { label: 'Telecom & Digital',            href: '/sector-telecom' },
-      { label: 'Infraestructuras & Movilidad', href: '/sector-infraestructuras' },
-      { label: 'Turismo & Hostelería',         href: '/sector-turismo' },
-      { label: 'Puertos & Comercio Global',    href: '/puertos' },
+      { label: 'Energía',            href: '/sector-energia' },
+      { label: 'Salud',              href: '/sector-farma' },
+      { label: 'Defensa',            href: '/sector-defensa' },
+      { label: 'Inmobiliario',       href: '/sector-vivienda' },
+      { label: 'Banca',              href: '/sector-banca' },
+      { label: 'Agroalimentario',    href: '/sector-agro' },
+      { label: 'Telecomunicaciones', href: '/sector-telecom' },
+      { label: 'Movilidad',          href: '/sector-infraestructuras' },
+      { label: 'Turismo',            href: '/sector-turismo' },
+      { label: 'Marítimo',           href: '/puertos' },
       { label: 'Tercer Sector & ONGs',         href: '/sector-tercer-sector' },
       // — Resto de contratación (más abajo, agrupado) —
       { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
