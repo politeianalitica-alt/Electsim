@@ -43,6 +43,13 @@ import { fetchProzorro } from '@/lib/tercer-sector/licitaciones/prozorro'
 import { fetchAustender } from '@/lib/tercer-sector/licitaciones/austender'
 import { fetchSecop } from '@/lib/tercer-sector/licitaciones/secop'
 import { fetchDncp } from '@/lib/tercer-sector/licitaciones/dncp'
+// TS6 · cobertura ES por CCAA (Socrata/Opendatasoft/API keyless) + ONU
+import { fetchCatalunya } from '@/lib/tercer-sector/licitaciones/catalunya'
+import { fetchCastillaLeon } from '@/lib/tercer-sector/licitaciones/castillaleon'
+import { fetchEuskadi } from '@/lib/tercer-sector/licitaciones/euskadi'
+import { fetchMadrid } from '@/lib/tercer-sector/licitaciones/madrid'
+import { fetchAragon } from '@/lib/tercer-sector/licitaciones/aragon'
+import { fetchUngm } from '@/lib/tercer-sector/licitaciones/ungm'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -78,6 +85,13 @@ const CONNECTORS: ConnectorDef[] = [
     niveles: ['pais_extranjero', 'regional_extranjero'],
   },
   { fuente: 'dncp', fn: fetchDncp as ConnFn, niveles: ['pais_extranjero'] },
+  // TS6 · CCAA España (open-data autonómico/municipal keyless) + ONU
+  { fuente: 'catalunya', fn: fetchCatalunya as ConnFn, niveles: ['ccaa'] },
+  { fuente: 'castillaleon', fn: fetchCastillaLeon as ConnFn, niveles: ['ccaa'] },
+  { fuente: 'euskadi', fn: fetchEuskadi as ConnFn, niveles: ['ccaa'] },
+  { fuente: 'madrid', fn: fetchMadrid as ConnFn, niveles: ['ccaa'] },
+  { fuente: 'aragon', fn: fetchAragon as ConnFn, niveles: ['ccaa'] },
+  { fuente: 'ungm', fn: fetchUngm as ConnFn, niveles: ['org_internacional'] },
 ]
 
 const NIVELES: NivelLicitacion[] = [

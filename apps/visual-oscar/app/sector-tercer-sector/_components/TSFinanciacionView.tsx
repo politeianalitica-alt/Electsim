@@ -38,9 +38,11 @@ import { FinGrantsUe } from './FinGrantsUe'
 import { FinIrpfCard } from './FinIrpfCard'
 import { FinPipelineOportunidades } from './FinPipelineOportunidades'
 import { FinanciadoresActivos } from './FinanciadoresActivos'
+import { FinGrandesBeneficiarios } from './FinGrandesBeneficiarios'
 import { SectorMapPreview } from '@/components/SectorMapPreview'
 
-const ENDPOINT = '/api/tercer-sector/financiacion?pages=2'
+// pages=4 → ~200 registros por familia BDNS (más cobertura "de todos lados").
+const ENDPOINT = '/api/tercer-sector/financiacion?pages=4'
 
 export function TSFinanciacionView() {
   const [data, setData] = useState<FinPayload | null>(null)
@@ -88,6 +90,10 @@ export function TSFinanciacionView() {
   const porTerritorio = data?.por_territorio ?? {}
   const rankingBeneficiarios = data?.ranking_beneficiarios ?? []
   const nConcesionesTs = data?.resumen?.n_concesiones_ts ?? null
+  // TS6: subvenciones al máximo — grandes beneficiarios + ayudas de Estado (BDNS).
+  const grandesBeneficiarios = data?.grandes_beneficiarios ?? []
+  const ayudasEstado = data?.ayudas_estado ?? []
+  const ejercicioGrandes = data?.resumen?.ejercicio_grandes ?? null
 
   const heroItems: HeroKpiItem[] = useMemo(() => {
     const r = data?.resumen
@@ -217,6 +223,15 @@ export function TSFinanciacionView() {
           )}
         </Panel>
       </div>
+
+      {/* TS6 · Subvenciones al máximo: grandes beneficiarios del ejercicio +
+          ayudas de Estado recientes (BDNS /grandesbeneficiarios + /ayudasestado).
+          Quién recibe MÁS dinero público agregado, con filtro tercer sector. */}
+      <FinGrandesBeneficiarios
+        grandes={grandesBeneficiarios}
+        ayudas={ayudasEstado}
+        ejercicio={ejercicioGrandes}
+      />
 
       {/* Financiadores activos · quién financia más AHORA (group by organismo) */}
       <div style={{ marginBottom: 14 }}>

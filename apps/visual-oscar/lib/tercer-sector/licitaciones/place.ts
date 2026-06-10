@@ -260,11 +260,14 @@ export async function fetchPlace(opts: { timeoutMs?: number; noCache?: boolean }
     dispatcher = undefined
   }
 
+  // El feed `completo3.atom` es MUY grande: el timeout corto por defecto (8s)
+  // lo hacía fallar (sin_datos/timeout) en producción. Le damos 25s (cabe en
+  // los 30s de maxDuration; el fan-out es paralelo así que no penaliza al resto).
   const res = await safeFetch(FEED_URL, {
     as: 'text',
-    timeoutMs: opts.timeoutMs,
+    timeoutMs: opts.timeoutMs ?? 25_000,
     dispatcher,
-    headers: { Accept: 'application/atom+xml, application/xml, */*' },
+    headers: { Accept: 'application/atom+xml, application/xml, */*', 'Accept-Encoding': 'gzip, deflate' },
   })
 
   if (res.error) return errResult(FUENTE, res.error, PUBLIC_URL)

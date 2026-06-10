@@ -62,6 +62,18 @@ export const FUENTES: Record<FuenteLicitacion, FuenteMeta> = {
   'uk-ocds': { label: 'UK Find a Tender', url: 'https://www.find-tender.service.gov.uk' },
   tendersguru: { label: 'Tenders.guru', url: 'https://tenders.guru' },
   opentender: { label: 'OpenTender.eu', url: 'https://opentender.eu' },
+  grantsgov: { label: 'Grants.gov (EE. UU.)', url: 'https://www.grants.gov' },
+  prozorro: { label: 'ProZorro (Ucrania)', url: 'https://prozorro.gov.ua' },
+  austender: { label: 'AusTender (Australia)', url: 'https://www.tenders.gov.au' },
+  secop: { label: 'SECOP II (Colombia)', url: 'https://www.colombiacompra.gov.co' },
+  dncp: { label: 'DNCP (Paraguay)', url: 'https://www.contrataciones.gov.py' },
+  // TS6 · CCAA España (open-data autonómico/municipal) + ONU
+  catalunya: { label: 'Generalitat de Catalunya', url: 'https://contractaciopublica.cat' },
+  castillaleon: { label: 'Junta de Castilla y León', url: 'https://analisis.datosabiertos.jcyl.es' },
+  euskadi: { label: 'Open Data Euskadi', url: 'https://opendata.euskadi.eus' },
+  madrid: { label: 'Ayuntamiento de Madrid', url: 'https://datos.madrid.es' },
+  aragon: { label: 'Gobierno de Aragón', url: 'https://opendata.aragon.es' },
+  ungm: { label: 'UNGM — ONU (Naciones Unidas)', url: 'https://www.ungm.org' },
 }
 
 export function fuenteLabel(f: string): string {

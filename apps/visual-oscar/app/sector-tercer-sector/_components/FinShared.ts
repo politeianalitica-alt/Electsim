@@ -67,9 +67,41 @@ export interface FinResumen {
   n_concesiones: number
   n_concesiones_ts?: number
   n_grants_ue: number
+  /** Nº de grandes beneficiarios del ejercicio (BDNS /grandesbeneficiarios). */
+  n_grandes_beneficiarios?: number
+  /** Nº de ayudas de Estado recientes (BDNS /ayudasestado). */
+  n_ayudas_estado?: number
+  /** Ejercicio fiscal usado para el ranking de grandes beneficiarios. */
+  ejercicio_grandes?: number | null
   total_concedido_eur: number | null
   /** Total concedido solo a entidades del tercer sector (NIF+keyword). */
   total_concedido_ts_eur?: number | null
+}
+
+/** Gran beneficiario de subvenciones por ejercicio (BDNS /grandesbeneficiarios). */
+export interface FinGranBeneficiario {
+  id: string
+  beneficiario_nif: string | null
+  beneficiario_nombre: string
+  importe_eur: number | null
+  ejercicio: number | null
+  es_tercer_sector: boolean
+  match: string
+}
+
+/** Ayuda de Estado reciente (BDNS /ayudasestado). */
+export interface FinAyudaEstado {
+  id: string
+  beneficiario_nif: string | null
+  beneficiario_nombre: string
+  importe_eur: number | null
+  instrumento: string | null
+  convocatoria: string | null
+  nivel: string | null
+  territorio: string | null
+  organo: string | null
+  fecha: string | null
+  es_tercer_sector: boolean
 }
 
 export interface FinFuenteError {
@@ -117,6 +149,10 @@ export interface FinPayload {
   ranking_beneficiarios?: RankItem[]
   /** Desglose territorial (CCAA -> count+total_eur). */
   por_territorio?: Record<string, TerritorioFinRow>
+  /** Grandes beneficiarios del ejercicio (BDNS /grandesbeneficiarios). */
+  grandes_beneficiarios?: FinGranBeneficiario[]
+  /** Ayudas de Estado recientes (BDNS /ayudasestado). */
+  ayudas_estado?: FinAyudaEstado[]
   resumen: FinResumen
   fuentes_error: FinFuenteError[]
 }

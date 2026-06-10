@@ -170,7 +170,7 @@ function PanelAcceso() {
       ) : (
         <>
           <p style={{ fontSize: 11, color: '#86868b', margin: '0 0 12px', lineHeight: 1.5 }}>
-            % de población >=16 años que ha dejado de acudir al médico o de comprar medicamentos por
+            % de población ≥16 años que ha dejado de acudir al médico o de comprar medicamentos por
             no poder pagarlo. Indicador europeo de acceso real al sistema sanitario (incluye la
             barrera económica a medicamentos prescritos pero no costeables).
           </p>
