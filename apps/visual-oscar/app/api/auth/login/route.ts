@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     secure:   process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge:   8 * 3600,
+    maxAge:   30 * 24 * 3600,   // 30 días · debe coincidir con SESSION_HOURS en lib/auth/session.ts
   })
 
   return res
