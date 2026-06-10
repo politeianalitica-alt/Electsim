@@ -95,8 +95,8 @@ export const MEDIOS_TABS: MediosTab[] = [
   {
     id: 'pulso',
     number: 1,
-    label: 'Pulso de prensa',
-    shortLabel: 'Pulso',
+    label: 'Prensa',
+    shortLabel: 'Prensa',
     question: '¿Qué está dominando ahora mismo la agenda?',
     description: 'Primera lectura · gráfico de importancia temática (tags reales + heurística), feed por tiers, KPIs y señales emergentes. Lectura IA opcional.',
     themeAccent: '#1F4E8C',
