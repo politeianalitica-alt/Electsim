@@ -65,7 +65,9 @@ const CACHE_TTL_MS = 3600_000 // 1h
 
 // Mapeo de PSR Types (Power System Resource) a etiquetas humanas en español.
 // Fuente: entsoe-py PSRTYPE_MAPPINGS.
-const PSR_TYPE_LABELS: Record<string, string> = {
+// Exportado para que `lib/entsoe/extended.ts` (capacidad, outages, generación
+// por unidad) reutilice las mismas etiquetas sin duplicarlas.
+export const PSR_TYPE_LABELS: Record<string, string> = {
   B01: 'Biomasa',
   B02: 'Lignito',
   B03: 'Gas (turbina ciclo abierto)',
@@ -142,17 +144,34 @@ export function periodForDays(days: number): { periodStart: string; periodEnd: s
 // ─────────────────────────────────────────────────────────────────────────
 // Fetch crudo XML con auth + degradación + caché
 // ─────────────────────────────────────────────────────────────────────────
-interface RawQuery {
+// Exportado para `lib/entsoe/extended.ts` (nuevos documentType: A65 carga,
+// A69/A71 previsiones, A68 capacidad, A77/A80 indisponibilidades, A72 embalses,
+// A09/A61 intercambios programados, A85 desvíos). Campos opcionales añadidos
+// (businessType, docStatus, psrType, contract_MarketAgreement.type) cubren las
+// queries que esos doc-types requieren sin romper las existentes.
+export interface EntsoeRawQuery {
   documentType: string
   in_Domain?: string
   out_Domain?: string
+  /** Para outages/balancing/capacity que usan un único dominio de control. */
+  controlArea_Domain?: string
+  biddingZone_Domain?: string
   periodStart: string
   periodEnd: string
   processType?: string
+  businessType?: string
+  psrType?: string
+  docStatus?: string
+  'contract_MarketAgreement.type'?: string
 }
 
-async function entsoeFetchRaw(
-  q: RawQuery,
+/**
+ * Fetch crudo de ENTSO-E para CUALQUIER documentType. Exportado para que el
+ * módulo `extended.ts` añada nuevos tipos de documento reutilizando auth,
+ * caché TTL 1h, manejo de Acknowledgement y degradación. NUNCA lanza.
+ */
+export async function entsoeFetchRaw(
+  q: EntsoeRawQuery,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 ): Promise<{ ok: boolean; xml?: string; error?: string }> {
   const token = getToken()

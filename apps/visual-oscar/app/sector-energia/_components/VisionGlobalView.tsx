@@ -42,6 +42,7 @@ import WorldEnergyMap from './WorldEnergyMap'
 import GlobalEnergyStatus from './GlobalEnergyStatus'
 import GlobalEnergyInflation from './GlobalEnergyInflation'
 import GlobalSupplyRiskBoard, { type SupplyRiskGeoSummary } from './GlobalSupplyRiskBoard'
+import NoticiasEnergia from './NoticiasEnergia'
 
 const ACCENT = '#16A34A'
 const ACCENT_DARK = '#0d4626'
@@ -369,6 +370,11 @@ export function VisionGlobalView() {
         </header>
         <AreasEstrategicas />
       </section>
+
+      {/* ───── Noticias de energía · del día y de la semana ───── */}
+      <div style={{ marginTop: 14 }}>
+        <NoticiasEnergia />
+      </div>
 
       {/* ───── Inteligencia operativa sectorial ───── */}
       <SectorIntelPanel

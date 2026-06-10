@@ -36,6 +36,7 @@ import { NuclearView } from './NuclearView'
 import { PetroleoView } from './PetroleoView'
 import { GasView } from './GasView'
 import { HidrogenoView } from './HidrogenoView'
+import { PoliticaView } from './PoliticaView'
 import type { EnergiaTipo } from '@/lib/energia/types'
 
 interface TipoTab {
@@ -54,6 +55,7 @@ const TIPOS: TipoTab[] = [
   { id: 'petroleo',   label: 'Petróleo',      glyph: '◐', desc: 'Brent · WTI · refino'           },
   { id: 'gas',        label: 'Gas',           glyph: '◇', desc: 'TTF · MIBGAS · almacenamiento'  },
   { id: 'hidrogeno',  label: 'Hidrógeno',     glyph: '⬢', desc: 'PERTE H2 · electrolizadores'    },
+  { id: 'politica',   label: 'Política',      glyph: '§', desc: 'Regulación · PNIEC · ENTSO-E ops' },
 ]
 
 export default function EnergiaShell() {
@@ -122,7 +124,9 @@ export default function EnergiaShell() {
                   ? <PetroleoView />
                   : activo.id === 'gas'
                     ? <GasView />
-                    : <HidrogenoView />}
+                    : activo.id === 'hidrogeno'
+                      ? <HidrogenoView />
+                      : <PoliticaView />}
  </main>
  </div>
   )
