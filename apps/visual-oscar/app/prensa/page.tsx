@@ -327,6 +327,8 @@ export default function PrensaPage() {
   const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
   const [balanceMode, setBalanceMode] = useUrlState<BalanceMode>('balance', 'pluralism')
   const [showMethodology, setShowMethodology] = useState(false)
+  // Tema seleccionado en el gráfico de importancia → filtra el feed del Pulso en sitio.
+  const [feedTopic, setFeedTopic] = useState('')
   // Sprint G15 FASE B · IDs renombrados: actores→tendencias · informes→mapa-medios.
   // Tabs que necesitan el endpoint /intel (resto autónomas):
   // - mapa-medios va a /api/medios (catálogo), no a /intel
@@ -532,8 +534,9 @@ export default function PrensaPage() {
                   <TopicImportanceChart
                     topics={(data as IntelResponse & { topic_importance?: TopicImportanceItem[] })?.topic_importance}
                     loading={loading && !data}
+                    onSelectTopic={(_id, label) => setFeedTopic(label)}
                   />
-                  <FeedTiered feed={data?.feed} />
+                  <FeedTiered feed={data?.feed} externalSearch={feedTopic} />
                   <GdeltGlobalPanel query="Spain" />
                   {data?.topicparty && data.topicparty.length > 0 && (
                     <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 14 }}>
@@ -598,6 +601,16 @@ export default function PrensaPage() {
                       data?.emerging_signals as WorkbenchNarrative[] | undefined
                     }
                     loading={loading && !data}
+                    onAudit={(n) => {
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'busqueda'); params.set('q', n.title); params.set('autoexec', '1')
+                      router.push(`/prensa?${params.toString()}`)
+                    }}
+                    onCreateDossier={(n) => {
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'busqueda'); params.set('q', n.title); params.set('autoexec', '1'); params.set('dossier', '1')
+                      router.push(`/prensa?${params.toString()}`)
+                    }}
                   />
                 </div>
               )}

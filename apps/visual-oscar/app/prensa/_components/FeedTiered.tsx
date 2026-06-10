@@ -55,7 +55,7 @@ function timeSince(iso: string | null): string {
 
 const PAGE = 24
 
-export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
+export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed; externalSearch?: string }) {
   const [activeTier, setActiveTier]     = useState<Tier | 'todos'>('todos')
   const [search, setSearch]             = useState('')
   const [sentFilter, setSentFilter]     = useState<'all' | 'positive' | 'negative' | 'neutral'>('all')
@@ -91,6 +91,10 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
     else                            arr.sort((a, b) => b.sentiment_score - a.sentiment_score || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso))
     return arr
   }, [filtered, sortBy])
+
+  // Filtro externo: "Filtrar feed por este tema" desde el gráfico de importancia
+  // temática rellena la búsqueda del feed con ese tema (filtrado en sitio).
+  useEffect(() => { if (externalSearch) setSearch(externalSearch) }, [externalSearch])
 
   // Reinicia la paginación al cambiar filtros/orden.
   useEffect(() => { setShown(PAGE) }, [activeTier, search, sentFilter, catFilter, sectorFilter, sortBy])
