@@ -1041,7 +1041,7 @@ export function ccaaDeep(articles: AggregatedArticle[], ccaaLabel: string): CCAA
   const topNews = mine
     .filter(a => a.pubDate)
     .sort((a, b) => Math.abs(b.sentiment_score) - Math.abs(a.sentiment_score) || (b.pubDate!.getTime() - a.pubDate!.getTime()))
-    .slice(0, 8)
+    .slice(0, 30)
     .map(a => ({ title: a.title, medio: a.medio.nombre, link: a.link, sentiment: a.sentiment_score, date: a.pub_date_iso }))
 
   // Top medios
@@ -1091,9 +1091,12 @@ export function ccaaDeep(articles: AggregatedArticle[], ccaaLabel: string): CCAA
     })
     if (provArts.length === 0) continue
     const provPol = +(provArts.reduce((s, a) => s + a.sentiment_score, 0) / provArts.length).toFixed(2)
+    // TODAS las noticias de la provincia dentro de la ventana (hasta 7 días),
+    // ordenadas de más reciente a más antigua. Sin tope práctico (cap de
+    // seguridad alto) para que el dossier provincial muestre la cobertura completa.
     const provTopNews = provArts.filter(a => a.pubDate)
-      .sort((a, b) => Math.abs(b.sentiment_score) - Math.abs(a.sentiment_score))
-      .slice(0, 4)
+      .sort((a, b) => b.pubDate!.getTime() - a.pubDate!.getTime())
+      .slice(0, 300)
       .map(a => ({ title: a.title, medio: a.medio.nombre, link: a.link, sentiment: a.sentiment_score, date: a.pub_date_iso }))
     provinces.push({ name: provName, ccaa: ccaaLabel, mentions: provArts.length, polarity: provPol, topNews: provTopNews })
   }

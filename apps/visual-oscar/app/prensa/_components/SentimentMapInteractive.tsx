@@ -126,7 +126,7 @@ export default function SentimentMapInteractive({
   // en otros consumers). El cast evita romper el typecheck sin cambiar
   // comportamiento.
   const { data: detail, loading: detailLoading } = useApi<CCAADeepDetail>(
-    (selected ? `/api/medios/ccaa?ccaa=${encodeURIComponent(selected)}` : '') as string,
+    (selected ? `/api/medios/ccaa?ccaa=${encodeURIComponent(selected)}&hours=168` : '') as string,
     { refreshInterval: 0 },
   )
 
@@ -695,7 +695,7 @@ function CCAADossier({
       {/* Top noticias */}
       <Section label="Lo más destacado">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {detail.topNews.slice(0, 5).map((n, i) => {
+          {detail.topNews.slice(0, 12).map((n, i) => {
             const sColor = n.sentiment > 0.10 ? '#16A34A' : n.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
             return (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
