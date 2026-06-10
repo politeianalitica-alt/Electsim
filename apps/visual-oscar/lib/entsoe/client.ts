@@ -59,6 +59,8 @@ import type {
 import { resolveZone, type EntsoeZoneCode } from './zones.ts'
 
 const BASE = 'https://web-api.tp.entsoe.eu/api'
+/** Base URL del Web API · exportada para fetchers especiales (outages ZIP). */
+export const ENTSOE_BASE = BASE
 const PUBLIC_URL = 'https://transparency.entsoe.eu'
 const DEFAULT_TIMEOUT_MS = 15_000
 const CACHE_TTL_MS = 3600_000 // 1h
@@ -96,6 +98,11 @@ export const PSR_TYPE_LABELS: Record<string, string> = {
 // ─────────────────────────────────────────────────────────────────────────
 function getToken(): string {
   return process.env.ENTSOE_SECURITY_TOKEN || process.env.ENTSOE_API_KEY || ''
+}
+
+/** Token del Web API · exportado para fetchers especiales (outages ZIP en extended.ts). */
+export function getEntsoeToken(): string {
+  return getToken()
 }
 
 /** ¿Hay token de Web API configurado? (distinto de user/pass). */
@@ -156,6 +163,8 @@ export interface EntsoeRawQuery {
   /** Para outages/balancing/capacity que usan un único dominio de control. */
   controlArea_Domain?: string
   biddingZone_Domain?: string
+  /** Carga total A65 (real/previsión): ENTSO-E exige outBiddingZone_Domain. */
+  outBiddingZone_Domain?: string
   periodStart: string
   periodEnd: string
   processType?: string

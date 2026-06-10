@@ -38,15 +38,116 @@
  *
  * Docs: https://transparency.entsoe.eu · entsoe-py mappings/parsers.
  */
+import { inflateRawSync } from 'node:zlib'
 import type { EntsoePoint, EntsoeResponse } from '@/lib/energia/types'
 import {
   entsoeFetchRaw,
   parseTimeSeries,
   PSR_TYPE_LABELS,
+  getEntsoeToken,
+  ENTSOE_BASE,
 } from './client.ts'
 import { resolveZone, type EntsoeZoneCode } from './zones.ts'
 
 const PUBLIC_URL = 'https://transparency.entsoe.eu'
+
+// ─────────────────────────────────────────────────────────────────────────
+// ZIP de ENTSO-E para outages (A77/A80): cuando hay muchos registros, ENTSO-E
+// devuelve un archivo ZIP (magic `PK`) con uno o varios XML de
+// Unavailability_MarketDocument en lugar de XML plano. `entsoeFetchRaw` hace
+// `r.text()` y destroza el binario → 0 registros. Aquí hacemos un fetch BINARIO
+// dedicado y extraemos los XML del ZIP leyendo el directorio central (robusto
+// ante data descriptors). Sin dependencias: solo `node:zlib` (inflateRawSync).
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Extrae los XML de un ZIP (Buffer) vía su Central Directory. Nunca lanza. */
+function extractZipXmls(buf: Buffer): string[] {
+  const out: string[] = []
+  try {
+    // End Of Central Directory: firma 0x06054b50, buscada desde el final.
+    let eocd = -1
+    const minScan = Math.max(0, buf.length - 22 - 65536)
+    for (let i = buf.length - 22; i >= minScan; i--) {
+      if (buf.readUInt32LE(i) === 0x06054b50) {
+        eocd = i
+        break
+      }
+    }
+    if (eocd < 0) return out
+    const count = buf.readUInt16LE(eocd + 10)
+    let p = buf.readUInt32LE(eocd + 16) // offset del Central Directory
+    for (let n = 0; n < count; n++) {
+      if (p + 46 > buf.length || buf.readUInt32LE(p) !== 0x02014b50) break
+      const method = buf.readUInt16LE(p + 10)
+      const compSize = buf.readUInt32LE(p + 20)
+      const nameLen = buf.readUInt16LE(p + 28)
+      const extraLen = buf.readUInt16LE(p + 30)
+      const commentLen = buf.readUInt16LE(p + 32)
+      const localOff = buf.readUInt32LE(p + 42)
+      // El header LOCAL puede tener nameLen/extraLen distintos del central.
+      const lNameLen = buf.readUInt16LE(localOff + 26)
+      const lExtraLen = buf.readUInt16LE(localOff + 28)
+      const dataStart = localOff + 30 + lNameLen + lExtraLen
+      const data = buf.subarray(dataStart, dataStart + compSize)
+      try {
+        const xml = method === 0 ? data.toString('utf8') : inflateRawSync(data).toString('utf8')
+        if (xml) out.push(xml)
+      } catch {
+        // entrada corrupta → la saltamos, seguimos con el resto
+      }
+      p += 46 + nameLen + extraLen + commentLen
+    }
+  } catch {
+    // ZIP malformado → devolvemos lo que tengamos (posiblemente vacío)
+  }
+  return out
+}
+
+/**
+ * Fetch BINARIO de ENTSO-E para outages: devuelve los XML (descomprimidos si
+ * viene ZIP, o el XML plano si son pocos registros). NUNCA lanza; degrada.
+ */
+async function fetchOutagesXmls(
+  query: Record<string, string>,
+  timeoutMs = 20_000,
+): Promise<{ ok: boolean; xmls?: string[]; error?: string }> {
+  const token = getEntsoeToken()
+  if (!token) {
+    return { ok: false, error: 'token_missing · configura ENTSOE_SECURITY_TOKEN en Vercel' }
+  }
+  const params = new URLSearchParams({ securityToken: token, ...query })
+  try {
+    const ctrl = new AbortController()
+    const t = setTimeout(() => ctrl.abort(), timeoutMs)
+    const r = await fetch(`${ENTSOE_BASE}?${params.toString()}`, {
+      signal: ctrl.signal,
+      next: { revalidate: 1800 },
+    } as RequestInit)
+    clearTimeout(t)
+    if (r.status === 401 || r.status === 403) return { ok: false, error: `unauthorized · HTTP ${r.status}` }
+    if (r.status === 429) return { ok: false, error: 'rate_limited · ENTSO-E 400 req/min' }
+    if (!r.ok) return { ok: false, error: `http_${r.status}` }
+    const ab = await r.arrayBuffer()
+    const buf = Buffer.from(ab)
+    // ZIP? (magic PK\x03\x04)
+    if (buf.length >= 4 && buf[0] === 0x50 && buf[1] === 0x4b) {
+      const xmls = extractZipXmls(buf)
+      return { ok: true, xmls }
+    }
+    const text = buf.toString('utf8')
+    if (/Acknowledgement_MarketDocument/.test(text)) {
+      const reason = /<text>([^<]*)<\/text>/.exec(text)?.[1] || 'sin datos en el rango'
+      return { ok: false, error: `entsoe_error · ${reason}` }
+    }
+    return { ok: true, xmls: [text] }
+  } catch (e: unknown) {
+    const msg =
+      (e as { name?: string })?.name === 'AbortError'
+        ? 'timeout'
+        : String((e as Error)?.message ?? e).slice(0, 160)
+    return { ok: false, error: msg }
+  }
+}
 
 // ─────────────────────────────────────────────────────────────────────────
 // Tipos de retorno (todos exportados)
@@ -282,10 +383,9 @@ async function fetchLoadCore(
   const raw = await entsoeFetchRaw({
     documentType: 'A65',
     processType,
-    // outBiddingZone_Domain no es campo tipado en EntsoeRawQuery; usamos
-    // biddingZone_Domain (cubre el dominio único de carga). ENTSO-E acepta
-    // outBiddingZone_Domain para A65; reusamos el dominio de zona disponible.
-    biddingZone_Domain: zone.eic,
+    // ENTSO-E EXIGE outBiddingZone_Domain para A65 (con biddingZone_Domain
+    // devuelve HTTP 400). Verificado en vivo contra web-api.tp.entsoe.eu.
+    outBiddingZone_Domain: zone.eic,
     periodStart,
     periodEnd,
   })
@@ -480,9 +580,11 @@ export async function fetchInstalledCapacity(
     return { ok: false, error: `año_invalido · ${year}`, fetched_at, source_url: PUBLIC_URL }
   }
 
-  // Periodo = el año entero en formato yyyyMMddHHmm (UTC).
+  // A68 es un valor ANUAL: ENTSO-E lo publica con la marca del 1 de enero.
+  // Una ventana CORTA (1-2 ene) devuelve los datos; el año completo da
+  // `sin_datos`/error (verificado en vivo). Por eso pedimos solo el inicio.
   const periodStart = `${yr}01010000`
-  const periodEnd = `${yr}12312300`
+  const periodEnd = `${yr}01020000`
 
   const raw = await entsoeFetchRaw({
     documentType: 'A68',
@@ -582,7 +684,10 @@ export async function fetchGenerationOutages(
     return { ok: false, error: `zona_desconocida · ${zoneCode}`, fetched_at, source_url: PUBLIC_URL }
   }
 
-  const raw = await entsoeFetchRaw({
+  // A80 devuelve un ZIP (PK) cuando hay muchos registros; usamos el fetch
+  // BINARIO dedicado que descomprime y concatena los XML. periodEnd-periodStart
+  // máx ~1 año (limitación ENTSO-E).
+  const raw = await fetchOutagesXmls({
     documentType: 'A80',
     biddingZone_Domain: zone.eic,
     periodStart,
@@ -591,7 +696,8 @@ export async function fetchGenerationOutages(
   })
   if (!raw.ok) return { ok: false, error: raw.error, fetched_at, source_url: PUBLIC_URL }
 
-  const xml = raw.xml || ''
+  // Concatenamos todos los XML del ZIP: el regex de <TimeSeries> los recorre todos.
+  const xml = (raw.xmls || []).join('\n')
   const outages: EntsoeOutageRecord[] = []
 
   const tsRe = /<TimeSeries\b[^>]*>([\s\S]*?)<\/TimeSeries>/g
