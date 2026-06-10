@@ -28,7 +28,7 @@ export default function ArchiveLink({
       href={archived}
       target="_blank"
       rel="noopener noreferrer"
-      title="Leer versión archivada (archive.today) · esquiva muros de pago"
+      title="Leer versión archivada (Wayback Machine) · enlace siempre disponible"
       aria-label="Versión archivada (acceso libre)"
       onClick={(e) => e.stopPropagation()}
       style={{
