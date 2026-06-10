@@ -38,6 +38,8 @@ import FeedTiered from './_components/FeedTiered'
 import TopicImportanceChart, { type TopicImportanceItem } from './_components/TopicImportanceChart'
 // Sprint G15 FASE D4 · workbench unificado de narrativas (reemplaza apilamiento)
 import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_components/NarrativesFramingWorkbench'
+import PrimiciasPanel from './_components/PrimiciasPanel'
+import AlertasInApp from './_components/AlertasInApp'
 // NarrativesDeepView, NarrativesV3View, SentimentDualView, StoryClustersView ya no se usan
 // (sustituidos por NarrativesFramingWorkbench en narrativas y TendenciasImpactoView en tendencias).
 // Se conservan en _components/ para evitar romper rutas legacy y por si se reusan en informes.
@@ -503,6 +505,12 @@ export default function PrensaPage() {
                     question="¿Qué está dominando ahora mismo la agenda?"
                     answer="Las narrativas dominantes y los titulares por ámbito (nacional, europeo, regional, local), qué temas concentra cada partido y qué historias están acelerando ahora. Análisis IA opcional."
                   />
+                  {/* Alertas automáticas in-app (calculadas en cliente) */}
+                  <AlertasInApp
+                    clusters={data?.narrative_clusters as any}
+                    gaps={data?.coverage_gaps as any}
+                    balanceScore={methodology?.ideological_balance_score}
+                  />
                   {/* Sprint M4 FASE B · metodología + confianza + warnings (mismo motor que NewsAPI search) */}
                   {(data?.methodology_confidence || data?.analysis_warnings) && (
                     <MetodologiaConfianzaPanel
@@ -619,6 +627,9 @@ export default function PrensaPage() {
                   )}
                   {data?.coverage_gaps && data.coverage_gaps.length > 0 && (
                     <CoverageGapsPanel gaps={data.coverage_gaps as any} />
+                  )}
+                  {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
+                    <PrimiciasPanel clusters={data.narrative_clusters as any} />
                   )}
                 </div>
               )}
