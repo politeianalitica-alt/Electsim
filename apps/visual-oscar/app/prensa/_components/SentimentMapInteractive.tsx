@@ -731,6 +731,9 @@ function CCAADossier({
 // ── Province Dossier (drill) ─────────────────────────────────────────────
 
 function ProvinceDossier({ province, onClose }: { province: ProvinceStat; onClose: () => void }) {
+  const [showAll, setShowAll] = useState(false)
+  useEffect(() => { setShowAll(false) }, [province.name]) // reiniciar al cambiar de provincia
+  const visibleNews = showAll ? province.topNews : province.topNews.slice(0, 7)
   return (
     <div>
       <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
@@ -756,7 +759,7 @@ function ProvinceDossier({ province, onClose }: { province: ProvinceStat; onClos
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {province.topNews.length === 0 ? (
             <div style={{ fontSize: 12, color: '#9ca3af', fontStyle: 'italic' }}>Sin noticias específicas detectadas en el feed.</div>
-          ) : province.topNews.map((n, i) => {
+          ) : visibleNews.map((n, i) => {
             const sColor = n.sentiment > 0.10 ? '#16A34A' : n.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
             const when = n.date
               ? new Date(n.date).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
@@ -773,6 +776,13 @@ function ProvinceDossier({ province, onClose }: { province: ProvinceStat; onClos
             )
           })}
         </div>
+        {!showAll && province.topNews.length > 7 && (
+          <button onClick={() => setShowAll(true)} style={{
+            marginTop: 8, width: '100%', padding: '8px 12px', background: '#FAFAFB',
+            border: '1px solid #ECECEF', borderRadius: 8, fontSize: 12, fontWeight: 600,
+            color: '#7C3AED', cursor: 'pointer', fontFamily: 'inherit',
+          }}>Ver todas las {province.topNews.length} noticias →</button>
+        )}
       </Section>
     </div>
   )
