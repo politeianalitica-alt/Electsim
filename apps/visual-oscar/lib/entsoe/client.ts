@@ -322,7 +322,12 @@ export function parseTimeSeries(
   return out
 }
 
-/** Convierte "PT60M" / "PT15M" / "P1D" / "PT1H" a minutos. 0 si no se reconoce. */
+/**
+ * Convierte "PT60M" / "PT15M" / "P1D" / "PT1H" / "P7D" / "P1M" / "P1Y" a minutos.
+ * 0 si no se reconoce. Nota: PT..M = minutos; P..M (sin T) = meses. Las
+ * resoluciones largas (semana/mes/año) las usan A72 (embalses, P7D) y A68
+ * (capacidad instalada, P1Y); sin ellas esos Period se descartaban → sin_datos.
+ */
 function parseResolutionMin(res: string | undefined): number {
   if (!res) return 0
   const h = /PT(\d+)H/.exec(res)
@@ -331,6 +336,13 @@ function parseResolutionMin(res: string | undefined): number {
   if (m) return parseInt(m[1], 10)
   const d = /P(\d+)D/.exec(res)
   if (d) return parseInt(d[1], 10) * 24 * 60
+  const w = /P(\d+)W/.exec(res)
+  if (w) return parseInt(w[1], 10) * 7 * 24 * 60
+  // P..M (sin T) = meses; PT..M ya se resolvió arriba, así que aquí es seguro.
+  const mo = /P(\d+)M/.exec(res)
+  if (mo) return parseInt(mo[1], 10) * 30 * 24 * 60
+  const y = /P(\d+)Y/.exec(res)
+  if (y) return parseInt(y[1], 10) * 365 * 24 * 60
   return 0
 }
 
