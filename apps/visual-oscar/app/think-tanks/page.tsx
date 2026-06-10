@@ -19,6 +19,8 @@ import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
 import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 import MediosHero from '@/components/medios/MediosHero'
 import MapaNoticiasMundo from '@/components/medios/MapaNoticiasMundo'
+import BoardToolbar from '@/components/medios/BoardToolbar'
+import { downloadCsv } from '@/lib/medios/export'
 
 interface TTItem {
   id: string
@@ -240,6 +242,14 @@ export default function ThinkTanksPage() {
                 })}
               </div>
             </div>
+            <BoardToolbar
+              count={ordered.length}
+              onExportCsv={() => downloadCsv('think-tanks', ordered.map((it) => ({
+                titulo: it.titulo, fuente: it.fuente, bloque: it.bloque_label, sector: it.sector_label,
+                fecha: it.fecha, urgencia: it.urgencia, relevancia_espana: it.relevancia_espana,
+                paises: it.paises_detectados.join('; '), temas: it.temas_detectados.join('; '), url: it.url,
+              })))}
+            />
           </div>
         </div>
 

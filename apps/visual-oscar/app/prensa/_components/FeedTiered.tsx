@@ -16,6 +16,8 @@ import { useEffect, useMemo, useState } from 'react'
 import type { TieredFeed, Tier, TieredArticle } from '@/lib/news-intel'
 import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
 import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
+import BoardToolbar from '@/components/medios/BoardToolbar'
+import { downloadCsv } from '@/lib/medios/export'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
   nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '◆' },
@@ -249,7 +251,18 @@ export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed
             <button key={s.id} onClick={() => setSortBy(s.id)} style={chipStyle(sortBy === s.id, '#7C2D92')}>{s.label}</button>
           ))}
         </div>
-        <span style={{ marginLeft: 'auto', fontSize: 12, color: '#6e6e73' }}>{filtered.length} de {allArticles.length} noticias</span>
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 12, color: '#6e6e73' }}>{filtered.length} de {allArticles.length} noticias</span>
+          <BoardToolbar
+            count={sorted.length}
+            showCopyLink={false}
+            onExportCsv={() => downloadCsv('prensa-feed', sorted.map((a) => ({
+              titular: a.title, medio: a.medio.nombre, tipo: a.medio.tipo, ideologia: a.medio.ideologia,
+              categoria: a.category, sector: a.sector, tier: a.tier, sentimiento: a.sentiment_score.toFixed(2),
+              fecha: a.pub_date_iso ?? '', url: a.link,
+            })))}
+          />
+        </div>
       </div>
 
       {/* ── Portada de destacadas (solo sin filtros) ──────────────── */}

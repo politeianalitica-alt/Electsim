@@ -8,6 +8,8 @@ import LiveStatusBadge from '@/components/LiveStatusBadge'
 import MediosHero from '@/components/medios/MediosHero'
 import MapaNoticiasEspana from '@/components/medios/MapaNoticiasEspana'
 import ArchiveLink from '@/components/medios/ArchiveLink'
+import BoardToolbar from '@/components/medios/BoardToolbar'
+import { downloadCsv } from '@/lib/medios/export'
 import { loadPrefs, setWeight, weightMultiplier, levelLabel, levelColor, type WeightLevel } from '@/lib/media-prefs'
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -380,7 +382,17 @@ export default function MapaDeMediosPage() {
 
         {/* Catálogo completo */}
         <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
-          <h2 style={{ margin: '0 0 14px', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d' }}>Catálogo · {visibles.length} medios</h2>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
+            <h2 style={{ margin: 0, fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d' }}>Catálogo · {visibles.length} medios</h2>
+            <BoardToolbar
+              count={visibles.length}
+              onExportCsv={() => downloadCsv('catalogo-medios', visibles.map((m) => ({
+                nombre: m.nombre, tipo: m.tipo, grupo: m.grupo, ambito: m.scope_level ?? m.ambito ?? '',
+                ccaa: m.ccaa ?? '', ideologia: m.ideologia, credibilidad: cred100(m.credibilidad),
+                audiencia_M: m.audiencia_M, rss: m.rss ? 'sí' : 'no', web: m.web,
+              })))}
+            />
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(330px,1fr))', gap: 8 }}>
             {[...visibles].sort((a, b) => b.audiencia_M - a.audiencia_M).map(m => (
               <div key={m.id}
