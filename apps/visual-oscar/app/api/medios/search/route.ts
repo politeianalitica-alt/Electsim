@@ -36,6 +36,7 @@ import { NextResponse } from 'next/server'
 import mediosData from '@/data/medios.json'
 import mediosEuropeosData from '@/data/medios-europeos.json'
 import { IDEOLOGY_RANGES, type SourceGroup } from '@/lib/medios/sources-matrix'
+import { classifySector, SECTOR_LABELS, type SectorKey } from '@/lib/medios/sector-taxonomy'
 
 import {
   readArticlesBatch, framingComparison, coverageGapsAnalysis,
@@ -527,6 +528,13 @@ async function runSearch(req: MediaSearchRequest) {
     matchToken,
   )
   const catalogMatchStats = endCatalogMatchTracking(matchToken)
+  // Sector (taxonomía compartida) por reading · se muestra en el panel de lectura
+  // de cada artículo (ArticleReadingPanel · fila "Sector").
+  for (const r of readings) {
+    const sec = classifySector(`${r.headline} ${r.summary}`).sector
+    ;(r as { sector?: SectorKey; sector_label?: string }).sector = sec
+    ;(r as { sector?: SectorKey; sector_label?: string }).sector_label = SECTOR_LABELS[sec]
+  }
   // Diversidad sobre profiles derivados de readings
   const profiles = readings.map((r) => profileFromDomain(domainFromUrl(r.url), r.medium, r.medium_ideology_bucket))
   const sourceDiversity = buildDiversityBreakdown(profiles)

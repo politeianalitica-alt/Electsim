@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import AppHeader from '../../_components/AppHeader'
 import { Panel } from '@/components/SectorPanel'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 interface FactCheck {
   id: string
@@ -309,35 +310,33 @@ function FactCheckCard({ fc }: { fc: FactCheck }) {
   const colorV = VEREDICTO_COLOR[fc.veredicto] || '#9CA3AF'
   const colorA = ALCANCE_COLOR[fc.alcanceEstimado] || '#9CA3AF'
   return (
-    <li style={{ padding: 12, background: '#fff', border: '1px solid #ECECEF', borderRadius: 10, borderLeft: `4px solid ${colorV}` }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
-        <div>
-          <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 4 }}>
-            <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 8px', borderRadius: 4, background: colorV, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              {fc.veredictoLabel}
-            </span>
-            <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: fc.fuenteColor, color: '#fff', letterSpacing: '0.03em' }}>{fc.fuente}</span>
-            <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 999, background: `${colorA}20`, color: colorA }}>Alcance {fc.alcanceEstimado}</span>
-            {fc.fecha && <span style={{ fontSize: 9.5, color: '#86868b' }}>{new Date(fc.fecha).toLocaleDateString('es-ES')}</span>}
-          </div>
-          <a href={fc.url} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.4 }}>{fc.titulo}</p>
-          </a>
+    <li style={{ listStyle: 'none' }}>
+      <CollapsibleArticle
+        title={fc.titulo}
+        href={fc.url}
+        medio={fc.fuente}
+        when={fc.fecha ? new Date(fc.fecha).toLocaleDateString('es-ES') : undefined}
+        accent={colorV}
+      >
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 6 }}>
+          <span style={{ fontSize: 9, fontWeight: 800, padding: '2px 8px', borderRadius: 4, background: colorV, color: '#fff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{fc.veredictoLabel}</span>
+          <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 4, background: fc.fuenteColor, color: '#fff', letterSpacing: '0.03em' }}>{fc.fuente}</span>
+          <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 6px', borderRadius: 999, background: `${colorA}20`, color: colorA }}>Alcance {fc.alcanceEstimado}</span>
         </div>
-      </div>
-      {fc.descripcion && (
-        <p style={{ margin: '4px 0 6px', fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.5 }}>{fc.descripcion}</p>
-      )}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 6 }}>
-        {fc.temas.map(t => (
-          <span key={t} style={{ fontSize: 9.5, padding: '2px 6px', borderRadius: 4, background: '#F5F5F7', color: '#3a3a3d' }}>{t}</span>
-        ))}
-        {fc.actoresAfectados.length > 0 && (
-          <span style={{ fontSize: 9.5, padding: '2px 6px', borderRadius: 4, background: '#FFF1F2', color: '#7F1D1D', fontWeight: 600 }}>
-            Afecta: {fc.actoresAfectados.slice(0, 2).join(', ')}{fc.actoresAfectados.length > 2 ? ` +${fc.actoresAfectados.length - 2}` : ''}
-          </span>
+        {fc.descripcion && (
+          <p style={{ margin: '0 0 6px', fontSize: 11.5, color: '#3a3a3d', lineHeight: 1.5 }}>{fc.descripcion}</p>
         )}
-      </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+          {fc.temas.map(t => (
+            <span key={t} style={{ fontSize: 9.5, padding: '2px 6px', borderRadius: 4, background: '#F5F5F7', color: '#3a3a3d' }}>{t}</span>
+          ))}
+          {fc.actoresAfectados.length > 0 && (
+            <span style={{ fontSize: 9.5, padding: '2px 6px', borderRadius: 4, background: '#FFF1F2', color: '#7F1D1D', fontWeight: 600 }}>
+              Afecta: {fc.actoresAfectados.slice(0, 2).join(', ')}{fc.actoresAfectados.length > 2 ? ` +${fc.actoresAfectados.length - 2}` : ''}
+            </span>
+          )}
+        </div>
+      </CollapsibleArticle>
     </li>
   )
 }

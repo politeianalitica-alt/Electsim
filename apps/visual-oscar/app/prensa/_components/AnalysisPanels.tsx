@@ -157,12 +157,12 @@ export function ActoresImpactoPanel({ impacts, max = 12 }: { impacts: ActorImpac
               <span style={{ color: '#0f172a', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={a.sample_reasons[0] || ''}>{a.actor}</span>
               <span style={{ color: '#475569', fontFamily: 'ui-monospace, monospace', textAlign: 'right' }}>{a.mentions}</span>
               <div style={{ display: 'flex', height: 10, borderRadius: 2, overflow: 'hidden' }}>
-                {a.beneficial > 0 && <div style={{ width: `${(a.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficial ${a.beneficial}`} />}
-                {a.harmful > 0 && <div style={{ width: `${(a.harmful / total) * 100}%`, background: '#dc2626' }} title={`harmful ${a.harmful}`} />}
+                {a.beneficial > 0 && <div style={{ width: `${(a.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficioso ${a.beneficial}`} />}
+                {a.harmful > 0 && <div style={{ width: `${(a.harmful / total) * 100}%`, background: '#dc2626' }} title={`perjudicial ${a.harmful}`} />}
                 {a.neutral > 0 && <div style={{ width: `${(a.neutral / total) * 100}%`, background: '#94a3b8' }} title={`neutral ${a.neutral}`} />}
-                {a.uncertain > 0 && <div style={{ width: `${(a.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`uncertain ${a.uncertain}`} />}
+                {a.uncertain > 0 && <div style={{ width: `${(a.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`incierto ${a.uncertain}`} />}
               </div>
-              <span style={{ fontSize: 8, color: impactColor, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>● {a.dominant_impact}</span>
+              <span style={{ fontSize: 8, color: impactColor, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>● {a.dominant_impact === 'beneficial' ? 'beneficioso' : a.dominant_impact === 'harmful' ? 'perjudicial' : a.dominant_impact === 'uncertain' ? 'incierto' : 'neutral'}</span>
             </div>
           )
         })}

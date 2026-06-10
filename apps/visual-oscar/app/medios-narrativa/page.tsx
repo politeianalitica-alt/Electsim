@@ -5,570 +5,481 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
-import NarrativeLifecycle from '@/components/NarrativeLifecycle'
-import SourceHealthDetail from '@/components/SourceHealthDetail'
-import { NewsApiHeadlinesPanel } from '@/components/media/NewsApiHeadlinesPanel'
+import MediosHero from '@/components/medios/MediosHero'
+import MapaNoticiasEspana from '@/components/medios/MapaNoticiasEspana'
+import BoardToolbar from '@/components/medios/BoardToolbar'
+import { downloadCsv } from '@/lib/medios/export'
+import TonoRealPanel from '@/components/medios/TonoRealPanel'
 import { loadPrefs, setWeight, weightMultiplier, levelLabel, levelColor, type WeightLevel } from '@/lib/media-prefs'
 
 // ─────────────────────────────────────────────────────────────────────────
-// Modelo
+// Modelo · shape REAL de /api/medios (sin mocks, sin datos inventados)
 // ─────────────────────────────────────────────────────────────────────────
-type TipoMedio = 'Prensa' | 'Digital' | 'TV' | 'Radio' | 'Agencias' | 'Revista'
-
-type Medio = {
-  id: string
-  nombre: string
-  grupo: string
-  tipo: TipoMedio
-  ejeX: number      // -100 izquierda · +100 derecha
-  alcance: number   // millones de lectores/oyentes/espectadores únicos
-  tono: number      // -1 .. +1 (sentimiento medio sobre el Gobierno)
-  share: number     // % de cuota en su segmento
-  color?: string
-  ambito?: string
-  ccaa?: string | null
-  credibilidad?: number
-  web?: string      // URL pública del medio (para enlace directo)
+type ApiMedio = {
+  id: string; nombre: string; grupo: string; tipo: string; ambito: string
+  ccaa: string | null; ideologia: number; audiencia_M: number; credibilidad: number
+  rss: string | null; web: string; color?: string
+  provincia?: string | null; municipio?: string | null
+  scope_level?: 'nacional' | 'autonomico' | 'provincial' | 'local' | 'europeo' | null
 }
-
-// Shape de la respuesta de /api/medios
-type MediosResponse = {
-  medios: Array<{
-    id: string; nombre: string; grupo: string; tipo: string; ambito: string
-    ccaa: string | null; ideologia: number; audiencia_M: number; credibilidad: number
-    rss: string | null; web: string; color?: string
-  }>
-  stats: {
-    total: number; con_rss: number; audiencia_total_M: number;
-    por_tipo: Record<string, number>; por_ambito: Record<string, number>
-  }
+type Stats = {
+  total: number
+  por_tipo: Record<string, number>
+  por_ambito: Record<string, number>
+  por_scope: Record<string, number>
+  por_ccaa: Record<string, number>
+  por_ideologia: Record<string, number>
+  por_grupo: { grupo: string; n: number; share: number; audiencia_M: number }[]
+  con_rss: number; rss_share: number; audiencia_total_M: number
+  credibilidad_media: number; n_grupos_distintos: number
 }
+type MediosResponse = { medios: ApiMedio[]; stats: Stats }
 
-// Datos iniciales · 27 mocks usados como fallback hasta que llegue la respuesta de la API
-const INITIAL_MEDIOS: Medio[] = [
-  // Prensa
-  { id:'el-pais',     nombre:'El País',         grupo:'PRISA',         tipo:'Prensa',  ejeX:-25, alcance:1.6, tono:+0.08, share:18.4 },
-  { id:'el-mundo',    nombre:'El Mundo',        grupo:'Unidad Edit.',  tipo:'Prensa',  ejeX: 32, alcance:1.1, tono:-0.18, share:12.6 },
-  { id:'abc',         nombre:'ABC',             grupo:'Vocento',       tipo:'Prensa',  ejeX: 50, alcance:0.7, tono:-0.32, share: 8.2 },
-  { id:'la-razon',    nombre:'La Razón',        grupo:'Planeta',       tipo:'Prensa',  ejeX: 55, alcance:0.5, tono:-0.36, share: 6.4 },
-  { id:'la-vanguardia',nombre:'La Vanguardia',  grupo:'Godó',          tipo:'Prensa',  ejeX:  -8, alcance:0.6, tono:-0.04, share: 7.1 },
-  { id:'publico',     nombre:'Público',         grupo:'Display',       tipo:'Prensa',  ejeX:-58, alcance:0.3, tono:+0.22, share: 3.4 },
+const TIPO_COLOR: Record<string, string> = {
+  'Prensa': '#5B21B6', 'Digital': '#0F766E', 'TV': '#DC2626',
+  'Radio': '#F97316', 'Agencias': '#6e6e73', 'Revista': '#0EA5E9',
+}
+const TIPO_ORDER = ['Prensa', 'Digital', 'TV', 'Radio', 'Agencias', 'Revista']
 
-  // Digital
-  { id:'eldiario',    nombre:'eldiario.es',     grupo:'Independiente', tipo:'Digital', ejeX:-48, alcance:1.4, tono:+0.18, share:14.8 },
-  { id:'okdiario',    nombre:'OK Diario',       grupo:'Independiente', tipo:'Digital', ejeX: 65, alcance:1.5, tono:-0.42, share:15.6 },
-  { id:'el-espanol',  nombre:'El Español',      grupo:'Independiente', tipo:'Digital', ejeX: 35, alcance:1.2, tono:-0.20, share:12.7 },
-  { id:'el-confidencial',nombre:'El Confidencial',grupo:'Titania',     tipo:'Digital', ejeX:  8, alcance:1.3, tono:-0.06, share:13.7 },
-  { id:'voz-populi',  nombre:'Vozpópuli',       grupo:'Independiente', tipo:'Digital', ejeX: 48, alcance:0.6, tono:-0.28, share: 6.4 },
-  { id:'infolibre',   nombre:'infoLibre',       grupo:'Independiente', tipo:'Digital', ejeX:-35, alcance:0.4, tono:+0.12, share: 4.5 },
-  { id:'huffington',  nombre:'HuffPost',        grupo:'PRISA',         tipo:'Digital', ejeX:-25, alcance:0.5, tono:+0.10, share: 5.4 },
+const CCAA_CODE_LABEL: Record<string, string> = {
+  AND: 'Andalucía', ARA: 'Aragón', AST: 'Asturias', BAL: 'Baleares', CAN: 'Canarias',
+  CNT: 'Cantabria', CLM: 'Castilla-La Mancha', CYL: 'Castilla y León', CAT: 'Cataluña',
+  EXT: 'Extremadura', GAL: 'Galicia', MAD: 'Madrid', MUR: 'Murcia', NAV: 'Navarra',
+  PV: 'País Vasco', RIO: 'La Rioja', VAL: 'Valencia', CEU: 'Ceuta', MEL: 'Melilla',
+}
+const SCOPE_LABEL: Record<string, string> = {
+  nacional: 'Nacional', autonomico: 'Autonómico', provincial: 'Provincial', local: 'Local', europeo: 'Europeo',
+}
+const SCOPES = ['Todos', 'nacional', 'autonomico', 'provincial', 'local'] as const
 
-  // TV
-  { id:'la1',         nombre:'La 1 (TVE)',      grupo:'RTVE',          tipo:'TV',      ejeX:-12, alcance:9.8, tono:+0.04, share:16.5 },
-  { id:'antena3',     nombre:'Antena 3',        grupo:'Atresmedia',    tipo:'TV',      ejeX: 12, alcance:8.4, tono:-0.08, share:14.1 },
-  { id:'telecinco',   nombre:'Telecinco',       grupo:'Mediaset',      tipo:'TV',      ejeX: 22, alcance:7.5, tono:-0.18, share:12.6 },
-  { id:'la-sexta',    nombre:'La Sexta',        grupo:'Atresmedia',    tipo:'TV',      ejeX:-32, alcance:5.6, tono:+0.16, share: 9.4 },
-  { id:'cuatro',      nombre:'Cuatro',          grupo:'Mediaset',      tipo:'TV',      ejeX:  5, alcance:3.2, tono:-0.06, share: 5.4 },
-  { id:'tv3',         nombre:'TV3 (CCMA)',      grupo:'CCMA',          tipo:'TV',      ejeX:-18, alcance:1.8, tono:-0.02, share: 3.0 },
-  { id:'13tv',        nombre:'13TV',            grupo:'COPE',          tipo:'TV',      ejeX: 62, alcance:1.2, tono:-0.40, share: 2.0 },
-
-  // Radio
-  { id:'cope',        nombre:'COPE',            grupo:'COPE',          tipo:'Radio',   ejeX: 42, alcance:3.2, tono:-0.34, share:24.5 },
-  { id:'cadena-ser',  nombre:'Cadena SER',      grupo:'PRISA',         tipo:'Radio',   ejeX:-22, alcance:4.8, tono:+0.12, share:36.7 },
-  { id:'onda-cero',   nombre:'Onda Cero',       grupo:'Atresmedia',    tipo:'Radio',   ejeX: 15, alcance:2.1, tono:-0.10, share:16.0 },
-  { id:'rne',         nombre:'RNE',             grupo:'RTVE',          tipo:'Radio',   ejeX:-10, alcance:1.5, tono:+0.04, share:11.5 },
-  { id:'esradio',     nombre:'esRadio',         grupo:'Libertad Digital',tipo:'Radio', ejeX: 70, alcance:0.6, tono:-0.46, share: 4.6 },
-
-  // Agencias
-  { id:'efe',         nombre:'Agencia EFE',     grupo:'Pública',       tipo:'Agencias',ejeX:-5,  alcance:0.0, tono:+0.02, share:55.0 },
-  { id:'europa-press',nombre:'Europa Press',    grupo:'Privada',       tipo:'Agencias',ejeX: 8,  alcance:0.0, tono:-0.04, share:35.0 },
+const IDEO_BUCKETS: { key: string; label: string; color: string }[] = [
+  { key: 'izquierda', label: 'Izquierda', color: '#E1322D' },
+  { key: 'centro-izquierda', label: 'C-izquierda', color: '#EE7E7B' },
+  { key: 'centro', label: 'Centro', color: '#9CA3AF' },
+  { key: 'centro-derecha', label: 'C-derecha', color: '#6E9BD1' },
+  { key: 'derecha', label: 'Derecha', color: '#1F4E8C' },
 ]
 
-const TIPO_COLOR: Record<TipoMedio, string> = {
-  'Prensa':   '#5B21B6',
-  'Digital':  '#0F766E',
-  'TV':       '#DC2626',
-  'Radio':    '#F97316',
-  'Agencias': '#6e6e73',
-  'Revista':  '#0EA5E9',
+// jitter determinista por id (anti-solape sin aleatoriedad por render)
+function hashId(s: string): number { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return h }
+function jitter(id: string, amp: number): [number, number] {
+  const h = hashId(id)
+  return [((h & 0xff) / 255 - 0.5) * 2 * amp, (((h >> 8) & 0xff) / 255 - 0.5) * 2 * amp]
 }
-
-// ─────────────────────────────────────────────────────────────────────────
-// Narrativas dominantes
-// ─────────────────────────────────────────────────────────────────────────
-type Narrativa = {
-  tema: string
-  menciones: number     // miles
-  variacion: number     // % vs semana anterior
-  tono: number          // -1 .. +1
-  topMedios: string[]
-  topPartido: string
-  tag: string
+function ideoColor(x: number): string { return x < -10 ? '#E1322D' : x > 10 ? '#1F4E8C' : '#6e6e73' }
+function ideoBucket(x: number): string {
+  if (x <= -40) return 'izquierda'; if (x <= -10) return 'centro-izquierda'
+  if (x < 10) return 'centro'; if (x < 40) return 'centro-derecha'; return 'derecha'
 }
-
-const NARRATIVAS: Narrativa[] = [
-  { tema:'Prima de riesgo y Tesoro',          menciones:18.4, variacion:+42, tono:-0.38, topMedios:['ABC','OK Diario','La Razón'], topPartido:'PP',  tag:'MERCADOS' },
-  { tema:'Ruptura Junts con la legislatura',  menciones:24.1, variacion:+185,tono:-0.18, topMedios:['El Mundo','El País','La Sexta'], topPartido:'Junts', tag:'GOBIERNO' },
-  { tema:'Aranceles EE.UU. al aceite y vino', menciones:12.6, variacion:+78, tono:-0.22, topMedios:['El Confidencial','El País','Antena 3'], topPartido:'Gobierno', tag:'EXTERIOR' },
-  { tema:'Reforma del CGPJ',                  menciones: 9.8, variacion:+18, tono:-0.10, topMedios:['ABC','El Mundo','La Razón'], topPartido:'PP',  tag:'JUSTICIA' },
-  { tema:'Ley de Vivienda · zonas tensionadas',menciones:8.2, variacion: -8, tono:+0.08, topMedios:['La Sexta','El País','eldiario.es'], topPartido:'Sumar', tag:'SOCIAL' },
-  { tema:'#MociónCensura',                    menciones:11.2, variacion:+220,tono:-0.42, topMedios:['OK Diario','13TV','esRadio'], topPartido:'PP',   tag:'OPOSICIÓN' },
-  { tema:'Decreto agroalimentario',           menciones: 6.4, variacion:+34, tono:+0.12, topMedios:['EFE','La 1','Cadena SER'], topPartido:'Gobierno', tag:'AGRARIA' },
-  { tema:'Negociación PNV · transferencia ferroviaria', menciones:5.1, variacion:+12, tono:-0.04, topMedios:['El País','Onda Cero'], topPartido:'PNV', tag:'TERRITORIAL' },
-]
-
-const TIPOS_FIL = ['Todos','Prensa','Digital','TV','Radio','Agencias','Revista'] as const
+function cred100(c: number): number { return Math.round((c <= 1 ? c * 100 : c)) }
 
 // ─────────────────────────────────────────────────────────────────────────
 // Page
 // ─────────────────────────────────────────────────────────────────────────
-export default function MediosNarrativaPage() {
+export default function MapaDeMediosPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  // Catálogo dinámico desde /api/medios (219 medios reales) · auto-refresh 5min
-  const { data, source, updatedAt, refresh } = useApi<MediosResponse>(
-    '/api/medios',
-    { refreshInterval: 300_000 }
-  )
+  const { data, source, updatedAt, refresh } = useApi<MediosResponse>('/api/medios', { refreshInterval: 300_000 })
+  const medios = useMemo(() => data?.medios ?? [], [data])
+  const stats = data?.stats
 
-  // Adaptador: shape catálogo (ideologia/audiencia_M) → shape de la página (ejeX/alcance/tono)
-  const MEDIOS: Medio[] = useMemo(() => {
-    if (!data?.medios?.length) return INITIAL_MEDIOS
-    // Cuota dentro de su tipo · suma de audiencia del tipo = 100%
-    const sumaPorTipo: Record<string, number> = {}
-    for (const m of data.medios) sumaPorTipo[m.tipo] = (sumaPorTipo[m.tipo] || 0) + m.audiencia_M
-    return data.medios.map(m => ({
-      id: m.id,
-      nombre: m.nombre,
-      grupo: m.grupo,
-      tipo: m.tipo as TipoMedio,
-      ejeX: m.ideologia,
-      alcance: m.audiencia_M,
-      tono: 0, // TODO: derivar de sentiment del feed; placeholder neutro
-      share: sumaPorTipo[m.tipo] > 0 ? +(100 * m.audiencia_M / sumaPorTipo[m.tipo]).toFixed(1) : 0,
-      ambito: m.ambito,
-      ccaa: m.ccaa,
-      credibilidad: m.credibilidad,
-      web: m.web,
-    }))
-  }, [data])
-
-  const [filterTipo, setFilterTipo] = useState<typeof TIPOS_FIL[number]>('Todos')
+  // ── Filtros ───────────────────────────────────────────────────────────
+  const [filterTipo, setFilterTipo] = useState<string>('Todos')
+  const [filterScope, setFilterScope] = useState<string>('Todos')
+  const [query, setQuery] = useState('')
+  const [yAxis, setYAxis] = useState<'credibilidad' | 'alcance'>('credibilidad')
   const [hovered, setHovered] = useState<string | null>(null)
-  const [pinned, setPinned]   = useState<string | null>(null)
+  const [pinned, setPinned] = useState<string | null>(null)
   const focused = pinned ?? hovered
-  const focusedM = focused ? MEDIOS.find(m => m.id === focused) : null
 
-  // ── Preferencias del usuario sobre peso de cada medio ─────────────────────
+  // ── Preferencias de peso por medio (persistidas) ────────────────────────
   const [prefs, setPrefs] = useState<Record<string, WeightLevel>>({})
   useEffect(() => {
     setPrefs(loadPrefs().weights)
-    const refresh = () => setPrefs(loadPrefs().weights)
-    window.addEventListener('media-prefs:change', refresh)
-    return () => window.removeEventListener('media-prefs:change', refresh)
+    const r = () => setPrefs(loadPrefs().weights)
+    window.addEventListener('media-prefs:change', r)
+    return () => window.removeEventListener('media-prefs:change', r)
   }, [])
-  function handleSetWeight(medioId: string, level: WeightLevel) {
-    setWeight(medioId, level)
-    setPrefs(loadPrefs().weights)
-  }
+  function handleSetWeight(id: string, lv: WeightLevel) { setWeight(id, lv); setPrefs(loadPrefs().weights) }
+
+  const tiposPresentes = useMemo(() => {
+    const set = new Set(medios.map(m => m.tipo))
+    return ['Todos', ...TIPO_ORDER.filter(t => set.has(t))]
+  }, [medios])
+
+  const visibles = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return medios.filter(m =>
+      (filterTipo === 'Todos' || m.tipo === filterTipo) &&
+      (filterScope === 'Todos' || (m.scope_level ?? 'nacional') === filterScope) &&
+      (q === '' || m.nombre.toLowerCase().includes(q) || m.grupo.toLowerCase().includes(q)),
+    )
+  }, [medios, filterTipo, filterScope, query])
+
+  const focusedM = focused ? visibles.find(m => m.id === focused) ?? medios.find(m => m.id === focused) : null
   const focusedWeight: WeightLevel = focusedM ? (prefs[focusedM.id] ?? 0) : 0
 
-  const visibles = useMemo(
-    () => filterTipo === 'Todos' ? MEDIOS : MEDIOS.filter(m => m.tipo === filterTipo),
-    [filterTipo, MEDIOS]
-  )
+  // Medios por CCAA para el mini-mapa de la cabecera
+  const mediosPorCCAA = useMemo(() => {
+    const o: Record<string, { n: number }> = {}
+    for (const m of visibles) {
+      if (!m.ccaa) continue
+      const label = CCAA_CODE_LABEL[m.ccaa]
+      if (!label) continue
+      o[label] = { n: (o[label]?.n ?? 0) + 1 }
+    }
+    return o
+  }, [visibles])
 
-  const counts = useMemo(() => {
-    const byTipo: Record<string, number> = {}
-    for (const m of MEDIOS) byTipo[m.tipo] = (byTipo[m.tipo] || 0) + 1
-    const tonoMedio = MEDIOS.length > 0 ? +(MEDIOS.reduce((s, m) => s + m.tono, 0) / MEDIOS.length).toFixed(2) : 0
-    return { byTipo, tonoMedio, total: MEDIOS.length }
-  }, [MEDIOS])
+  // Distribución ideológica (sobre el conjunto filtrado)
+  const ideoDist = useMemo(() => {
+    const b: Record<string, number> = { izquierda: 0, 'centro-izquierda': 0, centro: 0, 'centro-derecha': 0, derecha: 0 }
+    for (const m of visibles) b[ideoBucket(m.ideologia)]++
+    return b
+  }, [visibles])
+  const ideoMax = Math.max(1, ...Object.values(ideoDist))
 
-  // Posicionamiento del cuadrante
-  const W = 1000, H = 380
-  const xToPx = (x: number) => ((x + 100) / 200) * W
-  const yToPx = (alcance: number) => H - 30 - (Math.min(alcance, 10) / 10) * (H - 60)
+  // Concentración por grupo mediático (sobre el conjunto filtrado)
+  const grupos = useMemo(() => {
+    const m = new Map<string, { n: number; aud: number }>()
+    for (const md of visibles) {
+      const c = m.get(md.grupo) || { n: 0, aud: 0 }
+      c.n++; c.aud += md.audiencia_M; m.set(md.grupo, c)
+    }
+    return [...m.entries()].map(([grupo, v]) => ({ grupo, n: v.n, aud: +v.aud.toFixed(1) }))
+      .sort((a, b) => b.n - a.n).slice(0, 10)
+  }, [visibles])
+  const grupoMaxN = Math.max(1, ...grupos.map(g => g.n))
+
+  const credMedia = useMemo(() => visibles.length
+    ? Math.round(visibles.reduce((s, m) => s + cred100(m.credibilidad), 0) / visibles.length) : 0, [visibles])
+  const conRss = useMemo(() => visibles.filter(m => !!m.rss).length, [visibles])
+  const audTotal = useMemo(() => +visibles.reduce((s, m) => s + m.audiencia_M, 0).toFixed(1), [visibles])
+
+  // ── Geometría del scatter ───────────────────────────────────────────────
+  const W = 1000, H = 440, PAD_T = 26, PAD_B = 46, PAD_L = 44, PAD_R = 40
+  const xToPx = (x: number) => PAD_L + ((x + 100) / 200) * (W - PAD_L - PAD_R)
+  const yFrac = (m: ApiMedio) => yAxis === 'credibilidad'
+    ? Math.max(0, Math.min(1, m.credibilidad <= 1 ? m.credibilidad : m.credibilidad / 100))
+    : Math.sqrt(Math.min(m.audiencia_M, 20)) / Math.sqrt(20)
+  const yToPx = (m: ApiMedio) => PAD_T + (1 - yFrac(m)) * (H - PAD_T - PAD_B)
 
   return (
-    <div style={{ background:'var(--bg)', minHeight:'100vh', fontFamily:'var(--font-body)', color:'#1d1d1f' }}>
-      <AppHeader/>
-      <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
+    <div style={{ background: 'var(--bg)', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
+      <AppHeader />
+      <main style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
 
         {/* Hero */}
-        <section style={{
-          background:'linear-gradient(135deg,#7C2D92 0%,#3B0764 100%)',
-          borderRadius:22, padding:'30px 38px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.7fr 1fr', gap:32, alignItems:'center',
-        }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
-              <span>NARRATIVA PÚBLICA · {counts.total} MEDIOS DE COMUNICACIÓN</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:30, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {counts.total} medios <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.75)' }}>cubriendo prensa, TV, radio y digital</em>
-            </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
-              Catálogo completo · 17 CCAA + nacional · {data?.stats.con_rss || 0} con RSS para ingestión en tiempo real · {data?.stats.audiencia_total_M ? data.stats.audiencia_total_M.toFixed(1) : '…'}M usuarios mensuales agregados
-            </p>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6 }}>
-            <MiniK label="PRENSA"   n={counts.byTipo['Prensa']   || 0}/>
-            <MiniK label="DIGITAL"  n={counts.byTipo['Digital']  || 0}/>
-            <MiniK label="TV"       n={counts.byTipo['TV']       || 0}/>
-            <MiniK label="RADIO"    n={counts.byTipo['Radio']    || 0}/>
-            <MiniK label="AGENC."   n={counts.byTipo['Agencias'] || 0}/>
-            <MiniK label="REVISTA"  n={counts.byTipo['Revista']  || 0}/>
+        <MediosHero
+          accent="#7C2D92"
+          eyebrow={`Mapa de medios · ${stats?.total ?? medios.length} medios de comunicación`}
+          badge={<LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh} />}
+          title={<>{stats?.total ?? medios.length} medios <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#9ca3af' }}>situados por ideología, credibilidad y audiencia</em></>}
+          subtitle={`Catálogo completo de prensa, digital, TV, radio y agencias · ${stats?.n_grupos_distintos ?? 0} grupos mediáticos · ${stats?.con_rss ?? 0} con RSS para ingestión en tiempo real`}
+          kpis={[
+            { label: 'Medios', value: visibles.length, color: '#7C2D92' },
+            { label: 'Credibilidad media', value: credMedia },
+            { label: 'Con RSS', value: conRss },
+            { label: 'Audiencia', value: <>{audTotal}<span style={{ fontSize: 12, color: '#9ca3af' }}>M</span></> },
+            { label: 'Grupos', value: stats?.n_grupos_distintos ?? 0 },
+          ]}
+          mapLabel="Medios por comunidad"
+          map={<MapaNoticiasEspana data={mediosPorCCAA} unidad="medios" colorHigh="#7C2D92" />}
+        />
+
+        {/* Filtros */}
+        <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '12px 16px', marginBottom: 14, boxShadow: '0 1px 3px rgba(0,0,0,0.04)', display: 'flex', flexWrap: 'wrap', gap: 14, alignItems: 'center' }}>
+          <Segmented label="Tipo" options={tiposPresentes} value={filterTipo} onChange={setFilterTipo} colorOf={(t) => t !== 'Todos' ? TIPO_COLOR[t] : '#1d1d1f'} dot />
+          <Segmented label="Ámbito" options={SCOPES as unknown as string[]} value={filterScope} onChange={setFilterScope} labelOf={(s) => s === 'Todos' ? 'Todos' : SCOPE_LABEL[s] ?? s} />
+          <Segmented label="Eje Y" options={['credibilidad', 'alcance']} value={yAxis} onChange={(v) => setYAxis(v as 'credibilidad' | 'alcance')} labelOf={(s) => s === 'credibilidad' ? 'Credibilidad' : 'Alcance'} />
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <input
+              value={query} onChange={(e) => setQuery(e.target.value)}
+              placeholder="Buscar medio o grupo…"
+              style={{ fontSize: 12.5, padding: '7px 12px', borderRadius: 999, border: '1px solid #ECECEF', background: '#FAFAFB', fontFamily: 'inherit', width: 200, outline: 'none', color: '#1d1d1f' }}
+            />
+            <span style={{ fontSize: 11.5, color: '#6e6e73', whiteSpace: 'nowrap' }}>{visibles.length} visibles · burbuja = audiencia</span>
           </div>
         </section>
 
-        {/* NewsAPI · Headlines tiempo real (4 tabs) */}
-        <div style={{ marginBottom: 18 }}>
-          <NewsApiHeadlinesPanel />
-        </div>
-
-        {/* Filtros */}
-        <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap', marginBottom:14 }}>
-          <span style={{ fontSize:11, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>Tipo:</span>
-          <div style={{ display:'inline-flex', background:'#F5F5F7', borderRadius:999, padding:3 }}>
-            {TIPOS_FIL.map(t => {
-              const active = filterTipo === t
-              const c = t !== 'Todos' ? TIPO_COLOR[t as TipoMedio] : '#1d1d1f'
-              return (
-                <button key={t} onClick={()=>setFilterTipo(t)} style={{
-                  background: active ? '#fff' : 'transparent',
-                  color: active ? c : '#6e6e73',
-                  border:'none', borderRadius:999, padding:'5px 12px',
-                  fontSize:11.5, fontWeight: active ? 700 : 500, cursor:'pointer',
-                  fontFamily:'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
-                  display:'inline-flex', alignItems:'center', gap:5,
-                }}>
-                  {t !== 'Todos' && <span style={{ width:7, height:7, borderRadius:'50%', background:TIPO_COLOR[t as TipoMedio] }}/>}
-                  {t}
-                </button>
-              )
-            })}
-          </div>
-          <span style={{ marginLeft:'auto', fontSize:11.5, color:'#6e6e73' }}>{visibles.length} medios visibles · burbuja = alcance</span>
-        </div>
-
-        {/* Cuadrante + panel detalle */}
-        <section style={{ display:'grid', gridTemplateColumns:'1fr 320px', gap:14, marginBottom:14 }}>
-
-          {/* Cuadrante */}
-          <div style={{
-            background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:16,
-            boxShadow:'0 1px 3px rgba(0,0,0,0.04)',
-          }}>
-            <svg viewBox={`0 0 ${W} ${H}`} style={{ width:'100%', height:'auto', display:'block' }}>
-              {/* Fondo cuadrantes */}
-              <rect x={0}   y={0} width={W/2} height={H} fill="#FAFAFB"/>
-              <rect x={W/2} y={0} width={W/2} height={H} fill="#F5F5F7"/>
+        {/* Mapa (scatter) + detalle */}
+        <section style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 14, marginBottom: 14 }}>
+          <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
+              {/* Fondo cuadrantes izq/dcha */}
+              <rect x={0} y={0} width={(W) / 2} height={H} fill="#FAFAFB" />
+              <rect x={W / 2} y={0} width={W / 2} height={H} fill="#F6F6F8" />
+              {/* Gridlines horizontales */}
+              {[0.25, 0.5, 0.75].map(g => (
+                <line key={g} x1={PAD_L} y1={PAD_T + (1 - g) * (H - PAD_T - PAD_B)} x2={W - PAD_R} y2={PAD_T + (1 - g) * (H - PAD_T - PAD_B)} stroke="#1d1d1f" strokeWidth="1" opacity="0.06" />
+              ))}
               {/* Eje vertical (centro político) */}
-              <line x1={W/2} y1={20} x2={W/2} y2={H-20} stroke="#1d1d1f" strokeWidth="1" strokeDasharray="3 4" opacity="0.4"/>
-              {/* Línea base alcance 0 */}
-              <line x1={20}  y1={H-30} x2={W-20} y2={H-30} stroke="#1d1d1f" strokeWidth="1" opacity="0.15"/>
-              {/* Etiquetas ejes */}
-              <text x={28}   y={H-12} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em">IZQUIERDA</text>
-              <text x={W-28} y={H-12} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">DERECHA</text>
-              <text x={W-28} y={28}   fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">+ALCANCE</text>
+              <line x1={W / 2} y1={PAD_T - 6} x2={W / 2} y2={H - PAD_B} stroke="#1d1d1f" strokeWidth="1" strokeDasharray="3 4" opacity="0.35" />
+              {/* Línea base */}
+              <line x1={PAD_L} y1={H - PAD_B} x2={W - PAD_R} y2={H - PAD_B} stroke="#1d1d1f" strokeWidth="1" opacity="0.15" />
+              {/* Etiquetas de ejes */}
+              <text x={PAD_L} y={H - 14} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em">IZQUIERDA</text>
+              <text x={W - PAD_R} y={H - 14} fontSize="13" fontWeight="700" fill="#6e6e73" letterSpacing="0.08em" textAnchor="end">DERECHA</text>
+              <text x={PAD_L} y={PAD_T + 4} fontSize="12" fontWeight="700" fill="#6e6e73" letterSpacing="0.06em">{yAxis === 'credibilidad' ? '+ CREDIBILIDAD' : '+ ALCANCE'}</text>
 
               {/* Burbujas */}
               {visibles.map(m => {
+                const w = prefs[m.id] ?? 0
+                const mult = weightMultiplier(w)
+                const baseR = 4.5 + Math.sqrt(Math.min(m.audiencia_M, 20)) * 3.4
+                const r = Math.max(3.5, Math.min(26, baseR) * mult)
+                const [jx, jy] = jitter(m.id, 5)
+                const cx = xToPx(m.ideologia) + jx
+                const cy = yToPx(m) + jy
                 const isFocus = focused === m.id
-                const dim = focused && focused !== m.id
-                const weight = prefs[m.id] ?? 0
-                const mult = weightMultiplier(weight)
-                const baseR = 8 + Math.min(m.alcance, 10) * 2.5  // 8..33
-                const r = Math.max(4, baseR * mult)
-                const c = TIPO_COLOR[m.tipo]
-                // Si el usuario marca como "ignorar" (peso -2), se atenúa
-                const opacity = weight === -2 ? 0.15 : (dim ? 0.18 : 0.82)
+                const dim = focused && !isFocus
+                const c = TIPO_COLOR[m.tipo] ?? '#6e6e73'
+                const opacity = w === -2 ? 0.14 : (dim ? 0.16 : 0.82)
+                const showLabel = m.audiencia_M >= 2.5 || isFocus || w > 0
                 return (
-                  <g key={m.id} style={{ cursor:'pointer' }}
-                     onMouseEnter={()=>setHovered(m.id)}
-                     onMouseLeave={()=>setHovered(null)}
-                     onClick={()=>setPinned(pinned === m.id ? null : m.id)}>
-                    <circle cx={xToPx(m.ejeX)} cy={yToPx(m.alcance)} r={r}
-                            fill={c} opacity={opacity}
-                            stroke={isFocus ? '#1d1d1f' : weight > 0 ? '#7C3AED' : 'rgba(255,255,255,0.5)'}
-                            strokeWidth={isFocus ? 2 : weight > 0 ? 2 : 1.5}
-                            strokeDasharray={weight === -1 ? '3 3' : undefined}
-                            style={{ transition:'r 200ms, opacity 200ms' }}/>
-                    {weight === 2 && (
-                      <circle cx={xToPx(m.ejeX)} cy={yToPx(m.alcance)} r={r + 4}
-                              fill="none" stroke="#7C3AED" strokeWidth={1} strokeDasharray="2 2" opacity={0.7}/>
-                    )}
-                    {(r >= 16 || isFocus || weight > 0) && (
-                      <text x={xToPx(m.ejeX)} y={yToPx(m.alcance) - r - 4} textAnchor="middle"
-                            fontSize="10.5" fontWeight="700" fill="#1d1d1f"
-                            opacity={dim ? 0.5 : 1} style={{ pointerEvents:'none' }}>
-                        {m.nombre}
-                      </text>
+                  <g key={m.id} style={{ cursor: 'pointer' }}
+                     onMouseEnter={() => setHovered(m.id)} onMouseLeave={() => setHovered(null)}
+                     onClick={() => setPinned(pinned === m.id ? null : m.id)}>
+                    <circle cx={cx} cy={cy} r={r} fill={c} opacity={opacity}
+                            stroke={isFocus ? '#1d1d1f' : w > 0 ? '#7C3AED' : 'rgba(255,255,255,0.55)'}
+                            strokeWidth={isFocus ? 2 : w > 0 ? 2 : 1.2}
+                            strokeDasharray={w === -1 ? '3 3' : undefined}
+                            style={{ transition: 'opacity 180ms' }} />
+                    {showLabel && (
+                      <text x={cx} y={cy - r - 4} textAnchor="middle" fontSize="10.5" fontWeight="700"
+                            fill="#1d1d1f" opacity={dim ? 0.5 : 1} style={{ pointerEvents: 'none' }}>{m.nombre}</text>
                     )}
                   </g>
                 )
               })}
             </svg>
             {/* Leyenda tipos */}
-            <div style={{ display:'flex', gap:14, marginTop:8, paddingTop:8, borderTop:'1px solid #ECECEF', flexWrap:'wrap' }}>
-              {(Object.keys(TIPO_COLOR) as TipoMedio[]).map(t => (
-                <span key={t} style={{ display:'inline-flex', alignItems:'center', gap:5, fontSize:11, color:'#3a3a3d' }}>
-                  <span style={{ width:9, height:9, borderRadius:'50%', background:TIPO_COLOR[t] }}/>
-                  {t}
+            <div style={{ display: 'flex', gap: 14, marginTop: 8, paddingTop: 8, borderTop: '1px solid #ECECEF', flexWrap: 'wrap' }}>
+              {TIPO_ORDER.filter(t => visibles.some(m => m.tipo === t)).map(t => (
+                <span key={t} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11, color: '#3a3a3d' }}>
+                  <span style={{ width: 9, height: 9, borderRadius: '50%', background: TIPO_COLOR[t] }} />{t}
                 </span>
               ))}
+              <span style={{ marginLeft: 'auto', fontSize: 10.5, color: '#9ca3af' }}>Eje X: ideología −100…+100 · Eje Y: {yAxis === 'credibilidad' ? 'credibilidad 0…100' : 'audiencia (escala raíz)'}</span>
             </div>
           </div>
 
-          {/* Panel detalle */}
-          <aside style={{
-            background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 18px 14px',
-            position:'sticky', top:60,
-          }}>
+          {/* Detalle */}
+          <aside style={{ background: '#FAFAFB', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 18px 14px', position: 'sticky', top: 60, alignSelf: 'start' }}>
             {focusedM ? (
               <>
-                <div style={{ marginBottom:12 }}>
-                  <div style={{ fontSize:9.5, color:TIPO_COLOR[focusedM.tipo], fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>{focusedM.tipo}</div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:20, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', lineHeight:1.15 }}>{focusedM.nombre}</div>
-                  <div style={{ fontSize:11.5, color:'#6e6e73', marginTop:2 }}>Grupo: <strong style={{color:'#1d1d1f'}}>{focusedM.grupo}</strong></div>
+                <div style={{ marginBottom: 12 }}>
+                  <div style={{ fontSize: 9.5, color: TIPO_COLOR[focusedM.tipo] ?? '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{focusedM.tipo}{focusedM.scope_level ? ` · ${SCOPE_LABEL[focusedM.scope_level] ?? focusedM.scope_level}` : ''}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 600, letterSpacing: '-0.014em', color: '#1d1d1f', lineHeight: 1.15 }}>{focusedM.nombre}</div>
+                  <div style={{ fontSize: 11.5, color: '#6e6e73', marginTop: 2 }}>Grupo: <strong style={{ color: '#1d1d1f' }}>{focusedM.grupo}</strong>{focusedM.ccaa && CCAA_CODE_LABEL[focusedM.ccaa] ? ` · ${CCAA_CODE_LABEL[focusedM.ccaa]}` : ''}</div>
                 </div>
 
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8, marginBottom:10 }}>
-                  <Box label="Alcance" value={`${focusedM.alcance.toFixed(1)} M`} color={TIPO_COLOR[focusedM.tipo]}/>
-                  <Box label="Cuota tipo" value={`${focusedM.share.toFixed(1)}%`} color={TIPO_COLOR[focusedM.tipo]}/>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 10 }}>
+                  <Box label="Audiencia" value={`${focusedM.audiencia_M.toFixed(1)} M`} color={TIPO_COLOR[focusedM.tipo] ?? '#6e6e73'} />
+                  <Box label="Credibilidad" value={`${cred100(focusedM.credibilidad)}`} color="#0F766E" />
                 </div>
 
-                <div style={{ marginBottom:10 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Sesgo ideológico</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: focusedM.ejeX < 0 ? '#E1322D' : focusedM.ejeX > 0 ? '#1F4E8C' : '#6e6e73' }}>
-                      {focusedM.ejeX > 0 ? '+' : ''}{focusedM.ejeX}
-                    </span>
-                  </div>
-                  <div style={{ position:'relative', height:6, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
-                    <div style={{ position:'absolute', left:'50%', top:-2, bottom:-2, width:1, background:'#1d1d1f', opacity:0.4 }}/>
-                    <div style={{
-                      position:'absolute', top:0, bottom:0,
-                      left: focusedM.ejeX < 0 ? `${50 + (focusedM.ejeX/2)}%` : '50%',
-                      width: `${Math.abs(focusedM.ejeX)/2}%`,
-                      background: focusedM.ejeX < 0 ? '#E1322D' : '#1F4E8C',
-                      borderRadius:3,
-                    }}/>
-                  </div>
-                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:10, color:'#86868b', marginTop:3 }}>
-                    <span>−100 izq</span><span>0</span><span>+100 dcha</span>
-                  </div>
+                {/* Sesgo ideológico */}
+                <BarRow label="Sesgo ideológico" value={`${focusedM.ideologia > 0 ? '+' : ''}${focusedM.ideologia}`}
+                        valueColor={ideoColor(focusedM.ideologia)} center
+                        fill={focusedM.ideologia < 0 ? '#E1322D' : '#1F4E8C'}
+                        left={focusedM.ideologia < 0 ? 50 + focusedM.ideologia / 2 : 50} width={Math.abs(focusedM.ideologia) / 2}
+                        scaleLeft="−100 izq" scaleMid="0" scaleRight="+100 dcha" />
+
+                {/* Credibilidad */}
+                <BarRow label="Credibilidad editorial" value={`${cred100(focusedM.credibilidad)}/100`} valueColor="#0F766E"
+                        fill="#0F766E" left={0} width={cred100(focusedM.credibilidad)}
+                        scaleLeft="0" scaleMid="50" scaleRight="100" />
+
+                {/* RSS */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '4px 0 2px' }}>
+                  <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>RSS</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 999, background: focusedM.rss ? '#dcfce7' : '#f3f4f6', color: focusedM.rss ? '#15803d' : '#9ca3af' }}>
+                    {focusedM.rss ? '◉ ingestión activa' : '○ sin feed'}
+                  </span>
                 </div>
 
-                <div style={{ marginBottom:8 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', marginBottom:5 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Tono sobre Gobierno</span>
-                    <span style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color: focusedM.tono >= 0 ? '#16A34A' : '#DC2626' }}>
-                      {focusedM.tono > 0 ? '+' : ''}{focusedM.tono.toFixed(2)}
-                    </span>
+                {/* Peso por usuario */}
+                <div style={{ marginTop: 12, padding: '10px 12px', background: '#fff', border: '1px solid #ECECEF', borderRadius: 9 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                    <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Importancia para mí</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: levelColor(focusedWeight) }}>{levelLabel(focusedWeight)}</span>
                   </div>
-                  <div style={{ position:'relative', height:6, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
-                    <div style={{ position:'absolute', left:'50%', top:-2, bottom:-2, width:1, background:'#1d1d1f', opacity:0.4 }}/>
-                    <div style={{
-                      position:'absolute', top:0, bottom:0,
-                      left: focusedM.tono < 0 ? `${50 + (focusedM.tono * 50)}%` : '50%',
-                      width: `${Math.abs(focusedM.tono) * 50}%`,
-                      background: focusedM.tono >= 0 ? '#16A34A' : '#DC2626',
-                      borderRadius:3,
-                    }}/>
-                  </div>
-                </div>
-
-                {/* ── Sistema de peso por usuario ─────────────────── */}
-                <div style={{ marginTop:14, padding:'10px 12px', background:'#fff', border:'1px solid #ECECEF', borderRadius:9 }}>
-                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
-                    <span style={{ fontSize:10.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase' }}>
-                      Importancia para mí
-                    </span>
-                    <span style={{ fontSize:11, fontWeight:700, color: levelColor(focusedWeight) }}>
-                      {levelLabel(focusedWeight)}
-                    </span>
-                  </div>
-                  <div style={{ display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:3 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 3 }}>
                     {([-2, -1, 0, 1, 2] as WeightLevel[]).map(lv => (
-                      <button
-                        key={lv}
-                        onClick={() => handleSetWeight(focusedM.id, lv)}
-                        title={levelLabel(lv)}
-                        style={{
-                          background: focusedWeight === lv ? levelColor(lv) : '#FAFAFB',
-                          color: focusedWeight === lv ? '#fff' : '#1d1d1f',
-                          border: `1px solid ${focusedWeight === lv ? levelColor(lv) : '#ECECEF'}`,
-                          borderRadius: 6,
-                          padding: '6px 0',
-                          fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
-                        }}>
-                        {lv === -2 ? '−−' : lv === -1 ? '−' : lv === 0 ? '·' : lv === 1 ? '+' : '++'}
-                      </button>
+                      <button key={lv} onClick={() => handleSetWeight(focusedM.id, lv)} title={levelLabel(lv)} style={{
+                        background: focusedWeight === lv ? levelColor(lv) : '#FAFAFB',
+                        color: focusedWeight === lv ? '#fff' : '#1d1d1f',
+                        border: `1px solid ${focusedWeight === lv ? levelColor(lv) : '#ECECEF'}`,
+                        borderRadius: 6, padding: '6px 0', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                      }}>{lv === -2 ? '−−' : lv === -1 ? '−' : lv === 0 ? '·' : lv === 1 ? '+' : '++'}</button>
                     ))}
                   </div>
-                  <div style={{ fontSize:10, color:'#9ca3af', marginTop:6, textAlign:'center', fontStyle:'italic' }}>
-                    Ajusta cuánto pesa este medio en el cuadrante (×{weightMultiplier(focusedWeight)})
-                  </div>
+                  <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 6, textAlign: 'center', fontStyle: 'italic' }}>Ajusta el tamaño de su burbuja en el mapa (×{weightMultiplier(focusedWeight)})</div>
                 </div>
 
                 {focusedM.web && (
-                  <a href={focusedM.web} target="_blank" rel="noopener" style={{
-                    marginTop:8, display:'block', textAlign:'center',
-                    fontSize:11.5, color:'#1F4E8C', fontWeight:600, textDecoration:'none',
-                    padding:'6px 0', borderTop:'1px solid #ECECEF',
-                  }}>
-                    Ir al medio ↗
-                  </a>
+                  <a href={focusedM.web} target="_blank" rel="noopener" style={{ marginTop: 8, display: 'block', textAlign: 'center', fontSize: 11.5, color: '#1F4E8C', fontWeight: 600, textDecoration: 'none', padding: '6px 0', borderTop: '1px solid #ECECEF' }}>Ir al medio ↗</a>
                 )}
-
-                <div style={{ marginTop:8, fontSize:11, color:'#86868b', textAlign:'right' }}>
-                  {pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa para fijar'}
-                </div>
+                <div style={{ marginTop: 6, fontSize: 11, color: '#86868b', textAlign: 'right' }}>{pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa una burbuja para fijar'}</div>
               </>
             ) : (
               <>
-                <div style={{ fontSize:9.5, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:6 }}>Mapa de medios</div>
-                <div style={{ fontFamily:'var(--font-display)', fontSize:17, fontWeight:600, letterSpacing:'-0.014em', color:'#1d1d1f', marginBottom:10 }}>Pasa el cursor</div>
-                <p style={{ fontSize:12.5, color:'#3a3a3d', lineHeight:1.5, margin:'0 0 12px' }}>
-                  Cada burbuja representa un medio. Eje horizontal: sesgo ideológico estimado. Eje vertical: alcance.
+                <div style={{ fontSize: 9.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 6 }}>Cómo leer el mapa</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 17, fontWeight: 600, letterSpacing: '-0.014em', color: '#1d1d1f', marginBottom: 10 }}>Pasa el cursor por una burbuja</div>
+                <p style={{ fontSize: 12.5, color: '#3a3a3d', lineHeight: 1.55, margin: '0 0 12px' }}>
+                  Cada burbuja es un medio. <strong>Eje horizontal</strong>: sesgo ideológico estimado (izquierda ↔ derecha). <strong>Eje vertical</strong>: {yAxis === 'credibilidad' ? 'credibilidad editorial' : 'alcance/audiencia'}. <strong>Tamaño</strong>: audiencia. <strong>Color</strong>: tipo de medio.
                 </p>
-                <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'10px 12px' }}>
-                  <div style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', marginBottom:4 }}>Tono medio agregado</div>
-                  <div style={{ fontFamily:'var(--font-display)', fontSize:24, fontWeight:700, color: counts.tonoMedio >= 0 ? '#16A34A' : '#DC2626' }}>
-                    {counts.tonoMedio > 0 ? '+' : ''}{counts.tonoMedio}
-                  </div>
-                  <div style={{ fontSize:11, color:'#6e6e73', marginTop:2 }}>sobre el Gobierno · 27 medios</div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+                  <Box label="Credibilidad media" value={`${credMedia}`} color="#0F766E" />
+                  <Box label="Con RSS" value={`${conRss}/${visibles.length}`} color="#7C2D92" />
                 </div>
               </>
             )}
           </aside>
         </section>
 
-        {/* Narrativas dominantes */}
-        <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)', marginBottom:14 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
-            <h2 style={{ margin:0, fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Narrativas dominantes esta semana</h2>
-            <span style={{ fontSize:11, color:'#6e6e73' }}>{NARRATIVAS.length} temas trackeados · análisis NLP automático</span>
+        {/* Distribución ideológica + Concentración por grupo */}
+        <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
+          {/* Distribución ideológica */}
+          <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <h2 style={{ margin: '0 0 16px', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d' }}>Distribución ideológica · {visibles.length} medios</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10, alignItems: 'end', height: 150 }}>
+              {IDEO_BUCKETS.map(b => {
+                const n = ideoDist[b.key] ?? 0
+                return (
+                  <div key={b.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: 14, fontWeight: 700, color: '#1d1d1f', marginBottom: 4 }}>{n}</div>
+                    <div style={{ width: '100%', height: `${(n / ideoMax) * 110}px`, minHeight: 3, background: b.color, borderRadius: '4px 4px 0 0' }} />
+                    <div style={{ fontSize: 9.5, color: '#6e6e73', marginTop: 6, textAlign: 'center', fontWeight: 600 }}>{b.label}</div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-          <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-            {[...NARRATIVAS].sort((a,b)=>b.menciones-a.menciones).map(n => {
-              const tonoColor = n.tono >= 0 ? '#16A34A' : '#DC2626'
-              return (
-                <div key={n.tema} style={{
-                  display:'grid', gridTemplateColumns:'80px 1fr 110px 100px 1fr', gap:14, alignItems:'center',
-                  padding:'10px 14px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-                }}>
-                  <span style={{
-                    fontSize:9.5, fontWeight:800, letterSpacing:'0.06em',
-                    padding:'3px 7px', borderRadius:6, textAlign:'center',
-                    background:'#1d1d1f', color:'#fff',
-                  }}>{n.tag}</span>
-                  <div>
-                    <div style={{ fontSize:13, fontWeight:600, color:'#1d1d1f', lineHeight:1.3 }}>{n.tema}</div>
-                    <div style={{ fontSize:10.5, color:'#6e6e73', marginTop:3 }}>
-                      Top medios: <strong style={{ color:'#3a3a3d' }}>{n.topMedios.slice(0,3).join(' · ')}</strong>
-                    </div>
+
+          {/* Concentración por grupo */}
+          <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+            <h2 style={{ margin: '0 0 14px', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d' }}>Concentración por grupo mediático</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+              {grupos.map(g => (
+                <div key={g.grupo} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 64px', gap: 10, alignItems: 'center' }}>
+                  <span style={{ fontSize: 11.5, color: '#1d1d1f', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={g.grupo}>{g.grupo}</span>
+                  <div style={{ position: 'relative', height: 16, background: '#F5F5F7', borderRadius: 4, overflow: 'hidden' }}>
+                    <div style={{ position: 'absolute', top: 0, bottom: 0, left: 0, width: `${(g.n / grupoMaxN) * 100}%`, background: '#7C2D92', borderRadius: 4, opacity: 0.85 }} />
+                    <span style={{ position: 'absolute', left: 6, top: 1, fontSize: 10.5, fontWeight: 700, color: g.n / grupoMaxN > 0.18 ? '#fff' : '#1d1d1f' }}>{g.n}</span>
                   </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:18, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{n.menciones.toFixed(1)}<span style={{ fontSize:11, color:'#6e6e73' }}> K</span></div>
-                    <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>menciones</div>
-                  </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontSize:13, fontWeight:700, color: n.variacion > 0 ? '#16A34A' : '#DC2626' }}>
-                      {n.variacion > 0 ? '▲' : '▼'} {Math.abs(n.variacion)}%
-                    </div>
-                    <div style={{ fontSize:10, color:'#6e6e73', letterSpacing:'0.04em', textTransform:'uppercase', fontWeight:700, marginTop:2 }}>vs sem ant.</div>
-                  </div>
-                  <div>
-                    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3 }}>
-                      <span style={{ fontSize:10, color:'#6e6e73', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase' }}>Tono</span>
-                      <span style={{ fontSize:11, fontWeight:700, color:tonoColor }}>{n.tono > 0 ? '+' : ''}{n.tono.toFixed(2)}</span>
-                    </div>
-                    <div style={{ position:'relative', height:5, background:'#fff', borderRadius:3, border:'1px solid #ECECEF' }}>
-                      <div style={{ position:'absolute', left:'50%', top:-1, bottom:-1, width:1, background:'#1d1d1f', opacity:0.4 }}/>
-                      <div style={{
-                        position:'absolute', top:0, bottom:0,
-                        left: n.tono < 0 ? `${50 + (n.tono*50)}%` : '50%',
-                        width: `${Math.abs(n.tono)*50}%`,
-                        background:tonoColor, borderRadius:3,
-                      }}/>
-                    </div>
-                  </div>
+                  <span style={{ fontSize: 11, color: '#6e6e73', textAlign: 'right' }}>{g.aud.toFixed(1)}M</span>
                 </div>
-              )
-            })}
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Tabla rápida de medios */}
-        <section style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:14, padding:'18px 22px', boxShadow:'0 1px 3px rgba(0,0,0,0.04)' }}>
-          <h2 style={{ margin:'0 0 14px', fontSize:11.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'#3a3a3d' }}>Listado completo · {visibles.length} medios</h2>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:8 }}>
-            {[...visibles].sort((a,b)=>b.alcance-a.alcance).map(m => {
-              // URL pública del medio: 1) campo web, 2) heurística por id como fallback
-              const href = m.web || `https://www.${m.id.replace(/-/g, '')}.com`
-              return (
-                <a key={m.id}
-                   href={href}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   onMouseEnter={()=>setHovered(m.id)} onMouseLeave={()=>setHovered(null)}
-                   title={`Abrir ${m.nombre} en una pestaña nueva`}
-                   style={{
-                     display:'grid', gridTemplateColumns:'14px 1fr auto', gap:10, alignItems:'center',
-                     padding:'9px 12px', background:'#FAFAFB', border:'1px solid #ECECEF', borderRadius:10,
-                     cursor:'pointer', textDecoration:'none', color:'inherit',
-                     transition:'all 140ms',
-                   }}
-                   onMouseOver={(e)=>{ e.currentTarget.style.background='#fff'; e.currentTarget.style.borderColor=TIPO_COLOR[m.tipo]+'55'; e.currentTarget.style.transform='translateY(-1px)'; e.currentTarget.style.boxShadow='0 4px 12px rgba(0,0,0,0.06)' }}
-                   onMouseOut={(e)=>{ e.currentTarget.style.background='#FAFAFB'; e.currentTarget.style.borderColor='#ECECEF'; e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='none' }}
-                >
-                  <span style={{ width:10, height:10, borderRadius:'50%', background:TIPO_COLOR[m.tipo] }}/>
-                  <div style={{ minWidth:0 }}>
-                    <div style={{ fontSize:12.5, fontWeight:600, color:'#1d1d1f', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis' }}>{m.nombre} <span style={{ fontSize:10, color:'#9CA3AF', fontWeight:400 }}>↗</span></div>
-                    <div style={{ fontSize:10.5, color:'#6e6e73' }}>{m.tipo} · {m.grupo}</div>
+        {/* Tono real por medio · bajo demanda (no ralentiza la carga) */}
+        <div style={{ marginBottom: 14 }}>
+          <TonoRealPanel />
+        </div>
+
+        {/* Catálogo completo */}
+        <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 14 }}>
+            <h2 style={{ margin: 0, fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d' }}>Catálogo · {visibles.length} medios</h2>
+            <BoardToolbar
+              count={visibles.length}
+              onExportCsv={() => downloadCsv('catalogo-medios', visibles.map((m) => ({
+                nombre: m.nombre, tipo: m.tipo, grupo: m.grupo, ambito: m.scope_level ?? m.ambito ?? '',
+                ccaa: m.ccaa ?? '', ideologia: m.ideologia, credibilidad: cred100(m.credibilidad),
+                audiencia_M: m.audiencia_M, rss: m.rss ? 'sí' : 'no', web: m.web,
+              })))}
+            />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(330px,1fr))', gap: 8 }}>
+            {[...visibles].sort((a, b) => b.audiencia_M - a.audiencia_M).map(m => (
+              <div key={m.id}
+                 onMouseEnter={() => setHovered(m.id)} onMouseLeave={() => setHovered(null)}
+                 style={{ display: 'grid', gridTemplateColumns: '12px 1fr auto', gap: 10, alignItems: 'center', padding: '9px 12px', background: focused === m.id ? '#fff' : '#FAFAFB', border: `1px solid ${focused === m.id ? (TIPO_COLOR[m.tipo] ?? '#ECECEF') + '66' : '#ECECEF'}`, borderRadius: 10, color: 'inherit', transition: 'all 140ms' }}>
+                <span style={{ width: 10, height: 10, borderRadius: '50%', background: TIPO_COLOR[m.tipo] ?? '#6e6e73' }} />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <a href={m.web || '#'} target="_blank" rel="noopener noreferrer" title={`Abrir ${m.nombre}`} style={{ color: 'inherit', textDecoration: 'none' }}>{m.nombre} <span style={{ fontSize: 10, color: '#9CA3AF', fontWeight: 400 }}>↗</span></a>
                   </div>
-                  <div style={{ textAlign:'right' }}>
-                    <div style={{ fontFamily:'var(--font-display)', fontSize:13, fontWeight:700, color:'#1d1d1f', lineHeight:1 }}>{m.alcance.toFixed(1)}M</div>
-                    <div style={{ fontSize:10, color: m.tono >= 0 ? '#16A34A' : '#DC2626', fontWeight:700, marginTop:2 }}>tono {m.tono > 0 ? '+' : ''}{m.tono.toFixed(2)}</div>
-                  </div>
-                </a>
-              )
-            })}
+                  <div style={{ fontSize: 10.5, color: '#6e6e73', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.tipo} · {m.grupo}</div>
+                </div>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1 }}>{m.audiencia_M.toFixed(1)}M</div>
+                  <div style={{ fontSize: 10, color: ideoColor(m.ideologia), fontWeight: 700, marginTop: 2 }}>{m.ideologia > 0 ? '+' : ''}{m.ideologia} · cred {cred100(m.credibilidad)}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
-
-        {/* Source Health detalle */}
-        <div style={{ marginTop: 18 }}><SourceHealthDetail/></div>
-
-        {/* Narrativas activas con ciclo de vida 3-step */}
-        <NarrativeLifecycle/>
       </main>
-      <footer style={{ borderTop:'1px solid var(--hairline)', padding:'18px 28px', textAlign:'center', color:'var(--ink-4)', fontSize:11.5 }}>
-        Narrativa Pública · Medios y Narrativa · Politeia Analítica · {new Date().getFullYear()}
+      <footer style={{ borderTop: '1px solid var(--hairline)', padding: '18px 28px', textAlign: 'center', color: 'var(--ink-4)', fontSize: 11.5 }}>
+        Mapa de Medios · Politeia Analítica · {new Date().getFullYear()}
       </footer>
     </div>
   )
 }
 
-// Helpers
-function MiniK({ label, n }: { label:string, n:number }) {
+// ─────────────────────────────────────────────────────────────────────────
+// Helpers de UI
+// ─────────────────────────────────────────────────────────────────────────
+function Box({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, lineHeight:1, color:'#fff' }}>{n}</div>
-      <div style={{ fontSize:8.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:3 }}>{label}</div>
+    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 9, padding: '8px 10px' }}>
+      <div style={{ fontSize: 9.5, color: '#6e6e73', letterSpacing: '0.06em', textTransform: 'uppercase', fontWeight: 700 }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontSize: 15, fontWeight: 700, color, marginTop: 1 }}>{value}</div>
     </div>
   )
 }
-function Box({ label, value, color }: { label:string, value:string, color:string }) {
+
+function BarRow({ label, value, valueColor, fill, left, width, center, scaleLeft, scaleMid, scaleRight }: {
+  label: string; value: string; valueColor: string; fill: string; left: number; width: number
+  center?: boolean; scaleLeft: string; scaleMid: string; scaleRight: string
+}) {
   return (
-    <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>
-      <div style={{ fontSize:9.5, color:'#6e6e73', letterSpacing:'0.06em', textTransform:'uppercase', fontWeight:700 }}>{label}</div>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:15, fontWeight:700, color, marginTop:1 }}>{value}</div>
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5 }}>
+        <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: valueColor }}>{value}</span>
+      </div>
+      <div style={{ position: 'relative', height: 6, background: '#fff', borderRadius: 3, border: '1px solid #ECECEF' }}>
+        {center && <div style={{ position: 'absolute', left: '50%', top: -2, bottom: -2, width: 1, background: '#1d1d1f', opacity: 0.4 }} />}
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: `${left}%`, width: `${Math.max(0, width)}%`, background: fill, borderRadius: 3 }} />
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: '#86868b', marginTop: 3 }}>
+        <span>{scaleLeft}</span><span>{scaleMid}</span><span>{scaleRight}</span>
+      </div>
+    </div>
+  )
+}
+
+function Segmented({ label, options, value, onChange, colorOf, labelOf, dot }: {
+  label: string; options: string[]; value: string; onChange: (v: string) => void
+  colorOf?: (v: string) => string; labelOf?: (v: string) => string; dot?: boolean
+}) {
+  return (
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+      <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{label}</span>
+      <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3, gap: 2, flexWrap: 'wrap' }}>
+        {options.map(o => {
+          const active = value === o
+          const c = colorOf ? colorOf(o) : '#1d1d1f'
+          return (
+            <button key={o} onClick={() => onChange(o)} style={{
+              background: active ? '#fff' : 'transparent', color: active ? c : '#6e6e73',
+              border: 'none', borderRadius: 999, padding: '5px 11px', fontSize: 11.5, fontWeight: active ? 700 : 500,
+              cursor: 'pointer', fontFamily: 'inherit', boxShadow: active ? '0 1px 2px rgba(0,0,0,0.08)' : 'none',
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+            }}>
+              {dot && o !== 'Todos' && colorOf && <span style={{ width: 7, height: 7, borderRadius: '50%', background: colorOf(o) }} />}
+              {labelOf ? labelOf(o) : o}
+            </button>
+          )
+        })}
+      </div>
     </div>
   )
 }

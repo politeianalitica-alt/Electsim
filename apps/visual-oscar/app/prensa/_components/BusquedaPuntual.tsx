@@ -10,6 +10,9 @@
  */
 import { useState, useEffect, useCallback } from 'react'
 import { useMediosDrawer } from './MediosDrawerProvider'
+import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
+import { archiveUrl } from '@/lib/medios/archive'
 import { LecturaPoliteia } from './LecturaPoliteia'
 import type { SourceGroup } from '@/lib/medios/sources-matrix'
 import { IDEOLOGY_RANGES } from '@/lib/medios/sources-matrix'
@@ -227,14 +230,27 @@ export function BusquedaPuntual() {
               </tbody>
             </table>
           </div>
-          <a
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: 'inline-block', marginTop: 16, padding: '8px 16px', background: ACCENT, color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
-          >
-            Abrir en {article.source} →
-          </a>
+          <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', padding: '8px 16px', background: ACCENT, color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
+            >
+              Abrir en {article.source} →
+            </a>
+            {archiveUrl(article.url) && (
+              <a
+                href={archiveUrl(article.url) as string}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Leer versión archivada (archive.is) · esquiva muros de pago"
+                style={{ display: 'inline-block', padding: '8px 16px', background: '#F5F5F7', color: '#3a3a3d', borderRadius: 8, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
+              >
+                ⧉ Archivo
+              </a>
+            )}
+          </div>
         </div>
       ),
     })
@@ -774,51 +790,73 @@ export function BusquedaPuntual() {
                 Artículos · {result.articles.length} resultados · click para detalle
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-                {result.articles.map((a, i) => (
-                  <div
-                    key={i}
-                    onClick={() => openArticleDrill(a)}
-                    style={{
-                      padding: 12,
-                      background: '#fff',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: 8,
-                      cursor: 'pointer',
-                      transition: 'all 100ms',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.boxShadow = `0 2px 8px ${ACCENT}11` }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.boxShadow = '' }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
-                      <div style={{ flex: 1, minWidth: 200 }}>
-                        <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', margin: 0, lineHeight: 1.4 }}>
-                          {a.title}
+                {result.articles.map((a, i) => {
+                  const ideoColor = a.ideology_bucket ? IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.color : undefined
+                  const sentScore = typeof a.sentiment_score === 'number' ? a.sentiment_score : undefined
+                  const sentColor = sentScore != null ? (sentScore >= 0 ? '#16a34a' : '#dc2626') : undefined
+                  const accent = sentColor ?? ideoColor ?? ACCENT
+                  return (
+                    <CollapsibleArticle
+                      key={i}
+                      title={a.title}
+                      href={a.url}
+                      medio={a.source}
+                      when={a.published ? new Date(a.published).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : undefined}
+                      accent={accent}
+                    >
+                      {a.description && (
+                        <p style={{ fontSize: 12, color: '#334155', margin: 0, lineHeight: 1.55 }}>
+                          {a.description}
                         </p>
-                        {a.description && (
-                          <p style={{ fontSize: 11, color: '#64748b', margin: '4px 0 0', lineHeight: 1.5 }}>
-                            {a.description.slice(0, 160)}{a.description.length > 160 ? '…' : ''}
-                          </p>
+                      )}
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: a.description ? 10 : 0 }}>
+                        {a.ideology_bucket && ideoColor && (
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '3px 8px', borderRadius: 999,
+                            background: ideoColor + '22', color: ideoColor,
+                            letterSpacing: 0.3, textTransform: 'uppercase',
+                          }}>
+                            {IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.label}
+                          </span>
+                        )}
+                        {sentScore != null && sentColor && (
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '3px 8px', borderRadius: 999,
+                            background: sentColor + '22', color: sentColor,
+                            letterSpacing: 0.3, textTransform: 'uppercase',
+                          }}>
+                            Sentimiento {sentScore >= 0 ? '+' : ''}{(sentScore * 100).toFixed(0)}%
+                          </span>
+                        )}
+                        {a.author && (
+                          <span style={{ fontSize: 9, fontWeight: 600, padding: '3px 8px', borderRadius: 999, background: '#f1f5f9', color: '#475569' }}>
+                            {a.author}
+                          </span>
+                        )}
+                        {a.domain && (
+                          <span style={{ fontSize: 9, fontWeight: 600, padding: '3px 8px', borderRadius: 999, background: '#f1f5f9', color: '#475569', fontFamily: 'monospace' }}>
+                            {a.domain}
+                          </span>
                         )}
                       </div>
-                      <div style={{ textAlign: 'right', minWidth: 100 }}>
-                        <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>{a.source}</span>
-                        <p style={{ fontSize: 9, color: '#cbd5e1', margin: '2px 0 0' }}>
-                          {new Date(a.published).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                      {a.published && (
+                        <p style={{ fontSize: 10, color: '#94a3b8', margin: '10px 0 0' }}>
+                          {new Date(a.published).toLocaleString('es-ES')}
                         </p>
-                      </div>
-                    </div>
-                    {a.ideology_bucket && (
-                      <span style={{
-                        display: 'inline-block', marginTop: 6, fontSize: 9, fontWeight: 700,
-                        padding: '2px 6px', borderRadius: 4,
-                        background: IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.color + '22',
-                        color: IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.color,
-                      }}>
-                        {IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.label}
-                      </span>
-                    )}
-                  </div>
-                ))}
+                      )}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); openArticleDrill(a) }}
+                        style={{
+                          marginTop: 10, background: '#fff', color: ACCENT, border: `1px solid ${ACCENT}`,
+                          borderRadius: 8, padding: '5px 12px', fontSize: 11, fontWeight: 600,
+                          cursor: 'pointer', fontFamily: 'inherit',
+                        }}
+                      >
+                        Ver lectura completa →
+                      </button>
+                    </CollapsibleArticle>
+                  )
+                })}
               </div>
             </section>
           )}
@@ -987,11 +1025,14 @@ function NarrativasPanel({ clusters }: { clusters: NonNullable<SearchResponse['n
                   <p style={{ margin: 0, fontSize: 10, color: '#475569', fontStyle: 'italic' }}>{c.why_this_is_a_narrative}</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 6 }}>
                     {c.evidence.slice(0, 5).map((e, i) => (
-                      <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" style={{ padding: '3px 6px', background: '#fff', borderLeft: '2px solid #cbd5e1', borderRadius: 3, textDecoration: 'none', color: 'inherit', fontSize: 10 }}>
-                        <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', marginRight: 6, letterSpacing: 0.3 }}>{e.ideology.toUpperCase()}</span>
-                        <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
-                        <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
-                      </a>
+                      <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 6, padding: '3px 6px', background: '#fff', borderLeft: '2px solid #cbd5e1', borderRadius: 3, fontSize: 10 }}>
+                        <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', flex: 1, minWidth: 0 }}>
+                          <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', marginRight: 6, letterSpacing: 0.3 }}>{e.ideology.toUpperCase()}</span>
+                          <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
+                          <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
+                        </a>
+                        <ArchiveLink url={e.url} size={9} />
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -1024,12 +1065,12 @@ function ActoresImpactoPanel({ impacts }: { impacts: NonNullable<SearchResponse[
               <span style={{ color: '#0f172a', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={a.sample_reasons[0] || ''}>{a.actor}</span>
               <span style={{ color: '#475569', fontFamily: 'ui-monospace, monospace', textAlign: 'right' }}>{a.mentions}</span>
               <div style={{ display: 'flex', height: 10, borderRadius: 2, overflow: 'hidden' }}>
-                {a.beneficial > 0 && <div style={{ width: `${(a.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficial ${a.beneficial}`} />}
-                {a.harmful > 0 && <div style={{ width: `${(a.harmful / total) * 100}%`, background: '#dc2626' }} title={`harmful ${a.harmful}`} />}
+                {a.beneficial > 0 && <div style={{ width: `${(a.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficioso ${a.beneficial}`} />}
+                {a.harmful > 0 && <div style={{ width: `${(a.harmful / total) * 100}%`, background: '#dc2626' }} title={`perjudicial ${a.harmful}`} />}
                 {a.neutral > 0 && <div style={{ width: `${(a.neutral / total) * 100}%`, background: '#94a3b8' }} title={`neutral ${a.neutral}`} />}
-                {a.uncertain > 0 && <div style={{ width: `${(a.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`uncertain ${a.uncertain}`} />}
+                {a.uncertain > 0 && <div style={{ width: `${(a.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`incierto ${a.uncertain}`} />}
               </div>
-              <span style={{ fontSize: 8, color: impactColor, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>● {a.dominant_impact}</span>
+              <span style={{ fontSize: 8, color: impactColor, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>● {a.dominant_impact === 'beneficial' ? 'beneficioso' : a.dominant_impact === 'harmful' ? 'perjudicial' : a.dominant_impact === 'uncertain' ? 'incierto' : 'neutral'}</span>
             </div>
           )
         })}
@@ -1175,6 +1216,7 @@ function ArticleReadingPanel({ reading }: { reading: any }) {
       <table style={{ width: '100%', fontSize: 11, borderCollapse: 'collapse' }}>
         <tbody>
           <Row label="Frame narrativo" value={<strong>{reading.frame || '—'}</strong>} />
+          <Row label="Sector" value={<strong>{reading.sector_label || reading.sector || '—'}</strong>} />
           <Row label="Tema principal" value={reading.main_topic} />
           <Row label="Temas secundarios" value={list(reading.secondary_topics)} />
           <Row label="Acción · verbo" value={reading.action_verb} />

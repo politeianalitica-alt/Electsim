@@ -2,15 +2,18 @@
  * Matriz de fuentes utilizadas por cada tab de /prensa (Medios).
  *
  * Sprint G15 · refactor: dashboard de inteligencia mediática real,
- * no colección de módulos apilados. 7 tabs como flujo analítico:
+ * no colección de módulos apilados. 6 tabs como flujo analítico:
  *
  *   1. Pulso de prensa             · qué está dominando AHORA la agenda
  *   2. Búsqueda                    · qué se ha publicado sobre X
  *   3. Narrativas & framing        · qué narrativas se forman y cómo se encuadran
  *   4. Tendencias e impacto        · qué figuras/partidos/empresas/sectores/países salen más impactados (NO sólo sentimiento)
  *   5. Mapas de impacto            · dónde impacta la agenda · España+provincias+mundo
- *   6. Observatorio de Información · verificaciones, bulos, claims, operaciones
- *   7. Mapa de medios              · catálogo + territorio + grupo + ideología + RSS
+ *   6. Mapa de medios              · catálogo + territorio + grupo + ideología + RSS
+ *
+ * El antiguo tab "Observatorio de Información" se eliminó de /prensa: su función
+ * (verificaciones, bulos, fact-check) vive en la entrada de menú
+ * Desinformación → /desinformacion. Los aliases legacy se remapean a 'pulso'.
  *
  * Cambios vs Sprint M3:
  *   - Actores → Tendencias (con beneficial/harmful/neutral/uncertain por actor, no solo sentimiento)
@@ -32,7 +35,6 @@ export type MediosTabId =
   | 'narrativas'
   | 'tendencias'                // Sprint G15 · reemplaza 'actores'
   | 'mapas'
-  | 'observatorio-informacion'  // Sprint G15 · reemplaza 'desinformacion'
   | 'mapa-medios'               // Sprint G15 · reemplaza 'informes'
 
 // IDs históricos · mantenemos para mapeo de URLs antiguas
@@ -46,6 +48,7 @@ export type LegacyMediosTabId =
   | 'viralidad'
   | 'analisis-ia'
   | 'desinformacion'            // Sprint M3
+  | 'observatorio-informacion'  // Sprint G15 · tab eliminado · legacy → pulso
   | 'regional'
   | 'informes'                  // Sprint M3
 
@@ -56,7 +59,10 @@ const LEGACY_TO_NEW: Record<LegacyMediosTabId, MediosTabId> = {
   // Sprint G15 · renames
   actores: 'tendencias',
   'actores-sentimiento': 'tendencias',
-  desinformacion: 'observatorio-informacion',
+  // Observatorio de Información eliminado de /prensa · su función vive en la
+  // entrada de menú Desinformación → /desinformacion. Aliases → pulso.
+  desinformacion: 'pulso',
+  'observatorio-informacion': 'pulso',
   informes: 'mapa-medios',
   // fusiones Sprint M3 mantenidas
   viralidad: 'narrativas',              // capa transversal · home en narrativas
@@ -89,8 +95,8 @@ export const MEDIOS_TABS: MediosTab[] = [
   {
     id: 'pulso',
     number: 1,
-    label: 'Pulso de prensa',
-    shortLabel: 'Pulso',
+    label: 'Prensa',
+    shortLabel: 'Prensa',
     question: '¿Qué está dominando ahora mismo la agenda?',
     description: 'Primera lectura · gráfico de importancia temática (tags reales + heurística), feed por tiers, KPIs y señales emergentes. Lectura IA opcional.',
     themeAccent: '#1F4E8C',
@@ -120,7 +126,7 @@ export const MEDIOS_TABS: MediosTab[] = [
   {
     id: 'narrativas',
     number: 3,
-    label: 'Narrativas & framing',
+    label: 'Narrativas',
     shortLabel: 'Narrativas',
     question: '¿Qué narrativas se están formando y cómo se encuadran?',
     description: 'Workbench único · cada narrativa es topic + frame + mensaje repetido + actores + medios/canales + ventana temporal + evidencia suficiente. NO un tema, NO un frame suelto. Mínimo 3 artículos en ≥2 medios y al menos una señal fuerte (actor / institución / partido / empresa / territorio).',
@@ -167,23 +173,8 @@ export const MEDIOS_TABS: MediosTab[] = [
     ],
   },
   {
-    id: 'observatorio-informacion',
-    number: 6,
-    label: 'Observatorio de Información',
-    shortLabel: 'Observatorio',
-    question: '¿Qué claims, bulos, operaciones informativas o patrones de desinformación están activos?',
-    description: 'No solo "desinformación" · verificaciones recientes + claims + bulos + engañosos + sin contexto + tendencia temporal + actores afectados + conexión con narrativas activas. Google Fact Check integrado como buscador interno.',
-    themeAccent: '#B91C1C',
-    sources: [
-      { key: 'rss-fc',     name: 'RSS · Maldita, Newtral, EFE Verifica', status: 'live', endpoint: '/api/news/desinformacion' },
-      { key: 'gfact',      name: 'Google Fact Check Tools API',          status: 'live', endpoint: '/api/factcheck/search' },
-      { key: 'narratives', name: 'NarrativeClusters · cruce con verificaciones', status: 'live', endpoint: '/api/medios/intel' },
-      { key: 'brain',      name: 'Lectura Politeia · IA',                status: 'live', endpoint: '/api/medios/lectura' },
-    ],
-  },
-  {
     id: 'mapa-medios',
-    number: 7,
+    number: 6,
     label: 'Mapa de medios',
     shortLabel: 'Mapa medios',
     question: '¿Qué medios componen el ecosistema informativo y dónde están?',

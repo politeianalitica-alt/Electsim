@@ -7,6 +7,7 @@
  * Se conecta a /api/news/narrativas-v3 (en vivo, RSS 50 medios).
  */
 import { useEffect, useState } from 'react'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 interface ActorDetectado { nombre: string; tipo: string; menciones: number; sentimientoMedio: number; alineacion?: string }
 interface BenefPerj { actor: string; intensidad: string; evidenciaCount: number }
@@ -266,7 +267,7 @@ function CardV3Colapsable({ n }: { n: NarrativaV3 }) {
               <ul style={{ margin: '4px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 3 }}>
                 {n.ejemplos.map((e, i) => (
                   <li key={i} style={{ fontSize: 10.5, lineHeight: 1.4 }}>
-                    <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none' }}>{e.titulo}</a>
+                    <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none' }}>{e.titulo}</a>{' '}<ArchiveLink url={e.url} size={9} />
                     <span style={{ color: '#9CA3AF', fontSize: 9 }}> · {e.medio}</span>
                   </li>
                 ))}
@@ -488,7 +489,7 @@ function CardV3({ n, rank }: { n: NarrativaV3; rank: number }) {
               <ul style={{ margin: '4px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
                 {n.ejemplos.map((e, i) => (
                   <li key={i} style={{ fontSize: 11, lineHeight: 1.4 }}>
-                    <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none', fontWeight: 600 }}>{e.titulo}</a>
+                    <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none', fontWeight: 600 }}>{e.titulo}</a>{' '}<ArchiveLink url={e.url} size={9} />
                     <span style={{ color: '#6e6e73', fontSize: 10 }}> · {e.medio}{e.fecha ? ` · ${new Date(e.fecha).toLocaleDateString('es-ES')}` : ''}</span>
                   </li>
                 ))}

@@ -42,7 +42,7 @@ const ROUTE_LABELS: Array<[RegExp, (m: RegExpMatchArray) => string]> = [
   [/^\/geopolitica/,            () => 'Geopolítica y RRII'],
   [/^\/macro/,                  () => 'Macro-Political & Economic'],
 
-  [/^\/prensa/,                 () => 'Pulso de Prensa'],
+  [/^\/prensa/,                 () => 'Prensa'],
   [/^\/medios-narrativa/,       () => 'Mapa de Medios'],
 
   [/^\/licitaciones(\/.*)?$/,   () => 'Licitaciones'],

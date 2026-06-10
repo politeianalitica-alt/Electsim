@@ -16,17 +16,17 @@ import { readArticle, buildMeta, profileFromCatalog } from '@/lib/medios/media-m
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 45
+export const maxDuration = 60
 export const revalidate = 300
 
 export async function GET(req: NextRequest) {
   const startedAt = Date.now()
   const ccaa = req.nextUrl.searchParams.get('ccaa') || 'Madrid'
-  const hours = Math.min(168, Math.max(6, Number(req.nextUrl.searchParams.get('hours') || 72)))
+  const hours = Math.min(168, Math.max(6, Number(req.nextUrl.searchParams.get('hours') || 168)))
   const balanceMode = (req.nextUrl.searchParams.get('balance_mode') || 'regional') as 'audience' | 'pluralism' | 'regional' | 'ideological' | 'crisis'
   const warnings: string[] = []
   try {
-    const articles = await getAggregatedNews({ maxSources: 80, hoursBack: hours, balanceMode })
+    const articles = await getAggregatedNews({ maxSources: 100, hoursBack: hours, balanceMode })
     const detail = ccaaDeep(articles, ccaa)
 
     // Sprint M1 · regional_signal_score (separa origen medio vs mención vs afectado)

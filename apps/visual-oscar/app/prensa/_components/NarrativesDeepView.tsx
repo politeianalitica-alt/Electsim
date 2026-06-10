@@ -22,6 +22,7 @@
 
 import { useState } from 'react'
 import type { NarrativeAnatomy, CoverageGap } from '@/lib/news-intel'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 const EMOTION_META: Record<string, { color: string; bg: string }> = {
   indignación: { color: '#DC2626', bg: 'rgba(220,38,38,0.10)' },
@@ -286,18 +287,33 @@ export default function NarrativesDeepView({ narratives, gaps }: {
 
               {/* Noticias que la componen */}
               <Section title="Noticias que la componen" icon="">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-                  {active.articles.slice(0, 5).map((a, i) => (
-                    <a key={i} href={a.link} target="_blank" rel="noopener" style={{
-                      padding: '6px 0', borderBottom: '1px solid #ECECEF',
-                      textDecoration: 'none', color: 'inherit', display: 'block',
-                    }}>
-                      <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.35 }}>{a.title}</div>
-                      <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 2 }}>
-                        {a.medio.nombre} · {a.sentiment === 'positive' ? '+' : a.sentiment === 'negative' ? '–' : '·'}{a.sentiment_score.toFixed(2)}
-                      </div>
-                    </a>
-                  ))}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {active.articles.slice(0, 5).map((a, i) => {
+                    const sentColor = a.sentiment === 'positive' ? '#16A34A' : a.sentiment === 'negative' ? '#DC2626' : '#6e6e73'
+                    return (
+                      <CollapsibleArticle
+                        key={i}
+                        title={a.title}
+                        href={a.link}
+                        medio={a.medio.nombre}
+                        accent={sentColor}
+                        titleSize={12}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11.5 }}>
+                          <span style={{
+                            color: '#fff', background: sentColor,
+                            padding: '2px 9px', borderRadius: 999, fontWeight: 700,
+                            textTransform: 'uppercase', letterSpacing: '0.04em', fontSize: 10,
+                          }}>
+                            {a.sentiment === 'positive' ? 'positivo' : a.sentiment === 'negative' ? 'negativo' : 'neutro'}
+                          </span>
+                          <span style={{ color: sentColor, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>
+                            {a.sentiment === 'positive' ? '+' : a.sentiment === 'negative' ? '–' : '·'}{a.sentiment_score.toFixed(2)}
+                          </span>
+                        </div>
+                      </CollapsibleArticle>
+                    )
+                  })}
                 </div>
               </Section>
             </div>

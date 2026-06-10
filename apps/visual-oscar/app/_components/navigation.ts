@@ -25,6 +25,17 @@ export type NavModule = {
 }
 
 export const MODULES: NavModule[] = [
+  // ─── Mapa · Inteligencia en tiempo real · PRIMERO en la barra superior ──
+  // Tab único → sin subnav. Estilos OSIRIS aislados bajo .osiris-root.
+  {
+    id: 'osint-global',
+    label: 'Mapa',
+    full: 'Mapa · Inteligencia en tiempo real',
+    items: [
+      { label: 'Mapa Politeia', href: '/osint-global' },
+    ],
+  },
+
   // ─── 1. Inicio / Overview ─────────────────────────────────────────────
   // Módulo OCULTO · /dashboard es la home post-login (Panel Ejecutivo).
   // /inicio redirige a /dashboard para mantener compat con bookmarks.
@@ -95,9 +106,17 @@ export const MODULES: NavModule[] = [
     label: 'Medios',
     full: 'Medios y Narrativa Pública',
     items: [
-      { label: 'Pulso de Prensa', href: '/prensa' },
-      { label: 'Mapa de Medios',  href: '/medios-narrativa' },
-      { label: 'Desinformación',  href: '/desinformacion' },
+      // Subpestañas de /prensa promovidas a la barra de Medios · cada una abre
+      // /prensa con ese tab ya seleccionado (useUrlState lee ?tab=).
+      { label: 'Prensa',                href: '/prensa' },
+      { label: 'Narrativas',             href: '/prensa?tab=narrativas' },
+      { label: 'Think Tanks',           href: '/think-tanks' },
+      { label: 'Mapas de impacto',      href: '/prensa?tab=mapas' },
+      { label: 'Mapa de Medios',        href: '/medios-narrativa' },
+      { label: 'Desinformación',        href: '/desinformacion' },
+      { label: 'Búsqueda',              href: '/prensa?tab=busqueda' },
+      { label: 'Tendencias e impacto',  href: '/prensa?tab=tendencias' },
+      { label: 'Catálogo de medios',    href: '/prensa?tab=mapa-medios' },
     ],
   },
 
@@ -190,17 +209,6 @@ export const MODULES: NavModule[] = [
     ],
   },
 
-  // ─── 11. OSINT Global ─────────────────────────────────────────────────
-  // Mapa táctico de inteligencia en tiempo real (MapLibre, todas las capas).
-  // Tab único → sin subnav. Estilos OSIRIS aislados bajo .osiris-root.
-  {
-    id: 'osint-global',
-    label: 'Mapa',
-    full: 'Mapa · Inteligencia en tiempo real',
-    items: [
-      { label: 'Mapa Politeia', href: '/osint-global' },
-    ],
-  },
 ]
 
 // Mapas auxiliares

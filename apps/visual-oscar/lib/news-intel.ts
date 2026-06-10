@@ -36,6 +36,9 @@ import {
   CCAA_PROVINCES,
   PROVINCE_TOKENS,
 } from './news-taxonomy'
+// Clasificación por SECTOR (taxonomía compartida) · alimenta el selector de
+// sector del Pulso y los facets agregados.
+import { detectSector, SECTOR_LABELS, type SectorKey } from './medios/sector-taxonomy'
 
 // ── Tipos ───────────────────────────────────────────────────────────────────
 
@@ -48,6 +51,7 @@ export interface TieredArticle extends AggregatedArticle {
   figures:   string[]                 // figuras mencionadas
   companies: string[]                 // empresas mencionadas
   province:  string | null            // provincia detectada en titular
+  sector:    SectorKey                // sector económico/temático dominante
 }
 
 export interface NarrativeAnatomy {
@@ -322,9 +326,10 @@ export interface TieredFeed {
   counts: Record<Tier, number>
   total: number
   categories: DynamicCategory[]      // categorías presentes en el feed
+  sectorFacets?: DynamicCategory[]   // sectores presentes (id = SectorKey) · para el selector de sector
 }
 
-function enrichArticle(a: AggregatedArticle): TieredArticle {
+function enrichArticle(a: AggregatedArticle, sectorOverride?: SectorKey): TieredArticle {
   const text = `${a.title} ${a.description}`
   return {
     ...a,
@@ -334,11 +339,14 @@ function enrichArticle(a: AggregatedArticle): TieredArticle {
     figures:   detectFigures(text),
     companies: detectCompanies(text),
     province:  detectProvince(text, a.medio.ccaa),
+    // sector: si el caller pasó un mapa (heurístico + fallback LLM), se usa;
+    // si no, se calcula heurísticamente aquí (back-compat para otros callers).
+    sector:    sectorOverride ?? detectSector(text),
   }
 }
 
-export function tieredFeed(articles: AggregatedArticle[], perTier = 25): TieredFeed {
-  const enriched = articles.map(enrichArticle)
+export function tieredFeed(articles: AggregatedArticle[], perTier = 25, sectorMap?: Map<number, SectorKey>): TieredFeed {
+  const enriched = articles.map((a, i) => enrichArticle(a, sectorMap?.get(i)))
   const buckets: Record<Tier, TieredArticle[]> = { nacional: [], europeo: [], regional: [], local: [] }
   for (const a of enriched) buckets[a.tier].push(a)
 
@@ -362,6 +370,18 @@ export function tieredFeed(articles: AggregatedArticle[], perTier = 25): TieredF
     .map(([id, v]) => ({ id, label: id, count: v.n, polarity: v.n > 0 ? +(v.sum / v.n).toFixed(2) : 0 }))
     .sort((a, b) => b.count - a.count)
 
+  // Sectores presentes · agregado sobre el set completo enriquecido (pre-slice),
+  // igual que `categories`, para que el conteo del chip refleje el corpus real.
+  const secMap = new Map<string, { n: number; sum: number }>()
+  for (const a of enriched) {
+    const cur = secMap.get(a.sector) || { n: 0, sum: 0 }
+    cur.n++; cur.sum += a.sentiment_score
+    secMap.set(a.sector, cur)
+  }
+  const sectorFacets: DynamicCategory[] = Array.from(secMap.entries())
+    .map(([id, v]) => ({ id, label: SECTOR_LABELS[id as SectorKey] ?? id, count: v.n, polarity: v.n > 0 ? +(v.sum / v.n).toFixed(2) : 0 }))
+    .sort((a, b) => b.count - a.count)
+
   return {
     tiers: buckets,
     counts: {
@@ -370,6 +390,7 @@ export function tieredFeed(articles: AggregatedArticle[], perTier = 25): TieredF
     },
     total: enriched.length,
     categories,
+    sectorFacets,
   }
 }
 
@@ -1020,7 +1041,7 @@ export function ccaaDeep(articles: AggregatedArticle[], ccaaLabel: string): CCAA
   const topNews = mine
     .filter(a => a.pubDate)
     .sort((a, b) => Math.abs(b.sentiment_score) - Math.abs(a.sentiment_score) || (b.pubDate!.getTime() - a.pubDate!.getTime()))
-    .slice(0, 8)
+    .slice(0, 30)
     .map(a => ({ title: a.title, medio: a.medio.nombre, link: a.link, sentiment: a.sentiment_score, date: a.pub_date_iso }))
 
   // Top medios
@@ -1070,9 +1091,12 @@ export function ccaaDeep(articles: AggregatedArticle[], ccaaLabel: string): CCAA
     })
     if (provArts.length === 0) continue
     const provPol = +(provArts.reduce((s, a) => s + a.sentiment_score, 0) / provArts.length).toFixed(2)
+    // TODAS las noticias de la provincia dentro de la ventana (hasta 7 días),
+    // ordenadas de más reciente a más antigua. Sin tope práctico (cap de
+    // seguridad alto) para que el dossier provincial muestre la cobertura completa.
     const provTopNews = provArts.filter(a => a.pubDate)
-      .sort((a, b) => Math.abs(b.sentiment_score) - Math.abs(a.sentiment_score))
-      .slice(0, 4)
+      .sort((a, b) => b.pubDate!.getTime() - a.pubDate!.getTime())
+      .slice(0, 300)
       .map(a => ({ title: a.title, medio: a.medio.nombre, link: a.link, sentiment: a.sentiment_score, date: a.pub_date_iso }))
     provinces.push({ name: provName, ccaa: ccaaLabel, mentions: provArts.length, polarity: provPol, topNews: provTopNews })
   }

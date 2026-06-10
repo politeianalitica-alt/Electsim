@@ -4,7 +4,7 @@
  */
 
 export const COOKIE_NAME = 'politeia_session'
-const SESSION_HOURS = 8
+const SESSION_HOURS = 24 * 30   // 30 días (antes 8 h) · debe coincidir con maxAge de la cookie en /api/auth/login
 
 export interface SessionPayload {
   email: string

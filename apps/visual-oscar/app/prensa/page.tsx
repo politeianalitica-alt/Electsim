@@ -32,13 +32,15 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import { useUrlState } from '@/lib/useUrlState'
-import { LiveDot } from '@/components/Skeleton'
 
 import FeedTiered from './_components/FeedTiered'
 // Sprint G15 FASE C · gráfico de importancia temática arriba del feed en Pulso
 import TopicImportanceChart, { type TopicImportanceItem } from './_components/TopicImportanceChart'
 // Sprint G15 FASE D4 · workbench unificado de narrativas (reemplaza apilamiento)
 import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_components/NarrativesFramingWorkbench'
+import PrimiciasPanel from './_components/PrimiciasPanel'
+import AlertasInApp from './_components/AlertasInApp'
+import BriefingDiario from './_components/BriefingDiario'
 // NarrativesDeepView, NarrativesV3View, SentimentDualView, StoryClustersView ya no se usan
 // (sustituidos por NarrativesFramingWorkbench en narrativas y TendenciasImpactoView en tendencias).
 // Se conservan en _components/ para evitar romper rutas legacy y por si se reusan en informes.
@@ -48,19 +50,25 @@ import { PipelineHealthBadge } from './_components/PipelineHealthBadge'
 import { SourceStatusPanel } from './_components/SourceStatusPanel'
 
 import { MediosDrawerProvider } from './_components/MediosDrawerProvider'
-import { MediosTabsNav, MediosSourceBadges } from './_components/MediosTabsNav'
+// MediosTabsNav (barra de tabs interna) eliminado: los 6 tabs ahora viven en el
+// subnav global del módulo "Medios" (AppHeader), evitando la barra duplicada.
+// Se conserva MediosSourceBadges (se usa en el hero).
+import { MediosSourceBadges } from './_components/MediosTabsNav'
+import MediosHero from '@/components/medios/MediosHero'
+import MapaNoticiasEspana from '@/components/medios/MapaNoticiasEspana'
 import { BusquedaPuntual } from './_components/BusquedaPuntual'
 import { ViralidadDifusion } from './_components/ViralidadDifusion'
 // InformesAlertas ya no se importa aquí · vive embebido dentro de MapaMediosView.
 import { MapaMediosView } from './_components/MapaMediosView'
-// DesinformacionLive ya no se importa aquí · ahora vive embebido en ObservatorioInformacionView.
-import { ObservatorioInformacionView } from './_components/ObservatorioInformacionView'
+// Observatorio de Información eliminado de /prensa (reorg medios 2026) · su función
+// (verificaciones, bulos, fact-check) vive en la entrada de menú Desinformación →
+// /desinformacion. ObservatorioInformacionView se conserva en _components/ por si se reusa.
 import { GdeltGlobalPanel } from './_components/GdeltGlobalPanel'
 import {
   MEDIOS_TAB_IDS, getMediosTab, MediosTabId, migrateLegacyTab,
 } from '@/lib/medios/sources-matrix'
 import {
-  SourceMethodologyCard, ConfidenceBadge, MethodologyWarnings,
+  SourceMethodologyCard, MethodologyWarnings,
 } from './_components/MethodologyComponents'
 import { NarrativeClustersView } from './_components/NarrativeClustersView'
 import { TendenciasImpactoView } from './_components/TendenciasImpactoView'
@@ -108,6 +116,8 @@ interface NarrativeClusterShape {
   frame_type: string
   main_topic: string
   secondary_topics: string[]
+  dominant_sector?: string | null
+  sector_label?: string | null
   articles: string[]
   representative_titles: string[]
   first_seen: string
@@ -311,18 +321,20 @@ export default function PrensaPage() {
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
   // Sprint M3 · estado con migración legacy automática
-  const [activeTab, setActiveTab] = useUrlState<MediosTabId>('tab', 'pulso')
+  // El setter ya no se usa aquí: la navegación entre tabs la hace el subnav del
+  // header (links a /prensa?tab=…). La página solo LEE el tab del query.
+  const [activeTab] = useUrlState<MediosTabId>('tab', 'pulso')
   const safeActiveTab: MediosTabId = migrateLegacyTab(activeTab)
   const tab = getMediosTab(safeActiveTab)
 
   const [hours, setHours] = useState<24 | 48 | 72 | 168>(72)
   const [balanceMode, setBalanceMode] = useUrlState<BalanceMode>('balance', 'pluralism')
   const [showMethodology, setShowMethodology] = useState(false)
-  // Sprint G15 FASE B · IDs renombrados: actores→tendencias · desinformacion→
-  // observatorio-informacion · informes→mapa-medios.
+  // Tema seleccionado en el gráfico de importancia → filtra el feed del Pulso en sitio.
+  const [feedTopic, setFeedTopic] = useState('')
+  // Sprint G15 FASE B · IDs renombrados: actores→tendencias · informes→mapa-medios.
   // Tabs que necesitan el endpoint /intel (resto autónomas):
   // - mapa-medios va a /api/medios (catálogo), no a /intel
-  // - observatorio-informacion va a sus propios endpoints (factcheck + desinformacion)
   // - busqueda usa NewsAPI por demanda dentro de BusquedaPuntual
   //
   // Sprint G15-FIX C1 · mapas SÍ necesita el intel para alimentar MapasImpacto
@@ -392,91 +404,68 @@ export default function PrensaPage() {
         <AppHeader />
         <main style={{ maxWidth: 1500, margin: '0 auto', padding: '20px 28px 80px' }}>
 
-          {/* Hero compacto */}
-          <section style={{
-            background: `linear-gradient(135deg, ${tab.themeAccent}EE 0%, ${tab.themeAccent}AA 100%)`,
-            borderRadius: 14, padding: '16px 22px', marginBottom: 14, color: '#fff',
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16,
-          }}>
-            <div>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.14, textTransform: 'uppercase', opacity: 0.86, margin: 0, display: 'flex', gap: 8, alignItems: 'center' }}>
-                <LiveDot color={isFresh ? '#86efac' : '#fde68a'} />
-                {/* Sprint Q-C.1 · "INTELLIGENCE" → ES */}
-                <span>INTELIGENCIA DE MEDIOS · Tab {tab.number}/7 · {tab.label}</span>
-                {source === 'mock' && <span style={{ background: 'rgba(255,255,255,0.20)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
-              </p>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22, margin: '6px 0 0', lineHeight: 1.1, maxWidth: 820 }}>
-                {tab.question}
-              </h1>
-              <p style={{ fontSize: 11, opacity: 0.78, margin: '4px 0 0', maxWidth: 880 }}>
-                {tab.description}
-              </p>
-              {needsIntel && (
-                <p style={{ fontSize: 11, opacity: 0.86, margin: '6px 0 0' }}>
-                  {totalArticles > 0
-                    ? (methodology?.copy_for_hero
-                        ? `${totalArticles} noticias · ${methodology.copy_for_hero}`
-                        : `${totalArticles} noticias · ${methodology?.selected_sources ?? meta?.sources ?? '…'}/${methodology?.catalog_total ?? '?'} medios analizados (modo "${balanceMode}")`)
-                    : 'Cargando feed RSS…'}
-                </p>
-              )}
-              {needsIntel && _meta?.confidence !== undefined && (
-                <div style={{ marginTop: 6, display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <ConfidenceBadge value={_meta.confidence} label="confianza muestra" size="xs" reasons={_meta.warnings} />
-                  <button
-                    onClick={() => setShowMethodology(!showMethodology)}
-                    style={{
-                      background: 'rgba(255,255,255,0.16)', color: '#fff', border: 'none',
-                      padding: '3px 10px', borderRadius: 4, fontSize: 10, fontWeight: 700, cursor: 'pointer', letterSpacing: 0.4, fontFamily: 'inherit',
-                    }}
-                  >
-                    {showMethodology ? '× ocultar metodología' : '◆ ver metodología'}
-                  </button>
-                </div>
-              )}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-              <MediosSourceBadges tab={tab} />
-              {needsIntel && (
-                <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.16)', borderRadius: 999, padding: 3 }}>
-                  {([24, 48, 72, 168] as const).map((h) => (
-                    <button key={h} onClick={() => setHours(h)} style={{
-                      background: hours === h ? '#fff' : 'transparent', color: hours === h ? tab.themeAccent : '#fff',
-                      border: 'none', borderRadius: 999, padding: '4px 12px', fontSize: 11, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-                    }}>{h < 168 ? `${h}h` : '7d'}</button>
-                  ))}
-                </div>
-              )}
-              {/* Sprint Q-C.1 · botones de balance · ANTES mostraban `m.slice(0,6)` truncado
-                  ("ideol…", "regio…") sin tooltip que aclarara qué hace cada modo. Ahora cada
-                  botón tiene label legible + title con descripción funcional. */}
-              {needsIntel && (
-                <div style={{ display: 'inline-flex', background: 'rgba(255,255,255,0.16)', borderRadius: 999, padding: 3 }}>
-                  {([
-                    { id: 'pluralism',  label: 'plural',     title: 'Equilibra catálogo por pluralidad editorial (todos los espectros).' },
-                    { id: 'audience',   label: 'audiencia',  title: 'Pondera por audiencia mensual del medio.' },
-                    { id: 'regional',   label: 'regional',   title: 'Sobreexpone medios regionales y locales.' },
-                    { id: 'ideological',label: 'ideológico', title: 'Pondera por distancia ideológica entre medios.' },
-                    { id: 'crisis',     label: 'crisis',     title: 'Prioriza medios con mayor cobertura del topic.' },
-                  ] as const).map((m) => (
-                    <button key={m.id} onClick={() => setBalanceMode(m.id)} title={m.title} style={{
-                      background: balanceMode === m.id ? '#fff' : 'transparent', color: balanceMode === m.id ? tab.themeAccent : '#fff',
-                      border: 'none', borderRadius: 999, padding: '3px 10px',
-                      fontSize: 9, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', letterSpacing: 0.4, textTransform: 'uppercase',
-                    }}>
-                      {m.label}
-                    </button>
-                  ))}
-                </div>
-              )}
-              {updatedAt && (
-                <span style={{ fontSize: 10, opacity: 0.78 }}>
-                  Actualizado hace {Math.max(1, Math.round((Date.now() - new Date(updatedAt).getTime()) / 60_000))} min · {' '}
-                  <button onClick={refresh} style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit', fontSize: 10 }}>↻ refrescar</button>
-                </span>
-              )}
-            </div>
-          </section>
+          {/* Hero · cabecera limpia con KPIs en vivo + mini-mapa de España (CCAA) */}
+          <MediosHero
+            accent={tab.themeAccent}
+            fresh={isFresh}
+            eyebrow={`Inteligencia de medios · Tab ${tab.number}/6 · ${tab.label}`}
+            badge={source === 'mock'
+              ? <span style={{ background: '#fef3c7', color: '#92400e', padding: '1px 8px', borderRadius: 999, fontSize: 9, fontWeight: 700 }}>DEMO</span>
+              : undefined}
+            title={tab.question}
+            subtitle={needsIntel && totalArticles > 0 && methodology?.copy_for_hero ? methodology.copy_for_hero : tab.description}
+            kpis={needsIntel ? [
+              { label: 'Noticias', value: totalArticles || '…', color: tab.themeAccent },
+              { label: 'Medios', value: `${methodology?.selected_sources ?? meta?.sources ?? '…'}`, sub: `de ${methodology?.catalog_total ?? '?'}` },
+              ...(_meta?.confidence !== undefined ? [{ label: 'Confianza', value: `${Math.round(_meta.confidence * 100)}%` }] : []),
+            ] : []}
+            mapLabel="Noticias por comunidad"
+            map={needsIntel ? <MapaNoticiasEspana data={data?.ccaa} colorHigh={tab.themeAccent} /> : undefined}
+            actions={
+              <>
+                {needsIntel && (
+                  <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+                    {([24, 48, 72, 168] as const).map((h) => (
+                      <button key={h} onClick={() => setHours(h)} style={{
+                        background: hours === h ? '#fff' : 'transparent', color: hours === h ? tab.themeAccent : '#6e6e73',
+                        border: 'none', borderRadius: 999, padding: '4px 11px', fontSize: 11, fontWeight: hours === h ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
+                        boxShadow: hours === h ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      }}>{h < 168 ? `${h}h` : '7d'}</button>
+                    ))}
+                  </div>
+                )}
+                {needsIntel && (
+                  <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+                    {([
+                      { id: 'pluralism',  label: 'plural',     title: 'Equilibra catálogo por pluralidad editorial (todos los espectros).' },
+                      { id: 'audience',   label: 'audiencia',  title: 'Pondera por audiencia mensual del medio.' },
+                      { id: 'regional',   label: 'regional',   title: 'Sobreexpone medios regionales y locales.' },
+                      { id: 'ideological',label: 'ideológico', title: 'Pondera por distancia ideológica entre medios.' },
+                      { id: 'crisis',     label: 'crisis',     title: 'Prioriza medios con mayor cobertura del topic.' },
+                    ] as const).map((m) => (
+                      <button key={m.id} onClick={() => setBalanceMode(m.id)} title={m.title} style={{
+                        background: balanceMode === m.id ? '#fff' : 'transparent', color: balanceMode === m.id ? tab.themeAccent : '#6e6e73',
+                        border: 'none', borderRadius: 999, padding: '4px 10px', fontSize: 9, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit', letterSpacing: 0.4, textTransform: 'uppercase',
+                        boxShadow: balanceMode === m.id ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+                      }}>{m.label}</button>
+                    ))}
+                  </div>
+                )}
+                {needsIntel && _meta?.confidence !== undefined && (
+                  <button onClick={() => setShowMethodology(!showMethodology)} style={{
+                    background: '#F5F5F7', color: '#3a3a3d', border: 'none', padding: '5px 11px', borderRadius: 999, fontSize: 10, fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+                  }}>{showMethodology ? '× metodología' : '◆ metodología'}</button>
+                )}
+                <MediosSourceBadges tab={tab} />
+                {updatedAt && (
+                  <span style={{ fontSize: 10, color: '#9ca3af' }}>
+                    hace {Math.max(1, Math.round((Date.now() - new Date(updatedAt).getTime()) / 60_000))} min ·{' '}
+                    <button onClick={refresh} style={{ background: 'transparent', border: 'none', color: tab.themeAccent, cursor: 'pointer', textDecoration: 'underline', fontFamily: 'inherit', fontSize: 10 }}>↻ refrescar</button>
+                  </span>
+                )}
+              </>
+            }
+          />
 
           {/* Metodología (colapsable) */}
           {showMethodology && methodology && (
@@ -496,8 +485,8 @@ export default function PrensaPage() {
             <SourceStatusPanel />
           </div>
 
-          {/* Sub-nav 7 tabs */}
-          <MediosTabsNav activeId={safeActiveTab} onTabChange={setActiveTab} />
+          {/* Sub-nav de los 6 tabs: ahora vive en el subnav global del módulo
+              "Medios" (AppHeader). Aquí ya no se renderiza para evitar duplicado. */}
 
           {/* Contenido */}
           {loading && !data && needsIntel ? (
@@ -516,6 +505,19 @@ export default function PrensaPage() {
                   <TabExplainerBlock
                     question="¿Qué está dominando ahora mismo la agenda?"
                     answer="Las narrativas dominantes y los titulares por ámbito (nacional, europeo, regional, local), qué temas concentra cada partido y qué historias están acelerando ahora. Análisis IA opcional."
+                  />
+                  {/* Briefing del día · determinista + IA opcional (gated) */}
+                  <BriefingDiario
+                    clusters={data?.narrative_clusters as any}
+                    gaps={data?.coverage_gaps as any}
+                    balanceScore={methodology?.ideological_balance_score}
+                    totalArticles={totalArticles}
+                  />
+                  {/* Alertas automáticas in-app (calculadas en cliente) */}
+                  <AlertasInApp
+                    clusters={data?.narrative_clusters as any}
+                    gaps={data?.coverage_gaps as any}
+                    balanceScore={methodology?.ideological_balance_score}
                   />
                   {/* Sprint M4 FASE B · metodología + confianza + warnings (mismo motor que NewsAPI search) */}
                   {(data?.methodology_confidence || data?.analysis_warnings) && (
@@ -548,8 +550,9 @@ export default function PrensaPage() {
                   <TopicImportanceChart
                     topics={(data as IntelResponse & { topic_importance?: TopicImportanceItem[] })?.topic_importance}
                     loading={loading && !data}
+                    onSelectTopic={(_id, label) => setFeedTopic(label)}
                   />
-                  <FeedTiered feed={data?.feed} />
+                  <FeedTiered feed={data?.feed} externalSearch={feedTopic} />
                   <GdeltGlobalPanel query="Spain" />
                   {data?.topicparty && data.topicparty.length > 0 && (
                     <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 10, padding: 14 }}>
@@ -614,7 +617,28 @@ export default function PrensaPage() {
                       data?.emerging_signals as WorkbenchNarrative[] | undefined
                     }
                     loading={loading && !data}
+                    onAudit={(n) => {
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'busqueda'); params.set('q', n.title); params.set('autoexec', '1')
+                      router.push(`/prensa?${params.toString()}`)
+                    }}
+                    onCreateDossier={(n) => {
+                      const params = new URLSearchParams(window.location.search)
+                      params.set('tab', 'busqueda'); params.set('q', n.title); params.set('autoexec', '1'); params.set('dossier', '1')
+                      router.push(`/prensa?${params.toString()}`)
+                    }}
                   />
+                  {/* Comparación de encuadre izquierda/derecha + huecos de cobertura
+                      (construidos pero antes no se renderizaban). */}
+                  {data?.framing_comparison && data.framing_comparison.length > 0 && (
+                    <FramingComparisonPanel framing={data.framing_comparison as any} />
+                  )}
+                  {data?.coverage_gaps && data.coverage_gaps.length > 0 && (
+                    <CoverageGapsPanel gaps={data.coverage_gaps as any} />
+                  )}
+                  {data?.narrative_clusters && data.narrative_clusters.length > 0 && (
+                    <PrimiciasPanel clusters={data.narrative_clusters as any} />
+                  )}
                 </div>
               )}
 
@@ -693,30 +717,10 @@ export default function PrensaPage() {
                 </div>
               )}
 
-              {/* Tab 6 · Observatorio de Información · Sprint G15 FASE G · ObservatorioInformacionView
-                  reemplaza el render mínimo de DesinformacionLive solo. Ahora incluye:
-                    - Sumario agregado EFE+Newtral+Maldita (KPIs + tendencia 7d vs 7d previos)
-                    - Top temas con desinformación
-                    - Actores más perjudicados (con tendencia)
-                    - Buscador puntual Google Fact Check (DesinformacionLive embebido)
-                    - Link al observatorio dedicado /prensa/desinformacion */}
-              {safeActiveTab === 'observatorio-informacion' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-                  <TabExplainerBlock
-                    question="¿Qué claims, bulos, operaciones informativas o patrones de desinformación están activos?"
-                    answer="Verificaciones recientes + claims + bulos + sin contexto + tendencia temporal + actores afectados + conexión con narrativas activas. Google Fact Check integrado como buscador interno."
-                  />
-                  <LecturaPoliteiaPanel
-                    tabId="desinformacion"
-                    context={lecturaCtx}
-                    title="Lectura Politeia · Observatorio de Información"
-                    collapsedByDefault
-                  />
-                  <ObservatorioInformacionView />
-                </div>
-              )}
+              {/* Tab "Observatorio de Información" eliminado (reorg medios 2026) ·
+                  su función vive en la entrada de menú Desinformación → /desinformacion. */}
 
-              {/* Tab 7 · Mapa de medios · Sprint G15 FASE H · MapaMediosView reemplaza
+              {/* Tab 6 · Mapa de medios · Sprint G15 FASE H · MapaMediosView reemplaza
                   el render legacy (sólo InformesAlertas). Ahora la tab muestra:
                     - Sumario panorama mediático (6 KPIs)
                     - Concentración por grupo (top 12 grupos empresariales)

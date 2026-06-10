@@ -22,6 +22,12 @@
  */
 
 import type { CatalogMedio, AggregatedArticle } from '../news-aggregator'
+// Clasificación por SECTOR (taxonomía compartida) · para el sector dominante de
+// cada narrativa y el filtro de sector del workbench de Narrativas.
+// Extensión .ts explícita: este módulo lo carga también el runner de tests
+// `node --experimental-strip-types` (test:unit), que exige extensión al resolver
+// imports de VALOR (no-type). tsconfig tiene allowImportingTsExtensions:true.
+import { classifySector, SECTOR_LABELS, type SectorKey } from './sector-taxonomy.ts'
 
 export const METHODOLOGY_VERSION = 'media-intel-v2'
 
@@ -218,6 +224,8 @@ export interface NarrativeCluster {
   frame_type: FrameType
   main_topic: string
   secondary_topics: string[]
+  dominant_sector?: SectorKey | null   // sector dominante (taxonomía sector-taxonomy)
+  sector_label?: string | null         // etiqueta legible del sector dominante
   articles: string[]                // ids de ArticleReading
   representative_titles: string[]
   first_seen: string                // ISO
@@ -1442,7 +1450,7 @@ export function buildNarrativeClustersDetailed(
   // Clasificar cada cluster: narrative real vs emerging signal
   for (let i = 0; i < rawClusters.length; i++) {
     const arts = rawClusters[i]
-    const distinctMedia = new Set(arts.map((a) => a.medium?.id || a.medium?.name)).size
+    const distinctMedia = new Set(arts.map((a) => a.medium_id || a.medium)).size
     const { strong, reasons } = hasStrongSignal(arts)
     const isNarrative =
       arts.length >= 3 &&
@@ -1500,6 +1508,18 @@ function narrativeFromArticles(
   const allActors = arts.flatMap((a) => a.actors)
   const allParties = arts.flatMap((a) => a.parties)
   const allSectors = arts.flatMap((a) => a.sectors)
+  // Sector dominante (taxonomía nueva) · suma el `score` de classifySector por
+  // artículo y elige el sector de mayor peso acumulado. Rompe empates de
+  // frecuencia por la fuerza de clasificación (entidades/leyes/términos), no por
+  // el orden de clustering. null si ningún artículo encaja en un sector.
+  const sectorWeights = new Map<SectorKey, number>()
+  for (const a of arts) {
+    const r = classifySector(`${a.headline} ${a.summary}`)
+    if (r.sector !== 'otro') sectorWeights.set(r.sector, (sectorWeights.get(r.sector) || 0) + r.score)
+  }
+  let dominantSector: SectorKey | null = null
+  let bestSectorWeight = 0
+  for (const [k, w] of sectorWeights) { if (w > bestSectorWeight) { dominantSector = k; bestSectorWeight = w } }
   const allInstitutions = arts.flatMap((a) => a.institutions)
   const allFrames = arts.map((a) => a.frame)
   const allTopics = arts.map((a) => a.main_topic)
@@ -1643,6 +1663,8 @@ function narrativeFromArticles(
     frame_type: dominantFrame,
     main_topic: mainTopic,
     secondary_topics: topNByCount(secondaryTopics, 4),
+    dominant_sector: dominantSector,
+    sector_label: dominantSector ? SECTOR_LABELS[dominantSector] : null,
     articles: arts.map((a) => a.id),
     representative_titles,
     first_seen,
@@ -1670,9 +1692,9 @@ function narrativeFromArticles(
     target_audiences: inferTargetAudiences(arts, allTerritories, dominantFrame, mainTopic),
     supporting_news: arts.slice(0, 8).map((a) => ({
       title: a.headline,
-      medium: a.medium?.name || 'Desconocido',
+      medium: a.medium || 'Desconocido',
       url: a.url,
-      ideology: a.medium?.ideology_bucket || 'center',
+      ideology: a.medium_ideology_bucket || 'center',
       published_at: a.pub_date,
     })),
     impact_summary: {
@@ -1776,10 +1798,10 @@ function extractTopicTags(arts: ArticleReading[]): string[] {
 function extractChannels(arts: ArticleReading[]): Array<{ channel: string; weight: number; examples: string[] }> {
   const byChannel = new Map<string, { count: number; examples: Set<string> }>()
   for (const a of arts) {
-    const type = a.medium?.type || 'otro'
+    const type = a.medium_type || 'otro'
     const cur = byChannel.get(type) || { count: 0, examples: new Set<string>() }
     cur.count++
-    if (a.medium?.name) cur.examples.add(a.medium.name)
+    if (a.medium) cur.examples.add(a.medium)
     byChannel.set(type, cur)
   }
   const total = arts.length
@@ -1854,82 +1876,39 @@ function generateNarrativeTitle(
   institutions: string[] = [],
   parties: string[] = [],
 ): string {
-  const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
+  // Títulos CORTOS y llanos, para captar de un vistazo de qué va la narrativa.
+  // El detalle (frame, actores, resumen y "por qué es narrativa") se explica
+  // aparte en la tarjeta — aquí solo el titular sencillo.
+  const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s)
   const isGenericTopic = GENERIC_TOPICS.has((topic || '').toLowerCase())
   const isGenericFrame = !frame || frame === 'otro'
   const actor = dominantActors[0] || harmed[0] || benefited[0] || ''
-  const institution = institutions[0] || ''
-  const party = parties[0] || ''
-  const harm = harmed[0] || ''
-  const bene = benefited[0] || ''
+  // Sujeto principal: el tema real si lo hay; si no, el actor/institución/partido.
+  const subject = isGenericTopic
+    ? cap(actor || institutions[0] || parties[0] || '')
+    : cap(topic)
 
-  // Si topic es genérico, no titulamos con "General" · usamos el actor/institución
-  // como sujeto principal y el frame como descriptor.
-  if (isGenericTopic) {
-    if (actor && frame === 'crisis')        return `${cap(actor)} en el centro de una crisis abierta`
-    if (actor && frame === 'corrupción')    return `${cap(actor)} bajo presión por presunta corrupción`
-    if (actor && frame === 'judicial')      return `Judicialización del caso ${cap(actor)}`
-    if (actor && frame === 'electoral')     return `${cap(actor)} marca la agenda electoral`
-    if (institution)                        return `${cap(institution)} bajo el foco mediático`
-    if (party)                              return `${cap(party)} en el centro del debate`
-    if (actor)                              return `${cap(actor)} centra la atención mediática`
-    // Sin actor ni institución ni topic claro → degradamos a frame descriptivo
-    if (!isGenericFrame)                    return `Cobertura en clave ${frame}`
-    return 'Cobertura mediática emergente'
+  if (!subject) {
+    return isGenericFrame ? 'Tema emergente en la prensa' : `Cobertura sobre ${frame}`
   }
 
-  const topicNice = cap(topic)
-
-  // Topic real + frame conocido + actor: plantillas semánticas
-  if (frame === 'crisis') {
-    if (harm) return `La ${topic} como crisis que afecta a ${harm}`
-    if (institution) return `La ${topic} como crisis abierta · presión sobre ${institution}`
-    return `La ${topic} como crisis abierta`
+  // Una frase corta por frame, en lenguaje normal (sin "en clave X",
+  // "como cuestión de" ni "judicialización de").
+  switch (frame) {
+    case 'crisis':        return `Crisis: ${subject}`
+    case 'corrupción':    return `Presunta corrupción: ${subject}`
+    case 'judicial':      return `${subject} ante la justicia`
+    case 'electoral':     return `${subject} en campaña`
+    case 'institucional': return `Tensión política: ${subject}`
+    case 'internacional': return `${subject}, foco internacional`
+    case 'economía':      return `${subject} y la economía`
+    case 'seguridad':     return `${subject} y la seguridad`
+    case 'territorial':   return `Tensión territorial: ${subject}`
+    case 'social':        return `Debate social: ${subject}`
+    case 'amenaza':       return `Alerta: ${subject}`
+    case 'oportunidad':   return `Oportunidad: ${subject}`
+    default:              return subject
   }
-  if (frame === 'corrupción') {
-    if (actor) return `${topicNice}: presunta corrupción · presión sobre ${actor}`
-    return `${topicNice} bajo sospecha de corrupción`
-  }
-  if (frame === 'judicial') {
-    if (actor) return `Judicialización de ${topic} · ${actor} implicado`
-    return `Judicialización de ${topic}`
-  }
-  if (frame === 'electoral') {
-    if (actor) return `${topicNice} en clave electoral · ${actor} en el centro`
-    return `${topicNice} en clave electoral`
-  }
-  if (frame === 'institucional') {
-    if (institution) return `Tensión institucional sobre ${topic} · ${institution} bajo foco`
-    return `${topicNice} y tensión institucional`
-  }
-  if (frame === 'internacional') {
-    if (actor) return `${topicNice} con dimensión internacional · ${actor} implicado`
-    return `${topicNice} con impacto internacional sobre España`
-  }
-  if (frame === 'economía') {
-    if (actor) return `${topicNice} en clave económica · presión sobre ${actor}`
-    return `${topicNice} en clave económica`
-  }
-  if (frame === 'seguridad') {
-    if (institution) return `${topicNice} como cuestión de seguridad · ${institution} en el centro`
-    return `${topicNice} como cuestión de seguridad`
-  }
-  if (frame === 'territorial') {
-    if (actor) return `${topicNice} en clave territorial · ${actor} implicado`
-    return `${topicNice} en clave territorial`
-  }
-  if (frame === 'social') {
-    if (harm) return `${topicNice} en clave social · impacto sobre ${harm}`
-    return `${topicNice} en clave social`
-  }
-
-  // Fallbacks con actor explícito
-  if (actor && bene && bene !== actor) return `${topicNice}: ${actor} y ${bene} en disputa`
-  if (actor) return `${topicNice}: ${actor} marca la agenda`
-  if (institution) return `${topicNice}: ${institution} en el centro`
-  // Último recurso: topic + frame sin "otro"
-  if (isGenericFrame) return `Cobertura sobre ${topic}`
-  return `${topicNice} en clave ${frame}`
 }
 
 function generateNarrativeSummary(
@@ -1944,7 +1923,7 @@ function generateNarrativeSummary(
   const mainActor = dominantActors[0]
   const harmActor = harmed[0]
   const benefActor = benefited[0]
-  let s = `${n} artículos sobre ${topic} en clave ${frame}.`
+  let s = `${n} artículos coinciden en cubrir ${topic} con un enfoque de ${frame}.`
   if (mainActor) s += ` Actor central: ${mainActor}.`
   if (harmActor && harmActor !== mainActor) s += ` Sale perjudicado: ${harmActor}.`
   if (benefActor && benefActor !== mainActor && benefActor !== harmActor) s += ` Sale beneficiado: ${benefActor}.`

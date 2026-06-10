@@ -21,6 +21,8 @@
  */
 import { useMemo, useState } from 'react'
 import { FLAGS } from '@/lib/medios/feature-flags'
+import PillSelect from '@/components/PillSelect'   // selector estándar de la web (estilo Política)
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 // Sprint 1.4 · feature flag preparado: cuando USE_CANONICAL_NARRATIVAS
 // esté activo en Vercel preview, futuras versiones de page.tsx leerán de
@@ -54,6 +56,8 @@ export interface WorkbenchNarrative {
   frame_type: string
   main_topic: string
   secondary_topics: string[]
+  dominant_sector?: string | null
+  sector_label?: string | null
   representative_titles: string[]
   first_seen: string
   last_seen: string
@@ -111,6 +115,7 @@ export function NarrativesFramingWorkbench({
   const [expanded, setExpanded] = useState<string | null>(null)
   const [filterFrame, setFilterFrame] = useState<string>('all')
   const [filterTrend, setFilterTrend] = useState<string>('all')
+  const [filterSector, setFilterSector] = useState<string>('all')
   const [minConfidence, setMinConfidence] = useState<number>(0)
 
   const list = useMemo(() => {
@@ -118,10 +123,11 @@ export function NarrativesFramingWorkbench({
     return narratives.filter((n) => {
       if (filterFrame !== 'all' && n.frame_type !== filterFrame) return false
       if (filterTrend !== 'all' && n.trend?.label !== filterTrend) return false
+      if (filterSector !== 'all' && n.dominant_sector !== filterSector) return false
       if (n.confidence.overall < minConfidence) return false
       return true
     })
-  }, [narratives, filterFrame, filterTrend, minConfidence])
+  }, [narratives, filterFrame, filterTrend, filterSector, minConfidence])
 
   // KPIs ejecutivos
   const kpis = useMemo(() => {
@@ -146,6 +152,15 @@ export function NarrativesFramingWorkbench({
     return Array.from(set).sort()
   }, [narratives])
 
+  // Sectores presentes (sector dominante de cada narrativa) para el selector
+  const sectors = useMemo(() => {
+    const m = new Map<string, string>()
+    for (const n of narratives || []) {
+      if (n.dominant_sector) m.set(n.dominant_sector, n.sector_label || n.dominant_sector)
+    }
+    return Array.from(m.entries()).map(([key, label]) => ({ key, label })).sort((a, b) => a.label.localeCompare(b.label))
+  }, [narratives])
+
   if (loading) {
     return (
       <section style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: 16, borderLeft: '4px solid #7C3AED' }}>
@@ -159,7 +174,7 @@ export function NarrativesFramingWorkbench({
       {/* Header metodológico */}
       <header style={{ marginBottom: 14 }}>
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, color: '#7C3AED', textTransform: 'uppercase' }}>
-          ◆ Narrativas & framing · workbench unificado
+          ◆ Narrativas · workbench unificado
         </p>
         <details style={{ marginTop: 6 }}>
           <summary style={{ fontSize: 11, color: '#475569', cursor: 'pointer', fontWeight: 500 }}>
@@ -184,30 +199,35 @@ export function NarrativesFramingWorkbench({
       </div>
 
       {/* Filtros */}
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: 8, background: '#f9fafb', borderRadius: 6 }}>
-        <Filter label="Frame">
-          <select value={filterFrame} onChange={(e) => setFilterFrame(e.target.value)} style={selectStyle}>
-            <option value="all">Todos</option>
-            {frames.map((f) => <option key={f} value={f}>{f}</option>)}
-          </select>
-        </Filter>
-        <Filter label="Tendencia">
-          <select value={filterTrend} onChange={(e) => setFilterTrend(e.target.value)} style={selectStyle}>
-            <option value="all">Todas</option>
-            <option value="emergente">Emergente</option>
-            <option value="acelerando">Acelerando</option>
-            <option value="estable">Estable</option>
-            <option value="en retroceso">En retroceso</option>
-          </select>
-        </Filter>
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 14, padding: '10px 12px', background: '#f9fafb', borderRadius: 10, border: '1px solid #ECECEF' }}>
+        <PillSelect size="sm" fullWidth={false} label="Frame"
+          value={filterFrame} onChange={setFilterFrame}
+          options={[{ value: 'all', label: 'Todos' }, ...frames.map((f) => ({ value: f, label: f }))]}
+        />
+        <PillSelect size="sm" fullWidth={false} label="Tendencia"
+          value={filterTrend} onChange={setFilterTrend}
+          options={[
+            { value: 'all', label: 'Todas' },
+            { value: 'emergente', label: 'Emergente' },
+            { value: 'acelerando', label: 'Acelerando' },
+            { value: 'estable', label: 'Estable' },
+            { value: 'en retroceso', label: 'En retroceso' },
+          ]}
+        />
+        {sectors.length > 0 && (
+          <PillSelect size="sm" fullWidth={false} label="Sector"
+            value={filterSector} onChange={setFilterSector}
+            options={[{ value: 'all', label: 'Todos' }, ...sectors.map((s) => ({ value: s.key, label: s.label }))]}
+          />
+        )}
         <Filter label={`Confianza mín. ${Math.round(minConfidence * 100)}%`}>
           <input type="range" min={0} max={1} step={0.05} value={minConfidence}
             onChange={(e) => setMinConfidence(Number(e.target.value))}
             style={{ width: 120 }}
           />
         </Filter>
-        {(filterFrame !== 'all' || filterTrend !== 'all' || minConfidence > 0) && (
-          <button onClick={() => { setFilterFrame('all'); setFilterTrend('all'); setMinConfidence(0) }} style={{
+        {(filterFrame !== 'all' || filterTrend !== 'all' || filterSector !== 'all' || minConfidence > 0) && (
+          <button onClick={() => { setFilterFrame('all'); setFilterTrend('all'); setFilterSector('all'); setMinConfidence(0) }} style={{
             background: 'transparent', border: 'none', color: '#7C3AED', fontSize: 11, cursor: 'pointer', fontFamily: 'inherit',
           }}>Limpiar filtros</button>
         )}
@@ -279,11 +299,6 @@ function Filter({ label, children }: { label: string; children: React.ReactNode 
       {children}
     </label>
   )
-}
-
-const selectStyle: React.CSSProperties = {
-  fontSize: 10, padding: '2px 6px', border: '1px solid #cbd5e1', borderRadius: 3,
-  background: '#fff', fontFamily: 'inherit', color: '#0f172a',
 }
 
 function NarrativeCard({ n, expanded, onToggle, onAudit, onCreateDossier }: {
@@ -441,7 +456,8 @@ function NarrativeCard({ n, expanded, onToggle, onAudit, onCreateDossier }: {
                     <a href={it.url} target="_blank" rel="noopener noreferrer" style={{ color: '#0f172a', textDecoration: 'none' }}>{it.title}</a>
                     <span style={{ marginLeft: 6, fontSize: 9, color: IDEO_COLOR[it.ideology] || '#64748b', fontWeight: 600 }}>
                       [{it.medium}]
-                    </span>
+                    </span>{' '}
+                    <ArchiveLink url={it.url} size={9.5} />
                   </li>
                 ))}
               </ul>
