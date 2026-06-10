@@ -8,7 +8,7 @@
  *  - First-mover analysis (qué medio publica primero)
  */
 import { useEffect, useState } from 'react'
-import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 const ACCENT = '#EAB308'
 
@@ -108,16 +108,30 @@ export function ViralidadDifusion() {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 10 }}>
               {(data.articles || []).slice(0, 15).map((a: Article, i: number) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '30px 1fr auto', gap: 10, padding: '8px 12px', background: '#f8fafc', borderRadius: 6, alignItems: 'center' }}>
-                  <span style={{ fontSize: 14, fontWeight: 700, color: ACCENT, fontVariantNumeric: 'tabular-nums' }}>{i + 1}</span>
-                  <div style={{ minWidth: 0 }}>
-                    <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>
-                      {a.title}
-                    </a>{' '}
-                    <ArchiveLink url={a.url} size={9.5} />
+                <CollapsibleArticle
+                  key={i}
+                  title={a.title}
+                  href={a.url}
+                  medio={a.source}
+                  accent={ACCENT}
+                  titleSize={12.5}
+                >
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: ACCENT, background: '#fefce8', border: '1px solid #fde68a', borderRadius: 4, padding: '2px 7px', fontVariantNumeric: 'tabular-nums' }}>
+                      #{i + 1} por popularidad
+                    </span>
+                    {a.published && (
+                      <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>
+                        {new Date(a.published).toLocaleString('es-ES')}
+                      </span>
+                    )}
                   </div>
-                  <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>{a.source}</span>
-                </div>
+                  {a.description && (
+                    <p style={{ fontSize: 11.5, color: '#475569', margin: '8px 0 0', lineHeight: 1.5 }}>
+                      {a.description}
+                    </p>
+                  )}
+                </CollapsibleArticle>
               ))}
             </div>
           </section>

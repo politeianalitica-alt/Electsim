@@ -4,7 +4,7 @@
  * Muestra cobertura global ES en últimas 24h + tone timeline 7d.
  */
 import { useEffect, useState } from 'react'
-import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 const ACCENT = '#1F4E8C'
 
@@ -57,19 +57,31 @@ export function GdeltGlobalPanel({ query = 'Spain' }: { query?: string }) {
           <p style={{ fontSize: 10, color: '#64748b', margin: 0, fontWeight: 600, letterSpacing: 0.4, textTransform: 'uppercase' }}>
             Últimos 10 artículos globales · 24h
           </p>
-          <ul style={{ margin: '8px 0 0 0', padding: 0, listStyle: 'none' }}>
+          <div style={{ display: 'grid', gap: 7, marginTop: 8 }}>
             {articles.articles.slice(0, 10).map((a: any, i: number) => (
-              <li key={i} style={{ padding: '5px 0', borderBottom: '1px solid #f1f5f9', fontSize: 12 }}>
-                <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ color: '#0f172a', textDecoration: 'none' }}>
-                  {a.title}
-                </a>{' '}
-                <ArchiveLink url={a.url} size={9.5} />
-                <span style={{ fontSize: 10, color: '#94a3b8', marginLeft: 8 }}>
-                  · {a.domain} · {a.sourcecountry} · {a.language}
-                </span>
-              </li>
+              <CollapsibleArticle
+                key={i}
+                title={a.title}
+                href={a.url}
+                medio={a.domain}
+                accent={ACCENT}
+                titleSize={12.5}
+              >
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                  {a.sourcecountry && (
+                    <span style={{ fontSize: 10.5, color: '#475569', background: '#f1f5f9', borderRadius: 5, padding: '2px 7px' }}>
+                      País: {a.sourcecountry}
+                    </span>
+                  )}
+                  {a.language && (
+                    <span style={{ fontSize: 10.5, color: '#475569', background: '#f1f5f9', borderRadius: 5, padding: '2px 7px' }}>
+                      Idioma: {a.language}
+                    </span>
+                  )}
+                </div>
+              </CollapsibleArticle>
             ))}
-          </ul>
+          </div>
         </div>
       )}
 

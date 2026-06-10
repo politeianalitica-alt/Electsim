@@ -16,7 +16,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
-import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 import MediosHero from '@/components/medios/MediosHero'
 import MapaNoticiasMundo from '@/components/medios/MapaNoticiasMundo'
 
@@ -310,60 +310,52 @@ function FilterRow({
 function ArticleCard({ item, temaLabel }: { item: TTItem; temaLabel: Record<string, string> }) {
   const u = URGENCIA[item.urgencia] ?? URGENCIA[1]
   const bloqueColor = BLOQUE_COLOR[item.bloque] ?? '#0F766E'
-  const hasLink = item.url && item.url !== '#'
+
   return (
-    <article style={{
-      background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: 16,
-      display: 'flex', flexDirection: 'column', gap: 10, boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
-    }}>
-      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 7, minWidth: 0 }}>
-          <span style={{ width: 9, height: 9, borderRadius: '50%', background: bloqueColor, flexShrink: 0 }} />
-          <span style={{ fontSize: 11.5, fontWeight: 700, color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.fuente}</span>
-        </div>
-        <span style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '2px 7px', borderRadius: 999, background: `${bloqueColor}14`, color: bloqueColor, flexShrink: 0 }}>
+    <CollapsibleArticle
+      title={item.titulo}
+      href={item.url}
+      medio={item.fuente}
+      when={hace(item.fecha)}
+      accent={bloqueColor}
+      titleSize={14}
+    >
+      {/* Badges de bloque, sector y urgencia */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, alignItems: 'center' }}>
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: 999, background: `${bloqueColor}14`, color: bloqueColor }}>
+          <span style={{ width: 7, height: 7, borderRadius: '50%', background: bloqueColor }} />
           {item.bloque_label}
         </span>
-      </header>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {item.sector_label && (
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: 999, background: '#F5F5F7', color: '#475569' }}>
+            {item.sector_label}
+          </span>
+        )}
         <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: 6, background: u.bg, color: u.color }}>
           {item.urgencia >= 4 ? '▲ ' : ''}{u.label}
         </span>
-        <span style={{ fontSize: 10.5, color: '#9ca3af' }}>{hace(item.fecha)}</span>
       </div>
 
-      {hasLink ? (
-        <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
-          <h3 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, lineHeight: 1.35, color: '#0f172a' }}>
-            {item.titulo} <span style={{ fontSize: 11, color: '#9ca3af' }}>↗</span>
-          </h3>
-        </a>
-      ) : (
-        <h3 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, lineHeight: 1.35, color: '#0f172a' }}>{item.titulo}</h3>
-      )}
-      {hasLink && <div style={{ marginTop: -4 }}><ArchiveLink url={item.url} /></div>}
-
       {item.resumen && (
-        <p style={{ margin: 0, fontSize: 12, color: '#475569', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+        <p style={{ margin: '9px 0 0', fontSize: 12, color: '#475569', lineHeight: 1.5 }}>
           {item.resumen}
         </p>
       )}
 
       {(item.temas_detectados.length > 0 || item.paises_detectados.length > 0) && (
-        <footer style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 'auto', paddingTop: 6, borderTop: '1px solid #F5F5F7' }}>
-          {item.temas_detectados.slice(0, 4).map((t) => (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 9, paddingTop: 8, borderTop: '1px solid #F5F5F7' }}>
+          {item.temas_detectados.map((t) => (
             <span key={t} style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 6, background: '#ECFEFF', color: '#0E7490' }}>
               {temaLabel[t] ?? t}
             </span>
           ))}
-          {item.paises_detectados.slice(0, 4).map((p) => (
+          {item.paises_detectados.map((p) => (
             <span key={p} style={{ fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 6, background: '#F5F5F7', color: '#475569' }}>
               {p}
             </span>
           ))}
-        </footer>
+        </div>
       )}
-    </article>
+    </CollapsibleArticle>
   )
 }

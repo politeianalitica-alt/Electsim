@@ -1,10 +1,10 @@
 'use client'
 /**
- * ArchiveLink · pequeño enlace secundario "archivo" que abre la versión
- * archivada (archive.is) de la noticia, junto al enlace original.
+ * ArchiveLink · botón cuadrado (azul marino, candado ABIERTO) que abre la
+ * versión archivada (archive.today) de la noticia, esquivando muros de pago.
  *
- * Uso: colocar al lado del enlace al medio original.
- *   <a href={url}>Titular</a> <ArchiveLink url={url} />
+ * Pensado para ir en UNA ESQUINA de la tarjeta del artículo. El candado abierto
+ * comunica "acceso libre / sin muro".
  *
  * stopPropagation evita disparar el onClick del card/fila contenedor.
  */
@@ -12,34 +12,54 @@ import { archiveUrl } from '@/lib/medios/archive'
 
 export default function ArchiveLink({
   url,
-  size = 10.5,
-  label = 'archivo',
+  size = 22,
 }: {
   url: string | null | undefined
   size?: number
+  /** Compatibilidad: ya no se muestra texto, solo el icono. */
   label?: string
 }) {
   const archived = archiveUrl(url)
   if (!archived) return null
+  const s = Math.max(18, size)          // lado del cuadrado en px
+  const icon = Math.round(s * 0.62)     // tamaño del candado dentro del cuadrado
   return (
     <a
       href={archived}
       target="_blank"
       rel="noopener noreferrer"
-      title="Leer versión archivada (archive.is) · esquiva muros de pago"
+      title="Leer versión archivada (archive.today) · esquiva muros de pago"
+      aria-label="Versión archivada (acceso libre)"
       onClick={(e) => e.stopPropagation()}
       style={{
-        fontSize: size,
-        fontWeight: 600,
-        color: '#6e6e73',
-        textDecoration: 'none',
-        whiteSpace: 'nowrap',
         display: 'inline-flex',
         alignItems: 'center',
-        gap: 2,
+        justifyContent: 'center',
+        width: s,
+        height: s,
+        borderRadius: 5,
+        background: '#14274E',          // azul marino
+        color: '#fff',
+        textDecoration: 'none',
+        flexShrink: 0,
+        boxShadow: '0 1px 2px rgba(0,0,0,0.18)',
       }}
     >
-      ⧉ {label}
+      {/* Candado ABIERTO (Feather "unlock") · sin emojis (CLAUDE.md §0.5) */}
+      <svg
+        width={icon}
+        height={icon}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 9.9-1" />
+      </svg>
     </a>
   )
 }

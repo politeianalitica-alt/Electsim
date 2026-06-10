@@ -27,7 +27,7 @@ import type { CCAARegionStat } from '@/lib/news-aggregator'
 import type { CCAADeepDetail, ProvinceStat } from '@/lib/news-intel'
 import { CCAA_PROVINCES } from '@/lib/news-taxonomy'
 import type { NarrativeCluster } from '@/lib/medios/media-methodology'
-import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 // Sprint G15-FIX C3 · ActorImpactRow tipo local (los nombres siguen el shape
 // que devuelve /api/medios/intel?include=actor_impacts)
@@ -698,21 +698,14 @@ function CCAADossier({
           {detail.topNews.slice(0, 12).map((n, i) => {
             const sColor = n.sentiment > 0.10 ? '#16A34A' : n.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
             return (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <a href={n.link} target="_blank" rel="noopener" style={{
-                  background: '#FAFAFB', border: '1px solid #ECECEF', borderRadius: 8,
-                  padding: '8px 10px', textDecoration: 'none', color: 'inherit', display: 'block',
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                    <span style={{ fontSize: 10.5, color: '#1F4E8C', fontWeight: 700 }}>{n.medio}</span>
-                    <span style={{ fontSize: 9.5, fontWeight: 700, color: sColor, background: `${sColor}1A`, padding: '1px 6px', borderRadius: 999 }}>
-                      {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
-                    </span>
-                  </div>
-                  <div style={{ fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.35, fontWeight: 500 }}>{n.title}</div>
-                </a>
-                <ArchiveLink url={n.link} size={9} />
-              </div>
+              <CollapsibleArticle key={i} title={n.title} href={n.link} medio={n.medio} accent={sColor} titleSize={12.5}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11 }}>
+                  <span style={{ color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, fontSize: 9.5 }}>Sentimiento</span>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, color: sColor, background: `${sColor}1A`, padding: '1px 6px', borderRadius: 999 }}>
+                    {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
+                  </span>
+                </div>
+              </CollapsibleArticle>
             )
           })}
         </div>
@@ -765,28 +758,18 @@ function ProvinceDossier({ province, onClose }: { province: ProvinceStat; onClos
             <div style={{ fontSize: 12, color: '#9ca3af', fontStyle: 'italic' }}>Sin noticias específicas detectadas en el feed.</div>
           ) : province.topNews.map((n, i) => {
             const sColor = n.sentiment > 0.10 ? '#16A34A' : n.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
+            const when = n.date
+              ? new Date(n.date).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })
+              : undefined
             return (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <a href={n.link} target="_blank" rel="noopener" style={{
-                  background: '#FAFAFB', border: '1px solid #ECECEF', borderRadius: 8,
-                  padding: '10px 12px', textDecoration: 'none', color: 'inherit', display: 'block',
-                  borderLeft: `3px solid ${sColor}`,
-                }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                    <span style={{ fontSize: 10.5, color: '#1F4E8C', fontWeight: 700 }}>{n.medio}</span>
-                    <span style={{ fontSize: 9.5, fontWeight: 700, color: sColor }}>
-                      {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
-                    </span>
-                  </div>
-                  <div style={{ fontSize: 13, color: '#1d1d1f', lineHeight: 1.35 }}>{n.title}</div>
-                  {n.date && (
-                    <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 4 }}>
-                      {new Date(n.date).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
-                    </div>
-                  )}
-                </a>
-                <ArchiveLink url={n.link} size={9} />
-              </div>
+              <CollapsibleArticle key={i} title={n.title} href={n.link} medio={n.medio} when={when} accent={sColor} titleSize={13}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11 }}>
+                  <span style={{ color: '#6e6e73', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700, fontSize: 9.5 }}>Sentimiento</span>
+                  <span style={{ fontSize: 9.5, fontWeight: 700, color: sColor, background: `${sColor}1A`, padding: '1px 6px', borderRadius: 999 }}>
+                    {n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}
+                  </span>
+                </div>
+              </CollapsibleArticle>
             )
           })}
         </div>

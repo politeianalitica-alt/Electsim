@@ -13,7 +13,7 @@
 
 import { useState } from 'react'
 import type { FigureSentimentDeep } from '@/lib/news-intel'
-import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 export default function FiguresView({ figures }: { figures: FigureSentimentDeep[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(figures[0]?.id ?? null)
@@ -135,20 +135,16 @@ export default function FiguresView({ figures }: { figures: FigureSentimentDeep[
               ) : active.recentTitles.map((t, i) => {
                 const c = t.sentiment > 0.10 ? '#16A34A' : t.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
                 return (
-                  <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <a href={t.link} target="_blank" rel="noopener" style={{
-                      padding: '10px 12px', border: '1px solid #ECECEF', borderRadius: 10,
-                      textDecoration: 'none', color: 'inherit', display: 'block',
-                      borderLeft: `3px solid ${c}`,
-                    }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                        <span style={{ fontSize: 10.5, color: '#1F4E8C', fontWeight: 700 }}>{t.medio}</span>
-                        <span style={{ fontSize: 10.5, color: c, fontWeight: 700 }}>{t.sentiment > 0 ? '+' : ''}{t.sentiment.toFixed(2)}</span>
-                      </div>
-                      <div style={{ fontSize: 13, color: '#1d1d1f', lineHeight: 1.35 }}>{t.title}</div>
-                    </a>
-                    <ArchiveLink url={t.link} size={9} />
-                  </div>
+                  <CollapsibleArticle key={i} title={t.title} href={t.link} medio={t.medio} accent={c} titleSize={13}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{
+                        fontSize: 11, fontWeight: 700, color: '#fff', background: c,
+                        padding: '2px 8px', borderRadius: 999,
+                      }}>
+                        sentimiento {t.sentiment > 0 ? '+' : ''}{t.sentiment.toFixed(2)}
+                      </span>
+                    </div>
+                  </CollapsibleArticle>
                 )
               })}
             </div>

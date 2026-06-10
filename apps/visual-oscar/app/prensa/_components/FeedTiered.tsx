@@ -15,7 +15,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { TieredFeed, Tier, TieredArticle } from '@/lib/news-intel'
 import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
-import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
   nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '◆' },
@@ -343,15 +343,13 @@ function TierChip({ tier, label, count, active, onClick, accent, description, gl
   )
 }
 
-function MetaRow({ article }: { article: TieredArticle }) {
+function DetailBadges({ article }: { article: TieredArticle }) {
   const ideo = ideologyTag(article.medio.ideologia)
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-      <span style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f' }}>{article.medio.nombre}</span>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginBottom: 6 }}>
       <span style={{ fontSize: 9.5, fontWeight: 700, color: ideo.color, background: `${ideo.color}15`, padding: '1px 6px', borderRadius: 999, letterSpacing: '0.04em', textTransform: 'uppercase' }}>{ideo.label}</span>
       <span style={{ fontSize: 9.5, fontWeight: 700, color: categoryColor(article.category), background: `${categoryColor(article.category)}15`, padding: '1px 6px', borderRadius: 999, letterSpacing: '0.04em' }}>{article.category}</span>
       <span style={{ fontSize: 9.5, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>{article.medio.tipo}</span>
-      <span style={{ marginLeft: 'auto', fontSize: 10.5, color: '#9ca3af' }}>{timeSince(article.pub_date_iso)}</span>
     </div>
   )
 }
@@ -370,39 +368,48 @@ function TagsRow({ article }: { article: TieredArticle }) {
   )
 }
 
-function ArticleRow({ article, compact, snippet }: { article: TieredArticle; compact?: boolean; snippet?: boolean }) {
+// Detalle que aparece al expandir: badges + entradilla + tags.
+function ArticleDetails({ article }: { article: TieredArticle }) {
   return (
-    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 10, padding: compact ? '10px 12px' : '14px 16px' }}>
-      <MetaRow article={article} />
-      <div style={{ fontSize: compact ? 12.5 : 14, lineHeight: 1.35, fontWeight: 600 }}>
-        <a href={article.link} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none' }}>{article.title}</a>{' '}
-        <ArchiveLink url={article.link} />
-      </div>
-      {snippet && article.description && (
-        <p style={{ margin: '6px 0 0', fontSize: 12, lineHeight: 1.45, color: '#6e6e73', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-          {article.description.replace(/<[^>]*>/g, '').slice(0, 180)}
+    <>
+      <DetailBadges article={article} />
+      {article.description && (
+        <p style={{ margin: '0 0 6px', fontSize: 12, lineHeight: 1.5, color: '#3a3a3d' }}>
+          {article.description.replace(/<[^>]*>/g, '').slice(0, 300)}
         </p>
       )}
       <TagsRow article={article} />
-    </div>
+    </>
+  )
+}
+
+// Diseño limpio: por defecto solo titular + medio; al pinchar se expande el detalle.
+function ArticleRow({ article, compact }: { article: TieredArticle; compact?: boolean; snippet?: boolean }) {
+  return (
+    <CollapsibleArticle
+      title={article.title}
+      href={article.link}
+      medio={article.medio.nombre}
+      when={timeSince(article.pub_date_iso)}
+      accent={SENTIMENT_COLOR[article.sentiment]}
+      titleSize={compact ? 12.5 : 13.5}
+    >
+      <ArticleDetails article={article} />
+    </CollapsibleArticle>
   )
 }
 
 function LeadCard({ article }: { article: TieredArticle }) {
-  const accent = SENTIMENT_COLOR[article.sentiment]
   return (
-    <div style={{ background: '#fff', border: '1px solid #ECECEF', borderTop: `3px solid ${accent}`, borderRadius: 12, padding: '18px 20px', display: 'flex', flexDirection: 'column' }}>
-      <MetaRow article={article} />
-      <div style={{ fontSize: 19, lineHeight: 1.25, fontWeight: 700, letterSpacing: '-0.01em', marginTop: 2 }}>
-        <a href={article.link} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none' }}>{article.title}</a>{' '}
-        <ArchiveLink url={article.link} />
-      </div>
-      {article.description && (
-        <p style={{ margin: '10px 0 0', fontSize: 13, lineHeight: 1.5, color: '#3a3a3d', display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-          {article.description.replace(/<[^>]*>/g, '').slice(0, 320)}
-        </p>
-      )}
-      <TagsRow article={article} />
-    </div>
+    <CollapsibleArticle
+      title={article.title}
+      href={article.link}
+      medio={article.medio.nombre}
+      when={timeSince(article.pub_date_iso)}
+      accent={SENTIMENT_COLOR[article.sentiment]}
+      titleSize={16.5}
+    >
+      <ArticleDetails article={article} />
+    </CollapsibleArticle>
   )
 }

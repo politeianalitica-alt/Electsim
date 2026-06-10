@@ -11,6 +11,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useMediosDrawer } from './MediosDrawerProvider'
 import ArchiveLink from '@/components/medios/ArchiveLink'
+import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 import { archiveUrl } from '@/lib/medios/archive'
 import { LecturaPoliteia } from './LecturaPoliteia'
 import type { SourceGroup } from '@/lib/medios/sources-matrix'
@@ -789,51 +790,73 @@ export function BusquedaPuntual() {
                 Artículos · {result.articles.length} resultados · click para detalle
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 12 }}>
-                {result.articles.map((a, i) => (
-                  <div
-                    key={i}
-                    onClick={() => openArticleDrill(a)}
-                    style={{
-                      padding: 12,
-                      background: '#fff',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: 8,
-                      cursor: 'pointer',
-                      transition: 'all 100ms',
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = ACCENT; e.currentTarget.style.boxShadow = `0 2px 8px ${ACCENT}11` }}
-                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.boxShadow = '' }}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 12, flexWrap: 'wrap' }}>
-                      <div style={{ flex: 1, minWidth: 200 }}>
-                        <p style={{ fontSize: 13, fontWeight: 600, color: '#0f172a', margin: 0, lineHeight: 1.4 }}>
-                          {a.title}
+                {result.articles.map((a, i) => {
+                  const ideoColor = a.ideology_bucket ? IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.color : undefined
+                  const sentScore = typeof a.sentiment_score === 'number' ? a.sentiment_score : undefined
+                  const sentColor = sentScore != null ? (sentScore >= 0 ? '#16a34a' : '#dc2626') : undefined
+                  const accent = sentColor ?? ideoColor ?? ACCENT
+                  return (
+                    <CollapsibleArticle
+                      key={i}
+                      title={a.title}
+                      href={a.url}
+                      medio={a.source}
+                      when={a.published ? new Date(a.published).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : undefined}
+                      accent={accent}
+                    >
+                      {a.description && (
+                        <p style={{ fontSize: 12, color: '#334155', margin: 0, lineHeight: 1.55 }}>
+                          {a.description}
                         </p>
-                        {a.description && (
-                          <p style={{ fontSize: 11, color: '#64748b', margin: '4px 0 0', lineHeight: 1.5 }}>
-                            {a.description.slice(0, 160)}{a.description.length > 160 ? '…' : ''}
-                          </p>
+                      )}
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: a.description ? 10 : 0 }}>
+                        {a.ideology_bucket && ideoColor && (
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '3px 8px', borderRadius: 999,
+                            background: ideoColor + '22', color: ideoColor,
+                            letterSpacing: 0.3, textTransform: 'uppercase',
+                          }}>
+                            {IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.label}
+                          </span>
+                        )}
+                        {sentScore != null && sentColor && (
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '3px 8px', borderRadius: 999,
+                            background: sentColor + '22', color: sentColor,
+                            letterSpacing: 0.3, textTransform: 'uppercase',
+                          }}>
+                            Sentimiento {sentScore >= 0 ? '+' : ''}{(sentScore * 100).toFixed(0)}%
+                          </span>
+                        )}
+                        {a.author && (
+                          <span style={{ fontSize: 9, fontWeight: 600, padding: '3px 8px', borderRadius: 999, background: '#f1f5f9', color: '#475569' }}>
+                            {a.author}
+                          </span>
+                        )}
+                        {a.domain && (
+                          <span style={{ fontSize: 9, fontWeight: 600, padding: '3px 8px', borderRadius: 999, background: '#f1f5f9', color: '#475569', fontFamily: 'monospace' }}>
+                            {a.domain}
+                          </span>
                         )}
                       </div>
-                      <div style={{ textAlign: 'right', minWidth: 100 }}>
-                        <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>{a.source}</span>
-                        <p style={{ fontSize: 9, color: '#cbd5e1', margin: '2px 0 0' }}>
-                          {new Date(a.published).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                      {a.published && (
+                        <p style={{ fontSize: 10, color: '#94a3b8', margin: '10px 0 0' }}>
+                          {new Date(a.published).toLocaleString('es-ES')}
                         </p>
-                      </div>
-                    </div>
-                    {a.ideology_bucket && (
-                      <span style={{
-                        display: 'inline-block', marginTop: 6, fontSize: 9, fontWeight: 700,
-                        padding: '2px 6px', borderRadius: 4,
-                        background: IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.color + '22',
-                        color: IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.color,
-                      }}>
-                        {IDEOLOGY_RANGES[a.ideology_bucket as SourceGroup]?.label}
-                      </span>
-                    )}
-                  </div>
-                ))}
+                      )}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); openArticleDrill(a) }}
+                        style={{
+                          marginTop: 10, background: '#fff', color: ACCENT, border: `1px solid ${ACCENT}`,
+                          borderRadius: 8, padding: '5px 12px', fontSize: 11, fontWeight: 600,
+                          cursor: 'pointer', fontFamily: 'inherit',
+                        }}
+                      >
+                        Ver lectura completa →
+                      </button>
+                    </CollapsibleArticle>
+                  )
+                })}
               </div>
             </section>
           )}
