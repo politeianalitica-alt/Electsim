@@ -174,7 +174,7 @@ export function NarrativesFramingWorkbench({
       {/* Header metodológico */}
       <header style={{ marginBottom: 14 }}>
         <p style={{ margin: 0, fontSize: 11, fontWeight: 700, letterSpacing: 0.6, color: '#7C3AED', textTransform: 'uppercase' }}>
-          ◆ Narrativas & framing · workbench unificado
+          ◆ Narrativas · workbench unificado
         </p>
         <details style={{ marginTop: 6 }}>
           <summary style={{ fontSize: 11, color: '#475569', cursor: 'pointer', fontWeight: 500 }}>

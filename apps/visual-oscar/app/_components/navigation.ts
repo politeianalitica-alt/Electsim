@@ -98,7 +98,7 @@ export const MODULES: NavModule[] = [
       // Subpestañas de /prensa promovidas a la barra de Medios · cada una abre
       // /prensa con ese tab ya seleccionado (useUrlState lee ?tab=).
       { label: 'Prensa',                href: '/prensa' },
-      { label: 'Narrativas & framing',  href: '/prensa?tab=narrativas' },
+      { label: 'Narrativas',             href: '/prensa?tab=narrativas' },
       { label: 'Think Tanks',           href: '/think-tanks' },
       { label: 'Mapas de impacto',      href: '/prensa?tab=mapas' },
       { label: 'Mapa de Medios',        href: '/medios-narrativa' },

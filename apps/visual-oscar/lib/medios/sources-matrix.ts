@@ -126,7 +126,7 @@ export const MEDIOS_TABS: MediosTab[] = [
   {
     id: 'narrativas',
     number: 3,
-    label: 'Narrativas & framing',
+    label: 'Narrativas',
     shortLabel: 'Narrativas',
     question: '¿Qué narrativas se están formando y cómo se encuadran?',
     description: 'Workbench único · cada narrativa es topic + frame + mensaje repetido + actores + medios/canales + ventana temporal + evidencia suficiente. NO un tema, NO un frame suelto. Mínimo 3 artículos en ≥2 medios y al menos una señal fuerte (actor / institución / partido / empresa / territorio).',
