@@ -459,7 +459,6 @@ export default function SentimentMapInteractive({
 
 function CCAADossier({
   detail, loading, name, onProvince,
-  narrativeClusters, actorImpacts,
 }: {
   // Sprint G15 FASE F · `detail` ahora viene enriquecido con regional_signal opcional
   // (n_articles_by_local_medium · local_share · n_local_medios · etc.) que el
@@ -473,6 +472,8 @@ function CCAADossier({
   narrativeClusters?: NarrativeCluster[]
   actorImpacts?: ActorImpactRow[]
 }) {
+  const [showAllNews, setShowAllNews] = useState(false)
+  useEffect(() => { setShowAllNews(false) }, [name]) // reiniciar al cambiar de CCAA
   if (loading || !detail) {
     return (
       <div style={{ padding: 40, textAlign: 'center', color: '#9ca3af', fontSize: 13 }}>
@@ -497,39 +498,6 @@ function CCAADossier({
         <KPI label="Medios" value={String(detail.topMedios.length)} accent="#7C3AED" />
       </div>
 
-      {/* Sprint G15 FASE F · banner de cobertura local · cuenta cuántos
-          medios scope_level provincial/local están publicando sobre esta CCAA.
-          Si la prensa nacional es la única fuente, el dossier lo advierte. */}
-      {(() => {
-        const rs = (detail as any).regional_signal
-        if (!rs) return null
-        const localShare: number = typeof rs.local_share === 'number' ? rs.local_share : 0
-        const nLocal: number = rs.n_local_medios || 0
-        const pct = Math.round(localShare * 100)
-        const ok = localShare >= 0.20
-        const warn = localShare < 0.10 && (rs.n_articles_by_medium_ccaa || 0) >= 5
-        const color = warn ? '#dc2626' : ok ? '#16a34a' : '#f59e0b'
-        const text = warn
-          ? `Sin prensa local · cobertura sólo desde medios nacionales (${pct}% local)`
-          : ok
-          ? `Cobertura local saludable · ${nLocal} medios provinciales/locales activos (${pct}%)`
-          : `Cobertura local limitada · ${nLocal} medios locales (${pct}%) · sesgada hacia prensa nacional`
-        return (
-          <div style={{
-            background: warn ? '#fef2f2' : ok ? '#f0fdf4' : '#fef3c7',
-            border: `1px solid ${warn ? '#fecaca' : ok ? '#bbf7d0' : '#fde68a'}`,
-            borderLeft: `3px solid ${color}`,
-            borderRadius: 6, padding: '6px 10px', marginBottom: 12,
-            fontSize: 10.5, color: '#1d1d1f', lineHeight: 1.45,
-          }}>
-            <span style={{ fontWeight: 700, color, letterSpacing: 0.4, textTransform: 'uppercase', fontSize: 9, marginRight: 6 }}>
-              {warn ? '! Local' : ok ? '✓ Local' : '◐ Local'}
-            </span>
-            {text}
-          </div>
-        )
-      })()}
-
       {/* Provincias (con drill) */}
       {detail.provinces.length > 0 && (
         <Section label="Provincias activas">
@@ -548,154 +516,10 @@ function CCAADossier({
         </Section>
       )}
 
-      {/* Sprint G15-FIX C3 · Narrativas que mencionan este territorio.
-          Filtra narrativeClusters cuyo territorial_spread incluye el nombre
-          de la CCAA (matching case-insensitive con normalización mínima). */}
-      {(() => {
-        if (!narrativeClusters || narrativeClusters.length === 0) return null
-        const territory = name.toLowerCase()
-        const localNarratives = narrativeClusters.filter((n) => {
-          const spread = n.territorial_spread || []
-          return spread.some((t) => t && t.toLowerCase().includes(territory))
-        }).slice(0, 5)
-        if (localNarratives.length === 0) return null
-        return (
-          <Section label={`Narrativas en ${name} · ${localNarratives.length}`}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {localNarratives.map((n) => (
-                <div key={n.id} style={{
-                  background: '#f0fdf4', borderLeft: '3px solid #16a34a',
-                  padding: '6px 8px', borderRadius: 4, fontSize: 11.5,
-                }}>
-                  <p style={{ margin: 0, color: '#0f172a', fontWeight: 600, lineHeight: 1.3 }}>
-                    {n.title}
-                  </p>
-                  <p style={{ margin: '3px 0 0', fontSize: 10, color: '#475569' }}>
-                    {n.frame_type} · {n.articles?.length || 0} artículos ·
-                    confianza {Math.round((n.confidence?.overall || 0) * 100)}%
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Section>
-        )
-      })()}
-
-      {/* Sprint G15-FIX C3 · Actores locales en tendencia.
-          Filtra actorImpacts cuyo sample_reasons o actor menciona el
-          nombre de la CCAA, o que también está en regional_actors del
-          regional_signal (más fiable). Top 8 por menciones. */}
-      {(() => {
-        if (!actorImpacts || actorImpacts.length === 0) return null
-        const territory = name.toLowerCase()
-        const rs = (detail as any).regional_signal
-        const regionalSet = new Set<string>(
-          (rs?.regional_actors as string[] | undefined ?? []).map((s) => s.toLowerCase()),
-        )
-        const local = actorImpacts.filter((a) => {
-          const txt = `${a.actor} ${(a.sample_reasons || []).join(' ')}`.toLowerCase()
-          return txt.includes(territory) || regionalSet.has(a.actor.toLowerCase())
-        }).slice(0, 8)
-        if (local.length === 0) return null
-        return (
-          <Section label={`Actores en tendencia · ${local.length}`}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-              {local.map((a) => {
-                const color = a.dominant_impact === 'beneficial' ? '#16a34a'
-                  : a.dominant_impact === 'harmful' ? '#dc2626' : '#64748b'
-                return (
-                  <div key={a.actor} style={{
-                    display: 'grid', gridTemplateColumns: '1fr 50px 80px',
-                    gap: 6, alignItems: 'center', fontSize: 11,
-                    padding: '3px 6px', background: '#f8fafc', borderRadius: 3,
-                  }}>
-                    <span style={{ color: '#0f172a', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {a.actor}
-                    </span>
-                    <span style={{ color: '#475569', fontFamily: 'ui-monospace, monospace', textAlign: 'right', fontSize: 10 }}>
-                      {a.mentions} men.
-                    </span>
-                    <span style={{ color, fontWeight: 700, fontSize: 9, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right' }}>
-                      ● {a.dominant_impact === 'beneficial' ? 'beneficioso' : a.dominant_impact === 'harmful' ? 'perjudicial' : a.dominant_impact === 'uncertain' ? 'incierto' : 'neutral'}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          </Section>
-        )
-      })()}
-
-      {/* Categorías temáticas */}
-      {detail.categories.length > 0 && (
-        <Section label="Categorías temáticas">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {detail.categories.slice(0, 6).map(c => (
-              <div key={c.category} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11.5 }}>
-                <span style={{ flex: 1, color: '#1d1d1f' }}>{c.category}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#1F4E8C' }}>{c.n}</span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: c.polarity > 0.10 ? '#16A34A' : c.polarity < -0.10 ? '#DC2626' : '#6e6e73', minWidth: 36, textAlign: 'right' }}>
-                  {c.polarity > 0 ? '+' : ''}{c.polarity.toFixed(2)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Figuras públicas en la región */}
-      {detail.topFigures.length > 0 && (
-        <Section label="Figuras activas en la región">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {detail.topFigures.slice(0, 6).map(f => (
-              <div key={f.name} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 11.5 }}>
-                <span style={{ flex: 1, color: '#1d1d1f' }}>{f.name}</span>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#1F4E8C' }}>{f.n}</span>
-                <span style={{ fontSize: 10, fontWeight: 700, color: f.polarity > 0.10 ? '#16A34A' : f.polarity < -0.10 ? '#DC2626' : '#6e6e73', minWidth: 36, textAlign: 'right' }}>
-                  {f.polarity > 0 ? '+' : ''}{f.polarity.toFixed(2)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Empresas */}
-      {detail.topCompanies.length > 0 && (
-        <Section label="Empresas mencionadas">
-          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
-            {detail.topCompanies.map(c => (
-              <span key={c.name} style={{
-                background: 'rgba(124,58,237,0.10)', color: '#7C3AED',
-                padding: '3px 9px', borderRadius: 999, fontSize: 11, fontWeight: 600,
-              }}>
-                {c.name} <span style={{ opacity: 0.65, fontWeight: 500 }}>{c.n}</span>
-              </span>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* Topics dominantes */}
-      {detail.topTopics.length > 0 && (
-        <Section label="Temas dominantes">
-          <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-            {detail.topTopics.slice(0, 6).map(t => (
-              <span key={t.topic} style={{
-                background: 'rgba(31,78,140,0.10)', color: '#1F4E8C',
-                padding: '3px 9px', borderRadius: 999, fontSize: 11, fontWeight: 600,
-              }}>
-                {t.topic} <span style={{ opacity: 0.6 }}>{t.n}</span>
-              </span>
-            ))}
-          </div>
-        </Section>
-      )}
-
       {/* Top noticias */}
       <Section label="Lo más destacado">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {detail.topNews.slice(0, 12).map((n, i) => {
+          {(showAllNews ? detail.topNews : detail.topNews.slice(0, 7)).map((n, i) => {
             const sColor = n.sentiment > 0.10 ? '#16A34A' : n.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
             return (
               <CollapsibleArticle key={i} title={n.title} href={n.link} medio={n.medio} accent={sColor} titleSize={12.5}>
@@ -709,6 +533,13 @@ function CCAADossier({
             )
           })}
         </div>
+        {!showAllNews && detail.topNews.length > 7 && (
+          <button onClick={() => setShowAllNews(true)} style={{
+            marginTop: 8, width: '100%', padding: '8px 12px', background: '#FAFAFB',
+            border: '1px solid #ECECEF', borderRadius: 8, fontSize: 12, fontWeight: 600,
+            color: '#1F4E8C', cursor: 'pointer', fontFamily: 'inherit',
+          }}>Ver todas las {detail.topNews.length} noticias →</button>
+        )}
       </Section>
 
       {/* Medios cubriendo */}
