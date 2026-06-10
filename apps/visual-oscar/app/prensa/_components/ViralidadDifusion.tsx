@@ -8,6 +8,7 @@
  *  - First-mover analysis (qué medio publica primero)
  */
 import { useEffect, useState } from 'react'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 const ACCENT = '#EAB308'
 
@@ -109,9 +110,12 @@ export function ViralidadDifusion() {
               {(data.articles || []).slice(0, 15).map((a: Article, i: number) => (
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '30px 1fr auto', gap: 10, padding: '8px 12px', background: '#f8fafc', borderRadius: 6, alignItems: 'center' }}>
                   <span style={{ fontSize: 14, fontWeight: 700, color: ACCENT, fontVariantNumeric: 'tabular-nums' }}>{i + 1}</span>
-                  <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>
-                    {a.title}
-                  </a>
+                  <div style={{ minWidth: 0 }}>
+                    <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#0f172a', textDecoration: 'none', fontWeight: 500 }}>
+                      {a.title}
+                    </a>{' '}
+                    <ArchiveLink url={a.url} size={9.5} />
+                  </div>
                   <span style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600 }}>{a.source}</span>
                 </div>
               ))}

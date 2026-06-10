@@ -4,6 +4,7 @@
  * Muestra cobertura global ES en últimas 24h + tone timeline 7d.
  */
 import { useEffect, useState } from 'react'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 const ACCENT = '#1F4E8C'
 
@@ -61,7 +62,8 @@ export function GdeltGlobalPanel({ query = 'Spain' }: { query?: string }) {
               <li key={i} style={{ padding: '5px 0', borderBottom: '1px solid #f1f5f9', fontSize: 12 }}>
                 <a href={a.url} target="_blank" rel="noopener noreferrer" style={{ color: '#0f172a', textDecoration: 'none' }}>
                   {a.title}
-                </a>
+                </a>{' '}
+                <ArchiveLink url={a.url} size={9.5} />
                 <span style={{ fontSize: 10, color: '#94a3b8', marginLeft: 8 }}>
                   · {a.domain} · {a.sourcecountry} · {a.language}
                 </span>

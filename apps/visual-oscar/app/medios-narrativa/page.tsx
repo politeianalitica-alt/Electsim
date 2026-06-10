@@ -5,6 +5,8 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
+import MediosHero from '@/components/medios/MediosHero'
+import MapaNoticiasEspana from '@/components/medios/MapaNoticiasEspana'
 import NarrativeLifecycle from '@/components/NarrativeLifecycle'
 import SourceHealthDetail from '@/components/SourceHealthDetail'
 import { NewsApiHeadlinesPanel } from '@/components/media/NewsApiHeadlinesPanel'
@@ -83,6 +85,14 @@ const INITIAL_MEDIOS: Medio[] = [
   { id:'efe',         nombre:'Agencia EFE',     grupo:'Pública',       tipo:'Agencias',ejeX:-5,  alcance:0.0, tono:+0.02, share:55.0 },
   { id:'europa-press',nombre:'Europa Press',    grupo:'Privada',       tipo:'Agencias',ejeX: 8,  alcance:0.0, tono:-0.04, share:35.0 },
 ]
+
+// CCAA code → etiqueta (para el mapa España de medios por comunidad)
+const CCAA_CODE_LABEL: Record<string, string> = {
+  AND: 'Andalucía', ARA: 'Aragón', AST: 'Asturias', BAL: 'Baleares', CAN: 'Canarias',
+  CNT: 'Cantabria', CLM: 'Castilla-La Mancha', CYL: 'Castilla y León', CAT: 'Cataluña',
+  EXT: 'Extremadura', GAL: 'Galicia', MAD: 'Madrid', MUR: 'Murcia', NAV: 'Navarra',
+  PV: 'País Vasco', RIO: 'La Rioja', VAL: 'Valencia', CEU: 'Ceuta', MEL: 'Melilla',
+}
 
 const TIPO_COLOR: Record<TipoMedio, string> = {
   'Prensa':   '#5B21B6',
@@ -186,6 +196,18 @@ export default function MediosNarrativaPage() {
     return { byTipo, tonoMedio, total: MEDIOS.length }
   }, [MEDIOS])
 
+  // Medios por CCAA (para el mini-mapa de la cabecera)
+  const mediosPorCCAA = useMemo(() => {
+    const o: Record<string, { n: number }> = {}
+    for (const m of MEDIOS) {
+      if (!m.ccaa) continue
+      const label = CCAA_CODE_LABEL[m.ccaa]
+      if (!label) continue
+      o[label] = { n: (o[label]?.n ?? 0) + 1 }
+    }
+    return o
+  }, [MEDIOS])
+
   // Posicionamiento del cuadrante
   const W = 1000, H = 380
   const xToPx = (x: number) => ((x + 100) / 200) * W
@@ -196,33 +218,24 @@ export default function MediosNarrativaPage() {
       <AppHeader/>
       <main style={{ maxWidth:1500, margin:'0 auto', padding:'24px 28px 80px' }}>
 
-        {/* Hero */}
-        <section style={{
-          background:'linear-gradient(135deg,#7C2D92 0%,#3B0764 100%)',
-          borderRadius:22, padding:'30px 38px', marginBottom:18, color:'#fff',
-          display:'grid', gridTemplateColumns:'1.7fr 1fr', gap:32, alignItems:'center',
-        }}>
-          <div>
-            <p style={{ fontSize:10.5, fontWeight:600, letterSpacing:'0.14em', textTransform:'uppercase', opacity:0.7, margin:'0 0 8px', display:'flex', alignItems:'center', gap:12, flexWrap:'wrap' }}>
-              <span>NARRATIVA PÚBLICA · {counts.total} MEDIOS DE COMUNICACIÓN</span>
-              <LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>
-            </p>
-            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:30, letterSpacing:'-0.024em', margin:'0 0 6px', lineHeight:1.1 }}>
-              {counts.total} medios <em style={{ fontWeight:300, fontStyle:'italic', color:'rgba(255,255,255,0.75)' }}>cubriendo prensa, TV, radio y digital</em>
-            </h1>
-            <p style={{ fontSize:13, opacity:0.7, margin:0 }}>
-              Catálogo completo · 17 CCAA + nacional · {data?.stats.con_rss || 0} con RSS para ingestión en tiempo real · {data?.stats.audiencia_total_M ? data.stats.audiencia_total_M.toFixed(1) : '…'}M usuarios mensuales agregados
-            </p>
-          </div>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:6 }}>
-            <MiniK label="PRENSA"   n={counts.byTipo['Prensa']   || 0}/>
-            <MiniK label="DIGITAL"  n={counts.byTipo['Digital']  || 0}/>
-            <MiniK label="TV"       n={counts.byTipo['TV']       || 0}/>
-            <MiniK label="RADIO"    n={counts.byTipo['Radio']    || 0}/>
-            <MiniK label="AGENC."   n={counts.byTipo['Agencias'] || 0}/>
-            <MiniK label="REVISTA"  n={counts.byTipo['Revista']  || 0}/>
-          </div>
-        </section>
+        {/* Hero · cabecera con mapa de medios por comunidad */}
+        <MediosHero
+          accent="#7C2D92"
+          eyebrow={`Narrativa pública · ${counts.total} medios de comunicación`}
+          badge={<LiveStatusBadge updatedAt={updatedAt} source={source} refreshIntervalSec={300} onRefresh={refresh}/>}
+          title={<>{counts.total} medios <em style={{ fontWeight: 300, fontStyle: 'italic', color: '#9ca3af' }}>cubriendo prensa, TV, radio y digital</em></>}
+          subtitle={`Catálogo completo · 17 CCAA + nacional · ${data?.stats.con_rss || 0} con RSS para ingestión en tiempo real · ${data?.stats.audiencia_total_M ? data.stats.audiencia_total_M.toFixed(1) : '…'}M usuarios mensuales agregados`}
+          kpis={[
+            { label: 'Prensa', value: counts.byTipo['Prensa'] || 0 },
+            { label: 'Digital', value: counts.byTipo['Digital'] || 0 },
+            { label: 'TV', value: counts.byTipo['TV'] || 0 },
+            { label: 'Radio', value: counts.byTipo['Radio'] || 0 },
+            { label: 'Agencias', value: counts.byTipo['Agencias'] || 0 },
+            { label: 'Revista', value: counts.byTipo['Revista'] || 0 },
+          ]}
+          mapLabel="Medios por comunidad"
+          map={<MapaNoticiasEspana data={mediosPorCCAA} unidad="medios" colorHigh="#7C2D92" />}
+        />
 
         {/* NewsAPI · Headlines tiempo real (4 tabs) */}
         <div style={{ marginBottom: 18 }}>
@@ -556,14 +569,6 @@ export default function MediosNarrativaPage() {
 }
 
 // Helpers
-function MiniK({ label, n }: { label:string, n:number }) {
-  return (
-    <div style={{ textAlign:'center', padding:'10px 6px', borderRadius:10, background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.18)' }}>
-      <div style={{ fontFamily:'var(--font-display)', fontSize:22, fontWeight:700, lineHeight:1, color:'#fff' }}>{n}</div>
-      <div style={{ fontSize:8.5, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', opacity:0.7, marginTop:3 }}>{label}</div>
-    </div>
-  )
-}
 function Box({ label, value, color }: { label:string, value:string, color:string }) {
   return (
     <div style={{ background:'#fff', border:'1px solid #ECECEF', borderRadius:9, padding:'8px 10px' }}>

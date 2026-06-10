@@ -21,6 +21,8 @@
  */
 import { useMemo, useState } from 'react'
 import { FLAGS } from '@/lib/medios/feature-flags'
+import PillSelect from '@/components/PillSelect'   // selector estándar de la web (estilo Política)
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 // Sprint 1.4 · feature flag preparado: cuando USE_CANONICAL_NARRATIVAS
 // esté activo en Vercel preview, futuras versiones de page.tsx leerán de
@@ -197,29 +199,26 @@ export function NarrativesFramingWorkbench({
       </div>
 
       {/* Filtros */}
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14, padding: 8, background: '#f9fafb', borderRadius: 6 }}>
-        <Filter label="Frame">
-          <select value={filterFrame} onChange={(e) => setFilterFrame(e.target.value)} style={selectStyle}>
-            <option value="all">Todos</option>
-            {frames.map((f) => <option key={f} value={f}>{f}</option>)}
-          </select>
-        </Filter>
-        <Filter label="Tendencia">
-          <select value={filterTrend} onChange={(e) => setFilterTrend(e.target.value)} style={selectStyle}>
-            <option value="all">Todas</option>
-            <option value="emergente">Emergente</option>
-            <option value="acelerando">Acelerando</option>
-            <option value="estable">Estable</option>
-            <option value="en retroceso">En retroceso</option>
-          </select>
-        </Filter>
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'flex-end', marginBottom: 14, padding: '10px 12px', background: '#f9fafb', borderRadius: 10, border: '1px solid #ECECEF' }}>
+        <PillSelect size="sm" fullWidth={false} label="Frame"
+          value={filterFrame} onChange={setFilterFrame}
+          options={[{ value: 'all', label: 'Todos' }, ...frames.map((f) => ({ value: f, label: f }))]}
+        />
+        <PillSelect size="sm" fullWidth={false} label="Tendencia"
+          value={filterTrend} onChange={setFilterTrend}
+          options={[
+            { value: 'all', label: 'Todas' },
+            { value: 'emergente', label: 'Emergente' },
+            { value: 'acelerando', label: 'Acelerando' },
+            { value: 'estable', label: 'Estable' },
+            { value: 'en retroceso', label: 'En retroceso' },
+          ]}
+        />
         {sectors.length > 0 && (
-          <Filter label="Sector">
-            <select value={filterSector} onChange={(e) => setFilterSector(e.target.value)} style={selectStyle}>
-              <option value="all">Todos</option>
-              {sectors.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
-            </select>
-          </Filter>
+          <PillSelect size="sm" fullWidth={false} label="Sector"
+            value={filterSector} onChange={setFilterSector}
+            options={[{ value: 'all', label: 'Todos' }, ...sectors.map((s) => ({ value: s.key, label: s.label }))]}
+          />
         )}
         <Filter label={`Confianza mín. ${Math.round(minConfidence * 100)}%`}>
           <input type="range" min={0} max={1} step={0.05} value={minConfidence}
@@ -300,11 +299,6 @@ function Filter({ label, children }: { label: string; children: React.ReactNode 
       {children}
     </label>
   )
-}
-
-const selectStyle: React.CSSProperties = {
-  fontSize: 10, padding: '2px 6px', border: '1px solid #cbd5e1', borderRadius: 3,
-  background: '#fff', fontFamily: 'inherit', color: '#0f172a',
 }
 
 function NarrativeCard({ n, expanded, onToggle, onAudit, onCreateDossier }: {
@@ -462,7 +456,8 @@ function NarrativeCard({ n, expanded, onToggle, onAudit, onCreateDossier }: {
                     <a href={it.url} target="_blank" rel="noopener noreferrer" style={{ color: '#0f172a', textDecoration: 'none' }}>{it.title}</a>
                     <span style={{ marginLeft: 6, fontSize: 9, color: IDEO_COLOR[it.ideology] || '#64748b', fontWeight: 600 }}>
                       [{it.medium}]
-                    </span>
+                    </span>{' '}
+                    <ArchiveLink url={it.url} size={9.5} />
                   </li>
                 ))}
               </ul>

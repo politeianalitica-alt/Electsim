@@ -10,6 +10,8 @@
  */
 import { useState, useEffect, useCallback } from 'react'
 import { useMediosDrawer } from './MediosDrawerProvider'
+import ArchiveLink from '@/components/medios/ArchiveLink'
+import { archiveUrl } from '@/lib/medios/archive'
 import { LecturaPoliteia } from './LecturaPoliteia'
 import type { SourceGroup } from '@/lib/medios/sources-matrix'
 import { IDEOLOGY_RANGES } from '@/lib/medios/sources-matrix'
@@ -227,14 +229,27 @@ export function BusquedaPuntual() {
               </tbody>
             </table>
           </div>
-          <a
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ display: 'inline-block', marginTop: 16, padding: '8px 16px', background: ACCENT, color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
-          >
-            Abrir en {article.source} →
-          </a>
+          <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', padding: '8px 16px', background: ACCENT, color: '#fff', borderRadius: 8, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
+            >
+              Abrir en {article.source} →
+            </a>
+            {archiveUrl(article.url) && (
+              <a
+                href={archiveUrl(article.url) as string}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Leer versión archivada (archive.is) · esquiva muros de pago"
+                style={{ display: 'inline-block', padding: '8px 16px', background: '#F5F5F7', color: '#3a3a3d', borderRadius: 8, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
+              >
+                ⧉ Archivo
+              </a>
+            )}
+          </div>
         </div>
       ),
     })
@@ -987,11 +1002,14 @@ function NarrativasPanel({ clusters }: { clusters: NonNullable<SearchResponse['n
                   <p style={{ margin: 0, fontSize: 10, color: '#475569', fontStyle: 'italic' }}>{c.why_this_is_a_narrative}</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 3, marginTop: 6 }}>
                     {c.evidence.slice(0, 5).map((e, i) => (
-                      <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" style={{ padding: '3px 6px', background: '#fff', borderLeft: '2px solid #cbd5e1', borderRadius: 3, textDecoration: 'none', color: 'inherit', fontSize: 10 }}>
-                        <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', marginRight: 6, letterSpacing: 0.3 }}>{e.ideology.toUpperCase()}</span>
-                        <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
-                        <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
-                      </a>
+                      <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 6, padding: '3px 6px', background: '#fff', borderLeft: '2px solid #cbd5e1', borderRadius: 3, fontSize: 10 }}>
+                        <a href={e.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', flex: 1, minWidth: 0 }}>
+                          <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', marginRight: 6, letterSpacing: 0.3 }}>{e.ideology.toUpperCase()}</span>
+                          <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
+                          <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
+                        </a>
+                        <ArchiveLink url={e.url} size={9} />
+                      </div>
                     ))}
                   </div>
                 </div>

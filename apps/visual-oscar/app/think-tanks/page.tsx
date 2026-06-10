@@ -16,6 +16,9 @@ import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
+import ArchiveLink from '@/components/medios/ArchiveLink'
+import MediosHero from '@/components/medios/MediosHero'
+import MapaNoticiasMundo from '@/components/medios/MapaNoticiasMundo'
 
 interface TTItem {
   id: string
@@ -56,7 +59,7 @@ const URGENCIA: Record<number, { label: string; color: string; bg: string }> = {
 const BLOQUE_COLOR: Record<string, string> = {
   espana: '#C8102E', ue: '#1F4E8C', anglo: '#5B21B6', china: '#B91C1C',
   rusia: '#475569', india: '#EA580C', asia_pacifico: '#0891B2', latam: '#15803D',
-  global: '#0F766E',
+  oriente_medio: '#CA8A04', africa: '#B45309', global: '#0F766E',
 }
 
 function hace(iso: string): string {
@@ -108,32 +111,25 @@ export default function ThinkTanksPage() {
       <AppHeader />
       <main style={{ maxWidth: 1500, margin: '0 auto', padding: '20px 28px 80px' }}>
 
-        {/* Hero */}
-        <section style={{
-          background: 'linear-gradient(135deg,#0F766E 0%,#134E4A 100%)',
-          borderRadius: 16, padding: '22px 28px', marginBottom: 16, color: '#fff',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16,
-        }}>
-          <div>
-            <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.82, margin: 0, display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
-              <span>⬡ INTELIGENCIA DE THINK TANKS · TODOS LOS BLOQUES</span>
-              {data?.source === 'mock' && <span style={{ background: 'rgba(255,255,255,0.2)', padding: '1px 8px', borderRadius: 999 }}>DEMO</span>}
-              <LiveStatusBadge updatedAt={updatedAt} source={data?.source ?? source} refreshIntervalSec={900} onRefresh={refresh} />
-            </p>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 24, margin: '8px 0 0', lineHeight: 1.1, maxWidth: 820 }}>
-              Análisis de los principales centros de pensamiento del mundo
-            </h1>
-            <p style={{ fontSize: 12, opacity: 0.85, margin: '6px 0 0', maxWidth: 880 }}>
-              España, UE, mundo anglosajón, China, Rusia, India, Asia-Pacífico, Latinoamérica y multilaterales.
-              Filtra por bloque, tema o país mencionado. Ordenado por urgencia y relevancia para España.
-            </p>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8 }}>
-            <MiniK label="ARTÍCULOS" n={items.length} />
-            <MiniK label="THINK TANKS" n={data?.feeds_ok ?? 0} sub={`/${data?.feeds_total ?? '—'}`} />
-            <MiniK label="BLOQUES" n={nBloques} />
-          </div>
-        </section>
+        {/* Hero · cabecera con mapamundi de países en el foco */}
+        <MediosHero
+          accent="#0F766E"
+          fresh={data?.source === 'live'}
+          eyebrow="⬡ Inteligencia de think tanks · todos los bloques"
+          badge={data?.source === 'mock'
+            ? <span style={{ background: '#fef3c7', color: '#92400e', padding: '1px 8px', borderRadius: 999, fontSize: 9, fontWeight: 700 }}>DEMO</span>
+            : <LiveStatusBadge updatedAt={updatedAt} source={data?.source ?? source} refreshIntervalSec={900} onRefresh={refresh} />}
+          title="Análisis de los principales centros de pensamiento del mundo"
+          subtitle="España, UE, mundo anglosajón, China, Rusia, India, Asia-Pacífico, Latinoamérica y multilaterales. Artículos del último año, ordenados por urgencia y relevancia para España."
+          kpis={[
+            { label: 'Artículos', value: items.length, color: '#0F766E' },
+            { label: 'Think tanks', value: <>{data?.feeds_ok ?? 0}<span style={{ fontSize: 12, color: '#9ca3af' }}>/{data?.feeds_total ?? '—'}</span></> },
+            { label: 'Bloques', value: nBloques },
+            { label: 'Países', value: facets?.paises.length ?? 0 },
+          ]}
+          mapLabel="Países en el foco"
+          map={<MapaNoticiasMundo paises={facets?.paises ?? []} />}
+        />
 
         {/* Selector de filtros */}
         <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '14px 18px', marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
@@ -208,17 +204,6 @@ export default function ThinkTanksPage() {
   )
 }
 
-// ─────────────────────────────────────────────────────────────────────────
-function MiniK({ label, n, sub }: { label: string; n: number; sub?: string }) {
-  return (
-    <div style={{ textAlign: 'center', padding: '10px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', minWidth: 78 }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontSize: 22, fontWeight: 700, lineHeight: 1, color: '#fff' }}>
-        {n}{sub && <span style={{ fontSize: 12, opacity: 0.7, fontWeight: 600 }}>{sub}</span>}
-      </div>
-      <div style={{ fontSize: 8.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', opacity: 0.78, marginTop: 4 }}>{label}</div>
-    </div>
-  )
-}
 
 function FilterRow({
   title, options, value, onChange, colorOf, last,
@@ -233,7 +218,7 @@ function FilterRow({
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center', paddingBottom: last ? 0 : 10, marginBottom: last ? 0 : 10, borderBottom: last ? 'none' : '1px solid #F5F5F7' }}>
       <span style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#6e6e73', flexShrink: 0, width: 56 }}>{title}</span>
-      <div style={{ display: 'flex', gap: 6, overflowX: 'auto', scrollbarWidth: 'none', flexWrap: 'wrap' }}>
+      <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 2, background: '#F5F5F7', borderRadius: 999, padding: 3, overflowX: 'auto', scrollbarWidth: 'none' }}>
         {options.map((o) => {
           const active = value === o.key
           const accent = colorOf ? colorOf(o.key) : '#0F766E'
@@ -241,15 +226,16 @@ function FilterRow({
             <button key={o.key} onClick={() => onChange(o.key)} style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
               padding: '4px 11px', borderRadius: 999, whiteSpace: 'nowrap',
-              fontSize: 11.5, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
-              color: active ? '#fff' : '#3a3a3d',
-              background: active ? accent : '#F5F5F7',
-              border: `1px solid ${active ? accent : 'transparent'}`,
-              transition: 'all 140ms',
+              fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
+              color: active ? accent : '#6e6e73',
+              background: active ? '#fff' : 'transparent',
+              border: 'none',
+              boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
+              transition: 'all 150ms',
             }}>
-              {o.key !== 'all' && colorOf && <span style={{ width: 7, height: 7, borderRadius: '50%', background: active ? 'rgba(255,255,255,0.8)' : accent }} />}
+              {o.key !== 'all' && colorOf && <span style={{ width: 7, height: 7, borderRadius: '50%', background: accent }} />}
               {o.label}
-              <span style={{ fontSize: 10, opacity: active ? 0.8 : 0.5, fontWeight: 600 }}>{o.count}</span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: active ? '#3a3a3d' : '#9ca3af', background: 'rgba(0,0,0,0.05)', padding: '1px 6px', borderRadius: 999 }}>{o.count}</span>
             </button>
           )
         })}
@@ -293,6 +279,7 @@ function ArticleCard({ item, temaLabel }: { item: TTItem; temaLabel: Record<stri
       ) : (
         <h3 style={{ margin: 0, fontSize: 14.5, fontWeight: 600, lineHeight: 1.35, color: '#0f172a' }}>{item.titulo}</h3>
       )}
+      {hasLink && <div style={{ marginTop: -4 }}><ArchiveLink url={item.url} /></div>}
 
       {item.resumen && (
         <p style={{ margin: 0, fontSize: 12, color: '#475569', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>

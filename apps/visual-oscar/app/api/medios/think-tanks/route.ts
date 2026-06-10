@@ -58,14 +58,14 @@ function sectorFromTemas(temas: string[]): SectorKey {
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
-export const maxDuration = 45
+export const maxDuration = 60
 
 // ─────────────────────────────────────────────────────────────────────────
 // Registry de think tanks por bloque · URLs verificadas (workflow jun-2026)
 // ─────────────────────────────────────────────────────────────────────────
 type Bloque =
   | 'espana' | 'ue' | 'anglo' | 'china' | 'rusia'
-  | 'india' | 'asia_pacifico' | 'latam' | 'global'
+  | 'india' | 'asia_pacifico' | 'latam' | 'oriente_medio' | 'africa' | 'global'
 
 interface FeedDef {
   url: string
@@ -112,6 +112,106 @@ const FEED_REGISTRY: Record<string, FeedDef> = {
   oies:        { url: 'https://www.oxfordenergy.org/publications/feed/',    nombre: 'OIES Oxford',           bloque: 'global', peso: 0.78, verified: true },
   mmc:         { url: 'https://mixedmigration.org/?feed=atom&post_type=resource', nombre: 'Mixed Migration Centre', bloque: 'global', peso: 0.72, verified: true, format: 'atom' },
   bellingcat:  { url: 'https://www.bellingcat.com/feed/',                   nombre: 'Bellingcat',            bloque: 'global', peso: 0.70, verified: true },
+  csis: { url: 'https://www.csis.org/rss.xml', nombre: 'Center for Strategic and International Studies (CSIS)', bloque: 'anglo', peso: 0.85, verified: true },
+  heritage_foundation: { url: 'https://www.heritage.org/rss', nombre: 'The Heritage Foundation', bloque: 'anglo', peso: 0.75, verified: true },
+  cato_institute: { url: 'https://www.cato.org/rss/blog', nombre: 'Cato Institute (Cato at Liberty)', bloque: 'anglo', peso: 0.72, verified: true },
+  aei: { url: 'https://www.aei.org/feed/', nombre: 'American Enterprise Institute (AEI)', bloque: 'anglo', peso: 0.75, verified: true },
+  wilson_center: { url: 'https://www.newsecuritybeat.org/feed/', nombre: 'Wilson Center (New Security Beat)', bloque: 'anglo', peso: 0.72, verified: true },
+  hudson_institute: { url: 'https://www.hudson.org/rss.xml', nombre: 'Hudson Institute', bloque: 'anglo', peso: 0.7, verified: true },
+  piie: { url: 'https://www.piie.com/rss/update.xml', nombre: 'Peterson Institute for International Economics (PIIE)', bloque: 'anglo', peso: 0.8, verified: true },
+  quincy_institute: { url: 'https://quincyinst.org/feed/', nombre: 'Quincy Institute for Responsible Statecraft', bloque: 'anglo', peso: 0.68, verified: true },
+  pew_research: { url: 'https://www.pewresearch.org/feed/', nombre: 'Pew Research Center', bloque: 'anglo', peso: 0.8, verified: true },
+  german_marshall_fund: { url: 'https://www.gmfus.org/rss.xml', nombre: 'German Marshall Fund of the United States (GMF)', bloque: 'anglo', peso: 0.7, verified: true },
+  baker_institute: { url: 'https://www.bakerinstitute.org/rss.xml', nombre: 'Baker Institute for Public Policy (Rice University)', bloque: 'anglo', peso: 0.68, verified: true },
+  wita: { url: 'https://www.wita.org/feed/', nombre: 'Washington International Trade Association (WITA)', bloque: 'anglo', peso: 0.62, verified: true },
+  fpri: { url: 'https://www.fpri.org/feed/', nombre: 'Foreign Policy Research Institute (FPRI)', bloque: 'anglo', peso: 0.66, verified: false },
+  mei: { url: 'https://www.mei.edu/rss.xml', nombre: 'Middle East Institute (MEI)', bloque: 'anglo', peso: 0.68, verified: false },
+  stimson_center: { url: 'https://www.stimson.org/feed/', nombre: 'Stimson Center', bloque: 'anglo', peso: 0.68, verified: false },
+  adam_smith_institute: { url: 'https://www.adamsmith.org/blog?format=rss', nombre: 'Adam Smith Institute', bloque: 'anglo', peso: 0.7, verified: true },
+  iea_uk: { url: 'https://iea.org.uk/feed/', nombre: 'Institute of Economic Affairs (IEA UK)', bloque: 'anglo', peso: 0.75, verified: true },
+  resolution_foundation: { url: 'https://www.resolutionfoundation.org/feed/', nombre: 'Resolution Foundation', bloque: 'anglo', peso: 0.8, verified: true },
+  policy_exchange: { url: 'https://policyexchange.org.uk/feed/', nombre: 'Policy Exchange', bloque: 'anglo', peso: 0.75, verified: true },
+  centre_european_reform: { url: 'https://www.cer.eu/rss.xml', nombre: 'Centre for European Reform (CER)', bloque: 'anglo', peso: 0.75, verified: true },
+  social_market_foundation: { url: 'https://www.smf.co.uk/feed/', nombre: 'Social Market Foundation', bloque: 'anglo', peso: 0.65, verified: true },
+  civitas_uk: { url: 'https://www.civitas.org.uk/feed/', nombre: 'Civitas: Institute for the Study of Civil Society', bloque: 'anglo', peso: 0.6, verified: true },
+  onward_uk: { url: 'https://www.ukonward.com/feed/', nombre: 'Onward', bloque: 'anglo', peso: 0.65, verified: false },
+  demos_uk: { url: 'https://demos.co.uk/feed/', nombre: 'Demos', bloque: 'anglo', peso: 0.6, verified: false },
+  aspi_strategist: { url: 'https://www.aspistrategist.org.au/feed/', nombre: 'ASPI - The Strategist (Australian Strategic Policy Institute)', bloque: 'anglo', peso: 0.8, verified: true },
+  grattan_institute: { url: 'https://grattan.edu.au/feed/', nombre: 'Grattan Institute', bloque: 'anglo', peso: 0.7, verified: true },
+  australia_institute: { url: 'https://australiainstitute.org.au/feed/', nombre: 'The Australia Institute', bloque: 'anglo', peso: 0.65, verified: true },
+  macdonald_laurier: { url: 'https://macdonaldlaurier.ca/feed/', nombre: 'Macdonald-Laurier Institute', bloque: 'anglo', peso: 0.7, verified: true },
+  cd_howe_institute: { url: 'https://www.cdhowe.org/rss.xml', nombre: 'C.D. Howe Institute', bloque: 'anglo', peso: 0.7, verified: true },
+  irpp_canada: { url: 'https://irpp.org/feed/', nombre: 'Institute for Research on Public Policy (IRPP)', bloque: 'anglo', peso: 0.65, verified: true },
+  cigi_substack: { url: 'https://cigionlineorg.substack.com/feed', nombre: 'CIGI - Centre for International Governance Innovation (Substack)', bloque: 'anglo', peso: 0.7, verified: true },
+  osw_warsaw: { url: 'https://www.osw.waw.pl/en/rss.xml', nombre: 'OSW – Centre for Eastern Studies (Ośrodek Studiów Wschodnich)', bloque: 'ue', peso: 0.78, verified: true },
+  institut_montaigne: { url: 'https://www.institutmontaigne.org/en/rss.xml', nombre: 'Institut Montaigne', bloque: 'ue', peso: 0.8, verified: true },
+  carbon_market_watch: { url: 'https://carbonmarketwatch.org/feed/', nombre: 'Carbon Market Watch', bloque: 'ue', peso: 0.62, verified: true },
+  ecipe_brussels: { url: 'https://ecipe.org/feed/', nombre: 'ECIPE – European Centre for International Political Economy', bloque: 'ue', peso: 0.68, verified: true },
+  institut_jacques_delors: { url: 'https://institutdelors.eu/en/feed/', nombre: 'Institut Jacques Delors (Notre Europe)', bloque: 'ue', peso: 0.78, verified: true },
+  martens_centre: { url: 'https://www.martenscentre.eu/feed/', nombre: 'Wilfried Martens Centre for European Studies', bloque: 'ue', peso: 0.7, verified: true },
+  fiia_helsinki: { url: 'https://www.fiia.fi/en/feed', nombre: 'FIIA – Finnish Institute of International Affairs', bloque: 'ue', peso: 0.74, verified: true },
+  aspen_ce: { url: 'https://aspeninstitutece.org/feed/', nombre: 'Aspen Institute Central Europe', bloque: 'ue', peso: 0.62, verified: true },
+  wiiw_vienna: { url: 'https://wiiw.ac.at/rss.xml', nombre: 'wiiw – Vienna Institute for International Economic Studies', bloque: 'ue', peso: 0.7, verified: true },
+  eliamep_athens: { url: 'https://www.eliamep.gr/en/feed/', nombre: 'ELIAMEP – Hellenic Foundation for European and Foreign Policy', bloque: 'ue', peso: 0.68, verified: true },
+  fundacion_alternativas: { url: 'https://fundacionalternativas.org/feed/', nombre: 'Fundación Alternativas', bloque: 'espana', peso: 0.7, verified: true },
+  fundacion_faes: { url: 'https://fundacionfaes.org/feed/', nombre: 'Fundación FAES', bloque: 'espana', peso: 0.65, verified: true },
+  fundacion_carolina: { url: 'https://fundacioncarolina.es/feed/', nombre: 'Fundación Carolina', bloque: 'espana', peso: 0.7, verified: true },
+  esadegeo: { url: 'https://dobetter.esade.edu/rss.xml', nombre: 'EsadeGeo - Esade Do Better', bloque: 'espana', peso: 0.72, verified: true },
+  ie_insights: { url: 'https://www.ie.edu/insights/feed/', nombre: 'IE Insights (IE University)', bloque: 'espana', peso: 0.65, verified: true },
+  fundacion_sistema: { url: 'https://www.fundacionsistema.com/feed/', nombre: 'Fundación Sistema', bloque: 'espana', peso: 0.55, verified: true },
+  interamerican_dialogue: { url: 'https://www.thedialogue.org/feed/', nombre: 'Inter-American Dialogue (Diálogo Interamericano)', bloque: 'latam', peso: 0.78, verified: true },
+  coha: { url: 'https://www.coha.org/feed/', nombre: 'Council on Hemispheric Affairs (COHA)', bloque: 'latam', peso: 0.6, verified: true },
+  flacso_argentina: { url: 'https://flacso.org.ar/feed/', nombre: 'FLACSO Argentina', bloque: 'latam', peso: 0.68, verified: true },
+  cippec: { url: 'https://www.cippec.org/feed/', nombre: 'CIPPEC', bloque: 'latam', peso: 0.68, verified: true },
+  dialogo_politico_kas: { url: 'https://dialogopolitico.org/feed/', nombre: 'Diálogo Político (KAS Latinoamérica)', bloque: 'latam', peso: 0.62, verified: true },
+  latinoamerica21: { url: 'https://latinoamerica21.com/es/feed/', nombre: 'Latinoamérica 21', bloque: 'latam', peso: 0.6, verified: true },
+  americas_quarterly: { url: 'https://www.americasquarterly.org/feed/', nombre: 'Americas Quarterly (AS/COA)', bloque: 'latam', peso: 0.65, verified: true },
+  bid_blogs: { url: 'https://blogs.iadb.org/feed/', nombre: 'Blogs del BID (Banco Interamericano de Desarrollo)', bloque: 'latam', peso: 0.6, verified: true },
+  takshashila: { url: 'https://takshashiladispatch.substack.com/feed', nombre: 'Takshashila Institution (Dispatch)', bloque: 'india', peso: 0.72, verified: true },
+  idsa_mp: { url: 'https://www.idsa.in/feed', nombre: 'Manohar Parrikar Institute for Defence Studies and Analyses (MP-IDSA)', bloque: 'india', peso: 0.74, verified: true },
+  iseas_yusof_ishak: { url: 'https://www.iseas.edu.sg/category/articles-commentaries/feed/', nombre: 'ISEAS - Yusof Ishak Institute', bloque: 'asia_pacifico', peso: 0.78, verified: true },
+  fulcrum_iseas: { url: 'https://fulcrum.sg/feed/', nombre: 'Fulcrum (ISEAS Commentary)', bloque: 'asia_pacifico', peso: 0.7, verified: true },
+  aspi_asia_society: { url: 'https://asiapolicy.asiasociety.org/feed', nombre: 'Asia Society Policy Institute (ASPI)', bloque: 'asia_pacifico', peso: 0.75, verified: true },
+  pacific_forum: { url: 'https://pacforum.org/feed', nombre: 'Pacific Forum', bloque: 'asia_pacifico', peso: 0.68, verified: true },
+  isdp_stockholm: { url: 'https://isdp.eu/feed/', nombre: 'Institute for Security and Development Policy (ISDP)', bloque: 'asia_pacifico', peso: 0.66, verified: true },
+  siia_singapore: { url: 'https://www.siiaonline.org/feed/', nombre: 'Singapore Institute of International Affairs (SIIA)', bloque: 'asia_pacifico', peso: 0.66, verified: true },
+  asia_pacific_initiative: { url: 'https://apinitiative.org/en/feed/', nombre: 'Asia Pacific Initiative / International House of Japan (IHJ)', bloque: 'asia_pacifico', peso: 0.66, verified: true },
+  icrier: { url: 'https://icrier.org/feed/', nombre: 'Indian Council for Research on International Economic Relations (ICRIER)', bloque: 'india', peso: 0.68, verified: true },
+  east_asia_forum: { url: 'https://www.eastasiaforum.org/feed/', nombre: 'East Asia Forum (EAF)', bloque: 'asia_pacifico', peso: 0.74, verified: false },
+  rsis_ntu: { url: 'https://www.rsis.edu.sg/feed/?post_type=rsispub', nombre: 'S. Rajaratnam School of International Studies (RSIS)', bloque: 'asia_pacifico', peso: 0.76, verified: false },
+  nbr_asia: { url: 'https://www.nbr.org/feed/', nombre: 'National Bureof Asian Research (NBR)', bloque: 'anglo', peso: 0.7, verified: false },
+  csep_brookings_india: { url: 'https://csep.org/feed/', nombre: 'Centre for Social and Economic Progress (CSEP)', bloque: 'india', peso: 0.66, verified: false },
+  aljazeera_centre_studies: { url: 'https://studies.aljazeera.net/en/rss.xml', nombre: 'Al Jazeera Centre for Studies', bloque: 'oriente_medio', peso: 0.72, verified: true },
+  trends_research_advisory: { url: 'https://trendsresearch.org/feed/', nombre: 'TRENDS Research & Advisory', bloque: 'oriente_medio', peso: 0.66, verified: true },
+  tahrir_institute_timep: { url: 'https://timep.org/feed/', nombre: 'Tahrir Institute for Middle East Policy (TIMEP)', bloque: 'oriente_medio', peso: 0.68, verified: true },
+  sanaa_center_strategic_studies: { url: 'https://sanaacenter.org/feed', nombre: 'Sana\'a Center for Strategic Studies', bloque: 'oriente_medio', peso: 0.65, verified: true },
+  gulf_international_forum: { url: 'https://gulfif.org/feed/', nombre: 'Gulf International Forum', bloque: 'oriente_medio', peso: 0.62, verified: true },
+  policy_center_new_south: { url: 'https://www.policycenter.ma/rss.xml', nombre: 'Policy Center for the New South', bloque: 'oriente_medio', peso: 0.68, verified: true },
+  egyptian_center_strategic_studies_ecss: { url: 'https://ecss.com.eg/feed/', nombre: 'Egyptian Center for Strategic Studies (ECSS)', bloque: 'oriente_medio', peso: 0.6, verified: true },
+  saiia_south_african_institute: { url: 'https://saiia.org.za/research/feed/', nombre: 'South African Institute of International Affairs (SAIIA)', bloque: 'africa', peso: 0.74, verified: true },
+  afrobarometer: { url: 'https://www.afrobarometer.org/feed/', nombre: 'Afrobarometer', bloque: 'africa', peso: 0.72, verified: true },
+  accord_conflict_resolution: { url: 'https://www.accord.org.za/analysis/feed/', nombre: 'ACCORD (African Centre for the Constructive Resolution of Disputes)', bloque: 'africa', peso: 0.65, verified: true },
+  amani_africa: { url: 'https://amaniafrica-et.org/feed/', nombre: 'Amani Africa', bloque: 'africa', peso: 0.62, verified: true },
+  niia_nigerian_institute: { url: 'https://www.niia.gov.ng/feed/', nombre: 'Nigerian Institute of International Affairs (NIIA)', bloque: 'africa', peso: 0.6, verified: true },
+  riac: { url: 'https://russiancouncil.ru/en/rss/all/', nombre: 'RIAC — Russian International Affairs Council', bloque: 'rusia', peso: 0.75, verified: true },
+  riddle_russia: { url: 'https://ridl.io/feed/', nombre: 'Riddle Russia (ridl.io)', bloque: 'rusia', peso: 0.65, verified: true },
+  jamestown_foundation: { url: 'https://jamestown.org/feed/', nombre: 'The Jamestown Foundation', bloque: 'anglo', peso: 0.78, verified: true },
+  cepa: { url: 'https://cepa.org/feed/', nombre: 'CEPA — Center for European Policy Analysis', bloque: 'anglo', peso: 0.72, verified: true },
+  moscow_times: { url: 'https://www.themoscowtimes.com/rss/news', nombre: 'The Moscow Times', bloque: 'rusia', peso: 0.55, verified: true },
+  sipri: { url: 'https://www.sipri.org/rss/combined.xml', nombre: 'SIPRI — Stockholm International Peace Research Institute', bloque: 'global', peso: 0.85, verified: true },
+  omfif: { url: 'https://www.omfif.org/feed/', nombre: 'OMFIF — Official Monetary and Financial Institutions Forum', bloque: 'global', peso: 0.68, verified: true },
+  council_strategic_risks: { url: 'https://councilonstrategicrisks.org/feed/', nombre: 'The Council on Strategic Risks (CSR)', bloque: 'global', peso: 0.62, verified: true },
+  carbon_brief: { url: 'https://www.carbonbrief.org/feed/', nombre: 'Carbon Brief', bloque: 'global', peso: 0.75, verified: true },
+  e3g: { url: 'https://www.e3g.org/feed/', nombre: 'E3G (Third Generation Environmentalism)', bloque: 'global', peso: 0.72, verified: true },
+  ieefa: { url: 'https://ieefa.org/rss.xml', nombre: 'IEEFA (Institute for Energy Economics and Financial Analysis)', bloque: 'global', peso: 0.68, verified: true },
+  ember_energy: { url: 'https://ember-energy.org/feed/', nombre: 'Ember', bloque: 'global', peso: 0.7, verified: false },
+  tax_foundation: { url: 'https://taxfoundation.org/feed/', nombre: 'Tax Foundation', bloque: 'anglo', peso: 0.65, verified: true },
+  cepr_voxeu: { url: 'https://cepr.org/rss/vox-content', nombre: 'CEPR / VoxEU', bloque: 'ue', peso: 0.78, verified: true },
+  eff_deeplinks: { url: 'https://www.eff.org/rss/updates.xml', nombre: 'Electronic Frontier Foundation (Deeplinks)', bloque: 'anglo', peso: 0.65, verified: true },
+  lawfare: { url: 'https://www.lawfaremedia.org/feed', nombre: 'Lawfare', bloque: 'anglo', peso: 0.68, verified: false },
+  cgd: { url: 'https://www.cgdev.org/blog/feed', nombre: 'CGD (Center for Global Development)', bloque: 'anglo', peso: 0.72, verified: false },
+  odi_global: { url: 'https://odi.org/en/feed/', nombre: 'ODI Global (Overseas Development Institute)', bloque: 'anglo', peso: 0.7, verified: false },
+  '38_north': { url: 'https://www.38north.org/feed/', nombre: '38 North (Stimson Center)', bloque: 'anglo', peso: 0.62, verified: false },
 }
 
 export const BLOQUE_LABEL: Record<Bloque, string> = {
@@ -123,6 +223,8 @@ export const BLOQUE_LABEL: Record<Bloque, string> = {
   india: 'India',
   asia_pacifico: 'Asia-Pacífico',
   latam: 'Latinoamérica',
+  oriente_medio: 'Oriente Medio',
+  africa: 'África',
   global: 'Multilateral / Global',
 }
 
@@ -292,7 +394,7 @@ function hashId(s: string): string {
   return (h >>> 0).toString(36)
 }
 
-function parseFeed(xml: string, key: string, def: FeedDef, maxItems = 8): ThinkTankItem[] {
+function parseFeed(xml: string, key: string, def: FeedDef, maxItems = 12): ThinkTankItem[] {
   const out: ThinkTankItem[] = []
   // Detecta RSS <item> o Atom <entry>. Respeta def.format si está declarado
   // (brookings/rand/mmc = 'atom'); el heurístico solo decide en modo 'auto'.
@@ -400,25 +502,38 @@ export async function GET() {
   const generated_at = new Date().toISOString()
   const entries = Object.entries(FEED_REGISTRY)
 
-  const settled = await Promise.allSettled(
-    entries.map(async ([key, def]) => {
-      const xml = await fetchFeed(def.url, 7000)
-      return parseFeed(xml, key, def)
-    }),
-  )
+  // Pool de concurrencia · con 100+ feeds NO disparamos todos a la vez (evita
+  // agotar sockets/memoria en la función serverless). Cada feed degrada solo.
+  const CONCURRENCY = 24
+  const results: Array<{ key: string; items: ThinkTankItem[]; ok: boolean }> = new Array(entries.length)
+  let nextIdx = 0
+  async function worker() {
+    for (;;) {
+      const i = nextIdx++
+      if (i >= entries.length) return
+      const [key, def] = entries[i]
+      try {
+        const xml = await fetchFeed(def.url, 7000)
+        const items = parseFeed(xml, key, def)
+        results[i] = { key, items, ok: items.length > 0 }
+      } catch {
+        results[i] = { key, items: [], ok: false }
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(CONCURRENCY, entries.length) }, worker))
 
   const all: ThinkTankItem[] = []
   let feedsOk = 0
   const failed: string[] = []
-  settled.forEach((r, i) => {
-    const key = entries[i][0]
-    if (r.status === 'fulfilled' && r.value.length > 0) { feedsOk++; all.push(...r.value) }
-    else failed.push(key)
-  })
+  for (const r of results) {
+    if (r && r.ok) { feedsOk++; all.push(...r.items) }
+    else if (r) failed.push(r.key)
+  }
 
-  // Descarta artículos con fecha futura imposible o anteriores a ~18 meses
+  // Descarta artículos con fecha futura imposible o anteriores al ÚLTIMO AÑO
   const now = Date.now()
-  const minTs = now - 540 * 24 * 3600 * 1000
+  const minTs = now - 365 * 24 * 3600 * 1000   // ventana: último año
   const fresh = all.filter((it) => {
     const t = new Date(it.fecha).getTime()
     return Number.isFinite(t) && t <= now + 24 * 3600 * 1000 && t >= minTs
@@ -444,7 +559,7 @@ export async function GET() {
     return b.fecha.localeCompare(a.fecha)
   })
 
-  const items = deduped.slice(0, 120)
+  const items = deduped.slice(0, 240)
   const facets = buildFacets(items)
   const warnings: string[] = []
   if (failed.length) warnings.push(`${failed.length}/${entries.length} feeds sin respuesta: ${failed.join(', ')}`)

@@ -17,6 +17,7 @@
 import { useMemo, useState } from 'react'
 import type { TieredFeed, Tier, TieredArticle, DynamicCategory } from '@/lib/news-intel'
 import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
   nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '' },
@@ -98,41 +99,46 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
         ))}
       </div>
 
-      {/* ── Categorías temáticas (DINÁMICAS) ────────────────── */}
-      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginBottom: 12, background: '#FAFAFB', padding: '10px 14px', borderRadius: 12, border: '1px solid #ECECEF' }}>
-        <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginRight: 4 }}>
-          Categoría temática:
-        </span>
-        <button onClick={() => setCatFilter('all')} style={chipStyle(catFilter === 'all', '#1d1d1f')}>
-          Todas <ChipNum n={allArticles.length} active={catFilter === 'all'} />
-        </button>
-        {categories.map(c => (
-          <button key={c.id} onClick={() => setCatFilter(c.id)} style={chipStyle(catFilter === c.id, categoryColor(c.label))}>
-            {c.label}
-            <ChipNum n={c.count} active={catFilter === c.id} />
-            <span style={{ marginLeft: 4, fontSize: 9, fontWeight: 700,
-              color: catFilter === c.id ? 'rgba(255,255,255,0.85)' : (c.polarity > 0.10 ? '#16A34A' : c.polarity < -0.10 ? '#DC2626' : '#9ca3af') }}>
-              {c.polarity > 0 ? '+' : ''}{c.polarity.toFixed(2)}
-            </span>
+      {/* ── Categorías temáticas (DINÁMICAS) · segmentado estilo Política ── */}
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', marginBottom: 10 }}>
+        <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Categoría</span>
+        <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 2, background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+          <button onClick={() => setCatFilter('all')} style={chipStyle(catFilter === 'all', '#1d1d1f')}>
+            Todas <ChipNum n={allArticles.length} active={catFilter === 'all'} />
           </button>
-        ))}
-      </div>
-
-      {/* ── Sector (clasificación automática) ─────────────────── */}
-      {sectorsSorted.length > 0 && (
-        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', marginBottom: 12, background: '#FAFAFB', padding: '10px 14px', borderRadius: 12, border: '1px solid #ECECEF' }}>
-          <span style={{ fontSize: 10.5, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.10em', textTransform: 'uppercase', marginRight: 4 }}>
-            Sector:
-          </span>
-          <button onClick={() => setSectorFilter('all')} style={chipStyle(sectorFilter === 'all', '#1d1d1f')}>
-            Todos <ChipNum n={allArticles.length} active={sectorFilter === 'all'} />
-          </button>
-          {sectorsSorted.map(s => (
-            <button key={s.id} onClick={() => setSectorFilter(s.id)} style={chipStyle(sectorFilter === s.id, SECTOR_COLORS[s.id as SectorKey] ?? '#6e6e73')}>
-              {s.label}
-              <ChipNum n={s.count} active={sectorFilter === s.id} />
+          {categories.map(c => (
+            <button key={c.id} onClick={() => setCatFilter(c.id)} style={chipStyle(catFilter === c.id, categoryColor(c.label))}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: categoryColor(c.label) }} />
+              {c.label}
+              <ChipNum n={c.count} active={catFilter === c.id} />
+              <span style={{ fontSize: 9, fontWeight: 700,
+                color: c.polarity > 0.10 ? '#16A34A' : c.polarity < -0.10 ? '#DC2626' : '#9ca3af' }}>
+                {c.polarity > 0 ? '+' : ''}{c.polarity.toFixed(2)}
+              </span>
             </button>
           ))}
+        </div>
+      </div>
+
+      {/* ── Sector (clasificación automática) · segmentado estilo Política ── */}
+      {sectorsSorted.length > 0 && (
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', marginBottom: 10 }}>
+          <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Sector</span>
+          <div style={{ display: 'inline-flex', flexWrap: 'wrap', gap: 2, background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+            <button onClick={() => setSectorFilter('all')} style={chipStyle(sectorFilter === 'all', '#1d1d1f')}>
+              Todos <ChipNum n={allArticles.length} active={sectorFilter === 'all'} />
+            </button>
+            {sectorsSorted.map(s => {
+              const col = SECTOR_COLORS[s.id as SectorKey] ?? '#6e6e73'
+              return (
+                <button key={s.id} onClick={() => setSectorFilter(s.id)} style={chipStyle(sectorFilter === s.id, col)}>
+                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: col }} />
+                  {s.label}
+                  <ChipNum n={s.count} active={sectorFilter === s.id} />
+                </button>
+              )
+            })}
+          </div>
         </div>
       )}
 
@@ -142,22 +148,24 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
           value={search}
           onChange={e => setSearch(e.target.value)}
           placeholder="Buscar en títulos, descripción, medio…"
+          aria-label="Buscar en el feed"
           style={{
-            flex: '0 0 280px', padding: '7px 12px', borderRadius: 8,
-            border: '1px solid #ECECEF', background: '#fff', fontSize: 12.5,
+            flex: '0 0 280px', padding: '8px 14px', borderRadius: 10,
+            border: '1px solid #ECECEF', background: '#fff', fontSize: 13,
             outline: 'none', fontFamily: 'inherit', color: '#1d1d1f',
           }}
         />
-        <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>Tono:</span>
-        {(['all','positive','neutral','negative'] as const).map(s => (
-          <button key={s} onClick={() => setSentFilter(s)} style={{
-            background: sentFilter === s ? '#1d1d1f' : '#fff',
-            color:      sentFilter === s ? '#fff' : '#3a3a3d',
-            border: '1px solid #ECECEF', borderRadius: 999, padding: '5px 12px',
-            fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-            textTransform: 'capitalize',
-          }}>{s === 'all' ? 'todos' : s === 'positive' ? 'positivo' : s === 'negative' ? 'negativo' : 'neutro'}</button>
-        ))}
+        <span style={{ fontSize: 11, color: '#6e6e73', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Tono</span>
+        <div style={{ display: 'inline-flex', gap: 2, background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+          {(['all','positive','neutral','negative'] as const).map(s => {
+            const col = s === 'positive' ? '#16A34A' : s === 'negative' ? '#DC2626' : '#1d1d1f'
+            return (
+              <button key={s} onClick={() => setSentFilter(s)} style={chipStyle(sentFilter === s, col)}>
+                {s === 'all' ? 'Todos' : s === 'positive' ? 'Positivo' : s === 'negative' ? 'Negativo' : 'Neutro'}
+              </button>
+            )
+          })}
+        </div>
         <span style={{ marginLeft: 'auto', fontSize: 12, color: '#6e6e73' }}>
           {visible.length} de {allArticles.length} noticias
         </span>
@@ -215,14 +223,19 @@ export default function FeedTiered({ feed }: { feed?: TieredFeed }) {
   )
 }
 
+// Pill estilo control segmentado (estándar de la web · igual que Política):
+// pill blanca con sombra suave cuando activa, transparente/gris cuando inactiva,
+// dentro de un contenedor #F5F5F7 redondeado.
 function chipStyle(active: boolean, color: string): React.CSSProperties {
   return {
-    background: active ? color : '#fff',
-    color: active ? '#fff' : '#1d1d1f',
-    border: `1px solid ${active ? color : '#ECECEF'}`,
-    borderRadius: 999, padding: '5px 12px',
-    fontSize: 11.5, fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+    background: active ? '#fff' : 'transparent',
+    color: active ? color : '#6e6e73',
+    border: 'none',
+    borderRadius: 999, padding: '4px 11px',
+    fontSize: 11, fontWeight: active ? 700 : 500, cursor: 'pointer', fontFamily: 'inherit',
+    boxShadow: active ? '0 1px 2px rgba(0,0,0,0.06)' : 'none',
     display: 'inline-flex', alignItems: 'center', gap: 5,
+    transition: 'all 150ms',
   }
 }
 
@@ -230,7 +243,8 @@ function ChipNum({ n, active }: { n: number; active: boolean }) {
   return (
     <span style={{
       fontSize: 10, fontWeight: 700,
-      background: active ? 'rgba(255,255,255,0.20)' : 'rgba(0,0,0,0.06)',
+      color: active ? '#3a3a3d' : '#9ca3af',
+      background: 'rgba(0,0,0,0.05)',
       padding: '1px 6px', borderRadius: 999,
     }}>{n}</span>
   )
@@ -281,10 +295,10 @@ function ArticleRow({ article, compact }: { article: TieredArticle; compact?: bo
   const ideo = ideologyTag(article.medio.ideologia)
   const sColor = SENTIMENT_COLOR[article.sentiment]
   return (
-    <a href={article.link} target="_blank" rel="noopener" style={{
+    <div style={{
       background: '#fff', border: '1px solid #ECECEF', borderRadius: 10,
       padding: compact ? '10px 12px' : '14px 16px',
-      textDecoration: 'none', color: 'inherit', display: 'block',
+      display: 'block',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
         <span style={{ fontSize: 11, fontWeight: 700, color: '#1d1d1f' }}>{article.medio.nombre}</span>
@@ -304,8 +318,11 @@ function ArticleRow({ article, compact }: { article: TieredArticle; compact?: bo
           {timeSince(article.pub_date_iso)}
         </span>
       </div>
-      <div style={{ fontSize: compact ? 12.5 : 14, color: '#1d1d1f', lineHeight: 1.35, fontWeight: 500 }}>
-        {article.title}
+      <div style={{ fontSize: compact ? 12.5 : 14, lineHeight: 1.35, fontWeight: 500 }}>
+        <a href={article.link} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', textDecoration: 'none' }}>
+          {article.title}
+        </a>{' '}
+        <ArchiveLink url={article.link} />
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
         <span style={{
@@ -330,6 +347,6 @@ function ArticleRow({ article, compact }: { article: TieredArticle; compact?: bo
           </span>
         ))}
       </div>
-    </a>
+    </div>
   )
 }
