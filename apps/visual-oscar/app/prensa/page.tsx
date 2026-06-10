@@ -40,6 +40,7 @@ import TopicImportanceChart, { type TopicImportanceItem } from './_components/To
 import NarrativesFramingWorkbench, { type WorkbenchNarrative } from './_components/NarrativesFramingWorkbench'
 import PrimiciasPanel from './_components/PrimiciasPanel'
 import AlertasInApp from './_components/AlertasInApp'
+import BriefingDiario from './_components/BriefingDiario'
 // NarrativesDeepView, NarrativesV3View, SentimentDualView, StoryClustersView ya no se usan
 // (sustituidos por NarrativesFramingWorkbench en narrativas y TendenciasImpactoView en tendencias).
 // Se conservan en _components/ para evitar romper rutas legacy y por si se reusan en informes.
@@ -504,6 +505,13 @@ export default function PrensaPage() {
                   <TabExplainerBlock
                     question="¿Qué está dominando ahora mismo la agenda?"
                     answer="Las narrativas dominantes y los titulares por ámbito (nacional, europeo, regional, local), qué temas concentra cada partido y qué historias están acelerando ahora. Análisis IA opcional."
+                  />
+                  {/* Briefing del día · determinista + IA opcional (gated) */}
+                  <BriefingDiario
+                    clusters={data?.narrative_clusters as any}
+                    gaps={data?.coverage_gaps as any}
+                    balanceScore={methodology?.ideological_balance_score}
+                    totalArticles={totalArticles}
                   />
                   {/* Alertas automáticas in-app (calculadas en cliente) */}
                   <AlertasInApp

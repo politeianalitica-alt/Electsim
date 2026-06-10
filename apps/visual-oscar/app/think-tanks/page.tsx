@@ -89,6 +89,10 @@ export default function ThinkTanksPage() {
   const [tema, setTema] = useState<string>('all')
   const [pais, setPais] = useState<string>('all')
   const [orden, setOrden] = useState<'importancia' | 'reciente'>('importancia')
+  const [tradOn, setTradOn] = useState(false)
+  const [tradu, setTradu] = useState<Record<string, string>>({})
+  const [tradLoading, setTradLoading] = useState(false)
+  const [tradError, setTradError] = useState<string | null>(null)
 
   const items = data?.items ?? []
   const facets = data?.facets
@@ -148,6 +152,34 @@ export default function ThinkTanksPage() {
   }, [filtered, orden])
 
   const nBloques = facets?.bloques.length ?? 0
+
+  // Traducción IA de titulares (gated): traduce los visibles al español; si no
+  // hay clave LLM, degrada con aviso y conserva los originales.
+  async function traducir() {
+    if (tradOn) { setTradOn(false); return }
+    setTradError(null)
+    const titles = [...new Set(ordered.slice(0, 80).map((it) => it.titulo))].filter((t) => !(t in tradu))
+    if (titles.length === 0) { setTradOn(true); return }
+    setTradLoading(true)
+    try {
+      const map: Record<string, string> = { ...tradu }
+      for (let i = 0; i < titles.length; i += 40) {
+        const chunk = titles.slice(i, i + 40)
+        const res = await fetch('/api/medios/translate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ texts: chunk }) })
+        if (res.status === 503) { setTradError('Traducción IA no disponible (falta configurar la clave del modelo).'); setTradLoading(false); return }
+        if (!res.ok) throw new Error()
+        const json = await res.json()
+        const tr: string[] = json?.translations ?? []
+        chunk.forEach((t, j) => { if (tr[j]) map[t] = tr[j] })
+      }
+      setTradu(map)
+      setTradOn(true)
+    } catch {
+      setTradError('No se pudo traducir ahora mismo.')
+    } finally {
+      setTradLoading(false)
+    }
+  }
 
   return (
     <div style={{ background: '#fbfbfd', minHeight: '100vh', fontFamily: 'var(--font-body)', color: '#1d1d1f' }}>
@@ -242,6 +274,11 @@ export default function ThinkTanksPage() {
                 })}
               </div>
             </div>
+            <button onClick={traducir} disabled={tradLoading} title="Traducir los titulares al español (IA)"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: tradOn ? '#14274E' : '#fff', color: tradOn ? '#fff' : '#3a3a3d', border: `1px solid ${tradOn ? '#14274E' : '#ECECEF'}`, borderRadius: 999, padding: '6px 12px', fontSize: 11.5, fontWeight: 600, cursor: tradLoading ? 'default' : 'pointer', fontFamily: 'inherit', whiteSpace: 'nowrap' }}>
+              {tradLoading ? 'Traduciendo…' : tradOn ? '✓ En español' : '⇄ Traducir titulares'}
+            </button>
+            {tradError && <span style={{ fontSize: 10.5, color: '#b45309', maxWidth: 220 }}>{tradError}</span>}
             <BoardToolbar
               count={ordered.length}
               onExportCsv={() => downloadCsv('think-tanks', ordered.map((it) => ({
@@ -264,7 +301,7 @@ export default function ThinkTanksPage() {
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(360px,1fr))', gap: 12 }}>
             {ordered.map((it) => (
-              <ArticleCard key={it.id} item={it} temaLabel={temaLabel} />
+              <ArticleCard key={it.id} item={it} temaLabel={temaLabel} tituloMostrado={tradOn ? (tradu[it.titulo] ?? it.titulo) : it.titulo} />
             ))}
           </div>
         )}
@@ -317,13 +354,13 @@ function FilterRow({
   )
 }
 
-function ArticleCard({ item, temaLabel }: { item: TTItem; temaLabel: Record<string, string> }) {
+function ArticleCard({ item, temaLabel, tituloMostrado }: { item: TTItem; temaLabel: Record<string, string>; tituloMostrado?: string }) {
   const u = URGENCIA[item.urgencia] ?? URGENCIA[1]
   const bloqueColor = BLOQUE_COLOR[item.bloque] ?? '#0F766E'
 
   return (
     <CollapsibleArticle
-      title={item.titulo}
+      title={tituloMostrado ?? item.titulo}
       href={item.url}
       medio={item.fuente}
       when={hace(item.fecha)}
