@@ -10,6 +10,7 @@ import MapaNoticiasEspana from '@/components/medios/MapaNoticiasEspana'
 import ArchiveLink from '@/components/medios/ArchiveLink'
 import BoardToolbar from '@/components/medios/BoardToolbar'
 import { downloadCsv } from '@/lib/medios/export'
+import TonoRealPanel from '@/components/medios/TonoRealPanel'
 import { loadPrefs, setWeight, weightMultiplier, levelLabel, levelColor, type WeightLevel } from '@/lib/media-prefs'
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -379,6 +380,11 @@ export default function MapaDeMediosPage() {
             </div>
           </div>
         </section>
+
+        {/* Tono real por medio · bajo demanda (no ralentiza la carga) */}
+        <div style={{ marginBottom: 14 }}>
+          <TonoRealPanel />
+        </div>
 
         {/* Catálogo completo */}
         <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '18px 22px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
