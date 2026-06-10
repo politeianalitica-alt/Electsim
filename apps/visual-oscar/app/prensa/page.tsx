@@ -612,6 +612,14 @@ export default function PrensaPage() {
                       router.push(`/prensa?${params.toString()}`)
                     }}
                   />
+                  {/* Comparación de encuadre izquierda/derecha + huecos de cobertura
+                      (construidos pero antes no se renderizaban). */}
+                  {data?.framing_comparison && data.framing_comparison.length > 0 && (
+                    <FramingComparisonPanel framing={data.framing_comparison as any} />
+                  )}
+                  {data?.coverage_gaps && data.coverage_gaps.length > 0 && (
+                    <CoverageGapsPanel gaps={data.coverage_gaps as any} />
+                  )}
                 </div>
               )}
 
