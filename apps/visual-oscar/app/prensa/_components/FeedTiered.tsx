@@ -18,6 +18,7 @@ import { SECTOR_COLORS, type SectorKey } from '@/lib/medios/sector-taxonomy'
 import CollapsibleArticle from '@/components/medios/CollapsibleArticle'
 import BoardToolbar from '@/components/medios/BoardToolbar'
 import { downloadCsv } from '@/lib/medios/export'
+import { loadPrefs, type WeightLevel } from '@/lib/media-prefs'
 
 const TIER_META: Record<Tier, { label: string; color: string; description: string; glyph: string }> = {
   nacional: { label: 'Nacional',  color: '#1F4E8C', description: 'Cobertura de medios de ámbito estatal',  glyph: '◆' },
@@ -65,6 +66,8 @@ export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed
   const [sectorFilter, setSectorFilter] = useState<string>('all')
   const [sortBy, setSortBy]             = useState<SortBy>('reciente')
   const [shown, setShown]               = useState(PAGE)
+  const [dense, setDense]               = useState(false)
+  const [weights, setWeights]           = useState<Record<string, WeightLevel>>({})
 
   const allArticles: TieredArticle[] = useMemo(() => {
     if (!feed) return []
@@ -86,13 +89,17 @@ export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed
   }, [activeTier, search, sentFilter, catFilter, sectorFilter, allArticles, feed])
 
   const sorted = useMemo(() => {
-    const arr = [...filtered]
-    if (sortBy === 'reciente')      arr.sort((a, b) => tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso))
-    else if (sortBy === 'impacto')  arr.sort((a, b) => Math.abs(b.sentiment_score) - Math.abs(a.sentiment_score) || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso))
-    else if (sortBy === 'negativo') arr.sort((a, b) => a.sentiment_score - b.sentiment_score || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso))
-    else                            arr.sort((a, b) => b.sentiment_score - a.sentiment_score || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso))
-    return arr
-  }, [filtered, sortBy])
+    const w = (id: string) => weights[id] ?? 0
+    const byCriterion = (a: TieredArticle, b: TieredArticle) => {
+      if (sortBy === 'reciente') return tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso)
+      if (sortBy === 'impacto')  return Math.abs(b.sentiment_score) - Math.abs(a.sentiment_score) || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso)
+      if (sortBy === 'negativo') return a.sentiment_score - b.sentiment_score || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso)
+      return b.sentiment_score - a.sentiment_score || tsOf(b.pub_date_iso) - tsOf(a.pub_date_iso)
+    }
+    // El peso del usuario manda primero (medios marcados como importantes flotan
+    // arriba; "ignorar" se hunde); dentro de cada nivel, el criterio elegido.
+    return [...filtered].sort((a, b) => (w(b.medio.id) - w(a.medio.id)) || byCriterion(a, b))
+  }, [filtered, sortBy, weights])
 
   // Filtro externo: "Filtrar feed por este tema" desde el gráfico de importancia
   // temática rellena la búsqueda del feed con ese tema (filtrado en sitio).
@@ -100,6 +107,14 @@ export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed
 
   // Reinicia la paginación al cambiar filtros/orden.
   useEffect(() => { setShown(PAGE) }, [activeTier, search, sentFilter, catFilter, sectorFilter, sortBy])
+
+  // Pesos por medio (persistidos en media-prefs): reordenan el feed.
+  useEffect(() => {
+    setWeights(loadPrefs().weights)
+    const r = () => setWeights(loadPrefs().weights)
+    window.addEventListener('media-prefs:change', r)
+    return () => window.removeEventListener('media-prefs:change', r)
+  }, [])
 
   // Resumen agregado del pulso (sobre todo el conjunto).
   const summary = useMemo(() => {
@@ -251,6 +266,12 @@ export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed
             <button key={s.id} onClick={() => setSortBy(s.id)} style={chipStyle(sortBy === s.id, '#7C2D92')}>{s.label}</button>
           ))}
         </div>
+        <span style={labelStyle}>Densidad</span>
+        <div style={{ display: 'inline-flex', gap: 2, background: '#F5F5F7', borderRadius: 999, padding: 3 }}>
+          {([['comodo', 'Cómodo'], ['compacto', 'Compacto']] as const).map(([k, lbl]) => (
+            <button key={k} onClick={() => setDense(k === 'compacto')} style={chipStyle(dense === (k === 'compacto'), '#0F766E')}>{lbl}</button>
+          ))}
+        </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           <span style={{ fontSize: 12, color: '#6e6e73' }}>{filtered.length} de {allArticles.length} noticias</span>
           <BoardToolbar
@@ -287,7 +308,7 @@ export default function FeedTiered({ feed, externalSearch }: { feed?: TieredFeed
       ) : (
         <>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(420px,1fr))', gap: 10 }}>
-            {visibles.map((a, i) => <ArticleRow key={i} article={a} snippet />)}
+            {visibles.map((a, i) => <ArticleRow key={i} article={a} snippet compact={dense} />)}
           </div>
           {shown < sorted.length && (
             <div style={{ textAlign: 'center', marginTop: 16 }}>
