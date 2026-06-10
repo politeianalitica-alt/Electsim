@@ -13,6 +13,7 @@
 
 import { useMemo, useState } from 'react'
 import type { StoryCluster } from '@/lib/news-intel'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 type FiltroPol = 'todos' | 'polarizada' | 'plural' | 'consensuada'
 
@@ -198,18 +199,21 @@ function ClusterCard({ c }: { c: StoryCluster }) {
             const color = ideo < -15 ? '#4338CA' : ideo > 15 ? '#DC2626' : '#6e6e73'
             const sentColor = a.sentiment_score > 0.10 ? '#16A34A' : a.sentiment_score < -0.10 ? '#DC2626' : '#6e6e73'
             return (
-              <a key={i} href={a.link} target="_blank" rel="noopener" title={a.title} style={{
-                background: '#fff', border: '1px solid #ECECEF',
-                padding: '4px 10px', borderRadius: 999, fontSize: 11,
-                color: '#1d1d1f', textDecoration: 'none',
-                display: 'inline-flex', alignItems: 'center', gap: 6,
-              }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: color }} />
-                <strong>{a.medio.nombre}</strong>
-                <span style={{ color: sentColor, fontWeight: 600 }}>
-                  {a.sentiment_score > 0 ? '+' : ''}{a.sentiment_score.toFixed(2)}
-                </span>
-              </a>
+              <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <a href={a.link} target="_blank" rel="noopener" title={a.title} style={{
+                  background: '#fff', border: '1px solid #ECECEF',
+                  padding: '4px 10px', borderRadius: 999, fontSize: 11,
+                  color: '#1d1d1f', textDecoration: 'none',
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: color }} />
+                  <strong>{a.medio.nombre}</strong>
+                  <span style={{ color: sentColor, fontWeight: 600 }}>
+                    {a.sentiment_score > 0 ? '+' : ''}{a.sentiment_score.toFixed(2)}
+                  </span>
+                </a>
+                <ArchiveLink url={a.link} size={9} />
+              </span>
             )
           })}
         </div>

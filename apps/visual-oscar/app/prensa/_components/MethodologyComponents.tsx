@@ -14,6 +14,7 @@
  */
 
 import React from 'react'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 // ──────────────────────────────────────────────────────────────────────
 // 1 · ConfidenceBadge
@@ -250,16 +251,19 @@ export function NarrativeEvidence({ evidence }: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, maxHeight: 240, overflowY: 'auto' }}>
       {evidence.map((e, i) => (
-        <a key={i} href={e.url} target="_blank" rel="noopener noreferrer" style={{
-          padding: '4px 8px', background: '#f8fafc', borderLeft: '2px solid #cbd5e1', borderRadius: 3,
-          textDecoration: 'none', color: 'inherit', fontSize: 10,
-        }}>
-          <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', letterSpacing: 0.4, marginRight: 6 }}>
-            {(e.ideology || '?').toUpperCase()}
-          </span>
-          <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
-          <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
-        </a>
+        <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <a href={e.url} target="_blank" rel="noopener noreferrer" style={{
+            padding: '4px 8px', background: '#f8fafc', borderLeft: '2px solid #cbd5e1', borderRadius: 3,
+            textDecoration: 'none', color: 'inherit', fontSize: 10,
+          }}>
+            <span style={{ fontSize: 8, fontWeight: 700, color: '#64748b', letterSpacing: 0.4, marginRight: 6 }}>
+              {(e.ideology || '?').toUpperCase()}
+            </span>
+            <span style={{ color: '#0f172a', fontWeight: 600 }}>{e.medium}</span>
+            <span style={{ color: '#475569', marginLeft: 6 }}>· {e.title}</span>
+          </a>
+          <ArchiveLink url={e.url} size={9} />
+        </div>
       ))}
     </div>
   )

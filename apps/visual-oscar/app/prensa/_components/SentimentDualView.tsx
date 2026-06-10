@@ -15,6 +15,7 @@
 
 import { useState, useMemo } from 'react'
 import type { TopicPartyCell, FigureSentimentDeep, CompanySentiment, SectorSentiment } from '@/lib/news-intel'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 type View = 'politico' | 'empresarial'
 
@@ -282,13 +283,16 @@ function EmpresarialView({ companies, sectors }: { companies: CompanySentiment[]
                   </div>
                 )}
                 {s.topNews.slice(0, 2).map((n, i) => (
-                  <a key={i} href={n.link} target="_blank" rel="noopener" style={{
-                    display: 'block', fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.35,
-                    padding: '4px 0', textDecoration: 'none', borderTop: i === 0 ? '1px solid #ECECEF' : 0,
-                  }}>
-                    <span style={{ color: '#9ca3af', fontSize: 10, marginRight: 6, fontWeight: 600 }}>{n.medio}</span>
-                    {n.title}
-                  </a>
+                  <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <a href={n.link} target="_blank" rel="noopener" style={{
+                      display: 'block', fontSize: 11.5, color: '#1d1d1f', lineHeight: 1.35,
+                      padding: '4px 0', textDecoration: 'none', borderTop: i === 0 ? '1px solid #ECECEF' : 0,
+                    }}>
+                      <span style={{ color: '#9ca3af', fontSize: 10, marginRight: 6, fontWeight: 600 }}>{n.medio}</span>
+                      {n.title}
+                    </a>
+                    <ArchiveLink url={n.link} size={9} />
+                  </div>
                 ))}
               </div>
             )
@@ -369,17 +373,20 @@ function EmpresarialView({ companies, sectors }: { companies: CompanySentiment[]
                 {selected.recent.map((n, i) => {
                   const sColor = n.sentiment > 0.10 ? '#16A34A' : n.sentiment < -0.10 ? '#DC2626' : '#6e6e73'
                   return (
-                    <a key={i} href={n.link} target="_blank" rel="noopener" style={{
-                      background: '#FAFAFB', border: '1px solid #ECECEF',
-                      borderRadius: 8, padding: '8px 10px', textDecoration: 'none', color: 'inherit',
-                      borderLeft: `3px solid ${sColor}`,
-                    }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                        <span style={{ fontSize: 10.5, color: '#1F4E8C', fontWeight: 700 }}>{n.medio}</span>
-                        <span style={{ fontSize: 10, color: sColor, fontWeight: 700 }}>{n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}</span>
-                      </div>
-                      <div style={{ fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.35 }}>{n.title}</div>
-                    </a>
+                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                      <a href={n.link} target="_blank" rel="noopener" style={{
+                        background: '#FAFAFB', border: '1px solid #ECECEF',
+                        borderRadius: 8, padding: '8px 10px', textDecoration: 'none', color: 'inherit',
+                        borderLeft: `3px solid ${sColor}`,
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                          <span style={{ fontSize: 10.5, color: '#1F4E8C', fontWeight: 700 }}>{n.medio}</span>
+                          <span style={{ fontSize: 10, color: sColor, fontWeight: 700 }}>{n.sentiment > 0 ? '+' : ''}{n.sentiment.toFixed(2)}</span>
+                        </div>
+                        <div style={{ fontSize: 12.5, color: '#1d1d1f', lineHeight: 1.35 }}>{n.title}</div>
+                      </a>
+                      <ArchiveLink url={n.link} size={9} />
+                    </div>
                   )
                 })}
               </div>

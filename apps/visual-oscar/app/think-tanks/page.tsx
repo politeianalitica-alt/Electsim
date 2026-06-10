@@ -86,6 +86,7 @@ export default function ThinkTanksPage() {
   const [sector, setSector] = useState<string>('all')
   const [tema, setTema] = useState<string>('all')
   const [pais, setPais] = useState<string>('all')
+  const [orden, setOrden] = useState<'importancia' | 'reciente'>('importancia')
 
   const items = data?.items ?? []
   const facets = data?.facets
@@ -103,6 +104,46 @@ export default function ThinkTanksPage() {
     (tema === 'all' || it.temas_detectados.includes(tema)) &&
     (pais === 'all' || it.paises_detectados.includes(pais)),
   ), [items, bloque, sector, tema, pais])
+
+  // Conteos de facets DINÁMICOS (cross-filtering): para cada dimensión cuenta
+  // sobre los items que cumplen los OTROS filtros activos. Así, al seleccionar
+  // una opción, el nº de artículos de las demás (bloques/sector/tema/país) se
+  // actualiza para reflejar lo que hay disponible con la selección actual.
+  const dynFacets = useMemo(() => {
+    const match = (it: TTItem, dim: string) =>
+      (dim === 'bloque' || bloque === 'all' || it.bloque === bloque) &&
+      (dim === 'sector' || sector === 'all' || it.sector === sector) &&
+      (dim === 'tema'   || tema === 'all'   || it.temas_detectados.includes(tema)) &&
+      (dim === 'pais'   || pais === 'all'   || it.paises_detectados.includes(pais))
+    const countBy = (dim: string, keysOf: (it: TTItem) => string[]) => {
+      const base = items.filter((it) => match(it, dim))
+      const m = new Map<string, number>()
+      for (const it of base) for (const k of new Set(keysOf(it))) m.set(k, (m.get(k) ?? 0) + 1)
+      return { total: base.length, get: (k: string) => m.get(k) ?? 0 }
+    }
+    return {
+      bloque: countBy('bloque', (it) => [it.bloque]),
+      sector: countBy('sector', (it) => [it.sector]),
+      tema:   countBy('tema',   (it) => it.temas_detectados),
+      pais:   countBy('pais',   (it) => it.paises_detectados),
+    }
+  }, [items, bloque, sector, tema, pais])
+
+  // Orden de la lista (cliente): "importancia" = urgencia → relevancia España →
+  // fecha (default); "reciente" = fecha descendente pura.
+  const ordered = useMemo(() => {
+    const ts = (s: string) => { const t = Date.parse(s); return Number.isNaN(t) ? 0 : t }
+    const arr = [...filtered]
+    if (orden === 'reciente') {
+      arr.sort((a, b) => ts(b.fecha) - ts(a.fecha))
+    } else {
+      arr.sort((a, b) =>
+        (b.urgencia - a.urgencia) ||
+        (b.relevancia_espana - a.relevancia_espana) ||
+        (ts(b.fecha) - ts(a.fecha)))
+    }
+    return arr
+  }, [filtered, orden])
 
   const nBloques = facets?.bloques.length ?? 0
 
@@ -135,27 +176,27 @@ export default function ThinkTanksPage() {
         <section style={{ background: '#fff', border: '1px solid #ECECEF', borderRadius: 14, padding: '14px 18px', marginBottom: 16, boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
           <FilterRow
             title="Bloque"
-            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.bloques.map((b) => ({ key: b.key!, label: b.label, count: b.count })) ?? [])]}
+            options={[{ key: 'all', label: 'Todos', count: dynFacets.bloque.total }, ...(facets?.bloques.map((b) => ({ key: b.key!, label: b.label, count: dynFacets.bloque.get(b.key!) })) ?? [])]}
             value={bloque}
             onChange={setBloque}
             colorOf={(k) => BLOQUE_COLOR[k] ?? '#1F4E8C'}
           />
           <FilterRow
             title="Sector"
-            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.sectores.map((s) => ({ key: s.key!, label: s.label, count: s.count })) ?? [])]}
+            options={[{ key: 'all', label: 'Todos', count: dynFacets.sector.total }, ...(facets?.sectores.map((s) => ({ key: s.key!, label: s.label, count: dynFacets.sector.get(s.key!) })) ?? [])]}
             value={sector}
             onChange={setSector}
             colorOf={(k) => SECTOR_COLORS[k as SectorKey] ?? '#0F766E'}
           />
           <FilterRow
             title="Tema"
-            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.temas.map((t) => ({ key: t.key!, label: t.label, count: t.count })) ?? [])]}
+            options={[{ key: 'all', label: 'Todos', count: dynFacets.tema.total }, ...(facets?.temas.map((t) => ({ key: t.key!, label: t.label, count: dynFacets.tema.get(t.key!) })) ?? [])]}
             value={tema}
             onChange={setTema}
           />
           <FilterRow
             title="País"
-            options={[{ key: 'all', label: 'Todos', count: items.length }, ...(facets?.paises.map((p) => ({ key: p.label, label: p.label, count: p.count })) ?? [])]}
+            options={[{ key: 'all', label: 'Todos', count: dynFacets.pais.total }, ...(facets?.paises.map((p) => ({ key: p.label, label: p.label, count: dynFacets.pais.get(p.label) })) ?? [])]}
             value={pais}
             onChange={setPais}
             last
@@ -173,11 +214,33 @@ export default function ThinkTanksPage() {
               </button>
             )}
           </span>
-          {data?.warnings && data.warnings.length > 0 && (
-            <span title={data.warnings.join(' · ')} style={{ fontSize: 10.5, color: '#b45309', background: '#fffbeb', border: '1px solid #fde68a', padding: '3px 9px', borderRadius: 999, fontWeight: 600 }}>
-              ! {data.warnings.length} aviso{data.warnings.length === 1 ? '' : 's'} de cobertura
-            </span>
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            {data?.warnings && data.warnings.length > 0 && (
+              <span title={data.warnings.join(' · ')} style={{ fontSize: 10.5, color: '#b45309', background: '#fffbeb', border: '1px solid #fde68a', padding: '3px 9px', borderRadius: 999, fontWeight: 600 }}>
+                ! {data.warnings.length} aviso{data.warnings.length === 1 ? '' : 's'} de cobertura
+              </span>
+            )}
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7 }}>
+              <span style={{ fontSize: 11, color: '#86868b', fontWeight: 600 }}>Ordenar</span>
+              <div style={{ display: 'inline-flex', background: '#F5F5F7', borderRadius: 999, padding: 3, gap: 2 }}>
+                {([['importancia', 'Importancia'], ['reciente', 'Más reciente']] as const).map(([k, lbl]) => {
+                  const on = orden === k
+                  return (
+                    <button key={k} onClick={() => setOrden(k)}
+                      style={{
+                        border: 'none', cursor: 'pointer', borderRadius: 999, padding: '4px 12px',
+                        fontSize: 11.5, fontWeight: 600, fontFamily: 'inherit',
+                        background: on ? '#fff' : 'transparent', color: on ? '#1d1d1f' : '#6e6e73',
+                        boxShadow: on ? '0 1px 2px rgba(0,0,0,0.12)' : 'none',
+                        transition: 'all .12s ease',
+                      }}>
+                      {lbl}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
         </div>
 
         {loading && !data ? (
@@ -190,7 +253,7 @@ export default function ThinkTanksPage() {
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(360px,1fr))', gap: 12 }}>
-            {filtered.map((it) => (
+            {ordered.map((it) => (
               <ArticleCard key={it.id} item={it} temaLabel={temaLabel} />
             ))}
           </div>

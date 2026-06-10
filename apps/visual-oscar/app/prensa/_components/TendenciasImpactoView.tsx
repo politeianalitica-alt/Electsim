@@ -34,6 +34,8 @@ import { useMemo, useState } from 'react'
 type Kind = 'figura' | 'empresa' | 'sector' | 'territorio'
 type ImpactKey = 'beneficial' | 'harmful' | 'neutral' | 'uncertain'
 
+const IMPACTO_ES: Record<string, string> = { all: 'todos', beneficial: 'beneficioso', harmful: 'perjudicial', neutral: 'neutral', uncertain: 'incierto' }
+
 interface ActorImpactRow {
   actor: string
   mentions: number
@@ -338,7 +340,7 @@ export function TendenciasImpactoView(props: Props) {
                 padding: '2px 8px', cursor: 'pointer', textTransform: 'capitalize',
                 fontFamily: 'inherit',
               }}
-            >{f === 'all' ? 'todos' : f}</button>
+            >{f === 'all' ? 'todos' : IMPACTO_ES[f]}</button>
           ))}
         </div>
       </div>
@@ -350,7 +352,7 @@ export function TendenciasImpactoView(props: Props) {
         {filtered.length === 0 ? (
           <p style={{ margin: 0, fontSize: 11, color: '#94a3b8', fontStyle: 'italic', padding: 16, textAlign: 'center' }}>
             No hay {kindLabel(kind).toLowerCase()} con suficientes menciones para emitir lectura
-            {filterImpact !== 'all' ? ` (filtro: ${filterImpact})` : ''}.
+            {filterImpact !== 'all' ? ` (filtro: ${IMPACTO_ES[filterImpact] ?? filterImpact})` : ''}.
           </p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -465,10 +467,10 @@ function ActorRow({
           {row.mentions}
         </span>
         <div style={{ display: 'flex', height: 8, borderRadius: 2, overflow: 'hidden', background: '#f1f5f9' }}>
-          {row.beneficial > 0 && <div style={{ width: `${(row.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficial ${row.beneficial}`} />}
-          {row.harmful > 0 && <div style={{ width: `${(row.harmful / total) * 100}%`, background: '#dc2626' }} title={`harmful ${row.harmful}`} />}
+          {row.beneficial > 0 && <div style={{ width: `${(row.beneficial / total) * 100}%`, background: '#16a34a' }} title={`beneficioso ${row.beneficial}`} />}
+          {row.harmful > 0 && <div style={{ width: `${(row.harmful / total) * 100}%`, background: '#dc2626' }} title={`perjudicial ${row.harmful}`} />}
           {row.neutral > 0 && <div style={{ width: `${(row.neutral / total) * 100}%`, background: '#94a3b8' }} title={`neutral ${row.neutral}`} />}
-          {row.uncertain > 0 && <div style={{ width: `${(row.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`uncertain ${row.uncertain}`} />}
+          {row.uncertain > 0 && <div style={{ width: `${(row.uncertain / total) * 100}%`, background: '#cbd5e1' }} title={`incierto ${row.uncertain}`} />}
         </div>
         <span style={{ fontSize: 9, color: senColor, fontWeight: 700, fontFamily: 'ui-monospace, monospace', textAlign: 'right' }}>
           {senPct !== null ? `sent ${senPct}%` : '—'}
@@ -478,7 +480,7 @@ function ActorRow({
           fontSize: 9, fontWeight: 700, letterSpacing: 0.4, textTransform: 'uppercase', textAlign: 'right',
           color: uncertainDominant ? '#94a3b8' : impactColor(di),
         }}>
-          ● {uncertainDominant ? 'sin lectura' : di}
+          ● {uncertainDominant ? 'sin lectura' : IMPACTO_ES[di]}
         </span>
       </button>
 

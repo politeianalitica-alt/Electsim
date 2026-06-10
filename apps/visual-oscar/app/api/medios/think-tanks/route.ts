@@ -159,6 +159,7 @@ const FEED_REGISTRY: Record<string, FeedDef> = {
   esadegeo: { url: 'https://dobetter.esade.edu/rss.xml', nombre: 'EsadeGeo - Esade Do Better', bloque: 'espana', peso: 0.72, verified: true },
   ie_insights: { url: 'https://www.ie.edu/insights/feed/', nombre: 'IE Insights (IE University)', bloque: 'espana', peso: 0.65, verified: true },
   fundacion_sistema: { url: 'https://www.fundacionsistema.com/feed/', nombre: 'Fundación Sistema', bloque: 'espana', peso: 0.55, verified: true },
+  ieee: { url: 'https://news.google.com/rss/search?q=%22Instituto+Espa%C3%B1ol+de+Estudios+Estrat%C3%A9gicos%22&hl=es&gl=ES&ceid=ES:es', nombre: 'IEEE · Instituto Español de Estudios Estratégicos (CESEDEN)', bloque: 'espana', peso: 0.74, verified: true },
   interamerican_dialogue: { url: 'https://www.thedialogue.org/feed/', nombre: 'Inter-American Dialogue (Diálogo Interamericano)', bloque: 'latam', peso: 0.78, verified: true },
   coha: { url: 'https://www.coha.org/feed/', nombre: 'Council on Hemispheric Affairs (COHA)', bloque: 'latam', peso: 0.6, verified: true },
   flacso_argentina: { url: 'https://flacso.org.ar/feed/', nombre: 'FLACSO Argentina', bloque: 'latam', peso: 0.68, verified: true },

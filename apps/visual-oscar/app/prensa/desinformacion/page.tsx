@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { isAuthenticated } from '@/lib/auth'
 import AppHeader from '../../_components/AppHeader'
 import { Panel } from '@/components/SectorPanel'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 interface FactCheck {
   id: string
@@ -323,6 +324,7 @@ function FactCheckCard({ fc }: { fc: FactCheck }) {
           <a href={fc.url} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
             <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1.4 }}>{fc.titulo}</p>
           </a>
+          <ArchiveLink url={fc.url} size={9} />
         </div>
       </div>
       {fc.descripcion && (

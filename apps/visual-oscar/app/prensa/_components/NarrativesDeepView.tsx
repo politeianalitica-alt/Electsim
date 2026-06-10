@@ -22,6 +22,7 @@
 
 import { useState } from 'react'
 import type { NarrativeAnatomy, CoverageGap } from '@/lib/news-intel'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 
 const EMOTION_META: Record<string, { color: string; bg: string }> = {
   indignación: { color: '#DC2626', bg: 'rgba(220,38,38,0.10)' },
@@ -288,15 +289,18 @@ export default function NarrativesDeepView({ narratives, gaps }: {
               <Section title="Noticias que la componen" icon="">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                   {active.articles.slice(0, 5).map((a, i) => (
-                    <a key={i} href={a.link} target="_blank" rel="noopener" style={{
-                      padding: '6px 0', borderBottom: '1px solid #ECECEF',
-                      textDecoration: 'none', color: 'inherit', display: 'block',
-                    }}>
-                      <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.35 }}>{a.title}</div>
-                      <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 2 }}>
-                        {a.medio.nombre} · {a.sentiment === 'positive' ? '+' : a.sentiment === 'negative' ? '–' : '·'}{a.sentiment_score.toFixed(2)}
-                      </div>
-                    </a>
+                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                      <a href={a.link} target="_blank" rel="noopener" style={{
+                        padding: '6px 0', borderBottom: '1px solid #ECECEF',
+                        textDecoration: 'none', color: 'inherit', display: 'block',
+                      }}>
+                        <div style={{ fontSize: 12, color: '#1d1d1f', lineHeight: 1.35 }}>{a.title}</div>
+                        <div style={{ fontSize: 10, color: '#9ca3af', marginTop: 2 }}>
+                          {a.medio.nombre} · {a.sentiment === 'positive' ? '+' : a.sentiment === 'negative' ? '–' : '·'}{a.sentiment_score.toFixed(2)}
+                        </div>
+                      </a>
+                      <ArchiveLink url={a.link} size={9} />
+                    </div>
                   ))}
                 </div>
               </Section>
