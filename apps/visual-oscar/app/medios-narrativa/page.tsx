@@ -7,6 +7,7 @@ import { useApi } from '@/lib/useApi'
 import LiveStatusBadge from '@/components/LiveStatusBadge'
 import MediosHero from '@/components/medios/MediosHero'
 import MapaNoticiasEspana from '@/components/medios/MapaNoticiasEspana'
+import ArchiveLink from '@/components/medios/ArchiveLink'
 import { loadPrefs, setWeight, weightMultiplier, levelLabel, levelColor, type WeightLevel } from '@/lib/media-prefs'
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -317,7 +318,10 @@ export default function MapaDeMediosPage() {
                 </div>
 
                 {focusedM.web && (
-                  <a href={focusedM.web} target="_blank" rel="noopener" style={{ marginTop: 8, display: 'block', textAlign: 'center', fontSize: 11.5, color: '#1F4E8C', fontWeight: 600, textDecoration: 'none', padding: '6px 0', borderTop: '1px solid #ECECEF' }}>Ir al medio ↗</a>
+                  <div style={{ marginTop: 8, paddingTop: 6, borderTop: '1px solid #ECECEF', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+                    <a href={focusedM.web} target="_blank" rel="noopener" style={{ fontSize: 11.5, color: '#1F4E8C', fontWeight: 600, textDecoration: 'none' }}>Ir al medio ↗</a>
+                    <ArchiveLink url={focusedM.web} size={9} />
+                  </div>
                 )}
                 <div style={{ marginTop: 6, fontSize: 11, color: '#86868b', textAlign: 'right' }}>{pinned ? 'Fijado · pulsa otra vez para soltar' : 'Pulsa una burbuja para fijar'}</div>
               </>
@@ -379,20 +383,23 @@ export default function MapaDeMediosPage() {
           <h2 style={{ margin: '0 0 14px', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#3a3a3d' }}>Catálogo · {visibles.length} medios</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(330px,1fr))', gap: 8 }}>
             {[...visibles].sort((a, b) => b.audiencia_M - a.audiencia_M).map(m => (
-              <a key={m.id} href={m.web || '#'} target="_blank" rel="noopener noreferrer"
+              <div key={m.id}
                  onMouseEnter={() => setHovered(m.id)} onMouseLeave={() => setHovered(null)}
-                 title={`Abrir ${m.nombre}`}
-                 style={{ display: 'grid', gridTemplateColumns: '12px 1fr auto', gap: 10, alignItems: 'center', padding: '9px 12px', background: focused === m.id ? '#fff' : '#FAFAFB', border: `1px solid ${focused === m.id ? (TIPO_COLOR[m.tipo] ?? '#ECECEF') + '66' : '#ECECEF'}`, borderRadius: 10, textDecoration: 'none', color: 'inherit', transition: 'all 140ms' }}>
+                 style={{ display: 'grid', gridTemplateColumns: '12px 1fr auto', gap: 10, alignItems: 'center', padding: '9px 12px', background: focused === m.id ? '#fff' : '#FAFAFB', border: `1px solid ${focused === m.id ? (TIPO_COLOR[m.tipo] ?? '#ECECEF') + '66' : '#ECECEF'}`, borderRadius: 10, color: 'inherit', transition: 'all 140ms' }}>
                 <span style={{ width: 10, height: 10, borderRadius: '50%', background: TIPO_COLOR[m.tipo] ?? '#6e6e73' }} />
                 <div style={{ minWidth: 0 }}>
-                  <div style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.nombre} <span style={{ fontSize: 10, color: '#9CA3AF', fontWeight: 400 }}>↗</span></div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 0 }}>
+                    <a href={m.web || '#'} target="_blank" rel="noopener noreferrer" title={`Abrir ${m.nombre}`}
+                       style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', textDecoration: 'none', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.nombre} <span style={{ fontSize: 10, color: '#9CA3AF', fontWeight: 400 }}>↗</span></a>
+                    {m.web && <ArchiveLink url={m.web} size={9} />}
+                  </div>
                   <div style={{ fontSize: 10.5, color: '#6e6e73', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{m.tipo} · {m.grupo}</div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: 13, fontWeight: 700, color: '#1d1d1f', lineHeight: 1 }}>{m.audiencia_M.toFixed(1)}M</div>
                   <div style={{ fontSize: 10, color: ideoColor(m.ideologia), fontWeight: 700, marginTop: 2 }}>{m.ideologia > 0 ? '+' : ''}{m.ideologia} · cred {cred100(m.credibilidad)}</div>
                 </div>
-              </a>
+              </div>
             ))}
           </div>
         </section>
