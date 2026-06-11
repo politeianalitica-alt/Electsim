@@ -107,6 +107,10 @@ const ADSBFI_SPOTS = [
   { lat: 36.5, lon: -119.0 }, // EEUU costa oeste
   { lat: 36.0, lon: 137.0 },  // Japón / Corea
   { lat: 5.0, lon: 103.0 },   // Sudeste asiático / Singapur
+  { lat: 22.0, lon: 77.0 },   // India (subcontinente)
+  { lat: 26.5, lon: 52.0 },   // Golfo Pérsico / Dubái
+  { lat: -22.0, lon: -46.0 }, // Brasil (São Paulo / Río)
+  { lat: 31.0, lon: 118.0 },  // China costa este (Shanghái)
 ];
 // Su límite es ~1 req/s ESTRICTO: verificado que con ~150 ms entre peticiones
 // rechaza la mitad y con ~1,1 s responde todo. Stagger de 1,2 s entre inicios
