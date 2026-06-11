@@ -123,7 +123,8 @@ function isBrowser(): boolean {
   return typeof window !== 'undefined' && !!window.localStorage
 }
 
-export function loadAll(): Preinforme[] {
+/** TODOS los items, incluidos tombstones (uso interno del CRUD y del sync). */
+export function loadRaw(): Preinforme[] {
   if (!isBrowser()) return []
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -135,11 +136,19 @@ export function loadAll(): Preinforme[] {
   }
 }
 
+/** Items vivos (sin tombstones) — lo que consume la UI. */
+export function loadAll(): Preinforme[] {
+  return loadRaw().filter(p => !p.deletedAt)
+}
+
+const TOMBSTONE_TTL_MS = 30 * 24 * 3600 * 1000   // 30 días
+
 export function saveAll(items: Preinforme[]): void {
   if (!isBrowser()) return
+  const limpio = items.filter(p => !p.deletedAt || Date.now() - p.deletedAt < TOMBSTONE_TTL_MS)
   // safeSetItem notifica (banner global) si la cuota está llena, en lugar
   // de perder trabajo en silencio.
-  safeSetItem(STORAGE_KEY, JSON.stringify(items))
+  safeSetItem(STORAGE_KEY, JSON.stringify(limpio))
   window.dispatchEvent(new CustomEvent(PREINFORMES_CHANGE_EVENT))
 }
 
@@ -175,13 +184,13 @@ export function createPreinforme(input: {
     createdAt: now,
     updatedAt: now,
   }
-  saveAll([item, ...loadAll()])
+  saveAll([item, ...loadRaw()])
   return item
 }
 
 export function updatePreinforme(id: string, patch: Partial<Preinforme>): Preinforme | null {
-  const items = loadAll()
-  const idx = items.findIndex(p => p.id === id)
+  const items = loadRaw()
+  const idx = items.findIndex(p => p.id === id && !p.deletedAt)
   if (idx === -1) return null
   const next: Preinforme = { ...items[idx], ...patch, id, updatedAt: Date.now() }
   items[idx] = next
@@ -190,7 +199,8 @@ export function updatePreinforme(id: string, patch: Partial<Preinforme>): Preinf
 }
 
 export function deletePreinforme(id: string): void {
-  saveAll(loadAll().filter(p => p.id !== id))
+  // Borrado lógico (tombstone): se propaga via sync; purga a los 30 días.
+  saveAll(loadRaw().map(p => p.id === id ? { ...p, deletedAt: Date.now() } : p))
 }
 
 export function findById(id: string): Preinforme | null {

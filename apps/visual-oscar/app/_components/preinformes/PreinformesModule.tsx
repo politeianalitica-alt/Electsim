@@ -36,8 +36,12 @@ import {
   generarPreinforme,
   getPlantilla,
   loadAll,
+  loadRaw,
+  saveAll,
   updatePreinforme,
 } from '@/lib/preinformes/store'
+import { startNamespaceAutoSync } from '@/lib/sync/namespace-sync'
+import SyncChip from '@/app/_components/SyncChip'
 
 const PASOS = ['Plantilla', 'Fuentes', 'Secciones', 'Revisión'] as const
 
@@ -92,6 +96,11 @@ export default function PreinformesModule({ espacio, embebido = false, semilla =
     }
   }, [])
 
+  // Fase 2 · sync con la nube de la cuenta (pull → merge LWW → push).
+  useEffect(() => {
+    return startNamespaceAutoSync('preinformes', { loadRaw, saveRaw: saveAll, changeEvent: PREINFORMES_CHANGE_EVENT })
+  }, [])
+
   // Semilla (nota del Cuaderno → preinforme): abre el asistente precargado.
   useEffect(() => {
     if (!semilla) return
@@ -132,6 +141,7 @@ export default function PreinformesModule({ espacio, embebido = false, semilla =
                 : `${items.length} preinforme${items.length === 1 ? '' : 's'} · ${items.filter(p => p.estado === 'generado').length} generados`}
             </span>
             <div style={{ flex: 1 }} />
+            <SyncChip namespace="preinformes" />
             <button onClick={abrirNuevo} style={btnPrimario}>+ Nuevo preinforme</button>
           </div>
 

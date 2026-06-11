@@ -26,11 +26,15 @@ import {
   createMacroargumento,
   deleteMacroargumento,
   loadAll,
+  loadRaw,
   restaurarVersion,
+  saveAll,
   seedIfEmpty,
   toMarkdown,
   updateMacroargumento,
 } from '@/lib/cama/store'
+import { startNamespaceAutoSync } from '@/lib/sync/namespace-sync'
+import SyncChip from '@/app/_components/SyncChip'
 
 const ESTADOS: Array<{ id: MacroargumentoEstado | 'todos'; label: string }> = [
   { id: 'todos',     label: 'Todos' },
@@ -75,6 +79,12 @@ export default function CamaModule({ espacio, embebido = false }: CamaModuleProp
       window.removeEventListener(CAMA_CHANGE_EVENT, refresh)
       window.removeEventListener('storage', refresh)
     }
+  }, [])
+
+  // Fase 2 · sync con la nube de la cuenta (pull → merge LWW → push). Si
+  // Blob no está configurado, el ciclo se apaga solo y todo sigue local.
+  useEffect(() => {
+    return startNamespaceAutoSync('cama', { loadRaw, saveRaw: saveAll, changeEvent: CAMA_CHANGE_EVENT })
   }, [])
 
   const filtrados = useMemo(() => {
@@ -139,6 +149,7 @@ export default function CamaModule({ espacio, embebido = false }: CamaModuleProp
           ))}
         </div>
         <div style={{ flex: 1 }} />
+        <SyncChip namespace="cama" />
         <button
           onClick={() => { setCompareMode(v => !v); setSelectedId(null); setCompareIds([]) }}
           style={{

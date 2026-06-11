@@ -31,7 +31,8 @@ function isBrowser(): boolean {
   return typeof window !== 'undefined' && !!window.localStorage
 }
 
-export function loadAll(): Macroargumento[] {
+/** TODOS los items, incluidos tombstones (uso interno del CRUD y del sync). */
+export function loadRaw(): Macroargumento[] {
   if (!isBrowser()) return []
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -43,12 +44,22 @@ export function loadAll(): Macroargumento[] {
   }
 }
 
+/** Items vivos (sin tombstones) — lo que consume la UI. */
+export function loadAll(): Macroargumento[] {
+  return loadRaw().filter(m => !m.deletedAt)
+}
+
+const TOMBSTONE_TTL_MS = 30 * 24 * 3600 * 1000   // 30 días
+
 export function saveAll(items: Macroargumento[]): void {
   if (!isBrowser()) return
+  // Purga tombstones antiguos: 30 días dan margen de sobra para que todos
+  // los dispositivos del usuario hayan sincronizado el borrado.
+  const limpio = items.filter(m => !m.deletedAt || Date.now() - m.deletedAt < TOMBSTONE_TTL_MS)
   // safeSetItem notifica (banner global) si la cuota está llena, en lugar
   // de perder trabajo en silencio. El evento de cambio se emite igualmente
   // para que la UI refleje el estado en memoria.
-  safeSetItem(STORAGE_KEY, JSON.stringify(items))
+  safeSetItem(STORAGE_KEY, JSON.stringify(limpio))
   window.dispatchEvent(new CustomEvent(CAMA_CHANGE_EVENT))
 }
 
@@ -61,7 +72,7 @@ function makeId(): string {
 export function createMacroargumento(
   input: Partial<Macroargumento> & { titulo: string; espacio: EspacioCama },
 ): Macroargumento {
-  const items = loadAll()
+  const items = loadRaw()
   const now = Date.now()
   const item: Macroargumento = {
     id:          makeId(),
@@ -93,8 +104,8 @@ export function updateMacroargumento(
   patch: Partial<Macroargumento>,
   notaVersion?: string,
 ): Macroargumento | null {
-  const items = loadAll()
-  const idx = items.findIndex(m => m.id === id)
+  const items = loadRaw()
+  const idx = items.findIndex(m => m.id === id && !m.deletedAt)
   if (idx === -1) return null
   const prev = items[idx]
 
@@ -131,7 +142,9 @@ export function updateMacroargumento(
 }
 
 export function deleteMacroargumento(id: string): void {
-  saveAll(loadAll().filter(m => m.id !== id))
+  // Borrado lógico (tombstone): el sync lo propaga a otros dispositivos en
+  // vez de que el merge LWW lo "resucite"; la purga real llega a los 30 días.
+  saveAll(loadRaw().map(m => m.id === id ? { ...m, deletedAt: Date.now() } : m))
 }
 
 export function setEstado(id: string, estado: MacroargumentoEstado): Macroargumento | null {
@@ -212,7 +225,8 @@ export function toMarkdown(m: Macroargumento): string {
 
 export function seedIfEmpty(): void {
   if (!isBrowser()) return
-  if (loadAll().length > 0) return
+  // loadRaw: si el usuario borró todo, los tombstones cuentan — no re-sembrar
+  if (loadRaw().length > 0) return
 
   createMacroargumento({
     titulo:  'Estabilidad frente a bloqueo',

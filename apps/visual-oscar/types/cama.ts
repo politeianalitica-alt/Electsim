@@ -68,4 +68,8 @@ export interface Macroargumento {
   versiones:   VersionCama[]
   createdAt:   number
   updatedAt:   number
+  /** Tombstone (Fase 2 · sync): borrado lógico con fecha. Los borrados se
+   *  propagan entre dispositivos en vez de "resucitar" en el merge; el
+   *  store los purga pasados 30 días. */
+  deletedAt?:  number
 }

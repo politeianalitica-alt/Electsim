@@ -65,4 +65,7 @@ export interface Preinforme {
   markdown?: string
   createdAt: number
   updatedAt: number
+  /** Tombstone (Fase 2 · sync): borrado lógico que se propaga entre
+   *  dispositivos; purgado a los 30 días. */
+  deletedAt?: number
 }
