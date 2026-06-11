@@ -147,7 +147,7 @@ async function getOpenSkyToken(): Promise<string | null> {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(12000),
       },
     );
     if (!res.ok) {
@@ -184,11 +184,11 @@ type OpenSkyResult = {
   ageS: number; // antigüedad de los datos en segundos (-1 si mode='none')
 };
 
-async function fetchOpenSkyOnce(token: string | null): Promise<any[] | null> {
+async function fetchOpenSkyOnce(token: string | null, timeoutMs = 9000): Promise<any[] | null> {
   try {
     const res = await fetch('https://opensky-network.org/api/states/all', {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
-      signal: AbortSignal.timeout(9000),
+      signal: AbortSignal.timeout(timeoutMs),
     });
     if (!res.ok) {
       openskyDebug = `states/all HTTP ${res.status} (con token: ${!!token})`;
@@ -238,16 +238,46 @@ function deadReckonStates(states: any[], dtS: number): any[] {
   return out;
 }
 
-async function fetchOpenSky(): Promise<OpenSkyResult> {
+// Recogida OpenSky desacoplada de la respuesta (patrón espera-acotada, como el
+// PortWatch del route maritime): desde Vercel la conexión a OpenSky va lenta
+// (>9s para ~1,4MB; verificado que el endpoint responde desde otros
+// datacenters), así que se le da un timeout holgado SIN bloquear al mapa: la
+// promesa corre en segundo plano con coalescing y la respuesta espera como
+// mucho OPENSKY_WAIT_MS; si no llega, sale con el snapshot dead-reckoned (o
+// 'none') y el poll siguiente del cliente (60s) recoge el resultado ya cacheado.
+let openskyInflight: Promise<any[] | null> | null = null;
+const OPENSKY_WAIT_MS = 8000;       // espera máxima dentro de una petición
+const OPENSKY_FRESH_MS = 90_000;    // snapshot reciente: se sirve como 'live'
+
+async function refreshOpenSkySnap(): Promise<any[] | null> {
   const token = await getOpenSkyToken();
-  // UN reintento si falla: la rotación de IPs de salida de Vercel puede dar
-  // con una IP cuyo cupo anónimo no esté agotado.
-  let states = await fetchOpenSkyOnce(token);
-  if (!states || states.length === 0) {
-    states = await fetchOpenSkyOnce(token);
+  // Con token el cupo es de la cuenta: un único intento largo. Anónimo: dos
+  // intentos cortos (la rotación de IPs de salida de Vercel puede dar con una
+  // IP con cupo disponible).
+  let states = await fetchOpenSkyOnce(token, token ? 22000 : 9000);
+  if ((!states || states.length === 0) && !token) {
+    states = await fetchOpenSkyOnce(token, 9000);
   }
   if (states && states.length > 0) {
     openskySnap = { states, ts: Date.now() };
+  }
+  return states;
+}
+
+async function fetchOpenSky(): Promise<OpenSkyResult> {
+  // Snapshot reciente (<90s): se sirve directamente, sin tocar la red.
+  if (openskySnap && Date.now() - openskySnap.ts < OPENSKY_FRESH_MS) {
+    const ageS = Math.round((Date.now() - openskySnap.ts) / 1000);
+    return { states: deadReckonStates(openskySnap.states, ageS), mode: 'live', ageS };
+  }
+  if (!openskyInflight) {
+    openskyInflight = refreshOpenSkySnap().finally(() => { openskyInflight = null; });
+  }
+  const states = await Promise.race([
+    openskyInflight,
+    new Promise<null>((resolve) => setTimeout(() => resolve(null), OPENSKY_WAIT_MS)),
+  ]);
+  if (states && states.length > 0) {
     return { states, mode: 'live', ageS: 0 };
   }
   if (openskySnap && Date.now() - openskySnap.ts <= OPENSKY_SNAP_TTL_MS) {
