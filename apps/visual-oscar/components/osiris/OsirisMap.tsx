@@ -2076,6 +2076,19 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           </div>
         </div>` : '';
 
+      // Actividad portuaria · IMF PortWatch (escalas actuales vs media 12 meses).
+      const pwDev = (p.pw_dev !== null && p.pw_dev !== undefined) ? Number(p.pw_dev) : null;
+      const pwDevCol = pwDev === null ? '#E8E6E0' : pwDev <= -10 ? '#FF6B00' : pwDev >= 10 ? '#00E676' : '#E8E6E0';
+      const pwHtml = (p.pw_current !== null && p.pw_current !== undefined) ? `
+        <div style="margin-top:8px;padding-top:6px;border-top:1px solid rgba(255,255,255,0.1);">
+          <div style="font-size:8px;letter-spacing:0.1em;color:#5C5A54;margin-bottom:4px;">IMF PORTWATCH · ACTIVIDAD</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;">
+            <div><span style="color:#5C5A54;font-size:9px;">ESCALAS (ACTUAL)</span><br/><span style="color:#E8E6E0;font-weight:bold;font-size:10px;">${p.pw_current}</span></div>
+            <div><span style="color:#5C5A54;font-size:9px;">MEDIA 12M</span><br/><span style="color:#E8E6E0;font-weight:bold;font-size:10px;">${p.pw_avg ?? '—'}</span></div>
+            ${pwDev !== null ? `<div style="grid-column:1/3;"><span style="color:#5C5A54;font-size:9px;">DESVIACIÓN</span><br/><span style="color:${pwDevCol};font-weight:bold;font-size:10px;">${pwDev > 0 ? '+' : ''}${pwDev}% vs media 12m</span></div>` : ''}
+          </div>
+        </div>` : '';
+
       popup(coords, `<div style="${pStyle}border:1px solid ${typeColor}40;min-width:210px;">
         <div style="color:${typeColor};font-weight:bold;font-size:12px;margin-bottom:3px;">${p.name}</div>
         <div style="color:#999;font-size:9px;margin-bottom:7px;">${typeLabel} · ${p.country || '—'}</div>
@@ -2086,6 +2099,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           <div>Coordenadas: <span style="color:#E8E6E0;">${coords[1].toFixed(3)}°, ${coords[0].toFixed(3)}°</span></div>
         </div>
         ${liveHtml}
+        ${pwHtml}
         <a href="https://www.marinetraffic.com/en/ais/home/centerx:${coords[0].toFixed(2)}/centery:${coords[1].toFixed(2)}/zoom:11" target="_blank" style="${linkStyle}margin-top:8px;color:${typeColor};border:1px solid ${typeColor}66;background:${typeColor}1a;">TRÁFICO EN VIVO</a>
       </div>`);
     });
@@ -2303,7 +2317,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     const portFilter: Set<string> | null = activePortTypes.length ? new Set(activePortTypes) : null;
     const showPorts = activeLayers.maritime || activePortTypes.length > 0;
     setGeo('maritime', showPorts && data.maritime_ports
-      ? data.maritime_ports.filter((p: any) => !portFilter || portFilter.has(p.type)).map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank, congestion: p.congestion, dwell_time: p.dwell_time, live_nearby: p.live_nearby, live_waiting: p.live_waiting } }))
+      ? data.maritime_ports.filter((p: any) => !portFilter || portFilter.has(p.type)).map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, country: p.country, type: p.type, volume: p.volume, fleet: p.fleet, rank: p.rank, congestion: p.congestion, dwell_time: p.dwell_time, live_nearby: p.live_nearby, live_waiting: p.live_waiting, pw_current: p.pw_current ?? null, pw_avg: p.pw_avg ?? null, pw_dev: p.pw_dev ?? null } }))
       : []);
     setGeo('maritime-choke', activeLayers.maritime && data.maritime_chokepoints ? data.maritime_chokepoints.map((c: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [c.lng, c.lat] }, properties: { name: c.name, traffic: c.traffic, risk: c.risk } })) : []);
     // Filtro por tipo de buque: si no hay ningún tipo activo, se muestran todos.

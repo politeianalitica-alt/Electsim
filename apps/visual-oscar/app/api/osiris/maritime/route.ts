@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import WebSocket from 'ws';
 import worldPorts from './ports-world.json';
+import { fetchPortActivityByCountry } from '@/lib/portwatch/client';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -421,8 +422,31 @@ const getDistanceKm = (lat1: number, lng1: number, lat2: number, lng2: number) =
   return Math.sqrt(dx * dx + dy * dy) * 111.32;
 };
 
+// IMF PortWatch · actividad portuaria (escalas actuales vs media 12m) por país.
+// Feature Service público (sin clave), cacheado 12h. Países de mayor tráfico para
+// cubrir los puertos del mapa. Degradación: si falla, los puertos no llevan PW.
+type PwPort = { name: string; lat: number; lon: number; current: number; avg: number; dev: number };
+const PW_COUNTRIES = ['ESP', 'CHN', 'SGP', 'KOR', 'NLD', 'ARE', 'MYS', 'BEL', 'DEU', 'USA', 'JPN', 'GBR', 'HKG', 'GRC', 'ITA', 'FRA', 'PAN', 'EGY', 'SAU', 'BRA', 'MEX', 'IND', 'TUR', 'MAR', 'AUS', 'ZAF'];
+async function fetchPortWatchActivity(): Promise<PwPort[]> {
+  try {
+    const lists = await Promise.all(PW_COUNTRIES.map(async (iso3) => {
+      try { const r = await fetchPortActivityByCountry(iso3); return r.ok ? r.data : []; } catch { return []; }
+    }));
+    return lists.flat()
+      .filter((p) => p.lat && p.lon && p.vessel_count_current > 0)
+      .map((p) => ({ name: p.port_name, lat: p.lat, lon: p.lon, current: p.vessel_count_current, avg: p.vessel_count_avg_12m, dev: p.deviation_pct }));
+  } catch { return []; }
+}
+
 export async function GET() {
-  const { ships, counts, source } = await getShips();
+  const [{ ships, counts, source }, pwActivity] = await Promise.all([getShips(), fetchPortWatchActivity()]);
+
+  // Empareja cada puerto con la actividad PortWatch más cercana (≤40 km).
+  const attachPW = (lat: number, lng: number): { pw_current?: number; pw_avg?: number; pw_dev?: number } => {
+    let best: PwPort | null = null, bestD = 40;
+    for (const a of pwActivity) { const d = getDistanceKm(lat, lng, a.lat, a.lon); if (d < bestD) { bestD = d; best = a; } }
+    return best ? { pw_current: best.current, pw_avg: best.avg, pw_dev: best.dev } : {};
+  };
 
   const majorPorts = PORTS_MAJOR.map((port) => {
     let nearby = 0, waiting = 0;
@@ -436,11 +460,11 @@ export async function GET() {
     let congestion = 'NORMAL', dwell = '1-2 días';
     if (ratio > 0.6 || waiting > 30) { congestion = 'SEVERA'; dwell = '7+ días'; }
     else if (ratio > 0.4 || waiting > 15) { congestion = 'CONGESTIONADO'; dwell = '3-5 días'; }
-    return { ...port, congestion, dwell_time: dwell, live_nearby: nearby, live_waiting: waiting };
+    return { ...port, congestion, dwell_time: dwell, live_nearby: nearby, live_waiting: waiting, ...attachPW(port.lat, port.lng) };
   });
 
   const wPorts = (worldPorts as Array<{ name: string; country: string; lat: number; lng: number }>).map((p) => ({
-    name: p.name, country: p.country, lat: p.lat, lng: p.lng, type: 'port',
+    name: p.name, country: p.country, lat: p.lat, lng: p.lng, type: 'port', ...attachPW(p.lat, p.lng),
   }));
 
   const chokepoints = CHOKEPOINTS.map((choke) => {
