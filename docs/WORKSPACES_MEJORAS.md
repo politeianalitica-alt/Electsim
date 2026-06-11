@@ -44,9 +44,11 @@ restan utilidad real:
 
 ### Hoja de ruta sugerida
 
-- **Fase 0 · Reparar lo roto (días).** Quick-wins 2-8 de la tabla; estado de
-  error con reintento en War Room; rollback en optimistic updates; eliminar
-  código muerto (GraphView, `/operaciones`, palette global sin montar).
+- **Fase 0 · Reparar lo roto (días). — COMPLETADA 12 jun 2026** (commits
+  `232680c9`…`e7cda1dd`): quick-wins 2-8 de la tabla, error+reintento en War
+  Room, rollback en optimistic updates, código muerto eliminado (GraphView,
+  `/operaciones` → redirect, palette global) y hardening extra surgido de la
+  revisión adversarial (`verifyToken` nunca lanza ante cookies malformadas).
 - **Fase 1 · Un solo producto (1-2 semanas).** Tokens únicos en
   `tokens.css` consumidos por WS/Domo/war-room (un solo azul); cabecera de
   espacio compartida con breadcrumb y salida común al hub; renombrar los tres
