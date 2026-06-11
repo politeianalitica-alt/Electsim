@@ -161,15 +161,16 @@ export const MODULES: NavModule[] = [
       { label: 'Movilidad',          href: '/sector-infraestructuras' },
       { label: 'Turismo',            href: '/sector-turismo' },
       { label: 'Marítimo',           href: '/puertos' },
-      { label: 'Tercer Sector & ONGs',         href: '/sector-tercer-sector' },
-      // — Contratación —
-      { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones' },
-      { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes' },
-      { label: 'Inteligencia Competitiva',     href: '/competidores' },
-      { label: 'Fondos Europeos y PRTR',       href: '/fondos-europeos' },
-      { label: 'Riesgo y Litigios',            href: '/litigios-contratacion' },
-      // — Licitaciones · hub de contratación (movido al final) —
-      { label: 'Licitaciones',                 href: '/licitaciones' },
+      { label: 'ONGs',               href: '/sector-tercer-sector' },
+      // — Contratación · ocultas del subnav (hidden) pero las rutas siguen
+      //   resolviendo el módulo Sectoriales; se enlazan desde otras páginas. —
+      { label: 'Inteligencia Adjudicaciones',  href: '/adjudicaciones',        hidden: true },
+      { label: 'Monitor Contratos Vigentes',   href: '/contratos-vigentes',    hidden: true },
+      { label: 'Inteligencia Competitiva',     href: '/competidores',          hidden: true },
+      { label: 'Fondos Europeos y PRTR',       href: '/fondos-europeos',       hidden: true },
+      { label: 'Riesgo y Litigios',            href: '/litigios-contratacion', hidden: true },
+      // — Licitaciones · hub de contratación (oculto del subnav) —
+      { label: 'Licitaciones',                 href: '/licitaciones',          hidden: true },
     ],
   },
 
