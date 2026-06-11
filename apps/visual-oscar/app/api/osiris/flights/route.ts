@@ -147,12 +147,19 @@ async function getOpenSkyToken(): Promise<string | null> {
         signal: AbortSignal.timeout(8000),
       },
     );
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.warn(`[opensky] token HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      return null;
+    }
     const j = await res.json();
-    if (!j.access_token) return null;
+    if (!j.access_token) {
+      console.warn('[opensky] token sin access_token:', JSON.stringify(j).slice(0, 200));
+      return null;
+    }
     openskyTok = { token: j.access_token, exp: Date.now() + ((j.expires_in || 1800) - 60) * 1000 };
     return openskyTok.token;
-  } catch {
+  } catch (e: any) {
+    console.warn('[opensky] token fetch falló:', e?.message || e);
     return null;
   }
 }
@@ -177,10 +184,14 @@ async function fetchOpenSkyOnce(token: string | null): Promise<any[] | null> {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
       signal: AbortSignal.timeout(9000),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.warn(`[opensky] states/all HTTP ${res.status} (con token: ${!!token})`);
+      return null;
+    }
     const data = await res.json();
     return data.states || [];
-  } catch {
+  } catch (e: any) {
+    console.warn(`[opensky] states/all falló (con token: ${!!token}):`, e?.message || e);
     return null;
   }
 }
