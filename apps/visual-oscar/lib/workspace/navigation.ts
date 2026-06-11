@@ -20,6 +20,8 @@ export const WORKSPACE_VIEWS: WorkspaceNavItem[] = [
   { key: "tables",      label: "Tables",         segment: "tables",      description: "Tablas vivas · fórmulas en lenguaje natural · D'Hondt",       group: "contenido" },
   { key: "slides",      label: "Slides",         segment: "slides",      description: "Presentaciones generadas por Ollama · modo presentación",      group: "contenido" },
   { key: "reporting",   label: "Reporting",      segment: "reporting",   description: "Dashboard analytics + síntesis ejecutiva + export PDF",       group: "contenido" },
+  { key: "cama",        label: "Cama",           segment: "cama",        description: "Campañas y macroargumentos · narrativas versionadas",         group: "contenido" },
+  { key: "preinformes", label: "Preinformes",    segment: "preinformes", description: "Borradores de informe guiados · Markdown / PDF",              group: "contenido" },
 
   // Inteligencia · análisis y decisión
   { key: "canvas",      label: "Canvas",         segment: "canvas",      description: "Investigation Canvas visual + ontología",                     group: "inteligencia" },

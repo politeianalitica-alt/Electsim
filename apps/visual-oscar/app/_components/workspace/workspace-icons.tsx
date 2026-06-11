@@ -104,6 +104,10 @@ export const IconCalendar     = iconStroke("M1 4h14v10a1 1 0 01-1 1H2a1 1 0 01-1
 export const IconCheckSquare  = iconStroke("M6 8l2 2 3-3|M3 1h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V2a1 1 0 011-1z");
 export const IconZap          = icon("M9 1L3 9h5l-1 6 6-8H8L9 1z");
 export const IconSend         = iconStroke("M14 2L2 7l5 2 2 5 5-12z|M9 9l5-7");
+// Cama: capas apiladas — narrativas/macroargumentos superpuestos
+export const IconCama         = iconStroke("M8 1l7 4-7 4-7-4 7-4z|M1 9l7 4 7-4|M1 12l7 3 7-3");
+// Preinformes: documento con check — borrador validable
+export const IconPreinformes  = iconStroke("M3 1h7l3 3v11H3V1z|M10 1v3h3|M5.5 9l2 2 3-3.5");
 
 export type WsIconName = WorkspaceView;
 
@@ -125,6 +129,8 @@ export function ViewIcon({ view, size = 14, color }: { view: string; size?: numb
     case "simulator":   return <IconSimulator {...props} />;
     case "reporting":   return <IconReporting {...props} />;
     case "terminal":    return <IconTerminal {...props} />;
+    case "cama":        return <IconCama {...props} />;
+    case "preinformes": return <IconPreinformes {...props} />;
     default:            return <IconOverview {...props} />;
   }
 }

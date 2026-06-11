@@ -246,7 +246,9 @@ export type WorkspaceView =
   | "reporting"
   | "vigilancia"
   | "guardados"
-  | "terminal";
+  | "terminal"
+  | "cama"
+  | "preinformes";
 
 export interface WorkspaceTab {
   id: string;
