@@ -5,6 +5,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { MODULES, moduleOfPath, itemOfPath, type NavItem } from './navigation'
 import { recordModuleVisit } from '@/lib/home/modules-access'
 import { migrateLegacyTab } from '@/lib/medios/sources-matrix'
+import { getLastSpace, recordLastSpace, spaceOfPath, type LastSpace } from '@/lib/workspace/last-space'
 
 // ── Subnav pills (nivel 2) · resaltado consciente del query `?tab=` ──────────
 // Las entradas de Medios apuntan a /prensa?tab=X (Búsqueda, Narrativas…).
@@ -92,6 +93,23 @@ export default function AppHeader() {
   ]
   const wsActive = path.startsWith('/workspaces') || path === '/workspace' || path === '/operaciones'
     || (wsModule?.items || []).some(it => path === it.href || path.startsWith(it.href + '/'))
+  // Con rutas anidadas (/estudio/cama vive bajo /estudio) resalta solo la
+  // opción MÁS específica del menú, no todas las que hagan prefix-match.
+  const wsBestMatch = wsOptions.reduce<string | null>((best, o) => {
+    const match = path === o.href || path.startsWith(o.href + '/')
+    if (!match) return best
+    return !best || o.href.length > best.length ? o.href : best
+  }, null)
+
+  // Continuidad entre espacios: el último workspace visitado se persiste en
+  // localStorage y se ofrece arriba del menú ("Continuar donde lo dejaste").
+  // Se lee en efecto (no en render) para no romper la hidratación SSR.
+  const [lastSpace, setLastSpace] = useState<LastSpace | null>(null)
+  useEffect(() => {
+    if (path) recordLastSpace(path)
+    setLastSpace(getLastSpace())
+  }, [path])
+  const showLastSpace = lastSpace && spaceOfPath(path)?.label !== lastSpace.label
 
   // Registra la página visitada para el bloque "Recientes" del inicio.
   // Excluimos el propio inicio y el login (no son destinos de "volver a").
@@ -200,8 +218,19 @@ export default function AppHeader() {
                 background:'#fff',border:'1px solid rgba(0,0,0,0.08)',borderRadius:12,
                 boxShadow:'0 10px 34px rgba(0,0,0,0.18)',padding:6,
               }}>
+                {showLastSpace && lastSpace && (
+ <>
+ <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.08em',color:'#aeaeb2',textTransform:'uppercase',padding:'4px 12px 6px'}}>Continuar donde lo dejaste</div>
+ <Link key={`last-${lastSpace.href}`} href={lastSpace.href} role="menuitem" onClick={() => setWsOpen(false)} style={{
+                    display:'block',padding:'9px 12px',borderRadius:8,
+                    fontSize:13,fontWeight:600,color:'#1F4E8C',
+                    background:'rgba(31,78,140,0.06)',textDecoration:'none',
+                  }}>↩ {lastSpace.label}</Link>
+ <div style={{height:1,background:'rgba(0,0,0,0.07)',margin:'6px 8px'}}/>
+ </>
+                )}
                 {wsOptions.map(o => {
-                  const a = path === o.href || path.startsWith(o.href + '/')
+                  const a = o.href === wsBestMatch
                   return (
  <Link key={o.href} href={o.href} role="menuitem" onClick={() => setWsOpen(false)} style={{
                       display:'block',padding:'9px 12px',borderRadius:8,

@@ -193,6 +193,10 @@ export const MODULES: NavModule[] = [
       { label: 'War Room', href: '/war-room' },  // 2ª — sala de operaciones
       { label: 'Toolbox',  href: '/extras'   },  // 3ª — herramientas auxiliares
       { label: 'Cuaderno', href: '/cuaderno' },  // 4ª — Obsidian del analista (notas + grafo + bitácora)
+      // Módulos transversales · disponibles en todos los workspaces; su
+      // home canónica vive en el Estudio (grupo Estrategia).
+      { label: 'Cama',        href: '/estudio/cama'        },  // 5ª — campañas y macroargumentos
+      { label: 'Preinformes', href: '/estudio/preinformes' },  // 6ª — borradores de informe
     ],
   },
 
