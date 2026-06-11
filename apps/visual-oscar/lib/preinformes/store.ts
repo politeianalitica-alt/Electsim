@@ -18,6 +18,7 @@ import type {
   PreinformePublico,
   EspacioPreinforme,
 } from '@/types/preinforme'
+import { safeSetItem } from '@/lib/storage/safe'
 
 const STORAGE_KEY = 'politeia.preinformes.v1'
 
@@ -136,12 +137,10 @@ export function loadAll(): Preinforme[] {
 
 export function saveAll(items: Preinforme[]): void {
   if (!isBrowser()) return
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-    window.dispatchEvent(new CustomEvent(PREINFORMES_CHANGE_EVENT))
-  } catch {
-    // localStorage lleno o modo privado: silencioso
-  }
+  // safeSetItem notifica (banner global) si la cuota está llena, en lugar
+  // de perder trabajo en silencio.
+  safeSetItem(STORAGE_KEY, JSON.stringify(items))
+  window.dispatchEvent(new CustomEvent(PREINFORMES_CHANGE_EVENT))
 }
 
 // ── CRUD ─────────────────────────────────────────────────────────────────────

@@ -24,6 +24,8 @@
  *   }
  */
 
+import { safeSetItem } from '@/lib/storage/safe'
+
 export interface CuadernoNote {
   id:        string
   slug:      string
@@ -149,13 +151,11 @@ export function loadAll(): CuadernoNote[] {
 
 export function saveAll(notes: CuadernoNote[]): void {
   if (!isBrowser()) return
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(notes))
-    // Notifica a otras pestañas / componentes para que re-rendericen
-    window.dispatchEvent(new CustomEvent('cuaderno:change'))
-  } catch {
-    // localStorage lleno o privado: silencioso
-  }
+  // Fase 2 · safeSetItem notifica (banner global del AppHeader) si la cuota
+  // está llena, en lugar de perder notas en silencio.
+  safeSetItem(STORAGE_KEY, JSON.stringify(notes))
+  // Notifica a otros componentes de esta pestaña para que re-rendericen
+  window.dispatchEvent(new CustomEvent('cuaderno:change'))
 }
 
 // ── CRUD ─────────────────────────────────────────────────────────────────────

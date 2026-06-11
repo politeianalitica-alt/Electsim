@@ -6,6 +6,9 @@ import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
 import { getLastSpace, type LastSpace } from '@/lib/workspace/last-space'
+import { downloadBackup, restoreBackup } from '@/lib/storage/backup'
+import { listPoliteiaKeys } from '@/lib/storage/registry'
+import { storageUsage } from '@/lib/storage/safe'
 
 type Workspace = { id: string; name: string; description?: string; sector?: string; members?: number; created_at?: string; updated_at?: string }
 type Briefing = { id: string; title?: string; created_at?: string; type?: string; format?: string; size_kb?: number; download_url?: string }
@@ -230,11 +233,81 @@ export default function WorkspacesPage() {
  </p>
           )}
  </section>
+
+        {/* ── Datos locales · copia de seguridad (Fase 2) ── */}
+ <DatosLocales />
  </main>
 
  <footer style={{ borderTop: '1px solid var(--hairline,#e8e8ed)', padding: '20px 28px', textAlign: 'center', color: '#6e6e73', fontSize: 11.5 }}>
         Politeia Analítica · Workspaces · {new Date().getFullYear()}
  </footer>
  </div>
+  )
+}
+
+// ── Datos locales · copia de seguridad y diagnóstico (Fase 2) ────────────────
+// Mientras la persistencia es local-first (Cuaderno, Cama, Preinformes, docs
+// del Command Center viven en localStorage), esta sección es el seguro de
+// vida: exportar todo a un .json y restaurarlo en otra máquina/navegador.
+function DatosLocales() {
+  const [uso, setUso] = useState<{ keys: number; kb: number } | null>(null)
+  const [msg, setMsg] = useState<string | null>(null)
+
+  useEffect(() => {
+    // Solo cliente: localStorage no existe en SSR
+    const u = storageUsage()
+    setUso({ keys: listPoliteiaKeys().length, kb: Math.round(u.bytes / 1024) })
+  }, [msg])
+
+  function handleExport() {
+    const r = downloadBackup()
+    setMsg(`Copia descargada · ${r.keys} claves · ${Math.round(r.bytes / 1024)} KB`)
+  }
+
+  function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    if (!window.confirm('Restaurar la copia SOBRESCRIBE el contenido local actual (Cuaderno, Cama, Preinformes, documentos…). ¿Continuar?')) return
+    const reader = new FileReader()
+    reader.onload = () => {
+      const res = restoreBackup(String(reader.result ?? ''))
+      if (!res.ok && res.error) setMsg(`Error: ${res.error}`)
+      else setMsg(`Restauradas ${res.restored} claves${res.failed ? ` · ${res.failed} fallidas` : ''} · recarga la página para ver los datos`)
+    }
+    reader.readAsText(file)
+  }
+
+  return (
+    <section style={{
+      background: '#fff', border: '1px solid #ECECEF', borderRadius: 18,
+      padding: '18px 24px', marginTop: 18, boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+      display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap',
+    }}>
+      <div style={{ flex: '1 1 320px', minWidth: 0 }}>
+        <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', color: '#6e6e73', textTransform: 'uppercase', margin: '0 0 4px' }}>
+          Datos locales · copia de seguridad
+        </p>
+        <p style={{ fontSize: 12.5, color: '#6e6e73', margin: 0, lineHeight: 1.5 }}>
+          El Cuaderno, la Cama, los Preinformes y los documentos del Command Center viven en este
+          navegador{uso ? ` (${uso.keys} claves · ~${uso.kb} KB)` : ''}. Descarga una copia
+          periódica o restáurala en otra máquina.
+        </p>
+        {msg && <p style={{ fontSize: 12, color: '#1F4E8C', fontWeight: 600, margin: '6px 0 0' }}>{msg}</p>}
+      </div>
+      <button onClick={handleExport} style={{
+        padding: '9px 16px', borderRadius: 10, fontSize: 12.5, fontWeight: 600,
+        background: '#1F4E8C', color: '#fff', border: 'none', cursor: 'pointer', flexShrink: 0,
+      }}>
+        ⇣ Descargar copia (.json)
+      </button>
+      <label style={{
+        padding: '9px 16px', borderRadius: 10, fontSize: 12.5, fontWeight: 600,
+        background: '#fff', color: '#1F4E8C', border: '1px solid #d8e0ec', cursor: 'pointer', flexShrink: 0,
+      }}>
+        ⇡ Restaurar copia
+        <input type="file" accept="application/json,.json" onChange={handleImport} style={{ display: 'none' }} />
+      </label>
+    </section>
   )
 }

@@ -7,6 +7,7 @@ import { recordModuleVisit } from '@/lib/home/modules-access'
 import { migrateLegacyTab } from '@/lib/medios/sources-matrix'
 import { recordLastSpace } from '@/lib/workspace/last-space'
 import { DEFAULT_WORKSPACE_ID } from '@/lib/workspace/workspace-utils'
+import { STORAGE_ERROR_EVENT } from '@/lib/storage/safe'
 
 // ── Subnav pills (nivel 2) · resaltado consciente del query `?tab=` ──────────
 // Las entradas de Medios apuntan a /prensa?tab=X (Búsqueda, Narrativas…).
@@ -100,6 +101,20 @@ export default function AppHeader() {
     if (path) recordLastSpace(path)
   }, [path])
 
+  // Fase 2 · aviso GLOBAL de almacenamiento lleno: si cualquier store falla
+  // al escribir (cuota localStorage), se muestra un banner persistente hasta
+  // que el usuario lo cierre — perder trabajo en silencio era el peor bug
+  // de la plataforma local-first.
+  const [storageFullKey, setStorageFullKey] = useState<string | null>(null)
+  useEffect(() => {
+    const onStorageError = (e: Event) => {
+      const detail = (e as CustomEvent<{ key: string; quota: boolean }>).detail
+      setStorageFullKey(detail?.key ?? 'desconocida')
+    }
+    window.addEventListener(STORAGE_ERROR_EVENT, onStorageError)
+    return () => window.removeEventListener(STORAGE_ERROR_EVENT, onStorageError)
+  }, [])
+
   // Registra la página visitada para el bloque "Recientes" del inicio.
   // Excluimos el propio inicio y el login (no son destinos de "volver a").
   useEffect(() => {
@@ -114,6 +129,30 @@ export default function AppHeader() {
 
   return (
  <>
+      {/* ── Aviso de almacenamiento lleno (Fase 2) ── */}
+      {storageFullKey && (
+ <div role="alert" style={{
+          display:'flex',alignItems:'center',gap:10,padding:'8px 20px',
+          background:'#FEF2F2',borderBottom:'1px solid #FECACA',
+          fontSize:12.5,color:'#B91C1C',fontFamily:'var(--font-text,-apple-system,system-ui)',
+        }}>
+ <strong style={{flexShrink:0}}>! Almacenamiento local lleno:</strong>
+ <span style={{minWidth:0}}>
+            los últimos cambios NO se han guardado (clave: {storageFullKey}).
+            Descarga una copia de seguridad desde{' '}
+ <Link href="/workspaces" style={{color:'#B91C1C',fontWeight:600}}>Mis workspaces</Link>
+            {' '}y libera espacio archivando contenido antiguo.
+ </span>
+ <button
+            onClick={() => setStorageFullKey(null)}
+            aria-label="Cerrar aviso"
+            style={{marginLeft:'auto',border:'none',background:'transparent',color:'#B91C1C',cursor:'pointer',fontSize:14,flexShrink:0}}
+          >
+            ✕
+ </button>
+ </div>
+      )}
+
       {/* ── Barra de navegación ── */}
  <nav
         aria-label="Navegación principal"

@@ -18,6 +18,7 @@ import type {
   MacroargumentoEstado,
   VersionCama,
 } from '@/types/cama'
+import { safeSetItem } from '@/lib/storage/safe'
 
 const STORAGE_KEY = 'politeia.cama.v1'
 const MAX_VERSIONES = 20
@@ -44,12 +45,11 @@ export function loadAll(): Macroargumento[] {
 
 export function saveAll(items: Macroargumento[]): void {
   if (!isBrowser()) return
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-    window.dispatchEvent(new CustomEvent(CAMA_CHANGE_EVENT))
-  } catch {
-    // localStorage lleno o modo privado: silencioso
-  }
+  // safeSetItem notifica (banner global) si la cuota está llena, en lugar
+  // de perder trabajo en silencio. El evento de cambio se emite igualmente
+  // para que la UI refleje el estado en memoria.
+  safeSetItem(STORAGE_KEY, JSON.stringify(items))
+  window.dispatchEvent(new CustomEvent(CAMA_CHANGE_EVENT))
 }
 
 // ── CRUD ─────────────────────────────────────────────────────────────────────

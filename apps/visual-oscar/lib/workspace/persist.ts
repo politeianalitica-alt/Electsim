@@ -24,12 +24,10 @@ export function hydrate<T>(key: string, seed: T[]): void {
   }
 }
 
-/** Guarda el array completo bajo `key`. No-op en servidor. */
+/** Guarda el array completo bajo `key`. No-op en servidor.
+ *  Fase 2: via safeSetItem — cuota llena dispara el banner global en vez de
+ *  perder docs/tablas/canvas en silencio. */
 export function persist<T>(key: string, data: T[]): void {
   if (!isBrowser) return;
-  try {
-    localStorage.setItem(key, JSON.stringify(data));
-  } catch {
-    /* cuota llena o modo privado: lo ignoramos */
-  }
+  safeSetItem(key, JSON.stringify(data));
 }
