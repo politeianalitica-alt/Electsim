@@ -91,7 +91,7 @@ export default function AppHeader() {
     { label: 'Mis workspaces', href: '/workspaces' },
     ...((wsModule?.items || []).filter(it => !it.hidden)),
   ]
-  const wsActive = path.startsWith('/workspaces') || path === '/workspace' || path === '/operaciones'
+  const wsActive = path.startsWith('/workspaces') || path === '/workspace'
     || (wsModule?.items || []).some(it => path === it.href || path.startsWith(it.href + '/'))
 
   // Continuidad entre espacios: registra el último espacio visitado en

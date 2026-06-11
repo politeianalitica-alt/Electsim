@@ -208,7 +208,7 @@ export default function WarRoomPage() {
   const router = useRouter()
   useEffect(() => { if (!isAuthenticated()) router.push('/login') }, [router])
 
-  const { data, loading } = useWarRoom()
+  const { data, loading, error, retry } = useWarRoom()
   const { crisis, updateEstado: updateCrisisEstado } = useWarRoomCrisis()
   const { tareas, cycleEstado: cycleTareaEstado } = useWarRoomTareas()
   const { source: snapSource, updatedAt: snapUpdated, refresh: snapRefresh } =
@@ -228,6 +228,35 @@ export default function WarRoomPage() {
     for (const s of SECTIONS) { (out[s.group] ||= []).push(s) }
     return out
   }, [])
+
+  // Error ≠ loading: si la API del snapshot falla, mensaje claro + Reintentar
+  // (antes: spinner eterno indistinguible de una carga lenta).
+  if (error || (!loading && !data)) {
+    return (
+      <div className="wr-root">
+        <AppHeader />
+        <main className="wr-loading-wrap">
+          <div style={{ textAlign: 'center' }}>
+            <div className="wr-loading-text" style={{ marginBottom: 10 }}>
+              No se ha podido cargar el War Room
+            </div>
+            <div style={{ fontSize: 13, color: '#6e6e73', marginBottom: 16 }}>
+              La API del snapshot no responde. Comprueba la conexión y reintenta.
+            </div>
+            <button
+              onClick={retry}
+              style={{
+                padding: '8px 18px', fontSize: 13, fontWeight: 600, borderRadius: 9,
+                border: 'none', background: '#1F4E8C', color: '#fff', cursor: 'pointer',
+              }}
+            >
+              Reintentar
+            </button>
+          </div>
+        </main>
+      </div>
+    )
+  }
 
   if (loading || !data) {
     return (

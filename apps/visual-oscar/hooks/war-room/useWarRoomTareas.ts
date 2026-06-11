@@ -26,9 +26,15 @@ export function useWarRoomTareas() {
     const tarea = tareas.find(t => t.id === id)
     if (!tarea) return
     const next = ESTADOS[(ESTADOS.indexOf(tarea.estado) + 1) % ESTADOS.length]
-    // Optimistic update
+    // Optimistic update CON rollback si el PATCH falla (devuelve null):
+    // antes el cambio fantasma vivía hasta que el poll de 120s lo revertía.
+    const prevEstado = tarea.estado
     setTareas(prev => prev.map(t => t.id === id ? { ...t, estado: next } : t))
-    await warRoomApi.patchTareaEstado(id, next)
+    const saved = await warRoomApi.patchTareaEstado(id, next)
+    if (!saved) {
+      console.warn(`[war-room] PATCH tarea ${id} falló · revirtiendo a "${prevEstado}"`)
+      setTareas(prev => prev.map(t => t.id === id ? { ...t, estado: prevEstado } : t))
+    }
   }, [tareas])
 
   return { tareas, loading, cycleEstado }

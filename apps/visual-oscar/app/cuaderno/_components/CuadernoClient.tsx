@@ -62,8 +62,9 @@ import {
 import { TEMPLATES } from '@/lib/cuaderno/templates'
 import { renderMarkdown } from '@/lib/cuaderno/markdown'
 
-const GraphView = dynamic(() => import('./GraphView'), { ssr: false })
-// Sprint Cuaderno N5 · grafo híbrido (notas + entidades del registry)
+// Sprint Cuaderno N5 · grafo híbrido (notas + entidades del registry).
+// El GraphView simple original se eliminó en Fase 0 (jun 2026): nunca se
+// renderizaba desde que el híbrido lo sustituyó.
 const HybridGraphView = dynamic(() => import('./HybridGraphView'), { ssr: false })
 // Sprint Cuaderno N3 · CodeMirror necesita DOM, así que ssr:false
 const MarkdownEditor = dynamic(
