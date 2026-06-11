@@ -44,6 +44,10 @@ import { CuadernoSyncPanel } from './CuadernoSyncPanel'
 import { startAutoSync, isAutoSyncEnabled } from '@/lib/cuaderno/cloud-sync'
 // Sprint Cuaderno N11 · insights dashboard meta sobre el propio cuaderno
 import { CuadernoInsights } from './CuadernoInsights'
+// Módulos transversales · Cama (macroargumentos) y Preinformes · compartidos
+// con Estudio, War Room, Toolbox y Command Center
+import CamaModule from '@/app/_components/cama/CamaModule'
+import PreinformesModule from '@/app/_components/preinformes/PreinformesModule'
 import {
   loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   buildHybridGraph, backlinksWithContext,
@@ -75,7 +79,7 @@ const MarkdownEditor = dynamic(
 )
 
 type Mode = 'edit' | 'read' | 'split'
-type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph' | 'insights'
+type View = 'today' | 'notes' | 'tasks' | 'calendar' | 'tags' | 'templates' | 'graph' | 'insights' | 'cama' | 'preinformes'
 
 export default function CuadernoClient() {
   // Sprint Cuaderno N5 · navegación a entity.link cuando se click en un nodo de entidad del grafo
@@ -89,6 +93,8 @@ export default function CuadernoClient() {
   const [pickerMode, setPickerMode] = useState<'entity' | 'data' | null>(null)
   // Sprint Cuaderno N7 · asistente IA sobre la nota activa
   const [aiOpen, setAiOpen] = useState(false)
+  // Cama/Preinformes · semilla al convertir la nota activa en preinforme
+  const [preinformeSemilla, setPreinformeSemilla] = useState<{ titulo: string; contenido: string } | null>(null)
   // Sprint Cuaderno N8 · panel de sincronización cloud
   const [syncOpen, setSyncOpen] = useState(false)
   // Sprint Cuaderno N8 polish · status del auto-sync (idle/syncing/ok/error)
@@ -426,6 +432,9 @@ export default function CuadernoClient() {
         <RailBtn label="Grafo"      glyph=""  v="graph"     view={view} set={setView} subtitle="Cmd+G" />
         <RailBtn label="Insights"   glyph="◐"  v="insights"  view={view} set={setView} subtitle="meta" />
         <RailBtn label="Plantillas" glyph="✎"  v="templates" view={view} set={setView} subtitle={`${TEMPLATES.length}`} />
+        {/* Módulos transversales · compartidos con Estudio, War Room y Toolbox */}
+        <RailBtn label="Cama"        glyph="◈" v="cama"        view={view} set={setView} subtitle="argum." />
+        <RailBtn label="Preinformes" glyph="▤" v="preinformes" view={view} set={setView} subtitle="drafts" onClick={() => setPreinformeSemilla(null)} />
         <div style={{ flex: 1 }} />
         <button className={styles.railSwitcher} onClick={() => setSwitcher(true)} title="Cmd+K">
           <span>⌕</span><span>Buscar</span>
@@ -541,6 +550,23 @@ export default function CuadernoClient() {
       {view === 'tags' && <TagsView tags={tags} onOpen={id => { setActiveId(id); setView('notes') }} />}
       {view === 'templates' && <TemplatesView onPick={handleNewFromTemplate} />}
 
+      {/* Módulos transversales · mismo repositorio que Estudio/War Room/Toolbox */}
+      {view === 'cama' && (
+        <div style={{ flex: 1, overflowY: 'auto', padding: 20, background: '#fbfbfd' }}>
+          <CamaModule espacio="cuaderno" embebido />
+        </div>
+      )}
+      {view === 'preinformes' && (
+        <div style={{ flex: 1, overflowY: 'auto', padding: 20, background: '#fbfbfd' }}>
+          <PreinformesModule
+            key={preinformeSemilla ? `semilla-${preinformeSemilla.titulo}` : 'sin-semilla'}
+            espacio="cuaderno"
+            embebido
+            semilla={preinformeSemilla}
+          />
+        </div>
+      )}
+
       {(view === 'notes' || view === 'today') && (
         active ? (
           <div className={styles.editor}>
@@ -601,6 +627,18 @@ export default function CuadernoClient() {
                 title="Descargar la nota como Markdown · Cmd+E"
               >
                 ↓ Export
+              </button>
+              {/* Cama/Preinformes · convierte la nota en borrador de informe
+                  (abre el asistente de Preinformes precargado con su contenido) */}
+              <button
+                className={styles.toolbarBtn}
+                onClick={() => {
+                  setPreinformeSemilla({ titulo: active.title, contenido: active.content })
+                  setView('preinformes')
+                }}
+                title="Convertir esta nota en un preinforme (asistente con plantillas)"
+              >
+                ▤ Preinforme
               </button>
               {/* Sprint Cuaderno N13 · focus mode (Cmd+\) · oculta rail + sidebar + outline + backlinks */}
               <button

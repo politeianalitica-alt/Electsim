@@ -16,6 +16,8 @@ import { CDNum } from './_components/CDNum'
 import { HeroKPI } from './_components/HeroKPI'
 import { SKpi } from './_components/SKpi'
 import type { RolEquipo, EstadoMiembro, TipoActo, PrioridadTerritorio, SeveridadCrisis, EstadoTarea } from '@/types/war-room'
+import CamaModule from '@/app/_components/cama/CamaModule'
+import PreinformesModule from '@/app/_components/preinformes/PreinformesModule'
 
 // ─── Colour maps ──────────────────────────────────────────
 const ROL_COLOR: Record<RolEquipo, string> = {
@@ -48,6 +50,7 @@ type SectionId =
   | 'media' | 'endorsements'
   | 'agenda' | 'equipo' | 'tareas'
   | 'voluntarios' | 'fundraising' | 'presupuesto'
+  | 'cama' | 'preinformes'
 
 const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: string }> = [
   { id: 'dashboard',     label: 'Dashboard general',     group: 'Comando',           icon: '' },
@@ -70,6 +73,9 @@ const SECTIONS: Array<{ id: SectionId; label: string; group: string; icon: strin
   { id: 'voluntarios',   label: 'Voluntarios',           group: 'Campaña',           icon: '⌂' },
   { id: 'fundraising',   label: 'Fundraising',           group: 'Campaña',           icon: '€' },
   { id: 'presupuesto',   label: 'Presupuesto',           group: 'Campaña',           icon: '☰' },
+  // Estrategia · módulos transversales compartidos con Estudio/Toolbox/Cuaderno
+  { id: 'cama',          label: 'Cama · Macroargumentos', group: 'Estrategia',       icon: '◈' },
+  { id: 'preinformes',   label: 'Preinformes',           group: 'Estrategia',        icon: '▤' },
 ]
 
 // ─── Mock data extra ─────────────────────────────────────
@@ -331,6 +337,8 @@ export default function WarRoomPage() {
           {section === 'voluntarios'  && <SecVoluntarios kpis={kpis}/>}
           {section === 'fundraising'  && <SecFundraising/>}
           {section === 'presupuesto'  && <SecPresupuesto presupuesto={presupuesto} candidato={candidato}/>}
+          {section === 'cama'         && <SecCama/>}
+          {section === 'preinformes'  && <SecPreinformes/>}
         </div>
       </main>
     </div>
@@ -672,6 +680,32 @@ function SecMensaje({ mensaje, candidato }: any) {
           </div>
         </div>
       </div>
+    </Card>
+  )
+}
+
+function SecCama() {
+  return (
+    <Card>
+      <CardHeader
+        title="Cama · Campañas y Macroargumentos"
+        sub="Narrativas centrales versionadas · repositorio compartido con Estudio, Toolbox y Cuaderno"
+        accent="#5B21B6"
+      />
+      <CamaModule espacio="war-room" embebido />
+    </Card>
+  )
+}
+
+function SecPreinformes() {
+  return (
+    <Card>
+      <CardHeader
+        title="Preinformes · borradores de informe"
+        sub="Asistente en 4 pasos · plantillas de campaña, riesgo y ejecutivo · export Markdown / PDF"
+        accent="#1F4E8C"
+      />
+      <PreinformesModule espacio="war-room" embebido />
     </Card>
   )
 }

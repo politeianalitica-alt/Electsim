@@ -26,6 +26,11 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/estudio/charts',          label: 'Galería de gráficos',   glyph: '▋' },
   { href: '/estudio/query',           label: 'Pregúntale a los datos',glyph: '✦' },
 
+  // Estrategia — módulos transversales (compartidos con War Room,
+  // Toolbox, Cuaderno y Command Center)
+  { href: '/estudio/cama',            label: 'Cama',                  glyph: '◈', group: 'Estrategia' },
+  { href: '/estudio/preinformes',     label: 'Preinformes',           glyph: '☰' },
+
   // Vigilancia
   { href: '/estudio/alertas',         label: 'Vigilantes',            glyph: '!', group: 'Vigilancia' },
   { href: '/estudio/notificaciones',  label: 'Mis avisos',            glyph: '◐' },

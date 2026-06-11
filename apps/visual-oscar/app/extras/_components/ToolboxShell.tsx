@@ -15,18 +15,21 @@ import CommandCenter from './CommandCenter'
 import InboxView from './InboxView'
 import TerminalView from './TerminalView'
 import ToolGrid from './ToolGrid'
+import CamaModule from '@/app/_components/cama/CamaModule'
+import PreinformesModule from '@/app/_components/preinformes/PreinformesModule'
 
 export type ToolId =
   | 'command-center' | 'inbox' | 'terminal'
   | 'docs' | 'tables' | 'slides' | 'reporting'
   | 'canvas' | 'research' | 'radar' | 'simulator' | 'knowledge'
   | 'projects' | 'automations'
+  | 'cama' | 'preinformes'
 
 export interface ToolDef {
   id:        ToolId
   label:     string
   glyph:     string
-  category:  'OPERATIVO' | 'CONTENIDO' | 'INTELIGENCIA' | 'SISTEMA'
+  category:  'OPERATIVO' | 'ESTRATEGIA' | 'CONTENIDO' | 'INTELIGENCIA' | 'SISTEMA'
   inline?:   boolean       // true = vista interna del Toolbox
   href?:     string        // si !inline, deep link
   description: string
@@ -45,6 +48,12 @@ export const TOOLS: ToolDef[] = [
     description: 'Cola unificada: alertas, menciones, tareas asignadas, peticiones.' },
   { id: 'terminal',       label: 'Terminal',       glyph: '⟫', category: 'OPERATIVO', inline: true,
     description: 'Consola operativa: comandos rápidos, queries y atajos al stack.' },
+
+  // ESTRATEGIA · módulos transversales compartidos con Estudio/War Room/Cuaderno
+  { id: 'cama',           label: 'Cama',           glyph: '◈', category: 'ESTRATEGIA', inline: true,
+    description: 'Campañas y macroargumentos: narrativas versionadas con evidencias e impacto.' },
+  { id: 'preinformes',    label: 'Preinformes',    glyph: '▤', category: 'ESTRATEGIA', inline: true,
+    description: 'Borradores de informe en 4 pasos a partir de tus datos de proyectos en curso.' },
 
   // CONTENIDO
   { id: 'docs',           label: 'Docs',           glyph: '', category: 'CONTENIDO',
@@ -86,7 +95,7 @@ export const TOOLS: ToolDef[] = [
     description: 'Reglas y disparadores: alerta si X, agenda si Y, informa si Z.' },
 ]
 
-const CATEGORIES: Array<ToolDef['category']> = ['OPERATIVO', 'CONTENIDO', 'INTELIGENCIA', 'SISTEMA']
+const CATEGORIES: Array<ToolDef['category']> = ['OPERATIVO', 'ESTRATEGIA', 'CONTENIDO', 'INTELIGENCIA', 'SISTEMA']
 
 export default function ToolboxShell() {
   const [active, setActive] = useState<ToolId>('command-center')
@@ -152,9 +161,19 @@ export default function ToolboxShell() {
         {active === 'command-center' && <CommandCenter />}
         {active === 'inbox' && <InboxView />}
         {active === 'terminal' && <TerminalView />}
+        {active === 'cama' && (
+          <div style={{ padding: 20 }}>
+            <CamaModule espacio="toolbox" embebido />
+          </div>
+        )}
+        {active === 'preinformes' && (
+          <div style={{ padding: 20 }}>
+            <PreinformesModule espacio="toolbox" embebido />
+          </div>
+        )}
         {/* Las herramientas con href se abren con Link, no se renderizan aquí.
             Pero si alguna entra como fallback, mostramos un grid. */}
-        {!['command-center','inbox','terminal'].includes(active) && (
+        {!['command-center','inbox','terminal','cama','preinformes'].includes(active) && (
           <ToolGrid tools={TOOLS} onPick={(id) => setActive(id)} />
         )}
       </main>
