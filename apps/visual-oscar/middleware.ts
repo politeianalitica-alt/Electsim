@@ -5,6 +5,9 @@ import { COOKIE_NAME } from '@/lib/auth/session'
 const PUBLIC_PREFIXES = [
   '/login',
   '/api/auth/',
+  // Relay Edge de OpenSky: lo consume /api/osiris/flights server-to-server (sin
+  // cookie); va protegido por OPENSKY_RELAY_KEY (?key=), no expone secretos.
+  '/api/osiris/opensky-relay',
   '/api/health',
   '/api/admin/init_workspace',
   '/api/cron/',
