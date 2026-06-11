@@ -20,16 +20,17 @@
      #86868b da 4.6:1 sobre #fbfbfd → pasa WCAG AA para texto normal (≥4.5:1). */
   --color-ink-5:            #86868b;
   --color-ink-inverse:      #ffffff;
-  --color-accent:           #0071e3;
-  --color-accent-hover:     #0077ed;
-  --color-accent-active:    #006acd;
-  --color-accent-subtle:    rgba(0, 113, 227, 0.08);
-  --color-accent-text:      #0066cc;
+  --color-accent:           #1F4E8C;
+  --color-accent-hover:     #173E70;
+  --color-accent-active:    #122F55;
+  --color-accent-subtle:    rgba(31, 78, 140, 0.08);
+  --color-accent-text:      #1F4E8C;
   /* Fase 1 (jun 2026) · azul CORPORATIVO Politeia — el del header, hub de
      workspaces y War Room. Los tokens WS de lib/workspace/workspace-utils.ts
-     espejan estos valores para acabar con el doble accent #1F4E8C/#0071e3:
-     un solo azul de marca en navegación y chrome. --color-accent queda para
-     elementos interactivos legacy hasta completar la migración. */
+     espejan estos valores. MIGRACIÓN COMPLETADA: --color-accent ya apunta
+     también a la marca (el azul Apple #0071e3 original solo pervive en el
+     ámbito OSIRIS, que tiene identidad propia); --color-brand es el nombre
+     canónico a usar en código nuevo. */
   --color-brand:            #1F4E8C;
   --color-brand-hover:      #173E70;
   --color-brand-active:     #122F55;
@@ -40,8 +41,8 @@
   --color-danger-subtle:    rgba(196, 44, 44, 0.08);
   --color-warn:             #d97706;
   --color-warn-subtle:      rgba(217, 119, 6, 0.08);
-  --color-info:             #0071e3;
-  --color-info-subtle:      rgba(0, 113, 227, 0.08);
+  --color-info:             #1F4E8C;
+  --color-info-subtle:      rgba(31, 78, 140, 0.08);
 
   --party-psoe:  #e11931;
   --party-pp:    #199fe6;
@@ -58,7 +59,7 @@
 
   --severity-critical: #c42c2c;
   --severity-high:     #d97706;
-  --severity-medium:   #0071e3;
+  --severity-medium:   #1F4E8C;
   --severity-low:      #2d8a39;
   --severity-info:     #6e6e73;
 

@@ -33,7 +33,7 @@ const FALLBACK: Briefing[] = [
 function typeStyle(t?: string): { color: string; bg: string; label: string } {
   if (t === 'flash') return { color: '#c42c2c', bg: 'rgba(196,44,44,0.10)', label: 'FLASH' }
   if (t === 'semanal') return { color: '#5B21B6', bg: 'rgba(91,33,182,0.10)', label: 'SEMANAL' }
-  if (t === 'mensual') return { color: '#0071e3', bg: 'rgba(0,113,227,0.10)', label: 'MENSUAL' }
+  if (t === 'mensual') return { color: '#1F4E8C', bg: 'rgba(31,78,140,0.10)', label: 'MENSUAL' }
   return { color: '#1F4E8C', bg: 'rgba(31,78,140,0.10)', label: 'MATINAL' }
 }
 

@@ -6,6 +6,8 @@
  * /estudio/preinformes) y el nombre humano del espacio.
  */
 
+import { pathMatches } from '@/lib/path-match'
+
 export interface LastSpace {
   href:  string
   label: string
@@ -26,7 +28,8 @@ const SPACES: Array<{ prefix: string; label: string }> = [
 ]
 
 export function spaceOfPath(path: string): { prefix: string; label: string } | null {
-  return SPACES.find(s => path === s.prefix || path.startsWith(s.prefix + '/')) ?? null
+  // Misma semántica de matching que el resto de la app (lib/path-match)
+  return SPACES.find(s => pathMatches(s.prefix, path)) ?? null
 }
 
 function isBrowser(): boolean {

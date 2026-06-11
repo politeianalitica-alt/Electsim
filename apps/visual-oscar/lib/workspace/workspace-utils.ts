@@ -30,8 +30,8 @@ export const WS = {
   ink3: "#6e6e73",
 
   // Accent · azul CORPORATIVO Politeia (espeja --color-brand de tokens.css).
-  // Fase 1: antes era el azul Apple #0071e3 y el usuario veía cambiar el color
-  // de marca al pasar del header (#1F4E8C) al workspace. Valores en hex (no
+  // Fase 1: antes era el azul Apple (#0071e3) y el usuario veía cambiar el
+  // color de marca al pasar del header al workspace. Valores en hex (no
   // var()) porque varios componentes concatenan sufijos de alpha ("…55").
   accent: "#1F4E8C",
   accentHover: "#173E70",

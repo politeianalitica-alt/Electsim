@@ -620,7 +620,7 @@ function DossierSidebar({ dossier, onClose }: { dossier: DossierCompleto; onClos
           ))}
         </div>
       )}
-      <Link href={`/dosieres/${dossier.slug}`} style={{ display: 'inline-block', marginTop: 14, fontSize: 12, fontWeight: 600, color: '#0071e3', textDecoration: 'none' }}>
+      <Link href={`/dosieres/${dossier.slug}`} style={{ display: 'inline-block', marginTop: 14, fontSize: 12, fontWeight: 600, color: '#1F4E8C', textDecoration: 'none' }}>
         Ver ficha completa →
       </Link>
     </aside>

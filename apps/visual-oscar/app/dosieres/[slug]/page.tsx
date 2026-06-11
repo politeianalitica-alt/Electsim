@@ -182,7 +182,7 @@ export default function DossierDetallePage({ params }: { params: { slug: string 
  <Link
    href={`/dosieres/nuevo?import=${dossier.slug}`}
    style={{
-     color: '#0071e3', textDecoration: 'none', fontSize: 11.5, fontWeight: 600,
+     color: '#1F4E8C', textDecoration: 'none', fontSize: 11.5, fontWeight: 600,
      padding: '4px 10px', border: '1px solid #d2e3fb', borderRadius: 6,
    }}
    title="Abre el formulario precargado con los datos de este dossier"
@@ -527,7 +527,7 @@ function PatrimonioGrid({ items }: { items: Item[] }) {
  </div>
           {item.fuente_url && (
  <a href={item.fuente_url} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-block', marginTop: 8, fontSize: 11, color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>
+              style={{ display: 'inline-block', marginTop: 8, fontSize: 11, color: '#1F4E8C', textDecoration: 'none', fontWeight: 600 }}>
               {item.fuente_titulo || 'Ver fuente'} ↗
  </a>
           )}
@@ -556,7 +556,7 @@ function ProsaSimple({ items, partidoColor }: { items: Item[]; partidoColor: str
  </p>
           {item.fuente_url && (
  <a href={item.fuente_url} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-block', marginTop: 10, fontSize: 12, color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>
+              style={{ display: 'inline-block', marginTop: 10, fontSize: 12, color: '#1F4E8C', textDecoration: 'none', fontWeight: 600 }}>
               {item.fuente_titulo || 'Ver fuente'} ↗
  </a>
           )}
@@ -603,7 +603,7 @@ function ItemsList({ items, color }: { items: Item[]; color: string }) {
           )}
           {item.fuente_url && (
  <a href={item.fuente_url} target="_blank" rel="noopener noreferrer"
-              style={{ display: 'inline-block', marginTop: 8, fontSize: 11.5, color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>
+              style={{ display: 'inline-block', marginTop: 8, fontSize: 11.5, color: '#1F4E8C', textDecoration: 'none', fontWeight: 600 }}>
               {item.fuente_titulo || 'Ver fuente'} ↗
  </a>
           )}

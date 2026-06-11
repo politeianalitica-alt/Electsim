@@ -174,8 +174,8 @@ export default function GlosarioClient() {
                         key={e.term}
                         id={e.term}
                         style={{
-                          background: isActive ? 'rgba(0,113,227,0.06)' : '#fff',
-                          border: `1px solid ${isActive ? 'rgba(0,113,227,0.35)' : 'var(--color-hairline-soft, #e8e8ed)'}`,
+                          background: isActive ? 'rgba(31,78,140,0.06)' : '#fff',
+                          border: `1px solid ${isActive ? 'rgba(31,78,140,0.35)' : 'var(--color-hairline-soft, #e8e8ed)'}`,
                           borderRadius: 12,
                           padding: '14px 16px',
                           transition: 'background 240ms, border-color 240ms',
@@ -209,7 +209,7 @@ export default function GlosarioClient() {
                                 href={e.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                style={{ color: 'var(--color-accent, #0071e3)', textDecoration: 'none' }}
+                                style={{ color: 'var(--color-accent, #1F4E8C)', textDecoration: 'none' }}
                               >
                                 Sitio oficial →
                               </a>

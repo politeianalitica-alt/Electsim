@@ -163,7 +163,7 @@ function resolveSourceUrl(token: string): string | null {
 }
 
 /** Renderiza un string con separadores '·' donde cada token enlaza a su fuente si existe. */
-function SourceList({ text, baseColor = '#6e6e73', accent = '#0071e3' }: { text: string; baseColor?: string; accent?: string }) {
+function SourceList({ text, baseColor = '#6e6e73', accent = '#1F4E8C' }: { text: string; baseColor?: string; accent?: string }) {
   const tokens = text.split('·').map(t => t.trim()).filter(Boolean)
   return (
  <>
@@ -528,7 +528,7 @@ function SubKpiModal({
                           Fuente · {(() => {
                             const url = resolveSourceUrl(c.source_id)
                             return url
-                              ? <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: '#0071e3', fontWeight: 600, textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}>{c.source_id}</a>
+                              ? <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: '#1F4E8C', fontWeight: 600, textDecoration: 'none', borderBottom: '1px dotted #1F4E8C55' }}>{c.source_id}</a>
                               : <span style={{ color: '#6e6e73', fontWeight: 600 }}>{c.source_id}</span>
                           })()}
                           {' '}· Peso · <span style={{ color: '#6e6e73', fontWeight: 600 }}>{(c.weight * 100).toFixed(0)}%</span>
@@ -584,7 +584,7 @@ function SubKpiModal({
             {sourceLabel === 'live' ? '● DATOS LIVE' : 'DATOS DEMO'}
  </span>
  <button onClick={onClose} style={{
-            background: '#0071e3', color: '#fff', border: 'none',
+            background: '#1F4E8C', color: '#fff', border: 'none',
             borderRadius: 8, padding: '8px 18px', fontSize: 14.5, fontWeight: 600,
             cursor: 'pointer', fontFamily: 'inherit',
           }}>Cerrar</button>
@@ -771,10 +771,10 @@ export default function TermometroPage() {
                         padding: '3px 8px', borderRadius: 999, textAlign: 'center',
                       }}>{s.severidad}</span>
                       {s.url ? (
- <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
-                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+ <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', textDecoration: 'none', borderBottom: '1px dotted #1F4E8C55' }}
+                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
-                        >{s.titulo} <span style={{ color: '#0071e3', fontSize: 11 }}>↗</span></a>
+                        >{s.titulo} <span style={{ color: '#1F4E8C', fontSize: 11 }}>↗</span></a>
                       ) : (
  <span style={{ color: '#1d1d1f', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{s.titulo}</span>
                       )}
@@ -794,7 +794,7 @@ export default function TermometroPage() {
               Cómo leer el score
  </h2>
  <button onClick={() => setMethodOpen(o => !o)} style={{
-              background: 'none', border: 'none', fontSize: 14, color: '#0071e3', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
+              background: 'none', border: 'none', fontSize: 14, color: '#1F4E8C', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600,
             }}>
               {methodOpen ? 'Ocultar metodología ↑' : 'Ver metodología ↓'}
  </button>
@@ -1000,7 +1000,7 @@ export default function TermometroPage() {
                                     {(() => {
                                       const url = resolveSourceUrl(c.source_id)
                                       return url
-                                        ? <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: '#0071e3', fontWeight: 600, textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}>{c.source_id}</a>
+                                        ? <a href={url} target="_blank" rel="noopener noreferrer" style={{ color: '#1F4E8C', fontWeight: 600, textDecoration: 'none', borderBottom: '1px dotted #1F4E8C55' }}>{c.source_id}</a>
                                         : <span style={{ fontWeight: 600, color: '#6e6e73' }}>{c.source_id}</span>
                                     })()}
                                     {' '}· peso {(c.weight * 100).toFixed(0)}%
@@ -1036,10 +1036,10 @@ export default function TermometroPage() {
                       {dimensions[selectedDim].drivers.slice(0, 8).map(d => (
  <div key={d.id} style={{ padding: '12px 14px', background: '#FAFAFA', borderRadius: 10, fontSize: 14.5 }}>
                           {d.url ? (
- <a href={d.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
-                               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+ <a href={d.url} target="_blank" rel="noopener noreferrer" style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #1F4E8C55' }}
+                               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
-                            >{d.title} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+                            >{d.title} <span style={{ color: '#1F4E8C', fontSize: 12 }}>↗</span></a>
                           ) : (
  <div style={{ color: '#1d1d1f', fontWeight: 600, marginBottom: 5 }}>{d.title}</div>
                           )}
@@ -1097,10 +1097,10 @@ export default function TermometroPage() {
                       {(() => {
                         const url = d.url
                         return url ? (
- <a href={url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
-                             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+ <a href={url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #1F4E8C55' }}
+                             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
                              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
-                          >{d.title} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+                          >{d.title} <span style={{ color: '#1F4E8C', fontSize: 12 }}>↗</span></a>
                         ) : (
  <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{d.title}</div>
                         )
@@ -1117,10 +1117,10 @@ export default function TermometroPage() {
  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 90px 110px 110px', gap: 12, alignItems: 'center', padding: '13px 20px', borderTop: '1px solid #F5F5F7', fontSize: 14.5 }}>
  <div>
                       {s.url ? (
- <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #0071e355' }}
-                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+ <a href={s.url} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3, display: 'block', textDecoration: 'none', borderBottom: '1px dotted #1F4E8C55' }}
+                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
-                        >{s.titulo} <span style={{ color: '#0071e3', fontSize: 12 }}>↗</span></a>
+                        >{s.titulo} <span style={{ color: '#1F4E8C', fontSize: 12 }}>↗</span></a>
                       ) : (
  <div style={{ fontWeight: 600, color: '#1d1d1f', marginBottom: 3 }}>{s.titulo}</div>
                       )}

@@ -108,11 +108,11 @@ export default function NewsCard({ item, compact = false, onOpen }: NewsCardProp
             letterSpacing: '-0.012em', color: '#1d1d1f',
             lineHeight: 1.3, textDecoration: 'none',
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#0071e3' }}
+          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#1F4E8C' }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = '#1d1d1f' }}
           >
             {item.title}
- <span style={{ marginLeft: 6, color: '#0071e3', fontSize: 11.5 }}>↗</span>
+ <span style={{ marginLeft: 6, color: '#1F4E8C', fontSize: 11.5 }}>↗</span>
  </a>
         ) : (
  <h3 style={{
@@ -153,8 +153,8 @@ export default function NewsCard({ item, compact = false, onOpen }: NewsCardProp
             textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4,
           }}
           onMouseEnter={e => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor = '#0071e3'
-            ;(e.currentTarget as HTMLAnchorElement).style.color = '#0071e3'
+            (e.currentTarget as HTMLAnchorElement).style.borderColor = '#1F4E8C'
+            ;(e.currentTarget as HTMLAnchorElement).style.color = '#1F4E8C'
           }}
           onMouseLeave={e => {
             (e.currentTarget as HTMLAnchorElement).style.borderColor = '#ECECEF'

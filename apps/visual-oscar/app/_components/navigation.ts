@@ -1,3 +1,5 @@
+import { bestPrefixKey } from '@/lib/path-match'
+
 export type Banner = {
   eyebrow: string
   title: string
@@ -232,25 +234,16 @@ for (const m of MODULES) {
   }
 }
 /**
- * Resuelve por coincidencia exacta y, si no la hay, por el PREFIJO más largo.
- * Sin esto, cualquier subruta no registrada item a item (/estudio/fuentes,
- * /dosieres/[id]…) perdía el módulo activo: desaparecían subnav y resaltado
- * y el usuario sentía que cambiaba de aplicación.
+ * Resuelve por coincidencia exacta y, si no la hay, por el PREFIJO más largo
+ * (semántica única de lib/path-match). Sin esto, cualquier subruta no
+ * registrada item a item (/estudio/fuentes, /dosieres/[id]…) perdía el
+ * módulo activo: desaparecían subnav y resaltado.
  */
-function longestPrefix(table: Record<string, unknown>, path: string): string | null {
-  let best: string | null = null
-  for (const href in table) {
-    if (path.startsWith(href + '/') && (!best || href.length > best.length)) best = href
-  }
-  return best
-}
 export function moduleOfPath(path: string): NavModule | null {
-  if (HREF_TO_MODULE[path]) return HREF_TO_MODULE[path]
-  const prefix = longestPrefix(HREF_TO_MODULE, path)
-  return prefix ? HREF_TO_MODULE[prefix] : null
+  const key = bestPrefixKey(Object.keys(HREF_TO_MODULE), path)
+  return key ? HREF_TO_MODULE[key] : null
 }
 export function itemOfPath(path: string): NavItem | null {
-  if (HREF_TO_ITEM[path]) return HREF_TO_ITEM[path]
-  const prefix = longestPrefix(HREF_TO_ITEM, path)
-  return prefix ? HREF_TO_ITEM[prefix] : null
+  const key = bestPrefixKey(Object.keys(HREF_TO_ITEM), path)
+  return key ? HREF_TO_ITEM[key] : null
 }

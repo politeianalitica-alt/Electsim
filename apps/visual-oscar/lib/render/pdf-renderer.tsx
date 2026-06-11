@@ -46,10 +46,10 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
     ink3: "#6e6e73",
     border: "#d2d2d7",
     bg: "#fbfbfd",
-    accent: "#0071e3",
+    accent: "#1F4E8C",
     danger: "#c42c2c",
     warn: "#d97706",
-    info: "#0071e3",
+    info: "#1F4E8C",
   };
 
   const S = StyleSheet.create({

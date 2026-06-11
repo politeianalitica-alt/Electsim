@@ -67,7 +67,7 @@ export default function PartidoDetalle() {
     <div style={{ background: '#f5f5f7', minHeight: '100vh' }}>
       <AppHeader />
       <main style={wrap}>
-        <p style={{ marginTop: 18, fontSize: 12 }}><Link href="/partidos" style={{ color: '#0071e3', textDecoration: 'none' }}>← Partidos</Link></p>
+        <p style={{ marginTop: 18, fontSize: 12 }}><Link href="/partidos" style={{ color: '#1F4E8C', textDecoration: 'none' }}>← Partidos</Link></p>
 
         {/* Cabecera */}
         <section style={{ ...card, borderTop: `4px solid ${p.color}`, display: 'flex', gap: 18, alignItems: 'flex-start', flexWrap: 'wrap' }}>
@@ -166,7 +166,7 @@ export default function PartidoDetalle() {
             <h2 style={h2}>Financiación</h2>
             <p style={{ fontSize: 13.5, color: '#3a3a3d', lineHeight: 1.6, margin: 0 }}>{extra.financiacion.texto}</p>
             {extra.financiacion.fuente && (
-              <a href={extra.financiacion.fuente} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: 8, fontSize: 12, color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}>
+              <a href={extra.financiacion.fuente} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', marginTop: 8, fontSize: 12, color: '#1F4E8C', textDecoration: 'none', fontWeight: 600 }}>
                 Tribunal de Cuentas · fiscalización de partidos ↗
               </a>
             )}

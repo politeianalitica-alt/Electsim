@@ -187,7 +187,7 @@ export default function EntityBacklinks({
               <span style={{
                 fontSize: 9.5, fontWeight: 800, letterSpacing: '0.06em',
                 padding: '2px 6px', borderRadius: 4,
-                background: 'rgba(0,113,227,0.10)', color: '#0066cc',
+                background: 'rgba(31,78,140,0.10)', color: '#1F4E8C',
               }}>
                 PIN
               </span>
@@ -360,7 +360,7 @@ function PinToInvestigationModal({
           />
           <button type="submit" disabled={!newTitle.trim() || busy} style={{
             padding: '8px 14px', borderRadius: 8, border: 'none',
-            background: '#0071e3', color: '#fff', fontSize: 12.5, fontWeight: 600,
+            background: '#1F4E8C', color: '#fff', fontSize: 12.5, fontWeight: 600,
             cursor: !newTitle.trim() || busy ? 'not-allowed' : 'pointer',
             opacity: !newTitle.trim() || busy ? 0.5 : 1, fontFamily: 'inherit',
           }}>{busy ? '…' : 'Crear + fijar'}</button>

@@ -1064,7 +1064,7 @@ export default function DashboardPage() {
                 )}
  </div>
  <button onClick={() => router.push('/medios-narrativa')} style={{
-                background: '#0071e3', border: 'none', cursor: 'pointer',
+                background: '#1F4E8C', border: 'none', cursor: 'pointer',
                 fontSize: 12, color: '#fff', fontFamily: 'inherit', fontWeight: 600,
                 padding: '5px 12px', borderRadius: 999,
                 display: 'inline-flex', alignItems: 'center', gap: 4,

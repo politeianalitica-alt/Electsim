@@ -110,13 +110,13 @@ export default function AlertCard({ alert, onDetailClick, compact = false }: Ale
                   title={`Buscar noticias sobre: ${alert.title}`}
                   style={{
                     fontSize: 11, color: '#6e6e73', textDecoration: 'none',
-                    borderBottom: '1px dotted rgba(0,113,227,0.4)',
+                    borderBottom: '1px dotted rgba(31,78,140,0.4)',
                   }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#0071e3' }}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#1F4E8C' }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#6e6e73' }}
                 >
                   {alert.source} · <span style={{ fontWeight: 600 }}>{alert.ts}</span>
-                  {' '}<span style={{ color: '#0071e3' }}>↗</span>
+                  {' '}<span style={{ color: '#1F4E8C' }}>↗</span>
  </a>
  </div>
  <div style={{ display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0 }}>

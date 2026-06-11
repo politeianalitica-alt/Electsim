@@ -1,5 +1,5 @@
 "use client";
-export default function Sparkline({data,color="#0071e3"}:{data:number[];color?:string}){
+export default function Sparkline({data,color="#1F4E8C"}:{data:number[];color?:string}){
   if(!data.length)return null;
   const W=200,H=56,pad=4,min=Math.min(...data),max=Math.max(...data),range=max-min||1;
   const xF=(i:number)=>pad+(i/(data.length-1))*(W-pad*2);

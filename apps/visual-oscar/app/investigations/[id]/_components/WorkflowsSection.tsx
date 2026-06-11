@@ -347,7 +347,7 @@ function inputStyle(disabled: boolean): React.CSSProperties {
 function primaryBtn(running: boolean): React.CSSProperties {
   return {
     padding: '6px 14px', borderRadius: 6, border: 'none',
-    background: 'var(--color-accent, #0071e3)', color: '#fff',
+    background: 'var(--color-accent, #1F4E8C)', color: '#fff',
     fontSize: 11.5, fontWeight: 600,
     cursor: running ? 'not-allowed' : 'pointer',
     opacity: running ? 0.5 : 1, fontFamily: 'inherit',

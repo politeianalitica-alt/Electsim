@@ -13,7 +13,7 @@ export function Sparkline({ data, color, h = 36 }: { data?: number[]; color?: st
     .join(' ')
   return (
     <svg width={w} height={h} style={{ display: 'block' }}>
-      <polyline points={points} fill="none" stroke={color || '#0071e3'} strokeWidth={1.5} strokeLinejoin="round" />
+      <polyline points={points} fill="none" stroke={color || '#1F4E8C'} strokeWidth={1.5} strokeLinejoin="round" />
     </svg>
   )
 }

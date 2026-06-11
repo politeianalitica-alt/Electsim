@@ -135,7 +135,7 @@ export default function NewsPulseCard({ item, compact = false }: NewsPulseCardPr
               fontSize: compact ? 13.5 : 15, fontWeight: 600, letterSpacing: '-0.012em',
               color: '#1d1d1f', textDecoration: 'none',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = '#1d1d1f' }}
             >
               {item.title}
@@ -264,7 +264,7 @@ export default function NewsPulseCard({ item, compact = false }: NewsPulseCardPr
               {summary.loading && (
  <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#6e6e73', fontSize: 13 }}>
  <span style={{
-                    width: 12, height: 12, border: '2px solid #ECECEF', borderTopColor: '#0071e3',
+                    width: 12, height: 12, border: '2px solid #ECECEF', borderTopColor: '#1F4E8C',
                     borderRadius: '50%', animation: 'newsModalSpin 0.8s linear infinite',
                   }}/>
                   Generando resumen…
@@ -296,7 +296,7 @@ export default function NewsPulseCard({ item, compact = false }: NewsPulseCardPr
  <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               {item.url && (
  <a href={item.url} target="_blank" rel="noopener noreferrer" style={{
-                  background: '#0071e3', color: '#fff', borderRadius: 8,
+                  background: '#1F4E8C', color: '#fff', borderRadius: 8,
                   padding: '8px 16px', fontSize: 12.5, fontWeight: 600,
                   textDecoration: 'none', fontFamily: 'inherit',
                   display: 'inline-flex', alignItems: 'center', gap: 5,

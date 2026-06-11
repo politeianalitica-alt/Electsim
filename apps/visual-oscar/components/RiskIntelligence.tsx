@@ -339,10 +339,10 @@ export default function RiskIntelligence() {
                         background: '#EFF6FF', color: '#1F4E8C', marginRight: 6,
                       }}>{r.dimension_label?.toUpperCase()}</span>
                       {r.url ? (
- <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)' }}
-                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+ <a href={r.url} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, textDecoration: 'none', borderBottom: '1px dotted rgba(31,78,140,0.35)' }}
+                           onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
                            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)' }}
-                        >{r.title} <span style={{ color: '#0071e3', fontSize: 10 }}>↗</span></a>
+                        >{r.title} <span style={{ color: '#1F4E8C', fontSize: 10 }}>↗</span></a>
                       ) : (
  <span style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4 }}>{r.title}</span>
                       )}
@@ -428,9 +428,9 @@ function DimensionDrillDown({ dim }: { dim: RiskDimension }) {
                       fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, marginBottom: 2,
                       display: 'block', textDecoration: 'none',
                     }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#0071e3' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = '#1F4E8C' }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'var(--ink)' }}
-                  >{drv.title} <span style={{ color: '#0071e3', fontSize: 10 }}>↗</span></a>
+                  >{drv.title} <span style={{ color: '#1F4E8C', fontSize: 10 }}>↗</span></a>
                 ) : (
  <div style={{ fontSize: 12, color: 'var(--ink)', lineHeight: 1.4, marginBottom: 2 }}>{drv.title}</div>
                 )}

@@ -323,7 +323,7 @@ export default function ImportarCSVPage() {
 
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <button type="button" onClick={copiarJSON} style={{
-                background: '#0071e3', border: 'none', color: '#fff',
+                background: '#1F4E8C', border: 'none', color: '#fff',
                 padding: '9px 18px', borderRadius: 8, fontSize: 13, fontWeight: 600,
                 cursor: 'pointer', fontFamily: 'inherit',
               }}>

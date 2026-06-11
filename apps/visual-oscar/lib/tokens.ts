@@ -22,7 +22,7 @@ export type PartyKey = keyof typeof PARTY_COLORS;
 export const SEVERITY_COLORS = {
   critical: { light: '#c42c2c', dark: '#ff453a' },
   high:     { light: '#d97706', dark: '#ffd60a' },
-  medium:   { light: '#0071e3', dark: '#2997ff' },
+  medium:   { light: '#1F4E8C', dark: '#2997ff' },
   low:      { light: '#2d8a39', dark: '#3dba4c' },
   info:     { light: '#6e6e73', dark: '#8e8e93' },
 } as const;

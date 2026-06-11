@@ -12,7 +12,7 @@ export function BigSparkline({ data, color, h = 80 }: { data?: number[]; color?:
     .join(' ')
   return (
     <svg width={w} height={h} style={{ display: 'block' }}>
-      <polyline points={points} fill="none" stroke={color || '#0071e3'} strokeWidth={2} strokeLinejoin="round" />
+      <polyline points={points} fill="none" stroke={color || '#1F4E8C'} strokeWidth={2} strokeLinejoin="round" />
     </svg>
   )
 }

@@ -168,7 +168,7 @@ function ActionButton({ action, variant }: { action: EmptyStateAction; variant: 
     transition: 'background 150ms, border-color 150ms',
     textDecoration: 'none',
     ...(variant === 'primary'
-      ? { background: '#0071e3', color: '#fff', border: '1px solid #0071e3' }
+      ? { background: '#1F4E8C', color: '#fff', border: '1px solid #1F4E8C' }
       : { background: '#fff', color: '#3a3a3d', border: '1px solid #ECECEF' }),
   }
   if (action.href) {

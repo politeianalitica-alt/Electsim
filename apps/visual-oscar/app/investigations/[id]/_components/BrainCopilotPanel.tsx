@@ -335,7 +335,7 @@ export function BrainCopilotPanel({
           </span>
           <button type="submit" disabled={!input.trim() || busy} style={{
             padding: '6px 14px', borderRadius: 6, border: 'none',
-            background: 'var(--color-accent, #0071e3)', color: '#fff',
+            background: 'var(--color-accent, #1F4E8C)', color: '#fff',
             fontSize: 12, fontWeight: 600,
             cursor: !input.trim() || busy ? 'not-allowed' : 'pointer',
             opacity: !input.trim() || busy ? 0.5 : 1,
@@ -365,12 +365,12 @@ function ConversationItem({
       <div style={{
         alignSelf: 'flex-end', maxWidth: '85%',
         padding: '8px 12px', borderRadius: 12,
-        background: 'var(--color-accent-subtle, rgba(0,113,227,0.08))',
+        background: 'var(--color-accent-subtle, rgba(31,78,140,0.08))',
         fontSize: 12.5, color: 'var(--color-ink, #1d1d1f)',
         lineHeight: 1.4,
       }}>
         <div style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
-                      color: 'var(--color-accent-text, #0066cc)', textTransform: 'uppercase',
+                      color: 'var(--color-accent-text, #1F4E8C)', textTransform: 'uppercase',
                       marginBottom: 3 }}>
           {entry.action.replace(/_/g, ' ')}
         </div>
@@ -461,7 +461,7 @@ function ConversationItem({
                   <li key={i} style={{ fontSize: 10.5, wordBreak: 'break-all' }}>
                     {s.startsWith('http') ? (
                       <a href={s} target="_blank" rel="noopener noreferrer"
-                        style={{ color: 'var(--color-accent-text, #0066cc)' }}>{s}</a>
+                        style={{ color: 'var(--color-accent-text, #1F4E8C)' }}>{s}</a>
                     ) : <span style={{ color: 'var(--color-ink-4, #6e6e73)' }}>{s}</span>}
                   </li>
                 ))}
@@ -475,9 +475,9 @@ function ConversationItem({
               {entry.response.suggested_actions.map((sa, i) => (
                 <button key={i} onClick={() => onAction(sa.action)} title={sa.rationale} style={{
                   padding: '4px 10px', borderRadius: 999,
-                  background: 'var(--color-accent-subtle, rgba(0,113,227,0.08))',
-                  border: '1px solid var(--color-accent, #0071e3)',
-                  color: 'var(--color-accent-text, #0066cc)',
+                  background: 'var(--color-accent-subtle, rgba(31,78,140,0.08))',
+                  border: '1px solid var(--color-accent, #1F4E8C)',
+                  color: 'var(--color-accent-text, #1F4E8C)',
                   fontSize: 11, fontWeight: 600,
                   cursor: 'pointer', fontFamily: 'inherit',
                 }}>
@@ -514,13 +514,13 @@ function WorkflowConversationItem({
       <div style={{
         alignSelf: 'flex-end', maxWidth: '90%',
         padding: '8px 12px', borderRadius: 12,
-        background: 'var(--color-accent-subtle, rgba(0,113,227,0.08))',
+        background: 'var(--color-accent-subtle, rgba(31,78,140,0.08))',
         fontSize: 12.5, color: 'var(--color-ink, #1d1d1f)',
         lineHeight: 1.4,
       }}>
         <div style={{
           fontSize: 9.5, fontWeight: 700, letterSpacing: '0.08em',
-          color: 'var(--color-accent-text, #0066cc)', textTransform: 'uppercase',
+          color: 'var(--color-accent-text, #1F4E8C)', textTransform: 'uppercase',
           marginBottom: 3,
         }}>
           WORKFLOW · {entry.workflow_slug.replace(/_/g, ' ')}

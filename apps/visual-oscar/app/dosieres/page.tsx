@@ -420,7 +420,7 @@ export default function DosieresPage() {
           <button
             onClick={() => router.push('/dosieres/nuevo')}
             style={{
-              background: '#0071e3', border: 'none', color: '#fff',
+              background: '#1F4E8C', border: 'none', color: '#fff',
               padding: '8px 16px', borderRadius: 8, fontSize: 13, fontWeight: 600,
               cursor: 'pointer', fontFamily: 'inherit',
               display: 'inline-flex', alignItems: 'center', gap: 6,
