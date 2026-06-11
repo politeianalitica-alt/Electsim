@@ -17,6 +17,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
+import MaritimoShell from '../_components/MaritimoShell'
 import { isAuthenticated } from '@/lib/auth'
 import {
   useShippingLines,
@@ -104,6 +105,7 @@ export default function RutasPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
+      <MaritimoShell />
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: '24px 20px' }}>
         <Link
           href="/puertos"

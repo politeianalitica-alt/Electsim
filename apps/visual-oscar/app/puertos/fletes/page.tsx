@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
+import MaritimoShell from '../_components/MaritimoShell'
 import { isAuthenticated } from '@/lib/auth'
 import { useFreightSnapshot, useFreightPrice } from '@/hooks/usePorts'
 import { FreightSnapshotGrid } from '@/components/ports/FreightSnapshotGrid'
@@ -27,6 +28,7 @@ export default function FletesPage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
+      <MaritimoShell />
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 20px' }}>
         <Link href="/puertos" style={{ color: ACCENT, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}>
           ← Puertos & Comercio Global

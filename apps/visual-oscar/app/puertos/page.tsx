@@ -9,6 +9,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../_components/AppHeader'
+import MaritimoShell from './_components/MaritimoShell'
+import MaritimoVisionGlobal from './_components/MaritimoVisionGlobal'
 import { isAuthenticated } from '@/lib/auth'
 import {
   usePortCatalog,
@@ -117,6 +119,7 @@ export default function PortsDashboard() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
+      <MaritimoShell />
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: '24px 20px' }}>
         <header style={{ marginBottom: 18 }}>
           <p style={{ fontSize: 11, letterSpacing: 1.2, color: ACCENT, fontWeight: 700, margin: 0 }}>
@@ -135,33 +138,10 @@ export default function PortsDashboard() {
           </p>
         </header>
 
-        {/* Sub-nav del módulo */}
-        <nav style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid #e2e8f0' }}>
-          {[
-            { href: '/puertos', label: 'Dashboard' },
-            { href: '/puertos/rutas', label: 'Rutas & Navieras' },
-            { href: '/puertos/comercio', label: 'Comercio bilateral' },
-            { href: '/puertos/fletes', label: 'Fletes & Baltic' },
-            { href: '/puertos/chokepoints', label: 'Corredores' },
-          ].map((n) => (
-            <Link
-              key={n.href}
-              href={n.href}
-              style={{
-                padding: '6px 12px',
-                fontSize: 12,
-                fontWeight: 600,
-                color: '#334155',
-                background: '#fff',
-                border: '1px solid #e2e8f0',
-                borderRadius: 6,
-                textDecoration: 'none',
-              }}
-            >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+        {/* Resumen ejecutivo marítimo · datos vivos (AIS · flota · comercio ES) */}
+        <div style={{ marginBottom: 18 }}>
+          <MaritimoVisionGlobal />
+        </div>
 
         {/* Banner estado de fuentes externas (AIS, Comtrade, Yahoo, ACLED, OpenSanctions) */}
         <DataSourcesBanner status={dataSources.status} loading={dataSources.loading} />

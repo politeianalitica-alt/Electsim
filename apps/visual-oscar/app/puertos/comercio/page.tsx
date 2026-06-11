@@ -15,6 +15,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
+import MaritimoShell from '../_components/MaritimoShell'
+import ComercioBilateralRich from '../_components/ComercioBilateralRich'
 import { isAuthenticated } from '@/lib/auth'
 import { useBilateralTrade, useTopPartners } from '@/hooks/usePorts'
 import { BilateralTradeSankey } from '@/components/ports/BilateralTradeSankey'
@@ -94,7 +96,9 @@ export default function TradePage() {
   return (
     <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
+      <MaritimoShell />
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 20px' }}>
+        <div style={{ marginBottom: 18 }}><ComercioBilateralRich /></div>
         <Link
           href="/puertos"
           style={{
