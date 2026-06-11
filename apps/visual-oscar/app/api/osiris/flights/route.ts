@@ -111,6 +111,8 @@ const ADSBFI_SPOTS = [
   { lat: 26.5, lon: 52.0 },   // Golfo Pérsico / Dubái
   { lat: -22.0, lon: -46.0 }, // Brasil (São Paulo / Río)
   { lat: 31.0, lon: 118.0 },  // China costa este (Shanghái)
+  { lat: 39.9, lon: 116.4 },  // China norte (Pekín) — único foco con feeders
+  { lat: 23.0, lon: 113.5 },  // China sur (Cantón / Hong Kong) — hub denso
 ];
 // Su límite es ~1 req/s ESTRICTO: verificado que con ~150 ms entre peticiones
 // rechaza la mitad y con ~1,1 s responde todo. Stagger de 1,2 s entre inicios
