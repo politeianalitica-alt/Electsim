@@ -121,15 +121,6 @@ export default function PortsDashboard() {
       <AppHeader />
       <MaritimoShell />
       <div style={{ maxWidth: 1320, margin: '0 auto', padding: '24px 20px' }}>
-        {/* Mapa Politeia (OSIRIS) con las capas marítimas activas · arriba del todo */}
-        <div style={{ marginBottom: 18, borderRadius: 14, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
-          <iframe
-            src="/osint-global?embed=1&lat=37.5&lon=15&zoom=4.3&layers=maritime,ship_cargo,ship_tanker,ship_passenger,ship_fishing,ship_highspeed,ship_military,ship_other,port_container,port_commercial,port_energy,port_naval"
-            title="Mapa Politeia · capas marítimas"
-            loading="lazy"
-            style={{ width: '100%', height: 600, border: 0, display: 'block' }}
-          />
-        </div>
         <header style={{ marginBottom: 18 }}>
           <p style={{ fontSize: 11, letterSpacing: 1.2, color: ACCENT, fontWeight: 700, margin: 0 }}>
             PUERTOS · COMERCIO GLOBAL · FLETES · CHOKEPOINTS
@@ -150,6 +141,16 @@ export default function PortsDashboard() {
         {/* Resumen ejecutivo marítimo · datos vivos (AIS · flota · comercio ES) */}
         <div style={{ marginBottom: 18 }}>
           <MaritimoVisionGlobal />
+        </div>
+
+        {/* Mapa Politeia (OSIRIS) con capas marítimas · debajo de "Inteligencia marítima global" */}
+        <div style={{ marginBottom: 18, borderRadius: 14, overflow: 'hidden', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+          <iframe
+            src="/osint-global?embed=1&lat=37.5&lon=15&zoom=4.3&layers=maritime,ship_cargo,ship_tanker,ship_passenger,ship_fishing,ship_highspeed,ship_military,ship_other,port_container,port_commercial,port_energy,port_naval"
+            title="Mapa Politeia · capas marítimas"
+            loading="lazy"
+            style={{ width: '100%', height: 600, border: 0, display: 'block' }}
+          />
         </div>
 
         {/* Banner estado de fuentes externas (AIS, Comtrade, Yahoo, ACLED, OpenSanctions) */}
