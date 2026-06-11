@@ -49,12 +49,18 @@ restan utilidad real:
   Room, rollback en optimistic updates, código muerto eliminado (GraphView,
   `/operaciones` → redirect, palette global) y hardening extra surgido de la
   revisión adversarial (`verifyToken` nunca lanza ante cookies malformadas).
-- **Fase 1 · Un solo producto (1-2 semanas).** Tokens únicos en
-  `tokens.css` consumidos por WS/Domo/war-room (un solo azul); cabecera de
-  espacio compartida con breadcrumb y salida común al hub; renombrar los tres
-  "Command Center"; el Toolbox pasa a launcher puro o reutiliza vistas
-  compartidas; labels en español coherente; vista en URL para Cuaderno y
-  Toolbox (`useUrlState` ya existe).
+- **Fase 1 · Un solo producto (1-2 semanas). — PRIMER TRAMO HECHO 12 jun 2026**
+  (commits `24a4685c`…): HECHO → familia `--color-brand*` en tokens.css y azul
+  corporativo único en todo el ámbito workspace (WS, Cuaderno, Toolbox, grafo,
+  MetricTrace); Domo consume tokens reales (8 variables muertas mapeadas);
+  WS.font → Inter via next/font; un solo "Command Center" (Toolbox → "Panel
+  operativo", War Room → "Sala de operaciones"); labels en español; ?view= y
+  ?tool= en URL; salida común "⊞ Mis workspaces" en los 4 espacios; ErrorPanel
+  compartido. PENDIENTE → cabecera de espacio compartida con breadcrumb,
+  decisión Toolbox launcher-puro vs vistas compartidas, unificar los 3
+  mecanismos de matching de rutas, barrido del azul fuera del workspace
+  (~100 usos de #0071e3 en páginas no-workspace + token --color-accent),
+  convención única de claves localStorage.
 - **Fase 2 · Persistencia de verdad (2-4 semanas).** Registro central de
   claves + export/import global; generalizar `/api/cuaderno/sync` a
   `/api/sync/[namespace]` (Cama y Preinformes primero: son el entregable);

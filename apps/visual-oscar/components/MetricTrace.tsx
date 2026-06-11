@@ -96,7 +96,7 @@ function InfoTip({ text }: { text: string }) {
 
 export default function MetricTrace({
   sources, updatedAt, period, sampleSize, confidence, delta, methodology,
-  evidenceItems, compact = false, accent = '#0071e3', style,
+  evidenceItems, compact = false, accent = '#1F4E8C', style,
 }: MetricTraceProps) {
   const [evidenceOpen, setEvidenceOpen] = useState(false)
   const srcs = normalizeSources(sources)
