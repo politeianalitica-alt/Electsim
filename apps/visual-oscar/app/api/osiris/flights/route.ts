@@ -135,10 +135,11 @@ let openskyTok: { token: string; exp: number } | null = null;
 // Último motivo de fallo del flujo OpenSky (token o states/all), expuesto en
 // sources.opensky_debug para diagnosticar desde producción sin log streaming.
 let openskyDebug: string | null = null;
+let openskyDebugTok: string | null = null;
 async function getOpenSkyToken(): Promise<string | null> {
   const id = process.env.OPENSKY_CLIENT_ID;
   const secret = process.env.OPENSKY_CLIENT_SECRET;
-  if (!id || !secret) { openskyDebug = 'sin credenciales en env'; return null; }
+  if (!id || !secret) { openskyDebugTok = 'sin credenciales en env'; return null; }
   if (openskyTok && Date.now() < openskyTok.exp) return openskyTok.token;
   try {
     const res = await fetch(
@@ -151,21 +152,21 @@ async function getOpenSkyToken(): Promise<string | null> {
       },
     );
     if (!res.ok) {
-      openskyDebug = `token HTTP ${res.status}: ${(await res.text()).slice(0, 150)}`;
-      console.warn('[opensky]', openskyDebug);
+      openskyDebugTok = `token HTTP ${res.status}: ${(await res.text()).slice(0, 150)}`;
+      console.warn('[opensky]', openskyDebugTok);
       return null;
     }
     const j = await res.json();
     if (!j.access_token) {
-      openskyDebug = `token sin access_token: ${JSON.stringify(j).slice(0, 150)}`;
-      console.warn('[opensky]', openskyDebug);
+      openskyDebugTok = `token sin access_token: ${JSON.stringify(j).slice(0, 150)}`;
+      console.warn('[opensky]', openskyDebugTok);
       return null;
     }
     openskyTok = { token: j.access_token, exp: Date.now() + ((j.expires_in || 1800) - 60) * 1000 };
     return openskyTok.token;
   } catch (e: any) {
-    openskyDebug = `token fetch falló: ${e?.message || e}`;
-    console.warn('[opensky]', openskyDebug);
+    openskyDebugTok = `token fetch falló: ${e?.message || e}`;
+    console.warn('[opensky]', openskyDebugTok);
     return null;
   }
 }
@@ -571,6 +572,7 @@ export async function GET() {
         opensky_age_s: openskyRes.ageS,
         opensky_creds: !!(process.env.OPENSKY_CLIENT_ID && process.env.OPENSKY_CLIENT_SECRET),
         opensky_debug: openskyRes.mode === 'live' ? null : openskyDebug,
+        opensky_debug_token: openskyRes.mode === 'live' ? null : openskyDebugTok,
         mil_added: milAdded,
         ladd_pia_added: laddPiaAdded,
       },
