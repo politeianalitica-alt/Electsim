@@ -1,8 +1,9 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { WS } from "@/lib/workspace/workspace-utils";
-import { demoWorkspace } from "@/lib/workspace/mock-data";
+import Link from "next/link";
+import { WS, DEFAULT_WORKSPACE_ID } from "@/lib/workspace/workspace-utils";
+import { workspaceRepository } from "@/lib/workspace/workspace-repository";
 import { useWorkspaceStore } from "@/context/WorkspaceContext";
 import { WorkspaceSidebar } from "./workspace-sidebar";
 import { WorkspaceTopbar } from "./workspace-topbar";
@@ -10,6 +11,7 @@ import { WorkspaceTabs } from "./workspace-tabs";
 import { WorkspaceAgentPanel } from "./workspace-agent-panel";
 import { WorkspaceCommandPalette } from "./workspace-command-palette";
 import { RecentTracker } from "./recent-tracker";
+import type { Workspace } from "@/types/workspace";
 
 interface WorkspaceShellProps {
   workspaceId: string;
@@ -18,7 +20,23 @@ interface WorkspaceShellProps {
 
 export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
   const { isAgentOpen } = useWorkspaceStore();
-  const workspace = demoWorkspace;
+  // Resuelve el workspace REAL por id (antes: siempre demoWorkspace, así que
+  // /workspaces/lo-que-sea mostraba el chrome de "España 2026"). Si el id no
+  // existe, se muestra un stub honesto (contadores a 0, modo demo) + banner.
+  const real = workspaceRepository.getWorkspaceById(workspaceId);
+  const workspace: Workspace = real ?? {
+    id: workspaceId,
+    name: workspaceId.replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase()),
+    tenantId: "demo",
+    description: "Workspace sin datos",
+    mode: "demo",
+    createdAt: "",
+    tags: [],
+    issueCount: 0,
+    pendingActions: 0,
+    decisionsThisWeek: 0,
+    teamMembers: 0,
+  };
 
   return (
  <div data-workspace-light style={{
@@ -33,6 +51,22 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
     }}>
       {/* Topbar */}
  <WorkspaceTopbar workspace={workspace} workspaceId={workspaceId} />
+
+      {/* Aviso: id sin datos · evita confundir un espacio vacío con datos reales */}
+      {!real && (
+ <div style={{
+          display: "flex", alignItems: "center", gap: 8,
+          padding: "7px 16px", fontSize: 12, fontFamily: WS.font,
+          background: WS.warnSub, color: WS.warn,
+          borderBottom: `1px solid ${WS.border}`,
+        }}>
+ <span style={{ fontWeight: 700 }}>!</span>
+          Este workspace ({workspaceId}) no tiene datos todavía.
+ <Link href={`/workspaces/${DEFAULT_WORKSPACE_ID}/overview`} style={{ color: WS.warn, fontWeight: 600 }}>
+            Ir al workspace demo España 2026 ⟶
+ </Link>
+ </div>
+      )}
 
       {/* Body: sidebar + content + agent */}
  <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
