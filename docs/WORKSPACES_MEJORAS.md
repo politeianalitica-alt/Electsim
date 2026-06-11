@@ -61,11 +61,17 @@ restan utilidad real:
   mecanismos de matching de rutas, barrido del azul fuera del workspace
   (~100 usos de #0071e3 en páginas no-workspace + token --color-accent),
   convención única de claves localStorage.
-- **Fase 2 · Persistencia de verdad (2-4 semanas).** Registro central de
-  claves + export/import global; generalizar `/api/cuaderno/sync` a
-  `/api/sync/[namespace]` (Cama y Preinformes primero: son el entregable);
-  identidad única derivada de la sesión; después, tablas con RLS en el FastAPI
-  y repositorios contra React Query con mutaciones optimistas.
+- **Fase 2 · Persistencia de verdad (2-4 semanas). — PRIMER TRAMO HECHO
+  12 jun 2026** (commits `224dc57a`, `8c06368d`): HECHO → safeSetItem con
+  banner global de cuota llena (cableado en Cama, Preinformes, Cuaderno y
+  persist.ts); registro de claves + copia de seguridad export/import en el
+  hub; `/api/sync/[namespace]` con identidad derivada de la SESIÓN y
+  tombstones; auto-sync con merge LWW + SyncChip en Cama y Preinformes.
+  PENDIENTE → migrar el sync del Cuaderno a la identidad de sesión (hoy
+  sigue con client_id manual + notas borradas que resucitan), sync para
+  politeia:ws:* (docs/tablas/canvas), y el tramo backend: tablas con RLS
+  en el FastAPI + repositorios contra React Query con mutaciones
+  optimistas (requiere desplegar el backend Python).
 - **Fase 3 · Funcionalidad diferencial (en paralelo por piezas).** Agente IA
   real en el workspace (la cascada de modelos y las 14 tools ya existen);
   Preinformes que redacta secciones con IA desde las fuentes seleccionadas;
