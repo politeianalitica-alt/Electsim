@@ -6,6 +6,11 @@ import { stealthFetch } from '@/lib/osiris/stealthFetch';
 // no resuelve y la ruta queda rota/404). Se ejecuta bajo demanda.
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
+// OpenSky descarta en silencio el tráfico desde los rangos AWS-US que Vercel
+// usa por defecto (iad1): token y states/all dan timeout, verificado con
+// sources.opensky_debug*. Desde Europa (fra1) el host responde; además
+// adsb.lol/adsb.fi/airplanes.live funcionan igual o mejor desde allí.
+export const preferredRegion = 'fra1';
 
 /**
  * Politeia — Flight Data API
