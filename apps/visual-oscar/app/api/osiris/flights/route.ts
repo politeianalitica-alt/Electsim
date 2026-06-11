@@ -258,8 +258,36 @@ function deadReckonStates(states: any[], dtS: number): any[] {
 let openskyInflight: Promise<any[] | null> | null = null;
 const OPENSKY_WAIT_MS = 24000;      // espera máxima dentro de una petición (paralela a adsb.*, cabe en maxDuration=30)
 const OPENSKY_FRESH_MS = 90_000;    // snapshot reciente: se sirve como 'live'
+// Circuit breaker: OpenSky descarta el tráfico de los rangos AWS de Vercel
+// (token y states/all dan timeout desde iad1 y fra1). Tras 2 fallos seguidos
+// la espera dentro de la petición baja a 3s durante 15 min para no penalizar
+// la latencia de los polls fríos; pasado el plazo se vuelve a intentar con la
+// ventana completa por si OpenSky desbloquea o se configura el relay.
+let openskyFails = 0;
+let openskyBackoffUntil = 0;
+const OPENSKY_BACKOFF_MS = 15 * 60 * 1000;
+const OPENSKY_SHORT_WAIT_MS = 3000;
 
 async function refreshOpenSkySnap(): Promise<any[] | null> {
+  // Relay externo opcional (Cloudflare Worker u otro host fuera de AWS) que
+  // devuelve el JSON de /states/all ya autenticado: única vía fiable mientras
+  // OpenSky bloquee los rangos AWS de Vercel.
+  const relay = process.env.OPENSKY_RELAY_URL;
+  if (relay) {
+    try {
+      const res = await fetch(relay, { signal: AbortSignal.timeout(15000) });
+      if (res.ok) {
+        const j = await res.json();
+        if (j?.states?.length > 0) {
+          openskySnap = { states: j.states, ts: Date.now() };
+          return j.states;
+        }
+      }
+      openskyDebug = `relay HTTP ${res.status}`;
+    } catch (e: any) {
+      openskyDebug = `relay falló: ${e?.message || e}`;
+    }
+  }
   const token = await getOpenSkyToken();
   // Con token el cupo es de la cuenta: un único intento largo. Anónimo: dos
   // intentos cortos (la rotación de IPs de salida de Vercel puede dar con una
@@ -283,12 +311,19 @@ async function fetchOpenSky(): Promise<OpenSkyResult> {
   if (!openskyInflight) {
     openskyInflight = refreshOpenSkySnap().finally(() => { openskyInflight = null; });
   }
+  const waitMs = Date.now() < openskyBackoffUntil ? OPENSKY_SHORT_WAIT_MS : OPENSKY_WAIT_MS;
   const states = await Promise.race([
     openskyInflight,
-    new Promise<null>((resolve) => setTimeout(() => resolve(null), OPENSKY_WAIT_MS)),
+    new Promise<null>((resolve) => setTimeout(() => resolve(null), waitMs)),
   ]);
   if (states && states.length > 0) {
+    openskyFails = 0;
+    openskyBackoffUntil = 0;
     return { states, mode: 'live', ageS: 0 };
+  }
+  openskyFails++;
+  if (openskyFails >= 2 && Date.now() >= openskyBackoffUntil) {
+    openskyBackoffUntil = Date.now() + OPENSKY_BACKOFF_MS;
   }
   if (openskySnap && Date.now() - openskySnap.ts <= OPENSKY_SNAP_TTL_MS) {
     const ageS = Math.round((Date.now() - openskySnap.ts) / 1000);
