@@ -1,19 +1,18 @@
 'use client'
 
 /**
- * ToolboxShell — sidebar de categorías + área principal con vistas inline.
+ * ToolboxShell — LAUNCHER del analista (cierre Fase 1).
  *
- * El Toolbox da acceso unificado a las 14 herramientas del analista,
- * con vistas inline para las operativas (Command Center, Inbox, Terminal)
- * y deep-links al workspace para las productivas.
+ * Decisión de producto: el Toolbox ya NO replica vistas del Command Center
+ * (su Command Center/Inbox/Terminal inline mostraban mocks divergentes de
+ * los del workspace — dos "verdades" para el mismo dato). Ahora todas las
+ * herramientas son deep-links al workspace real; solo Cama y Preinformes
+ * quedan inline porque son módulos compartidos con repositorio único.
  */
 
 import Link from 'next/link'
 import styles from './Toolbox.module.css'
 import { useUrlState } from '@/lib/useUrlState'
-import CommandCenter from './CommandCenter'
-import InboxView from './InboxView'
-import TerminalView from './TerminalView'
 import ToolGrid from './ToolGrid'
 import CamaModule from '@/app/_components/cama/CamaModule'
 import PreinformesModule from '@/app/_components/preinformes/PreinformesModule'
@@ -41,15 +40,16 @@ export interface ToolDef {
 const DEFAULT_WORKSPACE = DEFAULT_WORKSPACE_ID
 
 export const TOOLS: ToolDef[] = [
-  // OPERATIVO
-  // Renombrado en Fase 1: 'Command Center' es SOLO el overview del workspace
-  // (/workspaces/[id]/overview). Esta vista inline es el panel operativo del
-  // Toolbox — tres cosas con el mismo nombre confundían al usuario nuevo.
-  { id: 'command-center', label: 'Panel operativo', glyph: '▣', category: 'OPERATIVO', inline: true,
-    description: 'Tu mando del día: morning brief, issues críticos, agenda y acciones.' },
-  { id: 'inbox',          label: 'Inbox',          glyph: '⊠', category: 'OPERATIVO', inline: true,
+  // OPERATIVO · deep-links al workspace REAL (las réplicas inline con mocks
+  // divergentes se eliminaron en el cierre de Fase 1)
+  { id: 'command-center', label: 'Command Center', glyph: '▣', category: 'OPERATIVO',
+    href: `/workspaces/${DEFAULT_WORKSPACE_ID}/overview`,
+    description: 'El mando del workspace: morning brief, issues críticos, agenda y acciones.' },
+  { id: 'inbox',          label: 'Inbox',          glyph: '⊠', category: 'OPERATIVO',
+    href: `/workspaces/${DEFAULT_WORKSPACE_ID}/inbox`,
     description: 'Cola unificada: alertas, menciones, tareas asignadas, peticiones.' },
-  { id: 'terminal',       label: 'Terminal',       glyph: '⟫', category: 'OPERATIVO', inline: true,
+  { id: 'terminal',       label: 'Terminal',       glyph: '⟫', category: 'OPERATIVO',
+    href: `/workspaces/${DEFAULT_WORKSPACE_ID}/terminal`,
     description: 'Consola operativa: comandos rápidos, queries y atajos al stack.' },
 
   // ESTRATEGIA · módulos transversales compartidos con Estudio/War Room/Cuaderno
@@ -101,9 +101,9 @@ export const TOOLS: ToolDef[] = [
 const CATEGORIES: Array<ToolDef['category']> = ['OPERATIVO', 'ESTRATEGIA', 'CONTENIDO', 'INTELIGENCIA', 'SISTEMA']
 
 export default function ToolboxShell() {
-  // Fase 1 · herramienta en URL (?tool=inbox|cama…): enlazable y F5-proof,
-  // mismo patrón que ?section= del War Room y ?view= del Cuaderno.
-  const [active, setActive] = useUrlState<ToolId>('tool', 'command-center')
+  // Fase 1 · herramienta en URL (?tool=cama|preinformes): enlazable y
+  // F5-proof. El default es Cama (única familia inline tras el launcher).
+  const [active, setActive] = useUrlState<ToolId>('tool', 'cama')
 
   return (
     <div className={styles.shell}>
@@ -162,9 +162,6 @@ export default function ToolboxShell() {
 
       {/* ── Área principal ────────────────────────────────────────── */}
       <main className={styles.main}>
-        {active === 'command-center' && <CommandCenter />}
-        {active === 'inbox' && <InboxView />}
-        {active === 'terminal' && <TerminalView />}
         {active === 'cama' && (
           <div style={{ padding: 20 }}>
             <CamaModule espacio="toolbox" embebido />
@@ -176,8 +173,8 @@ export default function ToolboxShell() {
           </div>
         )}
         {/* Las herramientas con href se abren con Link, no se renderizan aquí.
-            Pero si alguna entra como fallback, mostramos un grid. */}
-        {!['command-center','inbox','terminal','cama','preinformes'].includes(active) && (
+            Cualquier ?tool= no-inline cae al grid de lanzadores. */}
+        {!['cama','preinformes'].includes(active) && (
           <ToolGrid tools={TOOLS} onPick={(id) => setActive(id)} />
         )}
       </main>
