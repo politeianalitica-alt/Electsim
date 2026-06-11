@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import WebSocket from 'ws';
 import worldPorts from './ports-world.json';
-import { fetchPortActivityByCountry } from '@/lib/portwatch/client';
+import { fetchPortActivityWorld } from '@/lib/portwatch/client';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -422,20 +422,44 @@ const getDistanceKm = (lat1: number, lng1: number, lat2: number, lng2: number) =
   return Math.sqrt(dx * dx + dy * dy) * 111.32;
 };
 
-// IMF PortWatch · actividad portuaria (escalas actuales vs media 12m) por país.
-// Feature Service público (sin clave), cacheado 12h. Países de mayor tráfico para
-// cubrir los puertos del mapa. Degradación: si falla, los puertos no llevan PW.
+// IMF PortWatch · actividad portuaria mundial (escalas/semana actuales vs media
+// 12m). UNA sola recogida global (fetchPortActivityWorld → Daily_Ports_Data +
+// PortWatch_ports_database, ArcGIS público sin clave), en vez de 1 query por
+// país. Las fetch subyacentes llevan next.revalidate 12h; además memo en módulo
+// para no recalcular el cruce en cada GET (el mapa pide cada ~20s).
+// Degradación: si PortWatch falla, [] y los puertos del mapa no llevan pw_*.
 type PwPort = { name: string; lat: number; lon: number; current: number; avg: number; dev: number };
-const PW_COUNTRIES = ['ESP', 'CHN', 'SGP', 'KOR', 'NLD', 'ARE', 'MYS', 'BEL', 'DEU', 'USA', 'JPN', 'GBR', 'HKG', 'GRC', 'ITA', 'FRA', 'PAN', 'EGY', 'SAU', 'BRA', 'MEX', 'IND', 'TUR', 'MAR', 'AUS', 'ZAF'];
+let pwCache: { data: PwPort[]; at: number } | null = null;
+let pwInflight: Promise<PwPort[]> | null = null;
+const PW_TTL_MS = 12 * 3600 * 1000;   // 12h, igual que el revalidate del cliente
+const PW_WAIT_MS = 9000;              // espera máxima en frío: no bloquear el mapa
 async function fetchPortWatchActivity(): Promise<PwPort[]> {
-  try {
-    const lists = await Promise.all(PW_COUNTRIES.map(async (iso3) => {
-      try { const r = await fetchPortActivityByCountry(iso3); return r.ok ? r.data : []; } catch { return []; }
-    }));
-    return lists.flat()
-      .filter((p) => p.lat && p.lon && p.vessel_count_current > 0)
-      .map((p) => ({ name: p.port_name, lat: p.lat, lon: p.lon, current: p.vessel_count_current, avg: p.vessel_count_avg_12m, dev: p.deviation_pct }));
-  } catch { return []; }
+  if (pwCache && Date.now() - pwCache.at < PW_TTL_MS) return pwCache.data;
+  if (!pwInflight) {
+    pwInflight = (async () => {
+      try {
+        const r = await fetchPortActivityWorld();
+        if (!r.ok) return pwCache?.data ?? [];
+        const data = r.data
+          .filter((p) => p.lat && p.lon && (p.vessel_count_current > 0 || p.vessel_count_avg_12m > 0))
+          .map((p) => ({ name: p.port_name, lat: p.lat, lon: p.lon, current: p.vessel_count_current, avg: p.vessel_count_avg_12m, dev: p.deviation_pct }));
+        if (data.length > 0) pwCache = { data, at: Date.now() };
+        return data;
+      } catch {
+        return pwCache?.data ?? [];
+      } finally {
+        pwInflight = null;
+      }
+    })();
+  }
+  // Espera acotada: en frío la recogida global puede tardar ~10-15s; si no llega
+  // a tiempo devolvemos lo que haya y la promesa sigue calentando la caché para
+  // la siguiente petición (el mapa repide cada ~20s).
+  const result = await Promise.race([
+    pwInflight,
+    new Promise<PwPort[] | null>((resolve) => setTimeout(() => resolve(null), PW_WAIT_MS)),
+  ]);
+  return result ?? pwCache?.data ?? [];
 }
 
 export async function GET() {

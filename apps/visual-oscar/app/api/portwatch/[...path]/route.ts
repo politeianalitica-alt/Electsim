@@ -49,8 +49,12 @@ const FS_CHOKEPOINTS = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/res
 const FS_DISRUPTIONS = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/portwatch_disruptions_database/FeatureServer/0/query'
 // Daily datasets (port-watch updates Tuesdays 9am ET, ~90K vessels tracked)
 const FS_DAILY_CHOKE = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Chokepoints_Data/FeatureServer/0/query'
-const FS_DAILY_REGIONAL = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Regional_Data/FeatureServer/0/query'
-const FS_DAILY_TRADE_WLD = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data_WLD/FeatureServer/0/query'
+// Comercio diario por país + agregado mundial (fila ISO3='WLD').
+// OJO: los datasets antiguos Daily_Trade_Data_WLD (última fila 2025-04-25) y
+// Daily_Regional_Data (Spain acaba 2024-06-16) dejaron de actualizarse;
+// Daily_Trade_Data_REG es el sustituto vivo (verificado por curl, campo
+// `date` es esriFieldTypeDateOnly → llega como string 'YYYY-MM-DD').
+const FS_DAILY_TRADE_REG = 'https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Trade_Data_REG/FeatureServer/0/query'
 
 // Top chokepoints maritimos (id PortWatch + label + región)
 const TOP_CHOKEPOINTS = [
@@ -66,6 +70,14 @@ const TOP_CHOKEPOINTS = [
 
 function quality(t: 'live' | 'cache' | 'missing', name: string, note?: string) {
   return { source_type: t, source_name: name, ...(note ? { note } : {}) }
+}
+
+// Normaliza fechas ArcGIS: esriFieldTypeDateOnly llega como 'YYYY-MM-DD'
+// (string) y esriFieldTypeDate como epoch ms (number).
+function toDateStr(v: unknown): string | null {
+  if (typeof v === 'string') return v.slice(0, 10)
+  if (typeof v === 'number') return new Date(v).toISOString().slice(0, 10)
+  return null
 }
 
 interface ArcGISQuery {
@@ -412,8 +424,10 @@ export async function GET(
     const cutoff = new Date()
     cutoff.setDate(cutoff.getDate() - days)
     const ds = cutoff.toISOString().slice(0, 10)
-    const data = await arcgisQuery(FS_DAILY_TRADE_WLD, {
-      where: `date >= timestamp '${ds} 00:00:00'`,
+    // El agregado mundial vive en Daily_Trade_Data_REG como fila ISO3='WLD'
+    // (el antiguo Daily_Trade_Data_WLD dejó de actualizarse en 2025-04).
+    const data = await arcgisQuery(FS_DAILY_TRADE_REG, {
+      where: `ISO3='WLD' AND date >= DATE '${ds}'`,
       outFields: 'date,portcalls,portcalls_container,portcalls_tanker,portcalls_dry_bulk,import,export',
       orderByFields: 'date ASC',
       resultRecordCount: 1000,
@@ -425,7 +439,7 @@ export async function GET(
       })
     }
     const points = (data?.features || []).map((f: any) => ({
-      date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+      date: toDateStr(f.attributes.date),
       portcalls: f.attributes.portcalls ?? 0,
       portcalls_container: f.attributes.portcalls_container ?? 0,
       portcalls_tanker: f.attributes.portcalls_tanker ?? 0,
@@ -433,6 +447,19 @@ export async function GET(
       import: f.attributes.import ?? 0,
       export: f.attributes.export ?? 0,
     }))
+    if (points.length === 0) {
+      // Degradación honesta: nunca devolver ok:true con array vacío silencioso.
+      return NextResponse.json({
+        ok: false,
+        data_quality: quality(
+          'missing',
+          'IMF PortWatch · Daily World Trade',
+          `El upstream no devolvió filas para los últimos ${days} días (dataset Daily_Trade_Data_REG, ISO3='WLD').`,
+        ),
+        n_points: 0,
+        points: [],
+      })
+    }
     const last30 = points.slice(-30)
     const prev30 = points.slice(-60, -30)
     const avg30 = last30.length ? last30.reduce((a: number, p: any) => a + p.portcalls, 0) / last30.length : 0
@@ -452,26 +479,34 @@ export async function GET(
   }
 
   // /api/portwatch/country-trade-daily?country=Spain&days=90
+  // Acepta ISO3 ('ESP') o nombre completo ('Spain'): Daily_Trade_Data_REG
+  // tiene ambos campos (el antiguo Daily_Regional_Data solo tenía nombre y
+  // dejó de actualizarse en 2024-06).
   if (action === 'country-trade-daily') {
     const country = url.searchParams.get('country') || 'Spain'
     const days = parseInt(url.searchParams.get('days') || '90', 10)
     const cutoff = new Date()
     cutoff.setDate(cutoff.getDate() - days)
     const ds = cutoff.toISOString().slice(0, 10)
-    const data = await arcgisQuery(FS_DAILY_REGIONAL, {
-      where: `country='${country.replace(/'/g, "''")}' AND date >= timestamp '${ds} 00:00:00'`,
-      outFields: 'date,portcalls,portcalls_container,portcalls_tanker,portcalls_dry_bulk,import,export',
+    const safe = country.replace(/'/g, "''")
+    const countryClause = /^[A-Za-z]{3}$/.test(country)
+      ? `ISO3='${safe.toUpperCase()}'`
+      : `country='${safe}'`
+    const data = await arcgisQuery(FS_DAILY_TRADE_REG, {
+      where: `${countryClause} AND date >= DATE '${ds}'`,
+      outFields: 'date,ISO3,country,portcalls,portcalls_container,portcalls_tanker,portcalls_dry_bulk,import,export',
       orderByFields: 'date ASC',
       resultRecordCount: 1000,
     })
     if (data.error) {
       return NextResponse.json({
         ok: false,
-        data_quality: quality('missing', 'IMF PortWatch · Daily Regional', data.error),
+        data_quality: quality('missing', 'IMF PortWatch · Daily Country Trade', data.error),
       })
     }
-    const points = (data?.features || []).map((f: any) => ({
-      date: f.attributes.date ? new Date(f.attributes.date).toISOString().slice(0, 10) : null,
+    const features = data?.features || []
+    const points = features.map((f: any) => ({
+      date: toDateStr(f.attributes.date),
       portcalls: f.attributes.portcalls ?? 0,
       portcalls_container: f.attributes.portcalls_container ?? 0,
       portcalls_tanker: f.attributes.portcalls_tanker ?? 0,
@@ -479,10 +514,26 @@ export async function GET(
       import: f.attributes.import ?? 0,
       export: f.attributes.export ?? 0,
     }))
+    if (points.length === 0) {
+      // Degradación honesta: nunca devolver ok:true con array vacío silencioso.
+      return NextResponse.json({
+        ok: false,
+        country,
+        data_quality: quality(
+          'missing',
+          'IMF PortWatch · Daily Country Trade',
+          `El upstream no devolvió filas para '${country}' en los últimos ${days} días. Usa ISO3 (p. ej. ESP) o nombre en inglés (p. ej. Spain).`,
+        ),
+        n_points: 0,
+        points: [],
+      })
+    }
     return NextResponse.json({
       ok: true,
       country,
-      data_quality: quality('live', 'IMF PortWatch · Daily Regional'),
+      iso3: features[0]?.attributes?.ISO3 ?? null,
+      country_name: features[0]?.attributes?.country ?? null,
+      data_quality: quality('live', 'IMF PortWatch · Daily Country Trade'),
       n_points: points.length,
       points,
     })
@@ -524,7 +575,7 @@ export async function GET(
         'GET /api/portwatch/chokepoint-timeseries?portid=chokepoint1&days=37',
         'GET /api/portwatch/spain-port-timeseries?portid=port31&days=37',
         'GET /api/portwatch/world-trade-daily?days=90',
-        'GET /api/portwatch/country-trade-daily?country=Spain&days=90',
+        'GET /api/portwatch/country-trade-daily?country=Spain&days=90 (acepta ISO3: country=ESP)',
         'GET /api/portwatch/disruptions',
       ],
       top_chokepoints: TOP_CHOKEPOINTS,

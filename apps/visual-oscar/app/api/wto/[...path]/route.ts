@@ -14,6 +14,9 @@
  *
  *   GET /api/wto/tariff/{iso3}
  *     → Aranceles MFN aplicados último año (all/agri/non-agri)
+ *     · Miembros UE (ESP/FRA/DEU/ITA/PRT): la OMC solo publica TP_A_* bajo el
+ *       reporter 918 (UE), se consulta ahí y se anota en data_quality.
+ *     · Fallback estático (perfil arancelario OMC de la UE) si el upstream falla.
  *
  *   GET /api/wto/indicator?indicator=ITS_MTV_AX&reporter=724&periods=2020-2024
  *     → Endpoint genérico para cualquier indicador WTO
@@ -37,6 +40,25 @@ const WTO_REPORTERS: Record<string, number> = {
   RUS: 643, EU: 918,
 }
 
+// Miembros UE: la OMC publica los aranceles NMF aplicados (TP_A_*) bajo el
+// reporter 918 (Unión Europea), NO por estado miembro — la política arancelaria
+// es competencia exclusiva de la unión aduanera. Verificado contra el upstream:
+// TP_A_0010 con r=724 (España) o r=251 (Francia) devuelve Dataset vacío;
+// con r=918 devuelve la serie completa 2018-2024.
+const EU_MEMBERS = new Set(['ESP', 'FRA', 'DEU', 'ITA', 'PRT'])
+const EU_REPORTER = 918
+
+// Fallback estático honesto si el upstream falla o no hay clave: perfil
+// arancelario OMC de la UE (World Tariff Profiles, datos 2024, verificados
+// contra TP_A_* el 2026-06-11). Solo aplica a reporters UE.
+const EU_TARIFF_STATIC: Record<string, { year: number; value: number; unit: string }> = {
+  tariff_simple_all: { year: 2024, value: 5.0, unit: 'Percent' },
+  tariff_simple_agri: { year: 2024, value: 10.5, unit: 'Percent' },
+  tariff_simple_nonagri: { year: 2024, value: 4.1, unit: 'Percent' },
+  tariff_weighted_all: { year: 2024, value: 2.8, unit: 'Percent' },
+  tariff_weighted_agri: { year: 2024, value: 8.7, unit: 'Percent' },
+}
+
 const KEY_INDICATORS = {
   exports_total: 'ITS_MTV_AX',
   imports_total: 'ITS_MTV_AM',
@@ -54,7 +76,7 @@ const KEY_INDICATORS = {
   tariff_weighted_agri: 'TP_A_0170',
 }
 
-function quality(t: 'live' | 'cache' | 'missing', name: string, note?: string) {
+function quality(t: 'live' | 'cache' | 'missing' | 'static', name: string, note?: string) {
   return { source_type: t, source_name: name, ...(note ? { note } : {}) }
 }
 
@@ -119,6 +141,66 @@ export async function GET(
   const segs = params.path || []
   const action = segs[0]
 
+  // /api/wto/tariff/{iso3} · se maneja ANTES del check de clave: tiene
+  // fallback estático honesto para miembros UE aunque falte WTO_API_KEY.
+  if (action === 'tariff' && segs[1]) {
+    const iso3 = segs[1].toUpperCase()
+    const code = WTO_REPORTERS[iso3]
+    if (!code) return NextResponse.json({ error: `Reporter ${iso3} no mapeado` })
+    const isEu = EU_MEMBERS.has(iso3)
+    // Miembros UE → los TP_A_* solo existen bajo el reporter 918 (UE)
+    const tariffReporter = isEu ? EU_REPORTER : code
+    const tariffs: Record<string, any> = {}
+    const tariffKeys = ['tariff_simple_all', 'tariff_simple_agri',
+                        'tariff_simple_nonagri', 'tariff_weighted_all',
+                        'tariff_weighted_agri']
+    if (process.env.WTO_API_KEY) {
+      await Promise.all(
+        tariffKeys.map(async (key) => {
+          const ind = (KEY_INDICATORS as any)[key]
+          const p = new URLSearchParams({
+            i: ind, r: String(tariffReporter), ps: '2018-2024', fmt: 'json', lang: '1',
+          })
+          const data = await fetchWto('/data', p)
+          const ds = (data?.Dataset || []) as any[]
+          const latest = ds.length
+            ? ds.reduce((max, d) => (d.Year > (max?.Year || 0) ? d : max), null)
+            : null
+          if (latest && latest.Value != null) {
+            tariffs[key] = {
+              year: latest.Year, value: latest.Value, unit: latest.Unit,
+            }
+          }
+        }),
+      )
+    }
+    if (Object.keys(tariffs).length > 0) {
+      return NextResponse.json({
+        reporter: iso3, reporter_code: code,
+        ...(isEu ? { tariff_reporter_code: EU_REPORTER } : {}),
+        tariffs,
+        data_quality: quality('live', 'WTO Tariffs',
+          isEu
+            ? 'Aranceles NMF aplicados por la UE (reporter 918) · la política arancelaria es común a la unión aduanera.'
+            : undefined),
+      })
+    }
+    if (isEu) {
+      // Degradación honesta: perfil arancelario OMC de la UE (estático)
+      return NextResponse.json({
+        reporter: iso3, reporter_code: code, tariff_reporter_code: EU_REPORTER,
+        tariffs: EU_TARIFF_STATIC,
+        data_quality: quality('static', 'Perfil arancelario OMC de la UE',
+          'Upstream WTO sin datos o sin clave · aranceles NMF aplicados por la UE, World Tariff Profiles 2024.'),
+      })
+    }
+    return NextResponse.json({
+      reporter: iso3, reporter_code: code, tariffs: {},
+      data_quality: quality('missing', 'WTO Tariffs',
+        'El upstream WTO Timeseries no devolvió aranceles para este reporter.'),
+    })
+  }
+
   if (!process.env.WTO_API_KEY) {
     return NextResponse.json({
       error: 'WTO_API_KEY no configurada',
@@ -159,39 +241,6 @@ export async function GET(
     return NextResponse.json({
       iso3, reporter_code: code, periods, series,
       data_quality: quality('live', 'WTO Timeseries'),
-    })
-  }
-
-  // /api/wto/tariff/{iso3}
-  if (action === 'tariff' && segs[1]) {
-    const iso3 = segs[1].toUpperCase()
-    const code = WTO_REPORTERS[iso3]
-    if (!code) return NextResponse.json({ error: `Reporter ${iso3} no mapeado` })
-    const tariffs: Record<string, any> = {}
-    const tariffKeys = ['tariff_simple_all', 'tariff_simple_agri',
-                        'tariff_simple_nonagri', 'tariff_weighted_all',
-                        'tariff_weighted_agri']
-    await Promise.all(
-      tariffKeys.map(async (key) => {
-        const ind = (KEY_INDICATORS as any)[key]
-        const p = new URLSearchParams({
-          i: ind, r: String(code), ps: '2018-2024', fmt: 'json', lang: '1',
-        })
-        const data = await fetchWto('/data', p)
-        const ds = (data?.Dataset || []) as any[]
-        const latest = ds.length
-          ? ds.reduce((max, d) => (d.Year > (max?.Year || 0) ? d : max), null)
-          : null
-        if (latest) {
-          tariffs[key] = {
-            year: latest.Year, value: latest.Value, unit: latest.Unit,
-          }
-        }
-      }),
-    )
-    return NextResponse.json({
-      reporter: iso3, reporter_code: code, tariffs,
-      data_quality: quality('live', 'WTO Tariffs'),
     })
   }
 
