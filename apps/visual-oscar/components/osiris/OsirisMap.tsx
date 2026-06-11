@@ -2099,7 +2099,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       popup(coords, `<div style="${pStyle}border:1px solid ${riskCol}40;">
         <div style="color:#FF9500;font-weight:bold;font-size:11px;margin-bottom:4px;">${p.name}</div>
         <div style="font-size:9px;color:#aaa;">Tráfico: <span style="color:#fff;">${p.traffic}</span></div>
-        <div style="font-size:9px;color:#aaa;">Riesgo: <span style="color:${riskCol};font-weight:bold;">${p.risk}</span></div>
+        <div style="font-size:9px;color:#aaa;">Riesgo: <span style="color:${riskCol};font-weight:bold;">${({ CRITICAL: 'Crítico', HIGH: 'Alto', ELEVATED: 'Elevado', MODERATE: 'Moderado', LOW: 'Bajo' } as Record<string, string>)[p.risk] || p.risk}</span></div>
       </div>`);
     });
 

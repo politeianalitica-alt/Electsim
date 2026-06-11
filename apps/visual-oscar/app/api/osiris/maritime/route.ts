@@ -132,17 +132,17 @@ const PORTS_MAJOR = [
 ];
 
 const CHOKEPOINTS = [
-  { name: 'Strait of Hormuz', lat: 26.57, lng: 56.25, traffic: '21M bpd oil', risk: 'HIGH' },
-  { name: 'Strait of Malacca', lat: 2.50, lng: 101.50, traffic: '16M bpd oil', risk: 'MODERATE' },
-  { name: 'Suez Canal', lat: 30.43, lng: 32.34, traffic: '12% world trade', risk: 'ELEVATED' },
-  { name: 'Bab el-Mandeb', lat: 12.58, lng: 43.33, traffic: '6.2M bpd oil', risk: 'CRITICAL' },
-  { name: 'Panama Canal', lat: 9.08, lng: -79.68, traffic: '5% world trade', risk: 'LOW' },
-  { name: 'Turkish Straits', lat: 41.12, lng: 29.07, traffic: '3M bpd oil', risk: 'MODERATE' },
-  { name: 'Danish Straits', lat: 55.70, lng: 12.60, traffic: '3.2M bpd oil', risk: 'LOW' },
-  { name: 'Gibraltar Strait', lat: 35.95, lng: -5.50, traffic: '300+ buques/día', risk: 'ELEVATED' },
-  { name: 'Cape of Good Hope', lat: -34.36, lng: 18.47, traffic: 'Alt route Suez', risk: 'LOW' },
-  { name: 'Taiwan Strait', lat: 24.00, lng: 119.00, traffic: '88% large ships', risk: 'ELEVATED' },
-  { name: 'Lombok Strait', lat: -8.47, lng: 115.72, traffic: 'Alt Malacca', risk: 'LOW' },
+  { name: 'Estrecho de Ormuz', lat: 26.57, lng: 56.25, traffic: '21M bpd de crudo', risk: 'HIGH' },
+  { name: 'Estrecho de Malaca', lat: 2.50, lng: 101.50, traffic: '16M bpd de crudo', risk: 'MODERATE' },
+  { name: 'Canal de Suez', lat: 30.43, lng: 32.34, traffic: '12% del comercio mundial', risk: 'ELEVATED' },
+  { name: 'Estrecho de Bab el-Mandeb', lat: 12.58, lng: 43.33, traffic: '6,2M bpd de crudo', risk: 'CRITICAL' },
+  { name: 'Canal de Panamá', lat: 9.08, lng: -79.68, traffic: '5% del comercio mundial', risk: 'LOW' },
+  { name: 'Estrechos turcos (Bósforo)', lat: 41.12, lng: 29.07, traffic: '3M bpd de crudo', risk: 'MODERATE' },
+  { name: 'Estrechos daneses', lat: 55.70, lng: 12.60, traffic: '3,2M bpd de crudo', risk: 'LOW' },
+  { name: 'Estrecho de Gibraltar', lat: 35.95, lng: -5.50, traffic: '300+ buques/día', risk: 'ELEVATED' },
+  { name: 'Cabo de Buena Esperanza', lat: -34.36, lng: 18.47, traffic: 'Ruta alternativa a Suez', risk: 'LOW' },
+  { name: 'Estrecho de Taiwán', lat: 24.00, lng: 119.00, traffic: '88% de los grandes buques', risk: 'ELEVATED' },
+  { name: 'Estrecho de Lombok', lat: -8.47, lng: 115.72, traffic: 'Ruta alternativa a Malaca', risk: 'LOW' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -450,7 +450,7 @@ export async function GET() {
     if (nearby > 50) risk = 'CRITICAL';
     else if (nearby > 20 && risk !== 'CRITICAL') risk = 'HIGH';
     else if (nearby > 5 && risk === 'LOW') risk = 'ELEVATED';
-    return { ...choke, traffic: `${choke.traffic} | LIVE: ${nearby}`, risk };
+    return { ...choke, traffic: `${choke.traffic} · en vivo: ${nearby}`, risk };
   });
 
   const ports = [...majorPorts, ...wPorts];
