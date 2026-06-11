@@ -42,7 +42,10 @@ import { CuadernoAIPanel } from './CuadernoAIPanel'
 import { CuadernoOmniSearch } from './CuadernoOmniSearch'
 // Sprint Cuaderno N8 · sincronización cloud (Vercel Blob)
 import { CuadernoSyncPanel } from './CuadernoSyncPanel'
-import { startAutoSync, isAutoSyncEnabled } from '@/lib/cuaderno/cloud-sync'
+// Fase 2 · auto-sync por SESIÓN (namespace 'cuaderno'): mismo login = mismas
+// notas en todos los dispositivos. El panel legacy por client_id se conserva
+// como vía manual/avanzada.
+import { startNamespaceAutoSync, SYNC_STATUS_EVENT, type SyncStatusDetail } from '@/lib/sync/namespace-sync'
 // Sprint Cuaderno N11 · insights dashboard meta sobre el propio cuaderno
 import { CuadernoInsights } from './CuadernoInsights'
 // Módulos transversales · Cama (macroargumentos) y Preinformes · compartidos
@@ -50,7 +53,7 @@ import { CuadernoInsights } from './CuadernoInsights'
 import CamaModule from '@/app/_components/cama/CamaModule'
 import PreinformesModule from '@/app/_components/preinformes/PreinformesModule'
 import {
-  loadAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
+  loadAll, loadRawNotes, saveAll, createNote, updateNote, deleteNote, findBySlug, backlinks, buildGraph,
   buildHybridGraph, backlinksWithContext,
   archiveNote, unarchiveNote, renameNote,
   seedIfEmpty, slugify, logAction, createFromTemplate, getOrCreateDailyNote,
@@ -180,23 +183,28 @@ export default function CuadernoClient() {
     setView('notes')
   }, [])
 
-  // Sprint Cuaderno N8 polish · auto-sync opcional (toggle desde SyncPanel)
-  // Se activa en mount si el usuario lo ha habilitado en localStorage.
-  // El status indicator en toolbar muestra "↑↓ syncing…" mientras corre.
+  // Fase 2 · auto-sync por SESIÓN, siempre activo (sustituye al toggle
+  // legacy por client_id): pull → merge LWW con tombstones → push contra
+  // /api/sync/cuaderno. Si Blob no está configurado se apaga solo (off).
   useEffect(() => {
-    if (!isAutoSyncEnabled()) return
-    const teardown = startAutoSync({
-      delay: 30_000,
-      onStatus: (s) => {
-        setAutoSyncStatus(s)
-        if (s === 'ok' || s === 'error') {
-          // Vuelve a idle tras 3s para no "sticky" el badge
-          setTimeout(() => setAutoSyncStatus('idle'), 3000)
-        }
-      },
+    const stop = startNamespaceAutoSync('cuaderno', {
+      loadRaw: loadRawNotes,
+      saveRaw: saveAll,
+      changeEvent: 'cuaderno:change',
     })
-    return teardown
-  }, [syncOpen])  // re-engancha cuando se cierra el SyncPanel (toggle puede haber cambiado)
+    const onStatus = (e: Event) => {
+      const d = (e as CustomEvent<SyncStatusDetail>).detail
+      if (d?.namespace !== 'cuaderno') return
+      if (d.status === 'off') { setAutoSyncStatus('idle'); return }
+      setAutoSyncStatus(d.status === 'syncing' ? 'syncing' : d.status === 'ok' ? 'ok' : 'error')
+      if (d.status === 'ok' || d.status === 'error') {
+        // Vuelve a idle tras 3s para no "sticky" el badge
+        setTimeout(() => setAutoSyncStatus('idle'), 3000)
+      }
+    }
+    window.addEventListener(SYNC_STATUS_EVENT, onStatus)
+    return () => { stop(); window.removeEventListener(SYNC_STATUS_EVENT, onStatus) }
+  }, [])
 
   function refresh() { setNotes(loadAll()) }
 

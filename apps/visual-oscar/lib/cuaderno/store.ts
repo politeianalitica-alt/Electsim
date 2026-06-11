@@ -41,6 +41,9 @@ export interface CuadernoNote {
   /** Sprint N13 · soft-delete · si true la nota se oculta de listados normales
    *  pero se conserva. Visible en la sub-vista "Archivadas" del rail Notas. */
   archived?: boolean
+  /** Fase 2 · tombstone de sync: borrado lógico con fecha. Se propaga entre
+   *  dispositivos (el merge LWW no lo "resucita") y se purga a los 30 días. */
+  deletedAt?: number
 }
 
 const STORAGE_KEY = 'politeia.cuaderno.v1'
@@ -136,7 +139,8 @@ function isBrowser(): boolean {
   return typeof window !== 'undefined' && !!window.localStorage
 }
 
-export function loadAll(): CuadernoNote[] {
+/** TODAS las notas, incluidos tombstones (uso interno del CRUD y del sync). */
+export function loadRawNotes(): CuadernoNote[] {
   if (!isBrowser()) return []
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -149,11 +153,21 @@ export function loadAll(): CuadernoNote[] {
   }
 }
 
+/** Notas vivas (sin tombstones). Incluye archivadas: eso lo filtra loadActive. */
+export function loadAll(): CuadernoNote[] {
+  return loadRawNotes().filter(n => !n.deletedAt)
+}
+
+const TOMBSTONE_TTL_MS = 30 * 24 * 3600 * 1000   // 30 días
+
 export function saveAll(notes: CuadernoNote[]): void {
   if (!isBrowser()) return
+  // Purga tombstones antiguos (30 días dan margen a que todos los
+  // dispositivos del usuario hayan sincronizado el borrado).
+  const limpio = notes.filter(n => !n.deletedAt || Date.now() - n.deletedAt < TOMBSTONE_TTL_MS)
   // Fase 2 · safeSetItem notifica (banner global del AppHeader) si la cuota
   // está llena, en lugar de perder notas en silencio.
-  safeSetItem(STORAGE_KEY, JSON.stringify(notes))
+  safeSetItem(STORAGE_KEY, JSON.stringify(limpio))
   // Notifica a otros componentes de esta pestaña para que re-rendericen
   window.dispatchEvent(new CustomEvent('cuaderno:change'))
 }
@@ -173,7 +187,8 @@ function uniqSlug(notes: CuadernoNote[], base: string, ignoreId?: string): strin
 }
 
 export function createNote(input: Partial<CuadernoNote> & { title: string }): CuadernoNote {
-  const notes = loadAll()
+  // raw: el array completo se reescribe — sin esto se perderían tombstones
+  const notes = loadRawNotes()
   const now = Date.now()
   const baseSlug = input.slug ? slugify(input.slug) : slugify(input.title)
   const content = input.content ?? ''
@@ -195,8 +210,8 @@ export function createNote(input: Partial<CuadernoNote> & { title: string }): Cu
 }
 
 export function updateNote(id: string, patch: Partial<CuadernoNote>): CuadernoNote | null {
-  const notes = loadAll()
-  const idx = notes.findIndex(n => n.id === id)
+  const notes = loadRawNotes()
+  const idx = notes.findIndex(n => n.id === id && !n.deletedAt)
   if (idx === -1) return null
   const prev = notes[idx]
   const content = patch.content ?? prev.content
@@ -215,7 +230,8 @@ export function updateNote(id: string, patch: Partial<CuadernoNote>): CuadernoNo
 }
 
 export function deleteNote(id: string): void {
-  saveAll(loadAll().filter(n => n.id !== id))
+  // Borrado lógico (tombstone): el sync lo propaga; purga real a los 30 días.
+  saveAll(loadRawNotes().map(n => n.id === id ? { ...n, deletedAt: Date.now() } : n))
 }
 
 // Sprint N13 · archive (soft-delete) ────────────────────────────────────────
@@ -254,8 +270,8 @@ export function renameNote(id: string, newTitle: string): {
   note: CuadernoNote | null
   updatedRefs: number
 } {
-  const notes = loadAll()
-  const idx = notes.findIndex(n => n.id === id)
+  const notes = loadRawNotes()
+  const idx = notes.findIndex(n => n.id === id && !n.deletedAt)
   if (idx === -1) return { note: null, updatedRefs: 0 }
   const prev = notes[idx]
   const newSlug = uniqSlug(notes, slugify(newTitle), id)
@@ -869,6 +885,7 @@ en escenario adverso. Mantener cohesión interna PSOE post-Ferraz.
 
 export function seedIfEmpty(): void {
   if (!isBrowser()) return
-  if (loadAll().length > 0) return
+  // raw: si el usuario borró todo, los tombstones cuentan — no re-sembrar
+  if (loadRawNotes().length > 0) return
   for (const s of SEED_NOTES) createNote(s)
 }

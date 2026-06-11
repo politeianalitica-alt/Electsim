@@ -25,7 +25,7 @@ import { COOKIE_NAME, verifyToken } from '@/lib/auth/session'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const NAMESPACES = ['cama', 'preinformes'] as const
+const NAMESPACES = ['cama', 'preinformes', 'cuaderno'] as const
 type Namespace = (typeof NAMESPACES)[number]
 
 function isNamespace(ns: string): ns is Namespace {
