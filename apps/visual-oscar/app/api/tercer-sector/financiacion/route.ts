@@ -13,7 +13,13 @@
  * Cache: s-maxage=10800 (3h).
  */
 import { NextResponse } from 'next/server'
-import { fetchConcesiones, fetchConvocatorias, rankBeneficiarios } from '@/lib/tercer-sector/bdns'
+import {
+  fetchConcesiones,
+  fetchConvocatorias,
+  rankBeneficiarios,
+  fetchGrandesBeneficiarios,
+  fetchAyudasEstado,
+} from '@/lib/tercer-sector/bdns'
 import { enrichConcesion } from '@/lib/tercer-sector/bdns-enrichment'
 import { fetchSedia } from '@/lib/tercer-sector/licitaciones/sedia'
 
@@ -36,22 +42,30 @@ export async function GET(req: Request) {
   const fetched_at = new Date().toISOString()
   try {
     const sp = new URL(req.url).searchParams
-    const pages = Math.max(1, Math.min(4, Number(sp.get('pages')) || 2))
+    // Más profundidad por defecto (4 páginas ≈ 200 registros por familia; hasta 8).
+    const pages = Math.max(1, Math.min(8, Number(sp.get('pages')) || 4))
+    const ejercicio = Math.max(2018, Math.min(2026, Number(sp.get('ejercicio')) || new Date().getFullYear() - 1))
 
-    const [conv, conc, sedia] = await Promise.all([
+    const [conv, conc, sedia, grandes, ayudasEstado] = await Promise.all([
       fetchConvocatorias({ pages }).catch(() => null),
       fetchConcesiones({ pages }).catch(() => null),
       fetchSedia({}).catch(() => null),
+      fetchGrandesBeneficiarios({ ejercicio, pages: 2 }).catch(() => null),
+      fetchAyudasEstado({ pages: 2 }).catch(() => null),
     ])
 
     const convocatorias = conv?.ok && conv.data ? conv.data : []
     const concesionesRaw = conc?.ok && conc.data ? conc.data : []
     const grants_ue = sedia?.ok ? sedia.licitaciones : []
+    const grandes_beneficiarios = grandes?.ok && grandes.data ? grandes.data : []
+    const ayudas_estado = ayudasEstado?.ok && ayudasEstado.data ? ayudasEstado.data : []
 
     const fuentes_error: { fuente: string; error: string }[] = []
     if (!conv?.ok) fuentes_error.push({ fuente: 'bdns_convocatorias', error: conv?.error || 'error' })
     if (!conc?.ok) fuentes_error.push({ fuente: 'bdns_concesiones', error: conc?.error || 'error' })
     if (!sedia?.ok) fuentes_error.push({ fuente: 'sedia', error: sedia?.error || 'error' })
+    if (!grandes?.ok) fuentes_error.push({ fuente: 'bdns_grandes_beneficiarios', error: grandes?.error || 'error' })
+    if (!ayudasEstado?.ok) fuentes_error.push({ fuente: 'bdns_ayudas_estado', error: ayudasEstado?.error || 'error' })
 
     // TS-Deep B6: Enrich concesiones with NIF classification, TS detection, territory
     const concesiones_enriched = concesionesRaw.map((c) =>
@@ -110,6 +124,8 @@ export async function GET(req: Request) {
           concesiones: concesionesRaw,
           concesiones_ts,
           grants_ue,
+          grandes_beneficiarios,
+          ayudas_estado,
           irpf_07: IRPF_07,
           financiadores_activos,
           ranking_beneficiarios,
@@ -119,6 +135,9 @@ export async function GET(req: Request) {
             n_concesiones: concesionesRaw.length,
             n_concesiones_ts: concesiones_ts.length,
             n_grants_ue: grants_ue.length,
+            n_grandes_beneficiarios: grandes_beneficiarios.length,
+            n_ayudas_estado: ayudas_estado.length,
+            ejercicio_grandes: ejercicio,
             total_concedido_eur: total_concedido_eur || null,
             total_concedido_ts_eur: concesiones_ts.reduce(
               (s, c) => s + (c.importe_eur ?? 0),

@@ -23,6 +23,7 @@ export type EnergiaTipo =
   | 'petroleo'
   | 'gas'
   | 'hidrogeno'
+  | 'politica'
 
 /** Reactor nuclear del parque español. */
 export interface Reactor {

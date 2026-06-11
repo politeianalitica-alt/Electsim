@@ -137,6 +137,18 @@ export type FuenteLicitacion =
   | 'austender' // AusTender — Australia (OCDS, keyless)
   | 'secop' // SECOP II — Colombia (Socrata, keyless)
   | 'dncp' // DNCP — Paraguay (OCDS)
+  // ── TS6 · cobertura ES por CCAA (Socrata/CKAN/Opendatasoft keyless) ──
+  | 'catalunya' // Transparència Catalunya (Socrata) — contratos Generalitat
+  | 'euskadi' // Open Data Euskadi — contratación Gobierno Vasco
+  | 'madrid' // Comunidad de Madrid — contratación
+  | 'castillaleon' // Datos Abiertos JCyL (Opendatasoft) — contratación
+  | 'aragon' // Aragón Open Data — contratación
+  | 'galicia' // Xunta de Galicia open data — contratación
+  // ── TS6 · cobertura internacional adicional ──
+  | 'ungm' // UN Global Marketplace (ONU)
+  | 'reliefweb' // ReliefWeb (OCHA) — convocatorias humanitarias
+  | 'adb' // Asian Development Bank (OCDS/notices)
+  | 'iadb' // Inter-American Development Bank
 
 /**
  * Envelope por-fuente. Cada conector devuelve esto: o bien `ok:true` con sus

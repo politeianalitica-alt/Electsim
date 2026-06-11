@@ -59,13 +59,17 @@ import type {
 import { resolveZone, type EntsoeZoneCode } from './zones.ts'
 
 const BASE = 'https://web-api.tp.entsoe.eu/api'
+/** Base URL del Web API · exportada para fetchers especiales (outages ZIP). */
+export const ENTSOE_BASE = BASE
 const PUBLIC_URL = 'https://transparency.entsoe.eu'
 const DEFAULT_TIMEOUT_MS = 15_000
 const CACHE_TTL_MS = 3600_000 // 1h
 
 // Mapeo de PSR Types (Power System Resource) a etiquetas humanas en español.
 // Fuente: entsoe-py PSRTYPE_MAPPINGS.
-const PSR_TYPE_LABELS: Record<string, string> = {
+// Exportado para que `lib/entsoe/extended.ts` (capacidad, outages, generación
+// por unidad) reutilice las mismas etiquetas sin duplicarlas.
+export const PSR_TYPE_LABELS: Record<string, string> = {
   B01: 'Biomasa',
   B02: 'Lignito',
   B03: 'Gas (turbina ciclo abierto)',
@@ -94,6 +98,11 @@ const PSR_TYPE_LABELS: Record<string, string> = {
 // ─────────────────────────────────────────────────────────────────────────
 function getToken(): string {
   return process.env.ENTSOE_SECURITY_TOKEN || process.env.ENTSOE_API_KEY || ''
+}
+
+/** Token del Web API · exportado para fetchers especiales (outages ZIP en extended.ts). */
+export function getEntsoeToken(): string {
+  return getToken()
 }
 
 /** ¿Hay token de Web API configurado? (distinto de user/pass). */
@@ -142,17 +151,36 @@ export function periodForDays(days: number): { periodStart: string; periodEnd: s
 // ─────────────────────────────────────────────────────────────────────────
 // Fetch crudo XML con auth + degradación + caché
 // ─────────────────────────────────────────────────────────────────────────
-interface RawQuery {
+// Exportado para `lib/entsoe/extended.ts` (nuevos documentType: A65 carga,
+// A69/A71 previsiones, A68 capacidad, A77/A80 indisponibilidades, A72 embalses,
+// A09/A61 intercambios programados, A85 desvíos). Campos opcionales añadidos
+// (businessType, docStatus, psrType, contract_MarketAgreement.type) cubren las
+// queries que esos doc-types requieren sin romper las existentes.
+export interface EntsoeRawQuery {
   documentType: string
   in_Domain?: string
   out_Domain?: string
+  /** Para outages/balancing/capacity que usan un único dominio de control. */
+  controlArea_Domain?: string
+  biddingZone_Domain?: string
+  /** Carga total A65 (real/previsión): ENTSO-E exige outBiddingZone_Domain. */
+  outBiddingZone_Domain?: string
   periodStart: string
   periodEnd: string
   processType?: string
+  businessType?: string
+  psrType?: string
+  docStatus?: string
+  'contract_MarketAgreement.type'?: string
 }
 
-async function entsoeFetchRaw(
-  q: RawQuery,
+/**
+ * Fetch crudo de ENTSO-E para CUALQUIER documentType. Exportado para que el
+ * módulo `extended.ts` añada nuevos tipos de documento reutilizando auth,
+ * caché TTL 1h, manejo de Acknowledgement y degradación. NUNCA lanza.
+ */
+export async function entsoeFetchRaw(
+  q: EntsoeRawQuery,
   timeoutMs = DEFAULT_TIMEOUT_MS,
 ): Promise<{ ok: boolean; xml?: string; error?: string }> {
   const token = getToken()
@@ -294,7 +322,12 @@ export function parseTimeSeries(
   return out
 }
 
-/** Convierte "PT60M" / "PT15M" / "P1D" / "PT1H" a minutos. 0 si no se reconoce. */
+/**
+ * Convierte "PT60M" / "PT15M" / "P1D" / "PT1H" / "P7D" / "P1M" / "P1Y" a minutos.
+ * 0 si no se reconoce. Nota: PT..M = minutos; P..M (sin T) = meses. Las
+ * resoluciones largas (semana/mes/año) las usan A72 (embalses, P7D) y A68
+ * (capacidad instalada, P1Y); sin ellas esos Period se descartaban → sin_datos.
+ */
 function parseResolutionMin(res: string | undefined): number {
   if (!res) return 0
   const h = /PT(\d+)H/.exec(res)
@@ -303,6 +336,13 @@ function parseResolutionMin(res: string | undefined): number {
   if (m) return parseInt(m[1], 10)
   const d = /P(\d+)D/.exec(res)
   if (d) return parseInt(d[1], 10) * 24 * 60
+  const w = /P(\d+)W/.exec(res)
+  if (w) return parseInt(w[1], 10) * 7 * 24 * 60
+  // P..M (sin T) = meses; PT..M ya se resolvió arriba, así que aquí es seguro.
+  const mo = /P(\d+)M/.exec(res)
+  if (mo) return parseInt(mo[1], 10) * 30 * 24 * 60
+  const y = /P(\d+)Y/.exec(res)
+  if (y) return parseInt(y[1], 10) * 365 * 24 * 60
   return 0
 }
 

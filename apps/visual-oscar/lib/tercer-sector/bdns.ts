@@ -375,6 +375,125 @@ export async function fetchConvocatorias(
 }
 
 // ─────────────────────────────────────────────────────────────────────────
+// Grandes beneficiarios (BDNS · ejercicio) · quién recibe MÁS dinero público
+// ─────────────────────────────────────────────────────────────────────────
+
+/** Un gran beneficiario BDNS de un ejercicio (importe agregado anual). */
+export interface BdnsGranBeneficiario {
+  id: string
+  beneficiario_nif: string | null
+  beneficiario_nombre: string
+  importe_eur: number | null
+  ejercicio: number | null
+  es_tercer_sector: boolean
+  match: string
+}
+
+/** Mapea un gran beneficiario crudo → BdnsGranBeneficiario. Pura. */
+export function mapGranBeneficiario(raw: any, ejercicio: number | null): BdnsGranBeneficiario {
+  const { nif, nombre } = splitBeneficiario(raw?.beneficiario)
+  const cls = classifyTercerSector(nif, nombre)
+  return {
+    id: String(raw?.idPersona ?? raw?.id ?? nif ?? nombre.slice(0, 30)),
+    beneficiario_nif: nif,
+    beneficiario_nombre: nombre,
+    importe_eur: num(raw?.ayudaETotal ?? raw?.importe ?? raw?.ayuda ?? raw?.importeConcedido ?? raw?.total ?? raw?.ayudaEquivalente),
+    ejercicio: raw?.ejercicio != null ? Number(raw.ejercicio) : ejercicio,
+    es_tercer_sector: cls.es,
+    match: cls.match,
+  }
+}
+
+/**
+ * Descarga los grandes beneficiarios de subvenciones de un ejercicio (BDNS
+ * /grandesbeneficiarios). Clasifica tercer sector. NUNCA lanza.
+ */
+export async function fetchGrandesBeneficiarios(
+  opts: FetchPagesOpts & { ejercicio?: number } = {},
+): Promise<TercerSectorEnvelope<BdnsGranBeneficiario[]>> {
+  const fetched_at = new Date().toISOString()
+  const ejercicio = opts.ejercicio ?? new Date().getFullYear() - 1
+  const pages = Math.max(1, Math.min(6, opts.pages ?? 2))
+  const cacheKey = `bdns:grandesbenef:${ejercicio}:${pages}`
+  if (!opts.noCache) {
+    const hit = cacheGet<TercerSectorEnvelope<BdnsGranBeneficiario[]>>(cacheKey)
+    if (hit) return hit
+  }
+  const all: BdnsGranBeneficiario[] = []
+  let anyOk = false
+  let lastError = ''
+  for (let p = 0; p < pages; p++) {
+    const url = `${BDNS_BASE}/grandesbeneficiarios/busqueda?page=${p}&pageSize=${MAX_PAGE_SIZE}&ejercicio=${ejercicio}`
+    const res = await fetchJson(url, { revalidate: 21600, timeoutMs: opts.timeoutMs })
+    if ('error' in res) {
+      lastError = res.error
+      break
+    }
+    anyOk = true
+    const content = bdnsContent(res.json)
+    if (content.length === 0) break
+    for (const raw of content) all.push(mapGranBeneficiario(raw, ejercicio))
+    if (content.length < MAX_PAGE_SIZE) break
+  }
+  if (!anyOk && all.length === 0) {
+    return { ok: false, data: null, error: lastError || 'bdns_sin_datos', fetched_at, source_url: BDNS_PUBLIC }
+  }
+  const result: TercerSectorEnvelope<BdnsGranBeneficiario[]> = {
+    ok: true,
+    data: all.sort((a, b) => (b.importe_eur ?? 0) - (a.importe_eur ?? 0)),
+    fetched_at,
+    source_url: BDNS_PUBLIC,
+    partial: !!lastError,
+  }
+  cacheSet(cacheKey, result, CACHE_TTL_MS)
+  return result
+}
+
+/**
+ * Descarga las ayudas de estado recientes (BDNS /ayudasestado), reusando el
+ * shape de concesión (son resoluciones de ayuda pública). NUNCA lanza.
+ */
+export async function fetchAyudasEstado(
+  opts: FetchPagesOpts = {},
+): Promise<TercerSectorEnvelope<BdnsConcesion[]>> {
+  const fetched_at = new Date().toISOString()
+  const pages = Math.max(1, Math.min(6, opts.pages ?? 2))
+  const cacheKey = `bdns:ayudasestado:${pages}`
+  if (!opts.noCache) {
+    const hit = cacheGet<TercerSectorEnvelope<BdnsConcesion[]>>(cacheKey)
+    if (hit) return hit
+  }
+  const all: BdnsConcesion[] = []
+  let anyOk = false
+  let lastError = ''
+  for (let p = 0; p < pages; p++) {
+    const url = `${BDNS_BASE}/ayudasestado/busqueda?page=${p}&pageSize=${MAX_PAGE_SIZE}`
+    const res = await fetchJson(url, { revalidate: 21600, timeoutMs: opts.timeoutMs })
+    if ('error' in res) {
+      lastError = res.error
+      break
+    }
+    anyOk = true
+    const content = bdnsContent(res.json)
+    if (content.length === 0) break
+    for (const raw of content) all.push(mapConcesion(raw))
+    if (content.length < MAX_PAGE_SIZE) break
+  }
+  if (!anyOk && all.length === 0) {
+    return { ok: false, data: null, error: lastError || 'bdns_sin_datos', fetched_at, source_url: BDNS_PUBLIC }
+  }
+  const result: TercerSectorEnvelope<BdnsConcesion[]> = {
+    ok: true,
+    data: all,
+    fetched_at,
+    source_url: BDNS_PUBLIC,
+    partial: !!lastError,
+  }
+  cacheSet(cacheKey, result, CACHE_TTL_MS)
+  return result
+}
+
+// ─────────────────────────────────────────────────────────────────────────
 // Agregaciones PURAS para rankings (testeables)
 // ─────────────────────────────────────────────────────────────────────────
 

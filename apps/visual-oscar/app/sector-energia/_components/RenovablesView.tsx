@@ -27,6 +27,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Panel } from '@/components/SectorPanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
+import EntsoeForecastRenovablesPanel from './EntsoeForecastRenovablesPanel'
 import { CuadernoEntityWidget } from '@/components/cuaderno/CuadernoEntityWidget'
 import {
   CAPACIDAD_RENOVABLE_ES,
@@ -271,6 +272,9 @@ export function RenovablesView() {
           subtitle="Puro-play renovable español + integradas con segmento renovable · cotización"
         />
       </div>
+
+      {/* ───── ENTSO-E · previsión eólica y solar D+1 ───── */}
+      <div style={{ marginTop: 14 }}><EntsoeForecastRenovablesPanel /></div>
 
       {/* Inteligencia operativa sectorial */}
       <SectorIntelPanel

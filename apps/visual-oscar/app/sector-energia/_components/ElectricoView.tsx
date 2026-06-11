@@ -27,6 +27,8 @@ import { REGULADORES_ENERGIA } from '@/lib/sources/ree'
 import { Panel } from '@/components/SectorPanel'
 import { CompanyQuotePanel } from './shared/CompanyQuotePanel'
 import { SectorIntelPanel } from '@/components/SectorIntelPanel'
+import EntsoeDemandaPanel from './EntsoeDemandaPanel'
+import EntsoeIntercambiosPanel from './EntsoeIntercambiosPanel'
 import { EmberSpainElectricity } from '@/components/energy/EmberSpainElectricity'
 import { EntsoeSpainPanel } from '@/components/energy/EntsoeSpainPanel'
 // Contexto europeo · FUENTE PRIMARIA energy-charts.info (keyless · Fraunhofer ISE)
@@ -325,6 +327,10 @@ export function ElectricoView() {
  <LicitacionesShortcut/>
  </Panel>
  </div>
+
+      {/* ───── ENTSO-E · demanda real vs previsión + intercambios programados ───── */}
+      <div style={{ marginTop:14 }}><EntsoeDemandaPanel/></div>
+      <div style={{ marginTop:14 }}><EntsoeIntercambiosPanel/></div>
 
       {/* ───── ROW 6: Áreas temáticas ───── */}
  <Panel title="Áreas estratégicas del sector" subtitle="Topic taxonomy · Politeia">

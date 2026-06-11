@@ -15,6 +15,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import AppHeader from '../../_components/AppHeader'
+import MaritimoShell from '../_components/MaritimoShell'
+import ComercioBilateralRich from '../_components/ComercioBilateralRich'
 import { isAuthenticated } from '@/lib/auth'
 import { useBilateralTrade, useTopPartners } from '@/hooks/usePorts'
 import { BilateralTradeSankey } from '@/components/ports/BilateralTradeSankey'
@@ -92,9 +94,11 @@ export default function TradePage() {
   const partnerCountry = COUNTRY_BY_ISO3[partner]
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-text)', color: 'var(--color-ink)' }}>
+    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
       <AppHeader />
-      <div style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
+      <MaritimoShell />
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 20px' }}>
+        <div style={{ marginBottom: 18 }}><ComercioBilateralRich /></div>
         <Link
           href="/puertos"
           style={{
@@ -135,8 +139,8 @@ export default function TradePage() {
             gap: 12,
             flexWrap: 'wrap',
             padding: 12,
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-hairline)',
+            background: '#fff',
+            border: '1px solid #e5e7eb',
             borderRadius: 8,
           }}
         >
@@ -290,8 +294,8 @@ export default function TradePage() {
         <section
           style={{
             marginTop: 16,
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-hairline)',
+            background: '#fff',
+            border: '1px solid #e5e7eb',
             borderRadius: 8,
             padding: 12,
           }}
@@ -414,8 +418,8 @@ export default function TradePage() {
         <section
           style={{
             marginTop: 16,
-            background: 'var(--color-surface)',
-            border: '1px solid var(--color-hairline)',
+            background: '#fff',
+            border: '1px solid #e5e7eb',
             borderRadius: 8,
             padding: 12,
           }}
@@ -582,8 +586,8 @@ function KPI({
   return (
     <div
       style={{
-        background: 'var(--color-surface)',
-        border: '1px solid var(--color-hairline)',
+        background: '#fff',
+        border: '1px solid #e5e7eb',
         borderRadius: 8,
         padding: 12,
       }}
@@ -623,8 +627,8 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   return (
     <div
       style={{
-        background: 'var(--color-surface)',
-        border: '1px solid var(--color-hairline)',
+        background: '#fff',
+        border: '1px solid #e5e7eb',
         borderRadius: 8,
         padding: 14,
       }}
@@ -710,8 +714,8 @@ function WtoMultilateralPanel({ reporterIso3 }: { reporterIso3: string }) {
     <section
       style={{
         marginTop: 16,
-        background: 'var(--color-surface)',
-        border: '1px solid var(--color-hairline)',
+        background: '#fff',
+        border: '1px solid #e5e7eb',
         borderRadius: 8,
         padding: 14,
       }}
