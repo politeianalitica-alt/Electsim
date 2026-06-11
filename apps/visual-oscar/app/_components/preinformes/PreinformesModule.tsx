@@ -42,6 +42,25 @@ import {
 } from '@/lib/preinformes/store'
 import { startNamespaceAutoSync } from '@/lib/sync/namespace-sync'
 import SyncChip from '@/app/_components/SyncChip'
+import { findBySlug } from '@/lib/cuaderno/store'
+import { findById as findCamaById, toMarkdown as camaToMarkdown } from '@/lib/cama/store'
+import { downloadServerPdf } from '@/lib/render/client-pdf'
+
+/**
+ * Contenido REAL de una fuente seleccionada, para la redacción con IA:
+ * notas del Cuaderno y macroargumentos de la Cama viven en este navegador;
+ * paneles/vigilantes/consultas aún no exponen contenido (solo referencia).
+ */
+function contenidoDeFuente(f: FuentePreinforme): string | undefined {
+  if (f.tipo === 'nota') {
+    return findBySlug(f.id.replace(/^nota-/, ''))?.content
+  }
+  if (f.tipo === 'macroargumento') {
+    const m = findCamaById(f.id.replace(/^cama-/, ''))
+    return m ? camaToMarkdown(m) : undefined
+  }
+  return undefined
+}
 
 const PASOS = ['Plantilla', 'Fuentes', 'Secciones', 'Revisión'] as const
 
@@ -264,6 +283,44 @@ function Asistente({
     [fuentes],
   )
   const [mdFinal, setMdFinal] = useState<string | null>(null)
+  // Fase 3 · redacción con IA por sección (estado: id de sección en curso + error)
+  const [redactando, setRedactando] = useState<string | null>(null)
+  const [errorIA, setErrorIA] = useState<string | null>(null)
+
+  async function redactarSeccion(s: SeccionPreinforme, guia: string) {
+    setRedactando(s.id)
+    setErrorIA(null)
+    try {
+      const res = await fetch('/api/preinformes/redactar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          titulo: state.titulo,
+          plantilla: getPlantilla(state.plantilla).nombre,
+          publico: PUBLICO_LABEL[state.publico],
+          seccion: { titulo: s.titulo, guia },
+          fuentes: state.fuentes.map(f => ({
+            tipo: f.tipo, label: f.label, contenido: contenidoDeFuente(f),
+          })),
+        }),
+      })
+      const data = (await res.json()) as { ok: boolean; texto?: string; error?: string }
+      if (!data.ok || !data.texto) {
+        setErrorIA(res.status === 503
+          ? 'La IA no está configurada en este entorno; redacta a mano o inténtalo en producción.'
+          : `No se pudo redactar: ${data.error ?? res.status}`)
+        return
+      }
+      onChange({
+        ...state,
+        secciones: state.secciones.map(x => x.id === s.id ? { ...x, contenido: data.texto! } : x),
+      })
+    } catch {
+      setErrorIA('Error de red al llamar a la IA. Reintenta.')
+    } finally {
+      setRedactando(null)
+    }
+  }
 
   function setPlantilla(id: PreinformePlantillaId) {
     // Cambiar de plantilla regenera las secciones (se pierde lo escrito:
@@ -453,6 +510,11 @@ function Asistente({
       {/* Paso 3 · Secciones */}
       {state.paso === 2 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {errorIA && (
+            <div style={{ padding: '8px 12px', borderRadius: 9, background: WS.warnSub, color: WS.warn, fontSize: 12 }}>
+              {errorIA}
+            </div>
+          )}
           {state.secciones.map((s, i) => {
             const guia = getPlantilla(state.plantilla).secciones[i]?.guia ?? ''
             return (
@@ -472,7 +534,22 @@ function Asistente({
                   >
                     {s.incluida ? '✓' : ''}
                   </button>
-                  <span style={{ fontSize: 12.5, fontWeight: 700, color: WS.ink }}>{s.titulo}</span>
+                  <span style={{ fontSize: 12.5, fontWeight: 700, color: WS.ink, flex: 1 }}>{s.titulo}</span>
+                  {s.incluida && (
+                    <button
+                      onClick={() => redactarSeccion(s, guia)}
+                      disabled={redactando !== null}
+                      title="Redacta un borrador con IA a partir de las fuentes seleccionadas en el paso 2 (notas y macroargumentos incluyen su contenido real)"
+                      style={{
+                        padding: '4px 10px', fontSize: 11, fontWeight: 600, borderRadius: 99,
+                        border: `1px solid ${WS.accent}`, cursor: redactando ? 'default' : 'pointer',
+                        background: redactando === s.id ? WS.accent : WS.accentSubtle,
+                        color: redactando === s.id ? '#fff' : WS.accent, fontFamily: WS.font,
+                      }}
+                    >
+                      {redactando === s.id ? '◐ Redactando…' : '✦ Redactar con IA'}
+                    </button>
+                  )}
                 </div>
                 {s.incluida && (
                   <textarea
@@ -574,7 +651,11 @@ function descargarMd(md: string, titulo: string) {
   URL.revokeObjectURL(a.href)
 }
 
-function imprimirMd(md: string, titulo: string) {
+async function imprimirMd(md: string, titulo: string) {
+  // Fase 3 · primero intenta el PDF server-side con plantilla corporativa;
+  // si falla, cae a la impresión del navegador (comportamiento anterior).
+  const ok = await downloadServerPdf({ title: titulo, subtitle: 'Preinforme · borrador', markdown: md })
+  if (ok) return
   const w = window.open('', '_blank')
   if (!w) return
   const html = md

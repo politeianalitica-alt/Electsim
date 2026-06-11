@@ -17,7 +17,47 @@ interface OrchestratorInput {
 }
 
 export const agentOrchestrator = {
+  /**
+   * Fase 3 · primero la IA REAL (/api/workspace/agent → lib/ai); si el
+   * entorno no tiene proveedor (503) o falla, cae al modo local con
+   * tarjetas mock que existía desde Sprint 3.
+   */
   async handle(input: OrchestratorInput): Promise<AgentMessage> {
+    try {
+      const res = await fetch("/api/workspace/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: input.signal,
+        body: JSON.stringify({
+          message: input.message,
+          mode: input.mode,
+          workspaceId: input.workspaceId,
+          activeView: input.context?.activeView,
+          history: input.history.slice(-8).map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+      if (res.ok) {
+        const data = (await res.json()) as Partial<AgentMessage> & { source?: string };
+        if (data?.content && data.source === "ai") {
+          return {
+            id: data.id ?? generateId("msg"),
+            role: "assistant",
+            content: data.content,
+            createdAt: data.createdAt ?? new Date().toISOString(),
+            mode: input.mode,
+            cards: data.cards ?? [],
+          };
+        }
+      }
+      // 503 (sin IA) u otra respuesta no-ai → fallback local
+    } catch {
+      // red caída o abort → fallback local
+    }
+    return this.handleLocal(input);
+  },
+
+  /** Modo local original (Sprint 3): respuestas deterministas con tarjetas. */
+  async handleLocal(input: OrchestratorInput): Promise<AgentMessage> {
     await delay(600 + Math.random() * 400);
 
     const { mode, message } = input;

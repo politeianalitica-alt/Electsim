@@ -40,6 +40,23 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
   const mod: any = await import("@react-pdf/renderer");
   const { Document, Page, Text, View, StyleSheet, Font, pdf } = mod;
 
+  // CRÍTICO (Fase 3): los elementos deben crearse con EL MISMO react que
+  // usa @react-pdf. En este monorepo la raíz hoistea react 19 (que es el
+  // que resuelve @react-pdf externalizado) mientras la app bundlea react 18:
+  // mezclar instancias rompe el reconciler ("Cannot read properties of
+  // null (reading 'props')" / "older React element"). createRequire desde
+  // la ubicación real de @react-pdf garantiza la instancia correcta sea
+  // cual sea el layout de node_modules.
+  // eval('require') = require REAL de Node, fuera del análisis estático de
+  // webpack (createRequire con argumento dinámico no lo soporta y el shim
+  // de import("module") tampoco existe en el bundle). Solo runtime nodejs.
+  // eslint-disable-next-line no-eval
+  const nodeRequire = eval("require") as NodeRequire;
+  const path = nodeRequire("path") as typeof import("path");
+  const pdfPkg = nodeRequire.resolve("@react-pdf/renderer/package.json");
+  const reactPath = nodeRequire.resolve("react", { paths: [path.dirname(pdfPkg)] });
+  const h: typeof React.createElement = nodeRequire(reactPath).createElement;
+
   const C = {
     ink: "#1d1d1f",
     ink2: "#3a3a3d",
@@ -86,23 +103,25 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
     return { borderColor: C.info, color: C.info };
   }
 
-  const Doc = React.createElement(Document, null,
-    React.createElement(Page, { size: "A4", style: S.page },
+  // Los hijos se construyen como array y se FILTRAN: el reconciler de
+  // @react-pdf crasheaba ("Cannot read properties of null") con cualquier
+  // hijo null directo (spec sin subtitle/meta, o block de tipo desconocido).
+  const pageChildren = [
 
       // Branding
-      React.createElement(View, { style: S.branding },
-        React.createElement(View, { style: { flexDirection: "row", alignItems: "center" } },
-          React.createElement(View, { style: S.brandDot }),
-          React.createElement(Text, { style: S.brandText }, "POLITEIA · WORKSPACE"),
+      h(View, { style: S.branding },
+        h(View, { style: { flexDirection: "row", alignItems: "center" } },
+          h(View, { style: S.brandDot }),
+          h(Text, { style: S.brandText }, "POLITEIA · WORKSPACE"),
         ),
-        React.createElement(Text, { style: S.brandText },
+        h(Text, { style: S.brandText },
           spec.workspace ? `WS · ${spec.workspace.toUpperCase()}` : ""),
       ),
 
       // Title
-      React.createElement(Text, { style: S.h1 }, spec.title),
-      spec.subtitle ? React.createElement(Text, { style: S.subtitle }, spec.subtitle) : null,
-      React.createElement(Text, { style: S.meta },
+      h(Text, { style: S.h1 }, spec.title),
+      spec.subtitle ? h(Text, { style: S.subtitle }, spec.subtitle) : null,
+      h(Text, { style: S.meta },
         [
           spec.author ? `Autor: ${spec.author}` : "",
           spec.generatedAt ? `Generado: ${new Date(spec.generatedAt).toLocaleString("es-ES")}` : `Generado: ${new Date().toLocaleString("es-ES")}`,
@@ -111,11 +130,11 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
 
       // Meta KV
       spec.meta
-        ? React.createElement(View, { style: { marginBottom: 14 } },
+        ? h(View, { style: { marginBottom: 14 } },
             ...Object.entries(spec.meta).map(([k, v], i) =>
-              React.createElement(View, { key: `m${i}`, style: S.kvRow },
-                React.createElement(Text, { style: S.kvKey }, k.toUpperCase()),
-                React.createElement(Text, { style: S.kvVal }, String(v)),
+              h(View, { key: `m${i}`, style: S.kvRow },
+                h(Text, { style: S.kvKey }, k.toUpperCase()),
+                h(Text, { style: S.kvVal }, String(v)),
               )
             )
           )
@@ -124,37 +143,48 @@ export async function renderPdf(spec: PdfDocSpec): Promise<Buffer> {
       // Blocks
       ...spec.blocks.map((b, i) => {
         switch (b.type) {
-          case "h1":      return React.createElement(Text, { key: i, style: S.h1 }, b.text);
-          case "h2":      return React.createElement(Text, { key: i, style: S.h2 }, b.text);
-          case "h3":      return React.createElement(Text, { key: i, style: S.h3 }, b.text);
-          case "p":       return React.createElement(Text, { key: i, style: S.p }, b.text);
-          case "bullet":  return React.createElement(Text, { key: i, style: S.bullet }, `•  ${b.text}`);
-          case "divider": return React.createElement(View, { key: i, style: S.divider });
-          case "kv":      return React.createElement(View, { key: i, style: { marginVertical: 6 } },
+          case "h1":      return h(Text, { key: i, style: S.h1 }, b.text);
+          case "h2":      return h(Text, { key: i, style: S.h2 }, b.text);
+          case "h3":      return h(Text, { key: i, style: S.h3 }, b.text);
+          case "p":       return h(Text, { key: i, style: S.p }, b.text);
+          case "bullet":  return h(Text, { key: i, style: S.bullet }, `•  ${b.text}`);
+          case "divider": return h(View, { key: i, style: S.divider });
+          case "kv":      return h(View, { key: i, style: { marginVertical: 6 } },
                             ...b.pairs.map(([k, v], j) =>
-                              React.createElement(View, { key: j, style: S.kvRow },
-                                React.createElement(Text, { style: S.kvKey }, k.toUpperCase()),
-                                React.createElement(Text, { style: S.kvVal }, v),
+                              h(View, { key: j, style: S.kvRow },
+                                h(Text, { style: S.kvKey }, k.toUpperCase()),
+                                h(Text, { style: S.kvVal }, v),
                               )
                             )
                           );
           case "callout": {
             const c = CalloutColor(b.tone);
-            return React.createElement(View, { key: i, style: { ...S.calloutBox, borderColor: c.borderColor } },
-              React.createElement(Text, { style: { fontSize: 10.5, color: c.color } }, b.text),
+            return h(View, { key: i, style: { ...S.calloutBox, borderColor: c.borderColor } },
+              h(Text, { style: { fontSize: 10.5, color: c.color } }, b.text),
             );
           }
-          case "footer":  return React.createElement(Text, { key: i, style: S.footer }, b.text);
+          case "footer":  return h(Text, { key: i, style: S.footer }, b.text);
           default:        return null;
         }
       }),
 
       // Fixed footer
-      React.createElement(Text, { style: S.footer, fixed: true },
+      h(Text, { style: S.footer, fixed: true },
  `Politeia · Workspace · ${new Date().toLocaleDateString("es-ES")} · documento confidencial`),
-    )
+  ].filter(Boolean);
+
+  const Doc = h(Document, null,
+    h(Page, { size: "A4", style: S.page }, ...pageChildren)
   );
 
-  const buffer = await pdf(Doc).toBuffer();
-  return buffer as Buffer;
+  // @react-pdf v4: toBuffer() resuelve a un STREAM (PDFDocument), no a un
+  // Buffer — hay que recolectarlo. Se mantiene el soporte de Buffer por si
+  // una versión futura vuelve a devolverlo directo.
+  const out: unknown = await pdf(Doc).toBuffer();
+  if (Buffer.isBuffer(out)) return out;
+  const chunks: Buffer[] = [];
+  for await (const c of out as AsyncIterable<Buffer | Uint8Array>) {
+    chunks.push(Buffer.isBuffer(c) ? c : Buffer.from(c));
+  }
+  return Buffer.concat(chunks);
 }

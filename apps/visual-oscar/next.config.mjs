@@ -11,6 +11,10 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', '@xyflow/react'],
     serverComponentsExternalPackages: [
+      // Nota Fase 3: @react-pdf resuelve el react 19 hoisted en la raíz del
+      // monorepo (la app usa 18). pdf-renderer.tsx crea sus elementos con
+      // ESE mismo react (createRequire desde @react-pdf) para no mezclar
+      // instancias — ver comentario allí antes de tocar esto.
       '@react-pdf/renderer',
       'rss-parser',
       // Deps opcionales — cargadas via dynamic import condicional. Si no están

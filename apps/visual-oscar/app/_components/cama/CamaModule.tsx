@@ -35,6 +35,7 @@ import {
 } from '@/lib/cama/store'
 import { startNamespaceAutoSync } from '@/lib/sync/namespace-sync'
 import SyncChip from '@/app/_components/SyncChip'
+import { downloadServerPdf } from '@/lib/render/client-pdf'
 
 const ESTADOS: Array<{ id: MacroargumentoEstado | 'todos'; label: string }> = [
   { id: 'todos',     label: 'Todos' },
@@ -427,7 +428,16 @@ function CamaEditor({
     URL.revokeObjectURL(a.href)
   }
 
-  function exportarPdf() {
+  async function exportarPdf() {
+    // Fase 3 · PDF server-side con plantilla corporativa; si falla
+    // (entorno sin @react-pdf o error de red) cae a la impresión clásica.
+    const ok = await downloadServerPdf({
+      title: m.titulo,
+      subtitle: `Macroargumento · v${m.version} · ${ESTADO_LABEL[m.estado]}`,
+      markdown: toMarkdown(m),
+      meta: { espacio: m.espacio, puntos: m.puntosClave.length, evidencias: m.evidencias.length },
+    })
+    if (ok) return
     const w = window.open('', '_blank')
     if (!w) return
     const html = toMarkdown(m)
