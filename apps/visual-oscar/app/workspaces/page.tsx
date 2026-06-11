@@ -89,7 +89,7 @@ export default function WorkspacesPage() {
             )}
  </div>
 
-          {/* Workspace selector */}
+          {/* Workspace selector + entrada */}
  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
  <label style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.08em', color: '#6e6e73', textTransform: 'uppercase' }}>Workspace activo</label>
  <select value={activeId} onChange={e => setActiveId(e.target.value)}
@@ -101,7 +101,39 @@ export default function WorkspacesPage() {
  <option key={w.id} value={w.id}>{w.name} {w.sector ? `· ${w.sector}` : ''}</option>
               ))}
  </select>
+ <Link
+              href={activeId ? `/workspaces/${activeId}/overview` : '/workspaces'}
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                padding: '10px 14px', borderRadius: 10, background: '#1F4E8C', color: '#fff',
+                fontSize: 13, fontWeight: 600, textDecoration: 'none',
+                boxShadow: '0 1px 2px rgba(31,78,140,0.25)',
+              }}
+            >
+              Entrar al workspace ⟶
+ </Link>
  </div>
+ </section>
+
+        {/* Accesos directos a los 5 espacios + módulos transversales */}
+ <section style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 18 }}>
+          {[
+            { label: 'Command Center', href: activeId ? `/workspaces/${activeId}/overview` : '/workspaces' },
+            { label: 'Estudio', href: '/estudio' },
+            { label: 'War Room', href: '/war-room' },
+            { label: 'Toolbox', href: '/extras' },
+            { label: 'Cuaderno', href: '/cuaderno' },
+            { label: 'Cama', href: '/estudio/cama' },
+            { label: 'Preinformes', href: '/estudio/preinformes' },
+          ].map(s => (
+ <Link key={s.label} href={s.href} style={{
+              padding: '8px 16px', borderRadius: 999, fontSize: 12.5, fontWeight: 600,
+              color: '#1F4E8C', background: '#fff', border: '1px solid #d8e0ec',
+              textDecoration: 'none',
+            }}>
+              {s.label}
+ </Link>
+          ))}
  </section>
 
         {/* KPIs */}
