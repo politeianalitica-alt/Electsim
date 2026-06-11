@@ -1,9 +1,11 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
 import { isAuthenticated } from '@/lib/auth'
 import { useApi } from '@/lib/useApi'
+import { getLastSpace, type LastSpace } from '@/lib/workspace/last-space'
 
 type Workspace = { id: string; name: string; description?: string; sector?: string; members?: number; created_at?: string; updated_at?: string }
 type Briefing = { id: string; title?: string; created_at?: string; type?: string; format?: string; size_kb?: number; download_url?: string }
@@ -34,6 +36,15 @@ export default function WorkspacesPage() {
 
   const [activeId, setActiveId] = useState<string>('')
   useEffect(() => { if (!activeId && workspaces.length) setActiveId(workspaces[0].id) }, [workspaces, activeId])
+
+  // Continuidad: último espacio visitado (lo registra el AppHeader en
+  // localStorage). Se lee en efecto para no romper la hidratación SSR.
+  const [lastSpace, setLastSpace] = useState<LastSpace | null>(null)
+  useEffect(() => {
+    const last = getLastSpace()
+    // El propio hub no cuenta como "continuar"
+    if (last && last.href !== '/workspaces') setLastSpace(last)
+  }, [])
 
   const { data: kpiData } = useApi<KPISnap>(activeId ? `/api/workspaces/${activeId}/kpis` : '/api/system/kpis', { refreshInterval: 60_000 })
   const { data: briefData } = useApi<{ items?: Briefing[] } | Briefing[]>(activeId ? `/api/workspaces/${activeId}/briefings` : '/api/briefings/archive', { refreshInterval: 0 })
@@ -66,6 +77,16 @@ export default function WorkspacesPage() {
  <p style={{ fontSize: 13, color: '#6e6e73', margin: 0 }}>
               {active?.description ?? 'Selecciona un workspace para ver su estado.'}
  </p>
+            {lastSpace && (
+ <Link href={lastSpace.href} style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 12,
+                padding: '6px 14px', borderRadius: 999, fontSize: 12, fontWeight: 600,
+                color: '#1F4E8C', background: 'rgba(31,78,140,0.08)',
+                border: '1px solid rgba(31,78,140,0.18)', textDecoration: 'none',
+              }}>
+                ↩ Continuar donde lo dejaste · {lastSpace.label}
+ </Link>
+            )}
  </div>
 
           {/* Workspace selector */}

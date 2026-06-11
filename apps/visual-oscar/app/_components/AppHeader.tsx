@@ -5,7 +5,7 @@ import { Suspense, useEffect, useState } from 'react'
 import { MODULES, moduleOfPath, itemOfPath, type NavItem } from './navigation'
 import { recordModuleVisit } from '@/lib/home/modules-access'
 import { migrateLegacyTab } from '@/lib/medios/sources-matrix'
-import { getLastSpace, recordLastSpace, spaceOfPath, type LastSpace } from '@/lib/workspace/last-space'
+import { recordLastSpace } from '@/lib/workspace/last-space'
 
 // ── Subnav pills (nivel 2) · resaltado consciente del query `?tab=` ──────────
 // Las entradas de Medios apuntan a /prensa?tab=X (Búsqueda, Narrativas…).
@@ -65,7 +65,6 @@ export default function AppHeader() {
   const activeItem = itemOfPath(path)
   const banner = activeItem?.banner
   const [menuOpen, setMenuOpen] = useState(false)
-  const [wsOpen, setWsOpen] = useState(false)
   const [cfgOpen, setCfgOpen] = useState(false)
 
   // Configuración + Salir movidos al icono de herramientas del header.
@@ -82,9 +81,9 @@ export default function AppHeader() {
   )
   const level3Items = (activeSubItem?.children || []).filter(c => !c.hidden)
 
-  // Workspace unificado en el botón azul: Command Center + opciones del módulo
-  // 'workspace' (Estudio, War Room, Toolbox, Cuaderno). Las dos ubicaciones
-  // antiguas (pestaña de nav + botón) quedan fundidas aquí.
+  // Botón azul Workspace → enlace DIRECTO al hub /workspaces (sin menú).
+  // wsOptions se conserva solo para el menú móvil (burger), donde sí hace
+  // falta listar los espacios porque no hay pills de subnav.
   const wsModule = MODULES.find(m => m.id === 'workspace')
   const wsOptions = [
     { label: 'Command Center · España 2026', href: '/workspaces/ws_espana_2026/overview' },
@@ -93,23 +92,12 @@ export default function AppHeader() {
   ]
   const wsActive = path.startsWith('/workspaces') || path === '/workspace' || path === '/operaciones'
     || (wsModule?.items || []).some(it => path === it.href || path.startsWith(it.href + '/'))
-  // Con rutas anidadas (/estudio/cama vive bajo /estudio) resalta solo la
-  // opción MÁS específica del menú, no todas las que hagan prefix-match.
-  const wsBestMatch = wsOptions.reduce<string | null>((best, o) => {
-    const match = path === o.href || path.startsWith(o.href + '/')
-    if (!match) return best
-    return !best || o.href.length > best.length ? o.href : best
-  }, null)
 
-  // Continuidad entre espacios: el último workspace visitado se persiste en
-  // localStorage y se ofrece arriba del menú ("Continuar donde lo dejaste").
-  // Se lee en efecto (no en render) para no romper la hidratación SSR.
-  const [lastSpace, setLastSpace] = useState<LastSpace | null>(null)
+  // Continuidad entre espacios: registra el último espacio visitado en
+  // localStorage; el hub /workspaces lo lee para ofrecer "Continuar".
   useEffect(() => {
     if (path) recordLastSpace(path)
-    setLastSpace(getLastSpace())
   }, [path])
-  const showLastSpace = lastSpace && spaceOfPath(path)?.label !== lastSpace.label
 
   // Registra la página visitada para el bloque "Recientes" del inicio.
   // Excluimos el propio inicio y el login (no son destinos de "volver a").
@@ -121,7 +109,7 @@ export default function AppHeader() {
   }, [path, activeItem, activeModule])
 
   // Cierra los menús al cambiar de ruta.
-  useEffect(() => { setMenuOpen(false); setWsOpen(false); setCfgOpen(false) }, [path])
+  useEffect(() => { setMenuOpen(false); setCfgOpen(false) }, [path])
 
   return (
  <>
@@ -180,23 +168,19 @@ export default function AppHeader() {
             })}
  </div>
  <div className="ah-right" style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
-            {/* Botón Workspace — apunta al Command Center del workspace
-                España 2026 (vista por defecto del workspace, donde están
-                Morning Brief, Issues críticos, Acciones, Equipo y Foco).
-                /operaciones (Centro de Operaciones del Analista) sigue
-                accesible desde el módulo 'Operaciones' del nav. */}
- <div style={{position:'relative',display:'inline-flex'}}>
- <button
-              onClick={() => setWsOpen(o => !o)}
-              aria-expanded={wsOpen}
-              aria-haspopup="menu"
+            {/* Botón Workspace — enlace directo al hub /workspaces
+                ("Mis workspaces": selector + KPIs + briefings). Desde ahí
+                se entra a Command Center, Estudio, War Room, Toolbox y
+                Cuaderno. Antes era un desplegable; ahora navega directo. */}
+ <Link
+              href="/workspaces"
               style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
-              color:'#fff',background:(wsActive||wsOpen)?'#0F2A4F':'#1F4E8C',
+              color:'#fff',background:wsActive?'#0F2A4F':'#1F4E8C',
               padding:'5px 12px',borderRadius:999,border:'none',cursor:'pointer',
               boxShadow:'0 1px 2px rgba(31,78,140,0.25)',transition:'all 160ms',
-              fontFamily:'inherit',
+              fontFamily:'inherit',textDecoration:'none',
             }}>
  <svg aria-hidden="true" width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8">
                 {/* Icono grid 2x2 = workspace · decorativo */}
@@ -206,45 +190,7 @@ export default function AppHeader() {
  <rect x="9" y="9" width="5.5" height="5.5" rx="1"/>
  </svg>
               Workspace
- <svg aria-hidden="true" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" style={{transform:wsOpen?'rotate(180deg)':'none',transition:'transform 160ms'}}>
- <polyline points="6 9 12 15 18 9"/>
- </svg>
- </button>
-            {wsOpen && (
- <>
- <div onClick={() => setWsOpen(false)} style={{position:'fixed',inset:0,zIndex:60}} aria-hidden="true"/>
- <div role="menu" style={{
-                position:'absolute',top:'calc(100% + 7px)',right:0,zIndex:61,minWidth:236,
-                background:'#fff',border:'1px solid rgba(0,0,0,0.08)',borderRadius:12,
-                boxShadow:'0 10px 34px rgba(0,0,0,0.18)',padding:6,
-              }}>
-                {showLastSpace && lastSpace && (
- <>
- <div style={{fontSize:10,fontWeight:700,letterSpacing:'0.08em',color:'#aeaeb2',textTransform:'uppercase',padding:'4px 12px 6px'}}>Continuar donde lo dejaste</div>
- <Link key={`last-${lastSpace.href}`} href={lastSpace.href} role="menuitem" onClick={() => setWsOpen(false)} style={{
-                    display:'block',padding:'9px 12px',borderRadius:8,
-                    fontSize:13,fontWeight:600,color:'#1F4E8C',
-                    background:'rgba(31,78,140,0.06)',textDecoration:'none',
-                  }}>↩ {lastSpace.label}</Link>
- <div style={{height:1,background:'rgba(0,0,0,0.07)',margin:'6px 8px'}}/>
- </>
-                )}
-                {wsOptions.map(o => {
-                  const a = o.href === wsBestMatch
-                  return (
- <Link key={o.href} href={o.href} role="menuitem" onClick={() => setWsOpen(false)} style={{
-                      display:'block',padding:'9px 12px',borderRadius:8,
-                      fontSize:13,fontWeight:a?600:500,
-                      color:a?'#1F4E8C':'#1d1d1f',
-                      background:a?'rgba(31,78,140,0.08)':'transparent',
-                      textDecoration:'none',
-                    }}>{o.label}</Link>
-                  )
-                })}
- </div>
- </>
-            )}
- </div>
+ </Link>
  <div className="ah-salir" style={{position:'relative',display:'inline-flex'}}>
  <button
               onClick={() => setCfgOpen(o => !o)}
