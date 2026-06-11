@@ -148,7 +148,7 @@ async function getOpenSkyToken(): Promise<string | null> {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ grant_type: 'client_credentials', client_id: id, client_secret: secret }),
-        signal: AbortSignal.timeout(12000),
+        signal: AbortSignal.timeout(10000),
       },
     );
     if (!res.ok) {
@@ -247,7 +247,7 @@ function deadReckonStates(states: any[], dtS: number): any[] {
 // mucho OPENSKY_WAIT_MS; si no llega, sale con el snapshot dead-reckoned (o
 // 'none') y el poll siguiente del cliente (60s) recoge el resultado ya cacheado.
 let openskyInflight: Promise<any[] | null> | null = null;
-const OPENSKY_WAIT_MS = 8000;       // espera máxima dentro de una petición
+const OPENSKY_WAIT_MS = 24000;      // espera máxima dentro de una petición (paralela a adsb.*, cabe en maxDuration=30)
 const OPENSKY_FRESH_MS = 90_000;    // snapshot reciente: se sirve como 'live'
 
 async function refreshOpenSkySnap(): Promise<any[] | null> {
@@ -255,7 +255,7 @@ async function refreshOpenSkySnap(): Promise<any[] | null> {
   // Con token el cupo es de la cuenta: un único intento largo. Anónimo: dos
   // intentos cortos (la rotación de IPs de salida de Vercel puede dar con una
   // IP con cupo disponible).
-  let states = await fetchOpenSkyOnce(token, token ? 22000 : 9000);
+  let states = await fetchOpenSkyOnce(token, token ? 20000 : 9000);
   if ((!states || states.length === 0) && !token) {
     states = await fetchOpenSkyOnce(token, 9000);
   }
