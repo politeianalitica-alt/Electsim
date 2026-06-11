@@ -231,9 +231,26 @@ for (const m of MODULES) {
     }
   }
 }
+/**
+ * Resuelve por coincidencia exacta y, si no la hay, por el PREFIJO más largo.
+ * Sin esto, cualquier subruta no registrada item a item (/estudio/fuentes,
+ * /dosieres/[id]…) perdía el módulo activo: desaparecían subnav y resaltado
+ * y el usuario sentía que cambiaba de aplicación.
+ */
+function longestPrefix(table: Record<string, unknown>, path: string): string | null {
+  let best: string | null = null
+  for (const href in table) {
+    if (path.startsWith(href + '/') && (!best || href.length > best.length)) best = href
+  }
+  return best
+}
 export function moduleOfPath(path: string): NavModule | null {
-  return HREF_TO_MODULE[path] || null
+  if (HREF_TO_MODULE[path]) return HREF_TO_MODULE[path]
+  const prefix = longestPrefix(HREF_TO_MODULE, path)
+  return prefix ? HREF_TO_MODULE[prefix] : null
 }
 export function itemOfPath(path: string): NavItem | null {
-  return HREF_TO_ITEM[path] || null
+  if (HREF_TO_ITEM[path]) return HREF_TO_ITEM[path]
+  const prefix = longestPrefix(HREF_TO_ITEM, path)
+  return prefix ? HREF_TO_ITEM[prefix] : null
 }

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { COOKIE_NAME } from '@/lib/auth/session'
+import { COOKIE_NAME, verifyToken } from '@/lib/auth/session'
 
 // Rutas que no requieren sesión
 const PUBLIC_PREFIXES = [
@@ -79,19 +79,25 @@ const PUBLIC_PREFIXES = [
   '/api/medios/health',
 ]
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
   // Archivos estáticos y rutas públicas
   if (PUBLIC_PREFIXES.some(p => pathname.startsWith(p))) return NextResponse.next()
   if (pathname.includes('.')) return NextResponse.next()
 
-  // Verificar cookie de sesión
+  // Verificar cookie de sesión: firma HMAC + expiración (verifyToken es
+  // Edge-compatible, WebCrypto). Antes solo se comprobaba la PRESENCIA de
+  // la cookie: cualquier valor inventado pasaba.
   const session = req.cookies.get(COOKIE_NAME)?.value
-  if (!session) {
+  const payload = session ? await verifyToken(session) : null
+  if (!payload) {
     const url = req.nextUrl.clone()
     url.pathname = '/login'
-    return NextResponse.redirect(url)
+    const res = NextResponse.redirect(url)
+    // Cookie inválida o caducada: se borra para evitar bucles de redirect.
+    if (session) res.cookies.delete(COOKIE_NAME)
+    return res
   }
 
   return NextResponse.next()

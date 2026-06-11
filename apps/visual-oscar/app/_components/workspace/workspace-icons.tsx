@@ -108,6 +108,8 @@ export const IconSend         = iconStroke("M14 2L2 7l5 2 2 5 5-12z|M9 9l5-7");
 export const IconCama         = iconStroke("M8 1l7 4-7 4-7-4 7-4z|M1 9l7 4 7-4|M1 12l7 3 7-3");
 // Preinformes: documento con check — borrador validable
 export const IconPreinformes  = iconStroke("M3 1h7l3 3v11H3V1z|M10 1v3h3|M5.5 9l2 2 3-3.5");
+// CRM: dos personas conectadas — relaciones entre actores
+export const IconCrm          = iconStroke("M5 7a2.5 2.5 0 100-5 2.5 2.5 0 000 5z|M11 9a2.5 2.5 0 100-5 2.5 2.5 0 000 5z|M1 14c0-2.2 1.8-4 4-4s4 1.8 4 4|M9.5 12.5c.4-1.5 1.9-2.5 3.5-2.5 1 0 1.9.4 2.5 1");
 
 export type WsIconName = WorkspaceView;
 
@@ -131,6 +133,7 @@ export function ViewIcon({ view, size = 14, color }: { view: string; size?: numb
     case "terminal":    return <IconTerminal {...props} />;
     case "cama":        return <IconCama {...props} />;
     case "preinformes": return <IconPreinformes {...props} />;
+    case "crm":         return <IconCrm {...props} />;
     default:            return <IconOverview {...props} />;
   }
 }

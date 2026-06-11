@@ -6,6 +6,13 @@
  * usuario perciba una sola plataforma coherente.
  */
 
+/**
+ * Workspace canónico por defecto. Único id con datos en mock-data.ts y el
+ * que usa el AppHeader. NO usar literales ('spain-energy' provocaba que el
+ * Toolbox deep-linkara a un workspace vacío).
+ */
+export const DEFAULT_WORKSPACE_ID = 'ws_espana_2026'
+
 export const WS = {
   // Superficies (claras, sutilmente jerárquicas)
   bg: "#fbfbfd",

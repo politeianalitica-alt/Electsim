@@ -16,7 +16,9 @@ import type {
   DomoStats, PaginatedResponse,
 } from '@/types/domo'
 
-const BASE = '/api/domo'
+// Los route handlers viven en app/api/estudio/* (el alias histórico /api/domo
+// nunca existió como ruta: todo el BI devolvía 404 hasta jun 2026).
+const BASE = '/api/estudio'
 
 async function fetchDomo<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {

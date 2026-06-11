@@ -6,6 +6,7 @@ import { MODULES, moduleOfPath, itemOfPath, type NavItem } from './navigation'
 import { recordModuleVisit } from '@/lib/home/modules-access'
 import { migrateLegacyTab } from '@/lib/medios/sources-matrix'
 import { recordLastSpace } from '@/lib/workspace/last-space'
+import { DEFAULT_WORKSPACE_ID } from '@/lib/workspace/workspace-utils'
 
 // ── Subnav pills (nivel 2) · resaltado consciente del query `?tab=` ──────────
 // Las entradas de Medios apuntan a /prensa?tab=X (Búsqueda, Narrativas…).
@@ -86,7 +87,7 @@ export default function AppHeader() {
   // falta listar los espacios porque no hay pills de subnav.
   const wsModule = MODULES.find(m => m.id === 'workspace')
   const wsOptions = [
-    { label: 'Command Center · España 2026', href: '/workspaces/ws_espana_2026/overview' },
+    { label: 'Command Center · España 2026', href: `/workspaces/${DEFAULT_WORKSPACE_ID}/overview` },
     { label: 'Mis workspaces', href: '/workspaces' },
     ...((wsModule?.items || []).filter(it => !it.hidden)),
   ]

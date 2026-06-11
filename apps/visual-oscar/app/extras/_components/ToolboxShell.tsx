@@ -17,6 +17,7 @@ import TerminalView from './TerminalView'
 import ToolGrid from './ToolGrid'
 import CamaModule from '@/app/_components/cama/CamaModule'
 import PreinformesModule from '@/app/_components/preinformes/PreinformesModule'
+import { DEFAULT_WORKSPACE_ID } from '@/lib/workspace/workspace-utils'
 
 export type ToolId =
   | 'command-center' | 'inbox' | 'terminal'
@@ -36,9 +37,8 @@ export interface ToolDef {
 }
 
 // Workspace por defecto cuando hacemos deep-link a las herramientas avanzadas.
-// Cuando el usuario pasa por /workspaces, podemos guardarle el último elegido
-// en localStorage y usarlo aquí.
-const DEFAULT_WORKSPACE = 'spain-energy'
+// Canónico compartido con AppHeader (antes 'spain-energy', un id sin datos).
+const DEFAULT_WORKSPACE = DEFAULT_WORKSPACE_ID
 
 export const TOOLS: ToolDef[] = [
   // OPERATIVO
