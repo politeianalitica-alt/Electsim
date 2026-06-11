@@ -49,35 +49,36 @@ restan utilidad real:
   Room, rollback en optimistic updates, código muerto eliminado (GraphView,
   `/operaciones` → redirect, palette global) y hardening extra surgido de la
   revisión adversarial (`verifyToken` nunca lanza ante cookies malformadas).
-- **Fase 1 · Un solo producto (1-2 semanas). — PRIMER TRAMO HECHO 12 jun 2026**
-  (commits `24a4685c`…): HECHO → familia `--color-brand*` en tokens.css y azul
-  corporativo único en todo el ámbito workspace (WS, Cuaderno, Toolbox, grafo,
-  MetricTrace); Domo consume tokens reales (8 variables muertas mapeadas);
-  WS.font → Inter via next/font; un solo "Command Center" (Toolbox → "Panel
-  operativo", War Room → "Sala de operaciones"); labels en español; ?view= y
-  ?tool= en URL; salida común "⊞ Mis workspaces" en los 4 espacios; ErrorPanel
-  compartido. PENDIENTE → cabecera de espacio compartida con breadcrumb,
-  decisión Toolbox launcher-puro vs vistas compartidas, unificar los 3
-  mecanismos de matching de rutas, barrido del azul fuera del workspace
-  (~100 usos de #0071e3 en páginas no-workspace + token --color-accent),
-  convención única de claves localStorage.
-- **Fase 2 · Persistencia de verdad (2-4 semanas). — PRIMER TRAMO HECHO
-  12 jun 2026** (commits `224dc57a`, `8c06368d`): HECHO → safeSetItem con
-  banner global de cuota llena (cableado en Cama, Preinformes, Cuaderno y
-  persist.ts); registro de claves + copia de seguridad export/import en el
-  hub; `/api/sync/[namespace]` con identidad derivada de la SESIÓN y
-  tombstones; auto-sync con merge LWW + SyncChip en Cama y Preinformes.
-  PENDIENTE → migrar el sync del Cuaderno a la identidad de sesión (hoy
-  sigue con client_id manual + notas borradas que resucitan), sync para
-  politeia:ws:* (docs/tablas/canvas), y el tramo backend: tablas con RLS
-  en el FastAPI + repositorios contra React Query con mutaciones
-  optimistas (requiere desplegar el backend Python).
-- **Fase 3 · Funcionalidad diferencial (en paralelo por piezas).** Agente IA
-  real en el workspace (la cascada de modelos y las 14 tools ya existen);
-  Preinformes que redacta secciones con IA desde las fuentes seleccionadas;
-  Inbox con señal real BOE+RSS+OSINT; export PDF server-side con plantilla
-  corporativa; búsqueda global federada; comentarios y menciones; automations
-  ejecutables; RBAC cableado (la matriz de permisos ya está escrita).
+- **Fase 1 · Un solo producto. — COMPLETADA 12 jun 2026** (commits
+  `24a4685c`…`fcbfd072`): familia `--color-brand*` y azul corporativo único en
+  TODA la plataforma (barrido global de #0071e3, incluido --color-accent y
+  MetricTrace; el azul Apple solo pervive en el ámbito OSIRIS); Domo con
+  tokens reales; WS.font → Inter; un solo "Command Center"; labels en
+  español; ?view=/?tool= en URL; salida común al hub; ErrorPanel compartido;
+  matcher de rutas ÚNICO (lib/path-match); Toolbox convertido en LAUNCHER
+  (las réplicas con mocks divergentes eliminadas — quedan inline solo
+  Cama/Preinformes). Resto menor: cabecera-breadcrumb compartida (cubierta
+  parcialmente por el subnav persistente) y renombrado físico de claves
+  localStorage legacy (documentadas en lib/storage/registry.ts).
+- **Fase 2 · Persistencia de verdad. — TRAMO FRONTEND COMPLETADO 12 jun
+  2026** (commits `224dc57a`…`0e18c5b6`): safeSetItem + banner de cuota;
+  registro de claves; copia de seguridad export/import; `/api/sync/[namespace]`
+  con identidad de SESIÓN y tombstones; auto-sync LWW + SyncChip en Cama y
+  Preinformes; y el CUADERNO migrado al sync por sesión con tombstones (fin
+  de las notas que resucitan; panel client_id conservado como vía manual).
+  PENDIENTE (requiere infra): sync para politeia:ws:* (docs/tablas/canvas) y
+  el tramo backend — tablas con RLS en el FastAPI + repositorios contra
+  React Query (necesita desplegar el backend Python).
+- **Fase 3 · Funcionalidad diferencial. — PRIMER TRAMO HECHO 12 jun 2026**
+  (commit `e13801a3`): HECHO → Preinformes con '✦ Redactar con IA' por
+  sección usando el CONTENIDO real de las fuentes (notas + macroargumentos)
+  vía la cascada de lib/ai; agente del workspace conectado a IA real (el
+  mock queda como fallback offline); export PDF server-side con plantilla
+  corporativa para Cama y Preinformes — incluyó arreglar el renderer PDF,
+  roto en producción por el react 19 hoisted en la raíz del monorepo (ver
+  lib/render/pdf-renderer.tsx). PENDIENTE → Inbox con señal real BOE+RSS,
+  búsqueda global federada, comentarios y menciones, automations
+  ejecutables, RBAC cableado, salud del argumentario en Cama.
 
 ---
 
