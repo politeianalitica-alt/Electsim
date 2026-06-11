@@ -42,8 +42,11 @@ const DEFAULT_WORKSPACE = DEFAULT_WORKSPACE_ID
 
 export const TOOLS: ToolDef[] = [
   // OPERATIVO
-  { id: 'command-center', label: 'Command Center', glyph: '▣', category: 'OPERATIVO', inline: true,
-    description: 'Tu mando operativo: morning brief, issues críticos, agenda y acciones.' },
+  // Renombrado en Fase 1: 'Command Center' es SOLO el overview del workspace
+  // (/workspaces/[id]/overview). Esta vista inline es el panel operativo del
+  // Toolbox — tres cosas con el mismo nombre confundían al usuario nuevo.
+  { id: 'command-center', label: 'Panel operativo', glyph: '▣', category: 'OPERATIVO', inline: true,
+    description: 'Tu mando del día: morning brief, issues críticos, agenda y acciones.' },
   { id: 'inbox',          label: 'Inbox',          glyph: '⊠', category: 'OPERATIVO', inline: true,
     description: 'Cola unificada: alertas, menciones, tareas asignadas, peticiones.' },
   { id: 'terminal',       label: 'Terminal',       glyph: '⟫', category: 'OPERATIVO', inline: true,
@@ -56,16 +59,16 @@ export const TOOLS: ToolDef[] = [
     description: 'Borradores de informe en 4 pasos a partir de tus datos de proyectos en curso.' },
 
   // CONTENIDO
-  { id: 'docs',           label: 'Docs',           glyph: '', category: 'CONTENIDO',
+  { id: 'docs',           label: 'Documentos',           glyph: '', category: 'CONTENIDO',
     href: `/workspaces/${DEFAULT_WORKSPACE}/docs`,
     description: 'Documentos vivos: briefings, informes, notas de prensa, propuestas.' },
-  { id: 'tables',         label: 'Tables',         glyph: '⊟', category: 'CONTENIDO',
+  { id: 'tables',         label: 'Tablas',         glyph: '⊟', category: 'CONTENIDO',
     href: `/workspaces/${DEFAULT_WORKSPACE}/tables`,
     description: 'Tablas estructuradas para datos cualitativos y cuantitativos.' },
-  { id: 'slides',         label: 'Slides',         glyph: '◫', category: 'CONTENIDO',
+  { id: 'slides',         label: 'Presentaciones',         glyph: '◫', category: 'CONTENIDO',
     href: `/workspaces/${DEFAULT_WORKSPACE}/slides`,
     description: 'Presentaciones para cliente, comité o reunión de gabinete.' },
-  { id: 'reporting',      label: 'Reporting',      glyph: '◵', category: 'CONTENIDO',
+  { id: 'reporting',      label: 'Informes',      glyph: '◵', category: 'CONTENIDO',
     href: `/workspaces/${DEFAULT_WORKSPACE}/reporting`,
     description: 'Informes periódicos exportables (PDF, DOCX) con tu plantilla.' },
 
@@ -73,24 +76,24 @@ export const TOOLS: ToolDef[] = [
   { id: 'canvas',         label: 'Canvas',         glyph: '◆', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/canvas`,
     description: 'Lienzo libre para mapear actores, eventos e hipótesis.' },
-  { id: 'research',       label: 'Research',       glyph: '✦', category: 'INTELIGENCIA',
+  { id: 'research',       label: 'Investigación',       glyph: '✦', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/research`,
     description: 'Investigación con IA: threads, fuentes, citas con trazabilidad.' },
   { id: 'radar',          label: 'Radar',          glyph: '', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/radar`,
     description: 'Vigilancia activa de temas, actores y narrativas emergentes.' },
-  { id: 'simulator',      label: 'Simulator',      glyph: '◷', category: 'INTELIGENCIA',
+  { id: 'simulator',      label: 'Simulador',      glyph: '◷', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/simulator`,
     description: 'Escenarios y simulación: ¿qué pasa si decido X / pasa Y?' },
-  { id: 'knowledge',      label: 'Knowledge',      glyph: '⬡', category: 'INTELIGENCIA',
+  { id: 'knowledge',      label: 'Conocimiento',      glyph: '⬡', category: 'INTELIGENCIA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/knowledge`,
     description: 'Base de conocimiento del workspace: fuentes, fichas, glosario.' },
 
   // SISTEMA
-  { id: 'projects',       label: 'Projects',       glyph: '⊡', category: 'SISTEMA',
+  { id: 'projects',       label: 'Proyectos',       glyph: '⊡', category: 'SISTEMA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/projects`,
     description: 'Proyectos en curso con hitos, responsables y fechas.' },
-  { id: 'automations',    label: 'Automations',    glyph: '✧', category: 'SISTEMA',
+  { id: 'automations',    label: 'Automatizaciones',    glyph: '✧', category: 'SISTEMA',
     href: `/workspaces/${DEFAULT_WORKSPACE}/automations`,
     description: 'Reglas y disparadores: alerta si X, agenda si Y, informa si Z.' },
 ]

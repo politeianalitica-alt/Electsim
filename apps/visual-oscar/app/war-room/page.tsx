@@ -1,6 +1,6 @@
 'use client'
 /**
- * /war-room · Command Center electoral con sidebar de 20 secciones
+ * /war-room · Sala de operaciones electoral con sidebar de 20 secciones
  * organizadas en 7 grupos (estilo config-cliente · Linear Settings).
  */
 import './war-room.css'
@@ -278,7 +278,7 @@ export default function WarRoomPage() {
     <div className="wr-root">
       <AppHeader/>
 
-      {/* HERO compacto · Command Center con countdown + KPIs principales */}
+      {/* HERO compacto · sala de operaciones con countdown + KPIs principales */}
       <section className="wr-hero">
         <div className="wr-hero-glow"/>
         <div className="wr-hero-inner">
@@ -289,7 +289,7 @@ export default function WarRoomPage() {
             >{candidato.iniciales}</div>
             <div>
               <p className="wr-hero-eyebrow">
-                <span>WAR ROOM · COMMAND CENTER · LIVE</span>
+                <span>WAR ROOM · SALA DE OPERACIONES · LIVE</span>
                 <LiveStatusBadge updatedAt={snapUpdated} source={snapSource} refreshIntervalSec={60} onRefresh={snapRefresh}/>
               </p>
               <div className="wr-hero-name">{candidato.nombre}</div>
