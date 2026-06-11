@@ -358,6 +358,10 @@ export interface DataSourceStatusItem {
   live: boolean
   reason: string
   env_hint: string | null
+  documentation_url?: string | null // URL de la doc oficial de la API/fuente
+  last_sync_at?: string | null       // ISO timestamp del último fetch/refresh
+  coverage_label?: string | null     // ej. 'Global · 48 puertos'
+  update_frequency?: string | null   // ej. 'Tiempo real', 'Diario', 'Mensual'
 }
 
 export interface DataSourcesStatusResponse {

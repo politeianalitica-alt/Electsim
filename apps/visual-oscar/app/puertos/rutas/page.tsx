@@ -102,9 +102,9 @@ export default function RutasPage() {
   }, [services, selectedChokepoint])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-text)', color: 'var(--color-ink)' }}>
       <AppHeader />
-      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '24px 20px' }}>
+      <div style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
         <Link
           href="/puertos"
           style={{ color: ACCENT, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}
@@ -147,8 +147,8 @@ export default function RutasPage() {
             gap: 10,
             flexWrap: 'wrap',
             padding: 12,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
           }}
         >
@@ -195,8 +195,8 @@ export default function RutasPage() {
         <section
           style={{
             marginTop: 16,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
             padding: 12,
           }}
@@ -219,8 +219,8 @@ export default function RutasPage() {
         <section
           style={{
             marginTop: 16,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
             padding: 12,
           }}
@@ -301,8 +301,8 @@ export default function RutasPage() {
         <section
           style={{
             marginTop: 16,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
             padding: 12,
           }}
@@ -332,7 +332,7 @@ export default function RutasPage() {
                 <div
                   key={l.slug}
                   style={{
-                    border: '1px solid #e5e7eb',
+                    border: '1px solid var(--color-hairline)',
                     borderRadius: 8,
                     padding: 10,
                     cursor: 'pointer',
@@ -404,9 +404,9 @@ export default function RutasPage() {
 const selectStyle: React.CSSProperties = {
   padding: '7px 10px',
   fontSize: 12,
-  border: '1px solid #e2e8f0',
+  border: '1px solid var(--color-hairline)',
   borderRadius: 6,
-  background: '#fff',
+  background: 'var(--color-surface)',
   minWidth: 180,
 }
 const th: React.CSSProperties = {

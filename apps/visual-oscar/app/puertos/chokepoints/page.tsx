@@ -26,9 +26,9 @@ export default function ChokepointsPage() {
   const { data: detail } = useChokepoint(selected, 30)
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-text)', color: 'var(--color-ink)' }}>
       <AppHeader />
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 20px' }}>
+      <div style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
         <Link href="/puertos" style={{ color: ACCENT, textDecoration: 'none', fontSize: 12, fontWeight: 600 }}>
           ← Puertos & Comercio Global
         </Link>
@@ -53,7 +53,7 @@ export default function ChokepointsPage() {
         </section>
 
         {detail ? (
-          <section style={{ marginTop: 20, background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 16 }}>
+          <section style={{ marginTop: 20, background: 'var(--color-surface)', border: '1px solid var(--color-hairline)', borderRadius: 8, padding: 16 }}>
             <p style={{ fontSize: 11, letterSpacing: 0.8, color: '#64748b', fontWeight: 700, margin: 0 }}>
               DETALLE · {detail.name.toUpperCase()}
             </p>
@@ -109,7 +109,7 @@ const td: React.CSSProperties = { padding: '6px 8px', color: '#1e293b' }
 
 function KPI({ label, value, accent }: { label: string; value: string | number; accent: string }) {
   return (
-    <div style={{ background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: 6, padding: 10 }}>
+    <div style={{ background: 'var(--bg)', border: '1px solid var(--color-hairline)', borderRadius: 6, padding: 10 }}>
       <p style={{ fontSize: 10, letterSpacing: 0.6, color: '#64748b', margin: 0, fontWeight: 700 }}>{label.toUpperCase()}</p>
       <p style={{ fontSize: 18, fontWeight: 800, color: accent, margin: '4px 0 0' }}>{value}</p>
     </div>

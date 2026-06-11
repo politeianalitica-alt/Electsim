@@ -1320,3 +1320,58 @@ export const CHOKEPOINTS_SEED = [
     "score_base": 70
   }
 ]
+
+// ─────────────────────────────────────────────────────────────────
+// Trade · seed de comercio bilateral (España con sus socios + cruces clave).
+// Shape: { reporter_iso, partner_iso, flow_kind, value_usd }.
+// flow_kind ∈ {'export','import'}. value_usd plausible (bienes, anual, USD).
+// ─────────────────────────────────────────────────────────────────
+export const TRADE_SEED = [
+  // España · socios UE
+  { "reporter_iso": "ESP", "partner_iso": "FRA", "flow_kind": "export", "value_usd": 50_800_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "FRA", "flow_kind": "import", "value_usd": 31_200_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "DEU", "flow_kind": "export", "value_usd": 33_400_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "DEU", "flow_kind": "import", "value_usd": 39_100_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "ITA", "flow_kind": "export", "value_usd": 28_500_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "ITA", "flow_kind": "import", "value_usd": 22_400_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "PRT", "flow_kind": "export", "value_usd": 27_100_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "PRT", "flow_kind": "import", "value_usd": 14_900_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "NLD", "flow_kind": "export", "value_usd": 13_400_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "NLD", "flow_kind": "import", "value_usd": 18_700_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "BEL", "flow_kind": "export", "value_usd": 10_900_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "BEL", "flow_kind": "import", "value_usd": 11_600_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "GBR", "flow_kind": "export", "value_usd": 22_300_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "GBR", "flow_kind": "import", "value_usd": 13_800_000_000 },
+  // España · socios extra-UE
+  { "reporter_iso": "ESP", "partner_iso": "USA", "flow_kind": "export", "value_usd": 19_200_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "USA", "flow_kind": "import", "value_usd": 16_900_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "CHN", "flow_kind": "export", "value_usd": 7_300_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "CHN", "flow_kind": "import", "value_usd": 38_800_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "MAR", "flow_kind": "export", "value_usd": 12_100_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "MAR", "flow_kind": "import", "value_usd": 8_400_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "TUR", "flow_kind": "export", "value_usd": 7_800_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "TUR", "flow_kind": "import", "value_usd": 9_200_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "DZA", "flow_kind": "export", "value_usd": 3_900_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "DZA", "flow_kind": "import", "value_usd": 6_700_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "MEX", "flow_kind": "export", "value_usd": 6_100_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "MEX", "flow_kind": "import", "value_usd": 4_300_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "BRA", "flow_kind": "export", "value_usd": 4_500_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "BRA", "flow_kind": "import", "value_usd": 5_800_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "JPN", "flow_kind": "export", "value_usd": 2_700_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "JPN", "flow_kind": "import", "value_usd": 4_900_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "POL", "flow_kind": "export", "value_usd": 9_600_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "POL", "flow_kind": "import", "value_usd": 8_100_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "IND", "flow_kind": "export", "value_usd": 3_200_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "IND", "flow_kind": "import", "value_usd": 5_400_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "KOR", "flow_kind": "export", "value_usd": 2_400_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "KOR", "flow_kind": "import", "value_usd": 4_100_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "CHE", "flow_kind": "export", "value_usd": 5_500_000_000 },
+  { "reporter_iso": "ESP", "partner_iso": "CHE", "flow_kind": "import", "value_usd": 6_300_000_000 },
+  // Cruces no-ESP relevantes (para el endpoint bilateral)
+  { "reporter_iso": "DEU", "partner_iso": "ESP", "flow_kind": "export", "value_usd": 39_100_000_000 },
+  { "reporter_iso": "DEU", "partner_iso": "ESP", "flow_kind": "import", "value_usd": 33_400_000_000 },
+  { "reporter_iso": "FRA", "partner_iso": "ESP", "flow_kind": "export", "value_usd": 31_200_000_000 },
+  { "reporter_iso": "FRA", "partner_iso": "ESP", "flow_kind": "import", "value_usd": 50_800_000_000 },
+  { "reporter_iso": "PRT", "partner_iso": "ESP", "flow_kind": "export", "value_usd": 14_900_000_000 },
+  { "reporter_iso": "PRT", "partner_iso": "ESP", "flow_kind": "import", "value_usd": 27_100_000_000 },
+]

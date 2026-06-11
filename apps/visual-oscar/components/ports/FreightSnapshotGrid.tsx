@@ -13,7 +13,8 @@ const SIGNAL_STYLE: Record<string, { bg: string; fg: string; arrow: string }> = 
 }
 
 export function FreightSnapshotGrid({ items, compact = false }: { items: FreightIndex[]; compact?: boolean }) {
-  if (!items.length) {
+  const hasPrices = items.some((it) => it.last_price != null)
+  if (!items.length || !hasPrices) {
     return (
       <div
         style={{

@@ -92,9 +92,9 @@ export default function TradePage() {
   const partnerCountry = COUNTRY_BY_ISO3[partner]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-text)', color: 'var(--color-ink)' }}>
       <AppHeader />
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '24px 20px' }}>
+      <div style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
         <Link
           href="/puertos"
           style={{
@@ -135,8 +135,8 @@ export default function TradePage() {
             gap: 12,
             flexWrap: 'wrap',
             padding: 12,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
           }}
         >
@@ -290,8 +290,8 @@ export default function TradePage() {
         <section
           style={{
             marginTop: 16,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
             padding: 12,
           }}
@@ -414,8 +414,8 @@ export default function TradePage() {
         <section
           style={{
             marginTop: 16,
-            background: '#fff',
-            border: '1px solid #e5e7eb',
+            background: 'var(--color-surface)',
+            border: '1px solid var(--color-hairline)',
             borderRadius: 8,
             padding: 12,
           }}
@@ -582,8 +582,8 @@ function KPI({
   return (
     <div
       style={{
-        background: '#fff',
-        border: '1px solid #e5e7eb',
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-hairline)',
         borderRadius: 8,
         padding: 12,
       }}
@@ -623,8 +623,8 @@ function Card({ title, children }: { title: string; children: React.ReactNode })
   return (
     <div
       style={{
-        background: '#fff',
-        border: '1px solid #e5e7eb',
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-hairline)',
         borderRadius: 8,
         padding: 14,
       }}
@@ -710,8 +710,8 @@ function WtoMultilateralPanel({ reporterIso3 }: { reporterIso3: string }) {
     <section
       style={{
         marginTop: 16,
-        background: '#fff',
-        border: '1px solid #e5e7eb',
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-hairline)',
         borderRadius: 8,
         padding: 14,
       }}

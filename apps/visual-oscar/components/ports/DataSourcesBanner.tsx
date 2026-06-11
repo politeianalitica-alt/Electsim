@@ -97,14 +97,18 @@ export function DataSourcesBanner({ status, loading }: Props) {
       </button>
 
       {open ? (
-        <div style={{ borderTop: '1px solid #e2e8f0', padding: '10px 14px' }}>
+        <div style={{ borderTop: '1px solid #e2e8f0', padding: '10px 14px', overflowX: 'auto' }}>
           <table style={{ width: '100%', fontSize: 12, borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '1px solid #f1f5f9' }}>
                 <th style={th}>Fuente</th>
                 <th style={th}>Categoría</th>
                 <th style={th}>Estado</th>
+                <th style={th}>Cobertura</th>
+                <th style={th}>Frecuencia</th>
+                <th style={th}>Actualizado</th>
                 <th style={th}>Motivo</th>
+                <th style={th}>Docs</th>
                 <th style={th}>Configurar</th>
               </tr>
             </thead>
@@ -130,7 +134,24 @@ export function DataSourcesBanner({ status, loading }: Props) {
                       {s.live ? 'LIVE' : 'SYNTH'}
                     </span>
                   </td>
+                  <td style={{ ...td, color: '#475569', whiteSpace: 'nowrap' }}>{s.coverage_label ?? '—'}</td>
+                  <td style={{ ...td, color: '#475569', whiteSpace: 'nowrap' }}>{s.update_frequency ?? '—'}</td>
+                  <td style={{ ...td, color: '#64748b', whiteSpace: 'nowrap' }}>{fmtSync(s.last_sync_at)}</td>
                   <td style={{ ...td, color: '#475569' }}>{s.reason}</td>
+                  <td style={td}>
+                    {s.documentation_url ? (
+                      <a
+                        href={s.documentation_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ fontSize: 11, color: '#2563eb', textDecoration: 'none', whiteSpace: 'nowrap' }}
+                      >
+                        Docs ↗
+                      </a>
+                    ) : (
+                      '—'
+                    )}
+                  </td>
                   <td style={{ ...td, color: '#64748b' }}>
                     {s.env_hint ? <code style={{ fontSize: 10, background: '#f1f5f9', padding: '1px 5px', borderRadius: 3 }}>{s.env_hint}</code> : '—'}
                   </td>
@@ -146,6 +167,18 @@ export function DataSourcesBanner({ status, loading }: Props) {
       ) : null}
     </div>
   )
+}
+
+function fmtSync(iso: string | null | undefined): string {
+  if (!iso) return '—'
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return '—'
+  return d.toLocaleString('es-ES', {
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 }
 
 const th: React.CSSProperties = {

@@ -45,6 +45,10 @@ export default function FletesPage() {
         </header>
 
         <section style={{ marginTop: 18 }}>
+          {/* Anclas #slug para que /puertos/fletes#<slug> haga scroll al índice (patrón id={ck.slug} de chokepoints). */}
+          {items.map((it) => (
+            <div key={it.slug} id={it.slug} style={{ scrollMarginTop: 72 }} />
+          ))}
           <FreightSnapshotGrid items={items} />
         </section>
 

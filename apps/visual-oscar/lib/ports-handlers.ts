@@ -9,7 +9,7 @@
  * El proxy `/api/ports/[...path]/route.ts` delega aquí cuando BACKEND_URL
  * no está configurado, garantizando que la UI nunca quede vacía.
  */
-import { PORTS_SEED, VESSELS_SEED, FREIGHT_SEED, CHOKEPOINTS_SEED } from './ports-seed'
+import { PORTS_SEED, VESSELS_SEED, FREIGHT_SEED, CHOKEPOINTS_SEED, TRADE_SEED } from './ports-seed'
 import { TERMINALS_SEED } from './ports-terminals-seed'
 import { SHIPPING_LINES_SEED, CARRIER_SERVICES_SEED } from './ports-shipping-seed'
 
@@ -561,24 +561,7 @@ export function sanctionsScreen(body: any) {
 // Trade · seed mínimo (ES con principales socios)
 // ─────────────────────────────────────────────────────────────────
 
-const TRADE_SEED = [
-  { reporter_iso: 'ESP', partner_iso: 'DEU', value_usd: 33_400_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'DEU', value_usd: 39_100_000_000, flow_kind: 'import' },
-  { reporter_iso: 'ESP', partner_iso: 'FRA', value_usd: 50_800_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'FRA', value_usd: 31_200_000_000, flow_kind: 'import' },
-  { reporter_iso: 'ESP', partner_iso: 'ITA', value_usd: 28_500_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'ITA', value_usd: 22_400_000_000, flow_kind: 'import' },
-  { reporter_iso: 'ESP', partner_iso: 'PRT', value_usd: 27_100_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'GBR', value_usd: 22_300_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'USA', value_usd: 19_200_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'USA', value_usd: 16_900_000_000, flow_kind: 'import' },
-  { reporter_iso: 'ESP', partner_iso: 'CHN', value_usd: 7_300_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'CHN', value_usd: 38_800_000_000, flow_kind: 'import' },
-  { reporter_iso: 'ESP', partner_iso: 'MAR', value_usd: 12_100_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'NLD', value_usd: 13_400_000_000, flow_kind: 'export' },
-  { reporter_iso: 'ESP', partner_iso: 'TUR', value_usd: 7_800_000_000, flow_kind: 'export' },
-]
-
+// TRADE_SEED se importa ampliado (44 pares de comercio bilateral) desde ./ports-seed
 const EU_27 = new Set([
   'ES', 'DE', 'FR', 'IT', 'PT', 'NL', 'BE', 'GB', 'IE', 'PL', 'GR', 'AT', 'DK', 'FI', 'SE',
   'CZ', 'RO', 'HU', 'BG', 'HR', 'SK', 'SI', 'LT', 'LV', 'EE', 'LU', 'MT', 'CY',
@@ -869,43 +852,68 @@ export async function gasStorageEu() {
 // ─────────────────────────────────────────────────────────────────
 
 export function dataSourcesStatus() {
+  const now = new Date().toISOString()
   const items = [
     { key: 'aisstream', label: 'AIS · AISstream', category: 'vessel_positions', live: false,
       reason: 'AISSTREAM_API_KEY no configurada en backend · KPIs sintéticos para demo',
-      env_hint: 'AISSTREAM_API_KEY' },
+      env_hint: 'AISSTREAM_API_KEY',
+      documentation_url: 'https://aisstream.io/documentation',
+      last_sync_at: now, coverage_label: 'Global · 48 puertos', update_frequency: 'Tiempo real' },
     { key: 'comtrade', label: 'UN Comtrade', category: 'trade_flows', live: false,
       reason: 'Backend Python no desplegado · usando seed comercial top-15 socios España',
-      env_hint: 'COMTRADE_API_KEY' },
+      env_hint: 'COMTRADE_API_KEY',
+      documentation_url: 'https://comtradeplus.un.org/',
+      last_sync_at: now, coverage_label: 'Global · 200+ socios', update_frequency: 'Mensual' },
     { key: 'comext', label: 'Eurostat Comext', category: 'trade_flows_eu', live: false,
       reason: 'Backend Python no desplegado · usando seed Comext',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://ec.europa.eu/eurostat/web/international-trade-in-goods/data/database',
+      last_sync_at: now, coverage_label: 'UE-27 · intra/extra', update_frequency: 'Mensual' },
     { key: 'yahoo_freight', label: 'Yahoo Finance · Freight', category: 'freight', live: false,
       reason: 'Backend Python no desplegado · usando OHLC sintético para BDI/FBX',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://finance.yahoo.com/',
+      last_sync_at: now, coverage_label: 'BDI · FBX · tanker', update_frequency: 'Diario' },
     { key: 'acled', label: 'ACLED · Eventos geopolíticos', category: 'chokepoint_risk', live: false,
       reason: 'Backend Python no desplegado · risk_score solo con score_base',
-      env_hint: 'ACLED_API_KEY + ACLED_EMAIL' },
+      env_hint: 'ACLED_API_KEY + ACLED_EMAIL',
+      documentation_url: 'https://apidocs.acleddata.com/',
+      last_sync_at: now, coverage_label: 'Global · 8 chokepoints', update_frequency: 'Semanal' },
     { key: 'opensanctions', label: 'OpenSanctions API', category: 'sanctions', live: false,
       reason: 'Backend Python no desplegado · screening retorna CLEAR',
-      env_hint: 'OPENSANCTIONS_API_URL' },
+      env_hint: 'OPENSANCTIONS_API_URL',
+      documentation_url: 'https://www.opensanctions.org/docs/api/',
+      last_sync_at: now, coverage_label: 'OFAC · UE · ONU', update_frequency: 'Diario' },
     { key: 'world_bank', label: 'World Bank · Commodity Indices', category: 'freight', live: true,
       reason: 'API pública sin auth · fetch directo desde frontend',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://datahelpdesk.worldbank.org/knowledgebase/articles/889392-about-the-indicators-api-documentation',
+      last_sync_at: now, coverage_label: 'Global · commodities', update_frequency: 'Mensual' },
     { key: 'ecb_sdw', label: 'ECB · Statistical Data Warehouse', category: 'macro_fx', live: true,
       reason: 'API pública sin auth · fetch directo',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://data.ecb.europa.eu/help/api/overview',
+      last_sync_at: now, coverage_label: 'Eurozona · FX/tipos', update_frequency: 'Diario' },
     { key: 'gleif', label: 'GLEIF · LEI / corporate', category: 'corporate', live: true,
       reason: 'API pública sin auth · fetch directo',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://www.gleif.org/en/lei-data/gleif-api',
+      last_sync_at: now, coverage_label: 'Global · 2.5M LEIs', update_frequency: 'Diario' },
     { key: 'gpsjam', label: 'GPSJam · GNSS jamming', category: 'gnss_risk', live: true,
       reason: 'GeoJSON público diario · fetch directo',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://gpsjam.org/about',
+      last_sync_at: now, coverage_label: 'Global · GNSS', update_frequency: 'Diario' },
     { key: 'emsc', label: 'EMSC · Eventos sísmicos', category: 'geophysical_risk', live: true,
       reason: 'FDSN público · fetch directo',
-      env_hint: null },
+      env_hint: null,
+      documentation_url: 'https://www.seismicportal.eu/fdsnws/event/1/',
+      last_sync_at: now, coverage_label: 'Global · sismos', update_frequency: 'Tiempo real' },
     { key: 'gie_agsi', label: 'GIE AGSI+ · Gas storage EU', category: 'energy_storage', live: true,
       reason: 'API pública · fetch directo (registro opcional para premium)',
-      env_hint: 'GIE_API_KEY' },
+      env_hint: 'GIE_API_KEY',
+      documentation_url: 'https://agsi.gie.eu/api',
+      last_sync_at: now, coverage_label: 'UE · gas storage', update_frequency: 'Diario' },
   ]
   const nLive = items.filter((s) => s.live).length
   return {

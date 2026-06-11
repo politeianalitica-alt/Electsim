@@ -115,17 +115,17 @@ export default function PortsDashboard() {
   }, [snapshot, query, country, type_])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#f8fafc' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', fontFamily: 'var(--font-text)', color: 'var(--color-ink)' }}>
       <AppHeader />
-      <div style={{ maxWidth: 1320, margin: '0 auto', padding: '24px 20px' }}>
+      <div style={{ maxWidth: 1500, margin: '0 auto', padding: '24px 28px 80px' }}>
         <header style={{ marginBottom: 18 }}>
           <p style={{ fontSize: 11, letterSpacing: 1.2, color: ACCENT, fontWeight: 700, margin: 0 }}>
             PUERTOS · COMERCIO GLOBAL · FLETES · CHOKEPOINTS
           </p>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0' }}>
+          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'var(--color-ink)', margin: '4px 0 0 0' }}>
             Inteligencia portuaria mundial
           </h1>
-          <p style={{ fontSize: 13, color: '#475569', marginTop: 6 }}>
+          <p style={{ fontSize: 13, color: 'var(--color-ink-4)', marginTop: 6 }}>
             {catalog.length} puertos críticos · {vessels.length} buques seed · {freight.length} índices de flete · {chokepoints.length} corredores
             {isLive ? (
               <span style={{ color: '#16a34a', marginLeft: 8 }}>· LIVE</span>
@@ -135,8 +135,24 @@ export default function PortsDashboard() {
           </p>
         </header>
 
-        {/* Sub-nav del módulo */}
-        <nav style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid #e2e8f0' }}>
+        {/* Sub-nav del módulo · sticky frosted-glass (alineado a EnergiaShell) */}
+        <nav
+          style={{
+            position: 'sticky',
+            top: 44,
+            zIndex: 40,
+            background: 'rgba(251,251,253,0.92)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            display: 'flex',
+            gap: 6,
+            flexWrap: 'wrap',
+            marginBottom: 16,
+            paddingTop: 8,
+            paddingBottom: 12,
+            borderBottom: '1px solid var(--color-hairline)',
+          }}
+        >
           {[
             { href: '/puertos', label: 'Dashboard' },
             { href: '/puertos/rutas', label: 'Rutas & Navieras' },
@@ -151,9 +167,9 @@ export default function PortsDashboard() {
                 padding: '6px 12px',
                 fontSize: 12,
                 fontWeight: 600,
-                color: '#334155',
-                background: '#fff',
-                border: '1px solid #e2e8f0',
+                color: 'var(--color-ink-4)',
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-hairline)',
                 borderRadius: 6,
                 textDecoration: 'none',
               }}
@@ -283,7 +299,27 @@ export default function PortsDashboard() {
 
         {tab === 'vesper' && <VesperTab />}
 
-        {tab === 'comercio_es' && (
+        {tab === 'comercio_es' &&
+        topExports.length === 0 &&
+        topImports.length === 0 &&
+        !spainFlows?.items?.length ? (
+          <section
+            style={{
+              padding: '48px 24px',
+              background: 'var(--color-surface)',
+              border: '1px dashed var(--color-hairline)',
+              borderRadius: 8,
+              color: 'var(--color-ink-4)',
+              fontSize: 14,
+              textAlign: 'center',
+            }}
+          >
+            Datos de comercio España en construcción
+          </section>
+        ) : null}
+
+        {tab === 'comercio_es' &&
+        (topExports.length > 0 || topImports.length > 0 || !!spainFlows?.items?.length) ? (
           <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <Card title="Top destinos exportación ESP">
               {topExports.length ? (
@@ -341,7 +377,7 @@ export default function PortsDashboard() {
               </ul>
             </Card>
           </section>
-        )}
+        ) : null}
       </div>
     </div>
   )
@@ -353,8 +389,8 @@ const linkStyle: React.CSSProperties = { color: ACCENT, textDecoration: 'none', 
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 8, padding: 14 }}>
-      <p style={{ fontSize: 11, fontWeight: 700, color: '#64748b', margin: 0, letterSpacing: 0.8 }}>
+    <div style={{ background: 'var(--color-surface)', border: '1px solid var(--color-hairline)', borderRadius: 8, padding: 14 }}>
+      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--color-ink-4)', margin: 0, letterSpacing: 0.8 }}>
         {title.toUpperCase()}
       </p>
       <div style={{ marginTop: 10 }}>{children}</div>
