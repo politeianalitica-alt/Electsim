@@ -737,7 +737,9 @@ export default function Dashboard() {
   useEffect(() => {
     const intervals: ReturnType<typeof setInterval>[] = [];
     if (activeLayers.flights || activeLayers.military || activeLayers.jets || activeLayers.private) {
-      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/flights'), 300000)); // 5 min (was 2 min)
+      // 60s: el endpoint cachea 45s en servidor, así que pedir cada minuto es barato
+      // y mantiene los aviones frescos (el dead-reckoning del mapa los anima entre refrescos)
+      intervals.push(setInterval(() => fetchEndpoint('/api/osiris/flights'), 60000));
     }
 
     if (activeLayers.balloons) {

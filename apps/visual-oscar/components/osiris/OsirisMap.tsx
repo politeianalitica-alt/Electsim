@@ -44,6 +44,53 @@ function computeSolarTerminator(): [number, number][] {
 
 const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
+// ── Dead-reckoning de vuelos (estilo FlightRadar24) ──────────────────────────
+// Entre refrescos del servidor extrapolamos la posición de cada avión a partir
+// de su velocidad (nudos) y rumbo (grados). Aproximación plana suficiente para
+// desplazamientos de segundos: 1 nudo = 0,000514444 km/s; 1° de latitud ≈ 111,32 km.
+const KNOT_TO_KM_PER_S = 0.000514444;
+const KM_PER_DEG_LAT = 111.32;
+
+/** Subconjunto de campos del API de vuelos que necesita la extrapolación. */
+interface FlightLike {
+  lat: number;
+  lng: number;
+  heading?: number;
+  speed_knots?: number | null;
+  grounded?: boolean;
+  callsign?: string;
+  alt?: number;
+  model?: string;
+  registration?: string;
+  icao24?: string;
+}
+
+/** Devuelve [lng, lat] del avión avanzado dtSec segundos sobre su rumbo. */
+function advanceFlight(f: FlightLike, dtSec: number): [number, number] {
+  const speed = typeof f.speed_knots === 'number' ? f.speed_knots : 0;
+  // En tierra o sin velocidad: no se mueve
+  if (f.grounded === true || speed <= 0) return [f.lng, f.lat];
+  const distKm = speed * KNOT_TO_KM_PER_S * dtSec;
+  const headingRad = ((f.heading || 0) * Math.PI) / 180;
+  // Latitud: clamp a ±85 (límite práctico de la proyección)
+  const lat = Math.max(-85, Math.min(85, f.lat + (distKm * Math.cos(headingRad)) / KM_PER_DEG_LAT));
+  // Longitud: corrige por la convergencia de meridianos y normaliza a ±180
+  const cosLat = Math.max(0.01, Math.cos((lat * Math.PI) / 180));
+  let lng = f.lng + (distKm * Math.sin(headingRad)) / (KM_PER_DEG_LAT * cosLat);
+  if (lng > 180) lng -= 360;
+  else if (lng < -180) lng += 360;
+  return [lng, lat];
+}
+
+/** Feature GeoJSON de un avión en unas coordenadas dadas (base o extrapoladas). */
+function flightToFeature(f: FlightLike, coordinates: [number, number]) {
+  return {
+    type: 'Feature' as const,
+    geometry: { type: 'Point' as const, coordinates },
+    properties: { callsign: f.callsign, heading: f.heading || 0, alt: f.alt, model: f.model, speed_knots: f.speed_knots, registration: f.registration, icao24: f.icao24 },
+  };
+}
+
 function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', muteLabels = false, sweepData, scanTargets = [] }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const basemapLabelsRef = useRef<string[]>([]);
@@ -2162,18 +2209,47 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     ids.forEach(id => { if (map.getLayer(id)) map.setLayoutProperty(id, 'visibility', visible ? 'visible' : 'none'); });
   }, []);
 
+  // Base del dead-reckoning: array crudo de cada fuente de vuelos + timestamp
+  // del último dato real del servidor. El tick de animación extrapola desde aquí.
+  const flightAnimRef = useRef<{ bases: Record<string, FlightLike[]>; ts: number }>({ bases: {}, ts: 0 });
+
   // Flight data → GeoJSON (GPU rendered)
   useEffect(() => {
     if (!mapReady) return;
-    const toFeatures = (arr: any[]) => (arr || []).map((f: any) => ({
-      type: 'Feature' as const, geometry: { type: 'Point' as const, coordinates: [f.lng, f.lat] },
-      properties: { callsign: f.callsign, heading: f.heading || 0, alt: f.alt, model: f.model, speed_knots: f.speed_knots, registration: f.registration, icao24: f.icao24 },
-    }));
-    setGeo('flights', activeLayers.flights ? toFeatures(data.commercial_flights) : []);
-    setGeo('private-fl', activeLayers.private ? toFeatures(data.private_flights) : []);
-    setGeo('jets', activeLayers.jets ? toFeatures(data.private_jets) : []);
-    setGeo('military', activeLayers.military ? toFeatures(data.military_flights) : []);
-  }, [mapReady, data.commercial_flights, data.private_flights, data.private_jets, data.military_flights, activeLayers.flights, activeLayers.private, activeLayers.jets, activeLayers.military]);
+    const bases: Record<string, FlightLike[]> = {
+      'flights': activeLayers.flights ? (data.commercial_flights || []) : [],
+      'private-fl': activeLayers.private ? (data.private_flights || []) : [],
+      'jets': activeLayers.jets ? (data.private_jets || []) : [],
+      'military': activeLayers.military ? (data.military_flights || []) : [],
+    };
+    Object.entries(bases).forEach(([src, arr]) => setGeo(src, arr.map(f => flightToFeature(f, [f.lng, f.lat]))));
+    // Datos frescos del servidor: resetea la base y el reloj del dead-reckoning
+    flightAnimRef.current = { bases, ts: Date.now() };
+  }, [mapReady, data.commercial_flights, data.private_flights, data.private_jets, data.military_flights, activeLayers.flights, activeLayers.private, activeLayers.jets, activeLayers.military, setGeo]);
+
+  // ── DEAD-RECKONING DE VUELOS — anima los aviones entre refrescos (estilo FlightRadar24)
+  // Cada ~2s avanza cada avión según speed_knots y heading desde la última posición
+  // real del servidor y repinta las 4 fuentes. dt real medido contra el timestamp base,
+  // así que aunque un tick se retrase (pestaña ocupada) la posición no se desfasa.
+  const anyFlightLayerActive = !!(activeLayers.flights || activeLayers.private || activeLayers.jets || activeLayers.military);
+  useEffect(() => {
+    if (!mapReady || !anyFlightLayerActive) return;
+    const tick = () => {
+      // No animar con la pestaña oculta o sin mapa: ahorra CPU y evita trabajo invisible
+      if (document.hidden || !mapRef.current) return;
+      const { bases, ts } = flightAnimRef.current;
+      if (!ts) return;
+      const dtSec = (Date.now() - ts) / 1000;
+      if (dtSec <= 0) return;
+      Object.entries(bases).forEach(([src, arr]) => {
+        if (!arr.length) return;
+        // Copia ligera: features nuevas con coordenadas extrapoladas (la base no se muta)
+        setGeo(src, arr.map(f => flightToFeature(f, advanceFlight(f, dtSec))));
+      });
+    };
+    const iv = setInterval(tick, 2000);
+    return () => clearInterval(iv);
+  }, [mapReady, anyFlightLayerActive, setGeo]);
 
   // ── DECOUPLED LAYER RENDERERS (Performance Optimized) ──
 

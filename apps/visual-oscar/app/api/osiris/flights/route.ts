@@ -9,8 +9,13 @@ export const maxDuration = 30;
 
 /**
  * Politeia — Flight Data API
- * Fetches real-time aircraft positions from adsb.lol (no API key required)
- * Covers 6 global regions for maximum coverage
+ * Posiciones de aeronaves en tiempo real agregando varias fuentes abiertas
+ * (todas best-effort: si una falla, el resto sigue funcionando):
+ *  - adsb.lol: 6 círculos grandes que cubren el mundo (base principal)
+ *  - adsb.fi: 8 círculos de 250 nm sobre los corredores más densos (cupo propio)
+ *  - airplanes.live: /v2/mil (militar global), /v2/ladd y /v2/pia (globales)
+ *  - OpenSky: snapshot global con fallback por dead-reckoning si el cupo
+ *    anónimo de la IP de Vercel está agotado
  */
 
 // IMPORTANTE: muchos círculos en paralelo desde la IP de Vercel hacen que
@@ -83,6 +88,44 @@ async function fetchRegion(region: typeof REGIONS[0]): Promise<any[]> {
   return [];
 }
 
+// adsb.fi (opendata.adsb.fi): proveedor INDEPENDIENTE de adsb.lol → cupo de
+// rate-limit propio. Refuerza los corredores más densos cuando adsb.lol
+// rate-limita alguna región. OJO: con dist grande devuelve VACÍO, así que se
+// usan círculos de 250 nm; y su JSON usa la clave "aircraft" (no "ac"),
+// aunque cada avión tiene el mismo formato tar1090 que adsb.lol.
+const ADSBFI_SPOTS = [
+  { lat: 50.0, lon: 8.5 },    // Centroeuropa (Frankfurt)
+  { lat: 52.5, lon: -1.5 },   // Reino Unido (Birmingham)
+  { lat: 40.0, lon: -2.0 },   // España / Mediterráneo oeste
+  { lat: 39.5, lon: -76.0 },  // EEUU costa este
+  { lat: 39.0, lon: -95.0 },  // EEUU centro
+  { lat: 36.5, lon: -119.0 }, // EEUU costa oeste
+  { lat: 36.0, lon: 137.0 },  // Japón / Corea
+  { lat: 5.0, lon: 103.0 },   // Sudeste asiático / Singapur
+];
+// Su límite es ~1 req/s ESTRICTO: verificado que con ~150 ms entre peticiones
+// rechaza la mitad y con ~1,1 s responde todo. Stagger de 1,2 s entre inicios
+// (última petición arranca en ~8,4 s; cabe de sobra en maxDuration=30).
+const ADSBFI_STAGGER_MS = 1200;
+
+const sleep = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
+
+async function fetchAdsbFiSpot(spot: typeof ADSBFI_SPOTS[0], delayMs: number): Promise<any[]> {
+  try {
+    if (delayMs > 0) await sleep(delayMs);
+    const url = `https://opendata.adsb.fi/api/v2/lat/${spot.lat}/lon/${spot.lon}/dist/250`;
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(6000),
+      headers: { 'User-Agent': 'Mozilla/5.0 (PoliteiaOSINT)' },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      return data.aircraft || []; // adsb.fi usa "aircraft", no "ac"
+    }
+  } catch { /* best-effort: sin este círculo quedan adsb.lol/OpenSky */ }
+  return [];
+}
+
 // OpenSky /states/all: TODOS los vuelos del mundo en una sola llamada
 // (best-effort; si falla o limita, se ignora y quedan los de adsb.lol).
 // OpenSky OAuth2 (client_credentials): con credenciales el cupo va ligado a la
@@ -114,35 +157,101 @@ async function getOpenSkyToken(): Promise<string | null> {
   }
 }
 
-async function fetchOpenSky(): Promise<any[]> {
-  const token = await getOpenSkyToken();
-  // Con token: timeout amplio (fiable). Sin token: corto best-effort (suele
-  // limitar desde la IP de Vercel; cuando responde rellena huecos oceánicos).
+// Snapshot del último resultado bueno de OpenSky (a nivel de módulo, por
+// isolate). El cupo anónimo de OpenSky es POR IP y las IPs de salida de Vercel
+// rotan entre invocaciones: cuando toca una IP con cupo agotado el fetch
+// fresco falla. En ese caso se reutiliza el snapshot avanzando cada avión por
+// su velocidad y rumbo (dead-reckoning) hasta un máximo de 20 minutos.
+let openskySnap: { states: any[]; ts: number } | null = null;
+const OPENSKY_SNAP_TTL_MS = 20 * 60 * 1000;
+
+type OpenSkyResult = {
+  states: any[];
+  mode: 'live' | 'reckoned' | 'none';
+  ageS: number; // antigüedad de los datos en segundos (-1 si mode='none')
+};
+
+async function fetchOpenSkyOnce(token: string | null): Promise<any[] | null> {
   try {
     const res = await fetch('https://opensky-network.org/api/states/all', {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
-      signal: AbortSignal.timeout(token ? 9000 : 3500),
+      signal: AbortSignal.timeout(9000),
     });
-    if (!res.ok) return [];
+    if (!res.ok) return null;
     const data = await res.json();
     return data.states || [];
   } catch {
-    return [];
+    return null;
   }
 }
 
-// Feed dedicado de aeronaves militares (airplanes.live /v2/mil): devuelve en una
-// sola llamada TODAS las colas etiquetadas como militares en el mundo, con el
-// mismo formato {ac:[...]} que adsb.lol. Cubre los huecos del muestreo regional
-// (cazas, ISR, cisternas, AWACS sobre océanos y zonas sin región propia).
-async function fetchMil(): Promise<any[]> {
+// Avanza cada state-vector dtS segundos por su velocidad (m/s) y rumbo (grados
+// desde el norte, horario). 111.320 m por grado de latitud; la longitud se
+// corrige por cos(lat) y se normaliza a [-180, 180) para el antimeridiano.
+function deadReckonStates(states: any[], dtS: number): any[] {
+  const out: any[] = [];
+  for (const s of states) {
+    const lat = s[6];
+    const lon = s[5];
+    if (lat == null || lon == null) continue;
+    const velMs = typeof s[9] === 'number' ? s[9] : null;
+    const track = typeof s[10] === 'number' ? s[10] : null;
+    // Sin velocidad/rumbo, en tierra o casi parado: mantiene la posición.
+    if (velMs == null || track == null || s[8] === true || velMs < 1) {
+      out.push(s);
+      continue;
+    }
+    const rad = (track * Math.PI) / 180;
+    const dNorthM = velMs * dtS * Math.cos(rad);
+    const dEastM = velMs * dtS * Math.sin(rad);
+    let newLat = lat + dNorthM / 111320;
+    newLat = Math.max(-89.9, Math.min(89.9, newLat));
+    const cosLat = Math.max(0.01, Math.cos((newLat * Math.PI) / 180));
+    let newLon = lon + dEastM / (111320 * cosLat);
+    newLon = ((((newLon + 180) % 360) + 360) % 360) - 180; // antimeridiano
+    // Copia: el snapshot original no se muta (se re-avanza desde su timestamp
+    // en cada petición mientras siga vigente).
+    const advanced = s.slice();
+    advanced[5] = newLon;
+    advanced[6] = newLat;
+    out.push(advanced);
+  }
+  return out;
+}
+
+async function fetchOpenSky(): Promise<OpenSkyResult> {
+  const token = await getOpenSkyToken();
+  // UN reintento si falla: la rotación de IPs de salida de Vercel puede dar
+  // con una IP cuyo cupo anónimo no esté agotado.
+  let states = await fetchOpenSkyOnce(token);
+  if (!states || states.length === 0) {
+    states = await fetchOpenSkyOnce(token);
+  }
+  if (states && states.length > 0) {
+    openskySnap = { states, ts: Date.now() };
+    return { states, mode: 'live', ageS: 0 };
+  }
+  if (openskySnap && Date.now() - openskySnap.ts <= OPENSKY_SNAP_TTL_MS) {
+    const ageS = Math.round((Date.now() - openskySnap.ts) / 1000);
+    return { states: deadReckonStates(openskySnap.states, ageS), mode: 'reckoned', ageS };
+  }
+  return { states: [], mode: 'none', ageS: -1 };
+}
+
+// Feeds globales de airplanes.live (una sola llamada barata cada uno, mismo
+// formato {ac:[...]} que adsb.lol):
+//  - /v2/mil:  TODAS las colas etiquetadas como militares en el mundo. Cubre
+//    huecos del muestreo regional (cazas, ISR, cisternas, AWACS oceánicos).
+//  - /v2/ladd: flota acogida al programa LADD (limitación de datos FAA).
+//  - /v2/pia:  matrículas privadas anonimizadas (Privacy ICAO Address).
+async function fetchAirplanesLive(feed: 'mil' | 'ladd' | 'pia'): Promise<any[]> {
   try {
-    const res = await fetch('https://api.airplanes.live/v2/mil', {
+    const res = await fetch(`https://api.airplanes.live/v2/${feed}`, {
       signal: AbortSignal.timeout(8000),
       headers: { 'User-Agent': 'Mozilla/5.0 (PoliteiaOSINT)' },
     });
     if (res.ok) { const data = await res.json(); return data.ac || []; }
-  } catch { /* sin feed militar: quedan los detectados por región/heurística */ }
+  } catch { /* best-effort: quedan los detectados por región/heurística */ }
   return [];
 }
 
@@ -272,11 +381,15 @@ export async function GET() {
 
   // Start new global fetch
   fetchPromise = (async () => {
-    // Fetch all regions (adsb.lol) + OpenSky global en paralelo
-    const [regionResults, openskyStates, milAc] = await Promise.all([
+    // Todas las fuentes en paralelo (cada una best-effort e independiente):
+    // adsb.lol regional + adsb.fi escalonado + OpenSky global + airplanes.live.
+    const [regionResults, adsbfiResults, openskyRes, milAc, laddAc, piaAc] = await Promise.all([
       Promise.allSettled(REGIONS.map(r => fetchRegion(r))),
+      Promise.allSettled(ADSBFI_SPOTS.map((s, i) => fetchAdsbFiSpot(s, i * ADSBFI_STAGGER_MS))),
       fetchOpenSky(),
-      fetchMil(),
+      fetchAirplanesLive('mil'),
+      fetchAirplanesLive('ladd'),
+      fetchAirplanesLive('pia'),
     ]);
 
     const allRaw: any[] = [];
@@ -293,6 +406,23 @@ export async function GET() {
         }
       }
     }
+    const adsblolCount = allRaw.length;
+
+    // adsb.fi: mismo formato por avión que adsb.lol → se acumula en allRaw
+    // (dedupe por hex) y pasa por la misma clasificación y detección de
+    // GPS jamming. Solo cuenta lo que adsb.lol no tenía ya.
+    for (const result of adsbfiResults) {
+      if (result.status === 'fulfilled') {
+        for (const ac of result.value) {
+          const hex = (ac.hex || '').toLowerCase().trim();
+          if (hex && !seenHex.has(hex)) {
+            seenHex.add(hex);
+            allRaw.push(ac);
+          }
+        }
+      }
+    }
+    const adsbfiAdded = allRaw.length - adsblolCount;
 
     // Classify all flights
     const commercial: any[] = [];
@@ -338,10 +468,31 @@ export async function GET() {
       milAdded++;
     }
 
+    // airplanes.live /v2/ladd y /v2/pia: llamadas globales baratas. NO se
+    // fuerza categoría militar — son flotas con datos limitados (LADD) o
+    // matrículas anonimizadas (PIA); classifyFlight decide como siempre.
+    let laddPiaAdded = 0;
+    for (const ac of [...laddAc, ...piaAc]) {
+      const hex = (ac.hex || '').toLowerCase().trim();
+      if (!hex || seenHex.has(hex)) continue;
+      const flight = classifyFlight(ac);
+      if (!flight) continue;
+      seenHex.add(hex);
+      laddPiaAdded++;
+      switch (flight.category) {
+        case 'military': military.push(flight); break;
+        case 'jet': jets.push(flight); break;
+        case 'private': privateFl.push(flight); break;
+        default: commercial.push(flight);
+      }
+    }
+
     // Merge OpenSky (best-effort): añade vuelos que adsb.lol no tiene (huecos
     // oceánicos, regiones sin cobertura). Clasificación heurística por callsign.
+    // Puede venir en modo 'live' (fetch fresco) o 'reckoned' (snapshot avanzado
+    // por dead-reckoning cuando el cupo anónimo de la IP de Vercel falla).
     let openskyAdded = 0;
-    for (const s of openskyStates) {
+    for (const s of openskyRes.states) {
       const hex = (s[0] || '').toLowerCase().trim();
       if (!hex || seenHex.has(hex) || s[6] == null || s[5] == null) continue;
       const fl = classifyOpenSky(s);
@@ -363,7 +514,15 @@ export async function GET() {
       military_flights: military,
       gps_jamming: jammingZones,
       total: seenHex.size,
-      sources: { adsblol: allRaw.length, opensky_added: openskyAdded, mil_added: milAdded },
+      sources: {
+        adsblol: adsblolCount,
+        adsbfi_added: adsbfiAdded,
+        opensky_added: openskyAdded,
+        opensky_mode: openskyRes.mode,
+        opensky_age_s: openskyRes.ageS,
+        mil_added: milAdded,
+        ladd_pia_added: laddPiaAdded,
+      },
       timestamp: new Date().toISOString(),
     };
   })();
