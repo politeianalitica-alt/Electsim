@@ -53,7 +53,7 @@ export default function TradePage() {
     (flow || undefined) as any,
   )
 
-  const { items: topPartners } = useTopPartners(reporter, 'export', 10)
+  const { items: topPartners, loading: partnersLoading } = useTopPartners(reporter, 'export', 10)
 
   // ─── HHI (Herfindahl-Hirschman Index) ───────────────────────────────
   // HHI = sum(share_pct^2) · 0..10000.
@@ -395,7 +395,7 @@ export default function TradePage() {
 
           <Card title={`Top partners de ${reporterCountry?.iso3 ?? reporter} (export)`}>
             {topPartners.length === 0 ? (
-              <Empty>Cargando partners…</Empty>
+              <Empty>{partnersLoading ? 'Cargando partners…' : 'Sin datos de partners'}</Empty>
             ) : (
               <ol style={{ margin: 0, padding: '0 0 0 18px', fontSize: 12 }}>
                 {topPartners.map((it, i) => {
@@ -739,6 +739,12 @@ function WtoMultilateralPanel({ reporterIso3 }: { reporterIso3: string }) {
 
       {loading && <p style={{ fontSize: 12, color: '#94a3b8', marginTop: 10 }}>Cargando WTO…</p>}
 
+      {!loading && !overview && (
+        <div style={{ marginTop: 10, padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+          Sin datos disponibles — la API de la OMC no respondió.
+        </div>
+      )}
+
       {!loading && overview && (
         <>
           {/* 4 KPIs hero */}
@@ -769,22 +775,22 @@ function WtoMultilateralPanel({ reporterIso3 }: { reporterIso3: string }) {
           <div style={{ marginTop: 14, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 10 }}>
             <SparkSeries
               label="Exports total (M USD)"
-              data={overview.series.exports_total || []}
+              data={overview.series?.exports_total || []}
               color="#0e7490"
             />
             <SparkSeries
               label="Imports total (M USD)"
-              data={overview.series.imports_total || []}
+              data={overview.series?.imports_total || []}
               color="#dc2626"
             />
             <SparkSeries
               label="Services exports (M USD)"
-              data={overview.series.services_exports || []}
+              data={overview.series?.services_exports || []}
               color="#16a34a"
             />
             <SparkSeries
               label="Manuf. exports (M USD)"
-              data={overview.series.exports_manuf || []}
+              data={overview.series?.exports_manuf || []}
               color="#9333ea"
             />
           </div>
@@ -820,8 +826,8 @@ function WtoMultilateralPanel({ reporterIso3 }: { reporterIso3: string }) {
 
       <p style={{ fontSize: 10, color: '#94a3b8', marginTop: 8, textAlign: 'right' }}>
         Fuente · WTO Timeseries Database ·{' '}
-        <a href="https://api.wto.org/timeseries/v1" target="_blank" rel="noopener noreferrer" style={{ color: '#0e7490', textDecoration: 'none' }}>
-          api.wto.org →
+        <a href="https://stats.wto.org/" target="_blank" rel="noopener noreferrer" style={{ color: '#0e7490', textDecoration: 'none' }}>
+          stats.wto.org →
         </a>
       </p>
     </section>

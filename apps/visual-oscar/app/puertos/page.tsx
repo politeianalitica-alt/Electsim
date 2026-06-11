@@ -63,9 +63,9 @@ export default function PortsDashboard() {
   const { items: vesselsApi } = useVesselCatalog()
   const catalog = catalogApi.length > 0 ? catalogApi : (PORTS_SEED as any[])
   const vessels = vesselsApi.length > 0 ? vesselsApi : (VESSELS_SEED as any[])
-  const { items: snapshot, isLive, refresh: refreshSnapshot } = usePortSnapshotAll(40)
+  const { items: snapshot, isLive, refresh: refreshSnapshot, loading: snapshotLoading } = usePortSnapshotAll(40)
   const { items: freight } = useFreightSnapshot()
-  const { items: chokepoints } = useChokepoints()
+  const { items: chokepoints, loading: chokepointsLoading } = useChokepoints()
   const { data: spainFlows } = useSpainFlows()
   const { items: topExports } = useTopPartners('ESP', 'export', 5)
   const { items: topImports } = useTopPartners('ESP', 'import', 5)
@@ -214,6 +214,11 @@ export default function PortsDashboard() {
               {filteredSnap.slice(0, 8).map((s) => (
                 <PortCongestionCard key={s.slug} port={s} />
               ))}
+              {filteredSnap.length === 0 && !snapshotLoading && (
+                <div style={{ gridColumn: '1/-1', padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+                  Sin datos de congestión disponibles — el snapshot de puertos no respondió.
+                </div>
+              )}
             </div>
           </section>
         )}
@@ -257,8 +262,9 @@ export default function PortsDashboard() {
           <section>
             <FreightSnapshotGrid items={freight} />
             <p style={{ marginTop: 10, fontSize: 11, color: '#94a3b8' }}>
-              BDI · BCI · BPI · BDTI · BCTI · FBX (Freightos Baltic Index). Datos sintéticos
-              estables; con `YAHOO_FALLBACK` activo se reemplazan por tickers reales.
+              BDI · BCI · BPI · BDTI · BCTI · FBX (Freightos Baltic Index). Índices de
+              referencia estimados; se sustituyen por cotizaciones en vivo cuando la fuente
+              de mercado está disponible.
             </p>
           </section>
         )}
@@ -268,6 +274,15 @@ export default function PortsDashboard() {
             {chokepoints.map((ck) => (
               <ChokepointRiskCard key={ck.slug} ck={ck} />
             ))}
+            {chokepoints.length === 0 && (
+              chokepointsLoading ? (
+                <p style={{ gridColumn: '1/-1', fontSize: 12, color: '#94a3b8', margin: 0 }}>Cargando chokepoints…</p>
+              ) : (
+                <div style={{ gridColumn: '1/-1', padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+                  Sin datos disponibles — la fuente de chokepoints no respondió.
+                </div>
+              )
+            )}
           </section>
         )}
 

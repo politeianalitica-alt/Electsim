@@ -22,7 +22,7 @@ export default function ChokepointsPage() {
     if (!isAuthenticated()) router.push('/login')
   }, [router])
 
-  const { items } = useChokepoints(30)
+  const { items, loading: itemsLoading } = useChokepoints(30)
   const [selected, setSelected] = useState<string | null>(null)
   const { data: detail } = useChokepoint(selected, 30)
 
@@ -52,6 +52,15 @@ export default function ChokepointsPage() {
               <ChokepointRiskCard ck={ck} />
             </div>
           ))}
+          {items.length === 0 && (
+            itemsLoading ? (
+              <p style={{ gridColumn: '1/-1', fontSize: 12, color: '#94a3b8', margin: 0 }}>Cargando corredores…</p>
+            ) : (
+              <div style={{ gridColumn: '1/-1', padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+                Sin corredores que mostrar — la fuente de chokepoints no respondió.
+              </div>
+            )
+          )}
         </section>
 
         {detail ? (

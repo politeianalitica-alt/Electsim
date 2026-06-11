@@ -192,20 +192,21 @@ export function useBilateralTrade(
   period?: string,
   flow?: 'export' | 'import',
 ) {
-  if (!reporter || !partner) {
-    const fake = useApi<BilateralTradeResponse>('/api/ports/trade/bilateral?reporter=__none__', {
-      refreshInterval: HOUR,
-    })
-    return { data: undefined, loading: false, error: null, refresh: fake.refresh }
-  }
-  const qs = new URLSearchParams({ reporter, partner })
+  // rules-of-hooks: useApi se llama SIEMPRE exactamente una vez. Si faltan
+  // reporter/partner se consulta el sentinel `__none__` (mismo patrón que
+  // usePort/useVessel) y se devuelve el estado "deshabilitado".
+  const enabled = Boolean(reporter && partner)
+  const qs = new URLSearchParams({ reporter: reporter ?? '', partner: partner ?? '' })
   if (hsCode) qs.set('hs_code', hsCode)
   if (period) qs.set('period', period)
   if (flow) qs.set('flow', flow)
-  const { data, loading, error, refresh } = useApi<BilateralTradeResponse>(
-    `/api/ports/trade/bilateral?${qs}`,
-    { refreshInterval: HOUR },
-  )
+  const path = enabled
+    ? `/api/ports/trade/bilateral?${qs}`
+    : '/api/ports/trade/bilateral?reporter=__none__'
+  const { data, loading, error, refresh } = useApi<BilateralTradeResponse>(path, {
+    refreshInterval: HOUR,
+  })
+  if (!enabled) return { data: undefined, loading: false, error: null, refresh }
   return { data, loading, error, refresh }
 }
 

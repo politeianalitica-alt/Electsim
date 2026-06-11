@@ -110,6 +110,12 @@ export function PortWatchSpainPanel({ compact = false }: { compact?: boolean }) 
         </div>
       )}
 
+      {!loading && isLive && ports.length === 0 && (
+        <div style={{ padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+          <strong>La fuente respondió sin puertos</strong> · IMF PortWatch contestó en vivo pero sin puertos para España.
+        </div>
+      )}
+
       {!loading && isLive && ports.length > 0 && (
         <>
           <div style={{ background: '#f0fdfa', borderRadius: 6, padding: 10, marginBottom: 10 }}>

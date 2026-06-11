@@ -160,13 +160,13 @@ export default function PuertosMapaPage() {
   // ── KPIs ──────────────────────────────────────────────────────────────────
   const kpis: Array<{ glyph: string; label: string; value: string; tone?: 'live' | 'warn' }> = [
     {
-      glyph: '⛴',
+      glyph: '⛴\uFE0E',
       label: 'Buques en vivo (AIS)',
       value: loading && !payload ? '…' : nVessels.toLocaleString('es-ES'),
       tone: live ? 'live' : 'warn',
     },
     {
-      glyph: '⚓',
+      glyph: '⚓\uFE0E',
       label: 'Puertos en mapa',
       value: loading && !payload ? '…' : nPorts.toLocaleString('es-ES'),
     },

@@ -261,7 +261,8 @@ export default function MaritimoVisionGlobal() {
       {/* ───── Cabecera de sección ───── */}
       <header style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
         <h1 style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em', color: INK }}>
-          <span aria-hidden="true" style={{ color: ACCENT, marginRight: 8 }}>⚓</span>
+          {/* \uFE0E fuerza presentación de texto (glifo monocromo, no emoji) */}
+          <span aria-hidden="true" style={{ color: ACCENT, marginRight: 8 }}>⚓{'\uFE0E'}</span>
           Inteligencia marítima global
         </h1>
         <p style={{ margin: 0, fontSize: 12.5, color: MUTED }}>
@@ -273,7 +274,7 @@ export default function MaritimoVisionGlobal() {
       <section>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
           <HeroKpi
-            glyph="⛴"
+            glyph={'⛴\uFE0E'}
             label="Buques en vivo"
             value={osiris.loading ? '…' : nfmt(o?.total_ships)}
             sub={

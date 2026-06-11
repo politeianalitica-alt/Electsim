@@ -57,9 +57,11 @@ export function DailyTradePanel({ country = 'Spain' }: { country?: string }) {
   const [world, setWorld] = useState<WorldData | null>(null)
   const [countryData, setCountryData] = useState<WorldData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [fetchError, setFetchError] = useState<string | null>(null)
 
   useEffect(() => {
     let alive = true
+    setFetchError(null)
     Promise.all([
       fetch('/api/portwatch/world-trade-daily?days=90', { cache: 'force-cache' }).then((r) => r.json()),
       fetch(`/api/portwatch/country-trade-daily?country=${encodeURIComponent(country)}&days=90`, { cache: 'force-cache' }).then((r) => r.json()),
@@ -69,7 +71,10 @@ export function DailyTradePanel({ country = 'Spain' }: { country?: string }) {
         setWorld(w)
         setCountryData(c)
       })
-      .catch(() => {})
+      .catch((e: unknown) => {
+        // No tragar errores de red: se guardan para avisar en el cuerpo del panel
+        if (alive) setFetchError(e instanceof Error ? e.message : String(e))
+      })
       .finally(() => alive && setLoading(false))
     return () => { alive = false }
   }, [country])
@@ -113,6 +118,19 @@ export function DailyTradePanel({ country = 'Spain' }: { country?: string }) {
       </header>
 
       {loading && <p style={{ fontSize: 12, color: '#94a3b8' }}>Cargando datos PortWatch...</p>}
+
+      {!loading && !isLive && (
+        <div style={{ padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+          <strong>Sin datos disponibles</strong> ·{' '}
+          {fetchError
+            ? `la petición a /api/portwatch/world-trade-daily o /api/portwatch/country-trade-daily falló (${fetchError}).`
+            : 'la fuente IMF PortWatch no respondió con datos en vivo.'}
+          <br />
+          <a href="https://portwatch.imf.org" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT }}>
+            portwatch.imf.org →
+          </a>
+        </div>
+      )}
 
       {!loading && isLive && (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>

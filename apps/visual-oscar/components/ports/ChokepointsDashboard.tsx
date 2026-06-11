@@ -76,13 +76,19 @@ export function ChokepointsDashboard() {
   const [series, setSeries] = useState<TimeseriesData | null>(null)
   const [loadingOverview, setLoadingOverview] = useState(true)
   const [loadingSeries, setLoadingSeries] = useState(true)
+  const [overviewError, setOverviewError] = useState<string | null>(null)
+  const [seriesError, setSeriesError] = useState<string | null>(null)
 
   useEffect(() => {
     let alive = true
+    setOverviewError(null)
     fetch('/api/portwatch/chokepoints-overview?days=14', { cache: 'force-cache' })
       .then((r) => r.json())
       .then((j: OverviewData) => alive && setOverview(j))
-      .catch(() => {})
+      .catch((e: unknown) => {
+        // No tragar errores de red: se guardan para avisar en el cuerpo
+        if (alive) setOverviewError(e instanceof Error ? e.message : String(e))
+      })
       .finally(() => alive && setLoadingOverview(false))
     return () => { alive = false }
   }, [])
@@ -90,10 +96,14 @@ export function ChokepointsDashboard() {
   useEffect(() => {
     let alive = true
     setLoadingSeries(true)
+    setSeriesError(null)
     fetch(`/api/portwatch/chokepoint-timeseries?portid=${selected}&days=37`, { cache: 'force-cache' })
       .then((r) => r.json())
       .then((j: TimeseriesData) => alive && setSeries(j))
-      .catch(() => {})
+      .catch((e: unknown) => {
+        // No tragar errores de red: se guardan para avisar en el cuerpo
+        if (alive) setSeriesError(e instanceof Error ? e.message : String(e))
+      })
       .finally(() => alive && setLoadingSeries(false))
     return () => { alive = false }
   }, [selected])
@@ -142,6 +152,19 @@ export function ChokepointsDashboard() {
       {/* Grid de tarjetas por chokepoint (clickeables) */}
       {loadingOverview && <p style={{ fontSize: 12, color: '#94a3b8' }}>Cargando overview...</p>}
 
+      {!loadingOverview && (overviewError || !overview?.chokepoints?.length) && (
+        <div style={{ padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e', marginBottom: 14 }}>
+          <strong>Sin datos disponibles</strong> ·{' '}
+          {overviewError
+            ? `la petición a /api/portwatch/chokepoints-overview falló (${overviewError}).`
+            : 'la fuente IMF PortWatch respondió sin chokepoints.'}
+          <br />
+          <a href="https://portwatch.imf.org" target="_blank" rel="noopener noreferrer" style={{ color: ACCENT }}>
+            portwatch.imf.org →
+          </a>
+        </div>
+      )}
+
       {!loadingOverview && overview?.chokepoints && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 6, marginBottom: 14 }}>
           {overview.chokepoints.map((c) => {
@@ -179,6 +202,15 @@ export function ChokepointsDashboard() {
 
       {/* Detail panel con SVG stacked area */}
       {loadingSeries && <p style={{ fontSize: 12, color: '#94a3b8' }}>Cargando timeseries…</p>}
+
+      {!loadingSeries && !(series?.ok && points.length > 0) && (
+        <div style={{ padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+          <strong>Sin serie disponible para este corredor</strong> ·{' '}
+          {seriesError
+            ? `la petición a /api/portwatch/chokepoint-timeseries falló (${seriesError}).`
+            : 'la fuente IMF PortWatch no devolvió puntos para este chokepoint.'}
+        </div>
+      )}
 
       {!loadingSeries && series?.ok && points.length > 0 && (
         <div style={{ background: '#f8fafc', borderRadius: 6, padding: 12 }}>

@@ -78,7 +78,7 @@ export default function RutasPage() {
   const [selectedLane, setSelectedLane] = useState<string>('')
   const [selectedChokepoint, setSelectedChokepoint] = useState<string>('')
 
-  const { items: lines, dataQuality: linesQ } = useShippingLines()
+  const { items: lines, dataQuality: linesQ, loading: linesLoading } = useShippingLines()
   const { items: services, dataQuality: svcQ } = useCarrierServices({
     line: selectedLine || undefined,
     trade_lane: selectedLane || undefined,
@@ -396,6 +396,15 @@ export default function RutasPage() {
                 </div>
               )
             })}
+            {lines.length === 0 && (
+              linesLoading ? (
+                <p style={{ gridColumn: '1/-1', fontSize: 12, color: '#94a3b8', margin: 0 }}>Cargando navieras…</p>
+              ) : (
+                <div style={{ gridColumn: '1/-1', padding: 10, background: '#fef9e7', border: '1px solid #fde68a', borderRadius: 6, fontSize: 11, color: '#92400e' }}>
+                  Sin navieras que mostrar — la fuente de navieras no respondió.
+                </div>
+              )
+            )}
           </div>
         </section>
       </div>
