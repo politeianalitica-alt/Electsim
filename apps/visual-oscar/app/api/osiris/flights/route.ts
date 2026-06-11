@@ -132,10 +132,13 @@ async function fetchAdsbFiSpot(spot: typeof ADSBFI_SPOTS[0], delayMs: number): P
 // CUENTA, no a la IP compartida de Vercel → fetch global fiable (~12k aviones).
 // Sin credenciales, intento anónimo best-effort (suele limitar desde Vercel).
 let openskyTok: { token: string; exp: number } | null = null;
+// Último motivo de fallo del flujo OpenSky (token o states/all), expuesto en
+// sources.opensky_debug para diagnosticar desde producción sin log streaming.
+let openskyDebug: string | null = null;
 async function getOpenSkyToken(): Promise<string | null> {
   const id = process.env.OPENSKY_CLIENT_ID;
   const secret = process.env.OPENSKY_CLIENT_SECRET;
-  if (!id || !secret) return null;
+  if (!id || !secret) { openskyDebug = 'sin credenciales en env'; return null; }
   if (openskyTok && Date.now() < openskyTok.exp) return openskyTok.token;
   try {
     const res = await fetch(
@@ -148,18 +151,21 @@ async function getOpenSkyToken(): Promise<string | null> {
       },
     );
     if (!res.ok) {
-      console.warn(`[opensky] token HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      openskyDebug = `token HTTP ${res.status}: ${(await res.text()).slice(0, 150)}`;
+      console.warn('[opensky]', openskyDebug);
       return null;
     }
     const j = await res.json();
     if (!j.access_token) {
-      console.warn('[opensky] token sin access_token:', JSON.stringify(j).slice(0, 200));
+      openskyDebug = `token sin access_token: ${JSON.stringify(j).slice(0, 150)}`;
+      console.warn('[opensky]', openskyDebug);
       return null;
     }
     openskyTok = { token: j.access_token, exp: Date.now() + ((j.expires_in || 1800) - 60) * 1000 };
     return openskyTok.token;
   } catch (e: any) {
-    console.warn('[opensky] token fetch falló:', e?.message || e);
+    openskyDebug = `token fetch falló: ${e?.message || e}`;
+    console.warn('[opensky]', openskyDebug);
     return null;
   }
 }
@@ -185,13 +191,15 @@ async function fetchOpenSkyOnce(token: string | null): Promise<any[] | null> {
       signal: AbortSignal.timeout(9000),
     });
     if (!res.ok) {
-      console.warn(`[opensky] states/all HTTP ${res.status} (con token: ${!!token})`);
+      openskyDebug = `states/all HTTP ${res.status} (con token: ${!!token})`;
+      console.warn('[opensky]', openskyDebug);
       return null;
     }
     const data = await res.json();
     return data.states || [];
   } catch (e: any) {
-    console.warn(`[opensky] states/all falló (con token: ${!!token}):`, e?.message || e);
+    openskyDebug = `states/all falló (con token: ${!!token}): ${e?.message || e}`;
+    console.warn('[opensky]', openskyDebug);
     return null;
   }
 }
@@ -531,6 +539,8 @@ export async function GET() {
         opensky_added: openskyAdded,
         opensky_mode: openskyRes.mode,
         opensky_age_s: openskyRes.ageS,
+        opensky_creds: !!(process.env.OPENSKY_CLIENT_ID && process.env.OPENSKY_CLIENT_SECRET),
+        opensky_debug: openskyRes.mode === 'live' ? null : openskyDebug,
         mil_added: milAdded,
         ladd_pia_added: laddPiaAdded,
       },
