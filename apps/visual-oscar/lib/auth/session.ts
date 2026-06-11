@@ -69,17 +69,24 @@ export async function signToken(payload: Omit<SessionPayload, 'exp'>): Promise<s
 }
 
 export async function verifyToken(token: string): Promise<SessionPayload | null> {
-  const parts = token.split('.')
-  if (parts.length !== 3) return null
-  const [header, body, sig] = parts
-  const key   = await importKey(getSecret())
-  const valid = await crypto.subtle.verify(
+  // Nunca lanza: una cookie malformada (base64 inválido → atob lanza, JSON
+  // corrupto → parse lanza) debe tratarse como sesión inválida (null), no
+  // tumbar el middleware con un 500.
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return null
+    const [header, body, sig] = parts
+    const key   = await importKey(getSecret())
+    const valid = await crypto.subtle.verify(
  'HMAC', key,
-    fromB64url(sig),
-    ENC.encode(`${header}.${body}`),
-  )
-  if (!valid) return null
-  const payload = b64urlToObj<SessionPayload>(body)
-  if (payload.exp < Math.floor(Date.now() / 1000)) return null
-  return payload
+      fromB64url(sig),
+      ENC.encode(`${header}.${body}`),
+    )
+    if (!valid) return null
+    const payload = b64urlToObj<SessionPayload>(body)
+    if (payload.exp < Math.floor(Date.now() / 1000)) return null
+    return payload
+  } catch {
+    return null
+  }
 }
