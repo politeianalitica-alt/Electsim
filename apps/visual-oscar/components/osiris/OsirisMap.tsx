@@ -91,6 +91,117 @@ function flightToFeature(f: FlightLike, coordinates: [number, number]) {
   };
 }
 
+// ───────────────────────────────────────────────────────────────────────────
+// FANTASMAS OCEÁNICOS (estilo FlightRadar24, "estimados")
+// El ADS-B terrestre es línea de visión: en mitad del océano (y en huecos de
+// cobertura como el interior de China) no hay receptores y los aviones
+// desaparecen del feed. Cuando un avión que veníamos siguiendo a velocidad y
+// altitud de crucero se esfuma, lo mantenemos como "fantasma" proyectando su
+// posición a lo largo de su gran círculo (rumbo + velocidad) hasta que reaparece
+// en cobertura, caduca, o entra en una zona donde sí lo veríamos (falso). Son
+// ESTIMACIONES, no datos reales: se pintan en gris translúcido y el popup lo dice.
+interface OceanicGhost {
+  lat0: number; lng0: number;       // posición de la última señal real
+  heading: number; speed: number;   // rumbo (grados) y velocidad (nudos) últimos
+  callsign?: string; model?: string; registration?: string; icao24?: string; alt?: number;
+  vanishTs: number;                 // cuándo se perdió la señal
+}
+const GHOST_CRUISE_ALT_M = 6000;    // ~FL200: por debajo está despegando/aterrizando
+const GHOST_CRUISE_SPD_KT = 300;    // crucero: descarta tráfico lento/local
+const GHOST_MAX_AGE_MS = 4 * 3600 * 1000;   // cubre el tramo oceánico del Atlántico (~3-4h) y acota estimaciones absurdas
+const GHOST_CAP = 2500;             // tope de seguridad ante un fallo de feed
+const EARTH_R_KM = 6371;
+
+function ghostKeyOf(f: FlightLike): string {
+  return (f.icao24 || f.callsign || '').trim();
+}
+
+/** Destino a lo largo del gran círculo: desde (lat,lng), rumbo inicial, distancia. */
+function projectGreatCircle(lat: number, lng: number, bearingDeg: number, distKm: number): [number, number] {
+  const d = distKm / EARTH_R_KM;
+  const th = (bearingDeg * Math.PI) / 180;
+  const p1 = (lat * Math.PI) / 180;
+  const l1 = (lng * Math.PI) / 180;
+  const sinP2 = Math.sin(p1) * Math.cos(d) + Math.cos(p1) * Math.sin(d) * Math.cos(th);
+  const p2 = Math.asin(Math.max(-1, Math.min(1, sinP2)));
+  const l2 = l1 + Math.atan2(Math.sin(th) * Math.sin(d) * Math.cos(p1), Math.cos(d) - Math.sin(p1) * sinP2);
+  let lng2 = (l2 * 180) / Math.PI;
+  lng2 = ((lng2 + 540) % 360) - 180; // normaliza a ±180 (antimeridiano)
+  return [lng2, Math.max(-85, Math.min(85, (p2 * 180) / Math.PI))];
+}
+
+/** Zonas con cobertura comunitaria densa: si un fantasma cae aquí y no ha
+ *  reaparecido es un falso positivo (de ser real lo veríamos). */
+function ghostInDenseCoverage(lat: number, lng: number): boolean {
+  if (lat >= 35 && lat <= 60 && lng >= -10 && lng <= 30) return true;    // Europa
+  if (lat >= 25 && lat <= 50 && lng >= -125 && lng <= -66) return true;  // EEUU continental
+  return false;
+}
+
+/** Feature del fantasma con su posición estimada al instante `now`. */
+function ghostToFeature(g: OceanicGhost, now: number) {
+  const ageS = (now - g.vanishTs) / 1000;
+  const distKm = g.speed * KNOT_TO_KM_PER_S * ageS;
+  const [lng, lat] = projectGreatCircle(g.lat0, g.lng0, g.heading, distKm);
+  return {
+    type: 'Feature' as const,
+    geometry: { type: 'Point' as const, coordinates: [lng, lat] },
+    properties: { callsign: g.callsign, heading: g.heading, alt: g.alt, model: g.model, speed_knots: g.speed, registration: g.registration, icao24: g.icao24, estimated: true, age_min: Math.round(ageS / 60) },
+  };
+}
+
+/** Actualiza el mapa de fantasmas comparando el snapshot nuevo con el anterior.
+ *  Muta `ghosts`, `prev` y `seen` (refs persistentes del componente). */
+function updateGhosts(
+  data: { commercial_flights?: FlightLike[]; private_flights?: FlightLike[]; private_jets?: FlightLike[]; military_flights?: FlightLike[] },
+  ghosts: Map<string, OceanicGhost>,
+  prev: Map<string, FlightLike>,
+  seen: Map<string, number>,
+) {
+  const now = Date.now();
+  const cur = new Map<string, FlightLike>();
+  for (const arr of [data.commercial_flights, data.private_flights, data.private_jets, data.military_flights]) {
+    if (!arr) continue;
+    for (const f of arr) { const k = ghostKeyOf(f); if (k) cur.set(k, f); }
+  }
+  // Apagón de feed (una región entera o todo el feed parpadea): no crear fantasmas.
+  // Cualquier vaciado total con historial previo cuenta como apagón (cubre también
+  // feeds pequeños donde el umbral del 60% no se activaría).
+  const blackout = cur.size === 0 ? prev.size > 0 : (prev.size > 500 && cur.size < prev.size * 0.6);
+
+  // Reaparecidos: el hex vuelve a verse real → deja de ser fantasma.
+  for (const k of Array.from(ghosts.keys())) if (cur.has(k)) ghosts.delete(k);
+
+  // Nuevos: estaba antes (visto ≥2 ciclos), ahora no, a crucero → cruzó un hueco.
+  if (!blackout) {
+    for (const [k, f] of prev) {
+      if (cur.has(k) || ghosts.has(k)) continue;
+      if ((seen.get(k) || 0) < 2) continue;
+      const alt = typeof f.alt === 'number' ? f.alt : 0;
+      const spd = typeof f.speed_knots === 'number' ? f.speed_knots : 0;
+      if (f.grounded || alt < GHOST_CRUISE_ALT_M || spd < GHOST_CRUISE_SPD_KT) continue;
+      if (ghosts.size >= GHOST_CAP) break;
+      ghosts.set(k, { lat0: f.lat, lng0: f.lng, heading: f.heading || 0, speed: spd, callsign: f.callsign, model: f.model, registration: f.registration, icao24: f.icao24, alt, vanishTs: now });
+    }
+  }
+
+  // Caducidad: demasiado viejos, o ya proyectados sobre zona con cobertura densa.
+  for (const [k, g] of Array.from(ghosts)) {
+    const ageMs = now - g.vanishTs;
+    if (ageMs > GHOST_MAX_AGE_MS) { ghosts.delete(k); continue; }
+    if (ageMs > 12 * 60 * 1000) {
+      const [lng, lat] = projectGreatCircle(g.lat0, g.lng0, g.heading, g.speed * KNOT_TO_KM_PER_S * (ageMs / 1000));
+      if (ghostInDenseCoverage(lat, lng)) ghosts.delete(k);
+    }
+  }
+
+  // Contador de avistamientos (anti-parpadeo) y snapshot anterior.
+  for (const k of Array.from(seen.keys())) if (!cur.has(k)) seen.delete(k);
+  for (const k of cur.keys()) seen.set(k, Math.min((seen.get(k) || 0) + 1, 5));
+  prev.clear();
+  for (const [k, f] of cur) prev.set(k, f);
+}
+
 function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick, onMouseCoords, onRightClick, onViewStateChange, flyToLocation, projection = 'globe', mapStyle = 'dark', visualMode = 'none', muteLabels = false, sweepData, scanTargets = [] }: OsirisMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const basemapLabelsRef = useRef<string[]>([]);
@@ -165,6 +276,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       createIcon(map, 'plane-pink', '#FF69B4', 24);
       createIcon(map, 'plane-red', '#FF3D3D', 24);
       createIcon(map, 'plane-grey', '#555555', 24);
+      createIcon(map, 'plane-estimated', '#9FB3C8', 24); // fantasmas oceánicos (estimados)
       createDot(map, 'dot-gold', '#D4AF37', 8);
       createDot(map, 'dot-red', '#FF3D3D', 10);
       createDot(map, 'dot-orange', '#FF9500', 10);
@@ -173,7 +285,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       createDot(map, 'dot-cctv', '#39FF14', 10);
 
       // Sources
-      const sources = ['flights','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'displacement', 'heat', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
+      const sources = ['flights','flights-estimated','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'displacement', 'heat', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
         'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
       // Las capas más densas se agrupan en clusters (rendimiento + claridad).
       const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
@@ -967,6 +1079,12 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           'icon-rotate': ['get','heading'], 'icon-rotation-alignment': 'map', 'icon-allow-overlap': true, 'icon-ignore-placement': true,
         }, paint: { 'icon-opacity': 0.85 }});
       });
+      // Fantasmas oceánicos: aviones ESTIMADOS sobre huecos sin cobertura (gris
+      // translúcido y más pequeños para distinguirlos del tráfico real).
+      map.addLayer({ id: 'fl-estimated', type: 'symbol', source: 'flights-estimated', layout: {
+        'icon-image': 'plane-estimated', 'icon-size': ['interpolate',['linear'],['zoom'], 1,0.32, 5,0.55, 10,0.8],
+        'icon-rotate': ['get','heading'], 'icon-rotation-alignment': 'map', 'icon-allow-overlap': true, 'icon-ignore-placement': true,
+      }, paint: { 'icon-opacity': 0.5 }});
 
       // Balloons (moving entities)
       map.addLayer({ id: 'balloon-dots', type: 'circle', source: 'balloons', paint: {
@@ -1261,6 +1379,38 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
+
+    // ── Fantasmas oceánicos (posición ESTIMADA, sin cobertura ADS-B) ──
+    map.on('click', 'fl-estimated', e => {
+      if (!e.features?.length) return;
+      const p = e.features[0].properties as any;
+      const coords = (e.features[0].geometry as any).coordinates;
+      const cs = (p.callsign || '').trim();
+      drawFlightRoute(cs, [coords[0], coords[1]], 'commercial');
+      popup(coords, `<div style="${pStyle}border:1px solid rgba(159,179,200,0.4);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="color:#9FB3C8;font-size:16px;font-weight:700;letter-spacing:0.1em;">${cs || p.icao24 || '—'}</span>
+          <span style="color:#5C5A54;font-size:10px;">${p.icao24 || ''}</span>
+        </div>
+        <div style="margin-bottom:10px;padding:6px 9px;border-radius:5px;background:rgba(159,179,200,0.12);border:1px solid rgba(159,179,200,0.3);font-size:10px;color:#9FB3C8;line-height:1.45;">
+          ◴ POSICIÓN ESTIMADA · sin cobertura ADS-B en esta zona.<br/>Proyección por gran círculo desde la última señal hace ${p.age_min || 0} min.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:11px;">
+          <div><span style="color:#5C5A54;font-size:9px;">MODELO</span><br/><span style="color:#E8E6E0;">${p.model || '—'}</span></div>
+          <div><span style="color:#5C5A54;font-size:9px;">ALT. ÚLTIMA</span><br/><span style="color:#9FB3C8;">${p.alt ? Math.round(p.alt) + 'm' : '—'}</span></div>
+          <div><span style="color:#5C5A54;font-size:9px;">VEL. ÚLTIMA</span><br/><span style="color:#E8E6E0;">${p.speed_knots || '—'}kt</span></div>
+          <div><span style="color:#5C5A54;font-size:9px;">RUMBO</span><br/><span style="color:#E8E6E0;">${Math.round(p.heading || 0)}°</span></div>
+          <div><span style="color:#5C5A54;font-size:9px;">POSICIÓN EST.</span><br/><span style="color:#E8E6E0;">${coords[1].toFixed(2)},${coords[0].toFixed(2)}</span></div>
+        </div>
+        <div class="pol-route" style="margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.1);font-size:10px;color:#aaa;">◴ Buscando ruta…</div>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+          <a href="https://www.flightradar24.com/${encodeURIComponent(cs)}" target="_blank" style="${linkStyle}color:#FECA00;border:1px solid rgba(254,202,0,0.55);background:rgba(254,202,0,0.14);font-weight:700;">FLIGHTRADAR24</a>
+        </div>
+      </div>`);
+      onEntityClick?.(p);
+    });
+    map.on('mouseenter', 'fl-estimated', () => { map.getCanvas().style.cursor = 'pointer'; });
+    map.on('mouseleave', 'fl-estimated', () => { map.getCanvas().style.cursor = ''; });
 
     // ── CCTV (opens CameraViewer panel) ──
     map.on('click', 'cctv-dots', e => {
@@ -2212,6 +2362,12 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
   // Base del dead-reckoning: array crudo de cada fuente de vuelos + timestamp
   // del último dato real del servidor. El tick de animación extrapola desde aquí.
   const flightAnimRef = useRef<{ bases: Record<string, FlightLike[]>; ts: number }>({ bases: {}, ts: 0 });
+  // Estado persistente de los fantasmas oceánicos (memoria continua del navegador,
+  // mucho más fiable que los isolates efímeros de serverless).
+  const ghostsRef = useRef<Map<string, OceanicGhost>>(new Map());
+  const prevFlightsRef = useRef<Map<string, FlightLike>>(new Map());
+  const seenCountRef = useRef<Map<string, number>>(new Map());
+  const lastFlightDataRef = useRef<FlightLike[] | null | undefined>(null);
 
   // Flight data → GeoJSON (GPU rendered)
   useEffect(() => {
@@ -2225,6 +2381,14 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     Object.entries(bases).forEach(([src, arr]) => setGeo(src, arr.map(f => flightToFeature(f, [f.lng, f.lat]))));
     // Datos frescos del servidor: resetea la base y el reloj del dead-reckoning
     flightAnimRef.current = { bases, ts: Date.now() };
+    // Fantasmas oceánicos: la detección compara contra el snapshot anterior, así
+    // que solo corre con datos NUEVOS del servidor (no al alternar capas).
+    if (data.commercial_flights !== lastFlightDataRef.current) {
+      lastFlightDataRef.current = data.commercial_flights;
+      updateGhosts(data, ghostsRef.current, prevFlightsRef.current, seenCountRef.current);
+    }
+    const showGhosts = !!(activeLayers.flights || activeLayers.private || activeLayers.jets || activeLayers.military);
+    setGeo('flights-estimated', showGhosts ? Array.from(ghostsRef.current.values()).map(g => ghostToFeature(g, Date.now())) : []);
   }, [mapReady, data.commercial_flights, data.private_flights, data.private_jets, data.military_flights, activeLayers.flights, activeLayers.private, activeLayers.jets, activeLayers.military, setGeo]);
 
   // ── DEAD-RECKONING DE VUELOS — anima los aviones entre refrescos (estilo FlightRadar24)
@@ -2237,15 +2401,21 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     const tick = () => {
       // No animar con la pestaña oculta o sin mapa: ahorra CPU y evita trabajo invisible
       if (document.hidden || !mapRef.current) return;
+      const now = Date.now();
       const { bases, ts } = flightAnimRef.current;
-      if (!ts) return;
-      const dtSec = (Date.now() - ts) / 1000;
-      if (dtSec <= 0) return;
-      Object.entries(bases).forEach(([src, arr]) => {
-        if (!arr.length) return;
-        // Copia ligera: features nuevas con coordenadas extrapoladas (la base no se muta)
-        setGeo(src, arr.map(f => flightToFeature(f, advanceFlight(f, dtSec))));
-      });
+      if (ts) {
+        const dtSec = (now - ts) / 1000;
+        if (dtSec > 0) Object.entries(bases).forEach(([src, arr]) => {
+          if (!arr.length) return;
+          // Copia ligera: features nuevas con coordenadas extrapoladas (la base no se muta)
+          setGeo(src, arr.map(f => flightToFeature(f, advanceFlight(f, dtSec))));
+        });
+      }
+      // Fantasmas oceánicos: se reproyectan desde su punto de desaparición (sin
+      // deriva acumulada, siempre desde vanishTs).
+      if (ghostsRef.current.size) {
+        setGeo('flights-estimated', Array.from(ghostsRef.current.values()).map(g => ghostToFeature(g, now)));
+      }
     };
     const iv = setInterval(tick, 2000);
     return () => clearInterval(iv);
@@ -2874,6 +3044,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setVis(['fl-private'], activeLayers.private);
     setVis(['fl-jets'], activeLayers.jets);
     setVis(['fl-military'], activeLayers.military);
+    setVis(['fl-estimated'], activeLayers.flights || activeLayers.private || activeLayers.jets || activeLayers.military);
     setVis(['cctv-glow','cctv-dots','cctv-label'], activeLayers.cctv);
     setVis(['fires-heat'], activeLayers.fires);
     setVis(['weather-glow','weather-dots','weather-label'], activeLayers.weather);
