@@ -19,7 +19,7 @@ const SOURCE_LABEL: Record<InboxSource, string> = {
 };
 
 const SOURCE_COLOR: Record<InboxSource, string> = {
-  rss: "#0071e3",
+  rss: "#1F4E8C",
   boe: "#7e57c2",
   google_alerts: "#26a69a",
   twitter: "#1d9bf0",

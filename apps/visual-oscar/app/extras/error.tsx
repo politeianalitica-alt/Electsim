@@ -31,7 +31,7 @@ export default function ToolboxError({
         onClick={reset}
         style={{
           padding: '8px 18px', fontSize: 13, fontWeight: 600, borderRadius: 9,
-          border: 'none', background: '#0071e3', color: '#fff', cursor: 'pointer',
+          border: 'none', background: '#1F4E8C', color: '#fff', cursor: 'pointer',
         }}
       >
         Reintentar

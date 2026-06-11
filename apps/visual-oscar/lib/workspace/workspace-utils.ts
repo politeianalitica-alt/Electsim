@@ -2,7 +2,7 @@
  * Tokens del Workspace — alineados con la estética Apple-clara del frontend.
  *
  * Antes el workspace era una superposición dark (#09090b). Ahora seguimos el
- * sistema `tokens.css` (#fbfbfd / #1d1d1f / accent #0071e3) para que el
+ * sistema `tokens.css` (#fbfbfd / #1d1d1f / brand #1F4E8C) para que el
  * usuario perciba una sola plataforma coherente.
  */
 
@@ -29,10 +29,13 @@ export const WS = {
   ink2: "#3a3a3d",
   ink3: "#6e6e73",
 
-  // Accent (Apple system blue)
-  accent: "#0071e3",
-  accentHover: "#0077ed",
-  accentSubtle: "rgba(0,113,227,0.10)",
+  // Accent · azul CORPORATIVO Politeia (espeja --color-brand de tokens.css).
+  // Fase 1: antes era el azul Apple #0071e3 y el usuario veía cambiar el color
+  // de marca al pasar del header (#1F4E8C) al workspace. Valores en hex (no
+  // var()) porque varios componentes concatenan sufijos de alpha ("…55").
+  accent: "#1F4E8C",
+  accentHover: "#173E70",
+  accentSubtle: "rgba(31,78,140,0.10)",
 
   // Semánticos
   success: "#2d8a39",
@@ -49,9 +52,11 @@ export const WS = {
   tabsH:        38,
   radius:       12,
 
-  // Tipografía
-  font: "'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif",
-  fontDisplay: "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif",
+  // Tipografía · via next/font (Inter) como el resto de la plataforma.
+  // Antes hardcodeaba SF Pro: en Windows/Linux el workspace caía a
+  // Helvetica/Segoe mientras la app usaba Inter (métricas distintas).
+  font: "var(--font-text, 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif)",
+  fontDisplay: "var(--font-display, 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', system-ui, sans-serif)",
 } as const;
 
 export function priorityColor(priority: string): string {

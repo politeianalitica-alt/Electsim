@@ -183,10 +183,10 @@ export function CuadernoOmniSearch({
               onClick={() => setFilter(f)}
               style={{
                 flex: 1, padding: '8px 0', fontSize: 11,
-                background: filter === f ? '#0071e3' : '#fff',
+                background: filter === f ? '#1F4E8C' : '#fff',
                 color: filter === f ? '#fff' : '#64748b',
                 border: 'none', cursor: 'pointer', fontWeight: 600,
-                borderBottom: filter === f ? '2px solid #0071e3' : '2px solid transparent',
+                borderBottom: filter === f ? '2px solid #1F4E8C' : '2px solid transparent',
               }}
             >
               {f === 'all' && 'Todo'}
@@ -237,7 +237,7 @@ export function CuadernoOmniSearch({
                 display: 'flex', alignItems: 'center', gap: 10,
                 width: '100%', padding: '8px 14px',
                 background: i === idx ? '#f0f9ff' : '#fff',
-                border: 'none', borderLeft: i === idx ? '3px solid #0071e3' : '3px solid transparent',
+                border: 'none', borderLeft: i === idx ? '3px solid #1F4E8C' : '3px solid transparent',
                 cursor: 'pointer', textAlign: 'left',
                 fontFamily: 'inherit',
               }}
@@ -318,13 +318,13 @@ export function CuadernoOmniSearch({
                 width: '100%', padding: '8px 14px',
                 background: idx === hits.length ? '#f0f9ff' : '#fff',
                 border: 'none',
-                borderLeft: idx === hits.length ? '3px solid #0071e3' : '3px solid transparent',
+                borderLeft: idx === hits.length ? '3px solid #1F4E8C' : '3px solid transparent',
                 cursor: 'pointer', textAlign: 'left', fontFamily: 'inherit',
               }}
             >
-              <span style={{ fontSize: 14, width: 18, color: '#0071e3' }}>+</span>
+              <span style={{ fontSize: 14, width: 18, color: '#1F4E8C' }}>+</span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#0071e3' }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1F4E8C' }}>
                   Crear «{q.trim()}»
                 </div>
                 <div style={{ fontSize: 10, color: '#94a3b8' }}>Nueva nota</div>

@@ -239,13 +239,13 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
               },
               '.cm-content': {
                 padding: '14px 16px',
-                caretColor: '#0071e3',
+                caretColor: '#1F4E8C',
               },
               '.cm-focused': {
                 outline: 'none',
               },
               '.cm-cursor': {
-                borderLeft: '2px solid #0071e3',
+                borderLeft: '2px solid #1F4E8C',
               },
               '.cm-tooltip-autocomplete': {
                 border: '1px solid #d1d5db',
@@ -259,7 +259,7 @@ export const MarkdownEditor = forwardRef<MarkdownEditorHandle, Props>(
                 padding: '5px 10px',
               },
               '.cm-tooltip-autocomplete ul li[aria-selected]': {
-                background: '#0071e3',
+                background: '#1F4E8C',
                 color: '#fff',
               },
               '.cm-completionDetail': {

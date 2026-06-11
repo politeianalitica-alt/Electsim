@@ -142,7 +142,7 @@ export function CuadernoInsights({ onOpenNote }: Props) {
       {/* KPI row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
         {[
-          ['Notas', kpi.notes, '#0071e3'],
+          ['Notas', kpi.notes, '#1F4E8C'],
           ['Palabras', formatNum(kpi.words), '#0f766e'],
           ['Entidades únicas', kpi.entities, '#7c3aed'],
           ['Tags', kpi.tags, '#dc2626'],
@@ -168,7 +168,7 @@ export function CuadernoInsights({ onOpenNote }: Props) {
         <div style={{ display: 'flex', gap: 3 }}>
           {heatmap.map((d) => {
             const intensity = d.count === 0 ? 0 : Math.min(1, d.count / maxHeatmap)
-            const bg = d.count === 0 ? '#f1f5f9' : `rgba(0,113,227,${0.2 + intensity * 0.8})`
+            const bg = d.count === 0 ? '#f1f5f9' : `rgba(31,78,140,${0.2 + intensity * 0.8})`
             return (
               <div
                 key={d.date}

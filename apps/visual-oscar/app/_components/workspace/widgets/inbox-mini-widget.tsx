@@ -5,7 +5,7 @@ import { WS } from "@/lib/workspace/workspace-utils";
 import { inboxRepository } from "@/lib/inbox/inbox-repository";
 
 const SOURCE_COLOR: Record<string, string> = {
-  rss: "#0071e3",
+  rss: "#1F4E8C",
   boe: "#7e57c2",
   google_alerts: "#26a69a",
   twitter: "#1d9bf0",

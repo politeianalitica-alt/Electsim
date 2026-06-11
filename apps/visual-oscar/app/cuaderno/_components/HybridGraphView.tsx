@@ -54,7 +54,7 @@ interface SimNode {
 }
 
 const FOLDER_COLORS: Record<string, string> = {
-  Inicio:        '#0071e3',
+  Inicio:        '#1F4E8C',
   Investigación: '#7C3AED',
   Bitácora:      '#2d8a39',
   Notas:         '#525258',
@@ -260,7 +260,7 @@ export default function HybridGraphView({
         ctx.fill()
         ctx.globalAlpha = 1
         if (isActive) {
-          ctx.strokeStyle = '#0071e3'
+          ctx.strokeStyle = '#1F4E8C'
           ctx.lineWidth = 2.5
           ctx.stroke()
         }

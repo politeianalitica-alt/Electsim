@@ -448,7 +448,7 @@ export default function CuadernoClient() {
         <aside className={styles.sidebar}>
           <div className={styles.sidebarHead}>
             <h2 className={styles.title}>
-              <span style={{ color: 'var(--accent,#0071e3)' }}>⬡</span>
+              <span style={{ color: 'var(--accent,#1F4E8C)' }}>⬡</span>
               Cuaderno
               <span style={{ marginLeft: 'auto', fontSize: 10, color: 'var(--ink-4,#9ca3af)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
                 {notes.length} notas
@@ -531,7 +531,7 @@ export default function CuadernoClient() {
           {/* Sprint Cuaderno N5 · legend de carpetas (HybridGraphView ya muestra el panel de filtros por kind) */}
           <div className={styles.graphLegend}>
             <div style={{ fontWeight: 700, marginBottom: 6 }}>Notas · color por carpeta</div>
-            <div className={styles.row}><span className={styles.swatch} style={{ background: '#0071e3' }} /> Inicio</div>
+            <div className={styles.row}><span className={styles.swatch} style={{ background: '#1F4E8C' }} /> Inicio</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#7C3AED' }} /> Investigación</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#2d8a39' }} /> Bitácora</div>
             <div className={styles.row}><span className={styles.swatch} style={{ background: '#525258' }} /> Notas</div>
@@ -616,7 +616,7 @@ export default function CuadernoClient() {
                 className={styles.toolbarBtn}
                 onClick={() => setAiOpen(true)}
                 title="Asistente IA sobre esta nota · Cmd+J (contexto + entidades + backlinks)"
-                style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3', fontWeight: 600 }}
+                style={{ background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontWeight: 600 }}
               >
                 {/* Sprint Quality-4 · sin emojis · "◈" (U+25C8) glifo geométrico Unicode permitido */}
                 ◈ IA
@@ -671,12 +671,12 @@ export default function CuadernoClient() {
                 }
                 style={{
                   background:
-                    autoSyncStatus === 'syncing' ? 'rgba(0,113,227,0.10)' :
+                    autoSyncStatus === 'syncing' ? 'rgba(31,78,140,0.10)' :
                     autoSyncStatus === 'ok' ? 'rgba(34,197,94,0.15)' :
                     autoSyncStatus === 'error' ? 'rgba(220,38,38,0.15)' :
                     undefined,
                   color:
-                    autoSyncStatus === 'syncing' ? '#0071e3' :
+                    autoSyncStatus === 'syncing' ? '#1F4E8C' :
                     autoSyncStatus === 'ok' ? '#16a34a' :
                     autoSyncStatus === 'error' ? '#dc2626' :
                     undefined,
@@ -699,7 +699,7 @@ export default function CuadernoClient() {
               <span className={styles.pill}>↻ {new Date(active.updatedAt).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
               {/* Sprint Cuaderno N13 · save indicator visible · feedback de persistencia */}
               {saveStatus === 'saving' && (
-                <span className={styles.pill} style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3', fontWeight: 600 }}>
+                <span className={styles.pill} style={{ background: 'rgba(31,78,140,0.10)', color: '#1F4E8C', fontWeight: 600 }}>
                   ↻ Guardando…
                 </span>
               )}
@@ -731,7 +731,7 @@ export default function CuadernoClient() {
                 <span className={styles.pill}>⇢ {active.links.length} enlaces</span>
               )}
               {isDailyNote(active) && (
-                <span className={styles.pill} style={{ background: 'rgba(0,113,227,0.10)', color: '#0071e3' }}>DIARIO</span>
+                <span className={styles.pill} style={{ background: 'rgba(31,78,140,0.10)', color: '#1F4E8C' }}>DIARIO</span>
               )}
               {active.source === 'auto' && (
                 <span className={styles.pill} style={{ background: 'rgba(45,138,57,0.10)', color: '#2d8a39' }}>AUTO</span>
@@ -834,7 +834,7 @@ export default function CuadernoClient() {
               </button>
               {TEMPLATES.map(t => (
                 <button key={t.id} className={styles.tplCard} onClick={() => handleNewFromTemplate(t.id)}>
-                  <span className={styles.tplGlyph} style={{ color: '#0071e3' }}>{t.glyph}</span>
+                  <span className={styles.tplGlyph} style={{ color: '#1F4E8C' }}>{t.glyph}</span>
                   <strong>{t.name}</strong>
                   <span>{t.description}</span>
                   <span className={styles.tplFolder}>→ {t.folder}/</span>
@@ -1017,7 +1017,7 @@ function TasksView({ tasks, summary, onOpen, onToggle }: {
       <header className={styles.workHead}>
         <h2>Tareas</h2>
         <div className={styles.kpiRow}>
-          <Kpi label="Pendientes"  value={summary.pending}  accent="#0071e3" />
+          <Kpi label="Pendientes"  value={summary.pending}  accent="#1F4E8C" />
           <Kpi label="Vencidas"    value={summary.overdue}  accent="#DC2626" />
           <Kpi label="Hoy"         value={summary.dueToday} accent="#D97706" />
           <Kpi label="Críticas"    value={summary.byPriority.critico} accent="#7C3AED" />
@@ -1067,8 +1067,8 @@ function TasksView({ tasks, summary, onOpen, onToggle }: {
                   )}
                   {t.priority && (
                     <span className={styles.taskPill} style={{
-                      background: t.priority === 'critico' ? 'rgba(124,58,237,0.12)' : 'rgba(0,113,227,0.10)',
-                      color: t.priority === 'critico' ? '#7C3AED' : '#0071e3',
+                      background: t.priority === 'critico' ? 'rgba(124,58,237,0.12)' : 'rgba(31,78,140,0.10)',
+                      color: t.priority === 'critico' ? '#7C3AED' : '#1F4E8C',
                     }}>!{t.priority}</span>
                   )}
                   <button className={styles.taskLink} onClick={() => onOpen(t.noteId)}>
@@ -1143,7 +1143,7 @@ function CalendarView({ onOpen, onCreateDaily }: { onOpen: (id: string) => void;
                 title={activity.daily ? 'Abrir diario' : 'Sin diario'}
               >
                 <div className={styles.calDay}>{cell.day}</div>
-                {hasDaily && <div className={styles.calBar} style={{ background: '#0071e3' }} />}
+                {hasDaily && <div className={styles.calBar} style={{ background: '#1F4E8C' }} />}
                 {total > 0 && <div className={styles.calCount}>{total} nota{total === 1 ? '' : 's'}</div>}
                 {activity.tasks.length > 0 && <div className={styles.calCount} style={{ color: '#D97706' }}>{activity.tasks.length} tarea{activity.tasks.length === 1 ? '' : 's'}</div>}
               </div>
@@ -1221,7 +1221,7 @@ function TemplatesView({ onPick }: { onPick: (id: string) => void }) {
         <div className={styles.tplGrid} style={{ padding: 18 }}>
           {TEMPLATES.map(t => (
             <button key={t.id} className={styles.tplCard} onClick={() => onPick(t.id)}>
-              <span className={styles.tplGlyph} style={{ color: '#0071e3' }}>{t.glyph}</span>
+              <span className={styles.tplGlyph} style={{ color: '#1F4E8C' }}>{t.glyph}</span>
               <strong>{t.name}</strong>
               <span>{t.description}</span>
               <span className={styles.tplFolder}>→ {t.folder}/</span>

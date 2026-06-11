@@ -224,7 +224,7 @@ export function CuadernoAIPanel({ note, backlinks, editorRef, onClose }: Props) 
           display: 'flex', alignItems: 'center', gap: 10,
         }}>
           {/* Sprint Quality-4 · sin emojis · "◈" U+25C8 glifo geométrico permitido */}
-          <span style={{ fontSize: 18, fontWeight: 700, color: '#0071e3' }} aria-hidden="true">◈</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: '#1F4E8C' }} aria-hidden="true">◈</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: 700, fontSize: 14, color: '#0f172a' }}>
               Asistente · sobre <em>{note.title}</em>
@@ -294,7 +294,7 @@ export function CuadernoAIPanel({ note, backlinks, editorRef, onClose }: Props) 
                     fontSize: 12, color: '#0f172a', fontWeight: 500,
                   }}
                 >
-                  <span style={{ fontSize: 14, color: '#0071e3', fontWeight: 700, width: 16 }}>{a.glyph}</span>
+                  <span style={{ fontSize: 14, color: '#1F4E8C', fontWeight: 700, width: 16 }}>{a.glyph}</span>
                   {a.label}
                 </button>
               ))}
@@ -372,7 +372,7 @@ export function CuadernoAIPanel({ note, backlinks, editorRef, onClose }: Props) 
                     onClick={() => insertIntoNote(m.content)}
                     style={{
                       fontSize: 10, padding: '2px 8px', borderRadius: 4,
-                      background: '#0071e3', color: '#fff', border: '1px solid #0071e3',
+                      background: '#1F4E8C', color: '#fff', border: '1px solid #1F4E8C',
                       cursor: 'pointer', fontWeight: 600,
                     }}
                   >
@@ -419,7 +419,7 @@ export function CuadernoAIPanel({ note, backlinks, editorRef, onClose }: Props) 
             disabled={busy || !input.trim()}
             style={{
               padding: '8px 14px', fontSize: 13, borderRadius: 6,
-              background: busy || !input.trim() ? '#cbd5e1' : '#0071e3',
+              background: busy || !input.trim() ? '#cbd5e1' : '#1F4E8C',
               color: '#fff', border: 'none', fontWeight: 600,
               cursor: busy || !input.trim() ? 'not-allowed' : 'pointer',
             }}

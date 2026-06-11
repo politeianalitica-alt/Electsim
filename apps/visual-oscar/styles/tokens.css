@@ -25,6 +25,15 @@
   --color-accent-active:    #006acd;
   --color-accent-subtle:    rgba(0, 113, 227, 0.08);
   --color-accent-text:      #0066cc;
+  /* Fase 1 (jun 2026) · azul CORPORATIVO Politeia — el del header, hub de
+     workspaces y War Room. Los tokens WS de lib/workspace/workspace-utils.ts
+     espejan estos valores para acabar con el doble accent #1F4E8C/#0071e3:
+     un solo azul de marca en navegación y chrome. --color-accent queda para
+     elementos interactivos legacy hasta completar la migración. */
+  --color-brand:            #1F4E8C;
+  --color-brand-hover:      #173E70;
+  --color-brand-active:     #122F55;
+  --color-brand-subtle:     rgba(31, 78, 140, 0.10);
   --color-success:          #2d8a39;
   --color-success-subtle:   rgba(45, 138, 57, 0.08);
   --color-danger:           #c42c2c;

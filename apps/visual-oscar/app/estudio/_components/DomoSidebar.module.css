@@ -3,8 +3,8 @@
   flex-shrink: 0;
   /* AppHeader ocupa ~60px arriba — el sidebar queda pegado debajo */
   min-height: calc(100vh - 60px);
-  background: var(--bg-secondary, #f9fafb);
-  border-right: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface-raised, #f9fafb);
+  border-right: 1px solid var(--color-hairline-soft, #e5e7eb);
   display: flex;
   flex-direction: column;
   padding: 1rem 0;
@@ -23,7 +23,7 @@
   justify-content: center;
   gap: 0.4rem;
   padding: 0.5rem 1rem 1.1rem;
-  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  border-bottom: 1px solid var(--color-hairline-soft, #e5e7eb);
   margin-bottom: 0.75rem;
 }
 
@@ -48,7 +48,7 @@
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: -0.018em;
-  color: var(--color-text, #111827);
+  color: var(--color-ink, #111827);
   text-align: center;
   white-space: nowrap;
 }
@@ -58,7 +58,7 @@
   font-weight: 700;
   letter-spacing: 0.10em;
   text-transform: uppercase;
-  color: var(--color-muted, #9ca3af);
+  color: var(--color-ink-4, #9ca3af);
   text-align: center;
   margin-top: -2px;
 }
@@ -79,7 +79,7 @@
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: .08em;
-  color: var(--color-muted, #9ca3af);
+  color: var(--color-ink-4, #9ca3af);
   padding: .5rem .75rem .25rem;
 }
 .navUl { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1px; }
@@ -89,7 +89,7 @@
   align-items: center;
   gap: 0.625rem;
   padding: 0.55rem 0.75rem;
-  color: var(--color-text-secondary, #6b7280);
+  color: var(--color-ink-3, #6b7280);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
@@ -98,13 +98,13 @@
 }
 
 .navItem:hover {
-  background: var(--bg-hover, #f3f4f6);
-  color: var(--color-text, #111827);
+  background: var(--color-surface-overlay, #f3f4f6);
+  color: var(--color-ink, #111827);
 }
 
 .navItem.active {
-  background: var(--color-accent-bg, rgba(59, 130, 246, 0.10));
-  color: var(--color-accent, #3b82f6);
+  background: var(--color-brand-subtle, rgba(59, 130, 246, 0.10));
+  color: var(--color-brand, #3b82f6);
   font-weight: 600;
 }
 
@@ -123,20 +123,20 @@
 
 .sidebarFooter {
   padding: 1rem 1.25rem 0;
-  border-top: 1px solid var(--color-border, #e5e7eb);
+  border-top: 1px solid var(--color-hairline-soft, #e5e7eb);
   margin-top: 0.5rem;
 }
 
 .backLink {
   font-size: 0.8rem;
-  color: var(--color-text-secondary, #6b7280);
+  color: var(--color-ink-3, #6b7280);
   text-decoration: none;
   display: block;
   padding: 0.5rem 0;
 }
 
 .backLink:hover {
-  color: var(--color-text, #111827);
+  color: var(--color-ink, #111827);
 }
 
 @media (max-width: 768px) {

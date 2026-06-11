@@ -170,7 +170,7 @@ export function CuadernoSyncPanel({ onClose }: Props) {
               disabled={busy !== null}
               style={{
                 padding: '10px 12px', borderRadius: 6,
-                background: busy === 'sync' ? '#cbd5e1' : '#0071e3',
+                background: busy === 'sync' ? '#cbd5e1' : '#1F4E8C',
                 color: '#fff', border: 'none', fontWeight: 600,
                 fontSize: 12, cursor: busy === null ? 'pointer' : 'wait',
               }}
@@ -351,7 +351,7 @@ export function CuadernoSyncPanel({ onClose }: Props) {
               disabled={!bindInput.trim()}
               style={{
                 padding: '6px 14px', fontSize: 12, borderRadius: 6,
-                background: bindInput.trim() ? '#0071e3' : '#cbd5e1',
+                background: bindInput.trim() ? '#1F4E8C' : '#cbd5e1',
                 color: '#fff', border: 'none', fontWeight: 600, cursor: 'pointer',
               }}
             >

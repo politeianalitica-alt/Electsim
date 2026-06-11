@@ -483,7 +483,7 @@ export default function WorkspacePoliticalOverview() {
                 fontSize: 14, fontWeight: 700, flexShrink: 0,
               }}>{a.icon}</span>
  <span style={{ fontSize: 12.5, fontWeight: 600, color: '#1d1d1f', flex: 1 }}>{a.label}</span>
- <span style={{ fontSize: 14, color: '#0071e3' }}>→</span>
+ <span style={{ fontSize: 14, color: '#1F4E8C' }}>→</span>
  </Link>
           ))}
  </div>
@@ -580,12 +580,12 @@ function AlertItem({ alert }: { alert: AlertDef }) {
               title="Abrir noticias relacionadas con esta evidencia"
               style={{
                 color: '#3a3a3d', textDecoration: 'none',
-                borderBottom: '1px dotted rgba(0,113,227,0.4)',
+                borderBottom: '1px dotted rgba(31,78,140,0.4)',
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#0071e3' }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#1F4E8C' }}
               onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.color = '#3a3a3d' }}
             >
-              Evidencia: {alert.evidence} <span style={{ color: '#0071e3' }}>↗</span>
+              Evidencia: {alert.evidence} <span style={{ color: '#1F4E8C' }}>↗</span>
  </a>
           ) : (
  <>Evidencia: {alert.evidence}</>
@@ -636,7 +636,7 @@ function NarrativeCard({ narrative }: { narrative: NarrativaDef }) {
               href={narrative.newsUrl || `https://www.google.com/search?q=${encodeURIComponent(narrative.name + ' ' + narrative.driverActors.split('·')[0].trim())}&tbm=nws`}
               target="_blank" rel="noopener noreferrer"
               title={narrative.newsUrl ? `Abrir noticia sobre: ${narrative.name}` : `Buscar noticias sobre: ${narrative.name}`}
-              style={{ color: '#0071e3', textDecoration: 'none', fontWeight: 600 }}
+              style={{ color: '#1F4E8C', textDecoration: 'none', fontWeight: 600 }}
             >Noticia ↗</a>
  <Link href="/medios-narrativa" style={{ color: '#86868b', textDecoration: 'none', fontWeight: 600 }}>Mapa →</Link>
  </div>
@@ -711,12 +711,12 @@ function EvidenceRow({ ev }: { ev: EvidenceItem }) {
   const isExternal = ev.href?.startsWith('http')
   const titleStyle = {
     color: '#1d1d1f', fontWeight: 600, lineHeight: 1.35,
-    textDecoration: 'none', borderBottom: '1px dotted rgba(0,113,227,0.35)',
+    textDecoration: 'none', borderBottom: '1px dotted rgba(31,78,140,0.35)',
   } as const
   const titleNode = (
     <>
       {ev.title}{' '}
-      <span style={{ color: '#0071e3', fontSize: 10 }}>{isExternal ? '↗' : '→'}</span>
+      <span style={{ color: '#1F4E8C', fontSize: 10 }}>{isExternal ? '↗' : '→'}</span>
     </>
   )
   return (
@@ -751,7 +751,7 @@ function EvidenceRow({ ev }: { ev: EvidenceItem }) {
 
 const btnPrimary = {
   display: 'inline-flex', alignItems: 'center', gap: 5,
-  background: '#0071e3', color: '#fff', border: '1px solid #0071e3',
+  background: '#1F4E8C', color: '#fff', border: '1px solid #1F4E8C',
   borderRadius: 8, padding: '6px 14px', fontSize: 11.5, fontWeight: 600,
   fontFamily: 'inherit', textDecoration: 'none', cursor: 'pointer',
 } as const
