@@ -94,15 +94,6 @@ export default function MaritimoShell({ subtitle }: MaritimoShellProps) {
                   transition: 'color 0.15s, border-color 0.15s',
                 }}
               >
-                <span
-                  aria-hidden="true"
-                  style={{
-                    fontSize: 13, lineHeight: 1,
-                    color: active ? ACCENT : '#86868b',
-                  }}
-                >
-                  {t.glyph}
-                </span>
                 {t.label}
               </Link>
             )
