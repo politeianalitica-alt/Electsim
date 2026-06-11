@@ -8,9 +8,9 @@
  * y deep-links al workspace para las productivas.
  */
 
-import { useState } from 'react'
 import Link from 'next/link'
 import styles from './Toolbox.module.css'
+import { useUrlState } from '@/lib/useUrlState'
 import CommandCenter from './CommandCenter'
 import InboxView from './InboxView'
 import TerminalView from './TerminalView'
@@ -101,8 +101,9 @@ export const TOOLS: ToolDef[] = [
 const CATEGORIES: Array<ToolDef['category']> = ['OPERATIVO', 'ESTRATEGIA', 'CONTENIDO', 'INTELIGENCIA', 'SISTEMA']
 
 export default function ToolboxShell() {
-  const [active, setActive] = useState<ToolId>('command-center')
-  const activeTool = TOOLS.find(t => t.id === active)!
+  // Fase 1 · herramienta en URL (?tool=inbox|cama…): enlazable y F5-proof,
+  // mismo patrón que ?section= del War Room y ?view= del Cuaderno.
+  const [active, setActive] = useUrlState<ToolId>('tool', 'command-center')
 
   return (
     <div className={styles.shell}>
@@ -154,7 +155,7 @@ export default function ToolboxShell() {
 
         <div className={styles.sidebarFoot}>
           <Link href="/workspaces" className={styles.footLink}>
-            ⊕ Cambiar workspace
+            ⊞ Mis workspaces
           </Link>
         </div>
       </aside>

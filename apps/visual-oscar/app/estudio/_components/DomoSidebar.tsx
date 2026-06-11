@@ -90,6 +90,10 @@ export default function DomoSidebar() {
       </div>
 
       <div className={styles.sidebarFooter}>
+        {/* Fase 1 · salida común: todos los espacios enlazan al hub */}
+        <Link href="/workspaces" className={styles.backLink}>
+          ⊞ Mis workspaces
+        </Link>
         <Link href="/dashboard" className={styles.backLink}>
           ← Volver a Politeia
         </Link>

@@ -24,6 +24,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import styles from './Cuaderno.module.css'
 // Sprint Cuaderno N1 · picker (entidades / data embeds) + hidratación de embeds
@@ -61,6 +62,7 @@ import {
 } from '@/lib/cuaderno/queries'
 import { TEMPLATES } from '@/lib/cuaderno/templates'
 import { renderMarkdown } from '@/lib/cuaderno/markdown'
+import { useUrlState } from '@/lib/useUrlState'
 
 // Sprint Cuaderno N5 · grafo híbrido (notas + entidades del registry).
 // El GraphView simple original se eliminó en Fase 0 (jun 2026): nunca se
@@ -89,7 +91,9 @@ export default function CuadernoClient() {
   const [activeId, setActiveId] = useState<string | null>(null)
   const [query, setQuery]       = useState('')
   const [mode, setMode]         = useState<Mode>('split')
-  const [view, setView]         = useState<View>('today')
+  // Fase 1 · vista en URL (?view=graph|tasks|cama…): enlazable entre
+  // analistas y sobrevive a F5 — mismo patrón que ?section= del War Room.
+  const [view, setView]         = useUrlState<View>('view', 'today')
   // Sprint Cuaderno N1 · picker mode (entity | data | null=closed) + preview ref para hidratación
   const [pickerMode, setPickerMode] = useState<'entity' | 'data' | null>(null)
   // Sprint Cuaderno N7 · asistente IA sobre la nota activa
@@ -312,7 +316,7 @@ export default function CuadernoClient() {
       const k = e.key.toLowerCase()
       const mod = e.metaKey || e.ctrlKey
       if (mod && k === 'n')   { e.preventDefault(); openTemplateMenu() }
-      if (mod && k === 'g')   { e.preventDefault(); setView(v => v === 'graph' ? 'notes' : 'graph') }
+      if (mod && k === 'g')   { e.preventDefault(); setView(view === 'graph' ? 'notes' : 'graph') }
       if (mod && k === 'd')   { e.preventDefault(); handleOpenToday() }
       if (mod && k === 't')   { e.preventDefault(); setView('tasks') }
       if (mod && k === '1')   { e.preventDefault(); setView('calendar') }
@@ -336,7 +340,7 @@ export default function CuadernoClient() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen, aiOpen, active?.id, navBack, navForward])
+  }, [openTemplateMenu, handleOpenToday, switcher, tplOpen, aiOpen, active?.id, navBack, navForward, view, setView])
 
   // ── Filtrado / Agrupado ───────────────────────────────────────────────────
   const filtered = useMemo(() => {
@@ -440,6 +444,10 @@ export default function CuadernoClient() {
         <button className={styles.railSwitcher} onClick={() => setSwitcher(true)} title="Cmd+K">
           <span>⌕</span><span>Buscar</span>
         </button>
+        {/* Fase 1 · salida común: todos los espacios enlazan al hub */}
+        <Link href="/workspaces" className={styles.railSwitcher} title="Mis workspaces" style={{ textDecoration: 'none' }}>
+          <span>⊞</span><span>Workspaces</span>
+        </Link>
       </nav>
       )}
 

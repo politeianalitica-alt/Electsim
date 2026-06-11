@@ -4,6 +4,7 @@
  * organizadas en 7 grupos (estilo config-cliente · Linear Settings).
  */
 import './war-room.css'
+import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
@@ -342,6 +343,17 @@ export default function WarRoomPage() {
               </ul>
             </div>
           ))}
+          {/* Fase 1 · salida común: todos los espacios enlazan al hub */}
+          <Link
+            href="/workspaces"
+            style={{
+              display: 'block', marginTop: 8, padding: '10px 12px',
+              fontSize: 11.5, fontWeight: 600, color: '#6e6e73',
+              textDecoration: 'none', borderTop: '1px solid rgba(0,0,0,0.07)',
+            }}
+          >
+            ⊞ Mis workspaces
+          </Link>
         </aside>
 
         {/* CONTENIDO */}
