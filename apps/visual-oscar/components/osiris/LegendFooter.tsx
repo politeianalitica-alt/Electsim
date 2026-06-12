@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type Item = { c: string; l: string };
-type Legend = { id: string; title: string; active: (a: any) => boolean; items: Item[] };
+type Legend = { id: string; title: string; active: (a: any) => boolean; items: Item[]; note?: string };
 
 const has = (a: any, keys: string[]) => keys.some((k) => a[k]);
 
@@ -47,7 +47,7 @@ const LEGENDS: Legend[] = [
     { c: '#42A5F5', l: 'A · centro de alta presión' } ] },
   { id: 'wind', title: 'Viento (km/h)', active: (a) => a.wind_flow, items: [
     { c: '#4FC3F7', l: '<12 flojo' }, { c: '#66BB6A', l: '12–30 moderado' }, { c: '#FFEE58', l: '30–50 fresco' }, { c: '#FFA726', l: '50–62 fuerte' }, { c: '#EF5350', l: '62–89 temporal' }, { c: '#AB47BC', l: '>89 huracanado' } ] },
-  { id: 'housing', title: 'Precio vivienda (€/m²)', active: (a) => a.housing_prices, items: [
+  { id: 'housing', title: 'Precio vivienda €/m² · ~4.000 ciudades', note: 'España y grandes capitales: dato curado (var. interanual INE en vivo). Resto: ≈ estimado por modelo.', active: (a) => a.housing_prices, items: [
     { c: '#2E7D32', l: '<1.500' }, { c: '#9CCC65', l: '1.500–2.500' }, { c: '#FFEE58', l: '2.500–4.000' }, { c: '#FFA726', l: '4.000–6.000' }, { c: '#FB8C00', l: '6.000–9.000' }, { c: '#F4511E', l: '9.000–13.000' }, { c: '#B71C1C', l: '>13.000' } ] },
   { id: 'aqi', title: 'Calidad del aire', active: (a) => a.air_quality, items: [
     { c: '#66BB6A', l: 'Buena' }, { c: '#FFEE58', l: 'Moderada' }, { c: '#FFA726', l: 'Dañina (sensibles)' }, { c: '#EF5350', l: 'Dañina' }, { c: '#AB47BC', l: 'Muy dañina' }, { c: '#7B1F1F', l: 'Peligrosa' } ] },
@@ -119,7 +119,7 @@ export default function LegendFooter({ activeLayers }: { activeLayers: any }) {
             <ChevronLeft style={{ width: 15, height: 15, color: 'var(--text-muted)' }} />
           </button>
         )}
-        <span style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--gold-primary)', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0 }}>{cur.title}</span>
+        <span title={cur.note} style={{ fontSize: 9.5, fontWeight: 700, letterSpacing: '0.06em', color: 'var(--gold-primary)', textTransform: 'uppercase', whiteSpace: 'nowrap', flexShrink: 0, cursor: cur.note ? 'help' : 'default' }}>{cur.title}{cur.note ? ' ⓘ' : ''}</span>
         <div style={{ width: 1, height: 14, background: 'var(--border-primary)', flexShrink: 0 }} />
         <div className="styled-scrollbar" style={{ display: 'flex', alignItems: 'center', gap: 10, overflowX: 'auto', paddingBottom: 1 }}>
           {cur.items.map((it) => (

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import WORLD_DATA from '../_data/world-cities.json';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 20;
@@ -30,7 +31,15 @@ interface PriceRow {
   source: string;
   ccaa?: string;      // para emparejar la variación INE por CCAA
   yoy?: number;       // variación interanual % (INE, solo España si live OK)
+  country?: string;   // país (ciudades del mundo)
+  est?: boolean;      // true = €/m² ESTIMADO por modelo (no medido)
 }
+
+// Dataset generado de GeoNames (~4.000 ciudades de todos los países) con €/m²
+// ESTIMADO por modelo (base del país × tamaño/capitalidad). Claves compactas:
+// n=nombre, a=lat, o=lng, c=ISO2, k=país, p=€/m² estimado.
+interface WorldCity { n: string; a: number; o: number; c: string; k: string; p: number; }
+const WORLD_CITIES_GEO = WORLD_DATA as WorldCity[];
 
 // ── España · €/m² por municipio (capitales de provincia + grandes ciudades) ──
 // Snapshot oficial orientativo ~2024 (€/m² vivienda libre, ecosistema INE/MITMA),
@@ -211,21 +220,49 @@ function matchCcaaYoY(name: string, byCcaa: Record<string, number>): number | un
   return undefined;
 }
 
+// Clave de rejilla (~0.2° ≈ 20 km) para deduplicar el dataset estimado frente
+// a las ciudades curadas (que tienen mejor dato y prevalecen).
+function gridKey(lat: number, lng: number): string {
+  return `${Math.round(lat / 0.2)}_${Math.round(lng / 0.2)}`;
+}
+
 export async function GET() {
   const ine = await fetchIneYoY();
 
-  const rows: PriceRow[] = [
+  // Ciudades curadas (España + grandes capitales del mundo) — dato preferente.
+  const curated: PriceRow[] = [
     // España · municipios (capitales + grandes ciudades) con variación INE live
     ...SPAIN_MUNI.map((r) => ({
       ...r, scope: 'city' as const,
       source: '€/m² vivienda libre (MITMA/INE) · aprox.',
       yoy: matchCcaaYoY(r.ccaa ?? '', ine.byCcaa) ?? ine.national ?? undefined,
     })),
-    // Resto del mundo · grandes ciudades (€/m² centro, aprox.)
+    // Resto del mundo · grandes ciudades curadas (€/m² centro, aprox.)
     ...WORLD_CITIES.map((r) => ({
       ...r, scope: 'city' as const,
       source: '€/m² centro ciudad · aprox.',
     })),
+  ];
+
+  // Rejilla ocupada por las ciudades curadas (dato preferente): una estimada que
+  // caiga en la misma celda (~20 km) se descarta para no pisar el dato curado.
+  // No deduplicamos estimadas entre sí: queremos máxima densidad de ciudades.
+  const curatedCells = new Set(curated.map((r) => gridKey(r.lat, r.lng)));
+
+  // Dataset mundial estimado por modelo (GeoNames), excluyendo lo ya curado.
+  const estimated: PriceRow[] = [];
+  for (const c of WORLD_CITIES_GEO) {
+    if (curatedCells.has(gridKey(c.a, c.o))) continue;
+    estimated.push({
+      scope: 'city', name: c.n, lat: c.a, lng: c.o, price: c.p, year: 2024,
+      country: c.k, est: true,
+      source: `≈ estimación (modelo país × tamaño) · ${c.k}`,
+    });
+  }
+
+  const rows: PriceRow[] = [
+    ...curated,
+    ...estimated,
     // Medias nacionales (vista de bajo zoom)
     ...COUNTRIES.map((r) => ({
       ...r, scope: 'country' as const,
@@ -238,7 +275,11 @@ export async function GET() {
       rows,
       spain_yoy: ine.national,             // variación IPV nacional INE (live)
       total: rows.length,
-      note: '€/m² oficial orientativo (último disponible). Variación interanual = INE IPV en vivo.',
+      cities: rows.filter((r) => r.scope === 'city').length,
+      estimated: estimated.length,
+      note:
+        'España y grandes capitales: €/m² curado orientativo (variación interanual = INE IPV en vivo). ' +
+        `Otras ${estimated.length} ciudades del mundo: €/m² ESTIMADO por modelo (base país × tamaño), no medido.`,
       timestamp: new Date().toISOString(),
     },
     { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' } },
