@@ -231,7 +231,9 @@ const LAYER_GROUPS = [
       { key: 'weather', label: 'Clima severo', icon: CloudLightning, color: '#E040FB', dataKey: 'weather_events' },
       // ── Meteorología sinóptica (Open-Meteo) · borrascas, anticiclones y vientos ──
       { key: 'pressure_lows', label: 'Borrascas (bajas presiones)', icon: CloudRain, color: '#EF5350', dataKey: 'pressure_centers', sectionLabel: 'METEOROLOGÍA' },
-      { key: 'pressure_highs', label: 'Anticiclones (altas presiones)', icon: Sun, color: '#42A5F5', dataKey: 'pressure_centers' },
+      // dataKey vacío: el conteo por tipo lo hace pressureCount (si no, el total
+      // global sumaría pressure_centers dos veces).
+      { key: 'pressure_highs', label: 'Anticiclones (altas presiones)', icon: Sun, color: '#42A5F5', dataKey: '' },
       { key: 'wind_flow', label: 'Vientos (dirección y fuerza)', icon: Navigation, color: '#26C6DA', dataKey: 'wind_vectors' },
       { key: 'rainfall', label: 'Radar de lluvia (tiempo real)', icon: CloudRain, color: '#29B6F6', dataKey: '', sectionLabel: 'CLIMA Y MAR' },
       { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
@@ -330,10 +332,18 @@ function LayerPanel({ data, activeLayers, setActiveLayers, mineralFilter = 'todo
     const cat = PORT_CAT[key];
     return ports.reduce((n: number, p: any) => n + (p?.type === cat ? 1 : 0), 0);
   };
+  // Conteo por tipo de centro de presión (comparten data.pressure_centers).
+  const pressureCount = (key: string): number | null => {
+    const c = data?.pressure_centers;
+    if (!Array.isArray(c)) return null;
+    const t = key === 'pressure_lows' ? 'low' : 'high';
+    return c.reduce((n: number, x: any) => n + (x?.type === t ? 1 : 0), 0);
+  };
   const countFor = (layer: { key: string; dataKey: string }): number | null =>
     layer.key.startsWith('ship_') ? shipCount(layer.key)
       : layer.key.startsWith('port_') ? portCount(layer.key)
       : layer.key.startsWith('geo_') ? geoCount(layer.key)
+      : (layer.key === 'pressure_lows' || layer.key === 'pressure_highs') ? pressureCount(layer.key)
       : layer.key === 'railways' ? (data?.railways_fc?.features?.length ?? null)
       : layer.key === 'powerlines' ? (data?.powerlines_fc?.features?.length ?? null)
       : layer.key === 'pipelines' ? (data?.pipelines_fc?.features?.length ?? null)

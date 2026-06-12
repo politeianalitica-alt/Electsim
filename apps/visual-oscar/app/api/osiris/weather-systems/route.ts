@@ -24,7 +24,9 @@ export const maxDuration = 30;
  */
 
 // Ventana sinóptica: Atlántico Norte + Europa + Mediterráneo + N. de África.
-const LNG_MIN = -60, LNG_MAX = 45, LAT_MIN = 25, LAT_MAX = 72, STEP = 3;
+// LAT_MIN=24 para que el barrido (72,69,…,27,24) alcance de verdad el sur (el
+// rango es múltiplo de STEP desde 72).
+const LNG_MIN = -60, LNG_MAX = 45, LAT_MIN = 24, LAT_MAX = 72, STEP = 3;
 
 interface GridNode {
   lat: number;
@@ -99,8 +101,10 @@ export async function GET() {
   const grid = buildGrid();
   const flat = grid.flat();
 
-  // Muestreo por lotes (mismo patrón probado en sea-state).
-  const BATCH = 100, CONC = 4;
+  // Muestreo por lotes (mismo patrón probado en sea-state). CONC alto para que
+  // los ~6 lotes quepan en UNA ola y el peor caso de latencia no se acerque a
+  // maxDuration (antes 2 olas × 13 s podían rozar los 30 s con cold start).
+  const BATCH = 100, CONC = 8;
   const batches: GridNode[][] = [];
   for (let i = 0; i < flat.length; i += BATCH) batches.push(flat.slice(i, i + BATCH));
   for (let i = 0; i < batches.length; i += CONC) {
@@ -125,7 +129,11 @@ export async function GET() {
           if (m && m.p != null) neigh.push(m.p);
         }
       }
-      if (neigh.length < 6) continue; // borde de datos: poco fiable
+      // Exigir los 8 vecinos válidos: si un lote de Open-Meteo falla, los nodos
+      // del hueco quedan null y un nodo-borde podría declararse extremo falso
+      // (no se comparan los vecinos que faltan). Con ===8 nunca hay centro
+      // fantasma en el borde de un hueco de datos.
+      if (neigh.length < 8) continue;
       const isLow = neigh.every((q) => node.p! < q) && node.p < 1010;
       const isHigh = neigh.every((q) => node.p! > q) && node.p > 1018;
       if (isLow) {
@@ -136,12 +144,18 @@ export async function GET() {
     }
   }
 
-  // Dedupe: dentro de ~5° conserva el más intenso de su tipo.
+  // Dedupe: dentro de ~500 km conserva el más intenso de su tipo. Usa distancia
+  // REAL (la longitud se comprime con la latitud), no grados crudos: 5° de lng
+  // valen ~480 km a 30N pero ~170 km a 72N, lo que fusionaría sistemas distintos.
+  const DEDUPE_KM = 500;
   const centers: Center[] = [];
   for (const cand of rawCenters.sort((a, b) => b.intensity - a.intensity)) {
-    const near = centers.some((k) =>
-      k.type === cand.type &&
-      Math.abs(k.lat - cand.lat) < 5 && Math.abs(k.lng - cand.lng) < 5);
+    const near = centers.some((k) => {
+      if (k.type !== cand.type) return false;
+      const dLat = (k.lat - cand.lat) * 111;
+      const dLng = (k.lng - cand.lng) * 111 * Math.cos((cand.lat * Math.PI) / 180);
+      return Math.hypot(dLat, dLng) < DEDUPE_KM;
+    });
     if (!near) centers.push(cand);
   }
 
@@ -155,8 +169,14 @@ export async function GET() {
     }
   }
 
+  // Si todo falló (Open-Meteo caído/limitado) NO cacheamos 30 min una respuesta
+  // vacía en el edge: cache corto para que se recupere pronto en el próximo hit.
+  const empty = centers.length === 0 && winds.length === 0;
+  const cache = empty
+    ? 'public, s-maxage=60'
+    : 'public, s-maxage=1800, stale-while-revalidate=3600';
   return NextResponse.json(
     { centers, winds, total: centers.length + winds.length, timestamp: new Date().toISOString() },
-    { headers: { 'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600' } },
+    { headers: { 'Cache-Control': cache } },
   );
 }

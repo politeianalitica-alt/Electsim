@@ -524,29 +524,31 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           'line-opacity': 0.8,
           'line-width': ['interpolate', ['linear'], ['zoom'], 2, 1, 5, 1.8, 8, 2.8],
         }});
-      // Borrascas (bajas): halo rojo + letra B
+      // Centros de presión: PRIMERO los dos halos (círculos), DESPUÉS las dos
+      // letras — así ninguna letra (B/A) queda nunca bajo el halo del otro tipo
+      // si dos centros caen solapados.
       map.addLayer({ id: 'pressure-low-circles', type: 'circle', source: 'weather-centers',
         filter: ['==', ['get', 'type'], 'low'], layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 12, 5, 22, 8, 34],
           'circle-color': 'rgba(239,83,80,0.16)',
           'circle-stroke-width': 1.4, 'circle-stroke-color': '#EF5350', 'circle-blur': 0.25,
         }});
-      map.addLayer({ id: 'pressure-low-label', type: 'symbol', source: 'weather-centers',
-        filter: ['==', ['get', 'type'], 'low'], layout: { visibility: 'none',
-          'text-field': 'B', 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 2, 14, 5, 20, 8, 28],
-          'text-allow-overlap': true },
-        paint: { 'text-color': '#FF8A80', 'text-halo-color': 'rgba(8,10,18,0.9)', 'text-halo-width': 1.4 }});
-      // Anticiclones (altas): halo azul + letra A
       map.addLayer({ id: 'pressure-high-circles', type: 'circle', source: 'weather-centers',
         filter: ['==', ['get', 'type'], 'high'], layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 12, 5, 22, 8, 34],
           'circle-color': 'rgba(66,165,245,0.16)',
           'circle-stroke-width': 1.4, 'circle-stroke-color': '#42A5F5', 'circle-blur': 0.25,
         }});
+      // Borrascas (B) y anticiclones (A): letras por encima de ambos halos
+      map.addLayer({ id: 'pressure-low-label', type: 'symbol', source: 'weather-centers',
+        filter: ['==', ['get', 'type'], 'low'], layout: { visibility: 'none',
+          'text-field': 'B', 'text-font': ['Open Sans Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 2, 14, 5, 20, 8, 28],
+          'text-allow-overlap': true },
+        paint: { 'text-color': '#FF8A80', 'text-halo-color': 'rgba(8,10,18,0.9)', 'text-halo-width': 1.4 }});
       map.addLayer({ id: 'pressure-high-label', type: 'symbol', source: 'weather-centers',
         filter: ['==', ['get', 'type'], 'high'], layout: { visibility: 'none',
-          'text-field': 'A', 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+          'text-field': 'A', 'text-font': ['Open Sans Bold'],
           'text-size': ['interpolate', ['linear'], ['zoom'], 2, 14, 5, 20, 8, 28],
           'text-allow-overlap': true },
         paint: { 'text-color': '#90CAF9', 'text-halo-color': 'rgba(8,10,18,0.9)', 'text-halo-width': 1.4 }});
