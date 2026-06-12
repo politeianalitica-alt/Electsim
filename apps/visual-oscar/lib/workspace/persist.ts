@@ -3,6 +3,8 @@
 // cliente; persistir tras cada mutación. En el servidor (SSR) es no-op, así que
 // el HTML inicial usa la semilla y el cliente reconcilia con lo guardado.
 
+import { safeSetItem } from "@/lib/storage/safe";
+
 const isBrowser = typeof window !== "undefined";
 const hydrated = new Set<string>();
 

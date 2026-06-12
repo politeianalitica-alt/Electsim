@@ -92,7 +92,11 @@ export function WorkspaceNotifications({ workspaceId }: { workspaceId: string })
             title: `Terremoto M${Number(e.magnitude).toFixed(1)} · ${e.place ?? "—"}`,
             source: "USGS · OSINT",
             severity: Number(e.magnitude) >= 6 ? "critical" : "high",
-            createdAt: e.time ?? e.createdAt ?? new Date().toISOString(),
+            // USGS devuelve `time` como epoch (número). El contrato de Notif
+            // exige string ISO: normalizar para no romper el sort por createdAt.
+            createdAt: typeof e.time === "number"
+              ? new Date(e.time).toISOString()
+              : (e.time ?? e.createdAt ?? new Date().toISOString()),
             kind: "osint" as const,
           }));
         if (alive) setOsint(items);
@@ -107,7 +111,8 @@ export function WorkspaceNotifications({ workspaceId }: { workspaceId: string })
   }, []);
 
   const all = useMemo(
-    () => [...osint, ...wsItems].sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || "")),
+    // String() como cinturón de seguridad ante cualquier createdAt no-string.
+    () => [...osint, ...wsItems].sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || ""))),
     [osint, wsItems]
   );
   const unread = all.filter((n) => !seen.has(n.id)).length;

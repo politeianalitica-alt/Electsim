@@ -208,12 +208,12 @@ export default function AppHeader() {
             })}
  </div>
  <div className="ah-right" style={{display:'flex',alignItems:'center',gap:12,flexShrink:0,marginLeft:12}}>
-            {/* Botón Workspace — enlace directo al hub /workspaces
-                ("Mis workspaces": selector + KPIs + briefings). Desde ahí
-                se entra a Command Center, Estudio, War Room, Toolbox y
-                Cuaderno. Antes era un desplegable; ahora navega directo. */}
+            {/* Botón Workspace — enlace DIRECTO al Command Center del
+                workspace principal (sin desplegable ni página selectora
+                intermedia). El hub "Mis workspaces" sigue accesible desde
+                el menú móvil y los sidebars de cada espacio. */}
  <Link
-              href="/workspaces"
+              href={`/workspaces/${DEFAULT_WORKSPACE_ID}/overview`}
               style={{
               display:'inline-flex',alignItems:'center',gap:6,
               fontSize:12,fontWeight:600,letterSpacing:'-0.005em',
