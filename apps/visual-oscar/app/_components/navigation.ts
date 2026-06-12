@@ -195,10 +195,12 @@ export const MODULES: NavModule[] = [
       { label: 'War Room', href: '/war-room' },  // 2ª — sala de operaciones
       { label: 'Toolbox',  href: '/extras'   },  // 3ª — herramientas auxiliares
       { label: 'Cuaderno', href: '/cuaderno' },  // 4ª — Obsidian del analista (notas + grafo + bitácora)
-      // Módulos transversales · disponibles en todos los workspaces; su
-      // home canónica vive en el Estudio (grupo Estrategia).
-      { label: 'Cama',        href: '/estudio/cama'        },  // 5ª — campañas y macroargumentos
-      { label: 'Preinformes', href: '/estudio/preinformes' },  // 6ª — borradores de informe
+      // Cama y Preinformes NO van como pills del subnav (decisión jun 2026):
+      // se usan DENTRO de cada espacio (sidebar del Estudio, secciones del
+      // War Room, Toolbox, rail del Cuaderno). Ocultas: la ruta sigue
+      // resolviendo el módulo para que el chrome no desaparezca al entrar.
+      { label: 'Cama',        href: '/estudio/cama',        hidden: true },
+      { label: 'Preinformes', href: '/estudio/preinformes', hidden: true },
       // OCULTO · integra el Command Center (/workspaces/*) en este módulo:
       // así el subnav de pills del sitio NO desaparece al entrar al
       // workspace — antes el cambio de chrome hacía que pareciera otra app.

@@ -11,6 +11,7 @@ import { WorkspaceTabs } from "./workspace-tabs";
 import { WorkspaceAgentPanel } from "./workspace-agent-panel";
 import { WorkspaceCommandPalette } from "./workspace-command-palette";
 import { RecentTracker } from "./recent-tracker";
+import { SpaceHero } from "@/app/_components/space/SpaceHero";
 import type { Workspace } from "@/types/workspace";
 
 interface WorkspaceShellProps {
@@ -49,6 +50,21 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
       fontFamily: WS.font,
       color: WS.ink,
     }}>
+      {/* Hero unificado estilo War Room · KPIs reales del workspace */}
+ <SpaceHero
+        icon={workspace.name.slice(0, 2).toUpperCase()}
+        iconColor={WS.accent}
+        eyebrow={`COMMAND CENTER · ${workspace.name.toUpperCase()}`}
+        title={workspace.name}
+        subtitle={workspace.description}
+        kpis={[
+          { label: "Issues",     value: String(workspace.issueCount),       accent: "#DC2626" },
+          { label: "Acciones",   value: String(workspace.pendingActions),   accent: "#F97316" },
+          { label: "Decisiones", value: String(workspace.decisionsThisWeek), accent: "#1F4E8C" },
+          { label: "Equipo",     value: String(workspace.teamMembers),      accent: "#16A34A" },
+        ]}
+      />
+
       {/* Topbar */}
  <WorkspaceTopbar workspace={workspace} workspaceId={workspaceId} />
 

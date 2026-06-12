@@ -1,0 +1,108 @@
+/* ============================================================
+   space-chrome — visual unificada estilo War Room para los
+   espacios del workspace (Estudio · Toolbox · Cuaderno ·
+   Command Center). Generalizado de war-room.css.
+   ============================================================ */
+
+/* ─── HERO ────────────────────────────────────────────────── */
+.space-hero {
+  background: linear-gradient(135deg, #0F172A 0%, #020617 100%);
+  color: #fff;
+  padding: 22px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.space-hero-glow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 80% 20%, #DC2626 0%, transparent 55%),
+    radial-gradient(circle at 20% 80%, #1F4E8C 0%, transparent 55%);
+}
+.space-hero-inner {
+  position: relative;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+.space-hero-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.space-hero-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 11px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+.space-hero-eyebrow {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin: 0 0 3px;
+}
+.space-hero-name {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.014em;
+  line-height: 1.1;
+}
+.space-hero-sub {
+  font-size: 11.5px;
+  opacity: 0.7;
+  margin-top: 2px;
+  max-width: 640px;
+}
+.space-hero-kpis {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(96px, 1fr);
+  gap: 8px;
+}
+.space-hero-kpi {
+  text-align: center;
+  padding: 9px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid #1F4E8C55;
+}
+.space-hero-kpi-value {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -0.018em;
+}
+.space-hero-kpi-label {
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin-top: 4px;
+}
+
+/* En móvil el hero apila el bloque-icono sobre los KPIs. */
+@media (max-width: 760px) {
+  .space-hero-inner { grid-template-columns: 1fr; gap: 14px; }
+  .space-hero-kpis { grid-auto-flow: row; grid-template-columns: repeat(2, 1fr); }
+}

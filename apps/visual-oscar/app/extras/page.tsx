@@ -18,6 +18,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import AppHeader from '../_components/AppHeader'
+import { SpaceHero } from '../_components/space/SpaceHero'
 import ToolboxShell from './_components/ToolboxShell'
 import { isAuthenticated } from '@/lib/auth'
 
@@ -28,6 +29,14 @@ export default function ExtrasPage() {
   return (
     <>
       <AppHeader />
+      {/* Hero unificado estilo War Room */}
+      <SpaceHero
+        icon="TB"
+        iconColor="#5B21B6"
+        eyebrow="TOOLBOX · CENTRO OPERATIVO DEL ANALISTA"
+        title="Toolbox"
+        subtitle="Acceso unificado a las herramientas del workspace."
+      />
       <ToolboxShell />
     </>
   )

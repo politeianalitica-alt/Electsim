@@ -84,83 +84,24 @@ export default function EstudioHomePage() {
   return (
  <main style={{ padding: '24px 28px 56px', maxWidth: 1500, margin: '0 auto', fontFamily: 'var(--font-body,system-ui)' }}>
 
-      {/* ── Hero gradient teal · estética Apple-Newsroom ──────────────── */}
- <section style={{
-        background: 'linear-gradient(135deg,#0F766E 0%,#042F2E 100%)',
-        borderRadius: 18, padding: '32px 40px', marginBottom: 18, color: '#fff',
-        display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 32, alignItems: 'center',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        {/* Glow decorativo */}
- <div style={{
-          position: 'absolute', top: -60, right: -60, width: 240, height: 240, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(94,234,212,0.40) 0%, transparent 60%)',
-          pointerEvents: 'none',
-        }}/>
- <div style={{ position: 'relative' }}>
- <p style={{
-            fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', opacity: 0.75,
-            textTransform: 'uppercase', margin: '0 0 8px',
-          }}>ESTUDIO POLITEIA · WORKSPACE DEL ANALISTA</p>
- <h1 style={{
-            fontFamily: 'var(--font-display)', fontSize: 34, fontWeight: 700,
-            letterSpacing: '-0.026em', margin: '0 0 8px', lineHeight: 1.05,
-          }}>
-            Estudio <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.78)' }}>Politeia.</em>
- </h1>
- <p style={{ fontSize: 13.5, opacity: 0.82, margin: 0, lineHeight: 1.55, maxWidth: 620 }}>
-            Decide qué datos quieres seguir, construye tus propios paneles y deja que la IA te
-            ayude a sacar conclusiones. Todo se hace arrastrando, haciendo clic o preguntando
-            en lenguaje natural — sin escribir una línea de código.
- </p>
- <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginTop: 16 }}>
+      {/* El hero unificado (estilo War Room) lo aporta el layout del Estudio.
+          Aquí arrancamos directamente con los accesos rápidos y el KPI strip. */}
+ <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 18 }}>
  <Link href="/estudio/fuentes?new=1" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: '#fff', color: '#0F766E',
-              padding: '9px 16px', borderRadius: 10, fontSize: 12.5, fontWeight: 700,
-              textDecoration: 'none', boxShadow: '0 4px 14px rgba(0,0,0,0.18)',
-              letterSpacing: '-0.005em',
-            }}>
- <span style={{ fontSize: 14, lineHeight: 1 }}>+</span>
-              Conectar una nueva fuente
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          background: '#1F4E8C', color: '#fff',
+          padding: '9px 16px', borderRadius: 10, fontSize: 12.5, fontWeight: 700,
+          textDecoration: 'none', boxShadow: '0 1px 2px rgba(31,78,140,0.25)',
+        }}>
+ <span style={{ fontSize: 14, lineHeight: 1 }}>+</span> Conectar una nueva fuente
  </Link>
  <Link href="/estudio/dashboard" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: 'rgba(255,255,255,0.16)', color: '#fff',
-              border: '1px solid rgba(255,255,255,0.28)',
-              padding: '9px 16px', borderRadius: 10, fontSize: 12.5, fontWeight: 700,
-              textDecoration: 'none', letterSpacing: '-0.005em',
-            }}>Ver mis paneles</Link>
- <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: 11.5, marginLeft: 4 }}>
-              Atajo: <kbd style={{
-                padding: '2px 7px', background: 'rgba(255,255,255,0.16)',
-                border: '1px solid rgba(255,255,255,0.25)', borderRadius: 4,
-                fontSize: 10.5, fontFamily: 'ui-monospace,monospace', color: '#fff',
-              }}>⌘K</kbd> para buscar.
- </span>
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          background: '#fff', color: '#1F4E8C', border: '1px solid #d8e0ec',
+          padding: '9px 16px', borderRadius: 10, fontSize: 12.5, fontWeight: 700,
+          textDecoration: 'none',
+        }}>Ver mis paneles</Link>
  </div>
- </div>
-
-        {/* Mini KPIs translucidos dentro del hero */}
- <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 8, position: 'relative' }}>
-          {KPIS.slice(0, 4).map((k) => (
- <div key={k.label} style={{
-              padding: '12px 14px', borderRadius: 12,
-              background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)',
-            }}>
- <div style={{
-                fontSize: 9.5, fontWeight: 700, letterSpacing: '0.10em',
-                opacity: 0.75, textTransform: 'uppercase', marginBottom: 6,
-              }}>{k.label}</div>
- <div style={{
-                fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700,
-                lineHeight: 1, color: '#fff', fontVariantNumeric: 'tabular-nums',
-              }}>{k.value}</div>
- <div style={{ fontSize: 10.5, opacity: 0.7, marginTop: 4 }}>{k.sub}</div>
- </div>
-          ))}
- </div>
- </section>
 
       {/* ── KPI strip externo · acento del color de cada sección ──────── */}
  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12, marginBottom: 24 }}>

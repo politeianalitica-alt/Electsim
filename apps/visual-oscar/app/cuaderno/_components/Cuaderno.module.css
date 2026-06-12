@@ -4,7 +4,7 @@
 .shell {
   display: grid;
   grid-template-columns: 64px 260px 1fr;
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 156px);
   background: var(--bg, #fbfbfd);
   font-family: var(--font-text, -apple-system, system-ui, sans-serif);
   color: var(--ink, #1d1d1f);
@@ -24,8 +24,8 @@
   padding: 10px 6px;
   gap: 2px;
   position: sticky;
-  top: 60px;
-  height: calc(100vh - 60px);
+  top: 156px;
+  height: calc(100vh - 156px);
   overflow-y: auto;
 }
 .railBtn {
@@ -88,8 +88,8 @@
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 60px;
-  height: calc(100vh - 60px);
+  top: 156px;
+  height: calc(100vh - 156px);
   overflow: hidden;
 }
 

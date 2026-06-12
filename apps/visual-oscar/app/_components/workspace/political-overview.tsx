@@ -243,31 +243,10 @@ export default function WorkspacePoliticalOverview() {
   return (
  <section style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 16 }}>
 
-      {/* 1 · CABECERA EJECUTIVA DEL WORKSPACE */}
- <header style={{
-        background: 'linear-gradient(135deg, #1F4E8C 0%, #0F2A4F 100%)',
-        borderRadius: 16, padding: '20px 26px', color: '#fff',
-        display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 24,
-      }}>
- <div>
- <p style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', opacity: 0.7, margin: '0 0 6px' }}>
-            Workspace activo · Inteligencia política
- </p>
- <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 26, letterSpacing: '-0.022em', margin: '0 0 4px', lineHeight: 1.1 }}>
-            España 2026 <em style={{ fontWeight: 300, fontStyle: 'italic', color: 'rgba(255,255,255,0.7)' }}>· electoral · legislativo · narrativo · territorial</em>
- </h1>
- <p style={{ fontSize: 12.5, opacity: 0.78, margin: 0, lineHeight: 1.5, maxWidth: 720 }}>
-            Workspace de inteligencia política para seguimiento electoral, legislativo, territorial y narrativo
-            del ciclo político español 2026. Agrega actores, narrativas, riesgo y agenda en una sola pantalla.
- </p>
- </div>
- <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 8 }}>
- <HeaderStat label="Última actualización" value="hace 4 min"/>
- <HeaderStat label="Fuentes activas" value="28 / 31"/>
- <HeaderStat label="Cobertura de datos" value="Alta" tone="success"/>
- <HeaderStat label="Confianza general" value="78%" tone="success"/>
- </div>
- </header>
+      {/* La cabecera ejecutiva la aporta ahora el hero unificado (estilo War
+          Room) del WorkspaceShell, con sus KPIs. Antes había aquí un segundo
+          banner azul que duplicaba título y métricas — eliminado para que el
+          Command Center no acumule bandas en la parte superior. */}
 
       {/* 2 · RESUMEN EJECUTIVO */}
  <div style={{
