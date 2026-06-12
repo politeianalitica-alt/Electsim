@@ -46,12 +46,13 @@ const EMPTY_FC = { type: 'FeatureCollection' as const, features: [] };
 
 // Color del precio de la vivienda (€/m²) — debe coincidir con el step de la capa.
 function HOUSING_COLOR(eur: number): string {
-  if (eur < 1200) return '#2E7D32';
-  if (eur < 1800) return '#9CCC65';
-  if (eur < 2500) return '#FFEE58';
-  if (eur < 3500) return '#FFA726';
-  if (eur < 5000) return '#FF7043';
-  return '#D32F2F';
+  if (eur < 1500) return '#2E7D32';
+  if (eur < 2500) return '#9CCC65';
+  if (eur < 4000) return '#FFEE58';
+  if (eur < 6000) return '#FFA726';
+  if (eur < 9000) return '#FB8C00';
+  if (eur < 13000) return '#F4511E';
+  return '#B71C1C';
 }
 
 // ── Dead-reckoning de vuelos (estilo FlightRadar24) ──────────────────────────
@@ -576,37 +577,36 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           'text-line-height': 1.05, 'text-allow-overlap': true },
         paint: { 'text-color': '#90CAF9', 'text-halo-color': 'rgba(8,10,18,0.92)', 'text-halo-width': 1.5 }});
 
-      // ── Precio de la vivienda (€/m²) ──
+      // ── Precio de la vivienda (€/m²) ── escala de color global (1k–20k)
       const HOUSE_STEP = ['step', ['get', 'price'],
-        '#2E7D32', 1200, '#9CCC65', 1800, '#FFEE58', 2500, '#FFA726', 3500, '#FF7043', 5000, '#D32F2F'] as any;
-      // Países: visibles a cualquier zoom (círculos grandes)
-      map.addLayer({ id: 'housing-circles', type: 'circle', source: 'housing-prices',
+        '#2E7D32', 1500, '#9CCC65', 2500, '#FFEE58', 4000, '#FFA726', 6000, '#FB8C00', 9000, '#F4511E', 13000, '#B71C1C'] as any;
+      // Medias nacionales: vista de BAJO zoom (mundo). Se ocultan al acercar.
+      map.addLayer({ id: 'housing-circles', type: 'circle', source: 'housing-prices', maxzoom: 4,
         filter: ['==', ['get', 'scope'], 'country'], layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'],
-            3, ['interpolate', ['linear'], ['get', 'price'], 900, 7, 8000, 20],
-            6, ['interpolate', ['linear'], ['get', 'price'], 900, 12, 8000, 34]],
+            2, ['interpolate', ['linear'], ['get', 'price'], 1500, 7, 8000, 18],
+            4, ['interpolate', ['linear'], ['get', 'price'], 1500, 11, 8000, 26]],
           'circle-color': HOUSE_STEP, 'circle-opacity': 0.78,
           'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
         }});
-      map.addLayer({ id: 'housing-label', type: 'symbol', source: 'housing-prices',
+      map.addLayer({ id: 'housing-label', type: 'symbol', source: 'housing-prices', maxzoom: 4,
         filter: ['==', ['get', 'scope'], 'country'], layout: { visibility: 'none',
           'text-field': ['get', 'priceLabel'], 'text-font': ['Open Sans Bold'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 3, 9, 6, 12],
-          'text-allow-overlap': false, 'text-offset': [0, 0.05] },
+          'text-size': 10, 'text-allow-overlap': false, 'text-offset': [0, 0.05] },
         paint: { 'text-color': '#0B0E1A', 'text-halo-color': 'rgba(255,255,255,0.85)', 'text-halo-width': 1.2 }});
-      // Municipios de España: aparecen al hacer zoom (minzoom ~4.2)
-      map.addLayer({ id: 'housing-muni-circles', type: 'circle', source: 'housing-prices', minzoom: 4.2,
-        filter: ['==', ['get', 'scope'], 'muni'], layout: { visibility: 'none' }, paint: {
+      // Ciudades (España + mundo): aparecen al hacer zoom (continente/país).
+      map.addLayer({ id: 'housing-muni-circles', type: 'circle', source: 'housing-prices', minzoom: 3.5,
+        filter: ['==', ['get', 'scope'], 'city'], layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'],
-            5, ['interpolate', ['linear'], ['get', 'price'], 1000, 6, 6000, 13],
-            9, ['interpolate', ['linear'], ['get', 'price'], 1000, 11, 6000, 26]],
-          'circle-color': HOUSE_STEP, 'circle-opacity': 0.82,
+            4, ['interpolate', ['linear'], ['get', 'price'], 1000, 4, 20000, 14],
+            9, ['interpolate', ['linear'], ['get', 'price'], 1000, 9, 20000, 30]],
+          'circle-color': HOUSE_STEP, 'circle-opacity': 0.85,
           'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.6)',
         }});
-      map.addLayer({ id: 'housing-muni-label', type: 'symbol', source: 'housing-prices', minzoom: 5.2,
-        filter: ['==', ['get', 'scope'], 'muni'], layout: { visibility: 'none',
+      map.addLayer({ id: 'housing-muni-label', type: 'symbol', source: 'housing-prices', minzoom: 4.5,
+        filter: ['==', ['get', 'scope'], 'city'], layout: { visibility: 'none',
           'text-field': ['get', 'priceLabel'], 'text-font': ['Open Sans Bold'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 5, 9, 9, 12],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 4, 9, 9, 12],
           'text-allow-overlap': false, 'text-offset': [0, 0.05] },
         paint: { 'text-color': '#0B0E1A', 'text-halo-color': 'rgba(255,255,255,0.85)', 'text-halo-width': 1.2 }});
 
