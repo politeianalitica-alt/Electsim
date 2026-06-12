@@ -286,7 +286,8 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
 
       // Sources
       const sources = ['flights','flights-estimated','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'displacement', 'heat', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
-        'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage'];
+        'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage',
+        'weather-centers', 'wind-flow'];
       // Las capas más densas se agrupan en clusters (rendimiento + claridad).
       const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
       sources.forEach(s => map.addSource(s, CLUSTERED.has(s)
@@ -513,6 +514,42 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           'heatmap-color': ['interpolate',['linear'],['heatmap-density'],
             0,'rgba(0,0,0,0)', 0.2,'rgba(0,120,60,0.4)', 0.5,'rgba(0,230,118,0.7)', 0.8,'rgba(118,255,3,0.85)', 1,'rgba(204,255,144,0.95)'],
         }});
+
+      // ── Meteorología sinóptica (Open-Meteo) ──
+      // Vientos: flechas (shaft + punta) coloreadas por velocidad. Se dibujan
+      // ANTES que los centros de presión para que B/A queden por encima.
+      map.addLayer({ id: 'wind-flow-lines', type: 'line', source: 'wind-flow',
+        layout: { 'line-cap': 'round', 'line-join': 'round', visibility: 'none' }, paint: {
+          'line-color': ['coalesce', ['get', 'color'], '#26C6DA'],
+          'line-opacity': 0.8,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 2, 1, 5, 1.8, 8, 2.8],
+        }});
+      // Borrascas (bajas): halo rojo + letra B
+      map.addLayer({ id: 'pressure-low-circles', type: 'circle', source: 'weather-centers',
+        filter: ['==', ['get', 'type'], 'low'], layout: { visibility: 'none' }, paint: {
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 12, 5, 22, 8, 34],
+          'circle-color': 'rgba(239,83,80,0.16)',
+          'circle-stroke-width': 1.4, 'circle-stroke-color': '#EF5350', 'circle-blur': 0.25,
+        }});
+      map.addLayer({ id: 'pressure-low-label', type: 'symbol', source: 'weather-centers',
+        filter: ['==', ['get', 'type'], 'low'], layout: { visibility: 'none',
+          'text-field': 'B', 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 2, 14, 5, 20, 8, 28],
+          'text-allow-overlap': true },
+        paint: { 'text-color': '#FF8A80', 'text-halo-color': 'rgba(8,10,18,0.9)', 'text-halo-width': 1.4 }});
+      // Anticiclones (altas): halo azul + letra A
+      map.addLayer({ id: 'pressure-high-circles', type: 'circle', source: 'weather-centers',
+        filter: ['==', ['get', 'type'], 'high'], layout: { visibility: 'none' }, paint: {
+          'circle-radius': ['interpolate', ['linear'], ['zoom'], 2, 12, 5, 22, 8, 34],
+          'circle-color': 'rgba(66,165,245,0.16)',
+          'circle-stroke-width': 1.4, 'circle-stroke-color': '#42A5F5', 'circle-blur': 0.25,
+        }});
+      map.addLayer({ id: 'pressure-high-label', type: 'symbol', source: 'weather-centers',
+        filter: ['==', ['get', 'type'], 'high'], layout: { visibility: 'none',
+          'text-field': 'A', 'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 2, 14, 5, 20, 8, 28],
+          'text-allow-overlap': true },
+        paint: { 'text-color': '#90CAF9', 'text-halo-color': 'rgba(8,10,18,0.9)', 'text-halo-width': 1.4 }});
 
       // ── Lote Energía y Recursos ──
       // Red eléctrica de alta tensión (OSM) — líneas amarillas
@@ -1603,6 +1640,37 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
         <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Estado del mar · Open-Meteo</div>
       </div>`);
     });
+    // ── Centros de presión (borrascas / anticiclones) ──
+    const onPressureClick = (e: any) => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.features![0].geometry as any).coordinates;
+      const isLow = p.type === 'low';
+      const color = isLow ? '#EF5350' : '#42A5F5';
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}66;min-width:170px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:3px;">${isLow ? 'B' : 'A'} · ${p.label || (isLow ? 'Borrasca' : 'Anticiclón')}</div>
+        <div style="font-size:11px;color:#E8E6E0;">${Math.round(Number(p.pressure))} hPa</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Presión a nivel del mar · Open-Meteo</div>
+      </div>`);
+    };
+    map.on('click', 'pressure-low-circles', onPressureClick);
+    map.on('click', 'pressure-low-label', onPressureClick);
+    map.on('click', 'pressure-high-circles', onPressureClick);
+    map.on('click', 'pressure-high-label', onPressureClick);
+    // ── Vientos ──
+    map.on('click', 'wind-flow-lines', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const coords = (e.lngLat ? [e.lngLat.lng, e.lngLat.lat] : (e.features![0].geometry as any).coordinates[0]);
+      const color = (p.color as string) || '#26C6DA';
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}66;min-width:150px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:3px;">Viento</div>
+        <div style="font-size:11px;color:#E8E6E0;">${Math.round(Number(p.speed))} km/h · ${Math.round(Number(p.dir))}°</div>
+        <div style="font-size:9px;color:#5C5A54;margin-top:3px;">Viento a 10 m · Open-Meteo</div>
+      </div>`);
+    });
+    ['pressure-low-circles', 'pressure-low-label', 'pressure-high-circles', 'pressure-high-label', 'wind-flow-lines'].forEach(id => {
+      map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
+    });
     // ── Campos de petróleo y gas ──
     const OG_TYPE: Record<string, string> = { oil: 'Petróleo', gas: 'Gas natural', both: 'Petróleo y gas' };
     map.on('click', 'oilgas-dots', e => {
@@ -1799,7 +1867,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','pressure-low-circles','pressure-low-label','pressure-high-circles','pressure-high-label','wind-flow-lines','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -2527,6 +2595,49 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       ? data.piracy.map((p: any) => ({ type: 'Feature', geometry: { type: 'Point', coordinates: [p.lng, p.lat] }, properties: { name: p.name, risk: p.risk, color: p.color } })) : []);
   }, [mapReady, data.tectonics_fc, data.aurora, data.sea_state, data.pipelines_fc, data.powerlines_fc, data.datacenters, data.oilgas, data.minerals, data.agriculture_fc, data.geopolitics_fc, data.disputes, data.orgs, data.sea_lanes_fc, data.lighthouses, data.piracy, activeLayers.tectonics, activeLayers.aurora, activeLayers.sea_state, activeLayers.pipelines, activeLayers.powerlines, activeLayers.datacenters, activeLayers.oilgas, activeLayers.minerals, mineralFilter, activeLayers.agriculture, activeLayers.alliances, activeLayers.sanctions, activeLayers.milspend, activeLayers.regime, activeLayers.nukes, activeLayers.election, activeLayers.press_freedom, activeLayers.corruption, activeLayers.hdi, activeLayers.gdp_pc, activeLayers.econ_blocs, activeLayers.disputes, activeLayers.orgs, activeLayers.maritime_routes, activeLayers.lighthouses, activeLayers.piracy, setGeo]);
 
+  // ── Meteorología: borrascas, anticiclones y vientos ──
+  useEffect(() => {
+    if (!mapReady) return;
+    // Centros de presión: una sola fuente; las capas filtran por `type`.
+    const wantCenters = activeLayers.pressure_lows || activeLayers.pressure_highs;
+    setGeo('weather-centers', wantCenters && Array.isArray(data.pressure_centers)
+      ? data.pressure_centers
+          .filter((c: any) =>
+            (c.type === 'low' && activeLayers.pressure_lows) ||
+            (c.type === 'high' && activeLayers.pressure_highs))
+          .map((c: any) => ({
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [c.lng, c.lat] },
+            properties: { type: c.type, pressure: c.pressure, label: c.label },
+          }))
+      : []);
+
+    // Vientos: por cada vector, una flecha = astil + punta (2 LineStrings).
+    // El viento METEOROLÓGICO sopla DESDE `dir`, así que fluye hacia dir+180.
+    const offset = (lng: number, lat: number, bearingDeg: number, distDeg: number): [number, number] => {
+      const br = (bearingDeg * Math.PI) / 180;
+      const dLat = distDeg * Math.cos(br);
+      const cosLat = Math.max(0.2, Math.cos((lat * Math.PI) / 180));
+      const dLng = (distDeg * Math.sin(br)) / cosLat;
+      return [lng + dLng, lat + dLat];
+    };
+    setGeo('wind-flow', activeLayers.wind_flow && Array.isArray(data.wind_vectors)
+      ? data.wind_vectors.flatMap((w: any) => {
+          const flow = ((w.dir ?? 0) + 180) % 360;          // hacia donde sopla
+          const len = 1.0 + Math.min(w.speed ?? 0, 90) / 90 * 0.8;
+          const head = offset(w.lng, w.lat, flow, len);
+          const barbLen = len * 0.34;
+          const bL = offset(head[0], head[1], (flow + 150) % 360, barbLen);
+          const bR = offset(head[0], head[1], (flow + 210) % 360, barbLen);
+          const props = { color: w.color, speed: w.speed, dir: w.dir };
+          return [
+            { type: 'Feature', geometry: { type: 'LineString', coordinates: [[w.lng, w.lat], head] }, properties: props },
+            { type: 'Feature', geometry: { type: 'LineString', coordinates: [bL, head, bR] }, properties: props },
+          ];
+        })
+      : []);
+  }, [mapReady, data.pressure_centers, data.wind_vectors, activeLayers.pressure_lows, activeLayers.pressure_highs, activeLayers.wind_flow, setGeo]);
+
   // ── Radar de lluvia (RainViewer) — capa raster dinámica ──
   useEffect(() => {
     const map = mapRef.current;
@@ -3019,6 +3130,9 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setVis(['tectonics-line'], activeLayers.tectonics);
     setVis(['sea-state-dots'], activeLayers.sea_state);
     setVis(['aurora-heat'], activeLayers.aurora);
+    setVis(['pressure-low-circles', 'pressure-low-label'], activeLayers.pressure_lows);
+    setVis(['pressure-high-circles', 'pressure-high-label'], activeLayers.pressure_highs);
+    setVis(['wind-flow-lines'], activeLayers.wind_flow);
     setVis(['pipelines-line'], activeLayers.pipelines);
     setVis(['powerlines-line'], activeLayers.powerlines);
     setVis(['datacenters-dots'], activeLayers.datacenters);

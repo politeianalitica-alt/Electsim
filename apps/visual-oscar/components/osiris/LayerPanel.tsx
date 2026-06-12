@@ -229,6 +229,10 @@ const LAYER_GROUPS = [
       { key: 'eonet', label: 'Eventos naturales (NASA EONET)', icon: Activity, color: '#FFD54F', dataKey: 'eonet' },
       { key: 'hurricanes', label: 'Ciclones tropicales', icon: Wind, color: '#26C6DA', dataKey: 'hurricanes' },
       { key: 'weather', label: 'Clima severo', icon: CloudLightning, color: '#E040FB', dataKey: 'weather_events' },
+      // ── Meteorología sinóptica (Open-Meteo) · borrascas, anticiclones y vientos ──
+      { key: 'pressure_lows', label: 'Borrascas (bajas presiones)', icon: CloudRain, color: '#EF5350', dataKey: 'pressure_centers', sectionLabel: 'METEOROLOGÍA' },
+      { key: 'pressure_highs', label: 'Anticiclones (altas presiones)', icon: Sun, color: '#42A5F5', dataKey: 'pressure_centers' },
+      { key: 'wind_flow', label: 'Vientos (dirección y fuerza)', icon: Navigation, color: '#26C6DA', dataKey: 'wind_vectors' },
       { key: 'rainfall', label: 'Radar de lluvia (tiempo real)', icon: CloudRain, color: '#29B6F6', dataKey: '', sectionLabel: 'CLIMA Y MAR' },
       { key: 'air_quality', label: 'Calidad del aire (AQI)', icon: Droplets, color: '#66BB6A', dataKey: 'air_quality' },
       { key: 'heat', label: 'Temperatura / calor extremo', icon: Sun, color: '#FF6B00', dataKey: 'heat' },

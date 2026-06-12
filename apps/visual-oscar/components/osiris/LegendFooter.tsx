@@ -41,6 +41,10 @@ const LEGENDS: Legend[] = [
   { id: 'piracy', title: 'Piratería', active: (a) => a.piracy, items: [ { c: '#EF5350', l: 'Riesgo alto' }, { c: '#FFA726', l: 'Riesgo medio' } ] },
   { id: 'sea', title: 'Altura de ola', active: (a) => a.sea_state, items: [
     { c: '#26C6DA', l: '<1 m' }, { c: '#66BB6A', l: '1–2 m' }, { c: '#FFEE58', l: '2–3 m' }, { c: '#FFA726', l: '3–4 m' }, { c: '#EF5350', l: '4–6 m' }, { c: '#AB47BC', l: '>6 m' } ] },
+  { id: 'pressure', title: 'Sistemas de presión', active: (a) => has(a, ['pressure_lows', 'pressure_highs']), items: [
+    { c: '#EF5350', l: 'B · borrasca (baja)' }, { c: '#42A5F5', l: 'A · anticiclón (alta)' } ] },
+  { id: 'wind', title: 'Viento (km/h)', active: (a) => a.wind_flow, items: [
+    { c: '#4FC3F7', l: '<12 flojo' }, { c: '#66BB6A', l: '12–30 moderado' }, { c: '#FFEE58', l: '30–50 fresco' }, { c: '#FFA726', l: '50–62 fuerte' }, { c: '#EF5350', l: '62–89 temporal' }, { c: '#AB47BC', l: '>89 huracanado' } ] },
   { id: 'aqi', title: 'Calidad del aire', active: (a) => a.air_quality, items: [
     { c: '#66BB6A', l: 'Buena' }, { c: '#FFEE58', l: 'Moderada' }, { c: '#FFA726', l: 'Dañina (sensibles)' }, { c: '#EF5350', l: 'Dañina' }, { c: '#AB47BC', l: 'Muy dañina' }, { c: '#7B1F1F', l: 'Peligrosa' } ] },
   { id: 'war', title: 'Alertas de guerra', active: (a) => a.conflict_zones, items: [

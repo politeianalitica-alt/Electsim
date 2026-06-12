@@ -305,6 +305,10 @@ export default function Dashboard() {
     aurora: false,
     tectonics: false,
     sea_state: false,
+    // Meteorología sinóptica (comparten el endpoint /weather-systems)
+    pressure_lows: false,
+    pressure_highs: false,
+    wind_flow: false,
     pipelines: false,
     powerlines: false,
     datacenters: false,
@@ -650,6 +654,11 @@ export default function Dashboard() {
     if (activeLayers.sea_state && !layerFetchedRef.current.has('sea_state')) {
       fetchEndpoint('/api/osiris/sea-state', d => ({ sea_state: d.points }));
       layerFetchedRef.current.add('sea_state');
+    }
+    // Meteorología: borrascas, anticiclones y vientos · un solo fetch para las 3
+    if ((activeLayers.pressure_lows || activeLayers.pressure_highs || activeLayers.wind_flow) && !layerFetchedRef.current.has('weather_systems')) {
+      fetchEndpoint('/api/osiris/weather-systems', d => ({ pressure_centers: d.centers, wind_vectors: d.winds }));
+      layerFetchedRef.current.add('weather_systems');
     }
     // Lote Energía y Recursos
     if (activeLayers.pipelines && !layerFetchedRef.current.has('pipelines')) {
