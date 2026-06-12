@@ -576,21 +576,37 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           'text-line-height': 1.05, 'text-allow-overlap': true },
         paint: { 'text-color': '#90CAF9', 'text-halo-color': 'rgba(8,10,18,0.92)', 'text-halo-width': 1.5 }});
 
-      // ── Precio de la vivienda (€/m²) — círculos por CCAA/país ──
+      // ── Precio de la vivienda (€/m²) ──
+      const HOUSE_STEP = ['step', ['get', 'price'],
+        '#2E7D32', 1200, '#9CCC65', 1800, '#FFEE58', 2500, '#FFA726', 3500, '#FF7043', 5000, '#D32F2F'] as any;
+      // Países: visibles a cualquier zoom (círculos grandes)
       map.addLayer({ id: 'housing-circles', type: 'circle', source: 'housing-prices',
-        layout: { visibility: 'none' }, paint: {
+        filter: ['==', ['get', 'scope'], 'country'], layout: { visibility: 'none' }, paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'],
             3, ['interpolate', ['linear'], ['get', 'price'], 900, 7, 8000, 20],
             6, ['interpolate', ['linear'], ['get', 'price'], 900, 12, 8000, 34]],
-          'circle-color': ['step', ['get', 'price'],
-            '#2E7D32', 1200, '#9CCC65', 1800, '#FFEE58', 2500, '#FFA726', 3500, '#FF7043', 5000, '#D32F2F'],
-          'circle-opacity': 0.78,
+          'circle-color': HOUSE_STEP, 'circle-opacity': 0.78,
           'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.5)',
         }});
       map.addLayer({ id: 'housing-label', type: 'symbol', source: 'housing-prices',
-        layout: { visibility: 'none',
+        filter: ['==', ['get', 'scope'], 'country'], layout: { visibility: 'none',
           'text-field': ['get', 'priceLabel'], 'text-font': ['Open Sans Bold'],
           'text-size': ['interpolate', ['linear'], ['zoom'], 3, 9, 6, 12],
+          'text-allow-overlap': false, 'text-offset': [0, 0.05] },
+        paint: { 'text-color': '#0B0E1A', 'text-halo-color': 'rgba(255,255,255,0.85)', 'text-halo-width': 1.2 }});
+      // Municipios de España: aparecen al hacer zoom (minzoom ~4.2)
+      map.addLayer({ id: 'housing-muni-circles', type: 'circle', source: 'housing-prices', minzoom: 4.2,
+        filter: ['==', ['get', 'scope'], 'muni'], layout: { visibility: 'none' }, paint: {
+          'circle-radius': ['interpolate', ['linear'], ['zoom'],
+            5, ['interpolate', ['linear'], ['get', 'price'], 1000, 6, 6000, 13],
+            9, ['interpolate', ['linear'], ['get', 'price'], 1000, 11, 6000, 26]],
+          'circle-color': HOUSE_STEP, 'circle-opacity': 0.82,
+          'circle-stroke-width': 1, 'circle-stroke-color': 'rgba(255,255,255,0.6)',
+        }});
+      map.addLayer({ id: 'housing-muni-label', type: 'symbol', source: 'housing-prices', minzoom: 5.2,
+        filter: ['==', ['get', 'scope'], 'muni'], layout: { visibility: 'none',
+          'text-field': ['get', 'priceLabel'], 'text-font': ['Open Sans Bold'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 5, 9, 9, 12],
           'text-allow-overlap': false, 'text-offset': [0, 0.05] },
         paint: { 'text-color': '#0B0E1A', 'text-halo-color': 'rgba(255,255,255,0.85)', 'text-halo-width': 1.2 }});
 
@@ -1729,10 +1745,13 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
         <div style="font-size:9px;color:#5C5A54;margin-top:4px;">${p.source} · ${p.year}</div>
       </div>`);
     };
-    map.on('click', 'housing-circles', onHousingClick);
-    map.on('click', 'housing-label', onHousingClick);
-    map.on('mouseenter', 'housing-circles', () => { map.getCanvas().style.cursor = 'pointer'; });
-    map.on('mouseleave', 'housing-circles', () => { map.getCanvas().style.cursor = ''; });
+    ['housing-circles', 'housing-label', 'housing-muni-circles', 'housing-muni-label'].forEach(id => {
+      map.on('click', id, onHousingClick);
+    });
+    ['housing-circles', 'housing-muni-circles'].forEach(id => {
+      map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
+    });
     // ── Campos de petróleo y gas ──
     const OG_TYPE: Record<string, string> = { oil: 'Petróleo', gas: 'Gas natural', both: 'Petróleo y gas' };
     map.on('click', 'oilgas-dots', e => {
@@ -1929,7 +1948,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','pressure-low-ring','pressure-high-ring','pressure-low-circles','pressure-low-label','pressure-high-circles','pressure-high-label','wind-flow-lines','housing-circles','housing-label','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','pressure-low-ring','pressure-high-ring','pressure-low-circles','pressure-low-label','pressure-high-circles','pressure-high-label','wind-flow-lines','housing-circles','housing-label','housing-muni-circles','housing-muni-label','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -3259,7 +3278,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setVis(['pressure-low-ring', 'pressure-low-circles', 'pressure-low-label'], activeLayers.pressure_lows);
     setVis(['pressure-high-ring', 'pressure-high-circles', 'pressure-high-label'], activeLayers.pressure_highs);
     setVis(['wind-flow-lines'], activeLayers.wind_flow);
-    setVis(['housing-circles', 'housing-label'], activeLayers.housing_prices);
+    setVis(['housing-circles', 'housing-label', 'housing-muni-circles', 'housing-muni-label'], activeLayers.housing_prices);
     setVis(['pipelines-line'], activeLayers.pipelines);
     setVis(['powerlines-line'], activeLayers.powerlines);
     setVis(['datacenters-dots'], activeLayers.datacenters);
