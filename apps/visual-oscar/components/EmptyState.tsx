@@ -55,9 +55,9 @@ export interface EmptyStateProps {
 
 const SEVERITY_META: Record<EmptyStateSeverity, { color: string; bg: string; iconBg: string; iconStroke: string; icon: 'info' | 'warn' | 'error' | 'check' }> = {
   neutral: { color: '#6e6e73', bg: '#FAFAFA',                iconBg: '#F0F0F2',   iconStroke: '#6e6e73', icon: 'info' },
-  warning: { color: '#B45309', bg: 'rgba(245,158,11,0.06)',  iconBg: '#FEF3C7',   iconStroke: '#B45309', icon: 'warn' },
-  error:   { color: '#B91C1C', bg: 'rgba(220,38,38,0.06)',   iconBg: '#FEE2E2',   iconStroke: '#B91C1C', icon: 'error' },
-  success: { color: '#15803D', bg: 'rgba(22,163,74,0.06)',   iconBg: '#DCFCE7',   iconStroke: '#15803D', icon: 'check' },
+  warning: { color: '#d97706', bg: 'rgba(217,119,6,0.08)', iconBg: 'rgba(217,119,6,0.12)', iconStroke: '#d97706', icon: 'warn' },
+  error:   { color: '#c42c2c', bg: 'rgba(196,44,44,0.08)', iconBg: 'rgba(196,44,44,0.12)', iconStroke: '#c42c2c', icon: 'error' },
+  success: { color: '#2d8a39', bg: 'rgba(45,138,57,0.08)', iconBg: 'rgba(45,138,57,0.12)', iconStroke: '#2d8a39', icon: 'check' },
 }
 
 function relativeTime(iso: string | null | undefined): string {

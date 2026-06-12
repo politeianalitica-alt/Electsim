@@ -20,9 +20,11 @@ export const WS = {
   surface2: "#f5f5f7",
   surface3: "#eceef2",
 
-  // Hairlines
-  border: "#d2d2d7",
-  borderStrong: "#b0b0b8",
+  // Hairlines · espeja --color-hairline-soft (#e8e8ed): el mismo hairline
+  // que usan las cards del resto del sitio. El workspace usaba #d2d2d7
+  // (más oscuro) y el chrome entero se percibía como "otra app".
+  border: "#e8e8ed",
+  borderStrong: "#d2d2d7",
 
   // Tinta (texto)
   ink: "#1d1d1f",

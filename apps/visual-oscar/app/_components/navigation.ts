@@ -199,6 +199,10 @@ export const MODULES: NavModule[] = [
       // home canónica vive en el Estudio (grupo Estrategia).
       { label: 'Cama',        href: '/estudio/cama'        },  // 5ª — campañas y macroargumentos
       { label: 'Preinformes', href: '/estudio/preinformes' },  // 6ª — borradores de informe
+      // OCULTO · integra el Command Center (/workspaces/*) en este módulo:
+      // así el subnav de pills del sitio NO desaparece al entrar al
+      // workspace — antes el cambio de chrome hacía que pareciera otra app.
+      { label: 'Command Center', href: '/workspaces', hidden: true },
     ],
   },
 

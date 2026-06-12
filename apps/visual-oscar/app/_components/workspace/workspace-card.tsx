@@ -50,13 +50,15 @@ export function WorkspaceCard({
         borderLeft: accent ? `3px solid ${accent}` : `1px solid ${WS.border}`,
         borderRadius: 14,
         padding: padMap[padding],
-        boxShadow: "0 1px 2px rgba(0,0,0,0.04)",
+        // Espeja --shadow-xs / --shadow-md de tokens.css (mismas sombras
+        // que las cards del resto del sitio)
+        boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
         transition: "transform .15s ease, box-shadow .15s ease, border-color .15s ease",
         cursor: onClick || interactive ? "pointer" : "default",
         ...(interactive && {
  ":hover": {
             transform: "translateY(-1px)",
-            boxShadow: "0 4px 14px rgba(0,0,0,0.07)",
+            boxShadow: "0 4px 14px rgba(0,0,0,0.09), 0 0 1px rgba(0,0,0,0.05)",
           },
         }),
         ...style,
@@ -65,7 +67,7 @@ export function WorkspaceCard({
         interactive
           ? (e) => {
               (e.currentTarget as HTMLDivElement).style.boxShadow =
- "0 4px 14px rgba(0,0,0,0.07)";
+ "0 4px 14px rgba(0,0,0,0.09), 0 0 1px rgba(0,0,0,0.05)";
               (e.currentTarget as HTMLDivElement).style.transform = "translateY(-1px)";
             }
           : undefined
@@ -74,7 +76,7 @@ export function WorkspaceCard({
         interactive
           ? (e) => {
               (e.currentTarget as HTMLDivElement).style.boxShadow =
- "0 1px 2px rgba(0,0,0,0.04)";
+ "0 1px 2px rgba(0,0,0,0.06)";
               (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
             }
           : undefined

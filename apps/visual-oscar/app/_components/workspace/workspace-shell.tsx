@@ -90,7 +90,9 @@ export function WorkspaceShell({ workspaceId, children }: WorkspaceShellProps) {
             background: WS.bg,
           }}>
  <div className="ws-content" style={{
-              maxWidth: 1400,
+              // 1500 = mismo ancho de contenido que el hub /workspaces y las
+              // páginas principales del sitio (antes 1400, otra costura)
+              maxWidth: 1500,
               margin: "0 auto",
               padding: "24px 28px 48px",
               minHeight: "100%",
