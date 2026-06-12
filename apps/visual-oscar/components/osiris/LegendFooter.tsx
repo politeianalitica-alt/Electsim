@@ -47,6 +47,8 @@ const LEGENDS: Legend[] = [
     { c: '#42A5F5', l: 'A · centro de alta presión' } ] },
   { id: 'wind', title: 'Viento (km/h)', active: (a) => a.wind_flow, items: [
     { c: '#4FC3F7', l: '<12 flojo' }, { c: '#66BB6A', l: '12–30 moderado' }, { c: '#FFEE58', l: '30–50 fresco' }, { c: '#FFA726', l: '50–62 fuerte' }, { c: '#EF5350', l: '62–89 temporal' }, { c: '#AB47BC', l: '>89 huracanado' } ] },
+  { id: 'housing', title: 'Precio vivienda (€/m²)', active: (a) => a.housing_prices, items: [
+    { c: '#2E7D32', l: '<1.200' }, { c: '#9CCC65', l: '1.200–1.800' }, { c: '#FFEE58', l: '1.800–2.500' }, { c: '#FFA726', l: '2.500–3.500' }, { c: '#FF7043', l: '3.500–5.000' }, { c: '#D32F2F', l: '>5.000' } ] },
   { id: 'aqi', title: 'Calidad del aire', active: (a) => a.air_quality, items: [
     { c: '#66BB6A', l: 'Buena' }, { c: '#FFEE58', l: 'Moderada' }, { c: '#FFA726', l: 'Dañina (sensibles)' }, { c: '#EF5350', l: 'Dañina' }, { c: '#AB47BC', l: 'Muy dañina' }, { c: '#7B1F1F', l: 'Peligrosa' } ] },
   { id: 'war', title: 'Alertas de guerra', active: (a) => a.conflict_zones, items: [

@@ -309,6 +309,8 @@ export default function Dashboard() {
     pressure_lows: false,
     pressure_highs: false,
     wind_flow: false,
+    // Precio de la vivienda (€/m²)
+    housing_prices: false,
     pipelines: false,
     powerlines: false,
     datacenters: false,
@@ -659,6 +661,11 @@ export default function Dashboard() {
     if ((activeLayers.pressure_lows || activeLayers.pressure_highs || activeLayers.wind_flow) && !layerFetchedRef.current.has('weather_systems')) {
       fetchEndpoint('/api/osiris/weather-systems', d => ({ pressure_centers: d.centers, wind_vectors: d.winds }));
       layerFetchedRef.current.add('weather_systems');
+    }
+    // Precio de la vivienda (€/m²) · CCAA España + países + variación INE
+    if (activeLayers.housing_prices && !layerFetchedRef.current.has('housing_prices')) {
+      fetchEndpoint('/api/osiris/housing-prices', d => ({ housing_prices: d.rows }));
+      layerFetchedRef.current.add('housing_prices');
     }
     // Lote Energía y Recursos
     if (activeLayers.pipelines && !layerFetchedRef.current.has('pipelines')) {

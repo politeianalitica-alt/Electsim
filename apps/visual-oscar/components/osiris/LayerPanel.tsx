@@ -151,6 +151,7 @@ const LAYER_GROUPS = [
       { key: 'corruption', label: 'Corrupción (CPI)', icon: Landmark, color: '#FFA726', dataKey: '' },
       { key: 'hdi', label: 'Desarrollo humano (IDH)', icon: Activity, color: '#2E7D32', dataKey: '' },
       { key: 'gdp_pc', label: 'PIB per cápita', icon: Coins, color: '#26A69A', dataKey: '' },
+      { key: 'housing_prices', label: 'Precio vivienda (€/m²)', icon: Building2, color: '#FFA726', dataKey: 'housing_prices', sectionLabel: 'VIVIENDA' },
     ],
   },
   // ═══════════════ 5 · CONFLICTO Y SEGURIDAD ═══════════════
