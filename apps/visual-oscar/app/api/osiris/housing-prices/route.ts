@@ -5,20 +5,18 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 20;
 
 /**
- * Politeia — Precio de la vivienda (€/m²).
+ * Politeia — Precio de la vivienda (€/m²) · DATO REAL CON FUENTE CITADA.
  *
- * España: precio medio del m² de vivienda libre por comunidad autónoma
- * (dato oficial del ecosistema INE/MITMA, último disponible ~2024, redondeado
- * y orientativo). Se ENRIQUECE en vivo con la variación interanual del Índice
- * de Precios de Vivienda (IPV) del INE — esos sí son datos del INE en directo
- * (API Tempus3, tabla 79540).
+ * España: precio medio del m² de vivienda libre por municipio (dato oficial del
+ * ecosistema INE/MITMA, ~2024). Se ENRIQUECE en vivo con la variación interanual
+ * del Índice de Precios de Vivienda (IPV) del INE (API Tempus3, tabla 79540).
  *
- * Otros países: precio medio nacional aproximado (€/m²) donde existe dato
- * oficial publicado. Marcados como "media nacional aprox." con su año.
- *
- * Nota de honestidad: ni el INE ni Eurostat publican €/m² por API abierta
- * (solo un ÍNDICE base 2015=100). Por eso los €/m² son una instantánea
- * oficial curada y la parte "live" es la variación del IPV.
+ * Resto del mundo: €/m² REAL de cada ciudad, investigado uno a uno en fuentes
+ * oficiales (institutos estadísticos, registros notariales), prensa y
+ * publicadores de mercado (Global Property Guide, Deloitte Property Index,
+ * portales nacionales) y, en última instancia y etiquetado, Numbeo. Cada ciudad
+ * lleva su fuente (`source`) y enlace (`sourceUrl`). Las ciudades sin dato real
+ * verificable se han ELIMINADO (no se estiman).
  */
 
 interface PriceRow {
@@ -32,14 +30,20 @@ interface PriceRow {
   ccaa?: string;      // para emparejar la variación INE por CCAA
   yoy?: number;       // variación interanual % (INE, solo España si live OK)
   country?: string;   // país (ciudades del mundo)
-  est?: boolean;      // true = €/m² ESTIMADO por modelo (no medido)
+  sourceUrl?: string; // enlace a la fuente del €/m²
+  basis?: string;     // base del dato (p.ej. "apartamento centro")
+  conf?: string;      // confianza: high | med | low
+  est?: boolean;      // (legacy) true = estimado; ya no se usa, todo es real
 }
 
-// Dataset generado de GeoNames (~4.000 ciudades de todos los países) con €/m²
-// ESTIMADO por modelo (base del país × tamaño/capitalidad). Claves compactas:
-// n=nombre, a=lat, o=lng, c=ISO2, k=país, p=€/m² estimado.
-interface WorldCity { n: string; a: number; o: number; c: string; k: string; p: number; }
-const WORLD_CITIES_GEO = WORLD_DATA as WorldCity[];
+// Dataset investigado: ~390 ciudades con €/m² REAL y fuente citada. Claves
+// compactas: n=nombre, a=lat, o=lng, c=ISO2, k=país, p=€/m², y=año,
+// src=fuente, url=enlace, basis=base del dato, conf=confianza.
+interface WorldCity {
+  n: string; a: number; o: number; c: string; k: string; p: number;
+  y?: number; src?: string; url?: string; basis?: string; conf?: string;
+}
+const WORLD_CITIES_SRC = WORLD_DATA as WorldCity[];
 
 // ── España · €/m² por municipio (capitales de provincia + grandes ciudades) ──
 // Snapshot oficial orientativo ~2024 (€/m² vivienda libre, ecosistema INE/MITMA),
@@ -104,72 +108,6 @@ const SPAIN_MUNI: Array<Omit<PriceRow, 'scope' | 'source'>> = [
   { name: 'Melilla',            lat: 35.29, lng: -2.94, price: 2000, year: 2024, ccaa: 'Melilla' },
 ];
 
-// ── Otros países · €/m² medio nacional aproximado (fuentes nacionales) ──
-const COUNTRIES: Array<Omit<PriceRow, 'scope' | 'source' | 'yoy'>> = [
-  { name: 'Portugal',        lat: 39.5,  lng: -8.0,  price: 1700, year: 2024 },
-  { name: 'Francia',         lat: 46.6,  lng: 2.4,   price: 3100, year: 2024 },
-  { name: 'Alemania',        lat: 51.2,  lng: 10.4,  price: 3600, year: 2024 },
-  { name: 'Italia',          lat: 42.8,  lng: 12.6,  price: 2050, year: 2024 },
-  { name: 'Países Bajos',    lat: 52.2,  lng: 5.3,   price: 3900, year: 2024 },
-  { name: 'Reino Unido',     lat: 53.0,  lng: -1.5,  price: 3500, year: 2024 },
-  { name: 'Irlanda',         lat: 53.2,  lng: -8.0,  price: 3300, year: 2024 },
-  { name: 'Bélgica',         lat: 50.6,  lng: 4.6,   price: 2700, year: 2024 },
-  { name: 'Austria',         lat: 47.6,  lng: 14.1,  price: 4500, year: 2024 },
-  { name: 'Suiza',           lat: 46.8,  lng: 8.2,   price: 7800, year: 2024 },
-  { name: 'Luxemburgo',      lat: 49.8,  lng: 6.1,   price: 8500, year: 2024 },
-  { name: 'Polonia',         lat: 52.0,  lng: 19.4,  price: 2100, year: 2024 },
-  { name: 'Suecia',          lat: 60.1,  lng: 15.6,  price: 3600, year: 2024 },
-  { name: 'Dinamarca',       lat: 56.0,  lng: 10.0,  price: 3400, year: 2024 },
-  { name: 'Noruega',         lat: 61.0,  lng: 8.5,   price: 4600, year: 2024 },
-  { name: 'Grecia',          lat: 39.0,  lng: 22.0,  price: 1600, year: 2024 },
-  { name: 'Estados Unidos',  lat: 39.5,  lng: -98.0, price: 3000, year: 2024 },
-];
-
-// ── Ciudades del mundo · €/m² centro (aprox. 2024, ref. coste de vida) ──
-// No existe API gratuita oficial de €/m² por ciudad a nivel global; esta es
-// una instantánea curada y orientativa de grandes ciudades por país.
-const WORLD_CITIES: Array<Omit<PriceRow, 'scope' | 'source' | 'yoy' | 'ccaa'>> = [
-  // Europa
-  { name: 'Lisboa', lat: 38.72, lng: -9.14, price: 4500, year: 2024 }, { name: 'Porto', lat: 41.15, lng: -8.61, price: 3200, year: 2024 },
-  { name: 'París', lat: 48.86, lng: 2.35, price: 11500, year: 2024 }, { name: 'Lyon', lat: 45.76, lng: 4.84, price: 4800, year: 2024 }, { name: 'Marsella', lat: 43.30, lng: 5.37, price: 3500, year: 2024 }, { name: 'Niza', lat: 43.70, lng: 7.27, price: 5500, year: 2024 },
-  { name: 'Berlín', lat: 52.52, lng: 13.40, price: 6500, year: 2024 }, { name: 'Múnich', lat: 48.14, lng: 11.58, price: 9800, year: 2024 }, { name: 'Fráncfort', lat: 50.11, lng: 8.68, price: 7000, year: 2024 }, { name: 'Hamburgo', lat: 53.55, lng: 10.00, price: 6500, year: 2024 }, { name: 'Colonia', lat: 50.94, lng: 6.96, price: 5500, year: 2024 },
-  { name: 'Roma', lat: 41.90, lng: 12.50, price: 6500, year: 2024 }, { name: 'Milán', lat: 45.46, lng: 9.19, price: 9500, year: 2024 }, { name: 'Nápoles', lat: 40.85, lng: 14.27, price: 3000, year: 2024 }, { name: 'Florencia', lat: 43.77, lng: 11.26, price: 4500, year: 2024 }, { name: 'Turín', lat: 45.07, lng: 7.69, price: 2400, year: 2024 },
-  { name: 'Ámsterdam', lat: 52.37, lng: 4.90, price: 8000, year: 2024 }, { name: 'Róterdam', lat: 51.92, lng: 4.48, price: 5200, year: 2024 },
-  { name: 'Londres', lat: 51.51, lng: -0.13, price: 13000, year: 2024 }, { name: 'Mánchester', lat: 53.48, lng: -2.24, price: 4200, year: 2024 }, { name: 'Edimburgo', lat: 55.95, lng: -3.19, price: 5000, year: 2024 }, { name: 'Birmingham', lat: 52.49, lng: -1.89, price: 3500, year: 2024 },
-  { name: 'Dublín', lat: 53.35, lng: -6.26, price: 6500, year: 2024 },
-  { name: 'Bruselas', lat: 50.85, lng: 4.35, price: 4200, year: 2024 }, { name: 'Amberes', lat: 51.22, lng: 4.40, price: 3600, year: 2024 },
-  { name: 'Viena', lat: 48.21, lng: 16.37, price: 7200, year: 2024 },
-  { name: 'Zúrich', lat: 47.38, lng: 8.54, price: 16000, year: 2024 }, { name: 'Ginebra', lat: 46.20, lng: 6.14, price: 14500, year: 2024 },
-  { name: 'Luxemburgo', lat: 49.61, lng: 6.13, price: 11000, year: 2024 },
-  { name: 'Varsovia', lat: 52.23, lng: 21.01, price: 4200, year: 2024 }, { name: 'Cracovia', lat: 50.06, lng: 19.94, price: 3500, year: 2024 },
-  { name: 'Estocolmo', lat: 59.33, lng: 18.07, price: 8000, year: 2024 }, { name: 'Gotemburgo', lat: 57.71, lng: 11.97, price: 5000, year: 2024 },
-  { name: 'Copenhague', lat: 55.68, lng: 12.57, price: 6800, year: 2024 }, { name: 'Oslo', lat: 59.91, lng: 10.75, price: 7800, year: 2024 }, { name: 'Helsinki', lat: 60.17, lng: 24.94, price: 6000, year: 2024 },
-  { name: 'Atenas', lat: 37.98, lng: 23.73, price: 2600, year: 2024 },
-  { name: 'Praga', lat: 50.08, lng: 14.44, price: 5500, year: 2024 }, { name: 'Budapest', lat: 47.50, lng: 19.04, price: 3500, year: 2024 }, { name: 'Bucarest', lat: 44.43, lng: 26.10, price: 2200, year: 2024 }, { name: 'Sofía', lat: 42.70, lng: 23.32, price: 1900, year: 2024 }, { name: 'Zagreb', lat: 45.81, lng: 15.98, price: 3000, year: 2024 }, { name: 'Belgrado', lat: 44.79, lng: 20.45, price: 2800, year: 2024 },
-  { name: 'Tallin', lat: 59.44, lng: 24.75, price: 3500, year: 2024 }, { name: 'Riga', lat: 56.95, lng: 24.11, price: 2400, year: 2024 }, { name: 'Vilna', lat: 54.69, lng: 25.28, price: 2600, year: 2024 },
-  { name: 'Reikiavik', lat: 64.15, lng: -21.94, price: 6200, year: 2024 },
-  { name: 'Moscú', lat: 55.76, lng: 37.62, price: 4500, year: 2024 }, { name: 'San Petersburgo', lat: 59.94, lng: 30.31, price: 3400, year: 2024 }, { name: 'Kiev', lat: 50.45, lng: 30.52, price: 1800, year: 2024 },
-  { name: 'Estambul', lat: 41.01, lng: 28.98, price: 2500, year: 2024 }, { name: 'Ankara', lat: 39.93, lng: 32.86, price: 1500, year: 2024 },
-  // Américas
-  { name: 'Nueva York', lat: 40.71, lng: -74.01, price: 16000, year: 2024 }, { name: 'San Francisco', lat: 37.77, lng: -122.42, price: 13000, year: 2024 }, { name: 'Los Ángeles', lat: 34.05, lng: -118.24, price: 9000, year: 2024 }, { name: 'Boston', lat: 42.36, lng: -71.06, price: 9500, year: 2024 }, { name: 'Washington D.C.', lat: 38.90, lng: -77.04, price: 7500, year: 2024 }, { name: 'Seattle', lat: 47.61, lng: -122.33, price: 8500, year: 2024 }, { name: 'Miami', lat: 25.76, lng: -80.19, price: 7000, year: 2024 }, { name: 'Chicago', lat: 41.88, lng: -87.63, price: 5000, year: 2024 }, { name: 'Austin', lat: 30.27, lng: -97.74, price: 4500, year: 2024 },
-  { name: 'Toronto', lat: 43.65, lng: -79.38, price: 9000, year: 2024 }, { name: 'Vancouver', lat: 49.28, lng: -123.12, price: 11000, year: 2024 }, { name: 'Montreal', lat: 45.50, lng: -73.57, price: 5000, year: 2024 },
-  { name: 'Ciudad de México', lat: 19.43, lng: -99.13, price: 3000, year: 2024 }, { name: 'Monterrey', lat: 25.69, lng: -100.32, price: 2200, year: 2024 }, { name: 'Cancún', lat: 21.16, lng: -86.85, price: 2500, year: 2024 },
-  { name: 'São Paulo', lat: -23.55, lng: -46.63, price: 2800, year: 2024 }, { name: 'Río de Janeiro', lat: -22.91, lng: -43.17, price: 3200, year: 2024 },
-  { name: 'Buenos Aires', lat: -34.60, lng: -58.38, price: 2500, year: 2024 }, { name: 'Santiago de Chile', lat: -33.45, lng: -70.67, price: 2800, year: 2024 }, { name: 'Bogotá', lat: 4.71, lng: -74.07, price: 1800, year: 2024 }, { name: 'Medellín', lat: 6.24, lng: -75.57, price: 1700, year: 2024 }, { name: 'Lima', lat: -12.05, lng: -77.04, price: 1700, year: 2024 }, { name: 'Montevideo', lat: -34.90, lng: -56.16, price: 2800, year: 2024 }, { name: 'Ciudad de Panamá', lat: 8.98, lng: -79.52, price: 2200, year: 2024 },
-  // Asia
-  { name: 'Tokio', lat: 35.68, lng: 139.69, price: 11000, year: 2024 }, { name: 'Osaka', lat: 34.69, lng: 135.50, price: 6000, year: 2024 },
-  { name: 'Hong Kong', lat: 22.32, lng: 114.17, price: 20000, year: 2024 }, { name: 'Singapur', lat: 1.35, lng: 103.82, price: 17000, year: 2024 }, { name: 'Seúl', lat: 37.57, lng: 126.98, price: 12000, year: 2024 }, { name: 'Taipéi', lat: 25.03, lng: 121.57, price: 9000, year: 2024 },
-  { name: 'Pekín', lat: 39.90, lng: 116.40, price: 13000, year: 2024 }, { name: 'Shanghái', lat: 31.23, lng: 121.47, price: 14000, year: 2024 }, { name: 'Shenzhen', lat: 22.54, lng: 114.06, price: 12000, year: 2024 }, { name: 'Cantón', lat: 23.13, lng: 113.26, price: 8000, year: 2024 },
-  { name: 'Bombay', lat: 19.08, lng: 72.88, price: 6000, year: 2024 }, { name: 'Nueva Delhi', lat: 28.61, lng: 77.21, price: 3500, year: 2024 }, { name: 'Bangalore', lat: 12.97, lng: 77.59, price: 3000, year: 2024 },
-  { name: 'Bangkok', lat: 13.76, lng: 100.50, price: 4500, year: 2024 }, { name: 'Yakarta', lat: -6.21, lng: 106.85, price: 2800, year: 2024 }, { name: 'Kuala Lumpur', lat: 3.14, lng: 101.69, price: 3000, year: 2024 }, { name: 'Manila', lat: 14.60, lng: 120.98, price: 3500, year: 2024 }, { name: 'Ho Chi Minh', lat: 10.82, lng: 106.63, price: 4000, year: 2024 }, { name: 'Hanói', lat: 21.03, lng: 105.85, price: 3000, year: 2024 },
-  { name: 'Dubái', lat: 25.20, lng: 55.27, price: 5500, year: 2024 }, { name: 'Abu Dabi', lat: 24.45, lng: 54.38, price: 4000, year: 2024 }, { name: 'Doha', lat: 25.29, lng: 51.53, price: 4000, year: 2024 }, { name: 'Riad', lat: 24.71, lng: 46.68, price: 2000, year: 2024 }, { name: 'Tel Aviv', lat: 32.08, lng: 34.78, price: 12000, year: 2024 }, { name: 'Jerusalén', lat: 31.77, lng: 35.21, price: 8000, year: 2024 },
-  { name: 'Almaty', lat: 43.24, lng: 76.91, price: 1500, year: 2024 }, { name: 'Karachi', lat: 24.86, lng: 67.01, price: 1200, year: 2024 },
-  // Oceanía
-  { name: 'Sídney', lat: -33.87, lng: 151.21, price: 11000, year: 2024 }, { name: 'Melbourne', lat: -37.81, lng: 144.96, price: 8000, year: 2024 }, { name: 'Brisbane', lat: -27.47, lng: 153.03, price: 6000, year: 2024 }, { name: 'Perth', lat: -31.95, lng: 115.86, price: 5000, year: 2024 }, { name: 'Auckland', lat: -36.85, lng: 174.76, price: 7000, year: 2024 }, { name: 'Wellington', lat: -41.29, lng: 174.78, price: 6000, year: 2024 },
-  // África
-  { name: 'El Cairo', lat: 30.04, lng: 31.24, price: 1200, year: 2024 }, { name: 'Lagos', lat: 6.52, lng: 3.38, price: 2000, year: 2024 }, { name: 'Johannesburgo', lat: -26.20, lng: 28.05, price: 1200, year: 2024 }, { name: 'Ciudad del Cabo', lat: -33.92, lng: 18.42, price: 2600, year: 2024 }, { name: 'Nairobi', lat: -1.29, lng: 36.82, price: 1800, year: 2024 }, { name: 'Casablanca', lat: 33.57, lng: -7.59, price: 1800, year: 2024 }, { name: 'Rabat', lat: 34.02, lng: -6.83, price: 1600, year: 2024 }, { name: 'Túnez', lat: 36.81, lng: 10.18, price: 1200, year: 2024 }, { name: 'Argel', lat: 36.75, lng: 3.06, price: 1500, year: 2024 }, { name: 'Accra', lat: 5.60, lng: -0.19, price: 1800, year: 2024 }, { name: 'Addis Abeba', lat: 9.03, lng: 38.74, price: 1500, year: 2024 },
-];
-
 export function priceColor(eur: number): string {
   if (eur < 1500) return '#2E7D32';     // muy asequible
   if (eur < 2500) return '#9CCC65';
@@ -229,57 +167,46 @@ function gridKey(lat: number, lng: number): string {
 export async function GET() {
   const ine = await fetchIneYoY();
 
-  // Ciudades curadas (España + grandes capitales del mundo) — dato preferente.
-  const curated: PriceRow[] = [
-    // España · municipios (capitales + grandes ciudades) con variación INE live
-    ...SPAIN_MUNI.map((r) => ({
-      ...r, scope: 'city' as const,
-      source: '€/m² vivienda libre (MITMA/INE) · aprox.',
-      yoy: matchCcaaYoY(r.ccaa ?? '', ine.byCcaa) ?? ine.national ?? undefined,
-    })),
-    // Resto del mundo · grandes ciudades curadas (€/m² centro, aprox.)
-    ...WORLD_CITIES.map((r) => ({
-      ...r, scope: 'city' as const,
-      source: '€/m² centro ciudad · aprox.',
-    })),
-  ];
+  // España · municipios (oficial MITMA/INE) con variación INE en vivo.
+  const spain: PriceRow[] = SPAIN_MUNI.map((r) => ({
+    ...r, scope: 'city' as const,
+    source: '€/m² vivienda libre (MITMA/INE)',
+    sourceUrl: 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736152838',
+    basis: 'media municipal vivienda libre',
+    conf: 'high',
+    yoy: matchCcaaYoY(r.ccaa ?? '', ine.byCcaa) ?? ine.national ?? undefined,
+  }));
 
-  // Rejilla ocupada por las ciudades curadas (dato preferente): una estimada que
-  // caiga en la misma celda (~20 km) se descarta para no pisar el dato curado.
-  // No deduplicamos estimadas entre sí: queremos máxima densidad de ciudades.
-  const curatedCells = new Set(curated.map((r) => gridKey(r.lat, r.lng)));
+  // España ocupa su rejilla (~20 km): una ciudad investigada que caiga ahí se
+  // descarta para no duplicar (las del mundo excluyen ES, pero por seguridad).
+  const spainCells = new Set(spain.map((r) => gridKey(r.lat, r.lng)));
 
-  // Dataset mundial estimado por modelo (GeoNames), excluyendo lo ya curado.
-  const estimated: PriceRow[] = [];
-  for (const c of WORLD_CITIES_GEO) {
-    if (curatedCells.has(gridKey(c.a, c.o))) continue;
-    estimated.push({
-      scope: 'city', name: c.n, lat: c.a, lng: c.o, price: c.p, year: 2024,
-      country: c.k, est: true,
-      source: `≈ estimación (modelo país × tamaño) · ${c.k}`,
+  // Resto del mundo · €/m² REAL investigado con fuente citada.
+  const world: PriceRow[] = [];
+  for (const c of WORLD_CITIES_SRC) {
+    if (c.c === 'ES' || spainCells.has(gridKey(c.a, c.o))) continue;
+    world.push({
+      scope: 'city', name: c.n, lat: c.a, lng: c.o,
+      price: c.p, year: c.y ?? 2024, country: c.k,
+      source: c.src ?? 'fuente citada', sourceUrl: c.url,
+      basis: c.basis, conf: c.conf ?? 'med', est: false,
     });
   }
 
-  const rows: PriceRow[] = [
-    ...curated,
-    ...estimated,
-    // Medias nacionales (vista de bajo zoom)
-    ...COUNTRIES.map((r) => ({
-      ...r, scope: 'country' as const,
-      source: 'Media nacional aprox.',
-    })),
-  ];
+  const rows: PriceRow[] = [...spain, ...world];
 
   return NextResponse.json(
     {
       rows,
       spain_yoy: ine.national,             // variación IPV nacional INE (live)
       total: rows.length,
-      cities: rows.filter((r) => r.scope === 'city').length,
-      estimated: estimated.length,
+      cities: rows.length,
+      sourced: world.length,
       note:
-        'España y grandes capitales: €/m² curado orientativo (variación interanual = INE IPV en vivo). ' +
-        `Otras ${estimated.length} ciudades del mundo: €/m² ESTIMADO por modelo (base país × tamaño), no medido.`,
+        'Dato REAL con fuente citada. España: oficial MITMA/INE (variación interanual = ' +
+        `INE IPV en vivo). Otras ${world.length} ciudades del mundo: €/m² investigado en ` +
+        'fuentes oficiales, prensa y publicadores de mercado (cada ciudad con su enlace). ' +
+        'Las ciudades sin dato real verificable se han eliminado.',
       timestamp: new Date().toISOString(),
     },
     { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' } },

@@ -1727,21 +1727,26 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       const p = e.features?.[0]?.properties; if (!p) return;
       const coords = (e.features![0].geometry as any).coordinates;
       const color = HOUSING_COLOR(Number(p.price));
-      const isEst = p.est === true || p.est === 'true';
+      const esc = (s: any) => String(s ?? '').replace(/[<>&"]/g, (m: string) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[m] as string));
       const yoy = (p.yoy !== null && p.yoy !== undefined && p.yoy !== '')
         ? `<div style="font-size:10px;color:#9FB3C8;">Variación interanual (INE IPV): <span style="color:${Number(p.yoy) >= 0 ? '#FF7043' : '#16A34A'};font-weight:700;">${Number(p.yoy) >= 0 ? '+' : ''}${Number(p.yoy).toFixed(1)}%</span></div>`
         : '';
-      const sub = (p.country && p.country !== '') ? `<div style="font-size:10px;color:#9FB3C8;margin-bottom:2px;">${p.country}</div>` : '';
-      const estTag = isEst
-        ? `<div style="font-size:9px;color:#C9A227;margin-top:4px;">≈ €/m² ESTIMADO (modelo país × tamaño) · no medido</div>`
-        : '';
-      popup(coords, `<div style="${pStyle}border:1px solid ${color}66;min-width:180px;">
-        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:2px;">${p.name}</div>
+      const sub = (p.country && p.country !== '') ? `<div style="font-size:10px;color:#9FB3C8;margin-bottom:2px;">${esc(p.country)}</div>` : '';
+      const basis = (p.basis && p.basis !== '') ? `<div style="font-size:9px;color:#7C8A99;margin-top:3px;">${esc(p.basis)}</div>` : '';
+      const lowTag = (p.conf === 'low')
+        ? `<div style="font-size:9px;color:#C9A227;margin-top:3px;">dato colaborativo (Numbeo)</div>` : '';
+      const srcName = esc(p.source) + (p.year ? ` · ${esc(p.year)}` : '');
+      const srcLine = (p.sourceUrl && String(p.sourceUrl).startsWith('http'))
+        ? `<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener" style="font-size:9px;color:#6FA8DC;text-decoration:underline;margin-top:4px;display:inline-block;">Fuente: ${srcName} ⟶</a>`
+        : `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${srcName}</div>`;
+      popup(coords, `<div style="${pStyle}border:1px solid ${color}66;min-width:180px;max-width:240px;">
+        <div style="color:${color};font-size:13px;font-weight:700;margin-bottom:2px;">${esc(p.name)}</div>
         ${sub}
-        <div style="font-size:16px;font-weight:800;color:#E8E6E0;">${isEst ? '≈ ' : ''}${Math.round(Number(p.price)).toLocaleString('es-ES')} €/m²</div>
+        <div style="font-size:16px;font-weight:800;color:#E8E6E0;">${Math.round(Number(p.price)).toLocaleString('es-ES')} €/m²</div>
         ${yoy}
-        ${estTag}
-        ${isEst ? '' : `<div style="font-size:9px;color:#5C5A54;margin-top:4px;">${p.source} · ${p.year}</div>`}
+        ${basis}
+        ${lowTag}
+        ${srcLine}
       </div>`);
     };
     ['housing-muni-circles', 'housing-muni-label'].forEach(id => {
@@ -2728,7 +2733,8 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
           properties: {
             name: h.name, price: h.price, scope: h.scope, year: h.year,
             source: h.source, yoy: typeof h.yoy === 'number' ? h.yoy : null,
-            est: h.est === true, country: h.country ?? '',
+            country: h.country ?? '', sourceUrl: h.sourceUrl ?? '',
+            basis: h.basis ?? '', conf: h.conf ?? '',
             priceLabel: (h.price / 1000).toFixed(1).replace('.', ',') + 'k',
           },
         }))
