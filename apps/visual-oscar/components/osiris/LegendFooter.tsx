@@ -57,6 +57,8 @@ const LEGENDS: Legend[] = [
     { c: '#A52714', l: 'Ocupado' }, { c: '#0F9D58', l: 'Liberado' }, { c: '#FF5252', l: 'Dirección de ataque' }, { c: '#BCAAA4', l: 'Desconocido' } ] },
   { id: 'warevents', title: 'Sucesos por guerra', active: (a) => has(a, ['war_ukraine', 'war_gaza', 'war_lebanon', 'war_iran', 'war_sudan', 'war_myanmar', 'war_congo', 'war_sahel', 'war_syria']), items: [
     { c: '#4FC3F7', l: 'Rusia–Ucrania' }, { c: '#EF5350', l: 'Israel–Gaza' }, { c: '#FF7043', l: 'Israel–Hezbolá' }, { c: '#AB47BC', l: 'Israel–Irán' }, { c: '#FBC02D', l: 'Sudán' }, { c: '#26A69A', l: 'Myanmar' }, { c: '#66BB6A', l: 'RD Congo' }, { c: '#8D6E63', l: 'Sahel' }, { c: '#EC407A', l: 'Siria' } ] },
+  { id: 'control', title: 'Control territorial (estilo DeepState)', note: 'Ucrania: DeepState en vivo. Resto de guerras: control APROXIMADO curado por OSINT (ISW/Liveuamap/prensa) con fuente y fecha en cada zona. No es cartografía operativa.', active: (a) => has(a, ['war_gaza', 'war_lebanon', 'war_sudan', 'war_myanmar', 'war_congo', 'war_sahel', 'war_syria']), items: [
+    { c: '#C62828', l: 'Atacante / ocupante' }, { c: '#1565C0', l: 'Gobierno / defensor' }, { c: '#EF6C00', l: '3ª facción' }, { c: '#6A1B9A', l: '4ª facción' }, { c: '#607D8B', l: 'En disputa' } ] },
   // ── Lote A: política e índices ──
   { id: 'election', title: 'Calendario electoral', active: (a) => a.election, items: [
     { c: '#EF5350', l: '2026' }, { c: '#FFA726', l: '2027' }, { c: '#42A5F5', l: '2028' } ] },

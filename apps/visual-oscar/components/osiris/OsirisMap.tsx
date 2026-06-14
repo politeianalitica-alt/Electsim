@@ -298,7 +298,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       // Sources
       const sources = ['flights','flights-estimated','military','jets','private-fl','satellites','earthquakes','gdelt','traffic-incidents','gps-jamming','day-night','cctv','fires','weather','infrastructure','power-plants','critical-infra','submarine-cables','maritime','maritime-choke','maritime-ships','live-news','sigint-news','conflict-zones', 'war-alerts-targets', 'war-alerts-lines', 'balloons', 'radiation', 'ip-sweep-devices', 'ip-sweep-pulse', 'ip-sweep-connections', 'scan-targets', 'sdk-entities', 'sdk-links', 'geo-rivers', 'geo-areas', 'geo-points', 'gdacs', 'eonet', 'displacement', 'heat', 'hurricanes', 'volcanoes', 'airports', 'launches', 'iss', 'frontline', 'trains', 'railways', 'railways-hs', 'railways-commuter', 'satnogs', 'military-bases', 'air-quality', 'aurora', 'tectonics', 'sea-state', 'pipelines', 'powerlines', 'datacenters', 'oilgas', 'minerals', 'agriculture', 'countries', 'disputes', 'orgs', 'lighthouses', 'sea-lanes', 'piracy', 'war-events',
         'refineries', 'lng-terminals', 'fabs', 'nuclear-plants', 'dams', 'ixps', 'cable-landings', 'net-shutdowns', 'refugee-camps', 'mobile-coverage',
-        'weather-centers', 'wind-flow', 'housing-prices'];
+        'weather-centers', 'wind-flow', 'housing-prices', 'conflict-control'];
       // Las capas más densas se agrupan en clusters (rendimiento + claridad).
       const CLUSTERED = new Set(['oilgas', 'minerals', 'military-bases', 'power-plants']);
       sources.forEach(s => map.addSource(s, CLUSTERED.has(s)
@@ -798,6 +798,10 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       // ── Frente de Ucrania (DeepState) — territorio ocupado/contestado ──
       map.addLayer({ id: 'frontline-fill', type: 'fill', source: 'frontline', filter: ['==', ['geometry-type'], 'Polygon'], paint: { 'fill-color': ['coalesce', ['get', 'color'], '#FF1744'], 'fill-opacity': 0.32 } });
       map.addLayer({ id: 'frontline-line', type: 'line', source: 'frontline', paint: { 'line-color': ['coalesce', ['get', 'color'], '#FF1744'], 'line-width': 1.4, 'line-opacity': 0.85 } });
+      // ── Control territorial de otros conflictos (estilo DeepState, aprox. OSINT) ──
+      map.addLayer({ id: 'conflict-control-fill', type: 'fill', source: 'conflict-control', layout: { visibility: 'none' }, paint: { 'fill-color': ['coalesce', ['get', 'color'], '#607D8B'], 'fill-opacity': 0.34 } });
+      map.addLayer({ id: 'conflict-control-line', type: 'line', source: 'conflict-control', layout: { visibility: 'none' }, paint: { 'line-color': ['coalesce', ['get', 'color'], '#607D8B'], 'line-width': 1.4, 'line-opacity': 0.9 } });
+      map.addLayer({ id: 'conflict-control-label', type: 'symbol', source: 'conflict-control', minzoom: 4, layout: { visibility: 'none', 'text-field': ['get', 'faction'], 'text-font': ['Open Sans Bold'], 'text-size': 11, 'text-allow-overlap': false, 'symbol-placement': 'point' }, paint: { 'text-color': '#E8E6E0', 'text-halo-color': 'rgba(0,0,0,0.75)', 'text-halo-width': 1.4 } });
 
       // ── Trenes en directo (FI / IE / US) — color por país ──
       const trainColor: any = ['match', ['get','country'], 'FI','#4FC3F7', 'IE','#66BB6A', 'US','#FF7043', /* otros */ '#FFCA28'];
@@ -1671,6 +1675,30 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
         <a href="https://deepstatemap.live" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">Abrir DeepState ↗</a>
       </div>`);
     });
+    // Control territorial de otros conflictos (aprox. OSINT)
+    const WAR_NAMES: Record<string, string> = { gaza: 'Israel–Gaza', libano: 'Israel–Hezbolá', sudan: 'Sudán (SAF–RSF)', myanmar: 'Myanmar', congo: 'RD Congo (M23)', sahel: 'Sahel (JNIM/EIGS)', siria: 'Siria (post-Ásad)' };
+    map.on('click', 'conflict-control-fill', e => {
+      const p = e.features?.[0]?.properties; if (!p) return;
+      const color = (p.color as string) || '#607D8B';
+      const src = (p.source && String(p.source).startsWith('http'))
+        ? `<a href="${p.source}" target="_blank" style="${linkStyle}margin-top:7px;color:${color};border:1px solid ${color}66;background:${color}1a;">Fuente OSINT ↗</a>` : '';
+      popup(e.lngLat, `<div style="${pStyle}border:1px solid ${color}66;min-width:200px;max-width:260px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:5px;">
+          <span style="width:9px;height:9px;border-radius:2px;background:${color};flex-shrink:0;"></span>
+          <span style="color:${color};font-size:12px;font-weight:700;">${p.faction || 'Zona de control'}</span>
+        </div>
+        <div style="font-size:9.5px;color:#aaa;line-height:1.7;">
+          <div>${WAR_NAMES[p.war as string] || 'Conflicto'}${p.status ? ` · ${p.status}` : ''}</div>
+          ${p.asof ? `<div>Situación aprox.: <span style="color:#E8E6E0;">${p.asof}</span></div>` : ''}
+          <div style="color:#C9A227;">Control aproximado · OSINT, no operativo</div>
+        </div>
+        ${src}
+      </div>`);
+    });
+    ['conflict-control-fill'].forEach(id => {
+      map.on('mouseenter', id, () => { map.getCanvas().style.cursor = 'pointer'; });
+      map.on('mouseleave', id, () => { map.getCanvas().style.cursor = ''; });
+    });
 
     // ── Placas tectónicas ──
     map.on('click', 'tectonics-line', e => {
@@ -1952,7 +1980,7 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     });
 
     // ── Generic hover for clickables ──
-    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','pressure-low-ring','pressure-high-ring','pressure-low-circles','pressure-low-label','pressure-high-circles','pressure-high-label','wind-flow-lines','housing-muni-circles','housing-muni-label','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
+    ['refineries-dots','lng-dots','fabs-dots','nuclear-plants-dots','dams-dots','ixps-dots','cable-landings-dots','net-shutdowns-dots','refugee-camps-dots','mobile-coverage-fill','conflict-icons','war-events-dots','frontline-fill','tectonics-line','sea-state-dots','pressure-low-ring','pressure-high-ring','pressure-low-circles','pressure-low-label','pressure-high-circles','pressure-high-label','wind-flow-lines','housing-muni-circles','housing-muni-label','conflict-control-fill','conflict-control-line','conflict-control-label','oilgas-dots','minerals-dots','datacenters-dots','pipelines-line','agriculture-fill','disputes-dots','orgs-dots','piracy-dots','lighthouses-dots','sea-lanes-line','cctv-dots','eq-circles','sat-dots','fires-heat','gdelt-dots','traffic-dots','weather-dots','infra-dots','power-plants-dots','critical-infra-dots','maritime-dots','choke-dots','news-dots','sigint-news-dots','balloon-dots','rad-dots','ship-arrows','geo-mountains','geo-features','geo-range-fill','geo-desert-fill','geo-other-fill','gdacs-dots','eonet-dots','displacement-bubble','heat-dots','hurricane-dots','volcanoes-dots','airports-dots','launches-dots','iss-dot','trains-dots','satnogs-dots','milbase-dots','aq-dots','sweep-device-dots','scan-targets-dots','sdk-sea','sdk-sea-glow','sdk-air','sdk-air-glow','sdk-intel','sdk-intel-glow'].forEach(layer => {
       map.on('mouseenter', layer, () => { map.getCanvas().style.cursor = 'pointer'; });
       map.on('mouseleave', layer, () => { map.getCanvas().style.cursor = ''; });
     });
@@ -3229,7 +3257,12 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
       geometry: { type: 'Point' as const, coordinates: [e.lng, e.lat] },
       properties: { ...e },
     })));
-  }, [mapReady, data.war_events, activeLayers.war_ukraine, activeLayers.war_gaza, activeLayers.war_lebanon, activeLayers.war_iran, activeLayers.war_sudan, activeLayers.war_myanmar, activeLayers.war_congo, activeLayers.war_sahel, activeLayers.war_syria, setGeo]);
+    // Control territorial (estilo DeepState) de las guerras activas (no-Ucrania).
+    const ctrl = ((data.conflict_control_fc as any)?.features || []).filter(
+      (f: any) => activeWars.has(f?.properties?.war)
+    );
+    setGeo('conflict-control', ctrl);
+  }, [mapReady, data.war_events, data.conflict_control_fc, activeLayers.war_ukraine, activeLayers.war_gaza, activeLayers.war_lebanon, activeLayers.war_iran, activeLayers.war_sudan, activeLayers.war_myanmar, activeLayers.war_congo, activeLayers.war_sahel, activeLayers.war_syria, setGeo]);
 
   // ── Capas de puntos: industria, infraestructura digital, humanitario ──
   useEffect(() => {
@@ -3328,6 +3361,9 @@ function OsirisMap({ data, activeLayers, mineralFilter = 'todos', onEntityClick,
     setVis(['conflict-icons'], !!activeLayers.conflict_zones);
     const anyWar = activeLayers.war_ukraine || activeLayers.war_gaza || activeLayers.war_lebanon || activeLayers.war_iran || activeLayers.war_sudan || activeLayers.war_myanmar || activeLayers.war_congo || activeLayers.war_sahel || activeLayers.war_syria;
     setVis(['war-events-glow','war-events-dots','war-events-label'], !!anyWar);
+    // Mapa de control territorial (estilo DeepState) para guerras no-Ucrania.
+    const anyWarCtrl = activeLayers.war_gaza || activeLayers.war_lebanon || activeLayers.war_sudan || activeLayers.war_myanmar || activeLayers.war_congo || activeLayers.war_sahel || activeLayers.war_syria;
+    setVis(['conflict-control-fill','conflict-control-line','conflict-control-label'], !!anyWarCtrl);
     // Política e índices (coropletas)
     setVis(['election-fill'], activeLayers.election);
     setVis(['press-fill'], activeLayers.press_freedom);

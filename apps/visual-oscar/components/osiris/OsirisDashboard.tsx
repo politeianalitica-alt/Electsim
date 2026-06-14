@@ -746,6 +746,11 @@ export default function Dashboard() {
       fetchEndpoint('/api/osiris/war-events', d => ({ war_events: d.events }));
       layerFetchedRef.current.add('war_events');
     }
+    // Control territorial (estilo DeepState) de guerras no-Ucrania
+    if ((activeLayers.war_gaza || activeLayers.war_lebanon || activeLayers.war_sudan || activeLayers.war_myanmar || activeLayers.war_congo || activeLayers.war_sahel || activeLayers.war_syria) && !layerFetchedRef.current.has('conflict_control')) {
+      fetchEndpoint('/api/osiris/conflict-control', d => ({ conflict_control_fc: d.control }));
+      layerFetchedRef.current.add('conflict_control');
+    }
 
   }, [activeLayers]);
 
